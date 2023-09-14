@@ -4,7 +4,7 @@ import Slots from "./Slots";
 import Reviews from "@/views/BookAppointment/Reviews";
 import DoctorInfo from "./DoctorInfo";
 import Summary from "./Summary";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
 import PaymentMethod from "./Payment";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
@@ -12,10 +12,10 @@ import successGif from "../../../public/images/success.gif";
 import Image from "next/image";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import moment from "moment";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 export default function BookAppointmentPage({ data }: { data: any }) {
-  const router = useRouter();
-  const params = useParams();
+  // const router = useRouter();
+  const params = useRouter();
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState("");
   const [method, setMethod] = useState<string>("");
@@ -33,11 +33,11 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   const [paymentScreen, setPaymentScreen] = useState<boolean>(true);
   const proifileData: {
     appointmentSlotId: string;
-    doctorId: string | string[];
+    doctorId: string | undefined | string[];
     appoint_date: string;
   } = {
     appointmentSlotId: activeSlot.id,
-    doctorId: params.id,
+    doctorId: params.query.id,
     appoint_date: appointDate,
   };
   const bookAppointmentData = () => {
@@ -97,7 +97,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             console.error("error", err);
           });
       }
-    } else router.push("/signin");
+    }
     // console.log(postData);
   };
   return (

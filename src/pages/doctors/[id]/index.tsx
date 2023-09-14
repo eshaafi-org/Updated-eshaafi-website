@@ -217,7 +217,7 @@ export default function Profile({ doctor }: any) {
                 </span>
                 <span>{doctor?.videoCallCharges} Rs.</span>
               </p>
-              <Link href={"/bookappointment/" + doctor?.Id}>
+              <Link href={"/doctors/" + doctor?.Id + "/booked"}>
                 <Button variant="contained" className="w-full">
                   book appointment
                 </Button>

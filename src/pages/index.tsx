@@ -34,7 +34,7 @@ export default function Home({ positions, doctors }: any) {
         <title>Eshaafi | We care</title>
         <meta name="description" content="Meet one on one with your doctor" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href={"../../public/favicon.ico"} />
+        <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <Hero />
@@ -46,7 +46,7 @@ export default function Home({ positions, doctors }: any) {
         {/* <Doctors doc={doctors} /> */}
         {/* <Subscriptions /> */}
         {/* <Reviews />*/}
-        {/* <Blogs blogs={positions} /> */}
+        <Blogs blogs={positions} />
         {/* <Partners /> */}
         <GetApp />
       </main>

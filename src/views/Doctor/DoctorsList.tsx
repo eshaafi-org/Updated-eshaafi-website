@@ -73,7 +73,7 @@ export default function DoctorList({ list }: { list: any }) {
                 </Button>
               </Link>
               <Link
-                href={"/bookappointment/" + itm.Id}
+                href={"/doctors/" + itm.Id + "/booked"}
                 className="w-1-2 sm-w-full"
               >
                 <Button variant="contained" className="w-full">
