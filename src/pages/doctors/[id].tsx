@@ -7,19 +7,8 @@ import { MdThumbUp } from "react-icons/md";
 import { FaStar } from "react-icons/fa6";
 import moment from "moment/moment";
 import { BASE_URL } from "@/helper/CONST";
-// import Doctors from "@/views/Home/Doctors";
-// server side api rendering function
-// async function getDoc(docId: string) {
-//   const res = await fetch(`${BASE_URL}/patients/doctors/${docId}`, {
-//     next: { revalidate: 10 },
-//   });
-//   const data = await res.json();
-//   return data;
-// }
-// doctor profiel component
-export default function Profile({ doctor }: any) {
-  // const { satisfactionpercentage, recommendationpercentage } = doctor.rating;
 
+export default function Profile({ doctor }: any) {
   return (
     <main>
       <section className="container">
@@ -32,7 +21,7 @@ export default function Profile({ doctor }: any) {
                 <div className="flex col-gap-2">
                   <div className={style.imageContainer}>
                     <Image
-                      src={doctor.personal_info.profileUrl}
+                      src={doctor?.personal_info?.profileUrl}
                       alt="doctor-image"
                       width={100}
                       height={100}
@@ -42,10 +31,10 @@ export default function Profile({ doctor }: any) {
 
                   <span className="flex flex-col" style={{ rowGap: "0.3rem" }}>
                     <h5>
-                      {doctor.personal_info.firstName} &nbsp;
-                      {doctor.personal_info.lastName}
+                      {doctor?.personal_info?.firstName} &nbsp;
+                      {doctor?.personal_info?.lastName}
                     </h5>
-                    <p>{doctor.specialization}</p>
+                    <p>{doctor?.specialization}</p>
                     <p>
                       <FaStar style={{ color: "#FFC107" }} />
                       <FaStar style={{ color: "#FFC107" }} />
@@ -60,18 +49,18 @@ export default function Profile({ doctor }: any) {
                 </div>
                 <div className="flex col-gap-1 justify-between">
                   <span className="flex flex-col items-center w-full  row-gap-1">
-                    <h5>{doctor.yearsOfExperience} years</h5>
+                    <h5>{doctor?.yearsOfExperience} years</h5>
                     <p>Experience</p>
                   </span>
                   <span
                     className="flex flex-col items-center w-full border-left
                   border-right row-gap-1"
                   >
-                    <h5>{doctor.recommended}%</h5>
+                    <h5>{doctor?.recommended}%</h5>
                     <p className="text-center">Positive feedback</p>
                   </span>
                   <span className="flex flex-col items-center w-full row-gap-1">
-                    <h5>{doctor.videoCallCharges}</h5>
+                    <h5>{doctor?.videoCallCharges}</h5>
                     <p>Fee in PKR</p>
                   </span>
                 </div>
@@ -81,7 +70,7 @@ export default function Profile({ doctor }: any) {
                 className={`flex flex-col row-gap-2 w-full border-bottom pb-2`}
               >
                 <h5>Education</h5>
-                {doctor.educationalDocuments.map((itm: any, indx: any) => (
+                {doctor?.educationalDocuments.map((itm: any, indx: any) => (
                   <li key={indx} className="flex justify-between w-full">
                     <span className="flex flex-col row-gap-0-5">
                       <h4>
@@ -96,22 +85,22 @@ export default function Profile({ doctor }: any) {
               {/* work experience */}
               <ul className={`flex flex-col row-gap-2 border-bottom pb-2`}>
                 <h5>Work Experience</h5>
-                {doctor.experiences.map((itm: any, indx: any) => (
+                {doctor?.experiences.map((itm: any, indx: any) => (
                   <li key={indx} className="flex justify-between">
                     <span className="flex flex-col row-gap-0-5">
-                      <h4>{itm.title}</h4>
+                      <h4>{itm?.title}</h4>
                       <p>
-                        {itm.company}, {itm.location}
+                        {itm?.company}, {itm?.location}
                       </p>
                     </span>
-                    <p>{moment(itm.end_date).format("YYYY")}</p>
+                    <p>{moment(itm?.end_date).format("YYYY")}</p>
                   </li>
                 ))}
               </ul>
               {/* about section */}
               <div className="flex flex-col row-gap-1 pb-2 border-bottom">
                 <h5>About</h5>
-                <p>{doctor.coverLetter}</p>
+                <p>{doctor?.coverLetter}</p>
               </div>
               {/* condition treated */}
               <div className={`flex flex-col row-gap-1 border-bottom  pb-2`}>
