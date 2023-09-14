@@ -1,0 +1,14 @@
+@import "../../styles/variables";
+.inputField {
+  border: 1px solid #79747e;
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  &:hover {
+    border: 1px solid $primary-clr;
+  }
+  &:focus-visible {
+    border: 1px solid $primary-clr;
+    outline: 1px solid $primary-clr;
+  }
+}

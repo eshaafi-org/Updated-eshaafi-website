@@ -1,0 +1,62 @@
+.text {
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all ease 0.3s;
+  color: rgb(var(--primary-clr));
+  font-weight: 500;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+.text:hover {
+  background-color: rgba(var(--primary-clr), 0.1);
+}
+.outlined {
+  background: none;
+  outline: none;
+  font-size: 1rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all ease 0.3s;
+  color: rgb(var(--primary-clr));
+  font-weight: 500;
+  border: 1px solid rgba(var(--primary-clr), 0.6);
+  padding: 10px 24px;
+  border-radius: 8px;
+}
+.outlined:hover {
+  background-color: rgba(var(--primary-clr), 0.1);
+  border: 1px solid rgba(var(--primary-clr), 1);
+}
+.contained {
+  background: none;
+  background-color: rgba(var(--primary-clr), 1);
+  outline: none;
+  font-size: 1rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all ease 0.3s;
+  color: #fff;
+  font-weight: 500;
+  border: 1px solid rgba(var(--primary-clr), 0.6);
+  padding: 10px 24px;
+  border-radius: 8px;
+}
+.contained:hover {
+  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
+    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+}
+.contained:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
+  border: none;
+  &:hover {
+    box-shadow: none;
+    border: none;
+  }
+}

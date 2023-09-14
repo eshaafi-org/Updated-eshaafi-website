@@ -1,0 +1,35 @@
+.contentCont {
+  .mainHeading {
+    font-size: 28px;
+  }
+  .subHeading {
+    font-size: 24px;
+  }
+  p {
+    font-size: 20px;
+    line-height: 36px;
+    letter-spacing: 0.1px;
+  }
+  .pointsList {
+    list-style-type: disc;
+    margin-left: 2rem;
+  }
+}
+.contentList {
+  list-style: none;
+  counter-reset: item;
+  //   .contentListItem {
+  //     counter-increment: item;
+  //     margin-bottom: 5px;
+  //     &::before {
+  //       //   margin-right: 10px;
+  //       content: counter(item);
+  //       color: #000;
+  //       //   border-radius: 100%;
+  //       //   color: white;
+  //       //   width: 1.2em;
+  //       //   text-align: center;
+  //       //   display: inline-block;
+  //     }
+  //   }
+}

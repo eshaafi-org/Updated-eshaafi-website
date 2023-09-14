@@ -1,0 +1,14 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: [
+      "d3lf92qdmyc9ip.cloudfront.net",
+      "d2jq593czhrhl9.cloudfront.net",
+      "image-upload-bucket-dev.s3.us-east-1.amazonaws.com",
+      "us-east-1.console.aws.amazon.com",
+    ], // Add the domain causing the error here
+  },
+};
+
+module.exports = nextConfig;
