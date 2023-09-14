@@ -1,0 +1,37 @@
+import BlogsList from "@/views/Blogs/BlogsList";
+import { BASE_URL } from "@/helper/CONST";
+// async function generateStaticParams() {
+//   const res = await fetch(BASE_URL + "/new/users/blogs", {
+//     cache: "force-cache",
+//   });
+//   // The return value is *not* serialized
+//   // You can return Date, Map, Set, etc.
+
+//   if (!res.ok) {
+//     // This will activate the closest `error.js` Error Boundary
+//     throw new Error("Failed to fetch data");
+//   }
+//   return res.json();
+// }
+export default function Blogs({ positions }: any) {
+  return (
+    <main>
+      <section className="container">
+        <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2">
+          <h2>Blogs</h2>
+          <BlogsList blogs={positions} link={"/blog/"} />
+        </div>
+      </section>
+    </main>
+  );
+}
+export async function getStaticProps() {
+  let response = await fetch(BASE_URL + "/new/users/blogs");
+  const data = await response.json();
+  return {
+    props: {
+      positions: data.response.Items ? data.response.Items : [],
+    },
+    revalidate: 1,
+  };
+}
