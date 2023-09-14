@@ -74,11 +74,11 @@ export default function Profile({ doctor }: any) {
                   <li key={indx} className="flex justify-between w-full">
                     <span className="flex flex-col row-gap-0-5">
                       <h4>
-                        {itm.degree} {`(${itm.field_of_study}) `}
+                        {itm?.degree} {`(${itm?.field_of_study}) `}
                       </h4>
-                      <p>{itm.location}</p>
+                      <p>{itm?.location}</p>
                     </span>
-                    <p>{moment(itm.end_date).format("YYYY")}</p>
+                    <p>{moment(itm?.end_date).format("YYYY")}</p>
                   </li>
                 ))}
               </ul>
@@ -106,7 +106,7 @@ export default function Profile({ doctor }: any) {
               <div className={`flex flex-col row-gap-1 border-bottom  pb-2`}>
                 <h5>Conditions Treated</h5>
                 <ul className={style.serviceList}>
-                  {doctor.conditionsTreated.map(
+                  {doctor?.conditionsTreated.map(
                     (conditionsTreated: any, index: any) => (
                       <li key={index} className={style.serviceItem}>
                         {conditionsTreated}
@@ -119,7 +119,7 @@ export default function Profile({ doctor }: any) {
               <div className={`flex flex-col row-gap-1 border-bottom pb-2`}>
                 <h5>Services</h5>
                 <ul className={style.serviceList}>
-                  {doctor.services.map((service: any, index: any) => (
+                  {doctor?.services.map((service: any, index: any) => (
                     <li key={index} className={style.serviceItem}>
                       {service}
                     </li>
@@ -134,7 +134,7 @@ export default function Profile({ doctor }: any) {
                     <div className={style.ring}>
                       <div className={style.centered_content}>
                         <div className={style.percent}>
-                          {doctor.rating.recommended}%
+                          {doctor?.rating?.recommended}%
                         </div>
                         <p>Recommend</p>
                       </div>
@@ -147,11 +147,11 @@ export default function Profile({ doctor }: any) {
                         style={{ marginBottom: "1rem" }}
                       >
                         <h4>Satisfaction</h4>
-                        <p>{doctor.rating.behaviour}%</p>
+                        <p>{doctor?.rating?.behaviour}%</p>
                       </span>
                       <span
                         className={style.progressBar}
-                        style={{ width: `${doctor.rating.behaviour}%` }}
+                        style={{ width: `${doctor?.rating.behaviour}%` }}
                       ></span>
                       <span className={style.progressBarLight}></span>
                     </div>
@@ -161,7 +161,7 @@ export default function Profile({ doctor }: any) {
                         style={{ marginBottom: "1rem" }}
                       >
                         <h4>Recommendation</h4>
-                        <p>{doctor.rating.recommended}%</p>
+                        <p>{doctor?.rating?.recommended}%</p>
                       </span>
                       <span
                         className={style.progressBar}
@@ -174,7 +174,7 @@ export default function Profile({ doctor }: any) {
               </div>
               {/* recommendations */}
               <ul className="flex flex-col row-gap-1">
-                {doctor.review.map((itm: any, indx: any) => (
+                {doctor?.review.map((itm: any, indx: any) => (
                   <li key={indx} className="flex flex-col row-gap-1">
                     <h5
                       className="flex items-center col-gap-1"
@@ -185,8 +185,8 @@ export default function Profile({ doctor }: any) {
                     </h5>
                     <p style={{ color: "#192A3E" }}>“{itm.review}”</p>
                     <small className="align-self-end">
-                      by {itm.patientInfo + " "}
-                      {moment(itm.appoint_date).startOf("day").fromNow()}
+                      by {itm?.patientInfo + " "}
+                      {moment(itm?.appoint_date).startOf("day").fromNow()}
                     </small>
                   </li>
                 ))}
