@@ -198,26 +198,26 @@ export default function Profile({ doctor }: any) {
               <table>
                 <tr>
                   <th>Fee in Pkr</th>
-                  <td>Rs. {doctor.videoCallCharges}</td>
+                  <td>Rs. {doctor?.videoCallCharges}</td>
                 </tr>
                 <tr>
                   <th>Recommendation</th>
-                  <td>{doctor.recommended}%</td>
+                  <td>{doctor?.recommended}%</td>
                   {/* <td>{appointDate}</td> */}
                 </tr>
                 <tr>
                   <th>Availbilty</th>
-                  <td>{doctor.isOnline ? <p>Online</p> : <p>Offline</p>}</td>
+                  <td>{doctor?.isOnline ? <p>Online</p> : <p>Offline</p>}</td>
                 </tr>
               </table>
               <p className={`flex justify-between ${style.display}`}>
                 <span className="flex">
-                  {doctor.isOnline ? <p>Online </p> : <p>Offline </p>}
-                  <p>{doctor.recommended}% Recommendation</p>
+                  {doctor?.isOnline ? <p>Online </p> : <p>Offline </p>}
+                  <p>{doctor?.recommended}% Recommendation</p>
                 </span>
-                <span>{doctor.videoCallCharges} Rs.</span>
+                <span>{doctor?.videoCallCharges} Rs.</span>
               </p>
-              <Link href={"/bookappointment/" + doctor.Id}>
+              <Link href={"/bookappointment/" + doctor?.Id}>
                 <Button variant="contained" className="w-full">
                   book appointment
                 </Button>
@@ -230,7 +230,7 @@ export default function Profile({ doctor }: any) {
     </main>
   );
 }
-// doctor profile page
+// // doctor profile page
 export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   let response = await fetch(BASE_URL + "/patients/doctors/filter", {
