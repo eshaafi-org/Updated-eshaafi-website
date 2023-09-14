@@ -15,6 +15,7 @@ import Blogs from "@/views/Home/Blogs";
 // import Partners from "@/views/Home/Partners";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
+import fav from "../../public/favicon.ico";
 // const inter = Roboto({
 //   subsets: ["latin"],
 //   weight: ["100", "300", "400", "500", "700"],
@@ -33,7 +34,7 @@ export default function Home({ positions, doctors }: any) {
         <title>Eshaafi | We care</title>
         <meta name="description" content="Meet one on one with your doctor" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href={"../../public/favicon.ico"} />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <Hero />
@@ -42,10 +43,10 @@ export default function Home({ positions, doctors }: any) {
         <Features />
 
         <Working />
-        <Doctors doc={doctors} />
+        {/* <Doctors doc={doctors} /> */}
         {/* <Subscriptions /> */}
         {/* <Reviews />*/}
-        <Blogs blogs={positions} />
+        {/* <Blogs blogs={positions} /> */}
         {/* <Partners /> */}
         <GetApp />
       </main>
