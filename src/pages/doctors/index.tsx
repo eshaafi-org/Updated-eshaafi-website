@@ -31,7 +31,7 @@ import { BASE_URL } from "@/helper/CONST";
 // }
 
 // Renders the DoctorList, BenefitsOfVideoConsultation, and FQuest components
-export default function Doctors({ doctors }) {
+export default function Doctors({ doctors }: any) {
   // const doctors = await getDoctors();
 
   return (
