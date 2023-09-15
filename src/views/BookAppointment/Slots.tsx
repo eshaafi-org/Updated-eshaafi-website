@@ -205,7 +205,7 @@ function Slots({
               value={"afternoon"}
               className={style.btnCheck}
               onChange={(e) => handleSlotsChange(e.target.value)}
-              disabled={appointmentSlots.afternoon_slots.length < 1}
+              disabled={appointmentSlots?.afternoon_slots?.length < 1}
             />
             <label
               htmlFor="afternoon"
