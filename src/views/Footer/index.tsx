@@ -30,6 +30,7 @@ const Footer: React.FC<FooterProps> = () => {
                     href={item.link}
                     className="text-primary"
                     style={{ fontSize: "2rem" }}
+                    target="_blank"
                   >
                     {item.icon}
                   </a>

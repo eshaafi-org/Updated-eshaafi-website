@@ -3,11 +3,15 @@ import creditCard from "../../../public/images/creditcard.png";
 import secure from "../../../public/images/secure.png";
 import support from "../../../public/images/support.png";
 import verified from "../../../public/images/verified.png";
-import { FaLinkedin } from "react-icons/fa6";
-import { FaSquareFacebook } from "react-icons/fa6";
-import { FaYoutube } from "react-icons/fa6";
-import { FaTwitter } from "react-icons/fa6";
-import { FaInstagram } from "react-icons/fa6";
+import {
+  FaLinkedin,
+  FaSquareFacebook,
+  FaYoutube,
+  FaTwitter,
+  FaInstagram,
+  FaTiktok,
+} from "react-icons/fa6";
+
 //
 export const footerLinks = [
   // {
@@ -85,6 +89,10 @@ export const socialLinks = [
   {
     icon: <FaYoutube />,
     link: "https://www.youtube.com/@eShaaficare",
+  },
+  {
+    icon: <FaTiktok />,
+    link: "https://www.tiktok.com/@eshaaficare",
   },
 ];
 

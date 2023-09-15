@@ -256,13 +256,15 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     )}
                 </>
               )}
-              <Button
-                variant="contained"
-                className="flex col-gap-1 items-center"
-              >
-                <FaPhone />
-                042-3230479
-              </Button>
+              <Link href={"tel:0423230479"}>
+                <Button
+                  variant="contained"
+                  className="flex col-gap-1 items-center"
+                >
+                  <FaPhone />
+                  042-3230479
+                </Button>
+              </Link>
             </span>
           </div>
         ) : (
@@ -311,15 +313,17 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   >
                     login/sign up
                   </Button>
-                  <Button
-                    variant="contained"
-                    className="flex col-gap-1 justify-center items-center w-full"
-                  >
-                    <span className="flex col-gap-1">
-                      <FaPhone />
-                      042-3230479
-                    </span>
-                  </Button>
+                  <Link href={"tel:0423230479"}>
+                    <Button
+                      variant="contained"
+                      className="flex col-gap-1 justify-center items-center w-full"
+                    >
+                      <span className="flex col-gap-1">
+                        <FaPhone />
+                        042-3230479
+                      </span>
+                    </Button>
+                  </Link>
                 </>
               )}
             </span>

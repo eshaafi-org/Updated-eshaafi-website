@@ -66,14 +66,15 @@ export default function Services() {
                     </span>
                   </span>
                   <span className={style.serviceLink}>
-                    {itm.heading !== "Home Nursing" ? (
-                      <Link href={itm.link} className="linkBtn">
-                        Book Now
-                      </Link>
-                    ) : (
+                    {itm.heading === "Home Nursing" ||
+                    itm.heading === "Instant Call" ? (
                       <h3 className="text text-primary font-bolder">
                         Coming soon
                       </h3>
+                    ) : (
+                      <Link href={itm.link} className="linkBtn">
+                        Book Now
+                      </Link>
                     )}
                   </span>
                   <span className={style.servicesImage}>
