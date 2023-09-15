@@ -46,7 +46,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
         appointmentId: response.appointmentId,
         patientName: patient.patientName,
         patientId: patient.patientId,
-        wallet_pay: "9",
+        wallet_pay: "250",
       };
     } else {
       return {
