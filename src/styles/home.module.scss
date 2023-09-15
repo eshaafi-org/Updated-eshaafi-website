@@ -83,6 +83,7 @@
   }
   @include for-large-phone-only {
     grid-template-columns: 1fr;
+    row-gap: 2rem;
   }
 }
 

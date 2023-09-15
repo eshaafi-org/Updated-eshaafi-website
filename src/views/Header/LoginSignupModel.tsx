@@ -38,9 +38,11 @@ const reducer = (state: any, action: any) => {
 };
 // model
 export const Model = ({
+  page = "login",
   setShowModal,
   userAuth,
 }: {
+  page: string;
   setShowModal: any;
   userAuth: any;
 }) => {
@@ -69,7 +71,6 @@ export const Model = ({
         type: 1,
       })
       .then((res) => {
-        console.log(res);
         setStates({ type: "OTP_LOADING" });
         setOtp(true);
       })
@@ -97,7 +98,8 @@ export const Model = ({
       })
       .then((res) => {
         if (res.profileCreated) {
-          userAuth(res);
+          if (!userAuth) {
+          } else userAuth(res);
           close();
         } else setProfile(true);
       })
@@ -137,21 +139,27 @@ export const Model = ({
       .catch((err) => console.log(err));
   };
   return (
-    <div className={style.modalCont}>
+    <div className={page === "login" ? style.loginCont : style.modalCont}>
       <div className={style.modaldiv}>
         {!profile ? (
           <>
             {!otp ? (
               <>
-                <span className="flex items-center border-bottom py-1">
-                  <Button onClick={close}>
-                    <FaX />
-                  </Button>
-                  <h4 className="grow-2 text-center">Login or Signup</h4>
-                </span>
-                <span className="flex flex-col items-center p-1 row-gap-1">
+                {page === "login" || (
+                  <span className="flex items-center border-bottom py-1">
+                    <Button onClick={close}>
+                      <FaX />
+                    </Button>
+                    <h4 className="grow-2 text-center">Login or Signup</h4>
+                  </span>
+                )}
+                <span
+                  className={`flex flex-col p-1 row-gap-1 ${
+                    page === "login" ? "" : "items-center"
+                  }`}
+                >
                   <h1>Welcome to eShaafi</h1>
-                  <p className="text-center">
+                  <p className={` ${page === "login" ? "" : "text-center"}`}>
                     Please enter your phone number, we will send you one time
                     password (OTP) for verification.
                   </p>
@@ -189,11 +197,19 @@ export const Model = ({
                   <Button onClick={() => setOtp(false)}>
                     <FaChevronLeft />
                   </Button>
-                  <h4 className="grow-2 text-center">Login or Signup</h4>
+                  <h4 className="grow-2 text-center">
+                    {page === "login"
+                      ? "Change your number"
+                      : "Login or Signup"}
+                  </h4>
                 </span>
-                <span className="flex flex-col items-center p-1 row-gap-1">
+                <span
+                  className={`flex flex-col p-1 row-gap-1 ${
+                    page === "login" ? "" : "items-center"
+                  }`}
+                >
                   <h1>Enter OTP</h1>
-                  <p className="text-center">
+                  <p className={` ${page === "login" ? "" : "text-center"}`}>
                     Please Check your phone for 6-digit otp sent to
                     <br />
                     <u className="text-primary">+92{phone_no} </u>
@@ -217,7 +233,7 @@ export const Model = ({
             </span>
             <span className="flex flex-col items-center p-1 row-gap-1">
               <h1>Welcome to eShaafi</h1>
-              <p className="text-center">
+              <p className={` ${page === "login" ? "" : "text-center"}`}>
                 We will use this information for booking video consultation
               </p>
             </span>

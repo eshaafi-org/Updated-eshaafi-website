@@ -25,8 +25,8 @@ export default function Profile({ doctor }: any) {
         <section className="container">
           <div className="flex flex-col row-gap-2 position-relative">
             <h2>Book video consultation with the best doctors</h2>
-            <section className="flex justify-between col-gap-1 items-start sm-flex-col sm-row-gap-2">
-              <section className="doc-profile w-60 bg-white flex flex-col row-gap-2 sm-w-full">
+            <section className="flex justify-between col-gap-1 items-start lg-flex-col lg-row-gap-2">
+              <section className="doc-profile w-60 bg-white flex flex-col row-gap-2 lg-w-full">
                 {/* profile card */}
                 <div className="flex flex-col row-gap-2 border-bottom pb-2">
                   <div className="flex col-gap-2">

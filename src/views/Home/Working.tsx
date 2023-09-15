@@ -18,25 +18,25 @@ export default function Working() {
                 <MdOutlineDoneAll
                   style={{ color: "#0e5487", fontSize: "1.5rem" }}
                 />
-                <p>Book video consultation</p>
+                <p className="capitalize">Book video consultation</p>
               </li>
               <li className="flex col-gap-1">
                 <MdOutlineDoneAll
                   style={{ color: "#0e5487", fontSize: "1.5rem" }}
                 />
-                <p>Select Doctor</p>
+                <p className="capitalize">Select Doctor</p>
               </li>
               <li className="flex col-gap-1">
                 <MdOutlineDoneAll
                   style={{ color: "#0e5487", fontSize: "1.5rem" }}
                 />
-                <p>Select Date and Payment Method</p>
+                <p className="capitalize">Select Date and Payment Method</p>
               </li>
               <li className="flex col-gap-1">
                 <MdOutlineDoneAll
                   style={{ color: "#0e5487", fontSize: "1.5rem" }}
                 />
-                <p>Successfully Book Appointment</p>
+                <p className="capitalize">Appointment Successfully Booked</p>
               </li>
               <li className="flex col-gap-1">
                 <Link

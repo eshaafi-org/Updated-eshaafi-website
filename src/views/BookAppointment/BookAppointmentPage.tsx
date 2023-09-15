@@ -12,6 +12,7 @@ import successGif from "../../../public/images/success.gif";
 import Image from "next/image";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import moment from "moment";
+
 // import { useRouter } from "next/navigation";
 export default function BookAppointmentPage({ data }: { data: any }) {
   // const router = useRouter();
@@ -46,7 +47,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
         appointmentId: response.appointmentId,
         patientName: patient.patientName,
         patientId: patient.patientId,
-        wallet_pay: "250",
+        wallet_pay: (data?.doctorInfo?.videoCallCharges).toString(),
       };
     } else {
       return {
@@ -97,7 +98,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             console.error("error", err);
           });
       }
-    }
+    } else params.push("/login");
     // console.log(postData);
   };
   return (

@@ -14,7 +14,7 @@ export default function Hero() {
             <h2 className="heading capitalize">
               Stress free access to quality healthcare{" "}
             </h2>
-            <p className="text-3">
+            <p className="text-3 capitalize">
               Book Appointment with best Verified Doctors
             </p>
             <Link href={"/doctors"}>

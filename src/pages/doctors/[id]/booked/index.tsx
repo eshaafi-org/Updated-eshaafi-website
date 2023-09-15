@@ -5,11 +5,13 @@ import { BASE_URL } from "@/helper/CONST";
 import BookAppointmentPage from "@/views/BookAppointment/BookAppointmentPage";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { useParams } from "next/navigation";
 
 export default function Booking() {
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(true);
   const params = useRouter();
+  // const params = useParams();
   console.log(params.query.id);
   function getSlots() {
     axios
@@ -35,7 +37,7 @@ export default function Booking() {
 
   useEffect(() => {
     getSlots();
-  }, []);
+  }, [params]);
   return (
     <>
       <Head>
@@ -45,7 +47,11 @@ export default function Booking() {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main>
-        {loading ? <p>loading...</p> : <BookAppointmentPage data={response} />}
+        {loading ? (
+          <p className="container">loading...</p>
+        ) : (
+          <BookAppointmentPage data={response} />
+        )}
       </main>
     </>
   );

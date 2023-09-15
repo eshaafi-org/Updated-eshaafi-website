@@ -173,12 +173,16 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     login/sign up
                   </Button>
                   {showModal && (
-                    <Model setShowModal={setShowModal} userAuth={setUserAuth} />
+                    <Model
+                      setShowModal={setShowModal}
+                      userAuth={setUserAuth}
+                      page="header"
+                    />
                   )}
                 </>
               ) : (
                 <>
-                  <Link href={"/"}>
+                  {/* <Link href={"/"}>
                     <Button>
                       <FaWallet style={{ fontSize: 22 }} />
                     </Button>
@@ -192,7 +196,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     <Button>
                       <FaBell style={{ fontSize: 22 }} />
                     </Button>
-                  </Link>
+                  </Link> */}
                   <Button onClick={() => setShowProfile(true)}>
                     {!userAuth.url ? (
                       <FaUser
@@ -224,7 +228,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                               <p>{userAuth?.phoneNo}</p>
                             </div>
                           </li>
-                          <li className="p-1">
+                          {/* <li className="p-1">
                             <Link href={"/"}>Profile</Link>
                           </li>
                           <li className="p-1">
@@ -238,9 +242,9 @@ const Header: React.FC<HeaderProps> = ({}) => {
                           </li>
                           <li className="p-1">
                             <Link href={"/"}>Medical Records</Link>
-                          </li>
+                          </li> */}
                           <li className="p-1">
-                            <Link href={"/"}>Privacy Policy</Link>
+                            <Link href={"/privacy-policy"}>Privacy Policy</Link>
                           </li>
                           <li className="border-top p-1">
                             <Button
@@ -276,7 +280,11 @@ const Header: React.FC<HeaderProps> = ({}) => {
       {/* responsive drawer modal */}
       <Drawer anchor="right" open={show} onClose={handleClose}>
         {showModal && (
-          <Model setShowModal={setShowModal} userAuth={setUserAuth} />
+          <Model
+            setShowModal={setShowModal}
+            userAuth={setUserAuth}
+            page="header"
+          />
         )}
         {userAuth?.name && (
           <span className="p-1 flex items-center col-gap-1 border-bottom">
@@ -303,7 +311,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
         )}
         {
           <nav className={style.mobilenavbar}>
-            <span className="flex col-gap-1 items-center flex-col row-gap-1">
+            <span className="flex col-gap-1 items-center sm-flex-col row-gap-1">
               {!userAuth?.uuid && (
                 <>
                   <Button
@@ -313,7 +321,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   >
                     login/sign up
                   </Button>
-                  <Link href={"tel:0423230479"}>
+                  <Link href={"tel:0423230479"} className="w-full">
                     <Button
                       variant="contained"
                       className="flex col-gap-1 justify-center items-center w-full"
@@ -328,41 +336,45 @@ const Header: React.FC<HeaderProps> = ({}) => {
               )}
             </span>
             <ul className="flex flex-col mt-1 ">
-              <li className={`p-0-5 border-bottom`}>
-                <Link href={"/"}>
-                  <Button className="flex col-gap-1 items-center">
-                    <FaWallet style={{ fontSize: 20 }} />
-                    <span className="flex flex-col items-center justify-center">
-                      <h4 className="text-primary">{userAuth?.wallet}/-</h4>
-                      <small>Wallet</small>
-                    </span>
-                  </Button>
-                </Link>
-              </li>
-              <li className={`p-0-5 border-bottom`}>
-                <Link href={"/"}>
-                  <Button className="flex col-gap-1 items-center">
-                    <FaCartShopping style={{ fontSize: 20 }} />
-                    <span className="text-main">Cart</span>
-                  </Button>
-                </Link>
-              </li>
-              <li className={`p-0-5 border-bottom`}>
-                <Link href={"/"}>
-                  <Button className="flex col-gap-1 items-center">
-                    <FaUser style={{ fontSize: 20 }} />
-                    <span className="text-main">Profile</span>
-                  </Button>
-                </Link>
-              </li>
-              <li className={`p-0-5 border-bottom`}>
-                <Link href={"/"}>
-                  <Button className="flex col-gap-1 items-center">
-                    <FaRegCalendarCheck style={{ fontSize: 20 }} />
-                    <span className="text-main">Appointments</span>
-                  </Button>
-                </Link>
-              </li>
+              {!userAuth?.url || (
+                <>
+                  {/* <li className={`p-0-5 border-bottom`}>
+                    <Link href={"/"}>
+                      <Button className="flex col-gap-1 items-center">
+                        <FaWallet style={{ fontSize: 20 }} />
+                        <span className="flex flex-col items-center justify-center">
+                          <h4 className="text-primary">{userAuth?.wallet}/-</h4>
+                          <small>Wallet</small>
+                        </span>
+                      </Button>
+                    </Link>
+                  </li>
+                  <li className={`p-0-5 border-bottom`}>
+                    <Link href={"/"}>
+                      <Button className="flex col-gap-1 items-center">
+                        <FaCartShopping style={{ fontSize: 20 }} />
+                        <span className="text-main">Cart</span>
+                      </Button>
+                    </Link>
+                  </li>
+                  <li className={`p-0-5 border-bottom`}>
+                    <Link href={"/"}>
+                      <Button className="flex col-gap-1 items-center">
+                        <FaUser style={{ fontSize: 20 }} />
+                        <span className="text-main">Profile</span>
+                      </Button>
+                    </Link>
+                  </li>
+                  <li className={`p-0-5 border-bottom`}>
+                    <Link href={"/"}>
+                      <Button className="flex col-gap-1 items-center">
+                        <FaRegCalendarCheck style={{ fontSize: 20 }} />
+                        <span className="text-main">Appointments</span>
+                      </Button>
+                    </Link>
+                  </li> */}
+                </>
+              )}
               {navLinks.map((i) => {
                 if (i.linkName === "Solutions") {
                   return (
