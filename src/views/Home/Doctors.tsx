@@ -89,7 +89,7 @@ export default function Doctors({ doc }: { doc: any }) {
                     Fee Rs. {doc.videoCallCharges}
                   </p>
                   <Link
-                    href={"/bookappointment/" + doc.Id}
+                    href={"/doctors/" + doc.Id + "/booked"}
                     className="linkBtn"
                     style={{ width: "60%", textAlign: "center" }}
                   >

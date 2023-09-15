@@ -22,7 +22,7 @@ const services = [
   },
   {
     heading: "Home Nursing",
-    text: "Book home nursing servicce",
+    text: "Book home nursing services",
     link: "/",
     icon: service3,
   },

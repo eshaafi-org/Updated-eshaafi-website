@@ -317,7 +317,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   >
                     <span className="flex col-gap-1">
                       <FaPhone />
-                      0300-3461156
+                      042-3230479
                     </span>
                   </Button>
                 </>
