@@ -43,7 +43,7 @@ export default function Home({ positions, doctors }: any) {
         <Features />
 
         <Working />
-        {/* <Doctors doc={doctors} /> */}
+        <Doctors doc={doctors} />
         {/* <Subscriptions /> */}
         {/* <Reviews />*/}
         <Blogs blogs={positions} />

@@ -60,6 +60,7 @@ export const footerLinks = [
       { name: "Help", href: "/" },
       { name: "Privacy Policy", href: "/privacy-policy" },
       { name: "Terms and Conditions", href: "/terms-and-conditions" },
+      { name: "FAQ", href: "/faq" },
     ],
   },
 ];
