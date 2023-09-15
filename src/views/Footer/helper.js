@@ -36,8 +36,8 @@ export const footerLinks = [
     links: [
       { name: "Home", href: "/" },
       { name: "About Us", href: "/aboutus" },
-      { name: "Privacy Policy", href: "/privacypolicy" },
-      { name: "Careers", href: "/careers" },
+      // { name: "Privacy Policy", href: "/privacypolicy" },
+      // { name: "Careers", href: "/careers" },
       { name: "Contact Us", href: "/contactus" },
     ],
   },

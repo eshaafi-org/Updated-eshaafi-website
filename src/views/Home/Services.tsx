@@ -11,13 +11,13 @@ const services = [
   {
     heading: "Instant Call",
     text: "Book appointment in one click",
-    link: "/",
+    link: "/doctors",
     icon: service1,
   },
   {
     heading: "Video Consultation",
     text: "Schedule Call with doctors",
-    link: "/",
+    link: "/doctors",
     icon: service2,
   },
   {

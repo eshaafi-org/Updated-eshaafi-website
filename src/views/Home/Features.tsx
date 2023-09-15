@@ -44,11 +44,11 @@ export default function Features() {
                       <p className="capitalize">{itm.text}</p>
                     </span>
                   </span>
-                  <span className={style.serviceLink}>
+                  {/* <span className={style.serviceLink}>
                     <Link href={itm.link} className="linkBtn">
                       Book Now
                     </Link>
-                  </span>
+                  </span> */}
                   <span className={style.servicesImage}>
                     <Image
                       src={itm.icon}
