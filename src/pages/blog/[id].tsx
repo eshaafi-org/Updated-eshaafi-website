@@ -4,14 +4,24 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import style from "@/styles/blogs.module.scss";
 import { BASE_URL } from "@/helper/CONST";
+import Head from "next/head";
+import { useRouter } from "next/router";
 export default function Post({ post }: any) {
+  let router = useRouter();
+  // console.log(router);
   return (
     <>
-      {/* <Head>
-        <title>{post.title}</title>
-        <meta property="og:title" content={post.title} key="title" />
-        <meta property="og:image" content={post.url} />
-      </Head> */}
+      <Head>
+        <title>{post?.title}</title>
+        <meta property="og:title" content={post?.title} key="title" />
+        <meta property="og:description" content={post?.description} />
+        <meta property="og:image" content={post?.url} />
+        {/* <meta property="og:image" content={post.url} /> */}
+        <meta
+          property="og:url"
+          content={"https://www.eshaafi.com/" + router.asPath}
+        />
+      </Head>
       <main>
         <section className="container">
           <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2 w-70 sm-w-full">
@@ -23,8 +33,8 @@ export default function Post({ post }: any) {
                 src={post?.url}
                 alt={post?.title}
                 className={style.blogImage}
-                width={2000}
-                height={2000}
+                width={1000}
+                height={1000}
               />
             </div>
             <div className={style.blogContent}>

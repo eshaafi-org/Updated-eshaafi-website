@@ -1,5 +1,6 @@
 import BlogsList from "@/views/Blogs/BlogsList";
 import { BASE_URL } from "@/helper/CONST";
+import Head from "next/head";
 // async function generateStaticParams() {
 //   const res = await fetch(BASE_URL + "/new/users/blogs", {
 //     cache: "force-cache",
@@ -15,14 +16,22 @@ import { BASE_URL } from "@/helper/CONST";
 // }
 export default function Blogs({ positions }: any) {
   return (
-    <main>
-      <section className="container">
-        <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2">
-          <h2>Blogs</h2>
-          <BlogsList blogs={positions} link={"/blog/"} />
-        </div>
-      </section>
-    </main>
+    <>
+      <Head>
+        <title>Eshaafi | Blogs</title>
+        <meta name="description" content="Meet one on one with your doctor" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href={"/favicon.ico"} />
+      </Head>
+      <main>
+        <section className="container">
+          <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2">
+            <h2>Blogs</h2>
+            <BlogsList blogs={positions} link={"/blog/"} />
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
 export async function getStaticProps() {

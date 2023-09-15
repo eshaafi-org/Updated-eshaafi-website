@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { BASE_URL } from "@/helper/CONST";
 import BookAppointmentPage from "@/views/BookAppointment/BookAppointmentPage";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Booking() {
   const [response, setResponse] = useState({});
@@ -36,8 +37,16 @@ export default function Booking() {
     getSlots();
   }, []);
   return (
-    <main>
-      {loading ? <p>loading...</p> : <BookAppointmentPage data={response} />}
-    </main>
+    <>
+      <Head>
+        <title>Book Appointment</title>
+        <meta name="description" content="Meet one on one with your doctor" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href={"/favicon.ico"} />
+      </Head>
+      <main>
+        {loading ? <p>loading...</p> : <BookAppointmentPage data={response} />}
+      </main>
+    </>
   );
 }
