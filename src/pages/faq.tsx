@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
         <span className="w-full">
           <h2 className="text-center">Frequently Asked Questions</h2>
           <p className="mt-1">
-            Welcome to eShaafi’s Frequently Asked Questions (FAQ) section! We
+            {`Welcome to eShaafi’s Frequently Asked Questions (FAQ) section! We
             understand that using telemedicine services may be a new experience
             for many of our users, and we want to ensure you have all the
             information you need to make the most of our platform. This
@@ -16,7 +16,7 @@ export default function PrivacyPolicy() {
             an appointment to ensuring the security of your medical data.
             Whether you're a first-time user or a long-time member of our
             telehealth community, we hope this resource proves helpful in
-            navigating your virtual healthcare journey with us
+            navigating your virtual healthcare journey with us`}
           </p>
         </span>
 
