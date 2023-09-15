@@ -10,42 +10,42 @@ import { FaTwitter } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa6";
 //
 export const footerLinks = [
-  {
-    heading: "Diseases We Treat",
-    links: [
-      { name: "Acne", href: "/" },
-      { name: "Asthma", href: "/" },
-      { name: "Cholera", href: "/" },
-      { name: "Cholesterol", href: "/" },
-      { name: "Diabetes", href: "/" },
-      { name: "Dengue Fever", href: "/" },
-      { name: "Depression and Anxiety", href: "/" },
-      { name: "Hair Loss", href: "/" },
-      { name: "Hepatitis", href: "/" },
-      { name: "High Blood Pressure", href: "/" },
-      { name: "Influenza", href: "/" },
-      { name: "Insomnia", href: "/" },
-      { name: "Malaria", href: "/" },
-      { name: "Migraine", href: "/" },
-      { name: "Respiratory Infection", href: "/" },
-      { name: "Typhoid", href: "/" },
-    ],
-  },
+  // {
+  //   heading: "Diseases We Treat",
+  //   links: [
+  //     { name: "Acne", href: "/" },
+  //     { name: "Asthma", href: "/" },
+  //     { name: "Cholera", href: "/" },
+  //     { name: "Cholesterol", href: "/" },
+  //     { name: "Diabetes", href: "/" },
+  //     { name: "Dengue Fever", href: "/" },
+  //     { name: "Depression and Anxiety", href: "/" },
+  //     { name: "Hair Loss", href: "/" },
+  //     { name: "Hepatitis", href: "/" },
+  //     { name: "High Blood Pressure", href: "/" },
+  //     { name: "Influenza", href: "/" },
+  //     { name: "Insomnia", href: "/" },
+  //     { name: "Malaria", href: "/" },
+  //     { name: "Migraine", href: "/" },
+  //     { name: "Respiratory Infection", href: "/" },
+  //     { name: "Typhoid", href: "/" },
+  //   ],
+  // },
   {
     heading: "Company",
     links: [
       { name: "Home", href: "/" },
-      { name: "About Us", href: "/aboutus" },
+      // { name: "About Us", href: "/aboutus" },
       // { name: "Privacy Policy", href: "/privacypolicy" },
       // { name: "Careers", href: "/careers" },
-      { name: "Contact Us", href: "/contactus" },
+      // { name: "Contact Us", href: "/contactus" },
     ],
   },
   {
     heading: "Services",
     links: [
-      { name: "Video Consultation", href: "/" },
-      { name: "Home Nursing", href: "/" },
+      { name: "Video Consultation", href: "/doctors" },
+      // { name: "Home Nursing", href: "/" },
       // { name: "Labs", href: "/" },
       // { name: "Pharmacy", href: "/" },
       // { name: "24/7 Support", href: "/" },
@@ -56,8 +56,8 @@ export const footerLinks = [
   {
     heading: "More",
     links: [
-      { name: "Blogs", href: "/" },
-      { name: "Help", href: "/" },
+      { name: "Blogs", href: "/blog" },
+      // { name: "Help", href: "/" },
       { name: "Privacy Policy", href: "/privacy-policy" },
       { name: "Terms and Conditions", href: "/terms-and-conditions" },
       { name: "FAQ", href: "/faq" },
@@ -68,23 +68,23 @@ export const footerLinks = [
 export const socialLinks = [
   {
     icon: <FaLinkedin />,
-    link: "/",
+    link: "https://www.linkedin.com/company/eshaafi/",
   },
   {
     icon: <FaSquareFacebook />,
-    link: "",
+    link: "https://www.facebook.com/eShaaficare?mibextid=ZbWKwL",
   },
   {
     icon: <FaTwitter />,
-    link: "",
+    link: "https://twitter.com/eshaafi_com",
   },
   {
     icon: <FaInstagram />,
-    link: "",
+    link: "https://www.instagram.com/eshaafipk/",
   },
   {
     icon: <FaYoutube />,
-    link: "",
+    link: "https://www.youtube.com/@eShaaficare",
   },
 ];
 

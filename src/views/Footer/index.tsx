@@ -49,7 +49,7 @@ const Footer: React.FC<FooterProps> = () => {
           ))}
           <div className={`flex flex-col row-gap-1 ${styles.downloads}`}>
             <h4>Download App</h4>
-            <Link href="/">
+            <Link href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share">
               <Image
                 src={downloadButton}
                 className={styles.downloadImage}
