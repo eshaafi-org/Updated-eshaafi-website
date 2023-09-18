@@ -20,7 +20,8 @@ export default function Login() {
             <Image src={logo} alt="eshaafi-logo" />
           </span>
           <span className="w-1-2 lg-w-full">
-            <Model page={"login"} setShowModal={false} userAuth={false} />
+            {/* <Model page={"login"} setShowModal={false} userAuth={false} /> */}
+            <h3>Please Sign in to proceed</h3>
           </span>
         </div>
       </section>
