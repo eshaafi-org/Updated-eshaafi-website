@@ -206,6 +206,30 @@ Your personal information will also be shared with companies, organizations, or 
     ],
   },
   {
+    heading: "Account Deletion",
+    headingText:
+      "You can delete your main as well as other profiles anytime. To do this select profile you want to delete click on the three dot menu at upper right corner and select delete or email us at contact@eshaafi.com All data including medical records, appointment history, e-prescription and personal details will be deleted. If main profile is deleted all other profiles will also be deleted.",
+    sub: [
+      {
+        subHeading: "",
+        subHeadingText: "",
+        subPoints: [],
+      },
+    ],
+  },
+  {
+    heading: "Account Retention",
+    headingText:
+      "You can login to eShaafi application again using the same credentials, but since the data was deleted you will login as new user and won’t be able to access old data.",
+    sub: [
+      {
+        subHeading: "",
+        subHeadingText: "",
+        subPoints: [],
+      },
+    ],
+  },
+  {
     heading: "Changes in privacy policy",
     headingText: `Our policy is incorporated into the Terms and Conditions of the platform and is subject to change from time to time without any prior notice. In case of any significant changes, we may intimate you of a prominent notification that will appear on the platform. We will also keep our prior version of the privacy policy in an archive for your review. It is strongly recommended that you periodically review our policy as posted on the platform. You may “opt-out” from receiving communications from us and/or sharing your personal information with us at any time.
 Note: We will not ask you to share any sensitive data or information via email or telephone. If you receive any such request by email or phone, please do not respond/divulge any sensitive data or information and forward the information to contact@eshaafi.com for necessary action.`,
