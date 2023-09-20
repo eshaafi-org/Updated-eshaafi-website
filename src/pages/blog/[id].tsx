@@ -6,21 +6,68 @@ import style from "@/styles/blogs.module.scss";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaLinkedinIn,
+  FaWhatsapp,
+  FaShareAlt,
+} from "react-icons/fa";
+import { FiLink2 } from "react-icons/fi";
+
 export default function Post({ post }: any) {
   let router = useRouter();
-  // console.log(router);
+  console.log(router);
   return (
     <>
       <Head>
         <title>{post?.title}</title>
-        <meta property="og:title" content={post?.title} key="title" />
+        <meta name="description" content={post?.description} />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={post?.description} />
-        <meta property="og:image" content={post?.url} />
-        {/* <meta property="og:image" content={post.url} /> */}
         <meta
           property="og:url"
-          content={"https://www.eshaafi.com/" + router.asPath}
+          content={"https://eshaafi.com" + router?.asPath}
         />
+        <meta
+          property="og:site_name"
+          content="Health Zone | Healthy reads on eshaafi.com"
+        />
+        <meta
+          property="article:publisher"
+          content="https://www.facebook.com/eShaaficare?mibextid=ZbWKwL"
+        />
+        <meta
+          property="article:published_time"
+          content="2023-09-11T06:32:01+00:00"
+        />
+        <meta
+          property="article:modified_time"
+          content="2023-09-11T06:16:11+00:00"
+        />
+        <meta property="og:image" content={post?.url} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="628" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta name="author" content="Abdul Rehman" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@oladocsays" />
+        <meta name="twitter:site" content="@oladocsays" />
+        <meta name="twitter:label1" content="Written by" />
+        <meta name="twitter:data1" content="Abdul Rehman" />
+        <meta name="twitter:label2" content="Est. reading time" />
+        <meta name="twitter:data2" content="4 minutes" />
+        {/* <title>{post?.title}</title> */}
+        {/* <meta property="og:title" content={post?.title} key="title" /> */}
+        {/* <meta property="og:description" content={post?.description} /> */}
+        {/* <meta property="og:image" content={post?.url} /> */}
+        {/* <meta property="og:image" content={post.url} /> */}
+        {/* <meta
+          property="og:url"
+          content={"https://www.eshaafi.com/" + router.asPath}
+        /> */}
       </Head>
       <main>
         <section className="container">
@@ -41,7 +88,40 @@ export default function Post({ post }: any) {
               <ReactMarkdown>{post?.description}</ReactMarkdown>
             </div>
           </div>
-          <div className="w-30"></div>
+          <div className="w-70 flex flex-col row-gap-1">
+            <p>Viewed by 200+ people</p>
+            <div className="flex justify-between w-full">
+              <span>
+                <button className="linkBtn flex col-gap-1 bg-none border-none text-primary">
+                  <FaShareAlt />
+                  Share
+                </button>
+              </span>
+              <span className="flex col-gap-1">
+                <a href="" className={style.iconStyle}>
+                  <FiLink2 style={{ color: "#1B76B8", fontSize: "1.5rem" }} />
+                </a>
+                <a href="" className={style.iconStyle}>
+                  <FaFacebookF
+                    style={{ color: "#1976D2", fontSize: "1.5rem" }}
+                  />
+                </a>
+                <a href="" className={style.iconStyle}>
+                  <FaWhatsapp
+                    style={{ color: "#20B038", fontSize: "1.5rem" }}
+                  />
+                </a>
+                <a href="" className={style.iconStyle}>
+                  <FaLinkedinIn
+                    style={{ color: "#1976D2", fontSize: "1.5rem" }}
+                  />
+                </a>
+                <a href="" className={style.iconStyle}>
+                  <FaTwitter style={{ color: "#03A9F4", fontSize: "1.5rem" }} />
+                </a>
+              </span>
+            </div>
+          </div>
         </section>
       </main>
     </>

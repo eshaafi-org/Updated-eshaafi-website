@@ -452,6 +452,9 @@ p {
 .bg-blue {
   background-color: #e1f4fb;
 }
+.bg-none {
+  background-color: unset !important;
+}
 //---------------cursor-------------//
 .pointer {
   cursor: pointer;
