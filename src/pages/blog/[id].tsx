@@ -106,7 +106,11 @@ export default function Post({ post }: any) {
                     style={{ color: "#1976D2", fontSize: "1.5rem" }}
                   />
                 </a>
-                <a href="" className={style.iconStyle}>
+                <a
+                  href={`https://api.whatsapp.com/send?text=https://eshaafi.com${router?.asPath}`}
+                  className={style.iconStyle}
+                  target="_blank"
+                >
                   <FaWhatsapp
                     style={{ color: "#20B038", fontSize: "1.5rem" }}
                   />
