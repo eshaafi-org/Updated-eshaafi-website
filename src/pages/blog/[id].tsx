@@ -18,6 +18,18 @@ import { FiLink2 } from "react-icons/fi";
 export default function Post({ post }: any) {
   let router = useRouter();
   console.log(router);
+  // copy blog post link funciton
+  const copyURLToClipboard = () => {
+    const url = window.location.href;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        alert("URL copied to clipboard");
+      })
+      .catch((error) => {
+        console.error("Failed to copy URL:", error);
+      });
+  };
   return (
     <>
       <Head>
@@ -92,7 +104,11 @@ export default function Post({ post }: any) {
             <p>Viewed by 200+ people</p>
             <div className="flex justify-between w-full">
               <span>
-                <button className="linkBtn flex col-gap-1 bg-none border-none text-primary">
+                <button
+                  className="linkBtn flex col-gap-1 bg-none border-none text-primary"
+                  onClick={copyURLToClipboard}
+                  type="button"
+                >
                   <FaShareAlt />
                   Share
                 </button>
@@ -101,7 +117,11 @@ export default function Post({ post }: any) {
                 <a href="" className={style.iconStyle}>
                   <FiLink2 style={{ color: "#1B76B8", fontSize: "1.5rem" }} />
                 </a>
-                <a href="" className={style.iconStyle}>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=https://eshaafi.com${router?.asPath}`}
+                  className={style.iconStyle}
+                  target="_blank"
+                >
                   <FaFacebookF
                     style={{ color: "#1976D2", fontSize: "1.5rem" }}
                   />
@@ -120,7 +140,11 @@ export default function Post({ post }: any) {
                     style={{ color: "#1976D2", fontSize: "1.5rem" }}
                   />
                 </a>
-                <a href="" className={style.iconStyle}>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=https://eshaafi.com${router?.asPath}`}
+                  className={style.iconStyle}
+                  target="_blank"
+                >
                   <FaTwitter style={{ color: "#03A9F4", fontSize: "1.5rem" }} />
                 </a>
               </span>
