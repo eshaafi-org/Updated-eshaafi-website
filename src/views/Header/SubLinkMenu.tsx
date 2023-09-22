@@ -5,6 +5,7 @@ interface SubLinks {
   name: string;
   link: string;
 }
+import style from "./Header.module.scss";
 export const SubLinksModal = ({
   links,
   onClose,
@@ -14,16 +15,9 @@ export const SubLinksModal = ({
 }) => {
   return (
     <div
-      style={{
-        position: "absolute",
-        top: 0,
-        left: -30,
-        width: 180,
-        height: 300,
-        paddingTop: 60,
-        // boxShadow: "20px -20px 60px #bebebe,-20px 20px 60px #ffffff",
-      }}
+      className={style.subLinkContainer}
       onMouseLeave={onClose}
+      onClick={onClose}
     >
       <div
         className="bg-white p-1 rounded"

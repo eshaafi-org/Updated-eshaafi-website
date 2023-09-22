@@ -347,17 +347,38 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   >
                     login/sign up
                   </Button>
-                  <Link href={"tel:0423230479"} className="w-full">
-                    <Button
-                      variant="contained"
-                      className="flex col-gap-1 justify-center items-center w-full"
+                  <span className="w-full" style={{ position: "relative" }}>
+                    <button
+                      className="linkBtn flex col-gap-1 items-center w-full justify-center"
+                      onClick={() => {
+                        setHelpModel(true);
+                      }}
                     >
-                      <span className="flex col-gap-1">
-                        <FaPhone />
-                        042-3230479
-                      </span>
-                    </Button>
-                  </Link>
+                      Get help
+                      <GoTriangleDown />
+                    </button>
+                    {showHelpModel && (
+                      <SubLinksModal
+                        onClose={() => setHelpModel(false)}
+                        links={[
+                          {
+                            icon: <FaPhone style={{ fontSize: "1.5rem" }} />,
+                            link: "tel:+4733378901",
+                            name: " 042-3230479",
+                          },
+                          {
+                            icon: (
+                              <FaWhatsapp
+                                style={{ color: "green", fontSize: "1.5rem" }}
+                              />
+                            ),
+                            link: "https://wa.me/03044442188?text=hey",
+                            name: "03044442188",
+                          },
+                        ]}
+                      />
+                    )}
+                  </span>
                 </>
               )}
             </span>
