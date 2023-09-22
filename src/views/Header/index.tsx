@@ -14,6 +14,7 @@ import {
   FaBars,
   FaWallet,
   FaCartShopping,
+  FaWhatsapp,
   FaBell,
   FaUser,
   FaRegCalendarCheck,
@@ -35,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   let navbarRef = useRef(null);
   const pathName = usePathname();
   const [show, setShow] = useState<boolean>(false);
+  const [showHelpModel, setHelpModel] = useState<boolean>(false);
   const [size, setSize] = useState({
     width: 0,
     height: 0,
@@ -260,15 +262,39 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     )}
                 </>
               )}
-              <Link href={"tel:0423230479"}>
-                <Button
-                  variant="contained"
-                  className="flex col-gap-1 items-center"
+              <span style={{ position: "relative" }}>
+                <button
+                  className="linkBtn flex col-gap-1 items-center"
+                  onMouseEnter={() => {
+                    console.log("h");
+                    setHelpModel(true);
+                  }}
                 >
-                  <FaPhone />
-                  042-3230479
-                </Button>
-              </Link>
+                  Get help
+                  <GoTriangleDown />
+                </button>
+                {showHelpModel && (
+                  <SubLinksModal
+                    onClose={() => setHelpModel(false)}
+                    links={[
+                      {
+                        icon: <FaPhone style={{ fontSize: "1.5rem" }} />,
+                        link: "tel:+4733378901",
+                        name: " 042-3230479",
+                      },
+                      {
+                        icon: (
+                          <FaWhatsapp
+                            style={{ color: "green", fontSize: "1.5rem" }}
+                          />
+                        ),
+                        link: "https://wa.me/03044442188?text=hey",
+                        name: "03044442188",
+                      },
+                    ]}
+                  />
+                )}
+              </span>
             </span>
           </div>
         ) : (

@@ -1,4 +1,5 @@
 @import "./mixin";
+@import "./variables";
 .blogCont {
   width: 100%;
   display: grid;
@@ -24,14 +25,17 @@
   h2 {
     font-size: 22px;
     margin: 1rem 0;
+    color: #222 !important;
   }
   h3 {
     margin: 1rem 0;
+    color: #222 !important;
   }
   p {
     font-size: 18px;
     line-height: 35px;
     letter-spacing: 0.1px;
+    color: #222 !important;
   }
   ul {
     display: flex;
@@ -54,4 +58,14 @@
   display: flex !important;
   justify-content: center;
   align-items: center;
+}
+.authorImage {
+  // display: flex;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  // background-position: ;
+  background-size: cover;
+  // border: 1px solid $borderClr;
+  // background-size: ;
 }

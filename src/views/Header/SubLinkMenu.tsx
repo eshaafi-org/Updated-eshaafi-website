@@ -1,5 +1,7 @@
 import Link from "next/link";
+import React from "react";
 interface SubLinks {
+  icon: React.JSX.Element;
   name: string;
   link: string;
 }
@@ -14,7 +16,7 @@ export const SubLinksModal = ({
     <div
       style={{
         position: "absolute",
-        top: -30,
+        top: 0,
         left: -30,
         width: 180,
         height: 300,
@@ -30,7 +32,14 @@ export const SubLinksModal = ({
         <ul className="flex flex-col row-gap-2">
           {links.map((item, indx) => (
             <li key={indx}>
-              <Link href={item.link}>{item.name}</Link>
+              <Link
+                href={item.link}
+                className="flex items-center col-gap-1"
+                target="_blank"
+              >
+                {item.icon}
+                {item.name}
+              </Link>
             </li>
           ))}
         </ul>

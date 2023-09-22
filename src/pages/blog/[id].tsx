@@ -14,8 +14,10 @@ import {
   FaShareAlt,
 } from "react-icons/fa";
 import { FiLink2 } from "react-icons/fi";
+import moment from "moment";
 
 export default function Post({ post }: any) {
+  const baseUrl = "https://dev.d1vqn504fin2ze.amplifyapp.com";
   let router = useRouter();
   console.log(router);
   // copy blog post link funciton
@@ -29,7 +31,10 @@ export default function Post({ post }: any) {
       .catch((error) => {
         console.error("Failed to copy URL:", error);
       });
+    // console.log("hello");
   };
+  // generating random number
+  const randomNum = Math.floor(Math.random() * 1000) + 1;
   return (
     <>
       <Head>
@@ -71,15 +76,6 @@ export default function Post({ post }: any) {
         <meta name="twitter:data1" content="Abdul Rehman" />
         <meta name="twitter:label2" content="Est. reading time" />
         <meta name="twitter:data2" content="4 minutes" />
-        {/* <title>{post?.title}</title> */}
-        {/* <meta property="og:title" content={post?.title} key="title" /> */}
-        {/* <meta property="og:description" content={post?.description} /> */}
-        {/* <meta property="og:image" content={post?.url} /> */}
-        {/* <meta property="og:image" content={post.url} /> */}
-        {/* <meta
-          property="og:url"
-          content={"https://www.eshaafi.com/" + router.asPath}
-        /> */}
       </Head>
       <main>
         <section className="container">
@@ -87,6 +83,21 @@ export default function Post({ post }: any) {
             <span>
               <h2>{post?.title}</h2>
             </span>
+            <div className="flex col-gap-1 items-center">
+              <div
+                className={style.authorImage}
+                style={{
+                  background: `url(${post?.authorProfileUrl})`,
+                  backgroundPosition: "top",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }}
+              ></div>
+              <p style={{ color: "#222222" }}>
+                {post?.authorName} | {moment(post?.date).format("MMM DD, YYYY")}{" "}
+                | {post?.readTime} min read
+              </p>
+            </div>
             <div className={style.imgCont}>
               <Image
                 src={post?.url}
@@ -96,17 +107,20 @@ export default function Post({ post }: any) {
                 height={1000}
               />
             </div>
+
             <div className={style.blogContent}>
               <ReactMarkdown>{post?.description}</ReactMarkdown>
             </div>
           </div>
           <div className="w-70 flex flex-col row-gap-1">
-            <p>Viewed by 200+ people</p>
+            <p style={{ fontSize: 20, color: "#747A7A" }}>
+              Viewed by {randomNum} + people
+            </p>
             <div className="flex justify-between w-full">
               <span>
                 <button
                   className="linkBtn flex col-gap-1 bg-none border-none text-primary"
-                  onClick={copyURLToClipboard}
+                  id={baseUrl + router?.asPath}
                   type="button"
                 >
                   <FaShareAlt />
@@ -114,11 +128,16 @@ export default function Post({ post }: any) {
                 </button>
               </span>
               <span className="flex col-gap-1">
-                <a href="" className={style.iconStyle}>
+                <button
+                  onClick={copyURLToClipboard}
+                  className={style.iconStyle + " flex col-gap-1 border-none"}
+                >
                   <FiLink2 style={{ color: "#1B76B8", fontSize: "1.5rem" }} />
-                </a>
+                </button>
                 <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=https://eshaafi.com${router?.asPath}`}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${
+                    baseUrl + router?.asPath
+                  }`}
                   className={style.iconStyle}
                   target="_blank"
                 >
@@ -127,7 +146,9 @@ export default function Post({ post }: any) {
                   />
                 </a>
                 <a
-                  href={`https://api.whatsapp.com/send?text=https://eshaafi.com${router?.asPath}`}
+                  href={`https://api.whatsapp.com/send?text=${
+                    baseUrl + router?.asPath
+                  }`}
                   className={style.iconStyle}
                   target="_blank"
                 >
@@ -135,13 +156,20 @@ export default function Post({ post }: any) {
                     style={{ color: "#20B038", fontSize: "1.5rem" }}
                   />
                 </a>
-                <a href="" className={style.iconStyle}>
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${
+                    baseUrl + router?.asPath
+                  }`}
+                  className={style.iconStyle}
+                >
                   <FaLinkedinIn
                     style={{ color: "#1976D2", fontSize: "1.5rem" }}
                   />
                 </a>
                 <a
-                  href={`https://twitter.com/intent/tweet?url=https://eshaafi.com${router?.asPath}`}
+                  href={`https://twitter.com/intent/tweet?url=${
+                    baseUrl + router?.asPath
+                  }`}
                   className={style.iconStyle}
                   target="_blank"
                 >
