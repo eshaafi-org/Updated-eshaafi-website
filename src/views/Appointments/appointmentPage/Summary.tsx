@@ -25,24 +25,24 @@ export default function Summary({ summary }: any) {
           <td className="capitalize">{summary?.paymentMethod}</td>
         </tr>
       </table>
-      <span className="flex col-gap-1">
+      {/* <span className="flex col-gap-1">
         <Button
           variant="contained"
-          // onClick={() => {
-          //   if (paymentId) {
-          //     debugger;
-          //     console.log(paymentId, "hel");
-          //     handleBook(true);
-          //   } else handleBook(false);
-          // }}
+          onClick={() => {
+            if (paymentId) {
+              debugger;
+              console.log(paymentId, "hel");
+              handleBook(true);
+            } else handleBook(false);
+          }}
           className="font-bold"
-          // disabled={!appointDate || !time ? true : false}
+          disabled={!appointDate || !time ? true : false}
         >
-          {/* {loading ? "Loading..." : "Confirm Booking"} */}
+          {loading ? "Loading..." : "Confirm Booking"}
           Reschdule
         </Button>
         <Button>Cancel Booking</Button>
-      </span>
+      </span> */}
     </section>
   );
 }

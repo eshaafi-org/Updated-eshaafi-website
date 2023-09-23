@@ -230,11 +230,11 @@ const Header: React.FC<HeaderProps> = ({}) => {
                               <p>{userAuth?.phoneNo}</p>
                             </div>
                           </li>
-                          {/* <li className="p-1">
-                            <Link href={"/"}>Profile</Link>
-                          </li>
                           <li className="p-1">
                             <Link href={"/appointments"}>Appointments </Link>
+                          </li>
+                          {/* <li className="p-1">
+                            <Link href={"/"}>Profile</Link>
                           </li>
                           <li className="p-1">
                             <Link href={"/"}>Orders</Link>
@@ -420,6 +420,14 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       </Button>
                     </Link>
                   </li> */}
+                  <li className={`p-0-5 border-bottom`}>
+                    <Link href={"/"}>
+                      <Button className="flex col-gap-1 items-center">
+                        <FaRegCalendarCheck style={{ fontSize: 20 }} />
+                        <span className="text-main">Appointments</span>
+                      </Button>
+                    </Link>
+                  </li>
                 </>
               )}
               {navLinks.map((i) => {

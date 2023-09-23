@@ -5,7 +5,7 @@ import styles from "../../../styles/appointments.module.scss";
 export default function DoctorCard({ doctor }: any) {
   return (
     <div className="flex flex-col row-gap-2 border-bottom pb-2 w-full">
-      <div className="flex col-gap-2 justify-between items-start">
+      <div className="flex col-gap-2 justify-between items-start sm-row-gap-1 sm-flex-reverse">
         <div className="flex col-gap-2">
           <div className={style.imageContainer}>
             <Image
@@ -50,9 +50,11 @@ export default function DoctorCard({ doctor }: any) {
                       : doctor?.appointment_status === "unattended"
                       ? styles.statusMissed
                       : styles.statusInprogress
-                  } `}
+                  } sm-align-self-end`}
         >
-          {doctor?.appointment_status}
+          {doctor?.appointment_status === "booked"
+            ? "Upcoming"
+            : doctor?.appointment_status}
         </p>
       </div>
       <div className="flex col-gap-1 justify-between">

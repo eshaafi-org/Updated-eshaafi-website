@@ -6,7 +6,6 @@ import { BsCalendar4Week } from "react-icons/bs";
 
 import moment from "moment";
 function Card({ appointment }: { appointment: any }) {
-  console.log(appointment);
   return (
     <Link
       href={"/appointments/" + appointment.appointmentId}
@@ -22,8 +21,11 @@ function Card({ appointment }: { appointment: any }) {
               height={70}
               style={{ borderRadius: 50 }}
             />
-            <span>
-              <h5>
+            <span className="flex flex-col row-gap-0-5">
+              <h5
+                className=" font-bolder text-main capitalize"
+                style={{ fontSize: 18 }}
+              >
                 {appointment?.doctorInfo?.title +
                   " " +
                   appointment?.doctorInfo?.firstName +
@@ -54,7 +56,9 @@ function Card({ appointment }: { appointment: any }) {
                       : styles.statusInprogress
                   } `}
               >
-                {appointment?.appointment_status}
+                {appointment?.appointment_status === "booked"
+                  ? "Upcoming"
+                  : appointment?.appointment_status}
               </p>
             </span>
             <p>{appointment?.appoint_type}</p>
