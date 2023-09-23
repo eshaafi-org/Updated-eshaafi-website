@@ -279,7 +279,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     links={[
                       {
                         icon: <FaPhone style={{ fontSize: "1.5rem" }} />,
-                        link: "tel:+4733378901",
+                        link: "tel:042-3230479",
                         name: " 042-3230479",
                       },
                       {
@@ -363,7 +363,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         links={[
                           {
                             icon: <FaPhone style={{ fontSize: "1.5rem" }} />,
-                            link: "tel:+4733378901",
+                            link: "tel:042-3230479",
                             name: " 042-3230479",
                           },
                           {
@@ -372,7 +372,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                                 style={{ color: "green", fontSize: "1.5rem" }}
                               />
                             ),
-                            link: "https://wa.me/03044442188?text=hey",
+                            link: "https://wa.me/03044442188?text=I need your assistance.",
                             name: "03044442188",
                           },
                         ]}

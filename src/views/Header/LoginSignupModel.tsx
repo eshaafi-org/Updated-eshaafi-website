@@ -69,6 +69,7 @@ export const Model = ({
       .post(BASE_URL + "/auth/sendOtp", {
         phone_no: "+92" + phone_no,
         type: 1,
+        os_name: "web",
       })
       .then((res) => {
         setStates({ type: "OTP_LOADING" });
