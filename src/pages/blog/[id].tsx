@@ -17,7 +17,7 @@ import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
 
 export default function Post({ post }: any) {
-  const baseUrl = "https://dev.d1vqn504fin2ze.amplifyapp.com";
+  const baseUrl = "https://www.eshaafi.com";
   let router = useRouter();
   console.log(router);
   // copy blog post link funciton
