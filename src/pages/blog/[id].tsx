@@ -45,10 +45,7 @@ export default function Post({ post }: any) {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={post?.description} />
-        <meta
-          property="og:url"
-          content={"https://eshaafi.com" + router?.asPath}
-        />
+        <meta property="og:url" content={baseUrl + router?.asPath} />
         <meta
           property="og:site_name"
           content="Health Zone | Healthy reads on eshaafi.com"
