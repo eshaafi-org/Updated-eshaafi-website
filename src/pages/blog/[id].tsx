@@ -40,12 +40,24 @@ export default function Post({ post }: any) {
     <>
       <Head>
         <title>{post?.title}</title>
-        <meta name="description" content={post?.description} />
+        <meta name="description" content={post.description} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={post?.title} />
-        <meta property="og:description" content={post?.description} />
-        <meta property="og:url" content={baseUrl + router?.asPath} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.description} />
+        <meta property="og:url" content={baseUrl + router.asPath} />
+        <meta property="og:image" content={post.url} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="628" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta name="author" content={post.authorName} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="eshaafi.com" />
+        <meta name="twitter:site" content="eshaafi.com" />
+        <meta name="twitter:label1" content="Written by" />
+        <meta name="twitter:data1" content={post.authorName} />
+        <meta name="twitter:label2" content="Est. reading time" />
+        <meta name="twitter:data2" content={post.readTime + " minutes"} />
         <meta
           property="og:site_name"
           content="Health Zone | Healthy reads on eshaafi.com"
@@ -62,18 +74,6 @@ export default function Post({ post }: any) {
           property="article:modified_time"
           content="2023-09-11T06:16:11+00:00"
         />
-        <meta property="og:image" content={post?.url} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="628" />
-        <meta property="og:image:type" content="image/jpeg" />
-        <meta name="author" content={post?.authorName} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="eshaafi.com" />
-        <meta name="twitter:site" content="eshaafi.com" />
-        <meta name="twitter:label1" content="Written by" />
-        <meta name="twitter:data1" content={post?.authorName} />
-        <meta name="twitter:label2" content="Est. reading time" />
-        <meta name="twitter:data2" content={post?.readTime + " minutes"} />
       </Head>
       <main>
         <section className="container">
