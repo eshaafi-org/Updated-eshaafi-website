@@ -39,14 +39,16 @@ export default function Post({ post }: any) {
   return (
     <>
       <Head>
-        <meta property="og:image" content={post?.url} />
-        <meta property="og:image:alt" content={post?.title} />
         <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={post?.description} />
+        <meta property="og:image" content={post?.url} />
+        <meta property="og:image:alt" content={post?.title} />
         <meta property="og:url" content={baseUrl + router?.asPath} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="628" />
         <meta property="og:image:type" content="image/png" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="article" />
         <meta name="author" content={post?.authorName} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="eshaafi.com" />
@@ -71,46 +73,52 @@ export default function Post({ post }: any) {
           property="article:modified_time"
           content="2023-09-11T06:16:11+00:00"
         />
+        <meta property="fb:app_id" content="287697960444401"></meta>
         <title>{post?.title}</title>
+        <link rel="canonical" href={baseUrl + router.asPath} />
+
         <meta name="description" content={post?.description} />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:type" content="article" />
       </Head>
       <main>
         <section className="container">
-          <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2 w-70 sm-w-full">
-            <span>
-              <h2>{post?.title}</h2>
-            </span>
-            <div className="flex col-gap-1 items-center">
-              <div
-                className={style.authorImage}
-                style={{
-                  background: `url(${post?.authorProfileUrl})`,
-                  backgroundPosition: "top",
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                }}
-              ></div>
-              <p style={{ color: "#222222" }}>
-                {post?.authorName} | {moment(post?.date).format("MMM DD, YYYY")}{" "}
-                | {post?.readTime} min read
-              </p>
-            </div>
-            <div className={style.imgCont}>
-              <Image
-                src={post?.url}
-                alt={post?.title}
-                className={style.blogImage}
-                width={1000}
-                height={1000}
-                loading="eager"
-              />
-            </div>
+          <div className="flex">
+            <div className="w-20 bg-main">helo</div>
+            <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2 w-60 sm-w-full">
+              <span>
+                <h2>{post?.title}</h2>
+              </span>
+              <div className="flex col-gap-1 items-center">
+                <div
+                  className={style.authorImage}
+                  style={{
+                    background: `url(${post?.authorProfileUrl})`,
+                    backgroundPosition: "top",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                ></div>
+                <p style={{ color: "#222222" }}>
+                  {post?.authorName} |{" "}
+                  {moment(post?.date).format("MMM DD, YYYY")} | {post?.readTime}{" "}
+                  min read
+                </p>
+              </div>
+              <div className={style.imgCont}>
+                <Image
+                  src={post?.url}
+                  alt={post?.title}
+                  className={style.blogImage}
+                  width={1000}
+                  height={1000}
+                  loading="eager"
+                />
+              </div>
 
-            <div className={style.blogContent}>
-              <ReactMarkdown>{post?.description}</ReactMarkdown>
+              <div className={style.blogContent}>
+                <ReactMarkdown>{post?.description}</ReactMarkdown>
+              </div>
             </div>
+            <div className="w-20 bg-main">hey</div>
           </div>
           <div className="w-70 flex flex-col row-gap-1">
             <p style={{ fontSize: 20, color: "#747A7A" }}>
