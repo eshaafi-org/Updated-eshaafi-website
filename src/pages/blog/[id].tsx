@@ -40,6 +40,7 @@ export default function Post({ post }: any) {
     <>
       <Head>
         <meta property="og:image" content={post?.url} />
+        <meta property="og:image:alt" content={post?.title} />
         <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={post?.description} />
         <meta property="og:url" content={baseUrl + router?.asPath} />
