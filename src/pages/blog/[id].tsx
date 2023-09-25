@@ -82,7 +82,7 @@ export default function Post({ post }: any) {
       <main>
         <section className="container">
           <div className="flex">
-            <div className="w-20 bg-main">helo</div>
+            {/* <div className="w-20 bg-main">helo</div> */}
             <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2 w-60 sm-w-full">
               <span>
                 <h2>{post?.title}</h2>
@@ -118,7 +118,7 @@ export default function Post({ post }: any) {
                 <ReactMarkdown>{post?.description}</ReactMarkdown>
               </div>
             </div>
-            <div className="w-20 bg-main">hey</div>
+            {/* <div className="w-20 bg-main">hey</div> */}
           </div>
           <div className="w-70 flex flex-col row-gap-1">
             <p style={{ fontSize: 20, color: "#747A7A" }}>
