@@ -90,6 +90,11 @@
   width: 40%;
   position: sticky;
   top: 100px;
+  @include for-tablet-portrait-only {
+    width: 100%;
+    position: sticky;
+    bottom: 5px;
+  }
 }
 // single appointment page
 .consultationTimer {
@@ -121,5 +126,29 @@
     align-self: flex-end;
     text-transform: capitalize;
     margin-left: 1rem;
+  }
+  @include for-large-phone-only {
+    padding: 0.5rem;
+    .timer {
+      display: flex;
+      column-gap: 2rem;
+    }
+    .box {
+      display: flex;
+      color: $white;
+      p {
+        color: $white;
+      }
+    }
+    .clock {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    .unit {
+      font-size: 0.6rem;
+      align-self: flex-end;
+      text-transform: capitalize;
+      margin-left: 1rem;
+    }
   }
 }

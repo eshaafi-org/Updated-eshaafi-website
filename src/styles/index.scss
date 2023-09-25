@@ -482,11 +482,17 @@ p {
   .sm-items-start {
     align-items: start;
   }
+  .sm-align-self-end {
+    align-self: flex-end;
+  }
   .sm-justify-center {
     justify-content: center;
   }
   .sm-justify-between {
     justify-content: space-between;
+  }
+  .sm-flex-reverse {
+    flex-direction: column-reverse;
   }
   .sm-pl-1 {
     padding-left: $base-padding;
