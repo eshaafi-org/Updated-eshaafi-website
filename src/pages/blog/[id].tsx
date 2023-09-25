@@ -35,6 +35,7 @@ export default function Post({ post }: any) {
   };
   // generating random number
   const randomNum = Math.floor(Math.random() * 1000) + 1;
+  console.log(router.asPath);
   return (
     <>
       <Head>
@@ -68,14 +69,14 @@ export default function Post({ post }: any) {
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="628" />
         <meta property="og:image:type" content="image/jpeg" />
-        <meta name="author" content="Abdul Rehman" />
+        <meta name="author" content={post?.authorName} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="@oladocsays" />
-        <meta name="twitter:site" content="@oladocsays" />
+        <meta name="twitter:creator" content="eshaafi.com" />
+        <meta name="twitter:site" content="eshaafi.com" />
         <meta name="twitter:label1" content="Written by" />
-        <meta name="twitter:data1" content="Abdul Rehman" />
+        <meta name="twitter:data1" content={post?.authorName} />
         <meta name="twitter:label2" content="Est. reading time" />
-        <meta name="twitter:data2" content="4 minutes" />
+        <meta name="twitter:data2" content={post?.readTime + " minutes"} />
       </Head>
       <main>
         <section className="container">
@@ -105,6 +106,7 @@ export default function Post({ post }: any) {
                 className={style.blogImage}
                 width={1000}
                 height={1000}
+                loading="eager"
               />
             </div>
 
