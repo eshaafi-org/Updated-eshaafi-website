@@ -36,12 +36,20 @@
     line-height: 35px;
     letter-spacing: 0.1px;
     color: #222 !important;
+    a {
+      display: inline-block !important;
+      color: $primary-clr;
+      // font-weight: 500;
+    }
   }
   ul {
     display: flex;
     flex-direction: column;
+    list-style-type: disc;
     row-gap: 1rem;
+    padding-left: 1rem;
     li {
+      margin-left: 1rem;
       strong {
         font-size: 18px;
       }
