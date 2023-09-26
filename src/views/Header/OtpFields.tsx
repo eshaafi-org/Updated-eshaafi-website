@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Header.module.scss";
 // import Button from "react-bootstrap/Button";
 import Button from "@/components/Button";
@@ -13,8 +13,13 @@ interface OtpValues {
 interface OtpFieldsProps {
   verifyLoading: boolean;
   getVarified: any;
+  otpError: boolean;
 }
-const Otpinput: React.FC<OtpFieldsProps> = ({ verifyLoading, getVarified }) => {
+const Otpinput: React.FC<OtpFieldsProps> = ({
+  verifyLoading,
+  getVarified,
+  otpError,
+}) => {
   const [otpValues, setOtpValues] = useState<OtpValues>({
     otp1: "",
     otp2: "",
@@ -35,7 +40,6 @@ const Otpinput: React.FC<OtpFieldsProps> = ({ verifyLoading, getVarified }) => {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(otpValues);
     event.preventDefault();
     getVarified(otpValues);
   };
@@ -59,13 +63,14 @@ const Otpinput: React.FC<OtpFieldsProps> = ({ verifyLoading, getVarified }) => {
       }
     }
   };
-
   const numInputs = 6; // Number of OTP input fields
-
+  // useEffect(() => {
+  //   console.log("ehy");
+  // }, [otpError]);
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col row-gap-2 sm-h-70 p-1 sm-justify-between"
+      className="flex flex-col sm-h-70 p-1 sm-justify-between mb-1"
     >
       <div className="flex col-gap-1 justify-center ">
         {Array.from({ length: numInputs }, (_, index) => (
@@ -74,7 +79,7 @@ const Otpinput: React.FC<OtpFieldsProps> = ({ verifyLoading, getVarified }) => {
             name={`otp${index + 1}`}
             type="text"
             autoComplete="off"
-            className={style.otpField}
+            className={`${style.otpField} ${otpError ? style.otpError : ""}`}
             // value={otpValues[`otp${index + 1}`]}
             onChange={(e) =>
               handleChange(`otp${index + 1}` as keyof OtpValues, e)
@@ -85,7 +90,16 @@ const Otpinput: React.FC<OtpFieldsProps> = ({ verifyLoading, getVarified }) => {
           />
         ))}
       </div>
-      <Button className="" type="submit" variant="contained">
+      {otpError && (
+        <span style={{ marginTop: "1rem" }}>
+          <p
+            style={{ color: "#B00020", textAlign: "center", marginTop: "1rem" }}
+          >
+            Incorrect OTP
+          </p>
+        </span>
+      )}
+      <Button className="mt-1" type="submit" variant="contained">
         {verifyLoading ? "Verifying..." : "Continue"}
       </Button>
     </form>

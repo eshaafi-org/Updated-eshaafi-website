@@ -58,11 +58,12 @@
   display: flex !important;
   justify-content: center;
   align-items: center;
+  border-radius: 50%;
 }
 .authorImage {
   // display: flex;
-  width: 30px;
-  height: 30px;
+  min-width: 40px;
+  min-height: 40px;
   border-radius: 50%;
   // background-position: ;
   background-size: cover;

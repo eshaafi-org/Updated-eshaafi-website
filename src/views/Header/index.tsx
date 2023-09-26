@@ -42,7 +42,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
     height: 0,
   });
   const [isScrolled, setIsScrolled] = useState<boolean>(false); // State to track scrolling
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const handleOpen = useCallback(() => setShow(true), []);
@@ -94,7 +93,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
         setIsScrolled(false);
       }
     };
-
     // Attach the event listener to the window
     window.addEventListener("scroll", handleScroll);
 
@@ -265,6 +263,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
               <span style={{ position: "relative" }}>
                 <button
                   className="linkBtn flex col-gap-1 items-center"
+                  style={{ paddingRight: 8 }}
                   onMouseEnter={() => {
                     console.log("h");
                     setHelpModel(true);

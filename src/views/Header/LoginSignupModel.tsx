@@ -6,7 +6,10 @@ import Button from "@/components/Button";
 import { InputField } from "@/components/InputField";
 import { FaX, FaChevronLeft } from "react-icons/fa6";
 import Otpinput from "./OtpFields";
-
+import { Formik } from "formik";
+import * as Yup from "yup";
+import Link from "next/link";
+import { Modak } from "next/font/google";
 // reducer
 const reducer = (state: any, action: any) => {
   switch (action.type) {
@@ -14,12 +17,20 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         otpLoading: !state.otpLoading,
+        phone_no: action.payload,
       };
     }
     case "VERI_LOADING": {
       return {
         ...state,
         verifyLoading: !state.verifyLoading,
+      };
+    }
+    case "VERI_ERROR": {
+      return {
+        ...state,
+        verifyLoading: false,
+        otpError: true,
       };
     }
     case "PROFILE_LOADING": {
@@ -51,8 +62,10 @@ export const Model = ({
     otpLoading: false,
     verifyLoading: false,
     profileLoading: false,
+    otpError: false,
   });
-  const { phone_no, otpLoading, verifyLoading, profileLoading } = modelStates;
+  const { phone_no, otpLoading, verifyLoading, profileLoading, otpError } =
+    modelStates;
   const [otp, setOtp] = useState<boolean>(false);
   const [profile, setProfile] = useState<boolean>(false);
   // function for handling static window, so user can't move
@@ -61,18 +74,17 @@ export const Model = ({
     setShowModal(false);
   };
   // get otp
-  const getOtp = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const getOtp = (e: any) => {
+    // e.preventDefault();
     setStates({ type: "OTP_LOADING" });
-    console.log(phone_no);
     axios
       .post(BASE_URL + "/auth/sendOtp", {
-        phone_no: "+92" + phone_no,
+        phone_no: "+92" + e.phone_no,
         type: 1,
         os_name: "web",
       })
       .then((res) => {
-        setStates({ type: "OTP_LOADING" });
+        setStates({ type: "OTP_LOADING", payload: e.phone_no });
         setOtp(true);
       })
       .catch((err) => {
@@ -105,6 +117,7 @@ export const Model = ({
         } else setProfile(true);
       })
       .catch((err) => {
+        setStates({ type: "VERI_ERROR" });
         console.error(err);
       });
     // console.log(modelStates);
@@ -113,10 +126,10 @@ export const Model = ({
   // updating the profile
   const updateProfile = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(modelStates);
     setStates({ type: "PROFILE_LOADING" });
     const storedValue: any | null = localStorage.getItem("user");
     const uuid: any | null = storedValue ? JSON.parse(storedValue) : null;
-    console.log(uuid);
     axios
       .post(
         BASE_URL + "/patients/profile",
@@ -125,7 +138,7 @@ export const Model = ({
           name: modelStates.name,
           gender: modelStates.gender,
           dob: modelStates.dob,
-          location: "Lahore",
+          location: modelStates.location,
         },
         {
           headers: headers(),
@@ -137,7 +150,10 @@ export const Model = ({
         userAuth(uuid);
         close();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setStates({ type: "PROFILE_LOADING" });
+        console.log(err);
+      });
   };
   return (
     <div className={page === "login" ? style.loginCont : style.modalCont}>
@@ -165,32 +181,75 @@ export const Model = ({
                     password (OTP) for verification.
                   </p>
                 </span>
-                <form
-                  className="p-1 flex flex-col row-gap-1 sm-h-70 sm-justify-between"
+                <Formik
+                  initialValues={{ phone_no: "" }}
+                  validationSchema={Yup.object({
+                    phone_no: Yup.string()
+                      .max(10, "Phone number must be 10 digits")
+                      .matches(
+                        /^(30|31|32|33|34|35)\d{8}$/,
+                        "Invalid phone number format"
+                      )
+                      .required("Phone number is required*"),
+                  })}
                   onSubmit={getOtp}
                 >
-                  <span className={style.phoneNum}>
-                    <select name="country" id="">
-                      <option value="+92">+92</option>
-                    </select>
-                    <input
-                      type="number"
-                      placeholder="Phone number"
-                      className={style.phoneInput}
-                      maxLength={10}
-                      name="phone_no"
-                      value={phone_no}
-                      onChange={setStates}
-                    />
-                  </span>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    disabled={phone_no.length < 10 || phone_no.length > 10}
-                  >
-                    {otpLoading ? "Sending..." : "Continue"}
-                  </Button>
-                </form>
+                  {(formik) => (
+                    <form
+                      onSubmit={formik.handleSubmit}
+                      className="p-1 flex flex-col sm-h-70 sm-justify-between mb-1"
+                    >
+                      <div>
+                        <span className={style.phoneNum}>
+                          <select name="country" id="">
+                            <option value="+92">+92</option>
+                          </select>
+                          <input
+                            id="phone"
+                            type="number"
+                            placeholder="3000000000"
+                            className={style.phoneInput}
+                            {...formik.getFieldProps("phone_no")}
+                          />
+                        </span>
+                        {formik.touched.phone_no && formik.errors.phone_no ? (
+                          <div
+                            style={{ color: "red", fontSize: 12, marginTop: 5 }}
+                          >
+                            {formik.errors.phone_no}
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="flex flex-col">
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          className="my-1"
+                        >
+                          {otpLoading ? "Sending..." : "Continue"}
+                        </Button>
+                        <span
+                          style={{ fontSize: 11, display: "inline-block mb-1" }}
+                        >
+                          By continuing you agree to our
+                          <Link
+                            href={"/terms-and-conditions"}
+                            className="inline-block mx-0-5 text-primary"
+                          >
+                            Terms and Conditions
+                          </Link>
+                          and
+                          <Link
+                            href="/privacy-policy"
+                            className="inline-block mx-0-5 text-primary"
+                          >
+                            Privacy Policy
+                          </Link>
+                        </span>
+                      </div>
+                    </form>
+                  )}
+                </Formik>
               </>
             ) : (
               <>
@@ -216,10 +275,10 @@ export const Model = ({
                     <u className="text-primary">+92{phone_no} </u>
                   </p>
                 </span>
-
                 <Otpinput
                   verifyLoading={verifyLoading}
                   getVarified={getVarified}
+                  otpError={otpError}
                 />
               </>
             )}
@@ -264,8 +323,25 @@ export const Model = ({
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
+                <InputField
+                  placeHolder="City"
+                  type="text"
+                  name="location"
+                  onChange={setStates}
+                />
               </span>
-              <Button variant="contained" type="submit">
+              <Button
+                variant="contained"
+                type="submit"
+                disabled={
+                  modelStates.name &&
+                  modelStates.dob &&
+                  modelStates.gender &&
+                  modelStates.location
+                    ? false
+                    : true
+                }
+              >
                 {profileLoading ? "Updating..." : "Continue"}
               </Button>
             </form>
