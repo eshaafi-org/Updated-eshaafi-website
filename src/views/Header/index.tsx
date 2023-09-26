@@ -287,7 +287,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                             style={{ color: "green", fontSize: "1.5rem" }}
                           />
                         ),
-                        link: "https://wa.me/03044442188?text=hey",
+                        link: "whatsapp://send?text=I need your assistance",
                         name: "03044442188",
                       },
                     ]}
