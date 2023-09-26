@@ -80,113 +80,117 @@ export default function Post({ post }: any) {
         <meta name="description" content={post?.description} />
       </Head>
       <main>
-        <section className="container">
-          <div className="flex">
-            {/* <div className="w-20 bg-main">helo</div> */}
-            <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2 w-60 sm-w-full">
-              <span>
-                <h2>{post?.title}</h2>
-              </span>
-              <div className="flex col-gap-1 items-center">
-                <div
-                  className={style.authorImage}
-                  style={{
-                    background: `url(${post?.authorProfileUrl})`,
-                    backgroundPosition: "top",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                ></div>
-                <p style={{ color: "#222222" }}>
-                  {post?.authorName} |{" "}
-                  {moment(post?.date).format("MMM DD, YYYY")} | {post?.readTime}{" "}
-                  min read
-                </p>
-              </div>
-              <div className={style.imgCont}>
-                <img
-                  src={post?.url}
-                  alt={post?.title}
-                  className={style.blogImage}
-                  // width={1000}
-                  // height={1000}
-                  // loading="eager"
-                />
-              </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <section className="container">
+            <div className="flex">
+              {/* <div className="w-20 bg-main">helo</div> */}
+              <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2 w-60 lg-w-full">
+                <span>
+                  <h2>{post?.title}</h2>
+                </span>
+                <div className="flex col-gap-1 items-center">
+                  <div
+                    className={style.authorImage}
+                    style={{
+                      background: `url(${post?.authorProfileUrl})`,
+                      backgroundPosition: "top",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  ></div>
+                  <p style={{ color: "#222222" }}>
+                    {post?.authorName} |{" "}
+                    {moment(post?.date).format("MMM DD, YYYY")} |{" "}
+                    {post?.readTime} min read
+                  </p>
+                </div>
+                <div className={style.imgCont}>
+                  <Image
+                    src={post?.url}
+                    alt={post?.title}
+                    className={style.blogImage}
+                    width={1000}
+                    height={1000}
+                    loading="eager"
+                  />
+                </div>
 
-              <div className={style.blogContent}>
-                <ReactMarkdown>{post?.description}</ReactMarkdown>
+                <div className={style.blogContent}>
+                  <ReactMarkdown>{post?.description}</ReactMarkdown>
+                </div>
+              </div>
+              {/* <div className="w-20 bg-main">hey</div> */}
+            </div>
+            <div className="w-70 flex flex-col row-gap-1 lg-w-full">
+              <p style={{ fontSize: 20, color: "#747A7A" }}>
+                Viewed by {randomNum} + people
+              </p>
+              <div className="flex justify-between w-full">
+                <span>
+                  <button
+                    className="linkBtn flex col-gap-1 bg-none border-none text-primary"
+                    id={baseUrl + router?.asPath}
+                    type="button"
+                  >
+                    <FaShareAlt />
+                    Share
+                  </button>
+                </span>
+                <span className="flex col-gap-1 flex-wrap sm-row-gap-1">
+                  <button
+                    onClick={copyURLToClipboard}
+                    className={style.iconStyle + " flex col-gap-1 border-none"}
+                  >
+                    <FiLink2 style={{ color: "#1B76B8", fontSize: "1.5rem" }} />
+                  </button>
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${
+                      baseUrl + router?.asPath
+                    }`}
+                    className={style.iconStyle}
+                    target="_blank"
+                  >
+                    <FaFacebookF
+                      style={{ color: "#1976D2", fontSize: "1.5rem" }}
+                    />
+                  </a>
+                  <a
+                    href={`https://api.whatsapp.com/send?text=${
+                      baseUrl + router?.asPath
+                    }`}
+                    className={style.iconStyle}
+                    target="_blank"
+                  >
+                    <FaWhatsapp
+                      style={{ color: "#20B038", fontSize: "1.5rem" }}
+                    />
+                  </a>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${
+                      baseUrl + router?.asPath
+                    }`}
+                    className={style.iconStyle}
+                  >
+                    <FaLinkedinIn
+                      style={{ color: "#1976D2", fontSize: "1.5rem" }}
+                    />
+                  </a>
+                  <a
+                    href={`https://twitter.com/intent/tweet?url=${
+                      baseUrl + router?.asPath
+                    }`}
+                    className={style.iconStyle}
+                    target="_blank"
+                  >
+                    <FaTwitter
+                      style={{ color: "#03A9F4", fontSize: "1.5rem" }}
+                    />
+                  </a>
+                </span>
               </div>
             </div>
-            {/* <div className="w-20 bg-main">hey</div> */}
-          </div>
-          <div className="w-70 flex flex-col row-gap-1">
-            <p style={{ fontSize: 20, color: "#747A7A" }}>
-              Viewed by {randomNum} + people
-            </p>
-            <div className="flex justify-between w-full">
-              <span>
-                <button
-                  className="linkBtn flex col-gap-1 bg-none border-none text-primary"
-                  id={baseUrl + router?.asPath}
-                  type="button"
-                >
-                  <FaShareAlt />
-                  Share
-                </button>
-              </span>
-              <span className="flex col-gap-1">
-                <button
-                  onClick={copyURLToClipboard}
-                  className={style.iconStyle + " flex col-gap-1 border-none"}
-                >
-                  <FiLink2 style={{ color: "#1B76B8", fontSize: "1.5rem" }} />
-                </button>
-                <a
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${
-                    baseUrl + router?.asPath
-                  }`}
-                  className={style.iconStyle}
-                  target="_blank"
-                >
-                  <FaFacebookF
-                    style={{ color: "#1976D2", fontSize: "1.5rem" }}
-                  />
-                </a>
-                <a
-                  href={`https://api.whatsapp.com/send?text=${
-                    baseUrl + router?.asPath
-                  }`}
-                  className={style.iconStyle}
-                  target="_blank"
-                >
-                  <FaWhatsapp
-                    style={{ color: "#20B038", fontSize: "1.5rem" }}
-                  />
-                </a>
-                <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${
-                    baseUrl + router?.asPath
-                  }`}
-                  className={style.iconStyle}
-                >
-                  <FaLinkedinIn
-                    style={{ color: "#1976D2", fontSize: "1.5rem" }}
-                  />
-                </a>
-                <a
-                  href={`https://twitter.com/intent/tweet?url=${
-                    baseUrl + router?.asPath
-                  }`}
-                  className={style.iconStyle}
-                  target="_blank"
-                >
-                  <FaTwitter style={{ color: "#03A9F4", fontSize: "1.5rem" }} />
-                </a>
-              </span>
-            </div>
-          </div>
-        </section>
+          </section>
+        </Suspense>
       </main>
     </>
   );
