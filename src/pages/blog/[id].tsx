@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
-
+import { Suspense } from "react";
 export default function Post({ post }: any) {
   const baseUrl = "https://www.eshaafi.com";
   let router = useRouter();
@@ -104,13 +104,13 @@ export default function Post({ post }: any) {
                 </p>
               </div>
               <div className={style.imgCont}>
-                <Image
+                <img
                   src={post?.url}
                   alt={post?.title}
                   className={style.blogImage}
-                  width={1000}
-                  height={1000}
-                  loading="eager"
+                  // width={1000}
+                  // height={1000}
+                  // loading="eager"
                 />
               </div>
 
