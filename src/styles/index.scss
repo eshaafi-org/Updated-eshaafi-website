@@ -1,21 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 @import "./variables";
 @import "./mixin";
-@font-face {
-  font-family: "Roboto";
-  src: url("../../public/font/Roboto/Roboto-Regular.ttf");
-  font-weight: normal;
-}
-@font-face {
-  font-family: "Roboto";
-  src: url("../../public/font/Roboto/Roboto-Medium.ttf");
-  font-weight: medium;
-}
-@font-face {
-  font-family: "Roboto";
-  src: url("../../public/font/Roboto/Roboto-bold.ttf");
-  font-weight: bold;
-}
+
 //---------------Globals style-------------//
 :root {
   --primary-clr: 14, 84, 135;
