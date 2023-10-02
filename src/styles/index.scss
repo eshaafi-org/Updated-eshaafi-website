@@ -10,10 +10,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Roboto;
+  font-family: Roboto !important;
 }
 body {
-  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif !important;
   font-size: $base-font;
   font-weight: 400;
   color: $black;
