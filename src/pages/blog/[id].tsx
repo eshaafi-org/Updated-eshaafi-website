@@ -48,7 +48,7 @@ export default function Post({ post }: any) {
         <meta property="og:description" content={post?.description} />
         <meta property="og:image" content={post?.url} />
         <meta property="og:image:alt" content={post?.title} />
-        <meta property="og:url" content={baseUrl + "/blog/" + post.name} />
+        <meta property="og:url" content={baseUrl + "/blog/" + post?.name} />
         {/* <meta property="og:image:type" content="image/png" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
