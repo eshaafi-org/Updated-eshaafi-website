@@ -30,7 +30,7 @@ body {
 //---------------All the generic Tags-------------//
 a {
   text-decoration: none;
-  font-family: Roboto;
+  font-family: Roboto !important;
   display: block !important;
   color: $heading-clr;
   &:hover {
@@ -46,6 +46,7 @@ h4,
 h5,
 h6 {
   color: $heading-clr;
+  font-family: Roboto !important;
 }
 h1 {
   font-size: 1.1rem;
@@ -92,6 +93,7 @@ ul {
 p {
   color: $text-clr;
   margin: 0;
+  font-family: Roboto !important;
   // line-height: 24px;
   // letter-spacing: 0.1px;
 }
