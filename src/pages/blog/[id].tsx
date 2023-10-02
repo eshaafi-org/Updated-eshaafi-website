@@ -17,7 +17,7 @@ import {
 } from "react-icons/fa";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
-
+import { ResolvingMetadata } from "next";
 export default function Post({ post }: any) {
   const baseUrl = "https://beta.eshaafi.com";
   let router = useRouter();
@@ -40,16 +40,17 @@ export default function Post({ post }: any) {
   // console.log(router.asPath);
   return (
     <>
-      <Head>
-        <title>{post?.title}</title>
-        <meta name="description" content={post?.description} key={"desc"} />
-        {/* <link rel="canonical" href={baseUrl + router.asPath} /> */}
-        <meta property="og:title" content={post?.title} />
-        <meta property="og:description" content={post?.description} />
-        <meta property="og:image" content={post?.url} />
-        <meta property="og:image:alt" content={post?.title} />
-        <meta property="og:url" content={baseUrl + "/blog/" + post?.name} />
-        {/* <meta property="og:image:type" content="image/png" />
+      {post && (
+        <Head>
+          <title>{post?.title}</title>
+          <meta name="description" content={post?.description} key={"desc"} />
+          {/* <link rel="canonical" href={baseUrl + router.asPath} /> */}
+          <meta property="og:title" content={post?.title} />
+          <meta property="og:description" content={post?.description} />
+          <meta property="og:image" content={post?.url} />
+          <meta property="og:image:alt" content={post?.title} />
+          <meta property="og:url" content={baseUrl + "/blog/" + post?.name} />
+          {/* <meta property="og:image:type" content="image/png" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
         <meta name="author" content={post?.authorName} />
@@ -77,7 +78,8 @@ export default function Post({ post }: any) {
           content="2023-09-11T06:16:11+00:00"
         />
         <meta property="fb:app_id" content="287697960444401"></meta> */}
-      </Head>
+        </Head>
+      )}
       {post ? (
         <main>
           <section className="container">
