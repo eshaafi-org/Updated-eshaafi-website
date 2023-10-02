@@ -4,6 +4,17 @@
 @font-face {
   font-family: "Roboto";
   src: url("../../public/font/Roboto/Roboto-Regular.ttf");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../../public/font/Roboto/Roboto-Medium.ttf");
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Roboto";
+  src: url("../../public/font/Roboto/Roboto-bold.ttf");
+  font-weight: 600;
 }
 //---------------Globals style-------------//
 :root {
