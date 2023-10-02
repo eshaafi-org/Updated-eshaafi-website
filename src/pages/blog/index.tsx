@@ -14,7 +14,7 @@ import Head from "next/head";
 //   }
 //   return res.json();
 // }
-export default function Blogs({ positions }: any) {
+export default function Blogs({ recentBlogs }: any) {
   return (
     <>
       <Head>
@@ -27,7 +27,7 @@ export default function Blogs({ positions }: any) {
         <section className="container">
           <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2">
             <h2>Blogs</h2>
-            <BlogsList blogs={positions} link={"/blog/"} />
+            <BlogsList blogs={recentBlogs} link={"/blog/"} />
           </div>
         </section>
       </main>
@@ -39,7 +39,7 @@ export async function getStaticProps() {
   const data = await response.json();
   return {
     props: {
-      positions: data.response.Items ? data.response.Items : [],
+      recentBlogs: data.response.Items ? data.response.Items : [],
     },
     revalidate: 1,
   };

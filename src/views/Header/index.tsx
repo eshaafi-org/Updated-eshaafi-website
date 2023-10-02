@@ -1,5 +1,6 @@
 "use client";
 // dependencies
+
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,6 +27,8 @@ import { SubLinksModal } from "./SubLinkMenu";
 import { Model } from "./LoginSignupModel";
 import { createPortal } from "react-dom";
 import { BASE_URL } from "@/helper/CONST";
+// this component will render only in client,
+
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component

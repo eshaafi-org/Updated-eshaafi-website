@@ -21,7 +21,7 @@ import moment from "moment";
 export default function Post({ post }: any) {
   const baseUrl = "https://dev.d1vqn504fin2ze.amplifyapp.com";
   let router = useRouter();
-  console.log(router);
+  // console.log(router);
   // copy blog post link funciton
   const copyURLToClipboard = () => {
     const url = window.location.href;
@@ -36,19 +36,20 @@ export default function Post({ post }: any) {
     // console.log("hello");
   };
   // generating random number
-  const randomNum = Math.floor(Math.random() * 1000) + 1;
-  console.log(router.asPath);
+  // const randomNum = Math.floor(Math.random() * 1000) + 1;
+  // console.log(router.asPath);
   return (
     <>
       <Head>
+        <title>{post?.title}</title>
+        <meta name="description" content={post?.description} key={"desc"} />
+        {/* <link rel="canonical" href={baseUrl + router.asPath} /> */}
         <meta property="og:title" content={post?.title} />
         <meta property="og:description" content={post?.description} />
         <meta property="og:image" content={post?.url} />
         <meta property="og:image:alt" content={post?.title} />
         <meta property="og:url" content={baseUrl + router?.asPath} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="628" />
-        <meta property="og:image:type" content="image/png" />
+        {/* <meta property="og:image:type" content="image/png" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
         <meta name="author" content={post?.authorName} />
@@ -75,11 +76,7 @@ export default function Post({ post }: any) {
           property="article:modified_time"
           content="2023-09-11T06:16:11+00:00"
         />
-        <meta property="fb:app_id" content="287697960444401"></meta>
-        <title>{post?.title}</title>
-        <link rel="canonical" href={baseUrl + router.asPath} />
-
-        <meta name="description" content={post?.description} />
+        <meta property="fb:app_id" content="287697960444401"></meta> */}
       </Head>
       <main>
         <section className="container">
