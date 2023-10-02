@@ -1,6 +1,6 @@
 import "@/styles/index.scss";
 import type { AppProps } from "next/app";
-import Header from "@/views/Header";
+// import Header from "@/views/Header";
 import Footer from "@/views/Footer";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
