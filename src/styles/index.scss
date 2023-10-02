@@ -86,9 +86,12 @@ h5 {
 }
 ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 p {
   color: $text-clr;
+  margin: 0;
   // line-height: 24px;
   // letter-spacing: 0.1px;
 }
@@ -138,6 +141,7 @@ p {
   font-size: 1rem;
   line-height: 24px;
   letter-spacing: 0.1px;
+  margin-bottom: 0;
   @include for-large-phone-only {
     font-size: 1.1rem;
   }
@@ -358,10 +362,10 @@ p {
   display: flex !important;
 }
 .flex-col {
-  flex-direction: column;
+  flex-direction: column !important;
 }
 .grow-2 {
-  flex-grow: 2;
+  flex-grow: 2 !important;
 }
 .justify-center {
   justify-content: center;
@@ -391,31 +395,31 @@ p {
   align-items: flex-start;
 }
 .col-gap-1 {
-  column-gap: $base-unit;
+  column-gap: $base-unit !important;
 }
 .col-gap-0-5 {
-  column-gap: $base-unit/2;
+  column-gap: $base-unit/2 !important;
 }
 .row-gap-0 {
-  row-gap: $base-unit/2;
+  row-gap: $base-unit/2 !important;
 }
 .row-gap-1 {
-  row-gap: $base-unit;
+  row-gap: $base-unit !important;
 }
 .row-gap-0-5 {
-  row-gap: $base-unit/2;
+  row-gap: $base-unit/2 !important;
 }
 .flex-wrap {
-  flex-wrap: wrap;
+  flex-wrap: wrap !important;
 }
 .row-gap-2 {
-  row-gap: 2rem;
+  row-gap: 2rem !important;
 }
 .col-gap-2 {
-  column-gap: 2rem;
+  column-gap: 2rem !important;
 }
 .justify-end {
-  justify-content: flex-end;
+  justify-content: flex-end !important;
 }
 //---------------widths and heights-------------//
 .w-full {

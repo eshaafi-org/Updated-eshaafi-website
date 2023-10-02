@@ -1,9 +1,11 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import "@/styles/index.scss";
 import type { AppProps } from "next/app";
 // import Header from "@/views/Header";
 import Footer from "@/views/Footer";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+
 // rendering header as a client component
 const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
   ssr: false,

@@ -17,7 +17,6 @@ import {
 } from "react-icons/fa";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
-import Spinner from "react-bootstrap/Spinner";
 
 import { ResolvingMetadata } from "next";
 export default function Post({ post }: any) {
@@ -229,7 +228,7 @@ export default function Post({ post }: any) {
           </section>
         </main>
       ) : (
-        <Spinner animation="border" variant="primary" size="sm" />
+        <div className="container">loading...</div>
       )}
     </>
   );

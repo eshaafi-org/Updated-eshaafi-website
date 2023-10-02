@@ -23,7 +23,7 @@ export const SubLinksModal = ({
         className="bg-white p-1 rounded sm-w-full"
         style={{ width: 180, boxShadow: "2px 2px 2px 1px rgba(0, 0, 0, 0.2)" }}
       >
-        <ul className="flex flex-col row-gap-2">
+        <ul className="flex flex-col row-gap-3">
           {links.map((item, indx) => (
             <li key={indx}>
               <Link

@@ -268,7 +268,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   className="linkBtn flex col-gap-1 items-center"
                   style={{ paddingRight: 8 }}
                   onMouseEnter={() => {
-                    console.log("h");
                     setHelpModel(true);
                   }}
                 >
