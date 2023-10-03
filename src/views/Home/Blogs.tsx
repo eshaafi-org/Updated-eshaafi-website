@@ -16,7 +16,7 @@ export default function Blogs({ blogs }: { blogs: any }) {
                 Read about latest health problem and their solutions
               </p>
             </span>
-            <Link href={"/blog"} className="link">
+            <Link href={"/blog"} className="link" style={{}}>
               View All <MdKeyboardArrowRight />
             </Link>
           </div>
