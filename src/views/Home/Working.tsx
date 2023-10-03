@@ -8,8 +8,8 @@ export default function Working() {
     <section className="w-full bg-white">
       <div className="container">
         <div className="flex justify-between items-center sm-flex-col sm-row-gap-1">
-          <div className="flex flex-col row-gap-2">
-            <span className="flex flex-col row-gap-1">
+          <div className="flex flex-col row-gap-0-5">
+            <span className="flex flex-col row-gap-0-5 mb-2">
               <h3>How it works?</h3>
               <h2>Booking Appointment</h2>
             </span>
@@ -38,7 +38,7 @@ export default function Working() {
                 />
                 <p className="capitalize">Appointment Successfully Booked</p>
               </li>
-              <li className="flex col-gap-1">
+              <li className="flex col-gap-1 mt-1">
                 <Link
                   href={
                     "https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share"

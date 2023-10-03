@@ -19,7 +19,7 @@ export default function BlogCard({ blog, link }: any) {
         style={{ borderRadius: 8 }}
       />
       <h4 style={{ minHeight: 35 }}>{blog.title}</h4>
-      <p>
+      <p style={{ fontSize: 11 }}>
         {moment(blog.date).format("D MMMM, YYYY")}{" "}
         <small className={style.blogTimeCircle}>{blog.readTime} min read</small>
       </p>

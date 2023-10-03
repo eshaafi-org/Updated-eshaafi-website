@@ -7,7 +7,7 @@ import {
   FaLinkedin,
   FaSquareFacebook,
   FaYoutube,
-  FaTwitter,
+  FaXTwitter,
   FaInstagram,
   FaTiktok,
 } from "react-icons/fa6";
@@ -79,7 +79,7 @@ export const socialLinks = [
     link: "https://www.facebook.com/eShaaficare?mibextid=ZbWKwL",
   },
   {
-    icon: <FaTwitter />,
+    icon: <FaXTwitter />,
     link: "https://twitter.com/eshaafi_com",
   },
   {
