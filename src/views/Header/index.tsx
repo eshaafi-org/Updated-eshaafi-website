@@ -289,7 +289,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                             style={{ color: "green", fontSize: "1.5rem" }}
                           />
                         ),
-                        link: "whatsapp://send?text=I need your assistance",
+                        link: "https://wa.me/+923044442188",
                         name: "03044442188",
                       },
                     ]}
@@ -373,7 +373,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                                 style={{ color: "green", fontSize: "1.5rem" }}
                               />
                             ),
-                            link: "https://wa.me/03044442188?text=I need your assistance.",
+                            link: "https://wa.me/+923044442188",
                             name: "03044442188",
                           },
                         ]}
