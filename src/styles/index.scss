@@ -486,7 +486,35 @@ p {
 .pointer {
   cursor: pointer;
 }
-
+@include for-tablet-portrait-only {
+  .lg-w-full {
+    width: 100% !important;
+  }
+  .lg-flex-col {
+    flex-direction: column !important;
+  }
+  .lg-p-1 {
+    padding: $base-padding;
+  }
+  .lg-items-center {
+    align-items: center;
+  }
+  .lg-justify-center {
+    justify-content: center;
+  }
+  .lg-pl-1 {
+    padding-left: $base-padding;
+  }
+  .lg-row-gap-1 {
+    row-gap: $base-unit;
+  }
+  .lg-row-gap-2 {
+    row-gap: 2 * $base-unit;
+  }
+  .lg-d-none {
+    display: none !important;
+  }
+}
 @include for-large-phone-only {
   .sm-flex-col {
     flex-direction: column !important;
@@ -533,36 +561,11 @@ p {
   .sm-w-full {
     width: 100% !important;
   }
-}
-@include for-tablet-portrait-only {
-  .lg-w-full {
-    width: 100% !important;
-  }
-  .lg-flex-col {
-    flex-direction: column !important;
-  }
-  .lg-p-1 {
-    padding: $base-padding;
-  }
-  .lg-items-center {
-    align-items: center;
-  }
-  .lg-justify-center {
-    justify-content: center;
-  }
-  .lg-pl-1 {
-    padding-left: $base-padding;
-  }
-  .lg-row-gap-1 {
-    row-gap: $base-unit;
-  }
-  .lg-row-gap-2 {
-    row-gap: 2 * $base-unit;
-  }
-  .lg-d-none {
+  .sm-d-none {
     display: none !important;
   }
 }
+
 // scroll
 ::-webkit-scrollbar {
   width: 5px; /* Adjust the width of the scrollbar */

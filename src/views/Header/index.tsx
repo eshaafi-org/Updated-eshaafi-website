@@ -114,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
           {typeof window !== "undefined" && window.innerWidth > 1024 ? (
             <Image src={logo} alt="terafort-logo" />
           ) : (
-            <Image src={logo.src} width={87} height={25} alt="terafort-logo" />
+            <Image src={logo.src} width={100} height={30} alt="terafort-logo" />
           )}
         </Link>
         {typeof window !== "undefined" && window.innerWidth > 1050 ? (
