@@ -6,7 +6,7 @@ export default function Blogs({ positions }: any) {
   return (
     <>
       <Head>
-        <title>Health Blog's</title>
+        <title>{`Health Blog's`}</title>
       </Head>
       <main>
         <section className="container">
