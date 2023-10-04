@@ -9,7 +9,7 @@ import Otpinput from "./OtpFields";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
-import { Modak } from "next/font/google";
+
 // reducer
 const reducer = (state: any, action: any) => {
   switch (action.type) {
@@ -83,15 +83,17 @@ export const Model = ({
   // get otp
   const getOtp = (e: any) => {
     // e.preventDefault();
-    setStates({ type: "OTP_LOADING" });
+    if (e) {
+      setStates({ type: "OTP_LOADING" });
+    }
     axios
       .post(BASE_URL + "/auth/sendOtp", {
-        phone_no: "+92" + e.phone_no,
+        phone_no: `+92${e ? e.phone_no : phoneNum}`,
         type: 1,
         os_name: "web",
       })
       .then((res) => {
-        setStates({ type: "OTP_LOADING", payload: e.phone_no });
+        setStates({ type: "OTP_LOADING", payload: e ? e.phone_no : phoneNum });
         setOtp(true);
       })
       .catch((err) => {
@@ -292,6 +294,7 @@ export const Model = ({
                   getVarified={getVarified}
                   otpError={otpError}
                   setStates={setStates}
+                  getOtp={getOtp}
                 />
               </>
             )}

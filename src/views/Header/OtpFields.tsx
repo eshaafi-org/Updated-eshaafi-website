@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./Header.module.scss";
 // import Button from "react-bootstrap/Button";
 import Button from "@/components/Button";
+import Timer from "./Timer";
 interface OtpValues {
   otp1?: string;
   otp2?: string;
@@ -15,12 +16,14 @@ interface OtpFieldsProps {
   getVarified: any;
   otpError: boolean;
   setStates: any;
+  getOtp: any;
 }
 const Otpinput: React.FC<OtpFieldsProps> = ({
   verifyLoading,
   getVarified,
   otpError,
   setStates,
+  getOtp,
 }) => {
   const [otpValues, setOtpValues] = useState<OtpValues>({
     otp1: "",
@@ -77,33 +80,34 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
       onSubmit={handleSubmit}
       className="flex flex-col sm-h-70 p-1 sm-justify-between mb-1"
     >
-      <div className="flex col-gap-1 justify-center ">
-        {Array.from({ length: numInputs }, (_, index) => (
-          <input
-            key={index}
-            name={`otp${index + 1}`}
-            type="number"
-            autoComplete="off"
-            className={`${style.otpField} ${otpError ? style.otpError : ""}`}
-            value={Object.values(otpValues)[index]}
-            onChange={(e) =>
-              handleChange(`otp${index + 1}` as keyof OtpValues, e)
-            }
-            tabIndex={index + 1}
-            maxLength={1}
-            onKeyUp={inputfocus}
-          />
-        ))}
+      <div>
+        <div className="flex col-gap-1 justify-center ">
+          {Array.from({ length: numInputs }, (_, index) => (
+            <input
+              key={index}
+              name={`otp${index + 1}`}
+              type="number"
+              autoComplete="off"
+              className={`${style.otpField} ${otpError ? style.otpError : ""}`}
+              value={Object.values(otpValues)[index]}
+              onChange={(e) =>
+                handleChange(`otp${index + 1}` as keyof OtpValues, e)
+              }
+              tabIndex={index + 1}
+              maxLength={1}
+              onKeyUp={inputfocus}
+            />
+          ))}
+        </div>
+        {otpError && (
+          <span style={{ marginTop: "1rem" }}>
+            <p style={{ color: "#B00020", textAlign: "center" }}>
+              Incorrect OTP
+            </p>
+          </span>
+        )}
+        <Timer getOtp={getOtp} />
       </div>
-      {otpError && (
-        <span style={{ marginTop: "1rem" }}>
-          <p
-            style={{ color: "#B00020", textAlign: "center", marginTop: "1rem" }}
-          >
-            Incorrect OTP
-          </p>
-        </span>
-      )}
       <Button className="mt-1" type="submit" variant="contained">
         {verifyLoading ? "Verifying..." : "Continue"}
       </Button>

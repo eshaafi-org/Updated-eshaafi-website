@@ -568,6 +568,9 @@ p {
 .curser {
   cursor: pointer;
 }
+.underline {
+  text-decoration: underline;
+}
 // scroll
 ::-webkit-scrollbar {
   width: 5px; /* Adjust the width of the scrollbar */
