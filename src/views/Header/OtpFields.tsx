@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from "./Header.module.scss";
 // import Button from "react-bootstrap/Button";
 import Button from "@/components/Button";
@@ -33,7 +33,7 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
     otp5: "",
     otp6: "",
   });
-
+  const inputRef = useRef(null);
   const handleChange = (
     valueKey: keyof OtpValues,
     event: React.ChangeEvent<HTMLInputElement>
@@ -72,9 +72,9 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
     }
   };
   const numInputs = 6; // Number of OTP input fields
-  // useEffect(() => {
-  //   console.log("ehy");
-  // }, [otpError]);
+  const handleValues = () => {
+    return true;
+  };
   return (
     <form
       onSubmit={handleSubmit}
@@ -96,6 +96,8 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
               tabIndex={index + 1}
               maxLength={1}
               onKeyUp={inputfocus}
+              autoFocus={index === 0 ? true : false}
+              onFocus={(e) => e.target.select()}
             />
           ))}
         </div>
@@ -108,7 +110,21 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
         )}
         <Timer getOtp={getOtp} />
       </div>
-      <Button className="mt-1" type="submit" variant="contained">
+      <Button
+        className="mt-1"
+        type="submit"
+        variant="contained"
+        disabled={
+          otpValues.otp1 &&
+          otpValues.otp2 &&
+          otpValues.otp3 &&
+          otpValues.otp4 &&
+          otpValues.otp5 &&
+          otpValues.otp6
+            ? false
+            : true
+        }
+      >
         {verifyLoading ? "Verifying..." : "Continue"}
       </Button>
     </form>

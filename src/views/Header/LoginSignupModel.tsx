@@ -185,7 +185,12 @@ export const Model = ({
                   }`}
                 >
                   <h1>Welcome to eShaafi</h1>
-                  <p className={` ${page === "login" ? "" : "text-center"}`}>
+                  <p
+                    className={` ${
+                      page === "login" ? "" : "text-center capitalize"
+                    }`}
+                    style={{ fontSize: 14 }}
+                  >
                     Please enter your phone number, we will send you one time
                     password (OTP) for verification.
                   </p>
@@ -196,7 +201,7 @@ export const Model = ({
                     phone_no: Yup.string()
                       .max(10, "Phone number must be 10 digits")
                       .matches(
-                        /^(30|31|32|33|34|35)\d{8}$/,
+                        /^(30|31|32|33|34|35)[0-9]{8}$/,
                         "Invalid phone number format"
                       )
                       .required("Phone number is required*"),
@@ -219,9 +224,10 @@ export const Model = ({
                             placeholder="3000000000"
                             className={style.phoneInput}
                             {...formik.getFieldProps("phone_no")}
+                            onChange={formik.handleChange}
                           />
                         </span>
-                        {formik.touched.phone_no && formik.errors.phone_no ? (
+                        {formik.errors.phone_no ? (
                           <div
                             style={{ color: "red", fontSize: 12, marginTop: 5 }}
                           >
@@ -278,7 +284,12 @@ export const Model = ({
                   }`}
                 >
                   <h1>Enter OTP</h1>
-                  <p className={` ${page === "login" ? "" : "text-center"}`}>
+                  <p
+                    className={` ${
+                      page === "login" ? "" : "text-center capitalize"
+                    }`}
+                    style={{ fontSize: 14 }}
+                  >
                     Please Check your phone for 6-digit otp sent to
                     <br />
                     <u
