@@ -14,11 +14,13 @@ interface OtpFieldsProps {
   verifyLoading: boolean;
   getVarified: any;
   otpError: boolean;
+  setStates: any;
 }
 const Otpinput: React.FC<OtpFieldsProps> = ({
   verifyLoading,
   getVarified,
   otpError,
+  setStates,
 }) => {
   const [otpValues, setOtpValues] = useState<OtpValues>({
     otp1: "",
@@ -33,10 +35,13 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
     valueKey: keyof OtpValues,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setOtpValues({ ...otpValues, [valueKey]: event.target.value });
+    setOtpValues({ ...otpValues, [valueKey]: event.target.value.slice(0, 1) });
+    setStates({ type: "OTP_ERROR_FALSE" });
     if (event.target.value) {
       event.target.style.border = "2px solid #0e5487";
-    } else event.target.style.border = "2px solid #feeeee";
+    } else {
+      event.target.style.border = "2px solid #feeeee";
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -77,10 +82,10 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
           <input
             key={index}
             name={`otp${index + 1}`}
-            type="text"
+            type="number"
             autoComplete="off"
             className={`${style.otpField} ${otpError ? style.otpError : ""}`}
-            // value={otpValues[`otp${index + 1}`]}
+            value={Object.values(otpValues)[index]}
             onChange={(e) =>
               handleChange(`otp${index + 1}` as keyof OtpValues, e)
             }

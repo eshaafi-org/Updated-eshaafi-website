@@ -565,7 +565,9 @@ p {
     display: none !important;
   }
 }
-
+.curser {
+  cursor: pointer;
+}
 // scroll
 ::-webkit-scrollbar {
   width: 5px; /* Adjust the width of the scrollbar */

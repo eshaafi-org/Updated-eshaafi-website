@@ -17,7 +17,8 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         otpLoading: !state.otpLoading,
-        phone_no: action.payload,
+        phoneNum: action.payload,
+        otpError: false,
       };
     }
     case "VERI_LOADING": {
@@ -39,6 +40,12 @@ const reducer = (state: any, action: any) => {
         profileLoading: !state.profileLoading,
       };
     }
+    case "OTP_ERROR_FALSE": {
+      return {
+        ...state,
+        otpError: false,
+      };
+    }
     default: {
       return {
         ...state,
@@ -58,13 +65,13 @@ export const Model = ({
   userAuth: any;
 }) => {
   const [modelStates, setStates] = useReducer(reducer, {
-    phone_no: "",
+    phoneNum: "",
     otpLoading: false,
     verifyLoading: false,
     profileLoading: false,
     otpError: false,
   });
-  const { phone_no, otpLoading, verifyLoading, profileLoading, otpError } =
+  const { phoneNum, otpLoading, verifyLoading, profileLoading, otpError } =
     modelStates;
   const [otp, setOtp] = useState<boolean>(false);
   const [profile, setProfile] = useState<boolean>(false);
@@ -99,7 +106,7 @@ export const Model = ({
     let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
     axios
       .post(BASE_URL + "/auth/verifyOtp", {
-        phone_no: "+92" + phone_no,
+        phone_no: "+92" + phoneNum,
         code: code,
         type: 1,
       })
@@ -182,7 +189,7 @@ export const Model = ({
                   </p>
                 </span>
                 <Formik
-                  initialValues={{ phone_no: "" }}
+                  initialValues={{ phone_no: phoneNum }}
                   validationSchema={Yup.object({
                     phone_no: Yup.string()
                       .max(10, "Phone number must be 10 digits")
@@ -216,7 +223,7 @@ export const Model = ({
                           <div
                             style={{ color: "red", fontSize: 12, marginTop: 5 }}
                           >
-                            {formik.errors.phone_no}
+                            {String(formik.errors.phone_no)}
                           </div>
                         ) : null}
                       </div>
@@ -231,17 +238,17 @@ export const Model = ({
                         <span
                           style={{ fontSize: 11, display: "inline-block mb-1" }}
                         >
-                          By continuing you agree to our
+                          By continuing you agree to our{" "}
                           <Link
                             href={"/terms-and-conditions"}
-                            className="inline-block mx-0-5 text-primary"
+                            className="inline-block  text-primary"
                           >
                             Terms and Conditions
-                          </Link>
-                          and
+                          </Link>{" "}
+                          and{" "}
                           <Link
                             href="/privacy-policy"
-                            className="inline-block mx-0-5 text-primary"
+                            className="inline-block  text-primary"
                           >
                             Privacy Policy
                           </Link>
@@ -272,13 +279,19 @@ export const Model = ({
                   <p className={` ${page === "login" ? "" : "text-center"}`}>
                     Please Check your phone for 6-digit otp sent to
                     <br />
-                    <u className="text-primary">+92{phone_no} </u>
+                    <u
+                      className="text-primary curser"
+                      onClick={() => setOtp(false)}
+                    >
+                      +92{phoneNum}
+                    </u>
                   </p>
                 </span>
                 <Otpinput
                   verifyLoading={verifyLoading}
                   getVarified={getVarified}
                   otpError={otpError}
+                  setStates={setStates}
                 />
               </>
             )}

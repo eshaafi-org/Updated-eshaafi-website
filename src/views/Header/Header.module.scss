@@ -142,6 +142,11 @@
   font-size: 1.5rem;
   color: $primary-clr;
 }
+.otpField::-webkit-inner-spin-button,
+.otpField::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .otpError {
   border: 2px solid #b00020 !important;
 }
