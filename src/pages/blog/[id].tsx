@@ -123,9 +123,6 @@ export default function Post({ post }: any) {
                 {/* <div className="w-20 bg-main">hey</div> */}
               </div>
               <div className="w-70 flex flex-col row-gap-1 lg-w-full">
-                <p style={{ fontSize: 20, color: "#747A7A" }}>
-                  Viewed by {randomNum} + people
-                </p>
                 <div className="flex justify-between w-full">
                   <span>
                     <button
