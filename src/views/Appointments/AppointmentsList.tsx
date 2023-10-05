@@ -54,7 +54,7 @@ function Card({ appointment }: { appointment: any }) {
                       : appointment?.appointment_status === "unattended"
                       ? styles.statusMissed
                       : styles.statusInprogress
-                  } `}
+                  } capitalize`}
               >
                 {appointment?.appointment_status === "booked"
                   ? "Upcoming"
@@ -83,7 +83,15 @@ function Card({ appointment }: { appointment: any }) {
     </Link>
   );
 }
-export default function AppointmentsList({ list = [] }: { list: any }) {
+export default function AppointmentsList({
+  list = [],
+  type,
+  loading,
+}: {
+  list: any;
+  loading: boolean;
+  type: string;
+}) {
   return (
     <>
       {list.length > 0 ? (
@@ -100,7 +108,7 @@ export default function AppointmentsList({ list = [] }: { list: any }) {
           ))}
         </ul>
       ) : (
-        <p>No previous Appointments</p>
+        <p>No {type === "past" ? "previous" : "Upcoming"} Appointments</p>
       )}
     </>
   );

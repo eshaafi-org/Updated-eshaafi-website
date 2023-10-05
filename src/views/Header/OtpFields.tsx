@@ -76,10 +76,7 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
     return true;
   };
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col sm-h-70 p-1 sm-justify-between mb-1"
-    >
+    <form onSubmit={handleSubmit} className="flex flex-col sm-h-70 p-1  mb-1">
       <div>
         <div className="flex col-gap-1 justify-center ">
           {Array.from({ length: numInputs }, (_, index) => (
@@ -111,7 +108,7 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
         <Timer getOtp={getOtp} />
       </div>
       <Button
-        className="mt-1"
+        className="mt-1 sm-mt-10"
         type="submit"
         variant="contained"
         disabled={

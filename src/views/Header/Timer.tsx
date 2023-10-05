@@ -47,7 +47,7 @@ export default function Timer({ getOtp }: any) {
           className="d-flex w-100 justify-content-center align-items-center flex-column mt-3"
         >
           <span className="d-flex align-items-center">
-            <p className="m-0">{`Didn't Reciev Code?`}</p>
+            <p className="m-0">{`Didn't Recieve Code?`}</p>
             <Button
               className="underline"
               onClick={() => {

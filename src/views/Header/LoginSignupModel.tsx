@@ -1,4 +1,4 @@
-import { useReducer, useState, FormEvent } from "react";
+import { useReducer, useState, FormEvent, useRef } from "react";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import style from "./Header.module.scss";
@@ -9,14 +9,23 @@ import Otpinput from "./OtpFields";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
+import inputField from "@/components/InputField/Input.module.scss";
 
 // reducer
 const reducer = (state: any, action: any) => {
   switch (action.type) {
-    case "OTP_LOADING": {
+    case "OTP_LOADING_TRUE": {
       return {
         ...state,
-        otpLoading: !state.otpLoading,
+        otpLoading: true,
+        phoneNum: action.payload,
+        otpError: false,
+      };
+    }
+    case "OTP_LOADING_FALSE": {
+      return {
+        ...state,
+        otpLoading: false,
         phoneNum: action.payload,
         otpError: false,
       };
@@ -64,6 +73,7 @@ export const Model = ({
   setShowModal: any;
   userAuth: any;
 }) => {
+  const myInputRef = useRef<HTMLInputElement | null>(null);
   const [modelStates, setStates] = useReducer(reducer, {
     phoneNum: "",
     otpLoading: false,
@@ -84,7 +94,7 @@ export const Model = ({
   const getOtp = (e: any) => {
     // e.preventDefault();
     if (e) {
-      setStates({ type: "OTP_LOADING" });
+      setStates({ type: "OTP_LOADING_TRUE" });
     }
     axios
       .post(BASE_URL + "/auth/sendOtp", {
@@ -93,11 +103,16 @@ export const Model = ({
         os_name: "web",
       })
       .then((res) => {
-        setStates({ type: "OTP_LOADING", payload: e ? e.phone_no : phoneNum });
-        setOtp(true);
+        setStates({
+          type: "OTP_LOADING_FALSE",
+          payload: e ? e.phone_no : phoneNum,
+        });
+        if (e) {
+          setOtp(true);
+        }
       })
       .catch((err) => {
-        setStates({ type: "OTP_LOADING" });
+        setStates({ type: "OTP_LOADING_FALSE" });
         console.error(err);
       });
   };
@@ -155,14 +170,26 @@ export const Model = ({
       )
       .then((res) => {
         setStates({ type: "PROFILE_LOADING" });
-        console.log(res);
         userAuth(uuid);
         close();
       })
       .catch((err) => {
         setStates({ type: "PROFILE_LOADING" });
-        console.log(err);
       });
+  };
+
+  const onFocusHandler = () => {
+    const inputRef = myInputRef.current;
+    if (inputRef) {
+      inputRef.type = "date";
+    }
+  };
+
+  const onBlurHandler = () => {
+    const inputRef = myInputRef.current;
+    if (inputRef) {
+      inputRef.type = "text";
+    }
   };
   return (
     <div className={page === "login" ? style.loginCont : style.modalCont}>
@@ -201,7 +228,7 @@ export const Model = ({
                     phone_no: Yup.string()
                       .max(10, "Phone number must be 10 digits")
                       .matches(
-                        /^(30|31|32|33|34|35)[0-9]{8}$/,
+                        /^(3|[3][0-5])[0-9]*$/,
                         "Invalid phone number format"
                       )
                       .required("Phone number is required*"),
@@ -211,7 +238,7 @@ export const Model = ({
                   {(formik) => (
                     <form
                       onSubmit={formik.handleSubmit}
-                      className="p-1 flex flex-col sm-h-70 sm-justify-between mb-1"
+                      className="p-1 flex flex-col sm-h-70 mb-1"
                     >
                       <div>
                         <span className={style.phoneNum}>
@@ -239,7 +266,7 @@ export const Model = ({
                         <Button
                           type="submit"
                           variant="contained"
-                          className="my-1"
+                          className="my-1 sm-mt-10"
                         >
                           {otpLoading ? "Sending..." : "Continue"}
                         </Button>
@@ -320,7 +347,12 @@ export const Model = ({
             </span>
             <span className="flex flex-col items-center p-1 row-gap-1">
               <h1>Welcome to eShaafi</h1>
-              <p className={` ${page === "login" ? "" : "text-center"}`}>
+              <p
+                className={` ${
+                  page === "login" ? "" : "text-center capitalize"
+                }`}
+                style={{ fontSize: 14 }}
+              >
                 We will use this information for booking video consultation
               </p>
             </span>
@@ -334,19 +366,24 @@ export const Model = ({
                   name="name"
                   onChange={setStates}
                 />
-                <InputField
-                  placeHolder="Date of birth"
-                  type="date"
+                <input
+                  ref={myInputRef}
+                  placeholder="Date of birth"
+                  type="text"
                   name="dob"
+                  className={inputField.inputField}
                   onChange={setStates}
+                  onFocus={onFocusHandler}
+                  onBlur={onBlurHandler}
                 />
                 <select
                   name="gender"
                   id=""
                   className={style.selectOpt}
                   onChange={setStates}
+                  placeholder="Gender"
                 >
-                  <option value="">--</option>
+                  <option value="">Select Gender</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
