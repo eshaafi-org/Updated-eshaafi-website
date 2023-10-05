@@ -154,6 +154,7 @@ export default function Post({ post }: any) {
                         href={`https://www.linkedin.com/sharing/share-offsite/?url=${
                           baseUrl + router?.asPath
                         }`}
+                        target="_blank"
                         className={style.iconStyle}
                       >
                         <FaLinkedinIn

@@ -220,7 +220,7 @@ export default function Profile({ doctor }: any) {
                     {/* <td>{appointDate}</td> */}
                   </tr>
                   <tr>
-                    <th>Availabilty</th>
+                    <th>Availability</th>
                     <td>{doctor?.isOnline ? <p>Online</p> : <p>Offline</p>}</td>
                   </tr>
                 </table>
