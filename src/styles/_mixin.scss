@@ -1,0 +1,53 @@
+@import "./breakingPoints";
+// smal mobile is 320px
+@mixin for-small-phone-only {
+  @media (max-width: $smallMobile) {
+    @content;
+  }
+}
+// mediam phoe is 375px
+@mixin for-mediam-phone-only {
+  @media (max-width: $mediamMobile) {
+    @content;
+  }
+}
+// large phone is 500px
+@mixin for-large-phone-only {
+  @media (max-width: $largeMobile) {
+    @content;
+  }
+}
+// landscap mobile is starting from 540px
+@mixin for-mobile-landscape-up {
+  @media (max-width: $verticalmobile) {
+    @content;
+  }
+}
+// tablet screen start from 768px
+@mixin for-large-tablet-portrait-up {
+  @media (max-width: $tablet) {
+    @content;
+  }
+}
+// laptop screen and tablet landscape start from 1024px
+@mixin for-tablet-portrait-only {
+  @media (max-width: $laptop) {
+    @content;
+  }
+}
+// uptil 1024px style is
+@mixin for-and-above-laptop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+// @mixin for-large-laptop-up {
+//   @media (max-width: 1600px) {
+//     @content;
+//   }
+// }
+// @mixin for-big-desktop-up {
+//   @media (min-width: 1800px) {
+//     @content;
+//   }
+// }
