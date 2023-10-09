@@ -12,7 +12,7 @@ export default function DoctorList({ list }: { list: any }) {
       <h2 className={style.docPageHeading}>
         Book video consultation with the best doctors
       </h2>
-      <div className="d-flex col-gap-1 align-items-star mt-5">
+      <div className="d-flex col-gap-1 align-items-star mt-5 sm-mt-1">
         <ul className={style.docList}>
           {list.map((itm: any, indx: string) => (
             <li
