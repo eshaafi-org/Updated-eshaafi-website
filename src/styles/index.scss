@@ -10,10 +10,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Roboto;
+  font-family: Roboto !important;
 }
 body {
-  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif !important;
   font-size: $base-font;
   font-weight: 400;
   color: $black;
@@ -30,7 +30,7 @@ body {
 //---------------All the generic Tags-------------//
 a {
   text-decoration: none;
-  font-family: Roboto;
+  font-family: Roboto !important;
   display: block !important;
   color: $heading-clr;
   &:hover {
@@ -46,6 +46,8 @@ h4,
 h5,
 h6 {
   color: $heading-clr;
+  font-family: Roboto !important;
+  margin-bottom: 0 !important;
 }
 h1 {
   font-size: 1.1rem;
@@ -86,9 +88,13 @@ h5 {
 }
 ul {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 p {
   color: $text-clr;
+  margin: 0;
+  font-family: Roboto !important;
   // line-height: 24px;
   // letter-spacing: 0.1px;
 }
@@ -138,6 +144,7 @@ p {
   font-size: 1rem;
   line-height: 24px;
   letter-spacing: 0.1px;
+  margin-bottom: 0;
   @include for-large-phone-only {
     font-size: 1.1rem;
   }
@@ -254,103 +261,114 @@ p {
 
 //---------------Paddings-------------//
 .p-4 {
-  padding: 4rem;
+  padding: 4rem !important;
 }
 .pb-1 {
-  padding-bottom: 1rem;
+  padding-bottom: 1rem !important;
 }
 .pt-1 {
-  padding-top: 1rem;
+  padding-top: 1rem !important;
+}
+.pt-2 {
+  padding-top: 2rem !important;
 }
 .pt-0 {
   padding-top: 0rem !important;
 }
 .pb-2 {
-  padding-bottom: 2rem;
+  padding-bottom: 2rem !important;
 }
 .p-1 {
   padding: $base-padding !important;
 }
 .p-2 {
-  padding: 2rem;
+  padding: 2rem !important;
   @include for-large-phone-only {
     padding: $base-padding;
-    margin-top: 1rem;
+    margin-top: 1rem !important;
   }
 }
 .py-1 {
-  padding-bottom: $base-padding;
-  padding-top: $base-padding;
+  padding-bottom: $base-padding !important;
+  padding-top: $base-padding !important;
 }
 .px-1 {
-  padding-right: $base-padding;
-  padding-left: $base-padding;
+  padding-right: $base-padding !important;
+  padding-left: $base-padding !important;
 }
 .px-2 {
-  padding-right: 2rem;
-  padding-left: 2rem;
+  padding-right: 2rem !important;
+  padding-left: 2rem !important;
 }
 .pl-1 {
-  padding-left: 1rem;
+  padding-left: 1rem !important;
 }
 .p-0-5 {
-  padding: 0.5rem;
+  padding: 0.5rem !important;
 }
 .p-1-5 {
-  padding: 1.5rem;
+  padding: 1.5rem !important;
 }
 .pb-0 {
   padding-bottom: 0 !important;
 }
 //---------------Margins-------------//
 .m-1 {
-  margin: $base-margin;
+  margin: $base-margin !important;
 }
 .m-0-5 {
-  margin: $base-margin/2;
+  margin: $base-margin/2 !important;
 }
 .my-1 {
-  margin-bottom: $base-margin;
-  margin-top: $base-margin;
+  margin-bottom: $base-margin !important;
+  margin-top: $base-margin !important;
 }
 .my-2 {
-  margin-bottom: 2 * $base-margin;
-  margin-top: 2 * $base-margin;
+  margin-bottom: 2 * $base-margin !important;
+  margin-top: 2 * $base-margin !important;
 }
 .mx-1 {
-  margin-right: $base-margin;
-  margin-left: $base-margin;
+  margin-right: $base-margin !important;
+  margin-left: $base-margin !important;
+}
+.mx-0-5 {
+  margin-right: $base-margin/2 !important;
+  margin-left: $base-margin/2 !important;
 }
 .ml-1 {
-  margin-left: 1rem;
+  margin-left: 1rem !important;
 }
 .mr-1 {
-  margin-right: 1rem;
+  margin-right: 1rem !important;
 }
 .mt-1 {
-  margin-top: 1rem;
+  margin-top: 1rem !important;
 }
 .mb-1 {
   margin-bottom: 1rem !important;
 }
 .mb-2 {
-  margin-bottom: 2rem;
+  margin-bottom: 2rem !important;
 }
 .mb-0-5 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem !important;
+}
+.m-auto {
+  margin: 0 auto !important;
 }
 //---------------display flex-------------//
 .inline-block {
   display: inline-block !important;
 }
+
 .flex {
   display: flex !important;
 }
 .flex-col {
-  flex-direction: column;
+  flex-direction: column !important;
 }
 .grow-2 {
-  flex-grow: 2;
+  flex-grow: 2 !important;
 }
 .justify-center {
   justify-content: center;
@@ -370,6 +388,9 @@ p {
 .align-self-end {
   align-self: flex-end;
 }
+.align-self-start {
+  align-self: flex-start;
+}
 .items-base {
   align-items: baseline;
 }
@@ -377,28 +398,31 @@ p {
   align-items: flex-start;
 }
 .col-gap-1 {
-  column-gap: $base-unit;
+  column-gap: $base-unit !important;
+}
+.col-gap-0-5 {
+  column-gap: $base-unit/2 !important;
 }
 .row-gap-0 {
-  row-gap: $base-unit/2;
+  row-gap: $base-unit/2 !important;
 }
 .row-gap-1 {
-  row-gap: $base-unit;
+  row-gap: $base-unit !important;
 }
 .row-gap-0-5 {
-  row-gap: $base-unit/2;
+  row-gap: $base-unit/2 !important;
 }
 .flex-wrap {
-  flex-wrap: wrap;
+  flex-wrap: wrap !important;
 }
 .row-gap-2 {
-  row-gap: 2rem;
+  row-gap: 2rem !important;
 }
 .col-gap-2 {
-  column-gap: 2rem;
+  column-gap: 2rem !important;
 }
 .justify-end {
-  justify-content: flex-end;
+  justify-content: flex-end !important;
 }
 //---------------widths and heights-------------//
 .w-full {
@@ -462,7 +486,35 @@ p {
 .pointer {
   cursor: pointer;
 }
-
+@include for-tablet-portrait-only {
+  .lg-w-full {
+    width: 100% !important;
+  }
+  .lg-flex-col {
+    flex-direction: column !important;
+  }
+  .lg-p-1 {
+    padding: $base-padding;
+  }
+  .lg-items-center {
+    align-items: center;
+  }
+  .lg-justify-center {
+    justify-content: center;
+  }
+  .lg-pl-1 {
+    padding-left: $base-padding;
+  }
+  .lg-row-gap-1 {
+    row-gap: $base-unit;
+  }
+  .lg-row-gap-2 {
+    row-gap: 2 * $base-unit;
+  }
+  .lg-d-none {
+    display: none !important;
+  }
+}
 @include for-large-phone-only {
   .sm-flex-col {
     flex-direction: column !important;
@@ -509,35 +561,18 @@ p {
   .sm-w-full {
     width: 100% !important;
   }
-}
-@include for-tablet-portrait-only {
-  .lg-w-full {
-    width: 100% !important;
-  }
-  .lg-flex-col {
-    flex-direction: column !important;
-  }
-  .lg-p-1 {
-    padding: $base-padding;
-  }
-  .lg-items-center {
-    align-items: center;
-  }
-  .lg-justify-center {
-    justify-content: center;
-  }
-  .lg-pl-1 {
-    padding-left: $base-padding;
-  }
-  .lg-row-gap-1 {
-    row-gap: $base-unit;
-  }
-  .lg-row-gap-2 {
-    row-gap: 2 * $base-unit;
-  }
-  .lg-d-none {
+  .sm-d-none {
     display: none !important;
   }
+  .sm-mt-10 {
+    margin-top: 10rem !important;
+  }
+}
+.curser {
+  cursor: pointer;
+}
+.underline {
+  text-decoration: underline;
 }
 // scroll
 ::-webkit-scrollbar {

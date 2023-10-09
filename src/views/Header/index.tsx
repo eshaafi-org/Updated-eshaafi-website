@@ -1,5 +1,6 @@
 "use client";
 // dependencies
+
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,6 +27,8 @@ import { SubLinksModal } from "./SubLinkMenu";
 import { Model } from "./LoginSignupModel";
 import { createPortal } from "react-dom";
 import { BASE_URL } from "@/helper/CONST";
+// this component will render only in client,
+
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component
@@ -42,11 +45,16 @@ const Header: React.FC<HeaderProps> = ({}) => {
     height: 0,
   });
   const [isScrolled, setIsScrolled] = useState<boolean>(false); // State to track scrolling
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
-  const handleOpen = useCallback(() => setShow(true), []);
-  const handleClose = useCallback(() => setShow(false), []);
+  const handleOpen = useCallback(() => {
+    setShow(true);
+    document.body.style.overflow = "hidden";
+  }, []);
+  const handleClose = useCallback(() => {
+    setShow(false);
+    document.body.style.overflow = "auto";
+  }, []);
   // handling resize
   useEffect(() => {
     const handleResize = () => {
@@ -94,7 +102,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
         setIsScrolled(false);
       }
     };
-
     // Attach the event listener to the window
     window.addEventListener("scroll", handleScroll);
 
@@ -113,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
           {typeof window !== "undefined" && window.innerWidth > 1024 ? (
             <Image src={logo} alt="terafort-logo" />
           ) : (
-            <Image src={logo.src} width={87} height={25} alt="terafort-logo" />
+            <Image src={logo.src} width={100} height={30} alt="terafort-logo" />
           )}
         </Link>
         {typeof window !== "undefined" && window.innerWidth > 1050 ? (
@@ -223,17 +230,18 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         className={style.profileModal}
                         onClick={() => setShowProfile(false)}
                       >
-                        <ul className={style.profileLinks}>
-                          <li className="border-bottom p-1 pb-0">
-                            <div className="flex flex-col">
-                              <h4>{userAuth?.name}</h4>
-                              <p>{userAuth?.phoneNo}</p>
-                            </div>
-                          </li>
-                          <li className="p-1">
-                            <Link href={"/appointments"}>Appointments </Link>
-                          </li>
-                          {/* <li className="p-1">
+                        <div className="container position-relative">
+                          <ul className={style.profileLinks}>
+                            <li className="border-bottom p-1 pb-0">
+                              <div className="flex flex-col">
+                                <h4>{userAuth?.name}</h4>
+                                <p>{userAuth?.phoneNo}</p>
+                              </div>
+                            </li>
+                            <li className="p-1">
+                              <Link href={"/appointments"}>Appointments </Link>
+                            </li>
+                            {/* <li className="p-1">
                             <Link href={"/"}>Profile</Link>
                           </li>
                           <li className="p-1">
@@ -245,18 +253,21 @@ const Header: React.FC<HeaderProps> = ({}) => {
                           <li className="p-1">
                             <Link href={"/"}>Medical Records</Link>
                           </li> */}
-                          <li className="p-1">
-                            <Link href={"/privacy-policy"}>Privacy Policy</Link>
-                          </li>
-                          <li className="border-top p-1">
-                            <Button
-                              onClick={logout}
-                              className="w-full text-left"
-                            >
-                              Logout
-                            </Button>
-                          </li>
-                        </ul>
+                            <li className="p-1">
+                              <Link href={"/privacy-policy"}>
+                                Privacy Policy
+                              </Link>
+                            </li>
+                            <li className="border-top p-1">
+                              <Button
+                                onClick={logout}
+                                className="w-full text-left"
+                              >
+                                Logout
+                              </Button>
+                            </li>
+                          </ul>
+                        </div>
                       </div>,
                       document.body
                     )}
@@ -265,8 +276,8 @@ const Header: React.FC<HeaderProps> = ({}) => {
               <span style={{ position: "relative" }}>
                 <button
                   className="linkBtn flex col-gap-1 items-center"
+                  style={{ paddingRight: 8 }}
                   onMouseEnter={() => {
-                    console.log("h");
                     setHelpModel(true);
                   }}
                 >
@@ -288,7 +299,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                             style={{ color: "green", fontSize: "1.5rem" }}
                           />
                         ),
-                        link: "https://wa.me/03044442188?text=hey",
+                        link: "https://wa.me/+923044442188",
                         name: "03044442188",
                       },
                     ]}
@@ -347,43 +358,43 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   >
                     login/sign up
                   </Button>
-                  <span className="w-full" style={{ position: "relative" }}>
-                    <button
-                      className="linkBtn flex col-gap-1 items-center w-full justify-center"
-                      onClick={() => {
-                        setHelpModel(true);
-                      }}
-                    >
-                      Get help
-                      <GoTriangleDown />
-                    </button>
-                    {showHelpModel && (
-                      <SubLinksModal
-                        onClose={() => setHelpModel(false)}
-                        links={[
-                          {
-                            icon: <FaPhone style={{ fontSize: "1.5rem" }} />,
-                            link: "tel:042-3230479",
-                            name: " 042-3230479",
-                          },
-                          {
-                            icon: (
-                              <FaWhatsapp
-                                style={{ color: "green", fontSize: "1.5rem" }}
-                              />
-                            ),
-                            link: "https://wa.me/03044442188?text=I need your assistance.",
-                            name: "03044442188",
-                          },
-                        ]}
-                      />
-                    )}
-                  </span>
                 </>
               )}
+              <span className="w-full" style={{ position: "relative" }}>
+                <button
+                  className="linkBtn flex col-gap-1 items-center w-full justify-center"
+                  onClick={() => {
+                    setHelpModel(true);
+                  }}
+                >
+                  Get help
+                  <GoTriangleDown />
+                </button>
+                {showHelpModel && (
+                  <SubLinksModal
+                    onClose={() => setHelpModel(false)}
+                    links={[
+                      {
+                        icon: <FaPhone style={{ fontSize: "1.5rem" }} />,
+                        link: "tel:042-3230479",
+                        name: " 042-3230479",
+                      },
+                      {
+                        icon: (
+                          <FaWhatsapp
+                            style={{ color: "green", fontSize: "1.5rem" }}
+                          />
+                        ),
+                        link: "https://wa.me/+923044442188",
+                        name: "03044442188",
+                      },
+                    ]}
+                  />
+                )}
+              </span>
             </span>
             <ul className="flex flex-col mt-1 ">
-              {!userAuth?.url || (
+              {!userAuth?.uuid || (
                 <>
                   {/* <li className={`p-0-5 border-bottom`}>
                     <Link href={"/"}>
@@ -421,7 +432,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     </Link>
                   </li> */}
                   <li className={`p-0-5 border-bottom`}>
-                    <Link href={"/"}>
+                    <Link href={"/appointments"} onClick={handleClose}>
                       <Button className="flex col-gap-1 items-center">
                         <FaRegCalendarCheck style={{ fontSize: 20 }} />
                         <span className="text-main">Appointments</span>
@@ -495,7 +506,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   );
                 }
               })}
-              {userAuth?.name && (
+              {userAuth?.uuid && (
                 <li className="p-0-5">
                   <Button
                     className="flex col-gap-1 items-center"

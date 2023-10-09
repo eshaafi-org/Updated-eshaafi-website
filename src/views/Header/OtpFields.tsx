@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from "./Header.module.scss";
 // import Button from "react-bootstrap/Button";
 import Button from "@/components/Button";
+import Timer from "./Timer";
 interface OtpValues {
   otp1?: string;
   otp2?: string;
@@ -13,8 +14,17 @@ interface OtpValues {
 interface OtpFieldsProps {
   verifyLoading: boolean;
   getVarified: any;
+  otpError: boolean;
+  setStates: any;
+  getOtp: any;
 }
-const Otpinput: React.FC<OtpFieldsProps> = ({ verifyLoading, getVarified }) => {
+const Otpinput: React.FC<OtpFieldsProps> = ({
+  verifyLoading,
+  getVarified,
+  otpError,
+  setStates,
+  getOtp,
+}) => {
   const [otpValues, setOtpValues] = useState<OtpValues>({
     otp1: "",
     otp2: "",
@@ -23,19 +33,21 @@ const Otpinput: React.FC<OtpFieldsProps> = ({ verifyLoading, getVarified }) => {
     otp5: "",
     otp6: "",
   });
-
+  const inputRef = useRef(null);
   const handleChange = (
     valueKey: keyof OtpValues,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setOtpValues({ ...otpValues, [valueKey]: event.target.value });
+    setOtpValues({ ...otpValues, [valueKey]: event.target.value.slice(0, 1) });
+    setStates({ type: "OTP_ERROR_FALSE" });
     if (event.target.value) {
       event.target.style.border = "2px solid #0e5487";
-    } else event.target.style.border = "2px solid #feeeee";
+    } else {
+      event.target.style.border = "2px solid #feeeee";
+    }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log(otpValues);
     event.preventDefault();
     getVarified(otpValues);
   };
@@ -59,33 +71,57 @@ const Otpinput: React.FC<OtpFieldsProps> = ({ verifyLoading, getVarified }) => {
       }
     }
   };
-
   const numInputs = 6; // Number of OTP input fields
-
+  const handleValues = () => {
+    return true;
+  };
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col row-gap-2 sm-h-70 p-1 sm-justify-between"
-    >
-      <div className="flex col-gap-1 justify-center ">
-        {Array.from({ length: numInputs }, (_, index) => (
-          <input
-            key={index}
-            name={`otp${index + 1}`}
-            type="text"
-            autoComplete="off"
-            className={style.otpField}
-            // value={otpValues[`otp${index + 1}`]}
-            onChange={(e) =>
-              handleChange(`otp${index + 1}` as keyof OtpValues, e)
-            }
-            tabIndex={index + 1}
-            maxLength={1}
-            onKeyUp={inputfocus}
-          />
-        ))}
+    <form onSubmit={handleSubmit} className="flex flex-col sm-h-70 p-1  mb-1">
+      <div>
+        <div className="flex col-gap-1 justify-center ">
+          {Array.from({ length: numInputs }, (_, index) => (
+            <input
+              key={index}
+              name={`otp${index + 1}`}
+              type="number"
+              autoComplete="off"
+              className={`${style.otpField} ${otpError ? style.otpError : ""}`}
+              value={Object.values(otpValues)[index]}
+              onChange={(e) =>
+                handleChange(`otp${index + 1}` as keyof OtpValues, e)
+              }
+              tabIndex={index + 1}
+              maxLength={1}
+              onKeyUp={inputfocus}
+              autoFocus={index === 0 ? true : false}
+              onFocus={(e) => e.target.select()}
+            />
+          ))}
+        </div>
+        {otpError && (
+          <span style={{ marginTop: "1rem" }}>
+            <p style={{ color: "#B00020", textAlign: "center" }}>
+              Incorrect OTP
+            </p>
+          </span>
+        )}
+        <Timer getOtp={getOtp} />
       </div>
-      <Button className="" type="submit" variant="contained">
+      <Button
+        className="mt-1 sm-mt-10"
+        type="submit"
+        variant="contained"
+        disabled={
+          otpValues.otp1 &&
+          otpValues.otp2 &&
+          otpValues.otp3 &&
+          otpValues.otp4 &&
+          otpValues.otp5 &&
+          otpValues.otp6
+            ? false
+            : true
+        }
+      >
         {verifyLoading ? "Verifying..." : "Continue"}
       </Button>
     </form>

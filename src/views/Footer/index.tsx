@@ -16,8 +16,8 @@ const Footer: React.FC<FooterProps> = () => {
     <footer className={styles.footer}>
       <section className={styles.footerCont + " " + "container"}>
         <div className={styles.linksCont}>
-          <div className={styles.intro + " " + "flex row-gap-1 flex-col"}>
-            <p className={"font-3 text-primary"}>eShaafi</p>
+          <div className={styles.intro + " " + "flex row-gap-0-5 flex-col"}>
+            <p className={"font-3 text-primary font-bolder"}>eShaafi</p>
             <p className="line-height-1">
               Book video appointment with our in house doctors anytime and
               receive e-prescription every consultation
@@ -65,7 +65,7 @@ const Footer: React.FC<FooterProps> = () => {
           {supportsList.map((itm, indx) => (
             <li key={indx} className={`flex col-gap-1 items-center  py-1`}>
               <Image src={itm.icon} width={40} height={40} alt={itm.text} />
-              <p className="text-2 font-bold">{itm.text}</p>
+              <p className="text-2 font-bolder text-main">{itm.text}</p>
             </li>
           ))}
         </ul>

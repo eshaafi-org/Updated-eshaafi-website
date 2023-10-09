@@ -2,10 +2,11 @@ import moment from "moment";
 import Image from "next/image";
 import Link from "next/link";
 import style from "./blogCard.module.scss";
+// global blog card
 export default function BlogCard({ blog, link }: any) {
   return (
     <Link
-      className="flex flex-col row-gap-0"
+      className={`flex flex-col row-gap-0 ${style.blogContainer}`}
       href={link + blog.name}
       style={{ textDecoration: "none" }}
     >
@@ -18,23 +19,24 @@ export default function BlogCard({ blog, link }: any) {
         style={{ borderRadius: 8 }}
       />
       <h4 style={{ minHeight: 35 }}>{blog.title}</h4>
-      <p>
+      <p style={{ fontSize: 11 }}>
         {moment(blog.date).format("D MMMM, YYYY")}{" "}
         <small className={style.blogTimeCircle}>{blog.readTime} min read</small>
       </p>
       <p>
         {blog.description.slice(0, 60)}...
-        <Link
-          href={link + blog.name}
-          className="link inline-block"
+        <span
+          className={`link inline-block ${style.readMore}`}
           style={{
             fontSize: "1rem",
             fontWeight: "400",
           }}
         >
           read more
-        </Link>
+        </span>
       </p>
     </Link>
   );
 }
+
+// recent blog card

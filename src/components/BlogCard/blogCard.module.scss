@@ -1,3 +1,10 @@
+.blogContainer {
+  &:hover {
+    .readMore {
+      text-decoration: underline;
+    }
+  }
+}
 .blogImage {
   max-width: 360px;
   max-height: 217px;
@@ -15,7 +22,7 @@
     width: 5px;
     height: 5px;
     border-radius: 50px;
-    top: 6px;
+    top: 3px;
     left: -15px;
   }
 }

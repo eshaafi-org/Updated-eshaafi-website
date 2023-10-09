@@ -55,8 +55,8 @@ export default function Home({ positions, doctors }: any) {
 }
 // blogs prerendering
 export async function getStaticProps() {
-  let response = fetch(BASE_URL + "/new/users/blogs");
-  let doc = fetch(BASE_URL + "/patients/doctors/filter", {
+  let response = await fetch(BASE_URL + "/new/users/blogs");
+  let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
     cache: "no-cache",
     method: "POST",
     headers: {

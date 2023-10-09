@@ -467,3 +467,18 @@
     display: flex;
   }
 }
+.docOnline {
+  border: 1px solid green;
+  border-radius: 50%;
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: green;
+    bottom: 10px;
+    right: 4px;
+    border-radius: 50%;
+  }
+}
