@@ -26,6 +26,7 @@ export default function Booking() {
         // }
       )
       .then((res) => {
+        console.log(res);
         setLoading(false);
         setResponse(res.data.response);
       })

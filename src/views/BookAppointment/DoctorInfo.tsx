@@ -9,13 +9,15 @@ export default function DoctorInfo({ doc }: { doc: any }) {
       <div className="flex justify-between w-full">
         <div className="flex flex-col row-gap-1 w-full">
           <span className="flex col-gap-1">
-            <Image
-              src={doc?.personal_info?.profileUrl}
-              alt="doctor-image"
-              className={style.docImg}
-              width={65}
-              height={65}
-            />
+            <div className={doc?.isOnline ? style.docOnline : ""}>
+              <Image
+                src={doc?.personal_info?.profileUrl}
+                alt="doctor-image"
+                className={style.docImg}
+                width={65}
+                height={65}
+              />
+            </div>
             <span className="flex flex-col" style={{ rowGap: "0.3rem" }}>
               <h5>
                 {doc?.personal_info?.title +

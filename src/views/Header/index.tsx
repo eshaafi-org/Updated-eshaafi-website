@@ -394,7 +394,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
               </span>
             </span>
             <ul className="flex flex-col mt-1 ">
-              {!userAuth?.url || (
+              {!userAuth?.uuid || (
                 <>
                   {/* <li className={`p-0-5 border-bottom`}>
                     <Link href={"/"}>
@@ -506,7 +506,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   );
                 }
               })}
-              {userAuth?.name && (
+              {userAuth?.uuid && (
                 <li className="p-0-5">
                   <Button
                     className="flex col-gap-1 items-center"

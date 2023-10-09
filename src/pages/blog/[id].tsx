@@ -96,10 +96,10 @@ export default function Post({ post }: any) {
             {/* blog page  */}
             <div className={style.blogPage}>
               {/* share and table of content section */}
+              {/* <div className={style.tableOfContent}>
+                <p className="text-main font-bold">Table of content</p>
+              </div> */}
               <div className={style.share}>
-                <div className={style.tableOfContent}>
-                  <p className="text-main font-bold">Table of content</p>
-                </div>
                 <div className={style.shareIcon}>
                   <p className="text-main font-bold">Share this Article</p>
                   <span className="flex col-gap-0-5 flex-wrap">
@@ -189,10 +189,11 @@ export default function Post({ post }: any) {
                   }
                   style={{
                     background: `url(${addImage.src})`,
-                    backgroundPosition: "center calc(50% + 8px)",
+
                     backgroundSize: "100%",
                     backgroundRepeat: "no-repeat",
                     top: 100,
+                    backgroundPosition: "bottom",
                     padding: "1rem 1rem 5rem 1rem",
                   }}
                 >
@@ -206,7 +207,7 @@ export default function Post({ post }: any) {
                 </div>
               </div>
               {/* blog introduction heading and author */}
-              <div className={style.blogIntro}>
+              <div className={style.blogIntro + " pb-1"}>
                 <h2>{post?.title}</h2>
                 <div className="flex col-gap-1 items-center">
                   <div
