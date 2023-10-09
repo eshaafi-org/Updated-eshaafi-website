@@ -251,7 +251,15 @@ export default function Post({ post }: any) {
           </section>
         </main>
       ) : (
-        <div className="container">loading...</div>
+        <div className="container ">
+          <div className="row">
+            <div className="col">
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
