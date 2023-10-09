@@ -87,11 +87,11 @@ export default function DoctorList({ list }: { list: any }) {
             </li>
           ))}
         </ul>
-        <div className="filters w-30 ">
+        {/* <div className="filters w-30 ">
           <div className="bg-main rounded border w-full p-1">
             Specializaitons
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
