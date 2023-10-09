@@ -6,7 +6,7 @@ import download from "../../../public/images/download-badge-google-play-badge.pn
 export default function GetApp() {
   return (
     <section className="w-full bg-white">
-      <div className="container pb-0">
+      <div className="container pb-0 sm-pt-0">
         <div className="flex justify-between sm-flex-col sm-row-gap-1 items-center col-gap-1">
           <div className="flex flex-col row-gap-2 items-start w-1-2 sm-w-full">
             <h2>Get eShaafi App</h2>

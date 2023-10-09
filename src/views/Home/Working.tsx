@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Working() {
   return (
     <section className="w-full bg-white">
-      <div className="container">
+      <div className="container sm-pt-0">
         <div className="flex justify-between items-center sm-flex-col sm-row-gap-1">
           <div className="flex flex-col row-gap-0-5">
             <span className="flex flex-col row-gap-0-5 mb-2">

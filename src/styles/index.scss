@@ -552,11 +552,17 @@ p {
   .sm-pl-1 {
     padding-left: $base-padding;
   }
+  .sm-pt-0 {
+    padding-top: 0 !important;
+  }
   .sm-mt-1 {
     margin-top: 1rem !important;
   }
   .sm-row-gap-1 {
-    row-gap: $base-unit;
+    row-gap: $base-unit !important;
+  }
+  .sm-row-gap-0-5 {
+    row-gap: $base-unit/2 !important;
   }
   .sm-row-gap-2 {
     row-gap: 2 * $base-unit;
@@ -569,6 +575,10 @@ p {
   }
   .sm-mt-10 {
     margin-top: 10rem !important;
+  }
+  .sm-font {
+    font-size: 14px !important;
+    line-height: unset !important;
   }
 }
 .curser {

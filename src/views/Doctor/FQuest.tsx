@@ -30,11 +30,13 @@ const benifits = [
 export default function FQuest() {
   return (
     <section className="container pt-0">
-      <h2 className=" mb-1">Frequently Asked Questions</h2>
+      <h2 className={"mb-1 " + style.docPageHeading}>
+        Frequently Asked Questions
+      </h2>
       <ul className={"border rounded p-1 mt-1 " + style.benifitCont}>
         {benifits.map((itm, indx) => (
           <li key={indx}>
-            <div className="flex col-gap-1 ">
+            <div className={style.benefitItemCont}>
               <span className="flex flex-col row-gap-1">
                 <h4>{itm.heading}</h4>
                 <p>{itm.text}</p>

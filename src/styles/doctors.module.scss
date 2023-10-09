@@ -122,15 +122,29 @@
   column-gap: 2rem;
   @include for-tablet-portrait-only {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
+    row-gap: 1rem;
   }
   @include for-large-phone-only {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 0.5rem;
   }
   li {
-    div {
+    .benefitItemCont {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      column-gap: 0.5rem;
       svg {
-        box-sizing: border-box;
+        font-size: 20px;
+        color: #0e5487;
+      }
+      span {
+        p {
+          @include for-large-phone-only {
+            font-size: 12px;
+          }
+        }
       }
     }
   }
@@ -258,7 +272,7 @@
     }
   }
 }
-
+// doctors listing page card styling
 .docCard {
   border-radius: 8px;
   border: 1px solid #d7ddea;
@@ -269,11 +283,26 @@
       width: 100%;
     }
   }
+  @include for-large-phone-only {
+    .docTitle {
+      font-size: 16px !important;
+    }
+    .docSpecialization {
+      font-size: 14px;
+    }
+    .docFee {
+      font-size: 14px;
+    }
+  }
 }
 .docImg {
   width: 91px;
   height: 91px;
   border-radius: 50px;
+  @include for-large-phone-only {
+    width: 61px;
+    height: 61px;
+  }
 }
 
 .imageContainer {

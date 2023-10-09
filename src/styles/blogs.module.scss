@@ -169,6 +169,12 @@
     a {
       display: inline-block !important;
       color: $primary-clr;
+      @include for-large-phone-only {
+        font-size: 14px;
+      }
+    }
+    @include for-large-phone-only {
+      font-size: 14px;
     }
   }
   ul {
@@ -181,6 +187,9 @@
       margin-left: 1rem;
       strong {
         font-size: 18px;
+        @include for-large-phone-only {
+          font-size: 14px;
+        }
       }
       font-size: 18px;
       line-height: 35px;
@@ -188,7 +197,114 @@
       a {
         display: inline-block !important;
         color: #2788cd;
+        @include for-large-phone-only {
+          font-size: 14px;
+        }
+      }
+      @include for-large-phone-only {
+        font-size: 14px;
+        line-height: 25px;
       }
     }
   }
+}
+// blog page heading style
+.blogPageHeadings {
+  font-size: 16px;
+  margin-bottom: 0.3rem !important;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  @include from-mini-laptop-to-laptop {
+    font-size: 2rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
+// blog's heading
+.blogHeading {
+  font-size: 12px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 16px;
+  }
+  @include from-mini-laptop-to-laptop {
+    font-size: 20px;
+  }
+}
+// blog's Link styling
+.blogLink {
+  font-size: 11px !important;
+  color: $primary-clr;
+  display: inline-block !important;
+  text-decoration: underline;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px !important;
+  }
+  @include from-mini-laptop-to-laptop {
+    font-size: 16px !important;
+  }
+}
+///// recent blogs list ////
+.recentBlogsList {
+  display: grid;
+  row-gap: 1rem;
+  @include from-mobile-landscape-to-tablet {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 0.5rem;
+  }
+}
+.recentBlogCard {
+  display: grid;
+  grid-template-columns: 130px auto;
+  column-gap: 0.2rem;
+  .blogImage {
+    grid-area: 1/1/2/2;
+    .recentBlogImage {
+      width: 100%;
+      height: 80px;
+      border-radius: 8px;
+      @include from-tablet-landscape-to-mini-laptop {
+        height: 110px;
+      }
+    }
+  }
+  .recentBlogContent {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.3rem;
+
+    .blogDiscription {
+      font-size: 11px;
+      line-height: unset;
+      @include from-tablet-landscape-to-mini-laptop {
+        font-size: 14px;
+      }
+      @include from-mini-laptop-to-laptop {
+        font-size: 16px;
+      }
+    }
+  }
+  @include from-tablet-landscape-to-mini-laptop {
+    grid-template-columns: 180px auto;
+    column-gap: 0.5rem;
+  }
+}
+
+// featured blogs list //
+.featuredBlogsList {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto auto;
+  grid-template-rows: repeat(4, auto);
+  li {
+    padding: 2rem 0;
+    &:first-child {
+      grid-area: 1/1/3/3;
+      padding: 2rem 0;
+    }
+  }
+}
+.featuredBlogCard {
+  // padding: 2rem;
 }

@@ -24,7 +24,7 @@ const partners = [
 export default function Partners() {
   return (
     <section className="w-full bg-white">
-      <div className="container">
+      <div className="container sm-pt-0">
         <div className="flex flex-col row-gap-2 items-center">
           <h2>Corporate Partners</h2>
           <ul className="flex justify-between flex-wrap w-full sm-flex-col sm-items-center">

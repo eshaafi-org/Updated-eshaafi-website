@@ -1,6 +1,8 @@
 import BlogsList from "@/views/Blogs/BlogsList";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
+import RecentBlogs from "@/views/Blogs/RecentBlogs";
+import FeaturedBlogs from "@/views/Blogs/FeaturedBlog";
 // async function generateStaticParams() {
 //   const res = await fetch(BASE_URL + "/new/users/blogs", {
 //     cache: "force-cache",
@@ -26,8 +28,8 @@ export default function Blogs({ recentBlogs }: any) {
       <main>
         <section className="container">
           <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2">
-            <h2>Blogs</h2>
-            <BlogsList blogs={recentBlogs} link={"/blog/"} />
+            <FeaturedBlogs featuredBlogs={recentBlogs} />
+            <RecentBlogs recentBlogs={recentBlogs} />
           </div>
         </section>
       </main>

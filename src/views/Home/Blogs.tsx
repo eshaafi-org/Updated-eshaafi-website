@@ -7,7 +7,7 @@ export default function Blogs({ blogs }: { blogs: any }) {
   const blogsList = blogs.slice(0, 3);
   return (
     <section className="w-full bg-white">
-      <div className="container">
+      <div className="container sm-pt-0">
         <div className="flex flex-col row-gap-2 w-full">
           <div className="flex justify-between w-full items-base">
             <span>
