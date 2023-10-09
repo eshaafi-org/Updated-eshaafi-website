@@ -197,11 +197,14 @@ export default function Post({ post }: any) {
                     padding: "1rem 1rem 5rem 1rem",
                   }}
                 >
-                  <p className="text-main font-bold w-60 ">
+                  <p className={"text-main font-bold w-60 " + style.addText}>
                     Book Video Consultation{" "}
                     <span className="sm-d-none">With Doctors Anytime</span>
                   </p>
-                  <Link href={"/doctors"} className="linkBtn align-self-start ">
+                  <Link
+                    href={"/doctors"}
+                    className={"linkBtn align-self-start " + style.addBtn}
+                  >
                     Book now
                   </Link>
                 </div>
