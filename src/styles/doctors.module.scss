@@ -471,6 +471,8 @@
   border: 1px solid green;
   border-radius: 50%;
   position: relative;
+  max-width: 102px;
+  max-height: 102px;
   &::after {
     content: "";
     position: absolute;
@@ -480,5 +482,11 @@
     bottom: 10px;
     right: 4px;
     border-radius: 50%;
+    z-index: 9;
+  }
+}
+.docPageHeading {
+  @include for-large-phone-only {
+    font-size: 1rem !important;
   }
 }

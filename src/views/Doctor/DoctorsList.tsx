@@ -9,7 +9,9 @@ import Image from "next/image";
 export default function DoctorList({ list }: { list: any }) {
   return (
     <section className="container border-bottom ">
-      <h2>Book video consultation with the best doctors</h2>
+      <h2 className={style.docPageHeading}>
+        Book video consultation with the best doctors
+      </h2>
       <div className="d-flex col-gap-1 align-items-star mt-5">
         <ul className={style.docList}>
           {list.map((itm: any, indx: string) => (
@@ -85,11 +87,11 @@ export default function DoctorList({ list }: { list: any }) {
             </li>
           ))}
         </ul>
-        <div className="filters w-30 ">
+        {/* <div className="filters w-30 ">
           <div className="bg-main rounded border w-full p-1">
             Specializaitons
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
