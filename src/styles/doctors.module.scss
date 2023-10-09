@@ -138,7 +138,6 @@
 // doctor list section styling
 .docList {
   width: 60%;
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
@@ -262,7 +261,7 @@
 
 .docCard {
   border-radius: 8px;
-  margin-top: 2rem;
+  border: 1px solid #d7ddea;
   row-gap: 1.5rem;
   box-shadow: 0px 20px 40px 0px rgba(88, 88, 88, 0.08);
   @include for-large-tablet-portrait-up {
@@ -402,6 +401,7 @@
   color: #192a3e;
   text-align: center;
   text-decoration: none;
+  text-transform: capitalize;
 }
 .progress {
   position: relative;

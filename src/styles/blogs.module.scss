@@ -136,6 +136,16 @@
       }
     }
   }
+  @include for-large-phone-only {
+    .addSection {
+      .addText {
+        font-size: 12px;
+      }
+      .addBtn {
+        font-size: 12px !important;
+      }
+    }
+  }
 }
 // styling of blog written content
 .blogContent {
