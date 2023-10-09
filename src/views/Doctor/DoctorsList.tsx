@@ -9,7 +9,9 @@ import Image from "next/image";
 export default function DoctorList({ list }: { list: any }) {
   return (
     <section className="container border-bottom ">
-      <h2>Book video consultation with the best doctors</h2>
+      <h2 className={style.docPageHeading}>
+        Book video consultation with the best doctors
+      </h2>
       <div className="d-flex col-gap-1 align-items-star mt-5">
         <ul className={style.docList}>
           {list.map((itm: any, indx: string) => (

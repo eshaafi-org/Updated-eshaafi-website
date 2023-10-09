@@ -42,6 +42,7 @@ export default function Profile({ doctor }: any) {
                         width={100}
                         height={100}
                         style={{ borderRadius: "50px" }}
+                        className={style.docProfileImage}
                       />
                     </div>
 

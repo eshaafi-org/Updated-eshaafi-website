@@ -138,6 +138,7 @@
   }
   @include for-large-phone-only {
     .addSection {
+      top: 91vh;
       .addText {
         font-size: 12px;
       }
