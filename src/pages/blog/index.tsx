@@ -40,7 +40,7 @@ export default function Blogs({ recentBlogs, categories }: any) {
             </span>
             <FeaturedBlogs featuredBlogs={recentBlogs} />
             <RecentBlogs recentBlogs={recentBlogs} />
-            {/* <Categories categories={categories} /> */}
+            <Categories categories={categories} />
           </div>
         </section>
       </main>
