@@ -275,7 +275,7 @@ export async function getStaticPaths() {
   const paths = position.response.Items.map((post: any) => ({
     params: { id: post.name },
   }));
-  // console.log(paths);
+
   // { fallback: false } means other routes should 404
   return { paths, fallback: true };
 }
