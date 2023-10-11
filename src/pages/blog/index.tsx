@@ -1,4 +1,3 @@
-import BlogsList from "@/views/Blogs/BlogsList";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import RecentBlogs from "@/views/Blogs/RecentBlogs";

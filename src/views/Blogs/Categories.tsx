@@ -1,4 +1,3 @@
-"use client";
 import style from "../../styles/blogs.module.scss";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
