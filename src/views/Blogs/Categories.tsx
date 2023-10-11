@@ -27,7 +27,12 @@ export default function Categories({ categories }: { categories: any[] }) {
               </h4>
               <p className={style.blogDescription}>{item.description}</p>
             </span>
-            <Link href="/blog" className="link">
+            <Link
+              href={`/blog/category/${item.name
+                .replace(/\s/g, "")
+                .toLowerCase()}`}
+              className="link"
+            >
               View all <MdNavigateNext />
             </Link>
           </div>

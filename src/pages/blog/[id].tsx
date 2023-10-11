@@ -23,7 +23,7 @@ import { ResolvingMetadata } from "next";
 export default function Post({ post }: any) {
   const baseUrl = "https://beta.eshaafi.com";
   let router = useRouter();
-  // console.log(router);
+  console.log(router);
   // copy blog post link funciton
   const copyURLToClipboard = () => {
     const url = window.location.href;
@@ -40,6 +40,8 @@ export default function Post({ post }: any) {
   useEffect(() => {
     const h2 = document.querySelectorAll("h2");
     console.log(h2);
+    console.log(router);
+    // const url = window.location.href;
   }, []);
   return (
     <>
@@ -109,6 +111,7 @@ export default function Post({ post }: any) {
                         style.iconStyle + " flex col-gap-1 border-none"
                       }
                       title="Copy link"
+                      id={`${baseUrl + router?.asPath}`}
                     >
                       <FiLink2 style={{ color: "#1B76B8", fontSize: "1rem" }} />
                     </button>
