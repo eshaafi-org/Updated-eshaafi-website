@@ -49,7 +49,7 @@ export default function Services() {
   return (
     <section className="w-full bg-white">
       <div className="container">
-        <div className="flex flex-col row-gap-2 items-center">
+        <div className="flex flex-col row-gap-2 sm-row-gap-0-5 items-center">
           <h2>Our Services</h2>
           <ul className={style.servicesList}>
             {services.map((itm, indx) => (

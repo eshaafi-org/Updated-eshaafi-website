@@ -23,7 +23,7 @@ import { ResolvingMetadata } from "next";
 export default function Post({ post }: any) {
   const baseUrl = "https://beta.eshaafi.com";
   let router = useRouter();
-  // console.log(router);
+  console.log(router);
   // copy blog post link funciton
   const copyURLToClipboard = () => {
     const url = window.location.href;
@@ -40,6 +40,8 @@ export default function Post({ post }: any) {
   useEffect(() => {
     const h2 = document.querySelectorAll("h2");
     console.log(h2);
+    console.log(router);
+    // const url = window.location.href;
   }, []);
   return (
     <>
@@ -96,10 +98,10 @@ export default function Post({ post }: any) {
             {/* blog page  */}
             <div className={style.blogPage}>
               {/* share and table of content section */}
+              {/* <div className={style.tableOfContent}>
+                <p className="text-main font-bold">Table of content</p>
+              </div> */}
               <div className={style.share}>
-                <div className={style.tableOfContent}>
-                  <p className="text-main font-bold">Table of content</p>
-                </div>
                 <div className={style.shareIcon}>
                   <p className="text-main font-bold">Share this Article</p>
                   <span className="flex col-gap-0-5 flex-wrap">
@@ -109,6 +111,7 @@ export default function Post({ post }: any) {
                         style.iconStyle + " flex col-gap-1 border-none"
                       }
                       title="Copy link"
+                      id={`${baseUrl + router?.asPath}`}
                     >
                       <FiLink2 style={{ color: "#1B76B8", fontSize: "1rem" }} />
                     </button>
@@ -154,6 +157,7 @@ export default function Post({ post }: any) {
                         href={`https://www.linkedin.com/sharing/share-offsite/?url=${
                           baseUrl + router?.asPath
                         }`}
+                        target="_blank"
                         className={style.iconStyle}
                       >
                         <FaLinkedinIn
@@ -188,24 +192,28 @@ export default function Post({ post }: any) {
                   }
                   style={{
                     background: `url(${addImage.src})`,
-                    backgroundPosition: "center calc(50% + 8px)",
+
                     backgroundSize: "100%",
                     backgroundRepeat: "no-repeat",
                     top: 100,
+                    backgroundPosition: "bottom",
                     padding: "1rem 1rem 5rem 1rem",
                   }}
                 >
-                  <p className="text-main font-bold w-60 ">
+                  <p className={"text-main font-bold w-60 " + style.addText}>
                     Book Video Consultation{" "}
                     <span className="sm-d-none">With Doctors Anytime</span>
                   </p>
-                  <Link href={"/doctors"} className="linkBtn align-self-start ">
+                  <Link
+                    href={"/doctors"}
+                    className={"linkBtn align-self-start " + style.addBtn}
+                  >
                     Book now
                   </Link>
                 </div>
               </div>
               {/* blog introduction heading and author */}
-              <div className={style.blogIntro}>
+              <div className={style.blogIntro + " pb-1"}>
                 <h2>{post?.title}</h2>
                 <div className="flex col-gap-1 items-center">
                   <div
@@ -249,7 +257,15 @@ export default function Post({ post }: any) {
           </section>
         </main>
       ) : (
-        <div className="container">loading...</div>
+        <div className="container ">
+          <div className="row">
+            <div className="col">
+              <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
@@ -262,7 +278,7 @@ export async function getStaticPaths() {
   const paths = position.response.Items.map((post: any) => ({
     params: { id: post.name },
   }));
-  // console.log(paths);
+
   // { fallback: false } means other routes should 404
   return { paths, fallback: true };
 }

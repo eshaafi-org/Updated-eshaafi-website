@@ -7,7 +7,7 @@ export default function Blogs({ blogs }: { blogs: any }) {
   const blogsList = blogs.slice(0, 3);
   return (
     <section className="w-full bg-white">
-      <div className="container">
+      <div className="container sm-pt-0">
         <div className="flex flex-col row-gap-2 w-full">
           <div className="flex justify-between w-full items-base">
             <span>
@@ -16,7 +16,7 @@ export default function Blogs({ blogs }: { blogs: any }) {
                 Read about latest health problem and their solutions
               </p>
             </span>
-            <Link href={"/blog"} className="link" style={{}}>
+            <Link href={"/blog"} className="link">
               View All <MdKeyboardArrowRight />
             </Link>
           </div>

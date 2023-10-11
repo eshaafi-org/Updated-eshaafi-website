@@ -122,15 +122,29 @@
   column-gap: 2rem;
   @include for-tablet-portrait-only {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
+    row-gap: 1rem;
   }
   @include for-large-phone-only {
     grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 0.5rem;
   }
   li {
-    div {
+    .benefitItemCont {
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      column-gap: 0.5rem;
       svg {
-        box-sizing: border-box;
+        font-size: 20px;
+        color: #0e5487;
+      }
+      span {
+        p {
+          @include for-large-phone-only {
+            font-size: 12px;
+          }
+        }
       }
     }
   }
@@ -138,7 +152,6 @@
 // doctor list section styling
 .docList {
   width: 60%;
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
@@ -259,10 +272,10 @@
     }
   }
 }
-
+// doctors listing page card styling
 .docCard {
   border-radius: 8px;
-  margin-top: 2rem;
+  border: 1px solid #d7ddea;
   row-gap: 1.5rem;
   box-shadow: 0px 20px 40px 0px rgba(88, 88, 88, 0.08);
   @include for-large-tablet-portrait-up {
@@ -270,11 +283,26 @@
       width: 100%;
     }
   }
+  @include for-large-phone-only {
+    .docTitle {
+      font-size: 16px !important;
+    }
+    .docSpecialization {
+      font-size: 14px;
+    }
+    .docFee {
+      font-size: 14px;
+    }
+  }
 }
 .docImg {
   width: 91px;
   height: 91px;
   border-radius: 50px;
+  @include for-large-phone-only {
+    width: 61px;
+    height: 61px;
+  }
 }
 
 .imageContainer {
@@ -402,6 +430,7 @@
   color: #192a3e;
   text-align: center;
   text-decoration: none;
+  text-transform: capitalize;
 }
 .progress {
   position: relative;
@@ -465,5 +494,28 @@
   display: none !important;
   @include for-large-tablet-portrait-up {
     display: flex;
+  }
+}
+.docOnline {
+  border: 1px solid green;
+  border-radius: 50%;
+  position: relative;
+  max-width: 102px;
+  max-height: 102px;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: green;
+    bottom: 10px;
+    right: 4px;
+    border-radius: 50%;
+    z-index: 9;
+  }
+}
+.docPageHeading {
+  @include for-large-phone-only {
+    font-size: 1rem !important;
   }
 }

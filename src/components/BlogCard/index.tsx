@@ -18,12 +18,12 @@ export default function BlogCard({ blog, link }: any) {
         className={style.blogImage}
         style={{ borderRadius: 8 }}
       />
-      <h4 style={{ minHeight: 35 }}>{blog.title}</h4>
+      <h4 className={style.blogHeading}>{blog.title}</h4>
       <p style={{ fontSize: 11 }}>
         {moment(blog.date).format("D MMMM, YYYY")}{" "}
         <small className={style.blogTimeCircle}>{blog.readTime} min read</small>
       </p>
-      <p>
+      <p className={style.blogDescription}>
         {blog.description.slice(0, 60)}...
         <span
           className={`link inline-block ${style.readMore}`}

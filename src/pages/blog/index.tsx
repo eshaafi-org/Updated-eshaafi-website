@@ -1,6 +1,11 @@
 import BlogsList from "@/views/Blogs/BlogsList";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
+import RecentBlogs from "@/views/Blogs/RecentBlogs";
+import FeaturedBlogs from "@/views/Blogs/FeaturedBlog";
+import style from "../../styles/blogs.module.scss";
+import AddressBar from "@/components/AddressBar";
+import Categories from "@/views/Blogs/Categories";
 // async function generateStaticParams() {
 //   const res = await fetch(BASE_URL + "/new/users/blogs", {
 //     cache: "force-cache",
@@ -14,7 +19,11 @@ import Head from "next/head";
 //   }
 //   return res.json();
 // }
-export default function Blogs({ recentBlogs }: any) {
+const links = [
+  { name: "Home", link: "/" },
+  { name: "Blog", link: "/blog" },
+];
+export default function Blogs({ recentBlogs, categories }: any) {
   return (
     <>
       <Head>
@@ -25,9 +34,14 @@ export default function Blogs({ recentBlogs }: any) {
       </Head>
       <main>
         <section className="container">
-          <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2">
-            <h2>Blogs</h2>
-            <BlogsList blogs={recentBlogs} link={"/blog/"} />
+          <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2 sm-row-gap-1">
+            <span>
+              <h4 className={style.blogPageHeadings}>Blogs</h4>
+              <AddressBar links={links} />
+            </span>
+            <FeaturedBlogs featuredBlogs={recentBlogs} />
+            <RecentBlogs recentBlogs={recentBlogs} />
+            <Categories categories={categories} />
           </div>
         </section>
       </main>
@@ -40,6 +54,9 @@ export async function getStaticProps() {
   return {
     props: {
       recentBlogs: data.response.Items ? data.response.Items : [],
+      categories: data.response.CategoriesList
+        ? data.response.CategoriesList
+        : [],
     },
     revalidate: 1,
   };

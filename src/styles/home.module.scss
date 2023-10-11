@@ -1,12 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 @import "./mixin";
 @import "./variables";
+// main page styling
 .main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
+// Hero section
 .heroImage {
   @include for-large-tablet-portrait-up {
     width: 100%;

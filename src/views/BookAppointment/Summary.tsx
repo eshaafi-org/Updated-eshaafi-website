@@ -18,6 +18,7 @@ export default function Summary({
   loading: boolean;
   paymentId: string;
 }) {
+  console.log(appointDate);
   return (
     <section className={styles.summary}>
       <h1>Appointment Summary</h1>
@@ -28,12 +29,14 @@ export default function Summary({
         </tr>
         <tr>
           <th>Date</th>
-          <td>{moment(appointDate).format("dddd DD,MMM")}</td>
+          <td>
+            {appointDate ? moment(appointDate).format("dddd DD,MMM") : "-"}
+          </td>
           {/* <td>{appointDate}</td> */}
         </tr>
         <tr>
           <th>Time</th>
-          <td>{moment(time, "HH:mm:ss").format("h:mm A")}</td>
+          <td>{time ? moment(time, "HH:mm:ss").format("h:mm A") : "-"}</td>
         </tr>
         <tr>
           <th>Payment Method</th>
@@ -42,8 +45,10 @@ export default function Summary({
       </table>
       <p className="flex justify-between">
         <span>
-          {moment(appointDate).format("dddd DD,MMM")}
-          {" " + moment(time, "HH:mm:ss").format("h:mm A")}
+          {appointDate
+            ? moment(appointDate).format("dddd DD,MMM")
+            : "Select Date "}{" "}
+          {time ? moment(time, "HH:mm:ss").format("h:mm A") : " Select Time"}
         </span>
         <span>{doc?.videoCallCharges} Rs.</span>
       </p>

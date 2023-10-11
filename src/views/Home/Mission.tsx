@@ -2,8 +2,8 @@ import Link from "next/link";
 export default function Mission() {
   return (
     <section className="w-full bg-white">
-      <div className="container">
-        <div className="flex row-gap-2 sm-flex-col">
+      <div className="container sm-pt-0">
+        <div className="flex row-gap-2 sm-row-gap-0-5 sm-flex-col">
           <span className="w-40 sm-w-full">
             <h3>Our Mission</h3>
             <h2>

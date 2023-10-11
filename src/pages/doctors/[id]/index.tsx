@@ -10,6 +10,7 @@ import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 
 export default function Profile({ doctor }: any) {
+  console.log(doctor?.isOnline);
   return (
     <>
       <Head>
@@ -30,13 +31,18 @@ export default function Profile({ doctor }: any) {
                 {/* profile card */}
                 <div className="flex flex-col row-gap-2 border-bottom pb-2">
                   <div className="flex col-gap-2">
-                    <div className={style.imageContainer}>
+                    <div
+                      className={`${style.imageContainer}  ${
+                        doctor?.isOnline ? style.docOnline : ""
+                      }`}
+                    >
                       <Image
                         src={doctor?.personal_info?.profileUrl}
                         alt="doctor-image"
                         width={100}
                         height={100}
                         style={{ borderRadius: "50px" }}
+                        className={style.docProfileImage}
                       />
                     </div>
 
@@ -220,7 +226,7 @@ export default function Profile({ doctor }: any) {
                     {/* <td>{appointDate}</td> */}
                   </tr>
                   <tr>
-                    <th>Availabilty</th>
+                    <th>Availability</th>
                     <td>{doctor?.isOnline ? <p>Online</p> : <p>Offline</p>}</td>
                   </tr>
                 </table>
