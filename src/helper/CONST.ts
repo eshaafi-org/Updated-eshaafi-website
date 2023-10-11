@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.eshaafi.com";
+export const BASE_URL = "https://app.eshaafi.com";
 export const headers = () => {
   const storedValue: any | null = localStorage.getItem("user");
   const uuid: any | null = storedValue ? JSON.parse(storedValue) : null;
