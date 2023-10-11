@@ -23,7 +23,7 @@ import { ResolvingMetadata } from "next";
 export default function Post({ post }: any) {
   const baseUrl = "https://beta.eshaafi.com";
   let router = useRouter();
-  console.log(router);
+
   // copy blog post link funciton
   const copyURLToClipboard = () => {
     const url = window.location.href;
@@ -35,12 +35,10 @@ export default function Post({ post }: any) {
       .catch((error) => {
         console.error("Failed to copy URL:", error);
       });
-    // console.log("hello");
   };
   useEffect(() => {
     const h2 = document.querySelectorAll("h2");
-    console.log(h2);
-    console.log(router);
+
     // const url = window.location.href;
   }, []);
   return (
@@ -274,7 +272,6 @@ export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const res = await fetch(BASE_URL + "/new/users/blogs");
   const position = await res.json();
-  // console.log(position);
   const paths = position.response.Items.map((post: any) => ({
     params: { id: post.name },
   }));
@@ -285,7 +282,6 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params: { id } }: any) {
   let response = await fetch(`${BASE_URL}/new/users/blogs/${id}`);
   const data = await response.json();
-  //   console.log(data.response);
   return {
     props: {
       post: data?.response?.Item,

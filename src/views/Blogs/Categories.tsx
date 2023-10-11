@@ -1,20 +1,20 @@
 import style from "../../styles/blogs.module.scss";
-import { useEffect, useRef, useState } from "react";
+// import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MdNavigateNext } from "react-icons/md";
 import { motion } from "framer-motion";
-import { useWindowSize } from "react-use";
+// import { useWindowSize } from "react-use";
 import BlogCard from "@/components/BlogCard";
 
 export default function Categories({ categories }: { categories: any[] }) {
-  const size = useWindowSize();
-  const [width, setWidth] = useState<number | null>(null);
-  let carousel = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (carousel.current) {
-      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
-    }
-  }, [carousel?.current?.offsetWidth]);
+  // const size = useWindowSize();
+  // const [width, setWidth] = useState<number | null>(null);
+  // let carousel = useRef<HTMLDivElement | null>(null);
+  // useEffect(() => {
+  //   if (carousel.current) {
+  //     setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+  //   }
+  // }, [carousel?.current?.offsetWidth]);
   return (
     <ul className={style.categoryCont}>
       {categories.map((item, indx) => (
@@ -33,7 +33,7 @@ export default function Categories({ categories }: { categories: any[] }) {
               View all <MdNavigateNext />
             </Link>
           </div>
-          <motion.div
+          {/* <motion.div
             ref={carousel}
             whileTap={{ cursor: "grabbing" }}
             className={style.categoryBlogsContainer}
@@ -44,19 +44,19 @@ export default function Categories({ categories }: { categories: any[] }) {
               dragConstraints={{ right: 0, left: -width! }}
               key={JSON.stringify(size)}
               className={style.innerCategoryBlogsContainer}
+            > */}
+          {item.blogs.map((blog: any, indx: number) => (
+            <motion.div
+              key={indx}
+              whileTap={{ cursor: "grabbing" }}
+              // style={{ visibility: i.icon === "" ? "hidden" }}
+              className={style.sliderItm}
             >
-              {item.blogs.map((blog: any, indx: number) => (
-                <motion.div
-                  key={indx}
-                  whileTap={{ cursor: "grabbing" }}
-                  // style={{ visibility: i.icon === "" ? "hidden" }}
-                  className={style.sliderItm}
-                >
-                  <BlogCard blog={blog} link={"/blog/"} />
-                </motion.div>
-              ))}
+              <BlogCard blog={blog} link={"/blog/"} />
             </motion.div>
-          </motion.div>
+          ))}
+          {/* </motion.div>
+          </motion.div> */}
         </li>
       ))}
     </ul>
