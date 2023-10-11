@@ -19,7 +19,7 @@ export default function CategoryPage() {
   return (
     <>
       <main>
-        <section>
+        {/* <section>
           <ul>
             {[].map((blog, indx) => (
               <li key={indx}>
@@ -27,7 +27,8 @@ export default function CategoryPage() {
               </li>
             ))}
           </ul>
-        </section>
+        </section> */}
+        <h1>hello</h1>
       </main>
     </>
   );
