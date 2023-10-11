@@ -21,7 +21,7 @@ import moment from "moment";
 
 import { ResolvingMetadata } from "next";
 export default function Post({ post }: any) {
-  const baseUrl = "https://beta.eshaafi.com";
+  const baseUrl = "https://eshaafi.com";
   let router = useRouter();
   // console.log(router);
   // copy blog post link funciton
