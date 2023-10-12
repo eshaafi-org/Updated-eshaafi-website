@@ -1,12 +1,7 @@
 @import "./variables";
 @import "./mixin";
 // importing my fonts
-@font-face {
-  font-family: "Roboto";
-  src: url("../../public/font/Roboto/Roboto-Regular.ttf"),
-    url("../../public/font/Roboto/Roboto-Medium.ttf"),
-    url("../../public/font/Roboto/Roboto-Bold.ttf");
-}
+
 //---------------Globals style-------------//
 :root {
   --primary-clr: 14, 84, 135;

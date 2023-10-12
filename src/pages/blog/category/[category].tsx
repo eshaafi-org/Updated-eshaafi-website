@@ -11,6 +11,7 @@ import AddressBar from "@/components/AddressBar";
 export default function CategoryPage() {
   let router = useRouter();
   const [blogList, setBlogList] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const links = [
     { name: "Home", link: "/" },
     { name: "Blog", link: "/blog" },
@@ -21,6 +22,7 @@ export default function CategoryPage() {
   ];
   // fetch data ${BASE_URL}/new/users/blogs?category=${router?.query?.category}
   const getData = () => {
+    setLoading(true);
     axios
       .get(
         `${
@@ -29,8 +31,16 @@ export default function CategoryPage() {
             : `${BASE_URL}/new/users/blogs`
         }`
       )
-      .then((res) => setBlogList(res.data.response.Items))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        setLoading(false);
+
+        setBlogList(res.data.response.Items);
+      })
+      .catch((err) => {
+        setLoading(false);
+
+        console.error(err);
+      });
   };
   useEffect(() => {
     getData();
@@ -51,13 +61,21 @@ export default function CategoryPage() {
               Read about {router?.query?.category} blogs
             </p>
           </span>
-          <ul className={style.categoryBlogsList}>
-            {blogList.map((blog, indx) => (
-              <li key={indx}>
-                <BlogCard blog={blog} link={"/blog/"} />
-              </li>
-            ))}
-          </ul>
+          {loading ? (
+            <div className="flex justify-center">
+              <div className="spinner-border" role="status"></div>
+            </div>
+          ) : (
+            <>
+              <ul className={style.categoryBlogsList}>
+                {blogList.map((blog, indx) => (
+                  <li key={indx}>
+                    <BlogCard blog={blog} link={"/blog/"} />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </section>
       </main>
     </>

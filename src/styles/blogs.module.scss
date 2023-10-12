@@ -72,6 +72,11 @@
     grid-area: 2/3/2/4;
     position: sticky;
     top: 100px;
+    @include from-tablet-landscape-to-mini-laptop {
+      .addBtn {
+        padding: 5px 10px !important;
+      }
+    }
   }
   .blogIntro {
     grid-area: 1/2/2/3;
@@ -134,11 +139,14 @@
         padding: 1rem !important;
         align-items: center;
       }
+      // .addBtn {
+      //   padding: 0 10px !important;
+      // }
     }
   }
   @include for-large-phone-only {
     .addSection {
-      top: 91vh;
+      top: 90vh;
       .addText {
         font-size: 12px;
       }
@@ -186,6 +194,7 @@
     padding-left: 1rem;
     li {
       margin-left: 1rem;
+
       strong {
         font-size: 18px;
         @include for-large-phone-only {
@@ -193,7 +202,7 @@
         }
       }
       font-size: 18px;
-      line-height: 35px;
+      line-height: 25px;
       letter-spacing: 0.1px;
       a {
         display: inline-block !important;
