@@ -9,17 +9,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import addImage from "../../../public/images/addImage.png";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaLinkedinIn,
-  FaWhatsapp,
-  FaShareAlt,
-} from "react-icons/fa";
+import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
 
-import { ResolvingMetadata } from "next";
+import AddressBar from "@/components/AddressBar";
+const links = [
+  { name: "Home", link: "/" },
+  { name: "Blog", link: "/blog" },
+];
 export default function Post({ post }: any) {
   const baseUrl = "https://beta.eshaafi.com";
   let router = useRouter();
@@ -93,6 +92,7 @@ export default function Post({ post }: any) {
       {post ? (
         <main>
           <section className="container">
+            <AddressBar links={links} title={"Blog"} />
             {/* blog page  */}
             <div className={style.blogPage}>
               {/* share and table of content section */}
@@ -174,8 +174,8 @@ export default function Post({ post }: any) {
                         className={style.iconStyle}
                         target="_blank"
                       >
-                        <FaTwitter
-                          style={{ color: "#03A9F4", fontSize: "1rem" }}
+                        <FaXTwitter
+                          style={{ color: "#000", fontSize: "1rem" }}
                         />
                       </a>
                     </button>
