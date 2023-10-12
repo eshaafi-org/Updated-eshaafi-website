@@ -20,7 +20,7 @@ const links = [
   { name: "Blog", link: "/blog" },
 ];
 export default function Post({ post }: any) {
-  const baseUrl = "https://stage.d1vqn504fin2ze.amplifyapp.com/";
+  const baseUrl = "https://stage.eshaafi.com";
   let router = useRouter();
 
   // copy blog post link funciton
