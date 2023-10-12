@@ -48,12 +48,12 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const handleOpen = useCallback(() => {
-    setShow(true);
     document.body.style.overflow = "hidden";
+    setShow(true);
   }, []);
   const handleClose = useCallback(() => {
-    setShow(false);
     document.body.style.overflow = "auto";
+    setShow(false);
   }, []);
   // handling resize
   useEffect(() => {
@@ -447,9 +447,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     <li
                       style={{ position: "relative" }}
                       key={i.id}
-                      onClick={() => {
-                        setModal(!modal);
-                      }}
+                      onClick={handleClose}
                       className="border-bottom p-0-5"
                     >
                       <Link href={"/"} className="flex items-center ">
@@ -486,7 +484,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       className={`${
                         pathName == i.LinkRoute ? "active" : ""
                       } p-0-5 border-bottom`}
-                      onClick={() => setShow(false)}
+                      onClick={handleClose}
                     >
                       <Link href={"/"}></Link>
                       <Link
