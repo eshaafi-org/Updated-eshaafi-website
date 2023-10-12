@@ -2,7 +2,7 @@ import style from "../../styles/blogs.module.scss";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MdNavigateNext } from "react-icons/md";
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useWindowSize } from "react-use";
 import BlogCard from "@/components/BlogCard";
 
