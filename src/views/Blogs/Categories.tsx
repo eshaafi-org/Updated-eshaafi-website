@@ -90,30 +90,32 @@ export default function Categories({ categories }: { categories: any[] }) {
               View all <MdNavigateNext />
             </Link>
           </div>
-          <div
-            // ref={carousel}
-            // whileTap={{ cursor: "grabbing" }}
-            className={style.categoryBlogsContainer}
-          >
-            <div
-              // whileTap={{ cursor: "grabbing" }}
-              // drag={"x"}
-              // dragConstraints={{ right: 0, left: -width! }}
-              // key={JSON.stringify(size)}
-              className={style.innerCategoryBlogsContainer}
+          {typeof window !== "undefined" && (
+            <motion.div
+              ref={carousel}
+              whileTap={{ cursor: "grabbing" }}
+              className={style.categoryBlogsContainer}
             >
-              {item.blogs.map((blog: any, indx: number) => (
-                <div
-                  key={indx}
-                  // whileTap={{ cursor: "grabbing" }}
-                  // style={{ visibility: i.icon === "" ? "hidden" }}
-                  className={style.sliderItm}
-                >
-                  <BlogCard blog={blog} link={"/blog/"} />
-                </div>
-              ))}
-            </div>
-          </div>
+              <motion.div
+                whileTap={{ cursor: "grabbing" }}
+                drag={"x"}
+                dragConstraints={{ right: 0, left: -width! }}
+                key={JSON.stringify(size)}
+                className={style.innerCategoryBlogsContainer}
+              >
+                {item.blogs.map((blog: any, indx: number) => (
+                  <div
+                    key={indx}
+                    // whileTap={{ cursor: "grabbing" }}
+                    // style={{ visibility: i.icon === "" ? "hidden" }}
+                    className={style.sliderItm}
+                  >
+                    <BlogCard blog={blog} link={"/blog/"} />
+                  </div>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
         </li>
       ))}
     </ul>
