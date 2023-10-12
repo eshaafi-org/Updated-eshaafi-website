@@ -1,9 +1,9 @@
 import style from "../../styles/blogs.module.scss";
-// import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MdNavigateNext } from "react-icons/md";
 // import { motion } from "framer-motion";
-// import { useWindowSize } from "react-use";
+import { useWindowSize } from "react-use";
 import BlogCard from "@/components/BlogCard";
 
 // export default function Categories({ categories }: { categories: any[] }) {
@@ -63,6 +63,14 @@ import BlogCard from "@/components/BlogCard";
 //   );
 // }
 export default function Categories({ categories }: { categories: any[] }) {
+  const size = useWindowSize();
+  const [width, setWidth] = useState<number | null>(null);
+  let carousel = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (carousel.current) {
+      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+    }
+  }, [carousel?.current?.offsetWidth]);
   return (
     <ul className={style.categoryCont}>
       {categories.map((item, indx) => (
