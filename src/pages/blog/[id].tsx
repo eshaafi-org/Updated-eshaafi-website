@@ -37,8 +37,6 @@ export default function Post({ post }: any) {
   };
   useEffect(() => {
     const h2 = document.querySelectorAll("h2");
-
-    // const url = window.location.href;
   }, []);
   return (
     <>
@@ -194,7 +192,7 @@ export default function Post({ post }: any) {
                     backgroundSize: "100%",
                     backgroundRepeat: "no-repeat",
                     top: 100,
-                    backgroundPosition: "bottom",
+                    backgroundPosition: "bottom ",
                     padding: "1rem 1rem 5rem 1rem",
                   }}
                 >
@@ -218,8 +216,9 @@ export default function Post({ post }: any) {
                     className={style.authorImage}
                     style={{
                       background: `url(${post?.authorProfileUrl})`,
-                      backgroundPosition: "center calc(50% + 0px)",
-                      backgroundSize: "100%",
+                      // backgroundPosition: "contained",
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                     }}
                   ></div>
