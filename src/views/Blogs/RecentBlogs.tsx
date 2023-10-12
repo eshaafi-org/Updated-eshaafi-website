@@ -33,7 +33,7 @@ export default function RecentBlogs({ recentBlogs }: { recentBlogs: [] }) {
     <div className={style.recentBlogs}>
       <span className="d-flex w-100 justify-between sm-col-gap-0-5">
         <h4 className={style.blogPageHeadings}>Recent Uploads</h4>
-        <Link href="/blog" className="link">
+        <Link href="/blog/category/recent" className="link">
           View all <MdNavigateNext />
         </Link>
       </span>

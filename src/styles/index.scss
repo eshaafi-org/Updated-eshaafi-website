@@ -136,6 +136,18 @@ p {
     font-size: 2 * $base-unit;
   }
 }
+.pageHeading {
+  font-size: 16px;
+  margin-bottom: 0.3rem !important;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  @include from-mini-laptop-to-laptop {
+    font-size: 2rem !important;
+    margin-bottom: 1rem !important;
+  }
+}
 .text {
   font-size: 1rem;
   color: $text-clr;
