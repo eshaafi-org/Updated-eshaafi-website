@@ -1,3 +1,4 @@
+// BASE_URL Constant
 export const BASE_URL = "https://api.eshaafi.com";
 export const headers = () => {
   const storedValue: any | null = localStorage.getItem("user");
