@@ -67,6 +67,11 @@
       flex-direction: column;
       row-gap: 0.5rem;
     }
+    @include from-tablet-landscape-to-mini-laptop {
+      position: sticky;
+      top: 100px;
+      grid-area: 2/1/3/2;
+    }
   }
   .addSection {
     grid-area: 2/3/2/4;
