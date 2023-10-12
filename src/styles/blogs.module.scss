@@ -18,7 +18,17 @@
   height: 500px;
   .blogImage {
     width: 100%;
-    height: 100%;
+    height: 450px;
+    border-radius: 12px;
+    @include for-large-phone-only {
+      height: auto;
+    }
+    @include from-mobile-landscape-to-tablet {
+      height: 400px;
+    }
+    @include from-tablet-landscape-to-mini-laptop {
+      height: 450px;
+    }
   }
   @include for-tablet-portrait-only {
     height: auto;
