@@ -48,7 +48,7 @@ export default function Home({ positions, doctors }: any) {
         {/* <Reviews />*/}
         <Blogs blogs={positions} />
         <Partners />
-        <GetApp />
+        <GetApp color="#fff" />
       </main>
     </>
   );
