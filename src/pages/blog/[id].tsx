@@ -13,6 +13,7 @@ import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
+import GetApp from "@/views/Home/GetApp";
 
 import AddressBar from "@/components/AddressBar";
 const links = [
@@ -222,7 +223,7 @@ export default function Post({ post }: any) {
                       backgroundRepeat: "no-repeat",
                     }}
                   ></div>
-                  <p style={{ color: "#222222", fontSize: 14 }}>
+                  <p style={{ color: "#777", fontSize: 14 }}>
                     {post?.authorName}{" "}
                     <span className="mx-0-5" style={{ color: "#DFEAF2" }}>
                       |
@@ -252,6 +253,7 @@ export default function Post({ post }: any) {
               </div>
             </div>
           </section>
+          <GetApp color="#DFEAF2" />
         </main>
       ) : (
         <div className="container ">

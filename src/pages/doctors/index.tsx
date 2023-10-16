@@ -4,6 +4,7 @@ import FQuest from "@/views/Doctor/FQuest";
 import DoctorList from "@/views/Doctor/DoctorsList";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
+import GetApp from "@/views/Home/GetApp";
 // Fetches a list of doctors with the specialization "General Physician" from the API
 // async function getDoctors() {
 //   const res = await fetch(
@@ -46,6 +47,7 @@ export default function Doctors({ doctors }: any) {
         <DoctorList list={doctors} />
         <BenefitsOfVideoConsultation />
         <FQuest />
+        <GetApp color="#DFEAF2" />
       </main>
     </>
   );
