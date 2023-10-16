@@ -13,6 +13,7 @@ import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
+import GetApp from "@/views/Home/GetApp";
 
 import AddressBar from "@/components/AddressBar";
 const links = [
@@ -57,17 +58,17 @@ export default function Post({ post }: any) {
           <meta name="twitter:data1" content={post?.authorName} />
           <meta name="twitter:label2" content="Est. reading time" />
           <meta name="twitter:data2" content={post?.readTime + " minutes"} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:creator" content="eshaafi.com" />
+          <meta name="twitter:site" content="eshaafi.com" />
+          <meta name="twitter:label1" content="Written by" />
+          <meta name="twitter:data1" content={post?.authorName} />
+          <meta name="twitter:label2" content="Est. reading time" />
+          <meta name="twitter:data2" content={post?.readTime + " minutes"} />
           {/* <meta property="og:image:type" content="image/png" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
         <meta name="author" content={post?.authorName} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="eshaafi.com" />
-        <meta name="twitter:site" content="eshaafi.com" />
-        <meta name="twitter:label1" content="Written by" />
-        <meta name="twitter:data1" content={post?.authorName} />
-        <meta name="twitter:label2" content="Est. reading time" />
-        <meta name="twitter:data2" content={post?.readTime + " minutes"} />
         <meta
           property="og:site_name"
           content="Health Zone | Healthy reads on eshaafi.com"
@@ -222,7 +223,7 @@ export default function Post({ post }: any) {
                       backgroundRepeat: "no-repeat",
                     }}
                   ></div>
-                  <p style={{ color: "#222222", fontSize: 14 }}>
+                  <p style={{ color: "#777", fontSize: 14 }}>
                     {post?.authorName}{" "}
                     <span className="mx-0-5" style={{ color: "#DFEAF2" }}>
                       |
@@ -252,6 +253,7 @@ export default function Post({ post }: any) {
               </div>
             </div>
           </section>
+          <GetApp color="#DFEAF2" />
         </main>
       ) : (
         <div className="container ">

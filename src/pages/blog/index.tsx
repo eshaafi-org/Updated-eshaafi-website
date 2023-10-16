@@ -5,6 +5,7 @@ import FeaturedBlogs from "@/views/Blogs/FeaturedBlog";
 import style from "../../styles/blogs.module.scss";
 import AddressBar from "@/components/AddressBar";
 import Categories from "@/views/Blogs/Categories";
+import GetApp from "@/views/Home/GetApp";
 // async function generateStaticParams() {
 //   const res = await fetch(BASE_URL + "/new/users/blogs", {
 //     cache: "force-cache",
@@ -43,6 +44,7 @@ export default function Blogs({ recentBlogs, categories }: any) {
             <Categories categories={categories} />
           </div>
         </section>
+        <GetApp color="#DFEAF2" />
       </main>
     </>
   );

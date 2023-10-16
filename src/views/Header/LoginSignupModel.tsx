@@ -361,11 +361,26 @@ export const Model = ({
               onSubmit={updateProfile}
             >
               <span className="flex flex-col row-gap-1">
-                <InputField
-                  placeHolder="Full name"
-                  name="name"
-                  onChange={setStates}
-                />
+                <div className="w-full">
+                  <InputField
+                    placeHolder="Full name"
+                    name="name"
+                    onChange={setStates}
+                    className="w-full"
+                  />
+                  {modelStates.name && (
+                    <div>
+                      {modelStates?.name?.match(/^[a-zA-Z ]+$/) ? (
+                        <p></p>
+                      ) : (
+                        <p className="text-danger" style={{ fontSize: 12 }}>
+                          *User name can not contain numberic or any special
+                          characters
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
                 <input
                   ref={myInputRef}
                   placeholder="Date of birth"
@@ -373,8 +388,8 @@ export const Model = ({
                   name="dob"
                   className={inputField.inputField}
                   onChange={setStates}
-                  onFocus={onFocusHandler}
-                  onBlur={onBlurHandler}
+                  onMouseEnter={onFocusHandler}
+                  // onBlur={onBlurHandler}
                 />
                 <select
                   name="gender"
@@ -415,3 +430,4 @@ export const Model = ({
     </div>
   );
 };
+// RFP for development and implementation of data analytics platform
