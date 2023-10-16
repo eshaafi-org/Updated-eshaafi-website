@@ -68,9 +68,10 @@ export default function Categories({ categories }: { categories: any[] }) {
   let carousel = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (carousel.current) {
+      console.log("h");
       setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
     }
-  }, [carousel?.current?.offsetWidth]);
+  }, []);
   return (
     <ul className={style.categoryCont}>
       {categories.map((item, indx) => (
