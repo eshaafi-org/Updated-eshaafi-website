@@ -3,6 +3,7 @@ import Image from "next/image";
 import working from "../../../public/images/working.png";
 import download from "/public/images/download-badge-google-play-badge.png";
 import Link from "next/link";
+import style from "../../styles/home.module.scss";
 export default function Working() {
   return (
     <section className="w-full bg-white">
@@ -54,6 +55,7 @@ export default function Working() {
               src={working}
               alt="working"
               style={{ width: "100%", height: "auto" }}
+              className={style.sectionImage}
             />
           </span>
         </div>
