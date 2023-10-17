@@ -41,7 +41,6 @@ export default function Home({ positions, doctors }: any) {
         <Services />
         <Mission />
         <Features />
-
         <Working />
         {/* <Doctors doc={doctors} /> */}
         {/* <Subscriptions /> */}

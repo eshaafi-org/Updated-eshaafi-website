@@ -10,33 +10,13 @@ import AddressBar from "@/components/AddressBar";
 import GetApp from "@/views/Home/GetApp";
 // links
 export default function CategoryPage() {
-  const sectRef = useRef();
+  // component variables
+  const sectionRef = useRef<HTMLElement | null>(null);
   let router = useRouter();
-  const [blog, setBlog] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [lastEvaluatedKey, setLastEvaluatedKey] = useState("");
-
-  // const handleLoadMoreData = () => {
-  //   if (!lastEvaluatedKey) {
-  //     return;
-  //   }
-  //   setIsLoading(true);
-  //   axios
-  //     .get(`${BASE_URL}/new/users/blogs?last=${lastEvaluatedKey}`)
-  //     .then((response) => {
-  //       const newLastEvaluatedKey = response.data.response.LastEvaluatedKey;
-  //       setLastEvaluatedKey(newLastEvaluatedKey);
-  //       const adminListNextPage: [] = response.data.response.Items;
-  //       setBlog([...blog, ...adminListNextPage]);
-  //       setIsLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //       setIsLoading(false);
-  //     });
-  // };
-  // const [blogList, setBlogList] = useState([]);
-  // const [loading, setLoading] = useState<boolean>(false);
+  const [blog, setBlog] = useState<[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [lastEvaluatedKey, setLastEvaluatedKey] = useState<string>("");
+  // links to navigate
   const links = [
     { name: "Home", link: "/" },
     { name: "Blog", link: "/blog" },
@@ -45,7 +25,27 @@ export default function CategoryPage() {
       link: `/blog/category/${router?.query?.category}`,
     },
   ];
-  // fetch data ${BASE_URL}/new/users/blogs?category=${router?.query?.category}
+  // getting know about scroll
+  useEffect(() => {
+    function handleScroll() {
+      const section = sectionRef.current;
+      if (section) {
+        const scrollPosition = window.scrollY;
+        const sectionHeight = section.offsetHeight;
+
+        if (scrollPosition >= sectionHeight) {
+          console.log("end");
+        } else {
+          console.log("start");
+        }
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  // get initial data function
   const getData = () => {
     setIsLoading(true);
     axios
@@ -66,43 +66,17 @@ export default function CategoryPage() {
         console.error(err);
       });
   };
+  // after first rendering of the component
   useEffect(() => {
     getData();
   }, [router]);
-  //
-  // function debounce(func: () => void, delay: number) {
-  //   let timeoutId: NodeJS.Timeout;
-  //   return function () {
-  //     clearTimeout(timeoutId);
-  //     timeoutId = setTimeout(func, delay);
-  //   };
-  // }
-  // const handleScroll = useRef(
-  //   debounce(() => {
-  //     if (
-  //       sectRef.current &&
-  //       sectRef.current.scrollHeight - sectRef.current.clientHeight <=
-  //         sectRef.current.scrollTop <=
-  //         1
-  //     ) {
-  //       handleLoadMoreData();
-  //     }
-  //   }, 300)
-  // );
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll.current);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll.current);
-  //   };
-  // }, [lastEvaluatedKey]);
   return (
     <>
       <Head>
         <title>{router?.query?.category}</title>
       </Head>
       <main>
-        <section className="container">
+        <section className="container" ref={sectionRef}>
           <AddressBar links={links} title={"Blog"} />
           <span className={style.pageContent}>
             <h4 className={style.blogPageHeadings}>
