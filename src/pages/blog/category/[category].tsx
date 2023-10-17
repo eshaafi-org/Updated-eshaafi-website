@@ -13,9 +13,12 @@ export default function CategoryPage() {
   // component variables
   const sectionRef = useRef<HTMLElement | null>(null);
   let router = useRouter();
-  const [blog, setBlog] = useState<[]>([]);
+  const [blog, setBlog] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [lastEvaluatedKey, setLastEvaluatedKey] = useState<string>("");
+  const [reachedEnd, setReachedEnd] = useState<boolean>(false);
+  const [lastEvaluatedKey, setLastEvaluatedKey] = useState<
+    string | undefined | null
+  >("");
   // links to navigate
   const links = [
     { name: "Home", link: "/" },
@@ -25,18 +28,71 @@ export default function CategoryPage() {
       link: `/blog/category/${router?.query?.category}`,
     },
   ];
+
+  //
+  const loadMoreData = () => {
+    if (lastEvaluatedKey) {
+      document.body.style.overflow = "hidden";
+      setIsLoading(true);
+      setReachedEnd(false);
+      axios
+        .get(`${BASE_URL}/new/users/blogs?last=${lastEvaluatedKey}`)
+        .then((response) => {
+          const newLastEvaluatedKey = response.data.response.LastEvaluatedKey;
+          console.log(newLastEvaluatedKey);
+          setLastEvaluatedKey(newLastEvaluatedKey);
+          const adminListNextPage = response.data.response.Items;
+          setBlog((prevBlogs) => [...prevBlogs, ...adminListNextPage]);
+          document.body.style.overflow = "auto";
+          setIsLoading(false);
+          setReachedEnd(true);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    }
+  };
+  // get initial data function
+  const getData = () => {
+    document.body.style.overflow = "auto";
+    setIsLoading(true);
+    if (router?.query?.category) {
+      axios
+        .get(
+          `${
+            router?.query?.category !== "recent"
+              ? `${BASE_URL}/new/users/blogs?category=${router?.query?.category}`
+              : `${BASE_URL}/new/users/blogs`
+          }`
+        )
+        .then((response) => {
+          console.log(response);
+          setLastEvaluatedKey(response.data.response.LastEvaluatedKey);
+          setBlog(response.data.response.Items);
+          setIsLoading(false);
+          setReachedEnd(true);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.error(err);
+        });
+    }
+  };
+  // after first rendering of the component
+  useEffect(() => {
+    getData();
+  }, [router]);
   // getting know about scroll
   useEffect(() => {
     function handleScroll() {
       const section = sectionRef.current;
       if (section) {
         const scrollPosition = window.scrollY;
-        const sectionHeight = section.offsetHeight;
-
-        if (scrollPosition >= sectionHeight) {
-          console.log("end");
-        } else {
-          console.log("start");
+        const sectionHeight = section.offsetHeight - 500;
+        if (reachedEnd) {
+          if (scrollPosition >= sectionHeight) {
+            loadMoreData();
+          }
         }
       }
     }
@@ -44,32 +100,7 @@ export default function CategoryPage() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
-  // get initial data function
-  const getData = () => {
-    setIsLoading(true);
-    axios
-      .get(
-        `${
-          router?.query?.category !== "recent"
-            ? `${BASE_URL}/new/users/blogs?category=${router?.query?.category}`
-            : `${BASE_URL}/new/users/blogs`
-        }`
-      )
-      .then((response) => {
-        setLastEvaluatedKey(response.data.response.LastEvaluatedKey);
-        setBlog(response.data.response.Items);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.error(err);
-      });
-  };
-  // after first rendering of the component
-  useEffect(() => {
-    getData();
-  }, [router]);
+  }, [reachedEnd]);
   return (
     <>
       <Head>
@@ -86,20 +117,18 @@ export default function CategoryPage() {
               Read about {router?.query?.category} blogs
             </p>
           </span>
-          {isLoading ? (
+
+          <ul className={style.categoryBlogsList}>
+            {blog.map((blog, indx) => (
+              <li key={indx}>
+                <BlogCard blog={blog} link={"/blog/"} />
+              </li>
+            ))}
+          </ul>
+          {isLoading && (
             <div className="flex justify-center">
               <div className="spinner-border" role="status"></div>
             </div>
-          ) : (
-            <>
-              <ul className={style.categoryBlogsList}>
-                {blog.map((blog, indx) => (
-                  <li key={indx}>
-                    <BlogCard blog={blog} link={"/blog/"} />
-                  </li>
-                ))}
-              </ul>
-            </>
           )}
         </section>
         <GetApp color="#DFEAF2" />
