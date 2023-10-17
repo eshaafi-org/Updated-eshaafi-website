@@ -147,6 +147,9 @@
   -webkit-appearance: none;
   margin: 0;
 }
+.otpField[type="number"] {
+  -moz-appearance: textfield;
+}
 .otpError {
   border: 2px solid #b00020 !important;
 }
@@ -159,6 +162,7 @@
     border: none;
     padding: 1rem;
     font-size: 1rem;
+    background: none !important;
     &:focus-visible {
       outline: none;
     }
@@ -189,14 +193,15 @@
   margin: 0;
 }
 
-.phoneInput {
-  -moz-appearance: textfield; /* Firefox */
+.phoneInput[type="number"] {
+  -moz-appearance: textfield;
 }
 .selectOpt {
   border: 1px solid #79747e;
   padding: 1rem;
   border-radius: 4px;
   font-size: 1rem;
+  background: none;
   &:hover {
     border: 1px solid $primary-clr;
   }

@@ -386,7 +386,7 @@ export const Model = ({
                   placeholder="Date of birth"
                   type="text"
                   name="dob"
-                  className={inputField.inputField}
+                  className={inputField.inputField + " w-full"}
                   onChange={setStates}
                   onMouseEnter={onFocusHandler}
                   // onBlur={onBlurHandler}
@@ -413,7 +413,7 @@ export const Model = ({
                 variant="contained"
                 type="submit"
                 disabled={
-                  modelStates.name &&
+                  modelStates?.name?.match(/^[a-zA-Z ]+$/) &&
                   modelStates.dob &&
                   modelStates.gender &&
                   modelStates.location
