@@ -1,10 +1,14 @@
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../../styles/appointments.module.scss";
 import { FaRegClock } from "react-icons/fa6";
 import { BsCalendar4Week } from "react-icons/bs";
-
 import moment from "moment";
+import axios, { AxiosError } from "axios";
+import { BASE_URL, headers } from "@/helper/CONST";
+
+// appointment card
 function Card({ appointment }: { appointment: any }) {
   return (
     <Link
@@ -83,29 +87,76 @@ function Card({ appointment }: { appointment: any }) {
     </Link>
   );
 }
-export default function AppointmentsList({
-  list = [],
-  type,
-  loading,
-}: {
-  list: any;
-  loading: boolean;
-  type: string;
-}) {
+// appointment list component
+export default function AppointmentsList({ type }: { type: string }) {
+  const [appoint, setAppoint] = useState<any[]>([]);
+  const [lastEvaluatedKey, setLastEvaluatedKey] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  // after first rendering
+  async function getConsultations(type: string): Promise<any> {
+    setLoading(true);
+    try {
+      axios
+        .post(
+          BASE_URL + "/patients/appointments",
+          {
+            type: type,
+          },
+          {
+            headers: headers(),
+          }
+        )
+        .then((response) => {
+          setLoading(false);
+          setLastEvaluatedKey(response.data.response.LastEvaluatedKey);
+          setAppoint(response.data.response.Items);
+        });
+    } catch (error) {
+      setLoading(false);
+      if (axios.isAxiosError(error)) {
+        // Axios error: The request was made, but the server responded with a status code
+        const axiosError: AxiosError = error;
+        if (axiosError.response) {
+          console.error(
+            "Request failed with status",
+            axiosError.response.status
+          );
+        } else {
+          console.error("Axios error:", axiosError.message);
+        }
+      } else if (axios.isCancel(error)) {
+        // Request was canceled
+        console.error("Request canceled:", error.message);
+      } else {
+        // Something else happened
+        console.error("Error:", error);
+      }
+
+      throw error; // Rethrow the error to be handled by the caller or an Error Boundary.
+    }
+  }
+  useEffect(() => {
+    getConsultations(type);
+  }, [type]);
   return (
     <>
-      {list.length > 0 ? (
+      {appoint.length > 0 ? (
         <ul
           className={
             "doc-profile bg-white flex flex-col row-gap-2 sm-w-full " +
             styles.list
           }
         >
-          {list.map((appointment: any, indx: number) => (
+          {appoint.map((appointment: any, indx: number) => (
             <li key={indx}>
               <Card appointment={appointment} />
             </li>
           ))}
+          {loading && (
+            <div className="flex justify-center">
+              <div className="spinner-border" role="status"></div>
+            </div>
+          )}
         </ul>
       ) : (
         <p>No {type === "past" ? "previous" : "Upcoming"} Appointments</p>

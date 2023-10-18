@@ -10,6 +10,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import inputField from "@/components/InputField/Input.module.scss";
+import { ToastContainer, toast } from "react-toastify";
 
 // reducer
 const reducer = (state: any, action: any) => {
@@ -113,7 +114,8 @@ export const Model = ({
       })
       .catch((err) => {
         setStates({ type: "OTP_LOADING_FALSE" });
-        console.error(err);
+        console.error(err.response.data.response.message);
+        toast(err.response.data.response.message);
       });
   };
   // verified otp
@@ -177,7 +179,7 @@ export const Model = ({
         setStates({ type: "PROFILE_LOADING" });
       });
   };
-
+  // on focus changing the input field
   const onFocusHandler = () => {
     const inputRef = myInputRef.current;
     if (inputRef) {
@@ -185,12 +187,6 @@ export const Model = ({
     }
   };
 
-  const onBlurHandler = () => {
-    const inputRef = myInputRef.current;
-    if (inputRef) {
-      inputRef.type = "text";
-    }
-  };
   return (
     <div className={page === "login" ? style.loginCont : style.modalCont}>
       <div className={style.modaldiv}>
@@ -203,7 +199,7 @@ export const Model = ({
                     <Button onClick={close}>
                       <FaX />
                     </Button>
-                    <h4 className="grow-2 text-center">Login or Signup</h4>
+                    <h4 className="grow-2 text-center">Login or Sign up</h4>
                   </span>
                 )}
                 <span
@@ -267,6 +263,12 @@ export const Model = ({
                           type="submit"
                           variant="contained"
                           className="my-1 sm-mt-10"
+                          // disabled={
+                          //   formik.values.phone_no.length > 9 ? false : true
+                          // }
+                          onClick={() =>
+                            console.log(formik.values.phone_no.length)
+                          }
                         >
                           {otpLoading ? "Sending..." : "Continue"}
                         </Button>
@@ -427,6 +429,7 @@ export const Model = ({
           </>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };
