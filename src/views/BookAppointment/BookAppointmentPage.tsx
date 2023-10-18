@@ -18,7 +18,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   // const router = useRouter();
   const params = useRouter();
   const [response, setResponse] = useState<any>({});
-  const [appointDate, setAppointDate] = useState("");
+  const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
   const [method, setMethod] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
