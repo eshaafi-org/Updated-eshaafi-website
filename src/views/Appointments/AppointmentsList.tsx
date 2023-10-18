@@ -7,7 +7,8 @@ import { BsCalendar4Week } from "react-icons/bs";
 import moment from "moment";
 import axios, { AxiosError } from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
-
+import empty from "../../../public/images/empty.png";
+import Button from "@/components/Button";
 // appointment card
 function Card({ appointment }: { appointment: any }) {
   return (
@@ -114,7 +115,6 @@ export default function AppointmentsList({ type }: { type: string }) {
         )
         .then((response) => {
           const newLastEvaluatedKey = response.data.response.LastEvaluatedKey;
-          console.log(newLastEvaluatedKey);
           setLastEvaluatedKey(newLastEvaluatedKey);
           const appointmentListNextPAge = response.data.response.Items;
           setAppoint((prev) => [...prev, ...appointmentListNextPAge]);
@@ -123,6 +123,7 @@ export default function AppointmentsList({ type }: { type: string }) {
           setReachedEnd(true);
         })
         .catch((error) => {
+          console.error(error.response.data.response.message);
           setLoading(false);
         });
     }
@@ -184,8 +185,6 @@ export default function AppointmentsList({ type }: { type: string }) {
         if (reachedEnd) {
           if (scrollPosition >= sectionHeight) {
             loadMoreData();
-          } else {
-            console.log("he");
           }
         }
       }
@@ -215,7 +214,23 @@ export default function AppointmentsList({ type }: { type: string }) {
           )}
         </ul>
       ) : (
-        <p>No {type === "past" ? "previous" : "Upcoming"} Appointments</p>
+        <div className="row ">
+          <div className="col ">
+            <div className="d-flex justify-content-center flex-column align-items-center row-gap-1">
+              <Image
+                src={empty}
+                width={500}
+                height={500}
+                alt="search empty"
+                className={styles.emptyImage}
+              />
+              <p>No {type === "past" ? "previous" : "Upcoming"} Appointments</p>
+              <Link href={"/doctors"}>
+                <Button variant={"outlined"}>Book Appointment</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

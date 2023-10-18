@@ -88,11 +88,11 @@ export const socialLinks = [
   },
   {
     icon: <FaYoutube />,
-    link: "https://www.youtube.com/@eShaaficare",
+    link: "https://www.youtube.com/@eShaaficares",
   },
   {
     icon: <FaTiktok />,
-    link: "https://www.tiktok.com/@eshaaficare",
+    link: "https://www.tiktok.com/@eshaaficares",
   },
 ];
 
