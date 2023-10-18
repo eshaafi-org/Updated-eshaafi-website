@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import getApp from "../../../public/images/getApp.png";
 import download from "../../../public/images/download-badge-google-play-badge.png";
+import style from "../../styles/home.module.scss";
 
 export default function GetApp({ color = "#fff" }: { color: string }) {
   return (
@@ -28,6 +29,7 @@ export default function GetApp({ color = "#fff" }: { color: string }) {
               src={getApp}
               alt="subscription plans"
               style={{ width: "100%", height: "auto" }}
+              className={style.sectionImage}
             />
           </span>
         </div>

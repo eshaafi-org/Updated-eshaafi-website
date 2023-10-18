@@ -55,9 +55,8 @@ export default function Timer() {
             }}
           >
             <FaCircleExclamation />
-            <span> Slot is hold for</span>
+            <span> Slot is on hold for</span>
           </p>
-
           <div
             className={style.box}
             style={{

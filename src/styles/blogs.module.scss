@@ -192,7 +192,8 @@
 
     a {
       display: inline-block !important;
-      color: $primary-clr;
+      color: #075290;
+      text-decoration: underline !important;
       @include for-large-phone-only {
         font-size: 14px;
       }
@@ -221,7 +222,8 @@
       letter-spacing: 0.1px;
       a {
         display: inline-block !important;
-        color: #2788cd;
+        color: #1a0dab;
+        text-decoration: underline !important;
         @include for-large-phone-only {
           font-size: 14px;
         }

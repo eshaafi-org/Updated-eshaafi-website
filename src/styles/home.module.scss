@@ -145,3 +145,9 @@
     padding: unset;
   }
 }
+/// get the app section
+.sectionImage {
+  @include from-mini-laptop-to-laptop {
+    min-width: 300px;
+  }
+}

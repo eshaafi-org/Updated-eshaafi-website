@@ -622,3 +622,68 @@ p {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; /* Change the color of the handle on hover */
 }
+/// chips styling
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+.chip.chip-checkbox > .chip-add-icon::after {
+  content: "add";
+}
+.chip.chip-checkbox.active > .chip-add-icon::after {
+  content: "done";
+}
+.chip > * {
+  margin-right: 2px;
+  margin-left: 2px;
+  color: $primary-clr;
+  font-size: 12px;
+}
+.chip input {
+  display: none;
+}
+.chip.chip-checkbox,
+.chip.chip-toggle,
+.chip.clickable {
+  cursor: pointer;
+}
+.chip.active {
+  background-color: $secondary-clr;
+  border-color: #c3c2c2;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+}
+.chip:hover,
+.chip:focus {
+  background-color: $secondary-clr;
+}
+.chip:active:focus {
+  background-color: $secondary-clr;
+}
+.chip button {
+  border: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  background: none;
+  display: inline-flex;
+}
+.chip {
+  transition: all 0.3s ease-in-out;
+  background-color: #fff;
+  border-radius: 30px;
+  border: 2px solid $primary-clr;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 6px 4px 6px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  // span {
+  //   color: $primary-clr;
+  //   font-size: 12px;
+  // }
+}
+.chip i.material-icons {
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
