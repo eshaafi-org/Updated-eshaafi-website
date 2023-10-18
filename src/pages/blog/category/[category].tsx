@@ -29,7 +29,7 @@ export default function CategoryPage() {
     },
   ];
 
-  //
+  // to load more data this function will run on scroll end
   const loadMoreData = () => {
     if (lastEvaluatedKey) {
       document.body.style.overflow = "hidden";

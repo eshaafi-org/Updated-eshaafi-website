@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../../styles/appointments.module.scss";
@@ -24,20 +24,22 @@ function Card({ appointment }: { appointment: any }) {
               width={70}
               height={70}
               style={{ borderRadius: 50 }}
+              className={styles.cardImage}
             />
-            <span className="flex flex-col row-gap-0-5">
-              <h5
-                className=" font-bolder text-main capitalize"
-                style={{ fontSize: 18 }}
-              >
+            <span className="flex flex-col">
+              <h5 className={styles.subHeading}>
                 {appointment?.doctorInfo?.title +
                   " " +
                   appointment?.doctorInfo?.firstName +
                   " " +
                   appointment?.doctorInfo?.lastName}
               </h5>
-              <p>{appointment?.doctorInfo?.specialization}</p>
-              <p>Patient: {appointment?.patientInfo?.name}</p>
+              <p className={styles.text}>
+                {appointment?.doctorInfo?.specialization}
+              </p>
+              <p className={styles.text}>
+                Patient: {appointment?.patientInfo?.name}
+              </p>
             </span>
           </div>
           <div className="flex flex-col items-end row-gap-0-5">
@@ -65,16 +67,16 @@ function Card({ appointment }: { appointment: any }) {
                   : appointment?.appointment_status}
               </p>
             </span>
-            <p>{appointment?.appoint_type}</p>
+            <p className={styles.subText}>{appointment?.appoint_type}</p>
           </div>
         </div>
-        <div className="flex  col-gap-2 items-center pt-1 sm-flex-col sm-items-start sm-row-gap-1">
-          <p className="flex col-gap-1 items-center">
+        <div className="flex  col-gap-2 items-center pt-1 flex-wrap sm-items-start sm-row-gap-1">
+          <p className={"flex col-gap-1 items-center " + styles.text}>
             <BsCalendar4Week />
 
             {moment(appointment.appoint_date).format("dddd, DD MMMM")}
           </p>
-          <p className="flex col-gap-1 items-center">
+          <p className={"flex col-gap-1 items-center " + styles.text}>
             <FaRegClock />
 
             {`${appointment.appoint_start_time} - ${moment(
@@ -89,9 +91,42 @@ function Card({ appointment }: { appointment: any }) {
 }
 // appointment list component
 export default function AppointmentsList({ type }: { type: string }) {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
   const [appoint, setAppoint] = useState<any[]>([]);
+  const [reachedEnd, setReachedEnd] = useState<boolean>(false);
   const [lastEvaluatedKey, setLastEvaluatedKey] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  // to load more data this function will run on scroll end
+  const loadMoreData = () => {
+    if (lastEvaluatedKey) {
+      document.body.style.overflow = "hidden";
+      setLoading(true);
+      setReachedEnd(false);
+      axios
+        .post(
+          `${BASE_URL}/patients/appointments?last=${lastEvaluatedKey}`,
+          {
+            type: type,
+          },
+          {
+            headers: headers(),
+          }
+        )
+        .then((response) => {
+          const newLastEvaluatedKey = response.data.response.LastEvaluatedKey;
+          console.log(newLastEvaluatedKey);
+          setLastEvaluatedKey(newLastEvaluatedKey);
+          const appointmentListNextPAge = response.data.response.Items;
+          setAppoint((prev) => [...prev, ...appointmentListNextPAge]);
+          document.body.style.overflow = "auto";
+          setLoading(false);
+          setReachedEnd(true);
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
+  };
   // after first rendering
   async function getConsultations(type: string): Promise<any> {
     setLoading(true);
@@ -110,6 +145,7 @@ export default function AppointmentsList({ type }: { type: string }) {
           setLoading(false);
           setLastEvaluatedKey(response.data.response.LastEvaluatedKey);
           setAppoint(response.data.response.Items);
+          setReachedEnd(response.data.response.LastEvaluatedKey ? true : false);
         });
     } catch (error) {
       setLoading(false);
@@ -138,13 +174,33 @@ export default function AppointmentsList({ type }: { type: string }) {
   useEffect(() => {
     getConsultations(type);
   }, [type]);
+  // scrolling event
+  useEffect(() => {
+    function handleScroll() {
+      const section = sectionRef.current;
+      if (section) {
+        const scrollPosition = window.scrollY;
+        const sectionHeight = section.offsetHeight - 500;
+        if (reachedEnd) {
+          if (scrollPosition >= sectionHeight) {
+            loadMoreData();
+          } else {
+            console.log("he");
+          }
+        }
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [reachedEnd]);
   return (
-    <>
+    <div ref={sectionRef} className={styles.list}>
       {appoint.length > 0 ? (
         <ul
           className={
-            "doc-profile bg-white flex flex-col row-gap-2 sm-w-full " +
-            styles.list
+            "doc-profile bg-white flex flex-col row-gap-2  w-full sm-row-gap-1 "
           }
         >
           {appoint.map((appointment: any, indx: number) => (
@@ -161,6 +217,6 @@ export default function AppointmentsList({ type }: { type: string }) {
       ) : (
         <p>No {type === "past" ? "previous" : "Upcoming"} Appointments</p>
       )}
-    </>
+    </div>
   );
 }

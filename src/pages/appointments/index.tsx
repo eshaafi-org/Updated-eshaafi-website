@@ -2,9 +2,14 @@
 import { useState } from "react";
 import AppointmentsList from "@/views/Appointments/AppointmentsList";
 import Head from "next/head";
-// import style from "../../styles/appointments.module.scss";
 import style from "../../styles/appointments.module.scss";
+import AddressBar from "@/components/AddressBar";
+import GetApp from "@/views/Home/GetApp";
 
+const links = [
+  { name: "Home", link: "/" },
+  { name: "Appointments", link: "/appointments" },
+];
 export default function Appointments() {
   const [appointType, setAppointType] = useState("Past");
 
@@ -15,9 +20,39 @@ export default function Appointments() {
       </Head>
       <main>
         <section className="container">
-          <div className="flex flex-col row-gap-2 position-relative">
-            <h2>My Appointments</h2>
-            <section className="flex justify-between col-gap-1 items-start lg-flex-col lg-row-gap-2">
+          <div className="flex flex-col row-gap-1 position-relative sm-row-gap-0-5">
+            <span>
+              <h2>My Appointments</h2>
+              <AddressBar links={links} />
+            </span>
+            <section className="flex justify-between col-gap-1 items-start lg-flex-col lg-row-gap-2 sm-row-gap-1">
+              <div className={style.chips}>
+                <div className="chip-group" role="radiogroup">
+                  <div
+                    className="chip chip-checkbox"
+                    aria-labelledby="radioTwoLabel"
+                    tabIndex={0}
+                    role="radio"
+                    aria-checked="false"
+                    onClick={() => setAppointType("Upcoming")}
+                  >
+                    <input type="radio" name="radioEx" />
+                    <span id="radioTwoLabel">Upcoming</span>
+                  </div>
+                  <div
+                    className="chip chip-checkbox"
+                    aria-labelledby="radioOneLabel"
+                    tabIndex={0}
+                    role="radio"
+                    aria-checked="false"
+                    onClick={() => setAppointType("Past")}
+                  >
+                    <input type="radio" name="radioEx" />
+                    <span id="radioOneLabel">Past</span>
+                  </div>
+                </div>
+              </div>
+
               {/* appointment list */}
               <AppointmentsList type={appointType} />
               {/*consultation filters*/}
@@ -29,9 +64,9 @@ export default function Appointments() {
                       <input
                         className="mr-1"
                         id="Past"
+                        onChange={() => setAppointType("Past")}
                         type="radio"
                         name="type"
-                        onChange={() => setAppointType("Past")}
                         defaultChecked={true}
                       />
                       Past
@@ -40,9 +75,9 @@ export default function Appointments() {
                       <input
                         className="mr-1"
                         id="Upcoming"
+                        onChange={() => setAppointType("Upcoming")}
                         type="radio"
                         name="type"
-                        onChange={() => setAppointType("Upcoming")}
                       />
                       Upcoming
                     </label>
@@ -52,6 +87,7 @@ export default function Appointments() {
             </section>
           </div>
         </section>
+        <GetApp color="#DFEAF2" />
       </main>
     </>
   );
