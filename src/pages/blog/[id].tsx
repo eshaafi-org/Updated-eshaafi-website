@@ -1,5 +1,6 @@
 // import Head from "next/head";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Collapse from "react-bootstrap/Collapse";
 import Image from "next/image";
 // import type { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
@@ -9,18 +10,24 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import addImage from "../../../public/images/addImage.png";
-import { FaFacebookF, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaLinkedinIn,
+  FaWhatsapp,
+  FaChevronDown,
+} from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
 import GetApp from "@/views/Home/GetApp";
-
 import AddressBar from "@/components/AddressBar";
+// page links
 const links = [
   { name: "Home", link: "/" },
   { name: "Blog", link: "/blog" },
 ];
 export default function Post({ post }: any) {
+  const [open, setOpen] = useState(false);
   const baseUrl = "https://beta.eshaafi.com";
   let router = useRouter();
 
@@ -37,8 +44,21 @@ export default function Post({ post }: any) {
       });
   };
   useEffect(() => {
-    const h2 = document.querySelectorAll("h2");
-  }, []);
+    const blogContent = document.querySelector("#blogContent");
+    if (blogContent) {
+      const h2: NodeListOf<HTMLHeadElement> | undefined =
+        blogContent?.querySelectorAll("h2");
+      console.log(h2);
+      if (h2.length > 0) {
+        console.log("hey");
+        for (let i = 0; i < post?.blogContent?.length; i++) {
+          console.log("e");
+          h2[i].id = post?.blogContent[i];
+          console.log(h2[i]);
+        }
+      }
+    }
+  }, [post]);
   return (
     <>
       {post && (
@@ -95,9 +115,63 @@ export default function Post({ post }: any) {
             {/* blog page  */}
             <div className={style.blogPage}>
               {/* share and table of content section */}
-              {/* <div className={style.tableOfContent}>
-                <p className="text-main font-bold">Table of content</p>
-              </div> */}
+              {post?.blogContent && post?.blogContent.length > 0 && (
+                <div className={style.tableOfContent}>
+                  <div className={style.desktop}>
+                    <p className="text-main font-bold mb-3">Table of Content</p>
+                    <ul className="d-flex flex-wrap col-gap-1">
+                      {post?.blogContent?.length > 0 &&
+                        post?.blogContent.map((link: string, indx: number) => (
+                          <li key={indx} className="d-flex col-gap-0-5">
+                            <a
+                              className="font-bold text-primary "
+                              href={"#" + link}
+                            >
+                              {link}
+                            </a>
+                            {indx + 1 === post?.blogContent.length || (
+                              <span>|</span>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                  <div className={style.mobile}>
+                    <div
+                      onClick={() => setOpen(!open)}
+                      className="d-flex w-full justify-between border-bottom items-center pb-1"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
+                    >
+                      <p className="text-main font-bold ">Table of Content</p>
+                      <FaChevronDown />
+                    </div>
+                    <Collapse in={open}>
+                      <div id="example-collapse-text">
+                        <ul className="d-flex flex-wrap col-gap-1 mt-1">
+                          {post?.blogContent?.length > 0 &&
+                            post?.blogContent.map(
+                              (link: string, indx: number) => (
+                                <li key={indx} className="d-flex col-gap-0-5">
+                                  <a
+                                    className="font-bold text-primary "
+                                    href={"#" + link}
+                                  >
+                                    {link}
+                                  </a>
+                                  {indx + 1 === post?.blogContent.length || (
+                                    <span>|</span>
+                                  )}
+                                </li>
+                              )
+                            )}
+                        </ul>
+                      </div>
+                    </Collapse>
+                  </div>
+                </div>
+              )}
               <div className={style.share}>
                 <div className={style.shareIcon}>
                   <p className="text-main font-bold">Share this Article</p>
@@ -185,11 +259,10 @@ export default function Post({ post }: any) {
               <div className={style.addSection}>
                 <div
                   className={
-                    "bg-main align-self-start flex flex-col row-gap-1 rounded"
+                    "bg-main align-self-start flex flex-col row-gap-1 rounded justify-between"
                   }
                   style={{
                     background: `url(${addImage.src})`,
-
                     backgroundSize: "100%",
                     backgroundRepeat: "no-repeat",
                     top: 100,
@@ -248,7 +321,7 @@ export default function Post({ post }: any) {
                 />
               </div>
               {/* blog writing section */}
-              <div className={style.blogContent}>
+              <div className={style.blogContent} id="blogContent">
                 <ReactMarkdown>{post?.description}</ReactMarkdown>
               </div>
             </div>

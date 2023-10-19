@@ -11,7 +11,7 @@ const links = [
   { name: "Appointments", link: "/appointments" },
 ];
 export default function Appointments() {
-  const [appointType, setAppointType] = useState("Past");
+  const [appointType, setAppointType] = useState("Upcoming");
 
   return (
     <>
@@ -67,7 +67,6 @@ export default function Appointments() {
                         onChange={() => setAppointType("Past")}
                         type="radio"
                         name="type"
-                        defaultChecked={true}
                       />
                       Past
                     </label>
@@ -78,6 +77,7 @@ export default function Appointments() {
                         onChange={() => setAppointType("Upcoming")}
                         type="radio"
                         name="type"
+                        defaultChecked={true}
                       />
                       Upcoming
                     </label>

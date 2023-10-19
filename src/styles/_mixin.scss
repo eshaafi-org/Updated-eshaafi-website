@@ -64,7 +64,7 @@
   }
 }
 @mixin from-mini-laptop-to-laptop {
-  @media (min-width: 1024px) {
+  @media (min-width: 1050px) {
     @content;
   }
 }
