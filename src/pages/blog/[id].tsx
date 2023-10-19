@@ -65,7 +65,6 @@ export default function Post({ post }: any) {
         <Head>
           <title>{post?.title}</title>
           <meta name="description" content={post?.description} key={"desc"} />
-          {/* <link rel="canonical" href={baseUrl + router.asPath} /> */}
           <meta property="og:title" content={post?.title} />
           <meta property="og:description" content={post?.description} />
           <meta property="og:image" content={post?.url} />
@@ -78,13 +77,8 @@ export default function Post({ post }: any) {
           <meta name="twitter:data1" content={post?.authorName} />
           <meta name="twitter:label2" content="Est. reading time" />
           <meta name="twitter:data2" content={post?.readTime + " minutes"} />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:creator" content="eshaafi.com" />
-          <meta name="twitter:site" content="eshaafi.com" />
-          <meta name="twitter:label1" content="Written by" />
-          <meta name="twitter:data1" content={post?.authorName} />
-          <meta name="twitter:label2" content="Est. reading time" />
-          <meta name="twitter:data2" content={post?.readTime + " minutes"} />
+          <meta name="twitter:label3" content="Title" />
+          <meta name="twitter:data3" content={post?.title} />
           {/* <meta property="og:image:type" content="image/png" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
