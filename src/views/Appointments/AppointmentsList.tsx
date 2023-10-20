@@ -7,8 +7,9 @@ import { BsCalendar4Week } from "react-icons/bs";
 import moment from "moment";
 import axios, { AxiosError } from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
-import empty from "../../../public/images/empty.png";
+import empty from "../../../public/images/empty.svg";
 import Button from "@/components/Button";
+import SkeletonLoader from "@/components/SkeletonLoader";
 // appointment card
 function Card({ appointment }: { appointment: any }) {
   return (
@@ -196,41 +197,42 @@ export default function AppointmentsList({ type }: { type: string }) {
   }, [reachedEnd]);
   return (
     <div ref={sectionRef} className={styles.list}>
-      {appoint.length > 0 ? (
-        <ul
-          className={
-            "doc-profile bg-white flex flex-col row-gap-2  w-full sm-row-gap-1 "
-          }
-        >
-          {appoint.map((appointment: any, indx: number) => (
-            <li key={indx}>
-              <Card appointment={appointment} />
-            </li>
-          ))}
-          {loading && (
-            <div className="flex justify-center">
-              <div className="spinner-border" role="status"></div>
+      {loading ? (
+        <SkeletonLoader />
+      ) : (
+        <>
+          {appoint.length > 0 ? (
+            <ul
+              className={
+                "doc-profile bg-white flex flex-col row-gap-2  w-full sm-row-gap-1 "
+              }
+            >
+              {appoint.map((appointment: any, indx: number) => (
+                <li key={indx}>
+                  <Card appointment={appointment} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="row ">
+              <div className="col ">
+                <div className="d-flex justify-content-center flex-column align-items-center row-gap-1">
+                  <Image
+                    src={empty}
+                    alt="search empty"
+                    className={styles.emptyImage}
+                  />
+                  <p>
+                    No {type === "Past" ? "Previous" : "Upcoming"} Appointments
+                  </p>
+                  <Link href={"/doctors"}>
+                    <Button variant={"outlined"}>Book Appointment</Button>
+                  </Link>
+                </div>
+              </div>
             </div>
           )}
-        </ul>
-      ) : (
-        <div className="row ">
-          <div className="col ">
-            <div className="d-flex justify-content-center flex-column align-items-center row-gap-1">
-              <Image
-                src={empty}
-                width={500}
-                height={500}
-                alt="search empty"
-                className={styles.emptyImage}
-              />
-              <p>No {type === "past" ? "previous" : "Upcoming"} Appointments</p>
-              <Link href={"/doctors"}>
-                <Button variant={"outlined"}>Book Appointment</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
+        </>
       )}
     </div>
   );

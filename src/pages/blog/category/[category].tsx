@@ -66,7 +66,6 @@ export default function CategoryPage() {
           }`
         )
         .then((response) => {
-          console.log(response);
           setLastEvaluatedKey(response.data.response.LastEvaluatedKey);
           setBlog(response.data.response.Items);
           setIsLoading(false);

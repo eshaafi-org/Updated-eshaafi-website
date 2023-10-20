@@ -373,12 +373,12 @@ export const Model = ({
                   />
                   {modelStates.name && (
                     <div>
-                      {modelStates?.name?.match(/^[a-zA-Z ]{3,}$/) ? (
+                      {modelStates?.name?.match(/^[a-zA-Z -]{3,}$/) ? (
                         <p></p>
                       ) : (
                         <p className="text-danger" style={{ fontSize: 12 }}>
-                          {`*minimum 3 letters (User name can not contain numberic
-                          or any special characters)`}
+                          {`minimum 3 letters (User name can not contain numberic
+                          or special characters except -)*`}
                         </p>
                       )}
                     </div>
@@ -417,7 +417,7 @@ export const Model = ({
                 variant="contained"
                 type="submit"
                 disabled={
-                  modelStates?.name?.match(/^[a-zA-Z ]{3,}$/) &&
+                  modelStates?.name?.match(/^[a-zA-Z -]{3,}$/) &&
                   modelStates.dob &&
                   modelStates.gender &&
                   modelStates.location

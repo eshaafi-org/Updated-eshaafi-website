@@ -5,8 +5,8 @@ import { BASE_URL } from "@/helper/CONST";
 import BookAppointmentPage from "@/views/BookAppointment/BookAppointmentPage";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { useParams } from "next/navigation";
-
+// import { useParams } from "next/navigation";
+import SkeletonLoader from "@/components/SkeletonLoader";
 export default function Booking() {
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(true);
@@ -49,28 +49,7 @@ export default function Booking() {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main>
-        {loading ? (
-          <div className="container">
-            <div className="w-60">
-              <div className="card border-none" aria-hidden="true">
-                <div className="card-body">
-                  <h5 className="card-title placeholder-glow">
-                    <span className="placeholder col-6"></span>
-                  </h5>
-                  <p className="card-text placeholder-glow">
-                    <span className="placeholder col-7"></span>
-                    <span className="placeholder col-4"></span>
-                    <span className="placeholder col-4"></span>
-                    <span className="placeholder col-6"></span>
-                    <span className="placeholder col-8"></span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <BookAppointmentPage data={response} />
-        )}
+        {loading ? <SkeletonLoader /> : <BookAppointmentPage data={response} />}
       </main>
     </>
   );
