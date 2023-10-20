@@ -10,6 +10,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import inputField from "@/components/InputField/Input.module.scss";
+import { ToastContainer, toast } from "react-toastify";
+import moment from "moment";
 
 // reducer
 const reducer = (state: any, action: any) => {
@@ -113,7 +115,8 @@ export const Model = ({
       })
       .catch((err) => {
         setStates({ type: "OTP_LOADING_FALSE" });
-        console.error(err);
+        console.error(err.response.data.response.message);
+        toast(err.response.data.response.message);
       });
   };
   // verified otp
@@ -177,7 +180,7 @@ export const Model = ({
         setStates({ type: "PROFILE_LOADING" });
       });
   };
-
+  // on focus changing the input field
   const onFocusHandler = () => {
     const inputRef = myInputRef.current;
     if (inputRef) {
@@ -185,12 +188,6 @@ export const Model = ({
     }
   };
 
-  const onBlurHandler = () => {
-    const inputRef = myInputRef.current;
-    if (inputRef) {
-      inputRef.type = "text";
-    }
-  };
   return (
     <div className={page === "login" ? style.loginCont : style.modalCont}>
       <div className={style.modaldiv}>
@@ -203,11 +200,11 @@ export const Model = ({
                     <Button onClick={close}>
                       <FaX />
                     </Button>
-                    <h4 className="grow-2 text-center">Login or Signup</h4>
+                    <h4 className="grow-2 text-center">Login or Sign up</h4>
                   </span>
                 )}
                 <span
-                  className={`flex flex-col p-1 row-gap-1 ${
+                  className={`sm-mt-1 flex flex-col p-1 row-gap-1 ${
                     page === "login" ? "" : "items-center"
                   }`}
                 >
@@ -252,6 +249,7 @@ export const Model = ({
                             className={style.phoneInput}
                             {...formik.getFieldProps("phone_no")}
                             onChange={formik.handleChange}
+                            autoFocus
                           />
                         </span>
                         {formik.errors.phone_no ? (
@@ -262,11 +260,16 @@ export const Model = ({
                           </div>
                         ) : null}
                       </div>
-                      <div className="flex flex-col">
+                      <div className="flex flex-col sm-mt-1">
                         <Button
                           type="submit"
                           variant="contained"
-                          className="my-1 sm-mt-10"
+                          className="my-1 sm-mt-1"
+                          disabled={
+                            formik.values.phone_no.toString().length > 9
+                              ? false
+                              : true
+                          }
                         >
                           {otpLoading ? "Sending..." : "Continue"}
                         </Button>
@@ -306,7 +309,7 @@ export const Model = ({
                   </h4>
                 </span>
                 <span
-                  className={`flex flex-col p-1 row-gap-1 ${
+                  className={`flex sm-mt-1 flex-col p-1 row-gap-1 ${
                     page === "login" ? "" : "items-center"
                   }`}
                 >
@@ -345,7 +348,7 @@ export const Model = ({
               </Button> */}
               <h4 className="grow-2 text-center">Complete Profile</h4>
             </span>
-            <span className="flex flex-col items-center p-1 row-gap-1">
+            <span className="flex sm-mt-1 flex-col items-center p-1 row-gap-1">
               <h1>Welcome to eShaafi</h1>
               <p
                 className={` ${
@@ -361,20 +364,36 @@ export const Model = ({
               onSubmit={updateProfile}
             >
               <span className="flex flex-col row-gap-1">
-                <InputField
-                  placeHolder="Full name"
-                  name="name"
-                  onChange={setStates}
-                />
+                <div className="w-full">
+                  <InputField
+                    placeHolder="Full name"
+                    name="name"
+                    onChange={setStates}
+                    className="w-full"
+                  />
+                  {modelStates.name && (
+                    <div>
+                      {modelStates?.name?.match(/^[a-zA-Z -]{3,}$/) ? (
+                        <p></p>
+                      ) : (
+                        <p className="text-danger" style={{ fontSize: 12 }}>
+                          {`minimum 3 letters (User name can not contain numberic
+                          or special characters except -)*`}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
                 <input
                   ref={myInputRef}
                   placeholder="Date of birth"
                   type="text"
                   name="dob"
-                  className={inputField.inputField}
+                  max={moment().format("YYYY-MM-DD")}
+                  className={inputField.inputField + " w-full"}
                   onChange={setStates}
+                  onMouseEnter={onFocusHandler}
                   onFocus={onFocusHandler}
-                  onBlur={onBlurHandler}
                 />
                 <select
                   name="gender"
@@ -398,7 +417,7 @@ export const Model = ({
                 variant="contained"
                 type="submit"
                 disabled={
-                  modelStates.name &&
+                  modelStates?.name?.match(/^[a-zA-Z -]{3,}$/) &&
                   modelStates.dob &&
                   modelStates.gender &&
                   modelStates.location
@@ -412,6 +431,8 @@ export const Model = ({
           </>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };
+// RFP for development and implementation of data analytics platform

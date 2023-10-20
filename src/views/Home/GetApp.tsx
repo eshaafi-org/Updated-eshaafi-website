@@ -2,13 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import getApp from "../../../public/images/getApp.png";
 import download from "../../../public/images/download-badge-google-play-badge.png";
+import style from "../../styles/home.module.scss";
 
-export default function GetApp() {
+export default function GetApp({ color = "#fff" }: { color: string }) {
   return (
-    <section className="w-full bg-white">
+    <section className="w-full" style={{ backgroundColor: color }}>
       <div className="container pb-0">
         <div className="flex justify-between sm-flex-col sm-row-gap-1 items-center col-gap-1">
-          <div className="flex flex-col row-gap-2 items-start w-1-2 sm-w-full">
+          <div className="flex flex-col row-gap-2 items-start w-1-2 sm-w-full sm-row-gap-1">
             <h2>Get eShaafi App</h2>
             <p className="text-2">
               Download the app to book and manage your appointments, keep track
@@ -28,6 +29,7 @@ export default function GetApp() {
               src={getApp}
               alt="subscription plans"
               style={{ width: "100%", height: "auto" }}
+              className={style.sectionImage}
             />
           </span>
         </div>

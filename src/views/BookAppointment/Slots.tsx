@@ -1,6 +1,6 @@
 "use client";
 // dependencies
-import { useState, useReducer, memo } from "react";
+import { useState, useReducer, memo, useEffect } from "react";
 import { FaRegCalendarCheck } from "react-icons/fa6";
 import style from "../../styles/bookAppointment.module.scss";
 import moment from "moment";
@@ -105,18 +105,33 @@ function Slots({
     },
     slots: [],
   });
+  // extracting state from time slots
   const { slots, appointmentSlots } = timeSlots;
+  // declaring day time state
   const [dayTime, setDayTime] = useState("");
+  // handling appointment slots
   const handleAppointSlots = (data: any) => {
     setTimeSlots({
       type: "APPOINTMENT_SLOTS",
       payload: data,
     });
   };
+  // handling of slots changing
   const handleDayChange = (e: any, day: any) => {
     setAppointDate(e.target.value);
     setTimeSlots({ type: "SHARE_SLOTS", payload: day.appointment_slots });
+    if (day.appointment_slots?.morning_slots?.length > 0) {
+      setDayTime("morning");
+      setTimeSlots({ type: "morning" });
+    } else if (day.appointment_slots?.afternoon_slots?.length > 0) {
+      setDayTime("afternoon");
+      setTimeSlots({ type: "afternoon" });
+    } else {
+      setDayTime("evening");
+      setTimeSlots({ type: "evening" });
+    }
   };
+  // slots section
   const handleSlotsChange = (value: string) => {
     setDayTime(value);
     if (value === "morning") {
@@ -127,10 +142,23 @@ function Slots({
       setTimeSlots({ type: "evening" });
     }
   };
+  // getting slots value
   const getSlotValue = (val: any, time: any) => {
-    console.log(val, time);
     setSlot({ id: val, time });
   };
+  useEffect(() => {
+    setTimeSlots({ type: "SHARE_SLOTS", payload: Items[0].appointment_slots });
+    if (Items[0].appointment_slots?.morning_slots?.length > 0) {
+      setTimeSlots({ type: "morning" });
+      setDayTime("morning");
+    } else if (Items[0].appointment_slots?.afternoon_slots?.length > 0) {
+      setTimeSlots({ type: "afternoon" });
+      setDayTime("afternoon");
+    } else {
+      setTimeSlots({ type: "evening" });
+      setDayTime("evening");
+    }
+  }, [Items]);
   return (
     <div className={style.schedule}>
       <span className="flex items-center justify-between">
@@ -186,7 +214,6 @@ function Slots({
               value={"morning"}
               className={style.btnCheck}
               onChange={(e) => handleSlotsChange(e.target.value)}
-              disabled={appointmentSlots?.morning_slots?.length < 1}
             />
             <label
               htmlFor="morning"
@@ -205,7 +232,6 @@ function Slots({
               value={"afternoon"}
               className={style.btnCheck}
               onChange={(e) => handleSlotsChange(e.target.value)}
-              disabled={appointmentSlots?.afternoon_slots?.length < 1}
             />
             <label
               htmlFor="afternoon"
@@ -225,7 +251,6 @@ function Slots({
               id="evening"
               className={style.btnCheck}
               onChange={(e) => handleSlotsChange(e.target.value)}
-              disabled={appointmentSlots.evening_slots.length < 1}
             />
             <label
               htmlFor="evening"
@@ -237,7 +262,7 @@ function Slots({
             </label>
           </div>
           <ul className={"flex mt-1 " + style.slotsCont}>
-            {slots ? (
+            {slots?.length > 0 ? (
               slots.map((slot: any, indx: number) => (
                 <li key={indx} className={style.slotItm}>
                   <input

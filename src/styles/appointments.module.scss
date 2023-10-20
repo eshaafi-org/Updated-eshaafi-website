@@ -1,5 +1,6 @@
 @import "./mixin";
 @import "./variables";
+
 .statusCancelled {
   background-color: #fdbfbf;
   width: fit-content;
@@ -7,6 +8,10 @@
   padding: 3px 17px;
   border-radius: 64px;
   border: 1px solid #ccc;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .statusCompleted {
   width: fit-content;
@@ -15,6 +20,10 @@
   padding: 3px 17px;
   border-radius: 64px;
   border: 1px solid #ccc;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .statusBooked {
   width: fit-content;
@@ -23,6 +32,10 @@
   padding: 3px 17px;
   border-radius: 64px;
   border: 1px solid #ccc;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .typeTabBooked {
   background-color: #abfaf2;
@@ -31,6 +44,10 @@
   padding: 3px 17px;
   border-radius: 64px;
   border: 1px solid #ccc;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .typeTabFollow {
   background-color: #d6ecfa;
@@ -39,6 +56,10 @@
   padding: 3px 17px;
   border-radius: 64px;
   border: 1px solid #ccc;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .typeInstant {
   background-color: rgb(250, 241, 223);
@@ -46,6 +67,10 @@
   color: orange;
   padding: 3px 17px;
   border-radius: 64px;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .statusMissed {
   background-color: #ffe0e0;
@@ -54,6 +79,10 @@
   padding: 3px 17px;
   border-radius: 64px;
   border: 1px solid #ccc;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .statusReschedule {
   background-color: #008f881c;
@@ -62,6 +91,10 @@
   padding: 3px 17px;
   border-radius: 64px;
   border: 1px solid #ccc;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .statusInprogress {
   background-color: #e0f3fb;
@@ -70,6 +103,10 @@
   padding: 3px 17px;
   border-radius: 64px;
   border: 1px solid #ccc;
+  font-size: 11px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 14px;
+  }
 }
 .list {
   width: 60%;
@@ -77,6 +114,7 @@
     width: 100%;
   }
 }
+// appointment listing  > appointment card
 .appointCard {
   text-decoration: none !important;
   transition: all ease-in 0.2s;
@@ -85,15 +123,51 @@
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
       0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
   }
+  .cardImage {
+    width: 56px;
+    height: 56px;
+    @include from-mini-laptop-to-laptop {
+      width: 68px;
+      height: 68px;
+    }
+  }
+  .subHeading {
+    font-size: 16px;
+    @include from-tablet-landscape-to-mini-laptop {
+      font-size: 18px;
+    }
+  }
+  .text {
+    font-size: 12px;
+    @include from-tablet-landscape-to-mini-laptop {
+      font-size: 16px;
+    }
+  }
+  .subText {
+    font-size: 11px;
+    @include from-tablet-landscape-to-mini-laptop {
+      font-size: 14px;
+    }
+  }
 }
 .fitlers {
   width: 40%;
   position: sticky;
   top: 100px;
   @include for-tablet-portrait-only {
+    display: none;
     width: 100%;
     position: sticky;
     bottom: 5px;
+  }
+}
+// chips desing
+.chips {
+  position: sticky;
+  top: 50px;
+  display: none;
+  @include for-tablet-portrait-only {
+    display: block;
   }
 }
 // single appointment page
@@ -151,4 +225,9 @@
       margin-left: 1rem;
     }
   }
+}
+//// appointment listing
+.emptyImage {
+  width: 179px;
+  height: auto;
 }

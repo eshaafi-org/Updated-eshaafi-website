@@ -1,5 +1,6 @@
 // import Head from "next/head";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Collapse from "react-bootstrap/Collapse";
 import Image from "next/image";
 // import type { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
@@ -11,19 +12,25 @@ import Link from "next/link";
 import addImage from "../../../public/images/addImage.png";
 import {
   FaFacebookF,
-  FaTwitter,
   FaLinkedinIn,
   FaWhatsapp,
-  FaShareAlt,
+  FaChevronDown,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
-
-import { ResolvingMetadata } from "next";
+import GetApp from "@/views/Home/GetApp";
+import AddressBar from "@/components/AddressBar";
+// page links
+const links = [
+  { name: "Home", link: "/" },
+  { name: "Blog", link: "/blog" },
+];
 export default function Post({ post }: any) {
+  const [open, setOpen] = useState(false);
   const baseUrl = "https://eshaafi.com";
   let router = useRouter();
-  // console.log(router);
+
   // copy blog post link funciton
   const copyURLToClipboard = () => {
     const url = window.location.href;
@@ -35,19 +42,29 @@ export default function Post({ post }: any) {
       .catch((error) => {
         console.error("Failed to copy URL:", error);
       });
-    // console.log("hello");
   };
   useEffect(() => {
-    const h2 = document.querySelectorAll("h2");
-    console.log(h2);
-  }, []);
+    const blogContent = document.querySelector("#blogContent");
+    if (blogContent) {
+      const h2: NodeListOf<HTMLHeadElement> | undefined =
+        blogContent?.querySelectorAll("h2");
+      console.log(h2);
+      if (h2.length > 0) {
+        console.log("hey");
+        for (let i = 0; i < post?.blogContent?.length; i++) {
+          console.log("e");
+          h2[i].id = post?.blogContent[i];
+          console.log(h2[i]);
+        }
+      }
+    }
+  }, [post]);
   return (
     <>
       {post && (
         <Head>
           <title>{post?.title}</title>
           <meta name="description" content={post?.description} key={"desc"} />
-          {/* <link rel="canonical" href={baseUrl + router.asPath} /> */}
           <meta property="og:title" content={post?.title} />
           <meta property="og:description" content={post?.description} />
           <meta property="og:image" content={post?.url} />
@@ -60,17 +77,12 @@ export default function Post({ post }: any) {
           <meta name="twitter:data1" content={post?.authorName} />
           <meta name="twitter:label2" content="Est. reading time" />
           <meta name="twitter:data2" content={post?.readTime + " minutes"} />
+          <meta name="twitter:label3" content="Title" />
+          <meta name="twitter:data3" content={post?.title} />
           {/* <meta property="og:image:type" content="image/png" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="article" />
         <meta name="author" content={post?.authorName} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:creator" content="eshaafi.com" />
-        <meta name="twitter:site" content="eshaafi.com" />
-        <meta name="twitter:label1" content="Written by" />
-        <meta name="twitter:data1" content={post?.authorName} />
-        <meta name="twitter:label2" content="Est. reading time" />
-        <meta name="twitter:data2" content={post?.readTime + " minutes"} />
         <meta
           property="og:site_name"
           content="Health Zone | Healthy reads on eshaafi.com"
@@ -93,12 +105,67 @@ export default function Post({ post }: any) {
       {post ? (
         <main>
           <section className="container">
+            <AddressBar links={links} title={"Blog"} />
             {/* blog page  */}
             <div className={style.blogPage}>
               {/* share and table of content section */}
-              {/* <div className={style.tableOfContent}>
-                <p className="text-main font-bold">Table of content</p>
-              </div> */}
+              {post?.blogContent && post?.blogContent.length > 0 && (
+                <div className={style.tableOfContent}>
+                  <div className={style.desktop}>
+                    <p className="text-main font-bold mb-3">Table of Content</p>
+                    <ul className="d-flex flex-wrap col-gap-1">
+                      {post?.blogContent?.length > 0 &&
+                        post?.blogContent.map((link: string, indx: number) => (
+                          <li key={indx} className="d-flex col-gap-0-5">
+                            <a
+                              className="font-bold text-primary "
+                              href={"#" + link}
+                            >
+                              {link}
+                            </a>
+                            {indx + 1 === post?.blogContent.length || (
+                              <span>|</span>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                  <div className={style.mobile}>
+                    <div
+                      onClick={() => setOpen(!open)}
+                      className="d-flex w-full justify-between border-bottom items-center pb-1"
+                      role="button"
+                      aria-expanded="false"
+                      aria-controls="collapseExample"
+                    >
+                      <p className="text-main font-bold ">Table of Content</p>
+                      <FaChevronDown />
+                    </div>
+                    <Collapse in={open}>
+                      <div id="example-collapse-text">
+                        <ul className="d-flex flex-wrap col-gap-1 mt-1">
+                          {post?.blogContent?.length > 0 &&
+                            post?.blogContent.map(
+                              (link: string, indx: number) => (
+                                <li key={indx} className="d-flex col-gap-0-5">
+                                  <a
+                                    className="font-bold text-primary "
+                                    href={"#" + link}
+                                  >
+                                    {link}
+                                  </a>
+                                  {indx + 1 === post?.blogContent.length || (
+                                    <span>|</span>
+                                  )}
+                                </li>
+                              )
+                            )}
+                        </ul>
+                      </div>
+                    </Collapse>
+                  </div>
+                </div>
+              )}
               <div className={style.share}>
                 <div className={style.shareIcon}>
                   <p className="text-main font-bold">Share this Article</p>
@@ -109,6 +176,7 @@ export default function Post({ post }: any) {
                         style.iconStyle + " flex col-gap-1 border-none"
                       }
                       title="Copy link"
+                      id={`${baseUrl + router?.asPath}`}
                     >
                       <FiLink2 style={{ color: "#1B76B8", fontSize: "1rem" }} />
                     </button>
@@ -173,8 +241,8 @@ export default function Post({ post }: any) {
                         className={style.iconStyle}
                         target="_blank"
                       >
-                        <FaTwitter
-                          style={{ color: "#03A9F4", fontSize: "1rem" }}
+                        <FaXTwitter
+                          style={{ color: "#000", fontSize: "1rem" }}
                         />
                       </a>
                     </button>
@@ -185,15 +253,14 @@ export default function Post({ post }: any) {
               <div className={style.addSection}>
                 <div
                   className={
-                    "bg-main align-self-start flex flex-col row-gap-1 rounded"
+                    "bg-main align-self-start flex flex-col row-gap-1 rounded justify-between"
                   }
                   style={{
                     background: `url(${addImage.src})`,
-
                     backgroundSize: "100%",
                     backgroundRepeat: "no-repeat",
                     top: 100,
-                    backgroundPosition: "bottom",
+                    backgroundPosition: "bottom ",
                     padding: "1rem 1rem 5rem 1rem",
                   }}
                 >
@@ -217,12 +284,13 @@ export default function Post({ post }: any) {
                     className={style.authorImage}
                     style={{
                       background: `url(${post?.authorProfileUrl})`,
-                      backgroundPosition: "center calc(50% + 0px)",
-                      backgroundSize: "100%",
+                      // backgroundPosition: "contained",
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                     }}
                   ></div>
-                  <p style={{ color: "#222222", fontSize: 14 }}>
+                  <p style={{ color: "#777", fontSize: 14 }}>
                     {post?.authorName}{" "}
                     <span className="mx-0-5" style={{ color: "#DFEAF2" }}>
                       |
@@ -247,11 +315,12 @@ export default function Post({ post }: any) {
                 />
               </div>
               {/* blog writing section */}
-              <div className={style.blogContent}>
+              <div className={style.blogContent} id="blogContent">
                 <ReactMarkdown>{post?.description}</ReactMarkdown>
               </div>
             </div>
           </section>
+          <GetApp color="#DFEAF2" />
         </main>
       ) : (
         <div className="container ">
@@ -271,18 +340,16 @@ export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const res = await fetch(BASE_URL + "/new/users/blogs");
   const position = await res.json();
-  // console.log(position);
   const paths = position.response.Items.map((post: any) => ({
     params: { id: post.name },
   }));
-  // console.log(paths);
+
   // { fallback: false } means other routes should 404
   return { paths, fallback: true };
 }
 export async function getStaticProps({ params: { id } }: any) {
   let response = await fetch(`${BASE_URL}/new/users/blogs/${id}`);
   const data = await response.json();
-  //   console.log(data.response);
   return {
     props: {
       post: data?.response?.Item,

@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@/styles/index.scss";
+import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 // import Header from "@/views/Header";
 import Footer from "@/views/Footer";

@@ -36,17 +36,16 @@ export default function BenefitsOfVideoConsultation() {
 
   return (
     <section className="container">
-      <h2 className=" mb-1">Benefits of Video Consultation</h2>
+      <h2 className={"mb-1 " + style.docPageHeading}>
+        Benefits of Video Consultation
+      </h2>
       <ul className={"border rounded p-1 mt-1 " + style.benifitCont}>
         {benifits.map((itm, indx) => (
           <li key={indx}>
-            <div className="flex col-gap-1 ">
-              <MdOutlineDoneAll
-                style={{ fontSize: 50, color: "#0e5487" }}
-                // ref={svgRef}
-              />
+            <div className={style.benefitItemCont}>
+              <MdOutlineDoneAll className={style.checkIcon} />
 
-              <span className="flex flex-col row-gap-1">
+              <span className="flex flex-col row-gap-1 sm-row-gap-0-5">
                 <h4>{itm.heading}</h4>
                 <p>{itm.text}</p>
               </span>

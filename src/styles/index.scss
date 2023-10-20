@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 @import "./variables";
 @import "./mixin";
+// importing my fonts
 
 //---------------Globals style-------------//
 :root {
@@ -10,10 +10,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Roboto !important;
+  font-family: "Roboto" !important;
 }
 body {
-  font-family: Roboto, Arial, Helvetica, sans-serif !important;
+  font-family: "Roboto", Arial, Helvetica, sans-serif !important;
   font-size: $base-font;
   font-weight: 400;
   color: $black;
@@ -30,7 +30,7 @@ body {
 //---------------All the generic Tags-------------//
 a {
   text-decoration: none;
-  font-family: Roboto !important;
+  font-family: "Roboto" !important;
   display: block !important;
   color: $heading-clr;
   &:hover {
@@ -46,7 +46,7 @@ h4,
 h5,
 h6 {
   color: $heading-clr;
-  font-family: Roboto !important;
+  font-family: "Roboto" !important;
   margin-bottom: 0 !important;
 }
 h1 {
@@ -55,7 +55,7 @@ h1 {
 }
 h2 {
   font-size: 2.5 * $base-font;
-  font-weight: 600;
+  font-weight: 600 !important;
   @include for-large-tablet-portrait-up {
     font-size: 2 * $base-font;
   }
@@ -76,7 +76,7 @@ h3 {
 }
 h4 {
   font-size: $base-font;
-  font-weight: 600;
+  font-weight: 600 !important;
   letter-spacing: 1px;
 }
 h5 {
@@ -94,7 +94,7 @@ ul {
 p {
   color: $text-clr;
   margin: 0;
-  font-family: Roboto !important;
+  font-family: "Roboto" !important;
   // line-height: 24px;
   // letter-spacing: 0.1px;
 }
@@ -129,6 +129,18 @@ p {
   }
   @include for-large-phone-only {
     font-size: 2 * $base-unit;
+  }
+}
+.pageHeading {
+  font-size: 16px;
+  margin-bottom: 0.3rem !important;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  @include from-mini-laptop-to-laptop {
+    font-size: 2rem !important;
+    margin-bottom: 1rem !important;
   }
 }
 .text {
@@ -212,18 +224,19 @@ p {
   line-height: 1.5;
 }
 .link {
-  font-size: $base-font + 8;
+  font-size: 12px;
   color: $primary-clr;
   font-weight: 600;
   display: flex !important;
   align-items: center;
   text-transform: capitalize;
   white-space: nowrap;
-  @include for-large-tablet-portrait-up {
-    font-size: $base-font + 4;
+  font-size: 12px;
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 16px;
   }
-  @include for-large-phone-only {
-    font-size: $base-font;
+  @include from-mini-laptop-to-laptop {
+    font-size: 20px;
   }
 }
 // shadow -- //
@@ -552,11 +565,20 @@ p {
   .sm-pl-1 {
     padding-left: $base-padding;
   }
+  .sm-pt-0 {
+    padding-top: 0 !important;
+  }
   .sm-mt-1 {
     margin-top: 1rem !important;
   }
   .sm-row-gap-1 {
-    row-gap: $base-unit;
+    row-gap: $base-unit !important;
+  }
+  .sm-row-gap-0-5 {
+    row-gap: $base-unit/2 !important;
+  }
+  .sm-col-gap-0-5 {
+    column-gap: $base-unit/2;
   }
   .sm-row-gap-2 {
     row-gap: 2 * $base-unit;
@@ -569,6 +591,10 @@ p {
   }
   .sm-mt-10 {
     margin-top: 10rem !important;
+  }
+  .sm-font {
+    font-size: 14px !important;
+    line-height: unset !important;
   }
 }
 .curser {
@@ -595,4 +621,69 @@ p {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555; /* Change the color of the handle on hover */
+}
+/// chips styling
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+.chip.chip-checkbox > .chip-add-icon::after {
+  content: "add";
+}
+.chip.chip-checkbox.active > .chip-add-icon::after {
+  content: "done";
+}
+.chip > * {
+  margin-right: 2px;
+  margin-left: 2px;
+  color: $primary-clr;
+  font-size: 12px;
+}
+.chip input {
+  display: none;
+}
+.chip.chip-checkbox,
+.chip.chip-toggle,
+.chip.clickable {
+  cursor: pointer;
+}
+.chip.active {
+  background-color: $secondary-clr;
+  border-color: #c3c2c2;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+}
+.chip:hover,
+.chip:focus {
+  background-color: $secondary-clr;
+}
+.chip:active:focus {
+  background-color: $secondary-clr;
+}
+.chip button {
+  border: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  background: none;
+  display: inline-flex;
+}
+.chip {
+  transition: all 0.3s ease-in-out;
+  background-color: #fff;
+  border-radius: 30px;
+  border: 2px solid $primary-clr;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 6px 4px 6px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  // span {
+  //   color: $primary-clr;
+  //   font-size: 12px;
+  // }
+}
+.chip i.material-icons {
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

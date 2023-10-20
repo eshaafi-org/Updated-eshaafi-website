@@ -5,35 +5,36 @@ import { BASE_URL } from "@/helper/CONST";
 import BookAppointmentPage from "@/views/BookAppointment/BookAppointmentPage";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { useParams } from "next/navigation";
-
+// import { useParams } from "next/navigation";
+import SkeletonLoader from "@/components/SkeletonLoader";
 export default function Booking() {
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(true);
   const params = useRouter();
   // const params = useParams();
-  console.log(params.query.id);
   function getSlots() {
-    axios
-      .post(
-        `${BASE_URL}/patients/doctor/appointmentSlots`,
-        {
-          doctorId: params.query.id,
-          medium: "Video",
-        }
-        // {
-        //   headers: headers(),
-        // }
-      )
-      .then((res) => {
-        console.log(res);
-        setLoading(false);
-        setResponse(res.data.response);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log("error", err);
-      });
+    if (params.query.id) {
+      axios
+        .post(
+          `${BASE_URL}/patients/doctor/appointmentSlots`,
+          {
+            doctorId: params.query.id,
+            medium: "Video",
+          }
+          // {
+          //   headers: headers(),
+          // }
+        )
+        .then((res) => {
+          setLoading(false);
+          console.log(res);
+          setResponse(res.data.response);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log("error", err);
+        });
+    }
   }
 
   useEffect(() => {
@@ -48,11 +49,7 @@ export default function Booking() {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main>
-        {loading ? (
-          <p className="container">loading...</p>
-        ) : (
-          <BookAppointmentPage data={response} />
-        )}
+        {loading ? <SkeletonLoader /> : <BookAppointmentPage data={response} />}
       </main>
     </>
   );

@@ -51,3 +51,20 @@
 //     @content;
 //   }
 // }
+/////////////////////////////////
+///
+@mixin from-mobile-landscape-to-tablet {
+  @media (min-width: 500px) {
+    @content;
+  }
+}
+@mixin from-tablet-landscape-to-mini-laptop {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+@mixin from-mini-laptop-to-laptop {
+  @media (min-width: 1050px) {
+    @content;
+  }
+}

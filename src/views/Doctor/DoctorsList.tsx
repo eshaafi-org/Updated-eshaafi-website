@@ -29,7 +29,7 @@ export default function DoctorList({ list }: { list: any }) {
                     height={91}
                   />
                   <span>
-                    <h5 className="capitalize">
+                    <h5 className={style.docTitle}>
                       {" "}
                       {itm.personal_info.title +
                         ". " +
@@ -37,7 +37,9 @@ export default function DoctorList({ list }: { list: any }) {
                         " " +
                         itm.personal_info.lastName}
                     </h5>
-                    <p>{itm.specialization}</p>
+                    <p className={style.docSpecialization}>
+                      {itm.specialization}
+                    </p>
                     {itm.isOnline && (
                       <div className={style.onlineindicator}>
                         <div className={style.onlinecircle}>
@@ -48,25 +50,29 @@ export default function DoctorList({ list }: { list: any }) {
                     )}
                   </span>
                 </div>
-                <p className="text-primary font-bold text-2">
+                <p className={"text-primary font-bold text-2 " + style.docFee}>
                   Fee Rs.{itm.videoCallCharges}
                 </p>
               </div>
               <div className="flex col-gap-1 justify-between">
-                <span className="flex flex-col items-center w-full row-gap-1">
-                  <h5 className="text-2">{itm.yearsOfExperience} years</h5>
-                  <p>Experience</p>
+                <span className="flex flex-col items-center w-full row-gap-1 sm-row-gap-0-5">
+                  <h5 className="text-2 sm-font">
+                    {itm.yearsOfExperience} years
+                  </h5>
+                  <p className="sm-font">Experience</p>
                 </span>
-                <span className="flex flex-col items-center w-full border-left border-right row-gap-1">
-                  <h5 className="text-2">
+                <span className="flex flex-col items-center w-full border-left border-right row-gap-1 sm-row-gap-0-5">
+                  <h5 className="text-2 sm-font">
                     <FaStar style={{ color: "#FFC107" }} />
                     {itm?.rating?.averageRating}/5
                   </h5>
-                  <p>{itm?.rating?.count} Reviews</p>
+                  <p className="sm-font text-center">
+                    {itm?.rating?.count} Reviews
+                  </p>
                 </span>
-                <span className="flex flex-col items-center w-full row-gap-1">
-                  <h5 className="text-2">{itm.recommended}%</h5>
-                  <p>Positive feedback</p>
+                <span className="flex flex-col items-center w-full row-gap-1  sm-row-gap-0-5">
+                  <h5 className="text-2 sm-font">{itm.recommended}%</h5>
+                  <p className="sm-font text-center">Positive feedback</p>
                 </span>
               </div>
               <div className="flex justify-between col-gap-1 sm-flex-col sm-row-gap-1">

@@ -171,7 +171,7 @@ export default function Profile({ doctor }: any) {
                         </span>
                         <span
                           className={style.progressBar}
-                          style={{ width: `${doctor?.rating.behaviour}%` }}
+                          style={{ width: `${doctor?.rating?.behaviour}%` }}
                         ></span>
                         <span className={style.progressBarLight}></span>
                       </div>

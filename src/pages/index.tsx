@@ -41,14 +41,13 @@ export default function Home({ positions, doctors }: any) {
         <Services />
         <Mission />
         <Features />
-
         <Working />
         {/* <Doctors doc={doctors} /> */}
         {/* <Subscriptions /> */}
         {/* <Reviews />*/}
         <Blogs blogs={positions} />
         <Partners />
-        <GetApp />
+        <GetApp color="#fff" />
       </main>
     </>
   );
