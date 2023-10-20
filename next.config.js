@@ -8,6 +8,7 @@ const nextConfig = {
       "image-upload-bucket-dev.s3.us-east-1.amazonaws.com",
       "us-east-1.console.aws.amazon.com",
       "img.icons8.com",
+      "https://eshaafi-image-upload-bucket-us-east-1-stage.s3.us-east-1.amazonaws.com",
     ], // Add the domain causing the error here
   },
 };
