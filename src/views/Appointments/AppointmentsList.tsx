@@ -101,7 +101,6 @@ export default function AppointmentsList({ type }: { type: string }) {
   // to load more data this function will run on scroll end
   const loadMoreData = () => {
     if (lastEvaluatedKey) {
-      document.body.style.overflow = "hidden";
       setLoading(true);
       setReachedEnd(false);
       axios
@@ -197,42 +196,35 @@ export default function AppointmentsList({ type }: { type: string }) {
   }, [reachedEnd]);
   return (
     <div ref={sectionRef} className={styles.list}>
-      {loading ? (
-        <SkeletonLoader />
+      {appoint.length > 0 ? (
+        <ul
+          className={
+            "doc-profile bg-white flex flex-col row-gap-2  w-full sm-row-gap-1 "
+          }
+        >
+          {appoint.map((appointment: any, indx: number) => (
+            <li key={indx}>
+              <Card appointment={appointment} />
+            </li>
+          ))}
+          {loading && <SkeletonLoader />}
+        </ul>
       ) : (
-        <>
-          {appoint.length > 0 ? (
-            <ul
-              className={
-                "doc-profile bg-white flex flex-col row-gap-2  w-full sm-row-gap-1 "
-              }
-            >
-              {appoint.map((appointment: any, indx: number) => (
-                <li key={indx}>
-                  <Card appointment={appointment} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className="row ">
-              <div className="col ">
-                <div className="d-flex justify-content-center flex-column align-items-center row-gap-1">
-                  <Image
-                    src={empty}
-                    alt="search empty"
-                    className={styles.emptyImage}
-                  />
-                  <p>
-                    No {type === "Past" ? "Previous" : "Upcoming"} Appointments
-                  </p>
-                  <Link href={"/doctors"}>
-                    <Button variant={"outlined"}>Book Appointment</Button>
-                  </Link>
-                </div>
-              </div>
+        <div className="row ">
+          <div className="col ">
+            <div className="d-flex justify-content-center flex-column align-items-center row-gap-1">
+              <Image
+                src={empty}
+                alt="search empty"
+                className={styles.emptyImage}
+              />
+              <p>No {type === "Past" ? "Previous" : "Upcoming"} Appointments</p>
+              <Link href={"/doctors"}>
+                <Button variant={"outlined"}>Book Appointment</Button>
+              </Link>
             </div>
-          )}
-        </>
+          </div>
+        </div>
       )}
     </div>
   );
