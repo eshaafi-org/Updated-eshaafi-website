@@ -5,7 +5,7 @@ import { MdNavigateNext } from "react-icons/md";
 // recent blog card component
 function BlogCard({ blog }: any) {
   return (
-    <div className={style.recentBlogCard}>
+    <Link href={`/blog/${blog.name}`} className={style.recentBlogCard}>
       <span className={style.blogImage}>
         <Image
           src={blog.url}
@@ -24,7 +24,7 @@ function BlogCard({ blog }: any) {
           </Link>
         </p>
       </span>
-    </div>
+    </Link>
   );
 }
 // recent blogs section

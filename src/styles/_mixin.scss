@@ -25,7 +25,7 @@
 }
 // tablet screen start from 768px
 @mixin for-large-tablet-portrait-up {
-  @media (max-width: $tablet) {
+  @media (max-width: 850px) {
     @content;
   }
 }
@@ -65,6 +65,89 @@
 }
 @mixin from-mini-laptop-to-laptop {
   @media (min-width: 1050px) {
+    @content;
+  }
+}
+////////////////////////////////////////////////////////////////////////////////// only screen ratio between /////
+// small mobile phone
+@mixin for-small-mobile-only {
+  @media (max-width: 300px) {
+    @content;
+  }
+}
+// medium mobile phone
+@mixin for-medium-mobile-only {
+  @media (max-width: 399px) and (min-width: 300px) {
+    @content;
+  }
+}
+// large mobile phone
+@mixin for-large-mobile-only {
+  @media (max-width: 530px) and (min-width: 400px) {
+    @content;
+  }
+}
+// mobile landscape and tablet
+@mixin for-mobile-landscap-to-tablet-portrait-only {
+  @media (max-width: 768px) and (min-width: 531px) {
+    @content;
+  }
+}
+// large tablet screen
+@mixin for-large-tablet-only {
+  @media (max-width: 900px) and (min-width: 769px) {
+    @content;
+  }
+}
+// tablet landscap to mini laptop
+@mixin for-tablet-landscape-to-mini-laptop-only {
+  @media (min-width: 901px) and (max-width: 1099px) {
+    @content;
+  }
+}
+
+// laptop screen
+@mixin for-laptop-and-above {
+  @media (min-width: 1100) {
+    @content;
+  }
+}
+////////////////////////////////////////////////////////////////////////onward devices////
+///
+//above small mobile
+@mixin above-small-mobile {
+  @media (min-width: 250px) {
+    @content;
+  }
+}
+// above medium mobile mobile
+@mixin above-medium-mobile {
+  @media (min-width: 399px) {
+    @content;
+  }
+}
+// above large mobile mobile
+@mixin above-large-mobile {
+  @media (min-width: 530px) {
+    @content;
+  }
+}
+// above mobile landscape
+@mixin above-mobile-landscape {
+  @media (min-width: 531px) {
+    @content;
+  }
+}
+
+// above large tablet screen
+@mixin above-tablet-portrait {
+  @media (min-width: 900px) {
+    @content;
+  }
+}
+// above tablet landscap to mini laptop
+@mixin above-tablet-landscape-and-mini-laptop {
+  @media (min-width: 1099px) {
     @content;
   }
 }

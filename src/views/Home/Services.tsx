@@ -54,22 +54,21 @@ export default function Services() {
           <ul className={style.servicesList}>
             {services.map((itm, indx) => (
               <li key={indx} className={style.serviceItm}>
-                <div
+                <Link
+                  href={itm.link}
                   className={` ${style.itemCont} ${
                     (indx + 1) % 2 ? "bg-blue" : "bg-lite"
-                  } m-0-5 rounded `}
+                  } rounded `}
                 >
                   <span className={style.serviceText}>
-                    <span className="flex flex-col row-gap-1 ">
-                      <h4>{itm.heading}</h4>
-                      <p className="capitalize">{itm.text}</p>
-                    </span>
+                    <h4 className="cardHeading">{itm.heading}</h4>
+                    <p className="cardDescription capitalize">{itm.text}</p>
                   </span>
                   <span className={style.serviceLink}>
                     {itm.heading === "Home Nursing" ||
                     itm.heading === "Instant Call" ? (
                       <h3 className="text text-primary font-bolder">
-                        Coming soon
+                        Coming Soon
                       </h3>
                     ) : (
                       <Link href={itm.link} className="linkBtn">
@@ -84,7 +83,7 @@ export default function Services() {
                       className={style.servicesImg}
                     />
                   </span>
-                </div>
+                </Link>
               </li>
             ))}
           </ul>

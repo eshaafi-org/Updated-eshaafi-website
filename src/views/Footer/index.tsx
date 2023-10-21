@@ -3,7 +3,7 @@ import { footerLinks, socialLinks, supportsList } from "./helper";
 import Link from "next/link";
 import styles from "./Footer.module.scss";
 import Image from "next/image";
-import downloadButton from "../../../public/images/download-badge-google-play-badge.png";
+import downloadButton from "../../../public/images/download-badge-google-play-badge.svg";
 
 // links
 

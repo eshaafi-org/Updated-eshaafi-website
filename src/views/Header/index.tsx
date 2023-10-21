@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import style from "./Header.module.scss";
 import { navLinks } from "./helper.js";
-import logo from "./eshaafi-logo.png";
+import logo from "./eshaafi-logo.svg";
 import Image from "next/image";
 import { Drawer } from "../../components/Drawer";
 import Button from "@/components/Button";
@@ -275,7 +275,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
               )}
               <span style={{ position: "relative" }}>
                 <button
-                  className="linkBtn flex col-gap-1 items-center"
+                  className="linkBtn flex col-gap-1 items-center mt-0"
                   style={{ paddingRight: 8 }}
                   onMouseEnter={() => {
                     setHelpModel(true);
