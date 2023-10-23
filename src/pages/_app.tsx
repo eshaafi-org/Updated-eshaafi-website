@@ -18,9 +18,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     // <Context>
     <>
-      {router.pathname === "/blog/second/[id]" || <NoSSRHeader />}
+      {router.pathname === "/blog/second/[id]" ||
+        router.pathname === "/blog/mobile/[id]" || <NoSSRHeader />}
       <Component {...pageProps} />
-      {router.pathname === "/blog/second/[id]" || <Footer />}
+      {router.pathname === "/blog/second/[id]" ||
+        router.pathname === "/blog/mobile/[id]" || <Footer />}
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-1BXFKZVVFJ" />
       <Script id="google-analytics">
         {`

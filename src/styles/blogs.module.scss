@@ -130,6 +130,12 @@
       }
     }
   }
+  .blogAuthorAndDate {
+    font-size: 11px;
+    @include above-mobile-landscape {
+      font-size: 14px;
+    }
+  }
   .blogContent {
     grid-area: 4/2/5/3;
   }
@@ -214,7 +220,7 @@
     line-height: 25px;
     letter-spacing: 0.1px;
     color: #222 !important;
-    text-align: justify;
+    // text-align: justify;
 
     a {
       display: inline-block !important;
