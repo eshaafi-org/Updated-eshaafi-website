@@ -28,17 +28,13 @@ export default function Features() {
   return (
     <section className="w-full bg-white">
       <div className="container sm-pt-0">
-        <div className="flex flex-col row-gap-2 sm-row-gap-0-5 items-center">
+        <div className={style.servicesContainer}>
           <h2>Unique Features</h2>
-
-          <ul className={style.servicesList}>
+          <ul className={style.featureList}>
             {features.map((itm, indx) => (
-              <li key={indx} className={style.serviceItm}>
-                <div
-                  className={` ${style.itemCont} m-0-5 rounded `}
-                  style={{ background: "#f2f2f2" }}
-                >
-                  <span className={style.serviceText}>
+              <li key={indx} className={style.featureItm}>
+                <div className={style.featureItemCont}>
+                  <span className={style.featureText}>
                     <span className="flex flex-col row-gap-0-5 ">
                       <h4>{itm.heading}</h4>
                       <p className="capitalize">{itm.text}</p>
@@ -49,11 +45,11 @@ export default function Features() {
                       Book Now
                     </Link>
                   </span> */}
-                  <span className={style.servicesImage}>
+                  <span className={style.featureImage}>
                     <Image
                       src={itm.icon}
                       alt={itm.text}
-                      className={style.servicesImg}
+                      className={style.featureImg}
                     />
                   </span>
                 </div>

@@ -1,6 +1,6 @@
 export default function SkeletonLoader() {
   return (
-    <div className="container">
+    <div className="container pt-0 pb-0">
       <div className="w-60">
         <div className="card border-none" aria-hidden="true">
           <div className="card-body">
