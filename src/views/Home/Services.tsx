@@ -49,7 +49,7 @@ export default function Services() {
   return (
     <section className="w-full bg-white">
       <div className="container">
-        <div className="flex flex-col row-gap-2 sm-row-gap-0-5 items-center">
+        <div className={style.servicesContainer}>
           <h2>Our Services</h2>
           <ul className={style.servicesList}>
             {services.map((itm, indx) => (
@@ -58,7 +58,7 @@ export default function Services() {
                   href={itm.link}
                   className={` ${style.itemCont} ${
                     (indx + 1) % 2 ? "bg-blue" : "bg-lite"
-                  } rounded `}
+                  }`}
                 >
                   <span className={style.serviceText}>
                     <h4 className="cardHeading">{itm.heading}</h4>
@@ -67,9 +67,12 @@ export default function Services() {
                   <span className={style.serviceLink}>
                     {itm.heading === "Home Nursing" ||
                     itm.heading === "Instant Call" ? (
-                      <h3 className="text text-primary font-bolder">
+                      <Link
+                        href={"/"}
+                        className="linkBtn bg-none text-primary border-none p-0"
+                      >
                         Coming Soon
-                      </h3>
+                      </Link>
                     ) : (
                       <Link href={itm.link} className="linkBtn">
                         Book Now

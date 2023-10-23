@@ -108,7 +108,7 @@
 
 // laptop screen
 @mixin for-laptop-and-above {
-  @media (min-width: 1100) {
+  @media (min-width: 1100px) {
     @content;
   }
 }
@@ -138,9 +138,14 @@
     @content;
   }
 }
-
+// above tablet screen
+@mixin above-tablet {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
 // above large tablet screen
-@mixin above-tablet-portrait {
+@mixin above-tablet-large {
   @media (min-width: 900px) {
     @content;
   }

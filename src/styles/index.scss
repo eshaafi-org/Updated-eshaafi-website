@@ -22,9 +22,9 @@ body {
 .container {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 4 * $base-unit 2 * $base-unit !important;
-  @include for-large-phone-only {
-    padding: 2 * $base-unit 1 * $base-unit !important;
+  padding: 1.5rem 1rem;
+  @include above-tablet-large {
+    padding: 4 * $base-unit 2 * $base-unit !important;
   }
 }
 //---------------All the generic Tags-------------//
@@ -60,7 +60,7 @@ h2 {
     font-size: 2 * $base-font;
   }
   @include for-large-phone-only {
-    font-size: 1.8 * $base-font;
+    font-size: 1.5 * $base-font;
   }
 }
 h3 {
@@ -114,8 +114,13 @@ p {
   padding: 5px 12px;
   border-radius: 7px;
   margin-top: 0.5rem;
-  @include above-mobile-landscape {
+  @include above-tablet {
     padding: 10px 24px;
+    border-radius: 7px;
+    font-size: 1rem;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    padding: 6px 15px;
     border-radius: 7px;
     font-size: 1rem;
   }
@@ -196,22 +201,37 @@ p {
 // card headings
 .cardHeading {
   font-size: 12px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 16px;
-  }
   @include from-mini-laptop-to-laptop {
     font-size: 20px;
+  }
+  @include from-tablet-landscape-to-mini-laptop {
+    font-size: 18px;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 16px;
+  }
+  @include for-large-mobile-only {
+    font-size: 14px;
+  }
+  @include for-medium-mobile-only {
+    font-size: 13px;
   }
 }
 // card Description
 .cardDescription {
   font-size: 11px;
   line-height: unset;
-  @include from-tablet-landscape-to-mini-laptop {
+  @include above-tablet {
+    font-size: 16px;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 14px;
   }
-  @include from-mini-laptop-to-laptop {
-    font-size: 16px;
+  @include for-large-mobile-only {
+    font-size: 13px;
+  }
+  @include for-medium-mobile-only {
+    font-size: 12px;
   }
 }
 .text {
@@ -229,7 +249,7 @@ p {
   letter-spacing: 0.1px;
   margin-bottom: 0;
   @include for-large-phone-only {
-    font-size: 1.1rem;
+    // font-size: 1.1rem;
   }
 }
 

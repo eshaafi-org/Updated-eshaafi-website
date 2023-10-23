@@ -362,7 +362,8 @@ const Header: React.FC<HeaderProps> = ({}) => {
               )}
               <span className="w-full" style={{ position: "relative" }}>
                 <button
-                  className="linkBtn flex col-gap-1 items-center w-full justify-center"
+                  className="linkBtn flex col-gap-1 items-center w-full justify-center text text-white mt-0"
+                  style={{ padding: "0.8rem 0" }}
                   onClick={() => {
                     setHelpModel(true);
                   }}
