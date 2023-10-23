@@ -49,28 +49,30 @@ export default function Services() {
   return (
     <section className="w-full bg-white">
       <div className="container">
-        <div className="flex flex-col row-gap-2 sm-row-gap-0-5 items-center">
+        <div className={style.servicesContainer}>
           <h2>Our Services</h2>
           <ul className={style.servicesList}>
             {services.map((itm, indx) => (
               <li key={indx} className={style.serviceItm}>
-                <div
+                <Link
+                  href={itm.link}
                   className={` ${style.itemCont} ${
                     (indx + 1) % 2 ? "bg-blue" : "bg-lite"
-                  } m-0-5 rounded `}
+                  }`}
                 >
                   <span className={style.serviceText}>
-                    <span className="flex flex-col row-gap-1 ">
-                      <h4>{itm.heading}</h4>
-                      <p className="capitalize">{itm.text}</p>
-                    </span>
+                    <h4 className="cardHeading">{itm.heading}</h4>
+                    <p className="cardDescription capitalize">{itm.text}</p>
                   </span>
                   <span className={style.serviceLink}>
                     {itm.heading === "Home Nursing" ||
                     itm.heading === "Instant Call" ? (
-                      <h3 className="text text-primary font-bolder">
-                        Coming soon
-                      </h3>
+                      <Link
+                        href={"/"}
+                        className="linkBtn bg-none text-primary border-none p-0"
+                      >
+                        Coming Soon
+                      </Link>
                     ) : (
                       <Link href={itm.link} className="linkBtn">
                         Book Now
@@ -84,7 +86,7 @@ export default function Services() {
                       className={style.servicesImg}
                     />
                   </span>
-                </div>
+                </Link>
               </li>
             ))}
           </ul>

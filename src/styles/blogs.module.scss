@@ -333,7 +333,7 @@
   }
 }
 .recentBlogCard {
-  display: grid;
+  display: grid !important;
   grid-template-columns: 130px auto;
   column-gap: 0.2rem;
   .blogImage {
@@ -355,6 +355,9 @@
   @include from-tablet-landscape-to-mini-laptop {
     grid-template-columns: 180px auto;
     column-gap: 0.5rem;
+  }
+  &:hover {
+    text-decoration: none !important;
   }
 }
 // featured blogs list //

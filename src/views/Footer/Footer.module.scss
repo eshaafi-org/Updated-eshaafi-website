@@ -13,7 +13,7 @@
     grid-template-columns: 2fr repeat(4, 1.5fr);
     grid-template-rows: repeat(2, auto);
     justify-items: end;
-    padding: 4 * $base-padding 0;
+    padding: 1.5rem 1rem;
   }
 }
 .linksCont {
