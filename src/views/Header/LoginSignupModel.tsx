@@ -189,32 +189,27 @@ export const Model = ({
   };
 
   return (
-    <div className={page === "login" ? style.loginCont : style.modalCont}>
+    <div className={style.modalCont}>
       <div className={style.modaldiv}>
         {!profile ? (
           <>
             {!otp ? (
               <>
                 {page === "login" || (
-                  <span className="flex items-center border-bottom py-1">
+                  <span className="d-flex align-items-center py-1 border-bottom">
                     <Button onClick={close}>
                       <FaX />
                     </Button>
-                    <h4 className="grow-2 text-center">Login or Sign up</h4>
+                    <p className="w-100 text-center fw-bold">
+                      Login or Sign up
+                    </p>
                   </span>
                 )}
                 <span
-                  className={`sm-mt-1 flex flex-col p-1 row-gap-1 ${
-                    page === "login" ? "" : "items-center"
-                  }`}
+                  className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
                 >
-                  <h1>Welcome to eShaafi</h1>
-                  <p
-                    className={` ${
-                      page === "login" ? "" : "text-center capitalize"
-                    }`}
-                    style={{ fontSize: 14 }}
-                  >
+                  <h1 className="heading1">Welcome to eShaafi</h1>
+                  <p className={`text-center text-capitalize `}>
                     Please enter your phone number, we will send you one time
                     password (OTP) for verification.
                   </p>
@@ -235,7 +230,7 @@ export const Model = ({
                   {(formik) => (
                     <form
                       onSubmit={formik.handleSubmit}
-                      className="p-1 flex flex-col sm-h-70 mb-1"
+                      className="px-3 d-flex flex-column"
                     >
                       <div>
                         <span className={style.phoneNum}>
@@ -260,7 +255,7 @@ export const Model = ({
                           </div>
                         ) : null}
                       </div>
-                      <div className="flex flex-col sm-mt-1">
+                      <div className="d-flex flex-column my-4">
                         <Button
                           type="submit"
                           variant="contained"
@@ -273,23 +268,12 @@ export const Model = ({
                         >
                           {otpLoading ? "Sending..." : "Continue"}
                         </Button>
-                        <span
-                          style={{ fontSize: 11, display: "inline-block mb-1" }}
-                        >
+                        <span style={{ fontSize: 11 }} className="mt-2">
                           By continuing you agree to our{" "}
-                          <Link
-                            href={"/terms-and-conditions"}
-                            className="inline-block  text-primary"
-                          >
+                          <Link href={"/terms-and-conditions"}>
                             Terms and Conditions
                           </Link>{" "}
-                          and{" "}
-                          <Link
-                            href="/privacy-policy"
-                            className="inline-block  text-primary"
-                          >
-                            Privacy Policy
-                          </Link>
+                          and <Link href="/privacy-policy">Privacy Policy</Link>
                         </span>
                       </div>
                     </form>
@@ -298,26 +282,20 @@ export const Model = ({
               </>
             ) : (
               <>
-                <span className="flex items-center border-bottom py-1">
+                <span className="d-flex align-items-center border-bottom py-1">
                   <Button onClick={() => setOtp(false)}>
                     <FaChevronLeft />
                   </Button>
-                  <h4 className="grow-2 text-center">
-                    {page === "login"
-                      ? "Change your number"
-                      : "Login or Signup"}
-                  </h4>
+                  <p className="w-100 fw-bold text-center">
+                    Verify Phone Number
+                  </p>
                 </span>
                 <span
-                  className={`flex sm-mt-1 flex-col p-1 row-gap-1 ${
-                    page === "login" ? "" : "items-center"
-                  }`}
+                  className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
                 >
-                  <h1>Enter OTP</h1>
+                  <h1 className="heading1">Enter OTP</h1>
                   <p
-                    className={` ${
-                      page === "login" ? "" : "text-center capitalize"
-                    }`}
+                    className={`text-center text-capitalize`}
                     style={{ fontSize: 14 }}
                   >
                     Please Check your phone for 6-digit otp sent to
@@ -342,34 +320,31 @@ export const Model = ({
           </>
         ) : (
           <>
-            <span className="flex items-center border-bottom py-1 ">
-              {/* <Button onClick={close}>
-                <FaX />
-              </Button> */}
-              <h4 className="grow-2 text-center">Complete Profile</h4>
+            <span className="d-flex border-bottom py-1 ">
+              <p className="w-100 fw-bold text-center py-2">Complete Profile</p>
             </span>
-            <span className="flex sm-mt-1 flex-col items-center p-1 row-gap-1">
-              <h1>Welcome to eShaafi</h1>
+            <span
+              className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
+            >
+              <h1 className="heading1">Welcome to eShaafi</h1>
               <p
-                className={` ${
-                  page === "login" ? "" : "text-center capitalize"
-                }`}
+                className={`text-center text-capitalize`}
                 style={{ fontSize: 14 }}
               >
                 We will use this information for booking video consultation
               </p>
             </span>
             <form
-              className="flex flex-col row-gap-1 p-1 mb-1"
+              className="d-flex flex-column row-gap-1 px-3 pb-4"
               onSubmit={updateProfile}
             >
-              <span className="flex flex-col row-gap-1">
+              <span className="d-flex flex-column row-gap-1">
                 <div className="w-full">
                   <InputField
                     placeHolder="Full name"
                     name="name"
                     onChange={setStates}
-                    className="w-full"
+                    className="w-100"
                   />
                   {modelStates.name && (
                     <div>

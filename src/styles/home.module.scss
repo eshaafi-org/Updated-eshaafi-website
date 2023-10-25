@@ -14,7 +14,7 @@
   grid-template-columns: 1.5fr 1fr;
   align-items: center;
   // justify-items: start;
-  @include from-mobile-landscape-to-tablet {
+  @include above-mobile-landscape {
     // grid-template-columns: 1fr 1fr;
     justify-items: center;
   }
@@ -76,6 +76,7 @@
     justify-self: end;
     // align-self: center;
     .servicesImg {
+      min-width: 30px;
       width: 100%;
       height: auto;
       @include above-tablet {
@@ -159,15 +160,21 @@
 .blogCont {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   column-gap: 1rem;
-  @include for-tablet-portrait-only {
+  row-gap: 1rem;
+
+  @include above-medium-mobile {
     grid-template-columns: 1fr 1fr;
+    row-gap: 1.5rem;
   }
-  @include for-large-phone-only {
-    grid-template-columns: 1fr;
-    row-gap: 2rem;
-  }
+  @include above-tablet {
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 1.5rem;
+  } // @include for-large-phone-only {
+  //   grid-template-columns: 1fr;
+  //   row-gap: 2rem;
+  // }
 }
 /// Feature Section
 .featureList {
@@ -226,10 +233,36 @@
         min-width: 120px;
       }
       @include above-tablet-landscape-and-mini-laptop {
-        min-width: 220px;
+        min-width: 180px;
         height: auto;
       }
     }
+  }
+}
+// working section
+.workingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 2rem;
+  @include above-large-mobile {
+    align-items: center;
+    flex-direction: row;
+  }
+}
+.workingImg {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  // margin: 0 auto;
+  .workingImage {
+    width: 100%;
+    @include for-large-mobile-only {
+      width: 75%;
+    }
+  }
+  @include above-large-mobile {
+    width: 50%;
   }
 }
 // doctor section
@@ -238,26 +271,26 @@
   overflow: hidden;
   // margin-top: 4rem;
   padding: 2rem 0px 4rem 0;
-  @include for-large-phone-only {
-    margin: 1rem 0;
-    padding: unset;
-  }
+  // @include for-large-phone-only {
+  //   margin: 1rem 0;
+  //   padding: unset;
+  // }
 }
 .innerDocContainer {
   display: flex;
   justify-content: start;
   column-gap: 1rem;
-  @include for-large-phone-only {
-    justify-content: flex-start;
-  }
+  // @include for-large-phone-only {
+  //   justify-content: flex-start;
+  // }
 }
 .sliderItm {
   min-width: 450px;
   &:first-child {
     margin-left: 25rem;
-    @include for-large-phone-only {
-      margin-left: 5rem;
-    }
+    // @include for-large-phone-only {
+    //   margin-left: 5rem;
+    // }
   }
 }
 .docImg {
@@ -285,16 +318,16 @@
 // doctors section
 .docSection {
   padding: 4rem 0rem 4rem 0rem;
-  @include for-large-phone-only {
-    padding: unset;
-  }
+  // @include for-large-phone-only {
+  //   padding: unset;
+  // }
 }
 /// get the app section
 .sectionImage {
-  @include from-mobile-landscape-to-tablet {
-    min-width: 250px;
-  }
-  @include from-mini-laptop-to-laptop {
-    min-width: 300px;
-  }
+  // @include from-mobile-landscape-to-tablet {
+  //   min-width: 250px;
+  // }
+  // @include from-mini-laptop-to-laptop {
+  //   min-width: 300px;
+  // }
 }

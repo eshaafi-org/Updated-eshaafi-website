@@ -36,7 +36,7 @@ export default function Features() {
                 <div className={style.featureItemCont}>
                   <span className={style.featureText}>
                     <span className="flex flex-col row-gap-0-5 ">
-                      <h4>{itm.heading}</h4>
+                      <h4 className="cardHeading">{itm.heading}</h4>
                       <p className="capitalize">{itm.text}</p>
                     </span>
                   </span>

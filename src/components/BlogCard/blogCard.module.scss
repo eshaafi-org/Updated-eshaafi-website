@@ -30,11 +30,11 @@
 .blogHeading {
   font-size: 12px;
   min-height: 25px;
-  @include from-tablet-landscape-to-mini-laptop {
+  @include above-tablet {
     font-size: 16px;
     min-height: 40px;
   }
-  @include from-mini-laptop-to-laptop {
+  @include above-tablet-large {
     font-size: 20px;
     min-height: 47px;
   }
@@ -42,10 +42,10 @@
 .blogDescription {
   font-size: 11px;
   line-height: unset;
-  @include from-tablet-landscape-to-mini-laptop {
+  @include above-tablet {
     font-size: 14px;
   }
-  @include from-mini-laptop-to-laptop {
+  @include above-tablet-large {
     font-size: 16px;
   }
 }
@@ -54,10 +54,10 @@
   color: $primary-clr;
   display: inline-block !important;
   text-decoration: underline;
-  @include from-tablet-landscape-to-mini-laptop {
+  @include above-tablet {
     font-size: 14px !important;
   }
-  @include from-mini-laptop-to-laptop {
+  @include for-laptop-and-above {
     font-size: 16px !important;
   }
 }

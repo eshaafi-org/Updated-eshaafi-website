@@ -67,10 +67,7 @@ export default function Services() {
                   <span className={style.serviceLink}>
                     {itm.heading === "Home Nursing" ||
                     itm.heading === "Instant Call" ? (
-                      <Link
-                        href={"/"}
-                        className="linkBtn bg-none text-primary border-none p-0"
-                      >
+                      <Link href={"/"} className="fw-bold">
                         Coming Soon
                       </Link>
                     ) : (

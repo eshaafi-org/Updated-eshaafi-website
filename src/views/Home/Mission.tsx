@@ -1,10 +1,10 @@
 import Link from "next/link";
 export default function Mission() {
   return (
-    <section className="w-full bg-white">
-      <div className="container sm-pt-0">
-        <div className="flex row-gap-2 sm-row-gap-0-5 sm-flex-col">
-          <span className="w-40 sm-w-full">
+    <section className="w-100 bg-white">
+      <div className="container">
+        <div className="d-flex row-gap-2 sm-row-gap-0-5 sm-flex-col">
+          <span className="w-40 sm-w-100">
             <h3>Our Mission</h3>
             <h2>
               Care That Never <br className="sm-d-none"></br> Quits
