@@ -26,7 +26,7 @@ const features = [
 ];
 export default function Features() {
   return (
-    <section className="w-full bg-white">
+    <section className="w-100 bg-white">
       <div className="container sm-pt-0">
         <div className={style.servicesContainer}>
           <h2>Unique Features</h2>

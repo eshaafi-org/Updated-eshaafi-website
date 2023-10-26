@@ -1,10 +1,14 @@
 @import "../../styles/mixin";
 @import "../../styles//variables";
 .blogContainer {
+  row-gap: 0.3rem;
   &:hover {
     .readMore {
       text-decoration: underline;
     }
+  }
+  @include above-tablet {
+    row-gap: 0.1rem;
   }
 }
 .blogImage {
@@ -29,7 +33,7 @@
 }
 .blogHeading {
   font-size: 12px;
-  min-height: 25px;
+  // min-height: 25px;
   @include above-tablet {
     font-size: 16px;
     min-height: 40px;

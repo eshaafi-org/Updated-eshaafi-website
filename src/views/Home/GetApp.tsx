@@ -6,13 +6,13 @@ import style from "../../styles/home.module.scss";
 
 export default function GetApp({ color = "#fff" }: { color: string }) {
   return (
-    <section className="w-full" style={{ backgroundColor: color }}>
+    <section className="w-100" style={{ backgroundColor: color }}>
       <div className="container pb-0">
-        <div className="flex justify-between sm-flex-col sm-row-gap-1 items-center col-gap-1">
-          <div className="flex flex-col row-gap-2 items-start w-1-2 sm-w-full sm-row-gap-1 pb-1">
-            <div className="d-flex flex-col row-gap-1">
+        <div className="d-flex justify-content-between sm-flex-col sm-row-gap-1 align-items-center col-gap-1">
+          <div className="d-flex flex-column row-gap-2 align-items-start w-50 sm-w-100 sm-row-gap-1 pb-1">
+            <div className="d-flex flex-column row-gap-1">
               <h2>Get eShaafi App</h2>
-              <p className="text-2">
+              <p className="cardDescription">
                 Download the app to book and manage your appointments, keep
                 track of the payments and get instant medical advice in case of
                 emergencies. Keep your health up to date.

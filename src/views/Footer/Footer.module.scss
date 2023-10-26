@@ -13,41 +13,27 @@
     grid-template-columns: 2fr repeat(4, 1.5fr);
     grid-template-rows: repeat(2, auto);
     justify-items: end;
-    padding: 1.5rem 1rem;
+    padding: 4rem 1rem;
   }
 }
 .linksCont {
-  // display: flex;
-  // justify-content: space-between;
   display: grid;
-  grid-template-columns: 2fr repeat(4, 1.5fr);
-  grid-template-rows: repeat(2, auto);
-  justify-items: end;
-  // padding: 4 * $base-padding 0;
-  // @include for-tablet-portrait-only {
-  //   grid-template-columns: 1fr 1fr 1fr 1fr;
-  //   grid-template-rows: auto auto;
-  //   row-gap: 2rem;
-  //   justify-items: start;
-  //   column-gap: 2rem;
-  // }
-  // @include for-large-tablet-portrait-up {
-  //   grid-template-columns: 1fr 1fr 1fr;
-  //   grid-template-rows: auto auto;
-  //   row-gap: 2rem;
-  //   justify-items: start;
-  //   column-gap: 2rem;
-  // }
-  // @include for-large-phone-only {
-  //   grid-template-columns: 1fr;
-  //   grid-auto-flow: dense;
-  //   justify-items: start;
-  //   align-items: stretch;
-  //   row-gap: 2rem;
-  // }
-  // @include for-mediam-phone-only {
-  //   grid-template-columns: 1fr;
-  // }
+  grid-template-columns: 1fr;
+  row-gap: 2rem;
+  @include above-tablet-landscape-and-mini-laptop {
+    grid-template-columns: 2fr repeat(4, 1.5fr);
+    grid-template-rows: repeat(2, auto);
+    justify-items: end;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include for-large-tablet-only {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 .intro {
@@ -61,6 +47,7 @@
 .copyrights {
   color: #5c5c5c;
   font-size: 14px;
+  padding-top: 1.5rem;
 }
 .downloadImage {
   max-width: 162px;

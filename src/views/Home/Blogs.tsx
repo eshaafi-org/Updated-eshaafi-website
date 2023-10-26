@@ -12,12 +12,14 @@ export default function Blogs({ blogs }: { blogs: any }) {
           <div className="d-flex justify-content-between w-100 align-items-base">
             <span>
               <h2 className="mb-1">Blogs</h2>
-              <p className="text-3" style={{ color: "#5A5A5A" }}>
+              <p className="mainHeadingText">
                 Read about latest health problem and their solutions
               </p>
             </span>
-
-            <Link href={"/blog"} className="link">
+            <Link
+              href={"/blog"}
+              className="link fw-bold d-flex align-items-center"
+            >
               View All <MdKeyboardArrowRight />
             </Link>
           </div>
