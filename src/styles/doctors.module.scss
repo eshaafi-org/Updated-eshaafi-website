@@ -149,28 +149,111 @@
     }
   }
 }
-// doctor list section styling
+// doctors page styling
 .docList {
-  width: 60%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  row-gap: 2rem;
-  // @include for-large-tablet-portrait-up {
-  //   width: 100% !important;
-  // }
-  // @include for-large-phone-only {
-  //   width: 100% !important;
-  // }
+  row-gap: 1rem;
+  @include above-tablet-large {
+    width: 60%;
+  }
 }
 .docCard {
   border-radius: 8px;
   box-shadow: 0px 20px 40px 0px rgba(88, 88, 88, 0.08);
+  border: 1px solid #d7ddea;
+  padding: 1rem 0.5rem;
+  @include above-medium-mobile {
+    padding: 1rem 1rem;
+  }
 }
 .docImg {
-  width: 91px;
-  height: 91px;
+  width: 60px;
+  height: 60px;
   border-radius: 50px;
-  pointer-events: none;
+  margin-right: 0.5rem;
+  @include for-large-mobile-only {
+    width: 65px;
+    height: 65px;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    width: 70px;
+    height: 70px;
+  }
+  @include for-large-tablet-only {
+    width: 72px;
+    height: 72px;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    width: 80px;
+    height: 80px;
+  }
+  @include for-laptop-and-above {
+    width: 90px;
+    height: 90px;
+  }
+}
+.docTitle {
+  font-size: 1rem;
+  text-transform: capitalize;
+  @include for-large-mobile-only {
+    font-size: 1.1rem;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 1.2rem;
+  }
+  @include for-large-tablet-only {
+    font-size: 1.3rem;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    font-size: 1.4rem;
+  }
+  @include for-laptop-and-above {
+    font-size: 1.5rem;
+  }
+}
+.docSpecialization {
+  font-size: 14px;
+  @include above-large-mobile {
+    font-size: 1rem;
+  }
+}
+.docFee {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0e5487;
+  text-wrap: nowrap;
+  @include for-large-mobile-only {
+    font-size: 1rem;
+  }
+  @include above-large-mobile {
+    font-size: 1.2rem;
+  }
+}
+.experienceHeading {
+  font-size: 0.9rem;
+  font-weight: 500;
+  @include above-large-mobile {
+    font-size: 1rem;
+  }
+}
+.experienceText {
+  font-size: 11px;
+  font-weight: 500;
+  @include above-large-mobile {
+    font-size: 0.9rem;
+  }
+}
+.docExperience {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  span {
+    row-gap: 0.5rem;
+    @include above-large-mobile {
+      row-gap: 1rem;
+    }
+  }
 }
 // Doctor profile styling
 .horizantalline {
@@ -264,37 +347,26 @@
 // doctor profile styling
 
 // doctors listing page card styling
-.docCard {
-  border-radius: 8px;
-  border: 1px solid #d7ddea;
-  row-gap: 1.5rem;
-  box-shadow: 0px 20px 40px 0px rgba(88, 88, 88, 0.08);
-  @include for-large-tablet-portrait-up {
-    @media (max-width: $tablet) {
-      width: 100%;
-    }
-  }
-  @include for-large-phone-only {
-    .docTitle {
-      font-size: 16px !important;
-    }
-    .docSpecialization {
-      font-size: 14px;
-    }
-    .docFee {
-      font-size: 14px;
-    }
-  }
-}
-.docImg {
-  width: 91px;
-  height: 91px;
-  border-radius: 50px;
-  @include for-large-phone-only {
-    width: 61px;
-    height: 61px;
-  }
-}
+// .docCard {
+//   border-radius: 8px;
+//   border: 1px solid #d7ddea;
+//   row-gap: 1.5rem;
+//   box-shadow: 0px 20px 40px 0px rgba(88, 88, 88, 0.08);
+//   // @include for-large-tablet-portrait-up {
+//   //   @media (max-width: $tablet) {
+//   //     width: 100%;
+//   //   }
+//   // }
+//   @include for-large-mobile-only {
+//     .docTitle {
+//       font-size: 16px !important;
+//     }
+
+//     .docFee {
+//       font-size: 14px;
+//     }
+//   }
+// }
 
 .imageContainer {
   position: relative;
@@ -317,53 +389,53 @@
 
 .docdata {
   width: 60%;
-  @include for-large-tablet-portrait-up {
-    @media (max-width: $tablet) {
-      width: 100%;
-    }
-  }
+  // @include above-tablet {
+  //   @media (max-width: $tablet) {
+  //     width: 100%;
+  //   }
+  // }
 
-  @include for-mobile-landscape-up {
-    @media (max-width: $verticalmobile) {
-      width: 100%;
-    }
-  }
+  // @include for-mobile-landscape-up {
+  //   @media (max-width: $verticalmobile) {
+  //     width: 100%;
+  //   }
+  // }
 }
 
 .videoconsultation {
   width: 40%;
   background-color: #f5fbff;
-  @include for-large-tablet-portrait-up {
-    @media (max-width: $tablet) {
-      margin-top: 2rem;
-      width: 100%;
-    }
-  }
+  // @include for-large-tablet-portrait-up {
+  //   @media (max-width: $tablet) {
+  //     margin-top: 2rem;
+  //     width: 100%;
+  //   }
+  // }
 }
 
 //circle style
 
 // mainline ->combination of both ring and line
-@include for-large-tablet-portrait-up {
-  @media (max-width: $tablet) {
-    .mainline {
-      display: flex !important;
-      flex-direction: column;
-    }
-  }
-}
+// @include for-large-tablet-portrait-up {
+//   @media (max-width: $tablet) {
+//     .mainline {
+//       display: flex !important;
+//       flex-direction: column;
+//     }
+//   }
+// }
 // mainring-> whole ring div
-@include for-large-tablet-portrait-up {
-  @media (max-width: $tablet) {
-    .mainring {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-top: 8px;
-    }
-  }
-}
+// @include for-large-tablet-portrait-up {
+//   @media (max-width: $tablet) {
+//     .mainring {
+//       display: flex;
+//       justify-content: center;
+//       align-items: center;
+//       width: 100%;
+//       margin-top: 8px;
+//     }
+//   }
+// }
 
 .ring {
   position: relative;
@@ -468,24 +540,24 @@
       text-align: end;
     }
   }
-  @include for-tablet-portrait-only {
-    width: 100%;
-    // position: fixed !important;
-    bottom: 10px;
-    z-index: 3;
-    h1 {
-      display: none;
-    }
-    table {
-      display: none;
-    }
-  }
+  // @include for-tablet-portrait-only {
+  //   width: 100%;
+  //   // position: fixed !important;
+  //   bottom: 10px;
+  //   z-index: 3;
+  //   h1 {
+  //     display: none;
+  //   }
+  //   table {
+  //     display: none;
+  //   }
+  // }
 }
 .display {
   display: none !important;
-  @include for-large-tablet-portrait-up {
-    display: flex;
-  }
+  // @include for-large-tablet-portrait-up {
+  //   display: flex;
+  // }
 }
 .docOnline {
   border: 1px solid green;
@@ -506,7 +578,7 @@
   }
 }
 .docPageHeading {
-  @include for-large-phone-only {
-    font-size: 1rem !important;
-  }
+  // @include for-large-phone-only {
+  //   font-size: 1rem !important;
+  // }
 }

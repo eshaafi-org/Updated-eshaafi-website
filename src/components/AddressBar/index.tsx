@@ -11,13 +11,13 @@ export default function AddressBar({
   return (
     <div className="mb-1">
       <h4 className="pageHeading">{title}</h4>
-      <ul className="flex">
+      <ul className="d-flex">
         {links.map(
           (
             item: { name: string | string[] | undefined; link: string },
             indx: number
           ) => (
-            <li key={indx} className="d-flex items-center">
+            <li key={indx} className="d-flex align-items-center">
               <Link
                 href={item.link}
                 className="sm-font capitalize"

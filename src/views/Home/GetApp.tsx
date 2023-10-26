@@ -31,7 +31,7 @@ export default function GetApp({ color = "#fff" }: { color: string }) {
               src={getApp}
               alt="subscription plans"
               style={{ width: "100%", height: "auto" }}
-              className={style.sectionImage}
+              className={style.getAppImage}
             />
           </span>
         </div>

@@ -323,11 +323,11 @@
   // }
 }
 /// get the app section
-.sectionImage {
-  // @include from-mobile-landscape-to-tablet {
-  //   min-width: 250px;
-  // }
-  // @include from-mini-laptop-to-laptop {
-  //   min-width: 300px;
-  // }
+.getAppImage {
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    min-width: 250px;
+  }
+  @include above-tablet-large {
+    min-width: 300px;
+  }
 }

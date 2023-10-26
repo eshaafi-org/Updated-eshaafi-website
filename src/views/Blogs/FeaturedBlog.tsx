@@ -5,7 +5,7 @@ import moment from "moment";
 function Card({ blog }: any) {
   return (
     <Link href={`/blog/${blog.name}`} className={style.featuredBlogCard}>
-      <div className="flex flex-col justify-content-end h-100">
+      <div className="d-flex flex-column justify-content-end h-100">
         <p style={{ color: "#fff" }} className={style.blogDescription}>
           {blog?.authorName}{" "}
           <span className="mx-0-5" style={{ color: "#DFEAF2" }}>
