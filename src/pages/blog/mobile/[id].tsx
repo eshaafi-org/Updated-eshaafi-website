@@ -59,9 +59,6 @@ export default function Post({ post }: any) {
         }
       }
     }
-    if (document) {
-      document.body.style.paddingTop = " 0px";
-    }
   }, [post]);
   return (
     <>
@@ -83,6 +80,27 @@ export default function Post({ post }: any) {
           <meta name="twitter:data2" content={post?.readTime + " minutes"} />
           <meta name="twitter:label3" content="Title" />
           <meta name="twitter:data3" content={post?.title} />
+          {/* <meta property="og:image:type" content="image/png" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:type" content="article" />
+        <meta name="author" content={post?.authorName} />
+        <meta
+          property="og:site_name"
+          content="Health Zone | Healthy reads on eshaafi.com"
+        />
+        <meta
+          property="article:publisher"
+          content="https://www.facebook.com/eShaaficare?mibextid=ZbWKwL"
+        />
+        <meta
+          property="article:published_time"
+          content="2023-09-11T06:32:01+00:00"
+        />
+        <meta
+          property="article:modified_time"
+          content="2023-09-11T06:16:11+00:00"
+        />
+        <meta property="fb:app_id" content="287697960444401"></meta> */}
         </Head>
       )}
       {post ? (
@@ -95,7 +113,7 @@ export default function Post({ post }: any) {
               {post?.blogContent && post?.blogContent.length > 0 && (
                 <div className={style.tableOfContent}>
                   <div className={style.desktop}>
-                    <p className="text-main font-bold mb-3">Table of Content</p>
+                    <p className="text-main fw-bold mb-3">Table of Content</p>
                     <ul className="d-flex flex-wrap col-gap-1">
                       {post?.blogContent?.length > 0 &&
                         post?.blogContent.map((link: string, indx: number) => (
@@ -116,12 +134,12 @@ export default function Post({ post }: any) {
                   <div className={style.mobile}>
                     <div
                       onClick={() => setOpen(!open)}
-                      className="d-flex w-full justify-between border-bottom items-center pb-1"
+                      className="d-flex w-full justify-content-between border-bottom align-items-center pb-1"
                       role="button"
                       aria-expanded="false"
                       aria-controls="collapseExample"
                     >
-                      <p className="text-main font-bold ">Table of Content</p>
+                      <p className="text-main fw-bold ">Table of Content</p>
                       <FaChevronDown />
                     </div>
                     <Collapse in={open}>
@@ -151,12 +169,12 @@ export default function Post({ post }: any) {
               )}
               <div className={style.share}>
                 <div className={style.shareIcon}>
-                  <p className="text-main font-bold">Share this Article</p>
-                  <span className="flex col-gap-0-5 flex-wrap">
+                  <p className="text-main fw-bold">Share this Article</p>
+                  <span className="d-flex col-gap-0-5 flex-wrap">
                     <button
                       onClick={copyURLToClipboard}
                       className={
-                        style.iconStyle + " flex col-gap-1 border-none"
+                        style.iconStyle + " d-flex col-gap-1 border-none"
                       }
                       title="Copy link"
                       id={`${baseUrl + router?.asPath}`}
@@ -165,7 +183,7 @@ export default function Post({ post }: any) {
                     </button>
                     <button
                       title="Share on Facebook"
-                      className="border-none bg-none"
+                      className="border-0 bg-none"
                     >
                       <a
                         href={`https://www.facebook.com/sharer/sharer.php?u=${
@@ -182,7 +200,7 @@ export default function Post({ post }: any) {
                     <button
                       title="Share-on-WhatsApp"
                       id="whatsapp"
-                      className="border-none bg-none"
+                      className="border-0 bg-none"
                     >
                       <a
                         href={`https://api.whatsapp.com/send?text=${
@@ -199,7 +217,7 @@ export default function Post({ post }: any) {
                     <button
                       title="Share-on-linkedin"
                       id="linkedin"
-                      className="border-none bg-none"
+                      className="border-0 bg-none"
                     >
                       <a
                         href={`https://www.linkedin.com/sharing/share-offsite/?url=${
@@ -215,7 +233,7 @@ export default function Post({ post }: any) {
                     </button>
                     <button
                       title="Share on Twitter"
-                      className="border-none bg-none"
+                      className="border-0 bg-none"
                     >
                       <a
                         href={`https://twitter.com/intent/tweet?url=${
@@ -233,7 +251,7 @@ export default function Post({ post }: any) {
                 </div>
               </div>
               {/* add section */}
-              <div className={style.addSection + " sm-d-none"}>
+              <div className={style.addSection}>
                 <div
                   className={
                     "bg-main align-self-start flex flex-col row-gap-1 rounded justify-between"
@@ -247,7 +265,7 @@ export default function Post({ post }: any) {
                     padding: "1rem 1rem 5rem 1rem",
                   }}
                 >
-                  <p className={"text-main font-bold w-60 " + style.addText}>
+                  <p className={"text-main fw-bold w-60 mb-2 " + style.addText}>
                     Book Video Consultation{" "}
                     <span className="sm-d-none">With Doctors Anytime</span>
                   </p>
@@ -261,8 +279,8 @@ export default function Post({ post }: any) {
               </div>
               {/* blog introduction heading and author */}
               <div className={style.blogIntro + " pb-1"}>
-                <h2>{post?.title}</h2>
-                <div className="flex col-gap-1 items-center">
+                <h2 className={style.blogPageHeadings}>{post?.title}</h2>
+                <div className="d-flex col-gap-1 align-items-center">
                   <div
                     className={style.authorImage}
                     style={{
@@ -273,7 +291,7 @@ export default function Post({ post }: any) {
                       backgroundRepeat: "no-repeat",
                     }}
                   ></div>
-                  <p className={style.blogAuthorAndDate}>
+                  <p style={{ color: "#777", fontSize: 14 }}>
                     {post?.authorName}{" "}
                     <span className="mx-0-5" style={{ color: "#DFEAF2" }}>
                       |
@@ -303,6 +321,7 @@ export default function Post({ post }: any) {
               </div>
             </div>
           </section>
+          {/* <GetApp color="#DFEAF2" /> */}
         </main>
       ) : (
         <div className="container ">

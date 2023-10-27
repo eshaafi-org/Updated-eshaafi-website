@@ -139,13 +139,6 @@
         font-size: 20px;
         color: #0e5487;
       }
-      span {
-        p {
-          // @include for-large-phone-only {
-          //   font-size: 12px;
-          // }
-        }
-      }
     }
   }
 }
@@ -334,8 +327,8 @@
 
 .serviceItem {
   display: inline-block;
-  padding: 0.5rem 1rem;
-  margin-right: 1rem;
+  padding: 0.2rem 0.7rem;
+  margin-right: 0.5rem;
   margin-bottom: 1rem;
   border: 1px solid #f2f2f2;
   border-radius: 4px;
@@ -343,6 +336,11 @@
   color: #192a3e;
   text-align: center;
   text-decoration: none;
+  font-size: 14px;
+  @include above-mobile-landscape {
+    padding: 0.5rem 1rem;
+    margin-right: 1rem;
+  }
 }
 // doctor profile styling
 
@@ -439,13 +437,21 @@
 
 .ring {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 90px;
+  height: 90px;
   border: 4px solid #009b94;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  @include above-large-mobile {
+    width: 120px;
+    height: 120px;
+  }
+  @include above-tablet {
+    width: 200px;
+    height: 200px;
+  }
 }
 
 .centered_content {
@@ -482,19 +488,6 @@
   margin: 0;
 }
 
-.serviceItem {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid #f2f2f2;
-  border-radius: 4px;
-  background-color: #f2f2f2;
-  color: #192a3e;
-  text-align: center;
-  text-decoration: none;
-  text-transform: capitalize;
-}
 .progress {
   position: relative;
   .progressBar {
@@ -517,28 +510,153 @@
     z-index: 0;
   }
 }
+
+.display {
+  display: none !important;
+  // @include for-large-tablet-portrait-up {
+  //   display: flex;
+  // }
+}
+.docOnline {
+  border: 1px solid green;
+  border-radius: 50%;
+  position: relative;
+  max-width: 62px;
+  max-height: 62px;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: green;
+    bottom: 10px;
+    right: 4px;
+    border-radius: 50%;
+    z-index: 9;
+  }
+}
+.docPageHeading {
+  font-size: 16px;
+  // margin-bottom: 0.3rem !important;
+  text-transform: capitalize;
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 1.5rem !important;
+    // margin-bottom: 0.5rem !important;
+  }
+  @include above-tablet-large {
+    font-size: 2rem !important;
+    // margin-bottom: 1rem !important;
+  }
+}
+/// doctor profile page
+.docSecHeading {
+  font-size: 0.9rem;
+  margin-bottom: 0.7rem !important;
+  @include for-medium-mobile-only {
+    font-size: 1rem;
+  }
+  @include for-large-mobile-only {
+    font-size: 1.3rem;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 1.4rem;
+  }
+  @include for-large-tablet-only {
+    font-size: 1.5rem;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    font-size: 1.6rem;
+  }
+  @include for-laptop-and-above {
+    font-size: 1.7rem;
+  }
+}
+.docSecSubHeading {
+  font-size: 0.8rem;
+  font-weight: 400 !important;
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 1rem;
+    font-weight: 400 !important;
+  }
+  @include for-large-tablet-only {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  @include for-laptop-and-above {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+}
+.docSecDes {
+  font-size: 11px;
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 1rem;
+  }
+  @include for-large-tablet-only {
+    font-size: 1rem;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    font-size: 1rem;
+  }
+  @include for-laptop-and-above {
+    font-size: 1rem;
+  }
+}
+.docText {
+  font-size: 14px;
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 1rem;
+  }
+  @include for-large-tablet-only {
+    font-size: 1rem;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    font-size: 1rem;
+  }
+  @include for-laptop-and-above {
+    font-size: 1rem;
+  }
+}
+//
+.docProfileContainer {
+  width: 100%;
+}
+.profiling {
+  width: 100%;
+  @include above-tablet {
+    width: 60%;
+  }
+}
 .summary {
-  width: 40%;
+  display: none;
   background-color: $secondary-clr;
   border-radius: 7px;
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
   row-gap: 1.5rem;
   position: sticky;
   top: 100px;
   table {
     border-spacing: 0 1em;
-
+    width: 100%;
+    border-collapse: separate;
     tr {
       margin: 1rem 0;
     }
     th {
       text-align: start;
+      font-weight: 400;
     }
     td {
       text-align: end;
     }
+  }
+  @include above-tablet {
+    display: block;
+    width: 40%;
   }
   // @include for-tablet-portrait-only {
   //   width: 100%;
@@ -553,32 +671,59 @@
   //   }
   // }
 }
-.display {
-  display: none !important;
-  // @include for-large-tablet-portrait-up {
-  //   display: flex;
-  // }
-}
-.docOnline {
-  border: 1px solid green;
-  border-radius: 50%;
-  position: relative;
-  max-width: 102px;
-  max-height: 102px;
-  &::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background-color: green;
-    bottom: 10px;
-    right: 4px;
-    border-radius: 50%;
-    z-index: 9;
+//
+.profileExperienceHeading {
+  font-size: 14px;
+  @include for-large-mobile-only {
+    font-size: 1rem;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 1.1rem;
+  }
+  @include for-large-tablet-only {
+    font-size: 1.2rem;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    font-size: 1.3rem;
+  }
+  @include for-laptop-and-above {
+    font-size: 1.5rem;
   }
 }
-.docPageHeading {
-  // @include for-large-phone-only {
-  //   font-size: 1rem !important;
-  // }
+.reviewText {
+  font-size: 11px;
+  // margin-bottom: 0.5rem;
+  @include for-large-mobile-only {
+    font-size: 12px;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 15px;
+  }
+  @include for-large-tablet-only {
+    font-size: 16px;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    font-size: 17px;
+  }
+  @include for-laptop-and-above {
+    font-size: 18px;
+  }
+}
+.profileExperienceText {
+  font-size: 11px;
+  @include for-large-mobile-only {
+    font-size: 12px;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    font-size: 15px;
+  }
+  @include for-large-tablet-only {
+    font-size: 16px;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    font-size: 16px;
+  }
+  @include for-laptop-and-above {
+    font-size: 16px;
+  }
 }
