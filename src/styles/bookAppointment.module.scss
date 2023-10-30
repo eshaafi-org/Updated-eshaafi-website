@@ -1,7 +1,10 @@
 // slots styling
 @import "./variables";
 @import "./mixin";
-
+/// appointment booking flow page
+.slotsContainer {
+  width: 70%;
+}
 .schedule {
   display: flex;
   flex-direction: column;
@@ -78,10 +81,10 @@ div.scrollmenu a:hover {
   border-radius: 7px;
   padding: 8px 2rem;
   transition: all ease-in 0.2s;
-  @include for-tablet-portrait-only {
-    padding: 8px 0.8rem !important;
-    border-radius: 50px !important;
-  }
+  // @include for-tablet-portrait-only {
+  //   padding: 8px 0.8rem !important;
+  //   border-radius: 50px !important;
+  // }
 }
 .slotLabelradioclass:hover {
   background: #ffffff;
@@ -89,20 +92,20 @@ div.scrollmenu a:hover {
   border-radius: 7px;
   padding: 8px 2rem;
   cursor: pointer;
-  @include for-tablet-portrait-only {
-    padding: 8px 0.8rem !important;
-    border-radius: 50px !important;
-  }
+  // @include for-tablet-portrait-only {
+  //   padding: 8px 0.8rem !important;
+  //   border-radius: 50px !important;
+  // }
 }
 .slotLabelActive {
   background: #ffffff;
   border-radius: 7px;
   padding: 8px 2rem;
   cursor: pointer;
-  @include for-tablet-portrait-only {
-    padding: 8px 0.8rem !important;
-    border-radius: 50px !important;
-  }
+  // @include for-tablet-portrait-only {
+  //   padding: 8px 0.8rem !important;
+  //   border-radius: 50px !important;
+  // }
 }
 .labelActiveProfile {
   color: #009b94;
@@ -151,18 +154,18 @@ div.scrollmenu a:hover {
 }
 .days {
   width: 100%;
-  @include for-tablet-portrait-only {
-    padding: 0.3rem !important;
-  }
+  // @include for-tablet-portrait-only {
+  //   padding: 0.3rem !important;
+  // }
 }
 .slotsCont {
   flex-wrap: wrap;
-  @include for-tablet-portrait-only {
-    justify-content: flex-start;
-  }
-  @include for-large-phone-only {
-    justify-content: space-around;
-  }
+  // @include for-tablet-portrait-only {
+  //   justify-content: flex-start;
+  // }
+  // @include for-large-phone-only {
+  //   justify-content: space-around;
+  // }
 }
 .slotItm {
   width: 100px;
@@ -192,17 +195,17 @@ div.scrollmenu a:hover {
       text-align: end;
     }
   }
-  @include for-tablet-portrait-only {
-    width: 100%;
-    // position: fixed !important;
-    bottom: 10px;
-    h1 {
-      display: none;
-    }
-    table {
-      display: none;
-    }
-  }
+  // @include for-tablet-portrait-only {
+  //   width: 100%;
+  //   // position: fixed !important;
+  //   bottom: 10px;
+  //   h1 {
+  //     display: none;
+  //   }
+  //   table {
+  //     display: none;
+  //   }
+  // }
 }
 .consultationTimer {
   display: flex;

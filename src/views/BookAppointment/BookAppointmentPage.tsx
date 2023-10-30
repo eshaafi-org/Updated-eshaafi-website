@@ -1,4 +1,5 @@
 "use client";
+import style from "../../styles/bookAppointment.module.scss";
 import { useState } from "react";
 import Slots from "./Slots";
 import Reviews from "@/views/BookAppointment/Reviews";
@@ -104,9 +105,9 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   return (
     <section className="container">
       {!success ? (
-        <div className="flex items-start col-gap-1 position-relative lg-flex-col w-full">
+        <div className="d-flex align-items-start col-gap-1 position-relative w-100">
           {paymentScreen ? (
-            <section className="w-70 lg-w-full flex flex-col row-gap-2">
+            <section className={style.slotsContainer}>
               <DoctorInfo doc={data?.doctorInfo} />
               <Slots
                 Items={data?.Items}
