@@ -323,7 +323,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
           />
         )}
         {userAuth?.name && (
-          <span className="p-1 flex items-center col-gap-1 border-bottom">
+          <span className="p-3 d-flex align-items-center col-gap-1 border-bottom mb-2">
             {!userAuth.url ? (
               <FaUser
                 style={{
@@ -393,7 +393,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 )}
               </span>
             </span>
-            <ul className="flex flex-col mt-1 ">
+            <ul className="d-flex flex-column mt-1 ">
               {!userAuth?.uuid || (
                 <>
                   {/* <li className={`p-0-5 border-bottom`}>
@@ -431,9 +431,9 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       </Button>
                     </Link>
                   </li> */}
-                  <li className={`p-0-5 border-bottom`}>
+                  <li className={`p-1 border-bottom`}>
                     <Link href={"/appointments"} onClick={handleClose}>
-                      <Button className="flex col-gap-1 items-center">
+                      <Button className="d-flex col-gap-1 align-items-center">
                         <FaRegCalendarCheck style={{ fontSize: 20 }} />
                         <span className="text-main">Appointments</span>
                       </Button>
@@ -506,7 +506,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
               {userAuth?.uuid && (
                 <li className="p-0-5">
                   <Button
-                    className="flex col-gap-1 items-center"
+                    className="d-flex col-gap-1 align-items-center w-100"
                     onClick={logout}
                   >
                     <FiLogOut style={{ fontSize: 20 }} />

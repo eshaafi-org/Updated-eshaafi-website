@@ -161,14 +161,14 @@ function Slots({
   }, [Items]);
   return (
     <div className={style.schedule}>
-      <span className="flex items-center justify-between">
-        <h5>Schedule</h5>
+      <span className="d-flex align-items-center justify-content-between">
+        <h5 className="fw-bold text-gray">Schedule</h5>
         <FaRegCalendarCheck style={{ fontSize: "1.5rem", color: "#7B8D9E" }} />
       </span>
-      <div className="flex flex-col ">
-        <div className="flex flex-col mb-1 w-full">
-          <div className="flex flex-col border-bottom pb-1 w-full">
-            <div className={style.scrollmenu + " flex "}>
+      <div className="d-flex flex-column ">
+        <div className="d-flex flex-column mb-1 w-100">
+          <div className="d-flex flex-column border-bottom pb-1 w-100">
+            <div className={style.scrollmenu + " d-flex "}>
               {Items?.map((i, index) => (
                 <span
                   onClick={() => handleAppointSlots(i.appointment_slots)}
@@ -185,16 +185,19 @@ function Slots({
                   <label
                     className={`${style.btn} ${style.labelrdioclass} ${
                       style.date_focused
-                    } flex flex-col justify-center items-center p-1 font-bold ${
+                    } d-flex flex-column justify-content-center align-items-center text-gray p-1 fw-bold text-capitalize ${
                       appointDate === i.slot_date && style.labelActive
                     }`}
                     htmlFor={i.slot_date}
                     style={{ height: "84px", width: "77px" }}
                   >
-                    <p className="m-0 " style={{ fontSize: "14px" }}>
+                    <p className="m-0 text-gray" style={{ fontSize: "14px" }}>
                       {moment(i.slot_date).format("DD,MMM")}
                     </p>
-                    <p style={{ fontSize: "14px" }} className="capitalize ">
+                    <p
+                      style={{ fontSize: "14px" }}
+                      className="capitalize text-gray"
+                    >
                       {i.slot_day.slice(0, 3)}
                     </p>
                   </label>
@@ -203,9 +206,7 @@ function Slots({
             </div>
           </div>
           <div
-            className={
-              style.days + " bg-gray rounded-50 flex justify-between p-1 mt-1"
-            }
+            className={style.days + " bg-gray d-flex justify-content-between "}
           >
             <input
               type="checkbox"
@@ -217,7 +218,7 @@ function Slots({
             />
             <label
               htmlFor="morning"
-              className={`
+              className={` ${style.dayText}
               ${style.btn} 
               ${style.slotLabelradioclass} 
               ${style.date_focused}
@@ -235,8 +236,7 @@ function Slots({
             />
             <label
               htmlFor="afternoon"
-              className={`
-              ${style.btn} 
+              className={` ${style.dayText}
               ${style.slotLabelradioclass}  
               ${style.date_focused}
               ${dayTime === "afternoon" ? style.slotLabelActive : " "}`}
@@ -254,14 +254,16 @@ function Slots({
             />
             <label
               htmlFor="evening"
-              className={`${style.slotLabelradioclass}  ${style.date_focused} ${
-                dayTime === "evening" ? style.slotLabelActive : " "
-              }`}
+              className={` ${style.dayText}
+              ${style.btn} 
+              ${style.slotLabelradioclass} 
+              ${style.date_focused}
+              ${dayTime === "evening" ? style.slotLabelActive : " "}`}
             >
               Evening
             </label>
           </div>
-          <ul className={"flex mt-1 " + style.slotsCont}>
+          <ul className={style.slotsCont}>
             {slots?.length > 0 ? (
               slots.map((slot: any, indx: number) => (
                 <li key={indx} className={style.slotItm}>
@@ -287,7 +289,7 @@ function Slots({
                 </li>
               ))
             ) : (
-              <p className="text-center w-full">No slot remaining</p>
+              <p className="text-center w-100 ">No slot remaining</p>
             )}
           </ul>
         </div>

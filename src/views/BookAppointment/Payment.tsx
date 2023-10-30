@@ -5,7 +5,7 @@ import style from "../../styles/bookAppointment.module.scss";
 import SlotTimer from "./SlotTimer";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
-import { FaUser } from "react-icons/fa6";
+import { FaUserCircle } from "react-icons/fa";
 // reducer
 const reducer = (state: any, action: any) => {
   switch (action.type) {
@@ -72,15 +72,17 @@ export default function PaymentMethod({
     getProfiles();
   }, []);
   return (
-    <section className="w-70 lg-w-full flex flex-col row-gap-2">
-      <h2>Select Payment Method</h2>
+    <section className={style.paymentContainer}>
+      <h2 className="pageSubHeading">Select Payment Method</h2>
+      {/* slot timer  */}
       <SlotTimer />
-      <section className="p-1 border rounded flex flex-col row-gap-1">
+      {/* profiel selection */}
+      <section className="border rounded d-flex flex-column p-2">
         <p>Booking For</p>
         {loading ? (
           <p>loading...</p>
         ) : (
-          <ul className="w-full flex col-gap-1">
+          <ul className="w-100 d-flex col-gap-1">
             {profiles.map((itm: any, indx: any) => (
               <li key={indx}>
                 <input
@@ -99,7 +101,7 @@ export default function PaymentMethod({
                 <label
                   className={`${
                     style.labelrdioclassProfile
-                  } flex flex-col justify-center items-center row-gap-1 ${
+                  } d-flex flex-column justify-content-center align-items-center ${
                     patient.patientId === itm.profileId
                       ? style.labelActiveProfile
                       : ""
@@ -113,9 +115,10 @@ export default function PaymentMethod({
                       height={72}
                       alt={itm.name}
                       style={{ borderRadius: 50 }}
+                      className={style.paymentProfileImage}
                     />
                   ) : (
-                    <FaUser style={{ color: "#000", fontSize: 45 }} />
+                    <FaUserCircle className={style.profileIcon} />
                   )}
                   <span>{itm.name.slice(0, 5)}..</span>
                 </label>
@@ -124,13 +127,16 @@ export default function PaymentMethod({
           </ul>
         )}
       </section>
-      <section className=" flex flex-col row-gap-1">
-        <span className="flex justify-between items-center sm-flex-col sm-items-start sm-row-gap-1">
-          <h2>Payment Method </h2>
-          <span className="flex col-gap-1 justify-center sm-justify-between sm-w-full">
+      {/* payment section */}
+      <section className=" d-flex flex-column row-gap-1">
+        <span className="d-flex justify-content-between flex-column row-gap-1">
+          <h3 className="text-dark">Payment Method </h3>
+          <span className="d-flex align-items-center justify-content-between">
             <p>Use Wallet Balance</p>
             <div
-              className={style.checkboxWrapper + " flex items-center col-gap-1"}
+              className={
+                style.checkboxWrapper + " d-flex align-items-center col-gap-1"
+              }
             >
               <span>{response.wallet} Rs.</span>
               <input
@@ -147,7 +153,7 @@ export default function PaymentMethod({
           </span>
         </span>
         {response.paymentMethods && (
-          <ul className="flex flex-col row-gap-1">
+          <ul className="d-flex flex-column row-gap-1">
             {response.paymentMethods.map((itm: any, indx: any) => (
               <li key={indx}>
                 <input
@@ -164,7 +170,7 @@ export default function PaymentMethod({
                 <label
                   className={`${
                     style.labelrdioclass
-                  } flex  items-center p-1 row-gap-1 ${
+                  } d-flex  align-items-center p-3 row-gap-1 ${
                     wallet ? style.paymentDisabled : ""
                   }`}
                   htmlFor={itm.paymentId}

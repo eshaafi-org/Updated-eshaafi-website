@@ -2,7 +2,7 @@ export default function SkeletonLoader() {
   return (
     <div className="container pt-0 pb-0">
       <div className="w-60">
-        <div className="card border-none" aria-hidden="true">
+        <div className="card border-0" aria-hidden="true">
           <div className="card-body">
             <h5 className="card-title placeholder-glow">
               <span className="placeholder col-12"></span>

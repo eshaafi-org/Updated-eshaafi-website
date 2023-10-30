@@ -13,6 +13,12 @@ import successGif from "../../../public/images/success.gif";
 import Image from "next/image";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import moment from "moment";
+import AddressBar from "@/components/AddressBar";
+// links
+let links = [
+  { name: "Home", link: "/" },
+  { name: "Doctors", link: "/doctors" },
+];
 
 // import { useRouter } from "next/navigation";
 export default function BookAppointmentPage({ data }: { data: any }) {
@@ -105,9 +111,13 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   return (
     <section className="container">
       {!success ? (
-        <div className="d-flex align-items-start col-gap-1 position-relative w-100">
+        <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
           {paymentScreen ? (
             <section className={style.slotsContainer}>
+              <span>
+                <h2>Book video consultation with the best doctors</h2>
+                <AddressBar links={links} />
+              </span>
               <DoctorInfo doc={data?.doctorInfo} />
               <Slots
                 Items={data?.Items}
@@ -138,7 +148,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           />
         </div>
       ) : (
-        <div className="flex items-center row-gap-1 col-gap-1 position-relative flex-col w-full justify-center">
+        <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
           <Image
             src={successGif.src}
             alt="successGif"
