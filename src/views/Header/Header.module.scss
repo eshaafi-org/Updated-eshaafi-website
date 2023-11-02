@@ -9,10 +9,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999999 !important;
+  z-index: 9 !important;
   width: 100%;
   height: 80px;
-  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,20 +27,23 @@
   column-gap: 1rem;
   width: 1300px;
   padding: 0 1rem;
-  @include for-tablet-portrait-only {
-    justify-content: space-between;
-    padding: 0 1rem;
-  }
+  justify-content: space-between;
+  padding: 0 1rem;
 }
 .mobilenavbar {
   display: flex;
   column-gap: 1rem;
   padding: 0 1rem;
   flex-direction: column;
-  @include for-tablet-portrait-only {
-    justify-content: space-between;
-    padding: 0 1rem;
+}
+.mobileNavbarContainer {
+  display: flex;
+  column-gap: 1rem;
+  margin-bottom: 1rem;
+  @include mobile-landscape-and-below {
+    flex-direction: column;
   }
+  row-gap: 1rem;
 }
 .logo {
   display: flex !important;
@@ -54,8 +56,8 @@
   align-items: center;
   column-gap: 3rem;
   margin-left: 1rem;
-  @include for-tablet-portrait-only {
-    flex-direction: column;
+  margin-bottom: 0px;
+  @include above-tablet {
     align-items: flex-start;
   }
 }
@@ -121,16 +123,21 @@
   .modaldiv {
     background-color: $white;
     border-radius: 7px;
-    width: 25%;
-    // min-width: 400px;
-    padding: 0 1rem;
-
-    @include for-tablet-portrait-only {
+    width: 500px;
+    @include mini-laptop-and-below {
       width: 100%;
       height: 100%;
-      border-radius: unset;
-      padding: unset;
+      border-radius: 0;
     }
+    // min-width: 400px;
+    // padding: 0 1rem;
+
+    // @include above-tablet {
+    //   width: 100%;
+    //   height: 100%;
+    //   border-radius: unset;
+    //   padding: unset;
+    // }
   }
 }
 .otpField {
@@ -245,11 +252,10 @@
 .subLinkContainer {
   position: absolute;
   top: 0;
-  left: -30;
   width: 180px;
   height: 300px;
   padding-top: 60px;
-  @include for-tablet-portrait-only {
+  @include mobile-landscape-and-below {
     top: 0;
     left: 0;
     width: 100%;

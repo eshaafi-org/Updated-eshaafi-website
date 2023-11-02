@@ -1,6 +1,5 @@
 "use client";
 // dependencies
-
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,6 +26,8 @@ import { SubLinksModal } from "./SubLinkMenu";
 import { Model } from "./LoginSignupModel";
 import { createPortal } from "react-dom";
 import { BASE_URL } from "@/helper/CONST";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // this component will render only in client,
 
 // Define the props type for the header component
@@ -45,8 +46,11 @@ const Header: React.FC<HeaderProps> = ({}) => {
     height: 0,
   });
   const [isScrolled, setIsScrolled] = useState<boolean>(false); // State to track scrolling
-  const [showModal, setShowModal] = useState<boolean>(false);
+  // const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const modalValue = useSelector((state: any) => state.loginModalReducer.modal);
+  console.log(modalValue);
   const handleOpen = useCallback(() => {
     document.body.style.overflow = "hidden";
     setShow(true);
@@ -68,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   }, []);
   const handleModal = () => {
     document.body.style.overflow = "hidden";
-    setShowModal(true);
+    dispatch({ type: "loginModalSlice/open" });
   };
   const logout = () => {
     axios
@@ -115,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
       className={`${style.header} ${isScrolled ? style.onScroll : ""}`}
       ref={navbarRef}
     >
-      <nav className={style.navbar + " items-center"}>
+      <nav className={style.navbar}>
         <Link href={"/"} className={style.logo} scroll={true}>
           {typeof window !== "undefined" && window.innerWidth > 1024 ? (
             <Image src={logo} alt="terafort-logo" />
@@ -124,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
           )}
         </Link>
         {typeof window !== "undefined" && window.innerWidth > 1050 ? (
-          <div className="flex justify-between w-full items-center">
+          <div className="d-flex justify-content-between w-100 align-items-center">
             <ul className={style.navLinks}>
               {navLinks.map((i) => {
                 if (i.linkName === "Solutions") {
@@ -175,19 +179,13 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 }
               })}
             </ul>
-            <span className="flex col-gap-1 items-center">
+            <span className="d-flex col-gap-1 align-items-center">
               {!userAuth?.uuid ? (
                 <>
                   <Button variant="outlined" onClick={handleModal}>
                     login/sign up
                   </Button>
-                  {showModal && (
-                    <Model
-                      setShowModal={setShowModal}
-                      userAuth={setUserAuth}
-                      page="header"
-                    />
-                  )}
+                  {modalValue && <Model userAuth={setUserAuth} page="header" />}
                 </>
               ) : (
                 <>
@@ -232,14 +230,19 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       >
                         <div className="container position-relative">
                           <ul className={style.profileLinks}>
-                            <li className="border-bottom p-1 pb-0">
-                              <div className="flex flex-col">
+                            <li className="border-bottom p-2 pb-0">
+                              <div className="d-flex flex-column row-gap-0-5">
                                 <h4>{userAuth?.name}</h4>
                                 <p>{userAuth?.phoneNo}</p>
                               </div>
                             </li>
-                            <li className="p-1">
-                              <Link href={"/appointments"}>Appointments </Link>
+                            <li className="p-2">
+                              <Link
+                                href={"/appointments"}
+                                className="w-100 d-flex"
+                              >
+                                Appointments{" "}
+                              </Link>
                             </li>
                             {/* <li className="p-1">
                             <Link href={"/"}>Profile</Link>
@@ -253,15 +256,18 @@ const Header: React.FC<HeaderProps> = ({}) => {
                           <li className="p-1">
                             <Link href={"/"}>Medical Records</Link>
                           </li> */}
-                            <li className="p-1">
-                              <Link href={"/privacy-policy"}>
+                            <li className="p-2">
+                              <Link
+                                href={"/privacy-policy"}
+                                className="w-100 d-flex"
+                              >
                                 Privacy Policy
                               </Link>
                             </li>
-                            <li className="border-top p-1">
+                            <li className="border-top p-2">
                               <Button
                                 onClick={logout}
-                                className="w-full text-left"
+                                className="w-100 text-start"
                               >
                                 Logout
                               </Button>
@@ -275,14 +281,14 @@ const Header: React.FC<HeaderProps> = ({}) => {
               )}
               <span style={{ position: "relative" }}>
                 <button
-                  className="linkBtn flex col-gap-1 items-center mt-0"
+                  className="linkBtn mt-0"
                   style={{ paddingRight: 8 }}
                   onMouseEnter={() => {
                     setHelpModel(true);
                   }}
                 >
                   Get help
-                  <GoTriangleDown />
+                  <GoTriangleDown style={{ marginLeft: 10 }} />
                 </button>
                 {showHelpModel && (
                   <SubLinksModal
@@ -316,15 +322,9 @@ const Header: React.FC<HeaderProps> = ({}) => {
       </nav>
       {/* responsive drawer modal */}
       <Drawer anchor="right" open={show} onClose={handleClose}>
-        {showModal && (
-          <Model
-            setShowModal={setShowModal}
-            userAuth={setUserAuth}
-            page="header"
-          />
-        )}
+        {modalValue && <Model userAuth={setUserAuth} page="header" />}
         {userAuth?.name && (
-          <span className="p-1 flex items-center col-gap-1 border-bottom">
+          <span className="p-3 d-flex align-items-center col-gap-1 border-bottom mb-2">
             {!userAuth.url ? (
               <FaUser
                 style={{
@@ -348,21 +348,21 @@ const Header: React.FC<HeaderProps> = ({}) => {
         )}
         {
           <nav className={style.mobilenavbar}>
-            <span className="flex col-gap-1 items-center sm-flex-col row-gap-1">
+            <span className={style.mobileNavbarContainer}>
               {!userAuth?.uuid && (
                 <>
                   <Button
                     variant="outlined"
                     onClick={handleModal}
-                    className="w-full"
+                    className="w-50 sm-w-100"
                   >
                     login/sign up
                   </Button>
                 </>
               )}
-              <span className="w-full" style={{ position: "relative" }}>
+              <span className="w-50 sm-w-100" style={{ position: "relative" }}>
                 <button
-                  className="linkBtn flex col-gap-1 items-center w-full justify-center text text-white mt-0"
+                  className="linkBtn d-flex col-gap-1 align-items-center w-100 justify-content-center text text-white mt-0"
                   style={{ padding: "0.8rem 0" }}
                   onClick={() => {
                     setHelpModel(true);
@@ -394,7 +394,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 )}
               </span>
             </span>
-            <ul className="flex flex-col mt-1 ">
+            <ul className="d-flex flex-column mt-1 ">
               {!userAuth?.uuid || (
                 <>
                   {/* <li className={`p-0-5 border-bottom`}>
@@ -432,9 +432,9 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       </Button>
                     </Link>
                   </li> */}
-                  <li className={`p-0-5 border-bottom`}>
+                  <li className={`p-1 border-bottom`}>
                     <Link href={"/appointments"} onClick={handleClose}>
-                      <Button className="flex col-gap-1 items-center">
+                      <Button className="d-flex col-gap-1 align-items-center">
                         <FaRegCalendarCheck style={{ fontSize: 20 }} />
                         <span className="text-main">Appointments</span>
                       </Button>
@@ -487,16 +487,15 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       } p-0-5 border-bottom`}
                       onClick={handleClose}
                     >
-                      <Link href={"/"}></Link>
                       <Link
                         href={i.LinkRoute}
                         style={{
                           color: i.LinkRoute === "/publish" ? "#000" : "",
                         }}
                         scroll={true}
-                        className={`flex`}
+                        className={` w-100  `}
                       >
-                        <Button className="flex col-gap-1 items-center">
+                        <Button className="d-flex w-100 align-items-center col-gap-1 py-2">
                           {i.icon}
                           <span className="text-main"> {i.linkName}</span>
                         </Button>
@@ -508,7 +507,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
               {userAuth?.uuid && (
                 <li className="p-0-5">
                   <Button
-                    className="flex col-gap-1 items-center"
+                    className="d-flex col-gap-1 align-items-center w-100"
                     onClick={logout}
                   >
                     <FiLogOut style={{ fontSize: 20 }} />

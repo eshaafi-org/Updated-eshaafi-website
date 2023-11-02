@@ -3,13 +3,13 @@ import moment from "moment";
 
 export default function Reviews({ reviews }: { reviews: any[] }) {
   return (
-    <section className="flex flex-col row-gap-1">
-      <h5>Reviews</h5>
-      <ul className="flex flex-col row-gap-1">
+    <section className="d-flex flex-column row-gap-1">
+      <h5>Patient Reviews</h5>
+      <ul className="d-flex flex-column row-gap-1">
         {reviews?.map((itm, indx) => (
-          <li key={indx} className="flex flex-col row-gap-1">
-            <h3 className="flex items-center col-gap-1">
-              <MdThumbUp />
+          <li key={indx} className="d-flex flex-column row-gap-0-5">
+            <h3 className="d-flex align-items-center col-gap-1 text-dark">
+              <MdThumbUp style={{ color: "#009b94" }} />
               Recommended
             </h3>
             <p style={{ color: "#192A3E" }}>“{itm.review}”</p>

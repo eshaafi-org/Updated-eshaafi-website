@@ -31,8 +31,8 @@ function BlogCard({ blog }: any) {
 export default function RecentBlogs({ recentBlogs }: { recentBlogs: [] }) {
   return (
     <div className={style.recentBlogs}>
-      <span className="d-flex w-100 justify-between sm-col-gap-0-5">
-        <h4 className={style.blogPageHeadings}>Recent Uploads</h4>
+      <span className="d-flex w-100 justify-content-between">
+        <h2 className={style.blogPageHeadings}>Recent Uploads</h2>
         <Link href="/blog/category/recent" className="link">
           View all <MdNavigateNext />
         </Link>

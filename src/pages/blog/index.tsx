@@ -34,9 +34,9 @@ export default function Blogs({ recentBlogs, categories }: any) {
       </Head>
       <main>
         <section className="container">
-          <div className="flex items-start col-gap-1 position-relative flex-col w-full row-gap-2 sm-row-gap-1">
+          <div className="d-flex items-start col-gap-1 position-relative flex-column w-100 row-gap-2 sm-row-gap-1">
             <span>
-              <h4 className={style.blogPageHeadings}>Blogs</h4>
+              <h2>Blogs</h2>
               <AddressBar links={links} />
             </span>
             <FeaturedBlogs featuredBlogs={recentBlogs} />

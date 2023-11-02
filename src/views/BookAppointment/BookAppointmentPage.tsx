@@ -1,4 +1,5 @@
 "use client";
+import style from "../../styles/bookAppointment.module.scss";
 import { useState } from "react";
 import Slots from "./Slots";
 import Reviews from "@/views/BookAppointment/Reviews";
@@ -12,6 +13,14 @@ import successGif from "../../../public/images/success.gif";
 import Image from "next/image";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import moment from "moment";
+import AddressBar from "@/components/AddressBar";
+import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+// links
+let links = [
+  { name: "Home", link: "/" },
+  { name: "Doctors", link: "/doctors" },
+];
 
 // import { useRouter } from "next/navigation";
 export default function BookAppointmentPage({ data }: { data: any }) {
@@ -32,6 +41,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   });
   const [paymentId, setPaymentId] = useState<string>("");
   const [paymentScreen, setPaymentScreen] = useState<boolean>(true);
+  const dispatch = useDispatch();
   const proifileData: {
     appointmentSlotId: string;
     doctorId: string | undefined | string[];
@@ -60,6 +70,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   };
 
   const handleBookAppoint = (flag: boolean) => {
+    console.log(paymentId);
     if (localStorage.getItem("user")) {
       if (flag) {
         setLoading(true);
@@ -72,14 +83,40 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             }
           )
           .then((res) => {
+            console.log(res);
             setSuccess(true);
             setLoading(false);
             // setPaymentScreen(false);
-            console.log(res);
           })
           .catch((err) => {
+            console.log(err);
+
             setLoading(false);
-            console.error("error", err);
+            if (err.response.status === 400) {
+              toast("Select any profile and payment method to proceed", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "info",
+              });
+            } else if (err.response.status === 410) {
+              toast("Your appointment reservation has expired", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+              });
+            }
           });
       } else {
         setLoading(true);
@@ -90,23 +127,76 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           .then((res) => {
             setLoading(false);
             setResponse(res.data.response.Item);
-            console.log(res.data.response.Item);
+            // console.log(res.data.response.Item);
             setPaymentScreen(false);
+            toast("😇 Slot is available, kindly select payment method", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              // type: "info",
+            });
           })
           .catch((err) => {
             setLoading(false);
             console.error("error", err);
+            if (err.response.status === 401) {
+              toast("😐 Slot is unavailable", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                // type: "info",
+              });
+            } else if (err.response.status === 404) {
+              toast("Slot Is Already In Booking Process..", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "info",
+              });
+            }
           });
       }
-    } else params.push("/login");
+    } else {
+      toast("Kindly login first to book an appointment", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "info",
+      });
+      dispatch({ type: "loginModalSlice/open" });
+    }
     // console.log(postData);
   };
   return (
     <section className="container">
       {!success ? (
-        <div className="flex items-start col-gap-1 position-relative lg-flex-col w-full">
+        <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
           {paymentScreen ? (
-            <section className="w-70 lg-w-full flex flex-col row-gap-2">
+            <section className={style.slotsContainer}>
+              <span>
+                <h2>Book video consultation with the best doctors</h2>
+                <AddressBar links={links} />
+              </span>
               <DoctorInfo doc={data?.doctorInfo} />
               <Slots
                 Items={data?.Items}
@@ -137,7 +227,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           />
         </div>
       ) : (
-        <div className="flex items-center row-gap-1 col-gap-1 position-relative flex-col w-full justify-center">
+        <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
           <Image
             src={successGif.src}
             alt="successGif"
@@ -164,6 +254,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           </a>
         </div>
       )}
+      <ToastContainer />
     </section>
   );
 }

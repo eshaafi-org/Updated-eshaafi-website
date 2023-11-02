@@ -5,36 +5,8 @@ import DoctorList from "@/views/Doctor/DoctorsList";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import GetApp from "@/views/Home/GetApp";
-// Fetches a list of doctors with the specialization "General Physician" from the API
-// async function getDoctors() {
-//   const res = await fetch(
-//     BASE_URL + "/patients/doctors/filter",
-
-//     {
-//       cache: "no-cache",
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         type: "specialization",
-//         search: "General Physician",
-//       }),
-//     }
-//   );
-
-//   if (!res.ok) {
-//     // This will activate the closest `error.js` Error Boundary
-//     throw new Error("Failed to fetch data");
-//   }
-
-//   return res.json();
-// }
-
 // Renders the DoctorList, BenefitsOfVideoConsultation, and FQuest components
 export default function Doctors({ doctors }: any) {
-  // const doctors = await getDoctors();
-
   return (
     <>
       <Head>

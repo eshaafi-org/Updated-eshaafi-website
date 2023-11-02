@@ -1,74 +1,5 @@
-@import "./breakingPoints";
-// smal mobile is 320px
-@mixin for-small-phone-only {
-  @media (max-width: $smallMobile) {
-    @content;
-  }
-}
-// mediam phoe is 375px
-@mixin for-mediam-phone-only {
-  @media (max-width: $mediamMobile) {
-    @content;
-  }
-}
-// large phone is 500px
-@mixin for-large-phone-only {
-  @media (max-width: $largeMobile) {
-    @content;
-  }
-}
-// landscap mobile is starting from 540px
-@mixin for-mobile-landscape-up {
-  @media (max-width: $verticalmobile) {
-    @content;
-  }
-}
-// tablet screen start from 768px
-@mixin for-large-tablet-portrait-up {
-  @media (max-width: 850px) {
-    @content;
-  }
-}
-// laptop screen and tablet landscape start from 1024px
-@mixin for-tablet-portrait-only {
-  @media (max-width: $laptop) {
-    @content;
-  }
-}
-// uptil 1024px style is
-@mixin for-and-above-laptop {
-  @media (min-width: 1024px) {
-    @content;
-  }
-}
-// @mixin for-large-laptop-up {
-//   @media (max-width: 1600px) {
-//     @content;
-//   }
-// }
-// @mixin for-big-desktop-up {
-//   @media (min-width: 1800px) {
-//     @content;
-//   }
-// }
-/////////////////////////////////
-///
-@mixin from-mobile-landscape-to-tablet {
-  @media (min-width: 500px) {
-    @content;
-  }
-}
-@mixin from-tablet-landscape-to-mini-laptop {
-  @media (min-width: 768px) {
-    @content;
-  }
-}
-@mixin from-mini-laptop-to-laptop {
-  @media (min-width: 1050px) {
-    @content;
-  }
-}
-////////////////////////////////////////////////////////////////////////////////// only screen ratio between /////
+// only Screens
+
 // small mobile phone
 @mixin for-small-mobile-only {
   @media (max-width: 300px) {
@@ -112,8 +43,7 @@
     @content;
   }
 }
-////////////////////////////////////////////////////////////////////////onward devices////
-///
+//above screen rations////
 //above small mobile
 @mixin above-small-mobile {
   @media (min-width: 250px) {
@@ -153,6 +83,60 @@
 // above tablet landscap to mini laptop
 @mixin above-tablet-landscape-and-mini-laptop {
   @media (min-width: 1099px) {
+    @content;
+  }
+}
+///// below Screens
+/// //above small mobile
+@mixin small-mobile-and-below {
+  @media (max-width: 250px) {
+    @content;
+  }
+}
+// above medium mobile mobile
+@mixin medium-mobile-and-below {
+  @media (max-width: 399px) {
+    @content;
+  }
+}
+// above large mobile mobile
+@mixin large-mobile-and-below {
+  @media (max-width: 530px) {
+    @content;
+  }
+}
+// above mobile landscape
+@mixin mobile-landscape-and-below {
+  @media (max-width: 531px) {
+    @content;
+  }
+}
+// above tablet screen
+@mixin tablet-and-below {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+// above large tablet screen
+@mixin tablet-large-and-below {
+  @media (max-width: 900px) {
+    @content;
+  }
+}
+@mixin mini-laptop-and-below {
+  @media (max-width: 1050px) {
+    @content;
+  }
+}
+// above tablet landscap to mini laptop
+@mixin tablet-landscape-and-mini-laptop-and-below {
+  @media (max-width: 1099px) {
+    @content;
+  }
+}
+// below laptop
+@mixin laptop-and-below {
+  @media (max-width: 1100px) {
     @content;
   }
 }

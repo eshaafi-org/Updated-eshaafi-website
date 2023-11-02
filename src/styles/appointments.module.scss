@@ -9,9 +9,9 @@
   border-radius: 64px;
   border: 1px solid #ccc;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .statusCompleted {
   width: fit-content;
@@ -21,9 +21,9 @@
   border-radius: 64px;
   border: 1px solid #ccc;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .statusBooked {
   width: fit-content;
@@ -33,9 +33,9 @@
   border-radius: 64px;
   border: 1px solid #ccc;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .typeTabBooked {
   background-color: #abfaf2;
@@ -45,9 +45,9 @@
   border-radius: 64px;
   border: 1px solid #ccc;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .typeTabFollow {
   background-color: #d6ecfa;
@@ -57,9 +57,9 @@
   border-radius: 64px;
   border: 1px solid #ccc;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .typeInstant {
   background-color: rgb(250, 241, 223);
@@ -68,9 +68,9 @@
   padding: 3px 17px;
   border-radius: 64px;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .statusMissed {
   background-color: #ffe0e0;
@@ -80,9 +80,9 @@
   border-radius: 64px;
   border: 1px solid #ccc;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .statusReschedule {
   background-color: #008f881c;
@@ -92,9 +92,9 @@
   border-radius: 64px;
   border: 1px solid #ccc;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .statusInprogress {
   background-color: #e0f3fb;
@@ -104,15 +104,18 @@
   border-radius: 64px;
   border: 1px solid #ccc;
   font-size: 11px;
-  @include from-tablet-landscape-to-mini-laptop {
-    font-size: 14px;
-  }
+  // @include from-tablet-landscape-to-mini-laptop {
+  //   font-size: 14px;
+  // }
 }
 .list {
-  width: 60%;
-  @include for-tablet-portrait-only {
-    width: 100%;
+  width: 100%;
+  @include above-tablet {
+    width: 60%;
   }
+  // @include for-tablet-portrait-only {
+  //   width: 100%;
+  // }
 }
 // appointment listing  > appointment card
 .appointCard {
@@ -126,48 +129,59 @@
   .cardImage {
     width: 56px;
     height: 56px;
-    @include from-mini-laptop-to-laptop {
-      width: 68px;
-      height: 68px;
+    border-radius: 50px;
+    margin-right: 0.5rem;
+    @include above-large-mobile {
+      width: 65px;
+      height: 65px;
     }
   }
   .subHeading {
     font-size: 16px;
-    @include from-tablet-landscape-to-mini-laptop {
-      font-size: 18px;
-    }
+    // @include from-tablet-landscape-to-mini-laptop {
+    //   font-size: 18px;
+    // }
   }
   .text {
     font-size: 12px;
-    @include from-tablet-landscape-to-mini-laptop {
-      font-size: 16px;
-    }
+    // @include from-tablet-landscape-to-mini-laptop {
+    //   font-size: 16px;
+    // }
   }
   .subText {
     font-size: 11px;
-    @include from-tablet-landscape-to-mini-laptop {
-      font-size: 14px;
-    }
+    // @include from-tablet-landscape-to-mini-laptop {
+    //   font-size: 14px;
+    // }
   }
 }
 .fitlers {
-  width: 40%;
-  position: sticky;
-  top: 100px;
-  @include for-tablet-portrait-only {
-    display: none;
-    width: 100%;
+  display: none;
+  @include above-tablet {
+    width: 40%;
+    display: flex;
     position: sticky;
-    bottom: 5px;
+    top: 100px;
+    align-items: flex-start;
   }
 }
 // chips desing
 .chips {
   position: sticky;
   top: 50px;
-  display: none;
-  @include for-tablet-portrait-only {
-    display: block;
+  display: block;
+  @include above-tablet {
+    display: none;
+  }
+}
+// listing container
+.listingContainer {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  @include above-tablet {
+    flex-direction: row;
+    column-gap: 1rem;
   }
 }
 // single appointment page
@@ -201,7 +215,7 @@
     text-transform: capitalize;
     margin-left: 1rem;
   }
-  @include for-large-phone-only {
+  @include for-large-mobile-only {
     padding: 0.5rem;
     .timer {
       display: flex;
@@ -230,4 +244,150 @@
 .emptyImage {
   width: 179px;
   height: auto;
+}
+// appointment card
+.appointTiming {
+  font-size: 11px;
+  @include above-large-mobile {
+    font-size: 14px;
+  }
+  @include above-tablet {
+    font-size: 16px;
+  }
+}
+// doctor description
+.docDesc {
+  font-size: 12px;
+  @include above-large-mobile {
+    font-size: 13px;
+  }
+  @include above-tablet {
+    font-size: 14px;
+  }
+}
+// doc heading
+.docHeading {
+  font-size: 16px;
+  font-weight: 700;
+  @include above-tablet {
+    font-size: 18px;
+  }
+}
+// filter heading
+.fiterHeading {
+  font-size: 16px;
+  margin-bottom: 1rem !important;
+}
+// consultation page
+.consultationWrapper {
+  margin-top: 3rem;
+}
+.btnContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  column-gap: 1rem;
+  margin-top: 1rem;
+}
+.consultationBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d7ddea;
+  width: 50%;
+  border-radius: 8px;
+  padding: 1rem 0;
+  column-gap: 0.5rem;
+  font-size: 12px;
+  @include above-medium-mobile {
+    font-size: 14px;
+  }
+  @include above-tablet {
+    font-size: 1rem;
+  }
+}
+// summar
+.summary {
+  width: 100%;
+  background-color: $secondary-clr;
+  border-radius: 7px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  position: fixed;
+  justify-content: space-between;
+  bottom: 0px;
+  left: 0;
+  height: fit-content;
+  table {
+    display: none;
+    border-spacing: 0 1em;
+    tr {
+      width: 100%;
+    }
+    th {
+      text-align: start;
+      font-weight: 400;
+    }
+    td {
+      text-align: end;
+    }
+    @include above-tablet {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      row-gap: 1rem;
+
+      tr {
+        display: flex;
+        justify-content: space-between;
+      }
+      // border-spacing: 0 1em;
+      // row-gap: 1rem;
+    }
+  }
+  h1 {
+    display: none;
+    @include above-tablet {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem !important;
+    }
+  }
+  .reviewTotalText {
+    font-size: 11px;
+    font-weight: 500;
+    @include for-medium-mobile-only {
+      font-size: 12px;
+    }
+    @include for-large-mobile-only {
+      font-size: 14px;
+    }
+    @include above-large-mobile {
+      font-size: 16px;
+    }
+  }
+  @include above-tablet {
+    width: 30%;
+    position: sticky !important;
+    top: 100px;
+  }
+}
+// appointment detail
+.appointmentDetail {
+  width: 100%;
+  @include above-tablet {
+    width: 60%;
+  }
+}
+// summary action button
+.summaryBtn {
+  display: flex;
+  column-gap: 1rem;
+  margin-top: 1rem;
+}
+// cancel appointment btn
+.cancelBtn {
+  color: #b00020;
 }

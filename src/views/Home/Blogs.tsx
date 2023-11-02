@@ -6,17 +6,20 @@ import BlogCard from "@/components/BlogCard";
 export default function Blogs({ blogs }: { blogs: any }) {
   const blogsList = blogs.slice(0, 3);
   return (
-    <section className="w-full bg-white">
+    <section className="w-100 bg-white">
       <div className="container sm-pt-0">
-        <div className="flex flex-col row-gap-2 w-full">
-          <div className="flex justify-between w-full items-base">
+        <div className="d-flex flex-column row-gap-2 w-100">
+          <div className="d-flex justify-content-between w-100 align-items-base">
             <span>
               <h2 className="mb-1">Blogs</h2>
-              <p className="text-3" style={{ color: "#5A5A5A" }}>
+              <p className="mainHeadingText">
                 Read about latest health problem and their solutions
               </p>
             </span>
-            <Link href={"/blog"} className="link">
+            <Link
+              href={"/blog"}
+              className="link fw-bold d-flex align-items-center"
+            >
               View All <MdKeyboardArrowRight />
             </Link>
           </div>

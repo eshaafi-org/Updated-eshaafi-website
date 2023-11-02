@@ -26,7 +26,7 @@ const features = [
 ];
 export default function Features() {
   return (
-    <section className="w-full bg-white">
+    <section className="w-100 bg-white">
       <div className="container sm-pt-0">
         <div className={style.servicesContainer}>
           <h2>Unique Features</h2>
@@ -35,9 +35,11 @@ export default function Features() {
               <li key={indx} className={style.featureItm}>
                 <div className={style.featureItemCont}>
                   <span className={style.featureText}>
-                    <span className="flex flex-col row-gap-0-5 ">
-                      <h4>{itm.heading}</h4>
-                      <p className="capitalize">{itm.text}</p>
+                    <span className="d-flex flex-column row-gap-0-5 ">
+                      <h4 className="cardHeading">{itm.heading}</h4>
+                      <p className="cardDescription text-capitalize">
+                        {itm.text}
+                      </p>
                     </span>
                   </span>
                   {/* <span className={style.serviceLink}>

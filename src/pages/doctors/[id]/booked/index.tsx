@@ -48,8 +48,14 @@ export default function Booking() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
-      <main>
-        {loading ? <SkeletonLoader /> : <BookAppointmentPage data={response} />}
+      <main style={{ overflowX: "hidden" }}>
+        {loading ? (
+          <div className="container">
+            <SkeletonLoader />
+          </div>
+        ) : (
+          <BookAppointmentPage data={response} />
+        )}
       </main>
     </>
   );

@@ -62,15 +62,14 @@ export default function Services() {
                 >
                   <span className={style.serviceText}>
                     <h4 className="cardHeading">{itm.heading}</h4>
-                    <p className="cardDescription capitalize">{itm.text}</p>
+                    <p className="cardDescription text-capitalize">
+                      {itm.text}
+                    </p>
                   </span>
                   <span className={style.serviceLink}>
                     {itm.heading === "Home Nursing" ||
                     itm.heading === "Instant Call" ? (
-                      <Link
-                        href={"/"}
-                        className="linkBtn bg-none text-primary border-none p-0"
-                      >
+                      <Link href={"/"} className="fw-bold">
                         Coming Soon
                       </Link>
                     ) : (

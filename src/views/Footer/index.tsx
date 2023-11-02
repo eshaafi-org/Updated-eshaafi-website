@@ -16,14 +16,16 @@ const Footer: React.FC<FooterProps> = () => {
     <footer className={styles.footer}>
       <section className={styles.footerCont + " " + "container"}>
         <div className={styles.linksCont}>
-          <div className={styles.intro + " " + "flex row-gap-0-5 flex-col"}>
-            <p className={"font-3 text-primary font-bolder"}>eShaafi</p>
+          <div
+            className={styles.intro + " " + "d-flex row-gap-0-5 flex-column"}
+          >
+            <h2 className={"text-primary"}>eShaafi</h2>
             <p className="line-height-1">
               Book video appointment with our in house doctors anytime and
-              receive e-prescription every consultation
+              receive e-prescription every consultation.
             </p>
-            <h4>Follow Us</h4>
-            <ul className="flex col-gap-1">
+            <h4 className="mt-3">Follow Us</h4>
+            <ul className="d-flex col-gap-1 flex-wrap">
               {socialLinks.map((item, indx) => (
                 <li key={indx}>
                   <a
@@ -39,16 +41,21 @@ const Footer: React.FC<FooterProps> = () => {
             </ul>
           </div>
           {footerLinks.map((item, index) => (
-            <ul key={index} className="flex flex-col row-gap-1">
+            <ul
+              key={index}
+              className="d-flex flex-column row-gap-1 sm-row-gap-0-5"
+            >
               <h4>{item.heading}</h4>
               {item.links.map((link, indx) => (
-                <li key={indx} className="flex">
-                  <Link href={link.href}>{link.name}</Link>
+                <li key={indx}>
+                  <Link href={link.href} className="text-main">
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>
           ))}
-          <div className={`flex flex-col row-gap-1 ${styles.downloads}`}>
+          <div className={`d-flex flex-column row-gap-1 ${styles.downloads}`}>
             <h4>Download App</h4>
             <Link href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share">
               <Image
@@ -60,12 +67,15 @@ const Footer: React.FC<FooterProps> = () => {
           </div>
         </div>
         <ul
-          className={`flex col-gap-1 bg-white w-full justify-between my-2 pb-2 border-bottom flex-wrap sm-flex-col `}
+          className={`d-flex col-gap-1 bg-white w-100 justify-content-between my-2 py-4 border-bottom flex-wrap sm-flex-col `}
         >
           {supportsList.map((itm, indx) => (
-            <li key={indx} className={`flex col-gap-1 items-center  py-1`}>
+            <li
+              key={indx}
+              className={`d-flex col-gap-1 align-items-center  py-1`}
+            >
               <Image src={itm.icon} width={40} height={40} alt={itm.text} />
-              <p className="text-2 font-bolder text-main">{itm.text}</p>
+              <p className="fw-bold text-main">{itm.text}</p>
             </li>
           ))}
         </ul>

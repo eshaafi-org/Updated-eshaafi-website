@@ -43,28 +43,29 @@ export default function Timer() {
     <>
       {seconds > 0 || minutes > 0 || hours > 0 || days > 0 ? (
         <div
-          className="flex justify-center border rounded items-center p-1 text col-gap-1"
+          className={
+            "d-flex justify-content-center border rounded align-items-center col-gap-1 " +
+            style.slotTimerContainer
+          }
           role="timer"
           style={{ color: "#707683" }}
         >
           <p
-            className="m-0 flex items-center col-gap-1 text-2"
+            className={style.slotTimer}
             style={{
               color: minutes < 5 && hours === 0 ? "#ED0006" : "",
-              fontWeight: 600,
             }}
           >
-            <FaCircleExclamation />
+            <FaCircleExclamation style={{ marginRight: 16 }} />
             <span> Slot is on hold for</span>
           </p>
           <div
             className={style.box}
             style={{
               color: minutes < 5 && hours === 0 ? "#ED0006" : "",
-              fontWeight: 600,
             }}
           >
-            <span id="minute" className="text-2" style={{ marginBottom: 0 }}>
+            <span id="minute" style={{ marginBottom: 0 }}>
               {minutes < 10 ? "0" + minutes : minutes}
             </span>
             <span className={style.unit}>m</span>
@@ -74,10 +75,9 @@ export default function Timer() {
             className={style.box}
             style={{
               color: minutes < 5 && hours === 0 ? "#ED0006" : "",
-              fontWeight: 600,
             }}
           >
-            <span id="second" className="text-2" style={{ marginBottom: 0 }}>
+            <span id="second" style={{ marginBottom: 0 }}>
               {seconds < 10 ? "0" + seconds : seconds}
             </span>
             <span className={style.unit}>s</span>
@@ -85,15 +85,17 @@ export default function Timer() {
         </div>
       ) : (
         <div
-          className="flex justify-center border rounded items-center p-1 text col-gap-1"
+          className={
+            "d-flex justify-content-center border rounded align-items-center text col-gap-1 " +
+            style.slotTimerContainer
+          }
           role="timer"
           style={{ color: "#707683" }}
         >
           <p
-            className="m-0 flex items-center col-gap-1 text-2"
+            className={style.slotTimer}
             style={{
               color: minutes < 5 && hours === 0 ? "#F78022" : "",
-              fontWeight: 600,
             }}
           >
             <FaCircleInfo />

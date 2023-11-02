@@ -18,7 +18,6 @@ export default function Summary({
   loading: boolean;
   paymentId: string;
 }) {
-  console.log(appointDate);
   return (
     <section className={styles.summary}>
       <h1>Appointment Summary</h1>
@@ -43,7 +42,7 @@ export default function Summary({
           <td>{method}</td>
         </tr>
       </table>
-      <p className="flex justify-between">
+      <p className={styles.reviewTotalText}>
         <span>
           {appointDate
             ? moment(appointDate).format("dddd DD,MMM")
