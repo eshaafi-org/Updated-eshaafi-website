@@ -70,7 +70,6 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   };
 
   const handleBookAppoint = (flag: boolean) => {
-    console.log(paymentId);
     if (localStorage.getItem("user")) {
       if (flag) {
         setLoading(true);
@@ -83,13 +82,13 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             }
           )
           .then((res) => {
-            console.log(res);
+            // console.log(res);
             setSuccess(true);
             setLoading(false);
             // setPaymentScreen(false);
           })
           .catch((err) => {
-            console.log(err.response.data.response.message);
+            // console.log(err.response.data.response.message);
             setLoading(false);
             if (err.response.status === 400) {
               toast(
@@ -147,7 +146,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           })
           .catch((err) => {
             setLoading(false);
-            console.error("error", err);
+            // console.error("error", err);
             if (err.response.status === 401) {
               toast("😐 Slot is unavailable", {
                 position: "top-right",
@@ -189,7 +188,6 @@ export default function BookAppointmentPage({ data }: { data: any }) {
       });
       dispatch({ type: "loginModalSlice/open" });
     }
-    // console.log(postData);
   };
   return (
     <section className="container">
