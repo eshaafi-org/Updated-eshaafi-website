@@ -91,13 +91,6 @@ h4 {
   font-size: 0.9rem;
   font-weight: 700 !important;
 }
-// h5 {
-//   font-size: 1.5rem;
-//   font-weight: 500;
-//   // @include for-large-tablet-portrait-up {
-//   //   font-size: 1.2rem;
-//   // }
-// }
 ul {
   list-style: none;
   padding: 0;
@@ -107,8 +100,6 @@ p {
   color: $text-clr;
   margin: 0;
   font-family: "Roboto" !important;
-  // line-height: 24px;
-  // letter-spacing: 0.1px;
 }
 // //---------------links global-------------//
 .linkBtn {
@@ -144,20 +135,7 @@ p {
   text-decoration: none;
 }
 // //---------------Text and Headings-------------//
-// .heading {
-//   font-size: 1.3rem;
-//   color: $black;
-//   // @include from-mobile-landscape-to-tablet {
-//   //   font-size: 2rem;
-//   // }
-//   // @include from-tablet-landscape-to-mini-laptop {
-//   //   font-size: 2.5 * $base-unit;
-//   // }
-//   // @include from-mini-laptop-to-laptop {
-//   //   font-size: 3.5rem;
-//   // }
-// }
-// // page heading and page heading text
+
 .pageHeading {
   font-size: 0.9rem;
   margin-bottom: 0.3rem !important;
@@ -236,53 +214,10 @@ p {
     font-size: 12px;
   }
 }
-.heading1 {
-  font-size: 1.4rem;
-  font-weight: 500;
-}
-// .text {
-//   font-size: 1rem;
-//   color: $text-clr;
-//   line-height: 1.3;
-// }
 .text-main {
   color: $black;
 }
-// .text-2 {
-//   font-size: 1rem;
-//   line-height: 24px;
-//   letter-spacing: 0.1px;
-//   margin-bottom: 0;
-//   // @include for-large-phone-only {
-//   //   // font-size: 1.1rem;
-//   // }
-// }
 
-// .font-3 {
-//   font-size: 3rem !important;
-// }
-// .font-bold {
-//   font-weight: 500;
-// }
-// .font-bolder {
-//   font-weight: 600 !important;
-// }
-// .heading-1 {
-//   font-size: 3rem;
-//   font-weight: 500;
-// }
-// .text-right {
-//   text-align: right;
-// }
-// .text-left {
-//   text-align: left;
-// }
-// .text-blue {
-//   color: blue !important;
-// }
-// .text-white {
-//   color: #fff !important;
-// }
 .text-primary {
   color: $primary-clr !important;
 }
@@ -292,29 +227,6 @@ p {
 .text-secondary {
   color: #009b94 !important;
 }
-// .mini-text {
-//   color: #777;
-//   font-size: 0.8rem;
-// }
-// .text-center {
-//   text-align: center;
-// }
-// .font-normal {
-//   font-weight: 400 !important;
-//   text-transform: capitalize;
-// }
-// .capitalize {
-//   text-transform: capitalize;
-// }
-// .text-white {
-//   color: #fff !important;
-// }
-// .uppercase {
-//   text-transform: uppercase;
-// }
-// .line-height-1 {
-//   line-height: 1.5;
-// }
 .link {
   font-size: 12px;
   color: $primary-clr;
@@ -702,70 +614,70 @@ p {
 //   background: #555; /* Change the color of the handle on hover */
 // }
 // /// chips styling
-// .chip-group {
-//   display: flex;
-//   flex-wrap: wrap;
-// }
-// .chip.chip-checkbox > .chip-add-icon::after {
-//   content: "add";
-// }
-// .chip.chip-checkbox.active > .chip-add-icon::after {
-//   content: "done";
-// }
-// .chip > * {
-//   margin-right: 2px;
-//   margin-left: 2px;
-//   color: $primary-clr;
-//   font-size: 12px;
-// }
-// .chip input {
-//   display: none;
-// }
-// .chip.chip-checkbox,
-// .chip.chip-toggle,
-// .chip.clickable {
-//   cursor: pointer;
-// }
-// .chip.active {
-//   background-color: $secondary-clr;
-//   border-color: #c3c2c2;
-//   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
-// }
-// .chip:hover,
-// .chip:focus {
-//   background-color: $secondary-clr;
-// }
-// .chip:active:focus {
-//   background-color: $secondary-clr;
-// }
-// .chip button {
-//   border: none;
-//   margin-top: 0;
-//   margin-bottom: 0;
-//   padding: 0;
-//   background: none;
-//   display: inline-flex;
-// }
-// .chip {
-//   transition: all 0.3s ease-in-out;
-//   background-color: #fff;
-//   border-radius: 30px;
-//   border: 2px solid $primary-clr;
-//   display: inline-flex;
-//   align-items: center;
-//   padding: 4px 6px 4px 6px;
-//   margin-right: 6px;
-//   margin-bottom: 6px;
-//   // span {
-//   //   color: $primary-clr;
-//   //   font-size: 12px;
-//   // }
-// }
-// .chip i.material-icons {
-//   font-size: 18px;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-// }
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+.chip.chip-checkbox > .chip-add-icon::after {
+  content: "add";
+}
+.chip.chip-checkbox.active > .chip-add-icon::after {
+  content: "done";
+}
+.chip > * {
+  margin-right: 2px;
+  margin-left: 2px;
+  color: $primary-clr;
+  font-size: 12px;
+}
+.chip input {
+  display: none;
+}
+.chip.chip-checkbox,
+.chip.chip-toggle,
+.chip.clickable {
+  cursor: pointer;
+}
+.chip.active {
+  background-color: $secondary-clr;
+  border-color: #c3c2c2;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+}
+.chip:hover,
+.chip:focus {
+  background-color: $secondary-clr;
+}
+.chip:active:focus {
+  background-color: $secondary-clr;
+}
+.chip button {
+  border: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  background: none;
+  display: inline-flex;
+}
+.chip {
+  transition: all 0.3s ease-in-out;
+  background-color: #fff;
+  border-radius: 30px;
+  border: 2px solid $primary-clr;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 6px 4px 6px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  // span {
+  //   color: $primary-clr;
+  //   font-size: 12px;
+  // }
+}
+.chip i.material-icons {
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 // // grid classes globaly
 .self-start {

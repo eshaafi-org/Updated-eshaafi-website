@@ -62,7 +62,9 @@ export default function Services() {
                 >
                   <span className={style.serviceText}>
                     <h4 className="cardHeading">{itm.heading}</h4>
-                    <p className="cardDescription capitalize">{itm.text}</p>
+                    <p className="cardDescription text-capitalize">
+                      {itm.text}
+                    </p>
                   </span>
                   <span className={style.serviceLink}>
                     {itm.heading === "Home Nursing" ||

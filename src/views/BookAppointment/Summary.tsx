@@ -18,7 +18,6 @@ export default function Summary({
   loading: boolean;
   paymentId: string;
 }) {
-  console.log(appointDate);
   return (
     <section className={styles.summary}>
       <h1>Appointment Summary</h1>

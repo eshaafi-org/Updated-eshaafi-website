@@ -63,7 +63,6 @@ export default function PaymentMethod({
         headers: headers(),
       })
       .then((res) => {
-        console.log(res.data.response.data);
         setStates({ type: "RESPONSE", payload: res.data.response.data });
       })
       .catch((err) => console.error(err));
@@ -144,9 +143,11 @@ export default function PaymentMethod({
                 className={style.scGJwTLC + " " + style.ikxBAC}
                 checked={wallet}
                 name="wallet"
-                onChange={() => {
+                onChange={(e) => {
                   setStates({ type: "WALLET" });
-                  setPaymentId("wallet");
+                  if (e.target.checked) {
+                    setPaymentId("wallet");
+                  } else setPaymentId("");
                 }}
               />
             </div>

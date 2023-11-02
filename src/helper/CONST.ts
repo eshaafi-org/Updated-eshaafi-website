@@ -5,6 +5,6 @@ export const headers = () => {
   const uuid: any | null = storedValue ? JSON.parse(storedValue) : null;
   return {
     "Content-Type": "application/json",
-    Authorization: uuid.IdToken,
+    Authorization: uuid?.IdToken,
   };
 };

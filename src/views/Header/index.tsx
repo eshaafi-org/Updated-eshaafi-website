@@ -26,6 +26,8 @@ import { SubLinksModal } from "./SubLinkMenu";
 import { Model } from "./LoginSignupModel";
 import { createPortal } from "react-dom";
 import { BASE_URL } from "@/helper/CONST";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // this component will render only in client,
 
 // Define the props type for the header component
@@ -44,8 +46,11 @@ const Header: React.FC<HeaderProps> = ({}) => {
     height: 0,
   });
   const [isScrolled, setIsScrolled] = useState<boolean>(false); // State to track scrolling
-  const [showModal, setShowModal] = useState<boolean>(false);
+  // const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const modalValue = useSelector((state: any) => state.loginModalReducer.modal);
+  console.log(modalValue);
   const handleOpen = useCallback(() => {
     document.body.style.overflow = "hidden";
     setShow(true);
@@ -67,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   }, []);
   const handleModal = () => {
     document.body.style.overflow = "hidden";
-    setShowModal(true);
+    dispatch({ type: "loginModalSlice/open" });
   };
   const logout = () => {
     axios
@@ -180,13 +185,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   <Button variant="outlined" onClick={handleModal}>
                     login/sign up
                   </Button>
-                  {showModal && (
-                    <Model
-                      setShowModal={setShowModal}
-                      userAuth={setUserAuth}
-                      page="header"
-                    />
-                  )}
+                  {modalValue && <Model userAuth={setUserAuth} page="header" />}
                 </>
               ) : (
                 <>
@@ -231,14 +230,19 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       >
                         <div className="container position-relative">
                           <ul className={style.profileLinks}>
-                            <li className="border-bottom p-1 pb-0">
-                              <div className="d-flex flex-column">
+                            <li className="border-bottom p-2 pb-0">
+                              <div className="d-flex flex-column row-gap-0-5">
                                 <h4>{userAuth?.name}</h4>
                                 <p>{userAuth?.phoneNo}</p>
                               </div>
                             </li>
-                            <li className="p-1">
-                              <Link href={"/appointments"}>Appointments </Link>
+                            <li className="p-2">
+                              <Link
+                                href={"/appointments"}
+                                className="w-100 d-flex"
+                              >
+                                Appointments{" "}
+                              </Link>
                             </li>
                             {/* <li className="p-1">
                             <Link href={"/"}>Profile</Link>
@@ -252,15 +256,18 @@ const Header: React.FC<HeaderProps> = ({}) => {
                           <li className="p-1">
                             <Link href={"/"}>Medical Records</Link>
                           </li> */}
-                            <li className="p-1">
-                              <Link href={"/privacy-policy"}>
+                            <li className="p-2">
+                              <Link
+                                href={"/privacy-policy"}
+                                className="w-100 d-flex"
+                              >
                                 Privacy Policy
                               </Link>
                             </li>
-                            <li className="border-top p-1">
+                            <li className="border-top p-2">
                               <Button
                                 onClick={logout}
-                                className="w-full text-left"
+                                className="w-100 text-start"
                               >
                                 Logout
                               </Button>
@@ -315,13 +322,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
       </nav>
       {/* responsive drawer modal */}
       <Drawer anchor="right" open={show} onClose={handleClose}>
-        {showModal && (
-          <Model
-            setShowModal={setShowModal}
-            userAuth={setUserAuth}
-            page="header"
-          />
-        )}
+        {modalValue && <Model userAuth={setUserAuth} page="header" />}
         {userAuth?.name && (
           <span className="p-3 d-flex align-items-center col-gap-1 border-bottom mb-2">
             {!userAuth.url ? (

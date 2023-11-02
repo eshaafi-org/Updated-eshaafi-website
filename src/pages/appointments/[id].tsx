@@ -6,12 +6,18 @@ import { useRouter } from "next/router";
 import { BASE_URL, headers } from "@/helper/CONST";
 import DoctorCard from "@/views/Appointments/appointmentPage/Doctor";
 import Summary from "@/views/Appointments/appointmentPage/Summary";
+import AddressBar from "@/components/AddressBar";
 import Link from "next/link";
 import styles from "../../styles/appointments.module.scss";
-import eprescription from "../../../public/images/eprescription.png";
-import record from "../../../public/images/record.png";
+import eprescription from "../../../public/images/eprescription.svg";
+import record from "../../../public/images/record.svg";
 import Image from "next/image";
-
+// links
+const links = [
+  { name: "Home", link: "/" },
+  { name: "Doctors", link: "/doctors" },
+  { name: "Appointments", link: "/appointments" },
+];
 export default function AppointmentPage() {
   const params = useRouter();
   const [detail, setDetail] = useState<any>(null);
@@ -56,17 +62,39 @@ export default function AppointmentPage() {
   return (
     <main>
       <section className="container">
-        <h2 className="mb-2">Book video consultation with the best doctors</h2>
-        {detail?.appointment_status === "missed" || (
-          <Timer appointment={detail} />
-        )}
-        <div className="flex col-gap-2 lg-flex-col lg-row-gap-1">
-          <section className="flex row-gap-2 items-start flex-col w-60 lg-w-full">
+        <span>
+          <h2>Book video consultation with the best doctors</h2>
+          <AddressBar links={links} />
+        </span>
+        {detail?.appointment_status === "missed" ||
+          detail?.appointment_status === "completed" || (
+            <Timer appointment={detail} />
+          )}
+        <div
+          className={
+            "d-flex justify-content-between " + styles.consultationWrapper
+          }
+        >
+          <section className={styles.appointmentDetail}>
             <DoctorCard doctor={detail} />
-            <div className="flex col-gap-1 w-full sm-flex-col sm-row-gap-1">
-              {/* <Link
-                href={`/appointments/${params?.id}/eprescription`}
-                className={`w-1-2 border rounded bg-white p-1 sm-w-full capitalize pointer flex items-center col-gap-2 ${
+            <div className={styles.btnContainer}>
+              <Link
+                href={`/medicalrecord`}
+                className={`${styles.consultationBtn} ${
+                  detail?.appointment_status === "missed" ||
+                  detail?.appointment_status === "cancelled" ||
+                  detail?.appointment_status === "booked" ||
+                  detail?.appointment_status === "unattended"
+                    ? styles.disableLink
+                    : ""
+                }`}
+              >
+                <Image src={record} alt="medical record" width={30} />
+                Medical Record
+              </Link>
+              <Link
+                href={`/eprescription`}
+                className={`${styles.consultationBtn} ${
                   detail?.appointment_status === "missed" ||
                   detail?.appointment_status === "cancelled" ||
                   detail?.appointment_status === "booked" ||
@@ -78,20 +106,6 @@ export default function AppointmentPage() {
                 <Image src={eprescription} alt="eprescription" width={30} />
                 ePrescription
               </Link>
-              <Link
-                href={`/appointments/${params?.id}/eprescription`}
-                className={`w-1-2  border rounded bg-white p-1 sm-w-full capitalize pointer flex items-center col-gap-2 ${
-                  detail?.appointment_status === "missed" ||
-                  detail?.appointment_status === "cancelled" ||
-                  detail?.appointment_status === "booked" ||
-                  detail?.appointment_status === "unattended"
-                    ? styles.disableLink
-                    : ""
-                }`}
-              >
-                <Image src={record} alt="medical record" width={30} />
-                Medical Record
-              </Link> */}
             </div>
           </section>
           <Summary summary={detail} />

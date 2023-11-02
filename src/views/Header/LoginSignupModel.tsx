@@ -12,6 +12,7 @@ import Link from "next/link";
 import inputField from "@/components/InputField/Input.module.scss";
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
+import { useDispatch } from "react-redux";
 
 // reducer
 const reducer = (state: any, action: any) => {
@@ -68,11 +69,9 @@ const reducer = (state: any, action: any) => {
 // model
 export const Model = ({
   page = "login",
-  setShowModal,
   userAuth,
 }: {
   page: string;
-  setShowModal: any;
   userAuth: any;
 }) => {
   const myInputRef = useRef<HTMLInputElement | null>(null);
@@ -87,10 +86,11 @@ export const Model = ({
     modelStates;
   const [otp, setOtp] = useState<boolean>(false);
   const [profile, setProfile] = useState<boolean>(false);
+  const dispatch = useDispatch();
   // function for handling static window, so user can't move
   const close = () => {
     document.body.style.overflow = "auto";
-    setShowModal(false);
+    dispatch({ type: "loginModalSlice/close" });
   };
   // get otp
   const getOtp = (e: any) => {

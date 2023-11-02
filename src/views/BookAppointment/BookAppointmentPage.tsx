@@ -14,6 +14,8 @@ import Image from "next/image";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import moment from "moment";
 import AddressBar from "@/components/AddressBar";
+import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
 // links
 let links = [
   { name: "Home", link: "/" },
@@ -39,6 +41,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   });
   const [paymentId, setPaymentId] = useState<string>("");
   const [paymentScreen, setPaymentScreen] = useState<boolean>(true);
+  const dispatch = useDispatch();
   const proifileData: {
     appointmentSlotId: string;
     doctorId: string | undefined | string[];
@@ -67,6 +70,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   };
 
   const handleBookAppoint = (flag: boolean) => {
+    console.log(paymentId);
     if (localStorage.getItem("user")) {
       if (flag) {
         setLoading(true);
@@ -79,14 +83,40 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             }
           )
           .then((res) => {
+            console.log(res);
             setSuccess(true);
             setLoading(false);
             // setPaymentScreen(false);
-            console.log(res);
           })
           .catch((err) => {
+            console.log(err);
+
             setLoading(false);
-            console.error("error", err);
+            if (err.response.status === 400) {
+              toast("Select any profile and payment method to proceed", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "info",
+              });
+            } else if (err.response.status === 410) {
+              toast("Your appointment reservation has expired", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+              });
+            }
           });
       } else {
         setLoading(true);
@@ -97,15 +127,64 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           .then((res) => {
             setLoading(false);
             setResponse(res.data.response.Item);
-            console.log(res.data.response.Item);
+            // console.log(res.data.response.Item);
             setPaymentScreen(false);
+            toast("😇 Slot is available, kindly select payment method", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              // type: "info",
+            });
           })
           .catch((err) => {
             setLoading(false);
             console.error("error", err);
+            if (err.response.status === 401) {
+              toast("😐 Slot is unavailable", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                // type: "info",
+              });
+            } else if (err.response.status === 404) {
+              toast("Slot Is Already In Booking Process..", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "info",
+              });
+            }
           });
       }
-    } else params.push("/login");
+    } else {
+      toast("Kindly login first to book an appointment", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "info",
+      });
+      dispatch({ type: "loginModalSlice/open" });
+    }
     // console.log(postData);
   };
   return (
@@ -175,6 +254,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           </a>
         </div>
       )}
+      <ToastContainer />
     </section>
   );
 }
