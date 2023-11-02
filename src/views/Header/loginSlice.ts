@@ -10,10 +10,10 @@ export const loginModalSlice = createSlice({
   name: "loginModalSlice",
   initialState,
   reducers: {
-    open: (state, action) => {
+    open: (state) => {
       state.modal = true;
     },
-    close: (state, action) => {
+    close: (state) => {
       state.modal = false;
     },
   },
