@@ -40,7 +40,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
     patientName: "",
   });
   const [paymentId, setPaymentId] = useState<string>("");
-  const [paymentScreen, setPaymentScreen] = useState<boolean>(true);
+  const [paymentScreen, setPaymentScreen] = useState<boolean>(false);
   const dispatch = useDispatch();
   const proifileData: {
     appointmentSlotId: string;
@@ -89,21 +89,26 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             // setPaymentScreen(false);
           })
           .catch((err) => {
-            console.log(err);
-
+            console.log(err.response.data.response.message);
             setLoading(false);
             if (err.response.status === 400) {
-              toast("Select any profile and payment method to proceed", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                type: "info",
-              });
+              toast(
+                err.response.data.response.message === "Not a valid UUID." &&
+                  patient.patientId === ""
+                  ? "Kindly Select a profile"
+                  : "Kindly Proceed with a payment method",
+                {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  type: "info",
+                }
+              );
             } else if (err.response.status === 410) {
               toast("Your appointment reservation has expired", {
                 position: "top-right",
@@ -127,8 +132,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           .then((res) => {
             setLoading(false);
             setResponse(res.data.response.Item);
-            // console.log(res.data.response.Item);
-            setPaymentScreen(false);
+            setPaymentScreen(true);
             toast("😇 Slot is available, kindly select payment method", {
               position: "top-right",
               autoClose: 3000,
@@ -191,7 +195,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
     <section className="container">
       {!success ? (
         <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
-          {paymentScreen ? (
+          {!paymentScreen ? (
             <section className={style.slotsContainer}>
               <span>
                 <h2>Book video consultation with the best doctors</h2>
@@ -224,6 +228,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             method={method}
             loading={loading}
             paymentId={paymentId}
+            paymentScreen={paymentScreen}
           />
         </div>
       ) : (
