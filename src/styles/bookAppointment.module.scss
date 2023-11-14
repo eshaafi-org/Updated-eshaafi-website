@@ -1,7 +1,13 @@
 // slots styling
 @import "./variables";
 @import "./mixin";
-
+/// appointment booking flow page
+.slotsContainer {
+  width: 100%;
+  @include above-tablet {
+    width: 70%;
+  }
+}
 .schedule {
   display: flex;
   flex-direction: column;
@@ -51,12 +57,22 @@ div.scrollmenu a:hover {
 }
 .labelrdioclass {
   display: block;
+  font-size: 11px;
   background: #ffffff;
   border: 1px solid $borderClr;
   border-radius: 8px;
   margin: 4px;
-  padding: 7px 5px;
+  padding: 7px 3px;
   cursor: pointer;
+  @include for-medium-mobile-only {
+    font-size: 12px;
+  }
+  @include for-large-mobile-only {
+    font-size: 14px;
+  }
+  @include above-large-mobile {
+    font-size: 16px;
+  }
 }
 .labelrdioclass:hover {
   color: #009b94;
@@ -75,33 +91,31 @@ div.scrollmenu a:hover {
   color: #009b94;
 }
 .slotLabelradioclass {
-  border-radius: 7px;
-  padding: 8px 2rem;
+  padding: 3px 1rem;
   transition: all ease-in 0.2s;
-  @include for-tablet-portrait-only {
-    padding: 8px 0.8rem !important;
-    border-radius: 50px !important;
-  }
 }
 .slotLabelradioclass:hover {
   background: #ffffff;
   background: #ffffff;
-  border-radius: 7px;
-  padding: 8px 2rem;
+  border-radius: 50px;
+  padding: 3px 1rem;
   cursor: pointer;
-  @include for-tablet-portrait-only {
-    padding: 8px 0.8rem !important;
-    border-radius: 50px !important;
+  @include above-tablet {
+    border-radius: 8px;
   }
+  // @include for-tablet-portrait-only {
+  //   padding: 8px 0.8rem !important;
+  //   border-radius: 50px !important;
+  // }
 }
 .slotLabelActive {
   background: #ffffff;
-  border-radius: 7px;
-  padding: 8px 2rem;
+  border-radius: 50px;
+  padding: 3px 1rem;
+  // padding: 8px 2rem;
   cursor: pointer;
-  @include for-tablet-portrait-only {
-    padding: 8px 0.8rem !important;
-    border-radius: 50px !important;
+  @include above-tablet {
+    border-radius: 8px;
   }
 }
 .labelActiveProfile {
@@ -151,17 +165,43 @@ div.scrollmenu a:hover {
 }
 .days {
   width: 100%;
-  @include for-tablet-portrait-only {
-    padding: 0.3rem !important;
+  border-radius: 50px;
+  padding: 0.1rem 0.2rem;
+  margin: 1rem 0;
+  @include above-tablet {
+    margin: 1.5rem 0;
+    padding: 0.5rem 1rem !important;
+  }
+}
+.dayText {
+  font-size: 14px;
+  @include above-large-mobile {
+    font-size: 16px;
+  }
+  @include above-tablet {
+    font-size: 20px;
   }
 }
 .slotsCont {
-  flex-wrap: wrap;
-  @include for-tablet-portrait-only {
-    justify-content: flex-start;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 2rem;
+  @include above-medium-mobile {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
-  @include for-large-phone-only {
-    justify-content: space-around;
+  @include above-large-mobile {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  // flex-wrap: wrap;
+  // @include for-tablet-portrait-only {
+  //   justify-content: flex-start;
+  // }
+  // @include for-large-phone-only {
+  //   justify-content: space-around;
+  // }
+  p {
+    grid-area: 1/1/2/3;
   }
 }
 .slotItm {
@@ -169,38 +209,66 @@ div.scrollmenu a:hover {
   text-align: center;
 }
 .summary {
-  width: 30%;
+  width: 100%;
   background-color: $secondary-clr;
   border-radius: 7px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  row-gap: 1.5rem;
-  position: sticky;
-  top: 100px;
-
+  row-gap: 0.5rem;
+  position: fixed;
+  // justify-content: space-between;
+  bottom: 0px;
+  left: 0;
   table {
+    display: none;
     border-spacing: 0 1em;
-
-    tr {
-      margin: 1rem 0;
-    }
     th {
       text-align: start;
+      font-weight: 400;
     }
     td {
       text-align: end;
     }
-  }
-  @include for-tablet-portrait-only {
-    width: 100%;
-    // position: fixed !important;
-    bottom: 10px;
-    h1 {
-      display: none;
+    @include above-tablet {
+      display: table;
+      border-spacing: 0 1em;
+      //  row-gap: 1rem;
     }
-    table {
-      display: none;
+  }
+  h1 {
+    display: none;
+    @include above-tablet {
+      display: block;
+      font-size: 1rem;
+    }
+  }
+  .reviewTotalText {
+    font-size: 11px;
+    font-weight: 500;
+    @include for-medium-mobile-only {
+      font-size: 12px;
+    }
+    @include for-large-mobile-only {
+      font-size: 14px;
+    }
+    @include above-large-mobile {
+      font-size: 16px;
+    }
+  }
+  @include above-tablet {
+    width: 30%;
+    position: sticky !important;
+    top: 100px;
+  }
+}
+.box {
+  span {
+    font-size: 14px;
+    font-weight: 400;
+    @include above-tablet {
+      font-size: 1rem;
+      font-weight: 500;
     }
   }
 }
@@ -210,8 +278,14 @@ div.scrollmenu a:hover {
   justify-content: center;
   column-gap: 2rem !important;
   .box {
-    display: flex;
-    font-size: 1.5rem;
+    span {
+      font-size: 14px;
+      font-weight: 400;
+      @include above-tablet {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+    }
   }
   .clock {
     display: flex;
@@ -338,3 +412,37 @@ div.scrollmenu a:hover {
   border: 1px solid gray;
   cursor: no-drop;
 }
+////  payment container
+.paymentContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  @include above-tablet {
+    width: 60%;
+  }
+}
+.slotTimerContainer {
+  padding: 0.2rem;
+  @include above-tablet {
+    padding: 1rem;
+  }
+}
+.slotTimer {
+  font-size: 14px;
+  font-weight: 400;
+  @include above-tablet {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  // margin-left: 1rem;
+}
+.paymentProfileImage,
+.profileIcon {
+  width: 60px;
+  height: 60px;
+}
+.profileIcon {
+  color: black;
+}
+// summary

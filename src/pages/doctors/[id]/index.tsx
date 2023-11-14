@@ -8,7 +8,12 @@ import { FaStar } from "react-icons/fa6";
 import moment from "moment/moment";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
-
+import AddressBar from "@/components/AddressBar";
+//
+let links = [
+  { name: "Home", link: "/" },
+  { name: "Doctors", link: "/doctors" },
+];
 export default function Profile({ doctor }: any) {
   console.log(doctor?.isOnline);
   return (
@@ -24,13 +29,27 @@ export default function Profile({ doctor }: any) {
       </Head>
       <main>
         <section className="container">
-          <div className="flex flex-col row-gap-2 position-relative">
-            <h2>Book video consultation with the best doctors</h2>
-            <section className="flex justify-between col-gap-1 items-start lg-flex-col lg-row-gap-2">
-              <section className="doc-profile w-60 bg-white flex flex-col row-gap-2 lg-w-full">
+          <div className={"d-flex flex-column position-relative"}>
+            <span>
+              <h2 className={style.docPageHeading}>
+                Book video consultation with the best doctors
+              </h2>
+              <AddressBar links={links} />
+            </span>
+            <section
+              className={
+                style.docProfileContainer +
+                " d-flex justify-content-between col-gap-1 align-items-start"
+              }
+            >
+              <section
+                className={
+                  style.profiling + " doc-profile bg-white d-flex flex-column"
+                }
+              >
                 {/* profile card */}
-                <div className="flex flex-col row-gap-2 border-bottom pb-2">
-                  <div className="flex col-gap-2">
+                <div className="d-flex flex-column mt-2 border-bottom pb-3">
+                  <div className="d-flex col-gap-1">
                     <div
                       className={`${style.imageContainer}  ${
                         doctor?.isOnline ? style.docOnline : ""
@@ -42,89 +61,100 @@ export default function Profile({ doctor }: any) {
                         width={100}
                         height={100}
                         style={{ borderRadius: "50px" }}
-                        className={style.docProfileImage}
+                        className={style.docImg}
                       />
                     </div>
 
-                    <span
-                      className="flex flex-col"
-                      style={{ rowGap: "0.3rem" }}
-                    >
-                      <h5>
+                    <span className="d-flex flex-column">
+                      <h5 className={style.docTitle}>
                         {doctor?.personal_info?.firstName} &nbsp;
                         {doctor?.personal_info?.lastName}
                       </h5>
-                      <p>{doctor?.specialization}</p>
-                      <p>
+                      <p className={style.docSpecialization}>
+                        {doctor?.specialization}
+                      </p>
+                      <p
+                        className={
+                          style.docSpecialization +
+                          " align-items-center d-flex "
+                        }
+                      >
                         <FaStar style={{ color: "#FFC107" }} />
                         <FaStar style={{ color: "#FFC107" }} />
                         <FaStar style={{ color: "#FFC107" }} />
                         <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107" }} />
+                        <FaStar style={{ color: "#FFC107", marginRight: 5 }} />
                         {`${doctor?.rating?.averageRating}/5 (${
                           doctor?.rating?.count + " reviews"
                         })`}
                       </p>
                     </span>
                   </div>
-                  <div className="flex col-gap-1 justify-between">
-                    <span className="flex flex-col items-center w-full  row-gap-1">
-                      <h5>{doctor?.yearsOfExperience} years</h5>
-                      <p>Experience</p>
+                  <div className="d-flex justify-content-around my-3">
+                    <span className="d-flex flex-column align-items-center row-gap-0-5">
+                      <h5 className={style.profileExperienceHeading}>
+                        {doctor?.yearsOfExperience} years
+                      </h5>
+                      <p className={style.profileExperienceText}>Experience</p>
                     </span>
-                    <span
-                      className="flex flex-col items-center w-full border-left
-                  border-right row-gap-1"
-                    >
-                      <h5>{doctor?.recommended}%</h5>
-                      <p className="text-center">Positive feedback</p>
+                    <span className="d-flex flex-column align-items-center row-gap-0-5">
+                      <h5 className={style.profileExperienceHeading}>
+                        {doctor?.recommended}%
+                      </h5>
+                      <p className={style.profileExperienceText}>
+                        Positive feedback
+                      </p>
                     </span>
-                    <span className="flex flex-col items-center w-full row-gap-1">
-                      <h5>{doctor?.videoCallCharges}</h5>
-                      <p>Fee in PKR</p>
+                    <span className="d-flex flex-column align-items-center row-gap-0-5">
+                      <h5 className={style.profileExperienceHeading}>
+                        {doctor?.videoCallCharges}
+                      </h5>
+                      <p className={style.profileExperienceText}>Fee in PKR</p>
                     </span>
                   </div>
                 </div>
                 {/* educational information */}
-                <ul
-                  className={`flex flex-col row-gap-2 w-full border-bottom pb-2`}
-                >
-                  <h5>Education</h5>
+                <ul className={`d-flex flex-column border-bottom py-3`}>
+                  <h5 className={style.docSecHeading}>Education</h5>
                   {doctor?.educationalDocuments.map((itm: any, indx: any) => (
-                    <li key={indx} className="flex justify-between w-full">
-                      <span className="flex flex-col row-gap-0-5">
-                        <h4>
-                          {itm?.degree} {`(${itm?.field_of_study}) `}
-                        </h4>
-                        <p>{itm?.location}</p>
+                    <li key={indx} className="d-flex  flex-column mb-2">
+                      <h4 className={style.docSecSubHeading}>
+                        {itm?.degree} {`(${itm?.field_of_study}) `}
+                      </h4>
+                      <span className="d-flex justify-content-between">
+                        <p className={style.docSecDes}>{itm?.location}</p>
+                        <p className={style.docSecDes}>
+                          {moment(itm?.end_date).format("YYYY")}
+                        </p>
                       </span>
-                      <p>{moment(itm?.end_date).format("YYYY")}</p>
                     </li>
                   ))}
                 </ul>
                 {/* work experience */}
-                <ul className={`flex flex-col row-gap-2 border-bottom pb-2`}>
-                  <h5>Work Experience</h5>
+                <ul className={`d-flex flex-column border-bottom py-3`}>
+                  <h5 className={style.docSecHeading}>Work Experience</h5>
                   {doctor?.experiences.map((itm: any, indx: any) => (
-                    <li key={indx} className="flex justify-between">
-                      <span className="flex flex-col row-gap-0-5">
-                        <h4>{itm?.title}</h4>
-                        <p>
+                    <li key={indx} className="d-flex flex-column  mb-2">
+                      <h4 className={style.docSecSubHeading}>{itm?.title}</h4>
+                      <span className="d-flex justify-content-between">
+                        <p className={style.docSecDes}>
                           {itm?.company}, {itm?.location}
                         </p>
+                        <p className={style.docSecDes}>
+                          {moment(itm?.end_date).format("YYYY")}
+                        </p>
                       </span>
-                      <p>{moment(itm?.end_date).format("YYYY")}</p>
                     </li>
                   ))}
                 </ul>
                 {/* about section */}
-                <div className="flex flex-col row-gap-1 pb-2 border-bottom">
-                  <h5>About</h5>
-                  <p>{doctor?.coverLetter}</p>
+                <div className="d-flex flex-column border-bottom py-3">
+                  <h5 className={style.docSecHeading}>About</h5>
+                  <p className={style.docText}>{doctor?.coverLetter}</p>
                 </div>
                 {/* condition treated */}
-                <div className={`flex flex-col row-gap-1 border-bottom  pb-2`}>
-                  <h5>Conditions Treated</h5>
+                <div className={`d-flex flex-column border-bottom py-3`}>
+                  <h5 className={style.docSecHeading}>Conditions Treated</h5>
                   <ul className={style.serviceList}>
                     {doctor?.conditionsTreated.map(
                       (conditionsTreated: any, index: any) => (
@@ -136,8 +166,8 @@ export default function Profile({ doctor }: any) {
                   </ul>
                 </div>
                 {/* services */}
-                <div className={`flex flex-col row-gap-1 border-bottom pb-2`}>
-                  <h5>Services</h5>
+                <div className={`d-flex flex-column border-bottom py-3`}>
+                  <h5 className={style.docSecHeading}>Services</h5>
                   <ul className={style.serviceList}>
                     {doctor?.services.map((service: any, index: any) => (
                       <li key={index} className={style.serviceItem}>
@@ -147,27 +177,26 @@ export default function Profile({ doctor }: any) {
                   </ul>
                 </div>
                 {/* patient review */}
-                <div className="flex flex-col row-gap-2">
-                  <h5>Patients Review</h5>
-                  <div className={`${style.mainline} flex`}>
+                <div className="d-flex flex-column border-bottom py-3 justify-content-center">
+                  <h5 className={style.docSecHeading}>Patients Review</h5>
+                  <div className={`d-flex justify-content-center`}>
                     <div className={style.mainring}>
                       <div className={style.ring}>
                         <div className={style.centered_content}>
-                          <div className={style.percent}>
+                          <div className={style.reviewText + " fw-bold"}>
                             {doctor?.rating?.recommended}%
                           </div>
-                          <p>Recommend</p>
+                          <p className={style.docSecDes}>Recommend</p>
                         </div>
                       </div>
                     </div>
-                    <div className="p-2 w-full flex flex-col row-gap-2">
+                    <div className="px-2 w-full d-flex flex-column justify-content-center row-gap-1 w-100">
                       <div className={style.progress}>
-                        <span
-                          className="flex justify-between"
-                          style={{ marginBottom: "1rem" }}
-                        >
-                          <h4>Satisfaction</h4>
-                          <p>{doctor?.rating?.behaviour}%</p>
+                        <span className="d-flex justify-content-between">
+                          <h4 className={style.reviewText}>Satisfaction</h4>
+                          <p className={style.docSecDes + " mb-2"}>
+                            {doctor?.rating?.behaviour}%
+                          </p>
                         </span>
                         <span
                           className={style.progressBar}
@@ -176,12 +205,11 @@ export default function Profile({ doctor }: any) {
                         <span className={style.progressBarLight}></span>
                       </div>
                       <div className={style.progress}>
-                        <span
-                          className="flex justify-between "
-                          style={{ marginBottom: "1rem" }}
-                        >
-                          <h4>Recommendation</h4>
-                          <p>{doctor?.rating?.recommended}%</p>
+                        <span className="d-flex justify-content-between">
+                          <h4 className={style.reviewText}>Recommendation</h4>
+                          <p className={style.docSecDes + " mb-2"}>
+                            {doctor?.rating?.recommended}%
+                          </p>
                         </span>
                         <span
                           className={style.progressBar}
@@ -193,14 +221,17 @@ export default function Profile({ doctor }: any) {
                   </div>
                 </div>
                 {/* recommendations */}
-                <ul className="flex flex-col row-gap-1">
+                <ul className="d-flex flex-column border-bottom py-3 row-gap-1">
                   {doctor?.review.map((itm: any, indx: any) => (
-                    <li key={indx} className="flex flex-col row-gap-1">
+                    <li key={indx} className="d-flex flex-column">
                       <h5
-                        className="flex items-center col-gap-1"
+                        className={
+                          style.docSecHeading +
+                          " d-flex align-items-center col-gap-0-5"
+                        }
                         style={{ color: "#009B94" }}
                       >
-                        <MdThumbUp style={{ fontSize: "2rem" }} />
+                        <MdThumbUp />
                         Recommended
                       </h5>
                       <p style={{ color: "#192A3E" }}>“{itm.review}”</p>
@@ -214,7 +245,7 @@ export default function Profile({ doctor }: any) {
               </section>
               {/* booking consultation */}
               <section className={style.summary}>
-                <h1>Video Consultation</h1>
+                <h2 className={style.reviewText}>Video Consultation</h2>
                 <table>
                   <tr>
                     <th>Fee in Pkr</th>
@@ -237,10 +268,11 @@ export default function Profile({ doctor }: any) {
                   </span>
                   <span>{doctor?.videoCallCharges} Rs.</span>
                 </p>
-                <Link href={"/doctors/" + doctor?.Id + "/booked"}>
-                  <Button variant="contained" className="w-full">
-                    book appointment
-                  </Button>
+                <Link
+                  href={"/doctors/" + doctor?.Id + "/booked"}
+                  className="linkBtn d-flex w-100 justify-content-center"
+                >
+                  book appointment
                 </Link>
               </section>
             </section>

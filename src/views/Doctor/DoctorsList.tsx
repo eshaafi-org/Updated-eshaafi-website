@@ -9,24 +9,23 @@ import Image from "next/image";
 export default function DoctorList({ list }: { list: any }) {
   return (
     <section className="container border-bottom ">
-      <h2 className={style.docPageHeading}>
-        Book video consultation with the best doctors
-      </h2>
+      <h2>Book video consultation with the best doctors</h2>
       <div className="d-flex col-gap-1 align-items-star mt-5 sm-mt-1">
         <ul className={style.docList}>
           {list.map((itm: any, indx: string) => (
             <li
               key={indx}
-              className={`${style.docCard} p-1 flex flex-col row-gap-1`}
+              className={`${style.docCard} d-flex flex-column row-gap-1`}
             >
-              <div className="flex justify-between">
-                <div className="flex col-gap-1">
+              {/* introduction card */}
+              <div className="d-flex justify-content-between">
+                <div className="d-flex align-items-center">
                   <Image
                     src={itm.personal_info.profileUrl}
                     alt="doctor-image"
                     className={style.docImg}
-                    width={91}
-                    height={91}
+                    width={100}
+                    height={100}
                   />
                   <span>
                     <h5 className={style.docTitle}>
@@ -50,44 +49,47 @@ export default function DoctorList({ list }: { list: any }) {
                     )}
                   </span>
                 </div>
-                <p className={"text-primary font-bold text-2 " + style.docFee}>
-                  Fee Rs.{itm.videoCallCharges}
-                </p>
+                <p className={style.docFee}>Fee Rs.{itm.videoCallCharges}</p>
               </div>
-              <div className="flex col-gap-1 justify-between">
-                <span className="flex flex-col items-center w-full row-gap-1 sm-row-gap-0-5">
-                  <h5 className="text-2 sm-font">
+              {/* experience card */}
+              <div className={style.docExperience}>
+                <span className="d-flex flex-column align-items-center ">
+                  <h5 className={style.experienceHeading}>
                     {itm.yearsOfExperience} years
                   </h5>
-                  <p className="sm-font">Experience</p>
+                  <p className={style.experienceText}>Experience</p>
                 </span>
-                <span className="flex flex-col items-center w-full border-left border-right row-gap-1 sm-row-gap-0-5">
-                  <h5 className="text-2 sm-font">
+
+                <span className="d-flex flex-column align-items-center w-100  border-end border-start">
+                  <h5 className={style.experienceHeading}>
                     <FaStar style={{ color: "#FFC107" }} />
                     {itm?.rating?.averageRating}/5
                   </h5>
-                  <p className="sm-font text-center">
+                  <p className={style.experienceText}>
                     {itm?.rating?.count} Reviews
                   </p>
                 </span>
-                <span className="flex flex-col items-center w-full row-gap-1  sm-row-gap-0-5">
-                  <h5 className="text-2 sm-font">{itm.recommended}%</h5>
-                  <p className="sm-font text-center">Positive feedback</p>
+
+                <span className="d-flex flex-column align-items-center ">
+                  <h5 className={style.experienceHeading}>
+                    {itm.recommended}%
+                  </h5>
+                  <p className={style.experienceText}>Positive feedback</p>
                 </span>
               </div>
-              <div className="flex justify-between col-gap-1 sm-flex-col sm-row-gap-1">
-                <Link href={"/doctors/" + itm.Id} className="w-1-2 sm-w-full">
-                  <Button variant="outlined" className="w-full">
-                    view profile
-                  </Button>
+              {/* action button  */}
+              <div className="d-flex justify-content-between col-gap-1">
+                <Link
+                  href={"/doctors/" + itm.Id}
+                  className="linkBtn w-50 bg-white text-primary text-center"
+                >
+                  view profile
                 </Link>
                 <Link
                   href={"/doctors/" + itm.Id + "/booked"}
-                  className="w-1-2 sm-w-full"
+                  className="linkBtn w-50 text-center"
                 >
-                  <Button variant="contained" className="w-full">
-                    book appointment
-                  </Button>
+                  book appointment
                 </Link>
               </div>
             </li>

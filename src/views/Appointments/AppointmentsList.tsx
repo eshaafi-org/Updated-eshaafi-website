@@ -10,6 +10,9 @@ import { BASE_URL, headers } from "@/helper/CONST";
 import empty from "../../../public/images/empty.svg";
 import Button from "@/components/Button";
 import SkeletonLoader from "@/components/SkeletonLoader";
+import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // appointment card
 function Card({ appointment }: { appointment: any }) {
   return (
@@ -17,9 +20,10 @@ function Card({ appointment }: { appointment: any }) {
       href={"/appointments/" + appointment.appointmentId}
       className={styles.appointCard}
     >
-      <div className="border p-1 flex flex-col rounded shadow">
-        <div className="flex justify-between border-bottom pb-1">
-          <div className="flex items-center col-gap-1">
+      <div className="border p-3 d-flex flex-column rounded shadow">
+        {/* profile information */}
+        <div className="d-flex justify-content-between border-bottom pb-4">
+          <div className="d-flex align-items-center ">
             <Image
               src={appointment?.doctorInfo?.profileUrl}
               alt="doctor-image"
@@ -28,23 +32,24 @@ function Card({ appointment }: { appointment: any }) {
               style={{ borderRadius: 50 }}
               className={styles.cardImage}
             />
-            <span className="flex flex-col">
-              <h5 className={styles.subHeading}>
+            <span className="d-flex flex-column">
+              <h5 className={styles.docHeading}>
                 {appointment?.doctorInfo?.title +
                   " " +
                   appointment?.doctorInfo?.firstName +
                   " " +
                   appointment?.doctorInfo?.lastName}
               </h5>
-              <p className={styles.text}>
+              <p className={styles.docDesc}>
                 {appointment?.doctorInfo?.specialization}
               </p>
-              <p className={styles.text}>
+              <p className={styles.docDesc}>
                 Patient: {appointment?.patientInfo?.name}
               </p>
             </span>
           </div>
-          <div className="flex flex-col items-end row-gap-0-5">
+          {/* status information */}
+          <div className="d-flex flex-column align-items-end row-gap-0-5">
             <span>
               <p
                 className={`
@@ -62,7 +67,7 @@ function Card({ appointment }: { appointment: any }) {
                       : appointment?.appointment_status === "unattended"
                       ? styles.statusMissed
                       : styles.statusInprogress
-                  } capitalize`}
+                  } text-capitalize`}
               >
                 {appointment?.appointment_status === "booked"
                   ? "Upcoming"
@@ -72,13 +77,22 @@ function Card({ appointment }: { appointment: any }) {
             <p className={styles.subText}>{appointment?.appoint_type}</p>
           </div>
         </div>
-        <div className="flex  col-gap-2 items-center pt-1 flex-wrap sm-items-start sm-row-gap-1">
-          <p className={"flex col-gap-1 items-center " + styles.text}>
+        {/* date and time section */}
+        <div className="d-flex col-gap-2 items-center pt-3 flex-wrap ">
+          <p
+            className={
+              "d-flex col-gap-1 align-items-center " + styles.appointTiming
+            }
+          >
             <BsCalendar4Week />
 
             {moment(appointment.appoint_date).format("dddd, DD MMMM")}
           </p>
-          <p className={"flex col-gap-1 items-center " + styles.text}>
+          <p
+            className={
+              "d-flex col-gap-1 align-items-center " + styles.appointTiming
+            }
+          >
             <FaRegClock />
 
             {`${appointment.appoint_start_time} - ${moment(
@@ -93,11 +107,13 @@ function Card({ appointment }: { appointment: any }) {
 }
 // appointment list component
 export default function AppointmentsList({ type }: { type: string }) {
+  const value = useSelector((state: any) => state.appointmentListReducer);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [appoint, setAppoint] = useState<any[]>([]);
   const [reachedEnd, setReachedEnd] = useState<boolean>(false);
   const [lastEvaluatedKey, setLastEvaluatedKey] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const dispatch = useDispatch();
   // to load more data this function will run on scroll end
   const loadMoreData = () => {
     if (lastEvaluatedKey) {
@@ -114,6 +130,7 @@ export default function AppointmentsList({ type }: { type: string }) {
           }
         )
         .then((response) => {
+          // console.log(response.reso);
           const newLastEvaluatedKey = response.data.response.LastEvaluatedKey;
           setLastEvaluatedKey(newLastEvaluatedKey);
           const appointmentListNextPAge = response.data.response.Items;
@@ -123,7 +140,7 @@ export default function AppointmentsList({ type }: { type: string }) {
           setReachedEnd(true);
         })
         .catch((error) => {
-          console.error(error.response.data.response.message);
+          console.log("error: " + error.response.data.message);
           setLoading(false);
         });
     }
@@ -147,6 +164,23 @@ export default function AppointmentsList({ type }: { type: string }) {
           setLastEvaluatedKey(response.data.response.LastEvaluatedKey);
           setAppoint(response.data.response.Items);
           setReachedEnd(response.data.response.LastEvaluatedKey ? true : false);
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            toast("Kindly login to view your appointments", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "info",
+            });
+            // dispatch({ type: "loginModalSlice/open" });
+            console.log(error);
+          }
         });
     } catch (error) {
       setLoading(false);
@@ -173,7 +207,9 @@ export default function AppointmentsList({ type }: { type: string }) {
     }
   }
   useEffect(() => {
-    getConsultations(type);
+    if (type) {
+      getConsultations(type);
+    }
   }, [type]);
   // scrolling event
   useEffect(() => {
@@ -198,9 +234,7 @@ export default function AppointmentsList({ type }: { type: string }) {
     <div ref={sectionRef} className={styles.list}>
       {appoint.length > 0 ? (
         <ul
-          className={
-            "doc-profile bg-white flex flex-col row-gap-2  w-full sm-row-gap-1 "
-          }
+          className={"doc-profile bg-white d-flex flex-column row-gap-1 w-100"}
         >
           {appoint.map((appointment: any, indx: number) => (
             <li key={indx}>
@@ -226,6 +260,7 @@ export default function AppointmentsList({ type }: { type: string }) {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }

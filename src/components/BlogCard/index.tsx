@@ -6,7 +6,7 @@ import style from "./blogCard.module.scss";
 export default function BlogCard({ blog, link }: any) {
   return (
     <Link
-      className={`flex flex-col row-gap-0 ${style.blogContainer}`}
+      className={`d-flex flex-column ${style.blogContainer}`}
       href={link + blog.name}
       style={{ textDecoration: "none" }}
     >

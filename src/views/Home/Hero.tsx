@@ -7,11 +7,11 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="bg-main w-full" style={{ background: "#EDF6FE" }}>
+    <section className="bg-main w-100">
       <div className="container pb-0">
         <div className={styles.heroContainer}>
           <span className={styles.heroText}>
-            <h2 className="pageHeading capitalize">
+            <h2 className="pageHeading text-capitalize">
               Stress free access <br /> to quality healthcare{" "}
             </h2>
             <p className="mainHeadingText capitalize">

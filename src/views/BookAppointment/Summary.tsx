@@ -9,6 +9,7 @@ export default function Summary({
   method,
   loading,
   paymentId,
+  paymentScreen,
 }: {
   doc: any;
   appointDate: any;
@@ -17,8 +18,8 @@ export default function Summary({
   method: any;
   loading: boolean;
   paymentId: string;
+  paymentScreen: boolean;
 }) {
-  console.log(appointDate);
   return (
     <section className={styles.summary}>
       <h1>Appointment Summary</h1>
@@ -43,7 +44,7 @@ export default function Summary({
           <td>{method}</td>
         </tr>
       </table>
-      <p className="flex justify-between">
+      <p className={styles.reviewTotalText}>
         <span>
           {appointDate
             ? moment(appointDate).format("dddd DD,MMM")
@@ -55,9 +56,7 @@ export default function Summary({
       <Button
         variant="contained"
         onClick={() => {
-          if (paymentId) {
-            handleBook(true);
-          } else handleBook(false);
+          handleBook(paymentScreen);
         }}
         className="font-bold"
         disabled={!appointDate || !time ? true : false}
