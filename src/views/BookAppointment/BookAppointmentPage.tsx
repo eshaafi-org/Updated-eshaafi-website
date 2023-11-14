@@ -161,10 +161,6 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           })
           .catch((err) => {
             setLoading(false);
-<<<<<<< HEAD
-            // console.error("error", err);
-=======
->>>>>>> 8f7098698fdd91fee69ab1c328c1e6e0eefab2fa
             if (err.response.status === 401) {
               toast("😐 Slot is unavailable", {
                 position: "top-right",
