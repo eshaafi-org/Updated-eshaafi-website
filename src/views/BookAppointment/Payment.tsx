@@ -139,7 +139,7 @@ export default function PaymentMethod({
       <section className=" d-flex flex-column row-gap-1">
         <span className="d-flex justify-content-between flex-column row-gap-1">
           <h3 className="text-dark">Payment Method </h3>
-          {response.wallet && (
+          {response.wallet !== 0 && (
             <span className="d-flex align-items-center justify-content-end col-gap-1">
               <p>Use Wallet Balance</p>
               <div

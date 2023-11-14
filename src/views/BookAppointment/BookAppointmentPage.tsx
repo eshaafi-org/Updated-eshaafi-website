@@ -154,6 +154,18 @@ export default function BookAppointmentPage({ data }: { data: any }) {
               });
               logout();
               dispatch({ type: "loginModalSlice/signIn" });
+            } else if (err.response.status === 404) {
+              toast(err.response.data.response.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+              });
             }
           });
       } else {
