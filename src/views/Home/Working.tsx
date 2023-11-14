@@ -51,7 +51,12 @@ export default function Working() {
             </ul>
           </div>
           <span className={style.workingImg}>
-            <Image src={working} alt="working" className={style.workingImage} />
+            <Image
+              src={working}
+              alt="working"
+              className={style.workingImage}
+              unoptimized
+            />
           </span>
         </div>
       </div>

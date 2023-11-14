@@ -83,7 +83,7 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
             <input
               key={index}
               name={`otp${index + 1}`}
-              type="number"
+              type="tel"
               autoComplete="off"
               className={`${style.otpField} ${otpError ? style.otpError : ""}`}
               value={Object.values(otpValues)[index]}

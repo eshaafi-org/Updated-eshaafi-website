@@ -185,17 +185,22 @@
   grid-template-columns: 1fr;
   row-gap: 0.5rem;
   column-gap: 0.5rem;
-  @include for-mobile-landscap-to-tablet-portrait-only {
-    grid-template-columns: 1fr 1fr;
-  }
+
+  // @include for-large-tablet-only {
+  //   grid-template-columns: 1fr 1fr;
+  // }
+  // @include for-mobile-landscap-to-tablet-portrait-only {
+  //   grid-template-columns: 1fr 1fr;
+  // }
   @include above-large-mobile {
     row-gap: 1rem;
     column-gap: 1rem;
   }
-  @include above-tablet {
+  @include above-mobile-landscape {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include above-tablet-large {
     grid-template-columns: 1fr 1fr 1fr;
-    row-gap: 1rem;
-    column-gap: 1rem;
   }
   @include above-tablet-landscape-and-mini-laptop {
     column-gap: 1.5rem;
@@ -255,6 +260,7 @@
 }
 .workingImg {
   width: 100%;
+  // height: auto;
   display: flex;
   justify-content: center;
   // margin: 0 auto;

@@ -35,7 +35,7 @@ type HeaderProps = {};
 // define the header component
 const Header: React.FC<HeaderProps> = ({}) => {
   // const uuid = JSON.parse(localStorage.getItem("user"));
-  const [userAuth, setUserAuth] = useState<string | undefined | any>("");
+  // const [userAuth, setUserAuth] = useState<string | undefined | any>("");
   const [modal, setModal] = useState<boolean>(false);
   let navbarRef = useRef(null);
   const pathName = usePathname();
@@ -49,8 +49,10 @@ const Header: React.FC<HeaderProps> = ({}) => {
   // const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const modalValue = useSelector((state: any) => state.loginModalReducer.modal);
-  console.log(modalValue);
+  const { modalValue, userAuth } = useSelector(
+    (state: any) => state.loginModalReducer
+  );
+  // console.log(modalValue);
   const handleOpen = useCallback(() => {
     document.body.style.overflow = "hidden";
     setShow(true);
@@ -82,12 +84,11 @@ const Header: React.FC<HeaderProps> = ({}) => {
         uuid: userAuth.uuid,
       })
       .then((res) => {
-        setUserAuth("");
+        dispatch({ type: "loginModalSlice/clearAuth" });
         localStorage.removeItem("user");
       })
       .catch((err) => {
-        console.error("error:", err);
-        setUserAuth("");
+        dispatch({ type: "loginModalSlice/clearAuth" });
         localStorage.removeItem("user");
       });
   };
@@ -95,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   useEffect(() => {
     const storedValue: any | null = localStorage.getItem("user");
     const uuid: any | null = storedValue ? JSON.parse(storedValue) : null;
-    setUserAuth(uuid);
+    dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
   }, []);
   useEffect(() => {
     const handleScroll = () => {
@@ -185,7 +186,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   <Button variant="outlined" onClick={handleModal}>
                     login/sign up
                   </Button>
-                  {modalValue && <Model userAuth={setUserAuth} page="header" />}
+                  {modalValue && <Model page="header" />}
                 </>
               ) : (
                 <>
@@ -322,7 +323,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
       </nav>
       {/* responsive drawer modal */}
       <Drawer anchor="right" open={show} onClose={handleClose}>
-        {modalValue && <Model userAuth={setUserAuth} page="header" />}
+        {modalValue && <Model page="header" />}
         {userAuth?.name && (
           <span className="p-3 d-flex align-items-center col-gap-1 border-bottom mb-2">
             {!userAuth.url ? (
