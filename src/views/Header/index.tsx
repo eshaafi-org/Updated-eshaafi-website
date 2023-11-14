@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const [modal, setModal] = useState<boolean>(false);
   let navbarRef = useRef(null);
   const pathName = usePathname();
-  const [show, setShow] = useState<boolean>(false);
+  // const [show, setShow] = useState<boolean>(false);
   const [showHelpModel, setHelpModel] = useState<boolean>(false);
   const [size, setSize] = useState({
     width: 0,
@@ -49,17 +49,20 @@ const Header: React.FC<HeaderProps> = ({}) => {
   // const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { modalValue, userAuth } = useSelector(
+  const { modalValue, userAuth, drawer } = useSelector(
     (state: any) => state.loginModalReducer
   );
   // console.log(modalValue);
   const handleOpen = useCallback(() => {
     document.body.style.overflow = "hidden";
-    setShow(true);
+    dispatch({ type: "loginModalSlice/openDrawer" });
+    // setShow(true);
   }, []);
   const handleClose = useCallback(() => {
     document.body.style.overflow = "auto";
-    setShow(false);
+    dispatch({ type: "loginModalSlice/closeDrawer" });
+
+    // setShow(false);
   }, []);
   // handling resize
   useEffect(() => {
@@ -322,7 +325,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
         )}
       </nav>
       {/* responsive drawer modal */}
-      <Drawer anchor="right" open={show} onClose={handleClose}>
+      <Drawer anchor="right" open={drawer} onClose={handleClose}>
         {modalValue && <Model page="header" />}
         {userAuth?.name && (
           <span className="p-3 d-flex align-items-center col-gap-1 border-bottom mb-2">

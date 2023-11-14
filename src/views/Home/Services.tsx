@@ -55,7 +55,7 @@ export default function Services() {
             {services.map((itm, indx) => (
               <li key={indx} className={style.serviceItm}>
                 <Link
-                  href={itm.link}
+                  href={itm.heading === "Instant Call" ? "/" : itm.link}
                   className={` ${style.itemCont} ${
                     (indx + 1) % 2 ? "bg-blue" : "bg-lite"
                   }`}

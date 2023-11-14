@@ -141,21 +141,19 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                 type: "warning",
               });
             } else if (err.response.status === 405) {
-              toast(
-                "Signing In will Log Out your account from another device",
-                {
-                  position: "top-right",
-                  autoClose: 2000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                  type: "warning",
-                }
-              );
+              toast("Your session has been expired, kindly sign-in again", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+              });
               logout();
+              dispatch({ type: "loginModalSlice/signIn" });
             }
           });
       } else {
@@ -207,22 +205,19 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                 type: "info",
               });
             } else if (err.response.status === 405) {
-              toast(
-                "Signing In will Log Out your account from another device",
-                {
-                  position: "top-right",
-                  autoClose: 2000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                  type: "warning",
-                }
-              );
-                logout();
-              // dispatch({ type: "loginModalSlice/open" });
+              toast("Your session has been expired, kindly sign-in again", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+              });
+              logout();
+              dispatch({ type: "loginModalSlice/signIn" });
             }
           });
       }

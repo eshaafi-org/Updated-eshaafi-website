@@ -3,7 +3,6 @@ import { FaStar } from "react-icons/fa6";
 import Image from "next/image";
 
 export default function DoctorInfo({ doc }: { doc: any }) {
-  console.log(doc);
   return (
     <div className={style.docInfo + " w-100 border-bottom pb-4 mb-4"}>
       <div className="d-flex justify-between w-100">
