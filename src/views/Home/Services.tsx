@@ -73,7 +73,7 @@ export default function Services() {
                         Coming Soon
                       </Link>
                     ) : (
-                      <Link href={itm.link} className="linkBtn">
+                      <Link href={itm.link} className="linkBtn" >
                         Book Now
                       </Link>
                     )}

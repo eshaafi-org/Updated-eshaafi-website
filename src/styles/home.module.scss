@@ -79,7 +79,6 @@
     justify-self: end;
     align-self: center;
     .servicesImg {
-      
       // width: 100px;
       width: 100%;
       height: auto;
@@ -96,16 +95,13 @@
     }
   }
   .serviceLink {
-    visibility: hidden;
+    // visibility: hidden;
     grid-area: 2/1/3/3;
     align-self: center;
     justify-self: start;
     margin-bottom: 0.5rem;
     @include above-medium-mobile {
       padding-left: 0.5rem;
-    }
-    @include above-large-mobile {
-      visibility: visible;
     }
   }
   &:hover {
@@ -151,6 +147,14 @@
     }
   }
   &:nth-child(2) {
+    .serviceLink {
+      visibility: hidden;
+    }
+    @include above-large-mobile {
+      .serviceLink {
+        visibility: visible;
+      }
+    }
     @include above-small-mobile {
       grid-area: 2/1/3/2;
     }
