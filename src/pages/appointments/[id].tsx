@@ -12,7 +12,7 @@ import styles from "../../styles/appointments.module.scss";
 import eprescription from "../../../public/images/eprescription.svg";
 import record from "../../../public/images/record.svg";
 import Image from "next/image";
-// links
+// links for navbar
 const links = [
   { name: "Home", link: "/" },
   { name: "Doctors", link: "/doctors" },
