@@ -85,7 +85,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             // console.log(res);
             setSuccess(true);
             setLoading(false);
-            // setPaymentScreen(false);
+            setPaymentScreen(false);
           })
           .catch((err) => {
             // console.log(err.response.data.response.message);
@@ -120,6 +120,21 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                 theme: "light",
                 type: "warning",
               });
+            } else if (err.response.status === 405) {
+              toast(
+                "Signing In will Log Out your account from another device",
+                {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  type: "warning",
+                }
+              );
             }
           });
       } else {
@@ -146,7 +161,10 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           })
           .catch((err) => {
             setLoading(false);
+<<<<<<< HEAD
             // console.error("error", err);
+=======
+>>>>>>> 8f7098698fdd91fee69ab1c328c1e6e0eefab2fa
             if (err.response.status === 401) {
               toast("😐 Slot is unavailable", {
                 position: "top-right",
@@ -171,6 +189,21 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                 theme: "light",
                 type: "info",
               });
+            } else if (err.response.status === 405) {
+              toast(
+                "Signing In will Log Out your account from another device",
+                {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  type: "warning",
+                }
+              );
             }
           });
       }

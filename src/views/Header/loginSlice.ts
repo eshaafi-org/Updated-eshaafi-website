@@ -3,7 +3,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  modal: false,
+  modalValue: false,
+  userAuth: "",
 };
 
 export const loginModalSlice = createSlice({
@@ -11,10 +12,16 @@ export const loginModalSlice = createSlice({
   initialState,
   reducers: {
     open: (state) => {
-      state.modal = true;
+      state.modalValue = true;
     },
     close: (state) => {
-      state.modal = false;
+      state.modalValue = false;
+    },
+    setAuth: (state, action) => {
+      state.userAuth = action.payload;
+    },
+    clearAuth: (state) => {
+      state.userAuth = "";
     },
   },
 });

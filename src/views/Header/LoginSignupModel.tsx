@@ -13,6 +13,7 @@ import inputField from "@/components/InputField/Input.module.scss";
 import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 // reducer
 const reducer = (state: any, action: any) => {
@@ -67,13 +68,7 @@ const reducer = (state: any, action: any) => {
   }
 };
 // model
-export const Model = ({
-  page = "login",
-  userAuth,
-}: {
-  page: string;
-  userAuth: any;
-}) => {
+export const Model = ({ page = "login" }: { page: string }) => {
   const myInputRef = useRef<HTMLInputElement | null>(null);
   const [modelStates, setStates] = useReducer(reducer, {
     phoneNum: "",
@@ -87,6 +82,7 @@ export const Model = ({
   const [otp, setOtp] = useState<boolean>(false);
   const [profile, setProfile] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   // function for handling static window, so user can't move
   const close = () => {
     document.body.style.overflow = "auto";
@@ -138,8 +134,7 @@ export const Model = ({
       })
       .then((res) => {
         if (res.profileCreated) {
-          if (!userAuth) {
-          } else userAuth(res);
+          dispatch({ type: "loginModalSlice/setAuth", payload: res });
           close();
         } else setProfile(true);
       })
@@ -173,7 +168,7 @@ export const Model = ({
       )
       .then((res) => {
         setStates({ type: "PROFILE_LOADING" });
-        userAuth(uuid);
+        dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
         close();
       })
       .catch((err) => {
@@ -196,11 +191,11 @@ export const Model = ({
             {!otp ? (
               <>
                 {page === "login" || (
-                  <span className="d-flex align-items-center py-1 border-bottom">
+                  <span className="d-flex align-items-center py-2 border-bottom px-4">
                     <Button onClick={close}>
                       <FaX />
                     </Button>
-                    <p className="w-100 text-center fw-bold">
+                    <p className=" text-center fw-bold mx-auto">
                       Login or Sign up
                     </p>
                   </span>
@@ -209,7 +204,7 @@ export const Model = ({
                   className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
                 >
                   <h1 className="heading1">Welcome to eShaafi</h1>
-                  <p className={`text-center text-capitalize `}>
+                  <p className={`subText text-center text-capitalize `}>
                     Please enter your phone number, we will send you one time
                     password (OTP) for verification.
                   </p>
@@ -239,7 +234,7 @@ export const Model = ({
                           </select>
                           <input
                             id="phone"
-                            type="number"
+                            type="tel"
                             placeholder="3000000000"
                             className={style.phoneInput}
                             {...formik.getFieldProps("phone_no")}
@@ -294,10 +289,7 @@ export const Model = ({
                   className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
                 >
                   <h1 className="heading1">Enter OTP</h1>
-                  <p
-                    className={`text-center text-capitalize`}
-                    style={{ fontSize: 14 }}
-                  >
+                  <p className={`subText text-center text-capitalize`}>
                     Please Check your phone for 6-digit otp sent to
                     <br />
                     <u
