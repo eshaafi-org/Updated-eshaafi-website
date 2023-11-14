@@ -29,7 +29,8 @@ export default function Summary({ summary }: any) {
         </table>
       </div>
       {summary?.appointment_status === "missed" ||
-        summary?.appointment_status === "completed" || (
+        summary?.appointment_status === "completed" ||
+        summary?.appointment_status === "called" || (
           <span className={styles.summaryBtn}>
             <Button
               variant="contained"

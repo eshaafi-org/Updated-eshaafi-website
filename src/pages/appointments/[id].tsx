@@ -67,7 +67,8 @@ export default function AppointmentPage() {
           <AddressBar links={links} />
         </span>
         {detail?.appointment_status === "missed" ||
-          detail?.appointment_status === "completed" || (
+          detail?.appointment_status === "completed" ||
+          detail?.appointment_status === "called" || (
             <Timer appointment={detail} />
           )}
         <div
