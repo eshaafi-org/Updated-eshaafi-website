@@ -16,6 +16,7 @@ import moment from "moment";
 import AddressBar from "@/components/AddressBar";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
 // links
 let links = [
   { name: "Home", link: "/" },
@@ -42,6 +43,9 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   const [paymentId, setPaymentId] = useState<string>("");
   const [paymentScreen, setPaymentScreen] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const { modalValue, userAuth } = useSelector(
+    (state: any) => state.loginModalReducer
+  );
   const proifileData: {
     appointmentSlotId: string;
     doctorId: string | undefined | string[];
@@ -68,7 +72,22 @@ export default function BookAppointmentPage({ data }: { data: any }) {
       };
     }
   };
-
+  const logout = () => {
+    axios
+      .post(BASE_URL + `/auth/signOut`, {
+        access_token: userAuth.AccessToken,
+        type: 1,
+        uuid: userAuth.uuid,
+      })
+      .then((res) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+      })
+      .catch((err) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+      });
+  };
   const handleBookAppoint = (flag: boolean) => {
     console.log(paymentId);
     if (localStorage.getItem("user")) {
@@ -136,6 +155,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                   type: "warning",
                 }
               );
+              logout();
             }
           });
       } else {
@@ -201,6 +221,8 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                   type: "warning",
                 }
               );
+                logout();
+              // dispatch({ type: "loginModalSlice/open" });
             }
           });
       }

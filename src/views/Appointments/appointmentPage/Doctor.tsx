@@ -36,8 +36,9 @@ export default function DoctorCard({ doctor }: any) {
             </p>
           </span>
         </div>
-        <p
-          className={`
+        <div className="d-flex flex-column justify-content-center">
+          <p
+            className={`
                   ${
                     doctor?.appointment_status === "missed"
                       ? styles.statusMissed
@@ -53,11 +54,13 @@ export default function DoctorCard({ doctor }: any) {
                       ? styles.statusMissed
                       : styles.statusInprogress
                   } text-capitalize`}
-        >
-          {doctor?.appointment_status === "booked"
-            ? "Upcoming"
-            : doctor?.appointment_status}
-        </p>
+          >
+            {doctor?.appointment_status === "booked"
+              ? "Upcoming"
+              : doctor?.appointment_status}
+          </p>
+          <p className={styles.appointType}>{doctor?.appoint_type}</p>
+        </div>
       </div>
       <div className="d-flex col-gap-1 justify-content-around">
         <span className="d-flex flex-column align-items-center justify-content-center">
@@ -66,7 +69,11 @@ export default function DoctorCard({ doctor }: any) {
           </h5>
           <p className={style.experienceText}>Experience</p>
         </span>
-        <span className="d-flex flex-column align-items-center justify-content-center">
+        <span
+          className={
+            "d-flex flex-column align-items-center justify-content-center"
+          }
+        >
           <h5 className={style.experienceHeading}>
             {doctor?.doctorRating?.behaviour}%
           </h5>

@@ -215,8 +215,9 @@
     text-transform: capitalize;
     margin-left: 1rem;
   }
-  @include for-large-mobile-only {
+  @include mobile-landscape-and-below {
     padding: 0.5rem;
+    margin: 1rem 0;
     .timer {
       display: flex;
       column-gap: 2rem;
@@ -281,6 +282,9 @@
 // consultation page
 .consultationWrapper {
   margin-top: 3rem;
+  @include mobile-landscape-and-below {
+    margin-top: 1rem;
+  }
 }
 .btnContainer {
   display: flex;
@@ -390,4 +394,12 @@
 // cancel appointment btn
 .cancelBtn {
   color: #b00020;
+}
+// appointment page view
+// doctor details
+.appointType {
+  font-size: 11px;
+  color: #000;
+  text-align: center;
+  margin-top: 5px;
 }

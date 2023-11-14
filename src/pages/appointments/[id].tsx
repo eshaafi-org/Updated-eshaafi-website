@@ -12,6 +12,7 @@ import styles from "../../styles/appointments.module.scss";
 import eprescription from "../../../public/images/eprescription.svg";
 import record from "../../../public/images/record.svg";
 import Image from "next/image";
+import Head from "next/head";
 // links
 const links = [
   { name: "Home", link: "/" },
@@ -21,7 +22,8 @@ const links = [
 export default function AppointmentPage() {
   const params = useRouter();
   const [detail, setDetail] = useState<any>(null);
-  console.log(params);
+  const [loading, setLoading] = useState<boolean>(false);
+
   async function consultationDetail(): Promise<any> {
     try {
       const response: AxiosResponse = await axios.get(
@@ -53,14 +55,16 @@ export default function AppointmentPage() {
       throw error; // Rethrow the error to be handled by the caller or an Error Boundary.
     }
   }
-  console.log(detail);
   useEffect(() => {
     if (params?.query.id) {
       consultationDetail();
     }
   }, [params?.query.id]);
   return (
-    <main>
+    <>
+      <Head>
+        <title>Appointments</title>
+      </Head>
       <section className="container">
         <span>
           <h2>Book video consultation with the best doctors</h2>
@@ -111,6 +115,6 @@ export default function AppointmentPage() {
           <Summary summary={detail} />
         </div>
       </section>
-    </main>
+    </>
   );
 }

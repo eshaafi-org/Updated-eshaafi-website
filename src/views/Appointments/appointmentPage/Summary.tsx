@@ -24,7 +24,7 @@ export default function Summary({ summary }: any) {
           </tr>
           <tr>
             <th>Payment Method</th>
-            <td className="capitalize">{summary?.paymentMethod}</td>
+            <td className="text-capitalize">{summary?.paymentMethod}</td>
           </tr>
         </table>
       </div>
