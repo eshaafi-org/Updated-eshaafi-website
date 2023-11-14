@@ -28,11 +28,7 @@ const links = [
 ];
 export default function Post({ post }: any) {
   const [open, setOpen] = useState(false);
-<<<<<<< HEAD
   const baseUrl = "https://eshaafi.com";
-=======
-  const baseUrl = "https://stage.eshaafi.com";
->>>>>>> 3bcc441a2c9b459c1412829881d8fd5726613d83
   let router = useRouter();
 
   // copy blog post link funciton
