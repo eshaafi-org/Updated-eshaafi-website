@@ -105,7 +105,7 @@ export default function Post({ post }: any) {
       )}
       {post ? (
         <main>
-          <section className="container">
+          <section className="container" style={{ paddingTop: 0 }}>
             {/* <AddressBar links={links} title={"Blog"} /> */}
             {/* blog page  */}
             <div className={style.blogPage}>

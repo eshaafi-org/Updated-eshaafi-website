@@ -307,11 +307,14 @@
 }
 .sliderItm {
   min-width: 450px;
+  .doctorHomeCard {
+    border-radius: 16px;
+  }
   &:first-child {
     margin-left: 25rem;
-    // @include for-large-phone-only {
-    //   margin-left: 5rem;
-    // }
+    @include large-mobile-and-below {
+      margin-left: 5rem;
+    }
   }
 }
 .docImg {

@@ -39,9 +39,14 @@ export default function Doctors({ doc }: { doc: any }) {
               // style={{ visibility: i.icon === "" ? "hidden" }}
               className={style.sliderItm}
             >
-              <div className="border flex flex-col rounded p-1 row-gap-1">
-                <div className="flex justify-between items-start">
-                  <div className="flex col-gap-1">
+              <div
+                className={
+                  style.doctorHomeCard +
+                  " border d-flex flex-column p-3 row-gap-1"
+                }
+              >
+                <div className="d-flex justify-content-between align-items-start">
+                  <div className="d-flex col-gap-1">
                     <Image
                       src={doc.personal_info.profileUrl}
                       alt={doc.personal_info.firstName}
@@ -51,7 +56,7 @@ export default function Doctors({ doc }: { doc: any }) {
                       width={65}
                       height={65}
                     />
-                    <span className="flex flex-col" style={{ rowGap: 5 }}>
+                    <span className="d-flex flex-column" style={{ rowGap: 5 }}>
                       <h4 className="capitalize">
                         {doc.personal_info.title +
                           ". " +
@@ -59,17 +64,19 @@ export default function Doctors({ doc }: { doc: any }) {
                           " " +
                           doc.personal_info.lastName}
                       </h4>
-                      <p>{doc.specialization}</p>
-                      <p>
-                        <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107" }} />
-                        {`${doc?.rating?.averageRating}/5 (${
-                          doc?.rating?.count + " reviews"
-                        })`}
-                      </p>
+                      <span>
+                        <p>{doc.specialization}</p>
+                        <p>
+                          <FaStar style={{ color: "#FFC107" }} />
+                          <FaStar style={{ color: "#FFC107" }} />
+                          <FaStar style={{ color: "#FFC107" }} />
+                          <FaStar style={{ color: "#FFC107" }} />
+                          <FaStar style={{ color: "#FFC107" }} />
+                          {`${doc?.rating?.averageRating}/5 (${
+                            doc?.rating?.count + " reviews"
+                          })`}
+                        </p>
+                      </span>
                     </span>
                   </div>
                   <Link
@@ -84,7 +91,7 @@ export default function Doctors({ doc }: { doc: any }) {
                     View Profile
                   </Link>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="d-flex justify-content-between align-items-center">
                   <p className="text-primary font-bold text-2">
                     Fee Rs. {doc.videoCallCharges}
                   </p>

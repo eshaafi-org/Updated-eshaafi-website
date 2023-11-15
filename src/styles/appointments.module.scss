@@ -338,6 +338,7 @@
       text-align: end;
     }
     @include above-tablet {
+      // margin-top: 1rem;
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -370,6 +371,7 @@
     }
     @include above-large-mobile {
       font-size: 16px;
+      display: none;
     }
   }
   @include above-tablet {

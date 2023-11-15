@@ -747,3 +747,20 @@
     font-size: 16px;
   }
 }
+// filters
+.filters {
+  div {
+    padding: 1rem !important;
+  }
+  @include tablet-and-below {
+    display: none;
+  }
+}
+.selectFilter {
+  padding: 0.6rem;
+  width: 100%;
+  background-color: #f5fbff;
+  color: #777777;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}

@@ -9,12 +9,13 @@ import moment from "moment/moment";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import AddressBar from "@/components/AddressBar";
+import Doctors from "@/views/Home/Doctors";
 //
 let links = [
   { name: "Home", link: "/" },
   { name: "Doctors", link: "/doctors" },
 ];
-export default function Profile({ doctor }: any) {
+export default function Profile({ doctor, doctors }: any) {
   console.log(doctor?.isOnline);
   return (
     <>
@@ -278,7 +279,7 @@ export default function Profile({ doctor }: any) {
             </section>
           </div>
         </section>
-        {/* <Doctors /> */}
+        <Doctors doc={doctors} />
       </main>
     </>
   );
@@ -309,11 +310,25 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params: { id } }: any) {
   let response = await fetch(`${BASE_URL}/patients/doctors/${id}`);
-  const data = await response.json();
+  let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
+    cache: "no-cache",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      type: "specialization",
+      search: "General Physician",
+    }),
+  });
+  const [profile, doctors] = await Promise.all([response, doc]);
+  const data = await profile.json();
+  const docData = await doctors.json();
   //   console.log(data.response);
   return {
     props: {
       doctor: data?.response,
+      doctors: docData.response.Items,
     },
     revalidate: 1,
   };

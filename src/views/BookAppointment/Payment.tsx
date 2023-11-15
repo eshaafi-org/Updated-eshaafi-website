@@ -124,11 +124,7 @@ export default function PaymentMethod({
                   ) : (
                     <FaUserCircle className={style.profileIcon} />
                   )}
-                  <span>
-                    {itm.name.length <= 5
-                      ? itm.name
-                      : `${itm.name.slice(0, 5)}..`}
-                  </span>
+                  <span>{itm.name.length <= 5 ? itm.name : `${itm.name}`}</span>
                 </label>
               </li>
             ))}
@@ -139,30 +135,30 @@ export default function PaymentMethod({
       <section className=" d-flex flex-column row-gap-1">
         <span className="d-flex justify-content-between flex-column row-gap-1">
           <h3 className="text-dark">Payment Method </h3>
-          {response.wallet !== 0 && (
-            <span className="d-flex align-items-center justify-content-end col-gap-1">
-              <p>Use Wallet Balance</p>
-              <div
-                className={
-                  style.checkboxWrapper + " d-flex align-items-center col-gap-1"
-                }
-              >
-                <span>Rs.{response.wallet} </span>
-                <input
-                  type="checkbox"
-                  className={style.scGJwTLC + " " + style.ikxBAC}
-                  checked={wallet}
-                  name="wallet"
-                  onChange={(e) => {
-                    setStates({ type: "WALLET" });
-                    if (e.target.checked) {
-                      setPaymentId("wallet");
-                    } else setPaymentId("");
-                  }}
-                />
-              </div>
-            </span>
-          )}
+
+          <span className="d-flex align-items-center justify-content-end col-gap-1">
+            <p>Use Wallet Balance</p>
+            <div
+              className={
+                style.checkboxWrapper + " d-flex align-items-center col-gap-1"
+              }
+            >
+              <span>Rs.{response.wallet} </span>
+              <input
+                type="checkbox"
+                className={style.scGJwTLC + " " + style.ikxBAC}
+                checked={wallet}
+                name="wallet"
+                onChange={(e) => {
+                  setStates({ type: "WALLET" });
+                  if (e.target.checked) {
+                    setPaymentId("wallet");
+                  } else setPaymentId("");
+                }}
+                disabled={response.wallet === 0}
+              />
+            </div>
+          </span>
         </span>
         {response.paymentMethods && (
           <ul className="d-flex flex-column row-gap-1">
