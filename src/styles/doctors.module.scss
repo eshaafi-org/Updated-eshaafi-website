@@ -513,9 +513,9 @@
 
 .display {
   display: none !important;
-  // @include for-large-tablet-portrait-up {
-  //   display: flex;
-  // }
+  @include tablet-and-below {
+    display: flex !important;
+  }
 }
 .docOnline {
   border: 2px solid green;
@@ -652,14 +652,17 @@
   }
 }
 .summary {
-  display: none;
+  display: block;
   background-color: $secondary-clr;
   border-radius: 7px;
   padding: 1rem;
   row-gap: 1.5rem;
-  position: sticky;
-  top: 100px;
+  position: fixed;
+  bottom: 0px;
+  right: 0;
+  width: 100%;
   table {
+    display: none;
     border-spacing: 0 1em;
     width: 100%;
     border-collapse: separate;
@@ -673,10 +676,15 @@
     td {
       text-align: end;
     }
+    @include above-tablet {
+      display: table;
+    }
   }
   @include above-tablet {
-    display: block;
+    // display: block;
     width: 40%;
+    position: sticky;
+    top: 100px;
   }
   // @include for-tablet-portrait-only {
   //   width: 100%;
