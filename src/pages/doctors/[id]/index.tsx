@@ -279,7 +279,7 @@ export default function Profile({ doctor, doctors }: any) {
             </section>
           </div>
         </section>
-        <Doctors doc={doctors} />
+        {/* <Doctors doc={doctors} /> */}
       </main>
     </>
   );
