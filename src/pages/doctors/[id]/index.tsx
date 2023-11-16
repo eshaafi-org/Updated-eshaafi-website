@@ -29,7 +29,7 @@ export default function Profile({ doctor, doctors }: any) {
       .get(BASE_URL + `/patients/doctors/${router.query.id}/reviews`)
       .then((res) => {
         setLoading(false);
-        setReviews([...reviews, res.data.response.reviews]);
+        setReviews(res.data.response.reviews);
       })
       .catch((err) => {
         setLoading(false);
