@@ -8,7 +8,11 @@ export default function DoctorInfo({ doc }: { doc: any }) {
       <div className="d-flex justify-between w-100">
         <div className="d-flex flex-column row-gap-1 w-100">
           <span className="d-flex col-gap-1 align-items-center">
-            <div className={doc?.isOnline ? style.docOnline : ""}>
+            <div
+              className={`${style.imageContainer} ${
+                doc?.isOnline ? style.docOnline : ""
+              }`}
+            >
               <Image
                 src={doc?.personal_info?.profileUrl}
                 alt="doctor-image"

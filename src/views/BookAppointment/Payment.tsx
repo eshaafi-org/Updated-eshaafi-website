@@ -41,12 +41,14 @@ export default function PaymentMethod({
   response,
   paymentId,
   setPaymentId,
+  setMethod,
 }: {
   patient: any;
   setPatient: any;
   response: any;
   paymentId: string;
   setPaymentId: any;
+  setMethod: any;
 }) {
   // states
   const [states, setStates] = useReducer(reducer, {
@@ -153,6 +155,7 @@ export default function PaymentMethod({
                   setStates({ type: "WALLET" });
                   if (e.target.checked) {
                     setPaymentId("wallet");
+                    setMethod("Wallet");
                   } else setPaymentId("");
                 }}
                 disabled={response.wallet === 0}
@@ -172,6 +175,7 @@ export default function PaymentMethod({
                   value={itm.paymentId}
                   onClick={() => {
                     setPaymentId(itm.paymentId);
+                    setMethod(itm.type);
                   }}
                   disabled={wallet}
                 />

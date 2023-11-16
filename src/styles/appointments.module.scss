@@ -392,6 +392,9 @@
   display: flex;
   column-gap: 1rem;
   margin-top: 1rem;
+  @include mobile-landscape-and-below {
+    justify-content: space-between;
+  }
 }
 // cancel appointment btn
 .cancelBtn {
@@ -404,4 +407,14 @@
   color: #000;
   text-align: center;
   margin-top: 5px;
+}
+// review
+.summaryText {
+  font-weight: 600;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  @include above-mobile-landscape {
+    display: none;
+  }
 }

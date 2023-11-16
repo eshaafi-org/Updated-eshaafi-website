@@ -76,7 +76,64 @@ export default function AppointmentPage() {
         }
       });
   }
-
+  // cancel appointment
+  const cancelAppointment = () => {
+    axios
+      .patch(
+        BASE_URL + `/appointment/${params?.query.id}/cancel`,
+        {},
+        {
+          headers: headers(),
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        toast("Appointment Cancelled Successfully ", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        console.log(error.response.status);
+        if (error.response.status === 401) {
+          setLoading(false);
+          toast("Kindly login to view your appointments", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "info",
+          });
+          dispatch({ type: "loginModalSlice/signIn" });
+        } else if (error.response.status === 405) {
+          logout();
+          dispatch({ type: "loginModalSlice/signIn" });
+        } else if (error.response.status === 404) {
+          toast("You can cancel this appointment before atleast 2 hours", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "error",
+          });
+        }
+      });
+  };
   useEffect(() => {
     if (params?.query.id) {
       consultationDetail();
@@ -93,7 +150,8 @@ export default function AppointmentPage() {
           <AddressBar links={links} />
         </span>
         {detail?.appointment_status === "missed" ||
-          detail?.appointment_status === "completed" || (
+          detail?.appointment_status === "completed" ||
+          detail?.appointment_status === "cancelled" || (
             <Timer appointment={detail} />
           )}
         {loading ? (
@@ -135,7 +193,7 @@ export default function AppointmentPage() {
                 </Link>
               </div>
             </section>
-            <Summary summary={detail} />
+            <Summary summary={detail} cancelAppointment={cancelAppointment} />
           </div>
         ) : (
           <div className="row">
@@ -159,6 +217,7 @@ export default function AppointmentPage() {
             </div>
           </div>
         )}
+        <ToastContainer />
       </section>
     </>
   );

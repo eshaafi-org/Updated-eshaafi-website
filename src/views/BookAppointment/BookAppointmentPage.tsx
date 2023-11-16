@@ -102,7 +102,6 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             }
           )
           .then((res) => {
-            console.log(res);
             setSuccess(true);
             setLoading(false);
             setPaymentScreen(false);
@@ -245,7 +244,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
         theme: "light",
         type: "info",
       });
-      dispatch({ type: "loginModalSlice/open" });
+      dispatch({ type: "loginModalSlice/signIn" });
     }
     // console.log(postData);
   };
@@ -276,6 +275,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
               response={response}
               paymentId={paymentId}
               setPaymentId={setPaymentId}
+              setMethod={setMethod}
             />
           )}
           <Summary
