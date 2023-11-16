@@ -1,5 +1,5 @@
 // dependencies
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "@/styles/doctors.module.scss";
 import Image from "next/image";
 import Button from "@/components/Button";
@@ -19,7 +19,7 @@ let links = [
   { name: "Doctors", link: "/doctors" },
 ];
 export default function Profile({ doctor, doctors }: any) {
-  const [reviews, setReviews] = useState(doctor?.review);
+  const [reviews, setReviews] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   // console.log(doctor?.isOnline);
@@ -29,13 +29,16 @@ export default function Profile({ doctor, doctors }: any) {
       .get(BASE_URL + `/patients/doctors/${router.query.id}/reviews`)
       .then((res) => {
         setLoading(false);
-        setReviews(res.data.response.reviews);
+        setReviews([...reviews, res.data.response.reviews]);
       })
       .catch((err) => {
         setLoading(false);
         console.log(err);
       });
   };
+  useEffect(() => {
+    setReviews(doctor?.review);
+  }, []);
   return (
     <>
       <Head>
