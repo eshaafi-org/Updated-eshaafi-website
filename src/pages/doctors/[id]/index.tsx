@@ -281,7 +281,9 @@ export default function Profile({ doctor, doctors }: any) {
             </section>
           </div>
         </section>
-        {/* <Doctors doc={doctors} /> */}
+        {typeof window !== "undefined" && (
+          <Doctors doc={doctors} heading={"More Doctors"} />
+        )}
       </main>
     </>
   );

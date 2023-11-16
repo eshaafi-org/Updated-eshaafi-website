@@ -7,7 +7,13 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useWindowSize } from "react-use";
 
-export default function Doctors({ doc }: { doc: any }) {
+export default function Doctors({
+  doc,
+  heading,
+}: {
+  doc: any;
+  heading: string;
+}) {
   const doctorsList = doc.slice(0, 4);
   const size = useWindowSize();
   const [width, setWidth] = useState<number | null>(null);
@@ -19,7 +25,7 @@ export default function Doctors({ doc }: { doc: any }) {
   }, [carousel?.current?.offsetWidth]);
   return (
     <section style={{ width: "100%" }} className={style.docSection}>
-      <h2 className="text-center">Book with Doctors</h2>
+      <h2 className="text-center">{heading}</h2>
       <motion.div
         ref={carousel}
         whileTap={{ cursor: "grabbing" }}
@@ -57,7 +63,7 @@ export default function Doctors({ doc }: { doc: any }) {
                       height={65}
                     />
                     <span className="d-flex flex-column" style={{ rowGap: 5 }}>
-                      <h4 className="capitalize">
+                      <h4 className={style.docHeading + " capitalize"}>
                         {doc.personal_info.title +
                           ". " +
                           doc.personal_info.firstName +
@@ -65,7 +71,7 @@ export default function Doctors({ doc }: { doc: any }) {
                           doc.personal_info.lastName}
                       </h4>
                       <span>
-                        <p>{doc.specialization}</p>
+                        <p className={style.docSpec}>{doc.specialization}</p>
                         <p>
                           <FaStar style={{ color: "#FFC107" }} />
                           <FaStar style={{ color: "#FFC107" }} />
