@@ -309,6 +309,7 @@
   min-width: 450px;
   .doctorHomeCard {
     border-radius: 16px;
+    position: relative;
   }
   &:first-child {
     margin-left: 25rem;
@@ -335,21 +336,40 @@
   border-radius: 50px;
   pointer-events: none;
 }
-.isOnline {
+.docImges {
+  width: 100%;
+  height: 100%;
+}
+#isOnline {
+  border: 3px solid $success-clr;
+  border-radius: 50%;
   position: relative;
-  border: 2px solid $success-clr;
-  &::before {
+  &::after {
     content: "";
     position: absolute;
-    display: block;
     background-color: $success-clr;
     width: 10px;
     height: 10px;
-    border-radius: 50px;
-    bottom: 0;
-    right: 0;
+    border-radius: 50%;
+    bottom: 8px;
+    right: -3px;
+    z-index: 999999;
   }
 }
+// .docDot {
+//   &::after {
+//     content: "hello";
+//     position: absolute;
+//     display: block;
+//     background-color: $success-clr;
+//     width: 10px;
+//     height: 10px;
+//     border-radius: 50px;
+//     bottom: 0;
+//     right: 0;
+//     z-index: 2;
+//   }
+// }
 // signin sign up mdal
 // doctors section
 .docSection {

@@ -53,15 +53,21 @@ export default function Doctors({
               >
                 <div className="d-flex justify-content-between align-items-start">
                   <div className="d-flex col-gap-1">
-                    <Image
-                      src={doc.personal_info.profileUrl}
-                      alt={doc.personal_info.firstName}
-                      className={
-                        style.docImg + ` ${doc.isOnline ? style.isOnline : ""}`
-                      }
-                      width={65}
-                      height={65}
-                    />
+                    <span
+                      id={doc.isOnline ? style.isOnline : ""}
+                      className={style.docImg}
+                    >
+                      <Image
+                        src={doc.personal_info.profileUrl}
+                        alt={doc.personal_info.firstName}
+                        className={style.docImges}
+                        // id={`${doc.isOnline ? style.isOnline : ""}`}
+                        width={65}
+                        height={65}
+                        style={{ borderRadius: "50%" }}
+                      />
+                    </span>
+
                     <span className="d-flex flex-column" style={{ rowGap: 5 }}>
                       <h4 className={style.docHeading + " capitalize"}>
                         {doc.personal_info.title +

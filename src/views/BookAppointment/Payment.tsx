@@ -12,7 +12,7 @@ const reducer = (state: any, action: any) => {
     case "LOADING": {
       return {
         ...state,
-        loading: !state.loading,
+        loading: true,
       };
     }
     case "RESPONSE": {

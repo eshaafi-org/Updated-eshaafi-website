@@ -1,4 +1,5 @@
 // dependencies
+import { useState } from "react";
 import style from "@/styles/doctors.module.scss";
 import Image from "next/image";
 import Button from "@/components/Button";
@@ -10,13 +11,31 @@ import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import AddressBar from "@/components/AddressBar";
 import Doctors from "@/views/Home/Doctors";
+import axios from "axios";
+import { useRouter } from "next/router";
 //
 let links = [
   { name: "Home", link: "/" },
   { name: "Doctors", link: "/doctors" },
 ];
 export default function Profile({ doctor, doctors }: any) {
-  console.log(doctor?.isOnline);
+  const [reviews, setReviews] = useState(doctor?.review);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  // console.log(doctor?.isOnline);
+  const loadmoreReviews = () => {
+    setLoading(true);
+    axios
+      .get(BASE_URL + `/patients/doctors/${router.query.id}/reviews`)
+      .then((res) => {
+        setLoading(false);
+        setReviews(res.data.response.reviews);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
   return (
     <>
       <Head>
@@ -223,7 +242,7 @@ export default function Profile({ doctor, doctors }: any) {
                 </div>
                 {/* recommendations */}
                 <ul className="d-flex flex-column border-bottom py-3 row-gap-1">
-                  {doctor?.review.map((itm: any, indx: any) => (
+                  {reviews.map((itm: any, indx: any) => (
                     <li key={indx} className="d-flex flex-column">
                       <h5
                         className={
@@ -242,6 +261,21 @@ export default function Profile({ doctor, doctors }: any) {
                       </small>
                     </li>
                   ))}
+                  <Button
+                    variant="outlined"
+                    className={style.loadmoreReviews}
+                    onClick={loadmoreReviews}
+                  >
+                    {"View all reviews "}
+                    {loading && (
+                      <div
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                      >
+                        <span className="sr-only"></span>
+                      </div>
+                    )}
+                  </Button>
                 </ul>
               </section>
               {/* booking consultation */}

@@ -48,14 +48,16 @@ export default function DoctorList({ list }: any) {
             >
               {/* introduction card */}
               <div className="d-flex justify-content-between">
-                <div className="d-flex align-items-center">
-                  <Image
-                    src={itm.personal_info.profileUrl}
-                    alt="doctor-image"
-                    className={style.docImg}
-                    width={100}
-                    height={100}
-                  />
+                <div className="d-flex align-items-center col-gap-1">
+                  <div className={`${style.imageContainer}`}>
+                    <Image
+                      src={itm.personal_info.profileUrl}
+                      alt="doctor-image"
+                      className={style.docImg}
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                   <span>
                     <h5 className={style.docTitle}>
                       {" "}
