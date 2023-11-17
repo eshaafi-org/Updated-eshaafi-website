@@ -12,16 +12,12 @@ import styles from "../../styles/appointments.module.scss";
 import eprescription from "../../../public/images/eprescription.svg";
 import record from "../../../public/images/record.svg";
 import Image from "next/image";
-<<<<<<< HEAD
-// links for navbar
-=======
 import Head from "next/head";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 
 // links
->>>>>>> 297105d85fe0e5b2baccda7ade5323c08adffde5
 const links = [
   { name: "Home", link: "/" },
   { name: "Doctors", link: "/doctors" },
@@ -155,11 +151,7 @@ export default function AppointmentPage() {
         </span>
         {detail?.appointment_status === "missed" ||
           detail?.appointment_status === "completed" ||
-<<<<<<< HEAD
-          detail?.appointment_status === "called" || (
-=======
           detail?.appointment_status === "cancelled" || (
->>>>>>> 297105d85fe0e5b2baccda7ade5323c08adffde5
             <Timer appointment={detail} />
           )}
         {loading ? (
@@ -230,3 +222,4 @@ export default function AppointmentPage() {
     </>
   );
 }
+// no conflict
