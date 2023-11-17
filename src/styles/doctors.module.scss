@@ -162,30 +162,10 @@
   }
 }
 .docImg {
-  width: 60px;
-  height: 60px;
-  border-radius: 50px;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   margin-right: 0.5rem;
-  @include for-large-mobile-only {
-    width: 65px;
-    height: 65px;
-  }
-  @include for-mobile-landscap-to-tablet-portrait-only {
-    width: 70px;
-    height: 70px;
-  }
-  @include for-large-tablet-only {
-    width: 72px;
-    height: 72px;
-  }
-  @include for-tablet-landscape-to-mini-laptop-only {
-    width: 80px;
-    height: 80px;
-  }
-  @include for-laptop-and-above {
-    width: 90px;
-    height: 90px;
-  }
 }
 .docTitle {
   font-size: 1rem;
@@ -234,6 +214,7 @@
 .experienceText {
   font-size: 11px;
   font-weight: 500;
+  text-align: center;
   @include above-large-mobile {
     font-size: 0.9rem;
   }
@@ -365,10 +346,33 @@
 //     }
 //   }
 // }
-
+// doctor image container
 .imageContainer {
   position: relative;
   display: flex;
+  width: 65px;
+  height: 65px;
+
+  @include for-large-mobile-only {
+    width: 65px;
+    height: 65px;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    width: 70px;
+    height: 70px;
+  }
+  @include for-large-tablet-only {
+    width: 72px;
+    height: 72px;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    width: 80px;
+    height: 80px;
+  }
+  @include for-laptop-and-above {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .ellipse_div {
@@ -513,16 +517,14 @@
 
 .display {
   display: none !important;
-  // @include for-large-tablet-portrait-up {
-  //   display: flex;
-  // }
+  @include tablet-and-below {
+    display: flex !important;
+  }
 }
 .docOnline {
-  border: 1px solid green;
+  border: 3px solid green;
   border-radius: 50%;
   position: relative;
-  max-width: 62px;
-  max-height: 62px;
   &::after {
     content: "";
     position: absolute;
@@ -530,9 +532,9 @@
     height: 12px;
     background-color: green;
     bottom: 10px;
-    right: 4px;
+    right: 0px;
     border-radius: 50%;
-    z-index: 9;
+    z-index: 2;
   }
 }
 .docPageHeading {
@@ -632,14 +634,18 @@
   }
 }
 .summary {
-  display: none;
+  display: block;
   background-color: $secondary-clr;
   border-radius: 7px;
   padding: 1rem;
   row-gap: 1.5rem;
-  position: sticky;
-  top: 100px;
+  position: fixed;
+  bottom: 0px;
+  right: 0;
+  width: 100%;
+  z-index: 9;
   table {
+    display: none;
     border-spacing: 0 1em;
     width: 100%;
     border-collapse: separate;
@@ -653,10 +659,15 @@
     td {
       text-align: end;
     }
+    @include above-tablet {
+      display: table;
+    }
   }
   @include above-tablet {
-    display: block;
+    // display: block;
     width: 40%;
+    position: sticky;
+    top: 100px;
   }
   // @include for-tablet-portrait-only {
   //   width: 100%;
@@ -692,21 +703,26 @@
 }
 .reviewText {
   font-size: 11px;
+  // display: none;
   // margin-bottom: 0.5rem;
   @include for-large-mobile-only {
     font-size: 12px;
   }
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 15px;
+    display: block;
   }
   @include for-large-tablet-only {
     font-size: 16px;
+    display: block;
   }
   @include for-tablet-landscape-to-mini-laptop-only {
+    display: block;
     font-size: 17px;
   }
   @include for-laptop-and-above {
     font-size: 18px;
+    display: block;
   }
 }
 .profileExperienceText {
@@ -726,4 +742,25 @@
   @include for-laptop-and-above {
     font-size: 16px;
   }
+}
+// filters
+.filters {
+  div {
+    padding: 1rem !important;
+  }
+  @include tablet-and-below {
+    display: none;
+  }
+}
+.selectFilter {
+  padding: 0.6rem;
+  width: 100%;
+  background-color: #f5fbff;
+  color: #777777;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
+//
+.loadmoreReviews {
+  align-self: start;
 }

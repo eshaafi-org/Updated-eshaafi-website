@@ -122,8 +122,8 @@ div.scrollmenu a:hover {
   color: #009b94;
   background: rgba(0, 155, 148, 0.08);
   border-radius: 8px;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
+  // border-top-left-radius: 50px;
+  // border-top-right-radius: 50px;
   padding: 0.2rem;
   position: relative;
   img {
@@ -231,9 +231,16 @@ div.scrollmenu a:hover {
       text-align: end;
     }
     @include above-tablet {
-      display: table;
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
       border-spacing: 0 1em;
       //  row-gap: 1rem;
+    }
+    tr {
+      display: flex;
+      justify-content: space-between;
     }
   }
   h1 {
@@ -254,6 +261,9 @@ div.scrollmenu a:hover {
     }
     @include above-large-mobile {
       font-size: 16px;
+    }
+    @include above-tablet {
+      display: none;
     }
   }
   @include above-tablet {

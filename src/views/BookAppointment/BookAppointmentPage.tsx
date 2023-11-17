@@ -16,6 +16,7 @@ import moment from "moment";
 import AddressBar from "@/components/AddressBar";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
 // links
 let links = [
   { name: "Home", link: "/" },
@@ -28,7 +29,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   const params = useRouter();
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
-  const [method, setMethod] = useState<string>("");
+  const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [activeSlot, setSlot] = useState({
@@ -42,6 +43,9 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   const [paymentId, setPaymentId] = useState<string>("");
   const [paymentScreen, setPaymentScreen] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const { modalValue, userAuth } = useSelector(
+    (state: any) => state.loginModalReducer
+  );
   const proifileData: {
     appointmentSlotId: string;
     doctorId: string | undefined | string[];
@@ -68,7 +72,22 @@ export default function BookAppointmentPage({ data }: { data: any }) {
       };
     }
   };
-
+  const logout = () => {
+    axios
+      .post(BASE_URL + `/auth/signOut`, {
+        access_token: userAuth.AccessToken,
+        type: 1,
+        uuid: userAuth.uuid,
+      })
+      .then((res) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+      })
+      .catch((err) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+      });
+  };
   const handleBookAppoint = (flag: boolean) => {
     if (localStorage.getItem("user")) {
       if (flag) {
@@ -82,7 +101,10 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             }
           )
           .then((res) => {
+<<<<<<< HEAD
             // console.log(res);
+=======
+>>>>>>> 0c6ac36a8a8de2c97c3c54db875cc3dca15cf341
             setSuccess(true);
             setLoading(false);
             setPaymentScreen(false);
@@ -121,20 +143,31 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                 type: "warning",
               });
             } else if (err.response.status === 405) {
-              toast(
-                "Signing In will Log Out your account from another device",
-                {
-                  position: "top-right",
-                  autoClose: 2000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                  type: "warning",
-                }
-              );
+              toast("Your session has been expired, kindly sign-in again", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+              });
+              logout();
+              dispatch({ type: "loginModalSlice/signIn" });
+            } else if (err.response.status === 404) {
+              toast(err.response.data.response.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+              });
             }
           });
       } else {
@@ -161,18 +194,38 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           })
           .catch((err) => {
             setLoading(false);
+            console.log(err);
             if (err.response.status === 401) {
-              toast("😐 Slot is unavailable", {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                // type: "info",
-              });
+              if (
+                err.response.data.response.message ===
+                "The incoming token has expired"
+              ) {
+                toast("😐 Need to login again", {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  // type: "info",
+                });
+                logout();
+                dispatch({ type: "loginModalSlice/signIn" });
+              } else {
+                toast("😐 Slot is unavailable", {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  // type: "info",
+                });
+              }
             } else if (err.response.status === 404) {
               toast("Slot Is Already In Booking Process..", {
                 position: "top-right",
@@ -186,20 +239,19 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                 type: "info",
               });
             } else if (err.response.status === 405) {
-              toast(
-                "Signing In will Log Out your account from another device",
-                {
-                  position: "top-right",
-                  autoClose: 2000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                  type: "warning",
-                }
-              );
+              toast("Your session has been expired, kindly sign-in again", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+              });
+              logout();
+              dispatch({ type: "loginModalSlice/signIn" });
             }
           });
       }
@@ -215,7 +267,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
         theme: "light",
         type: "info",
       });
-      dispatch({ type: "loginModalSlice/open" });
+      dispatch({ type: "loginModalSlice/signIn" });
     }
   };
   return (
@@ -245,6 +297,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
               response={response}
               paymentId={paymentId}
               setPaymentId={setPaymentId}
+              setMethod={setMethod}
             />
           )}
           <Summary

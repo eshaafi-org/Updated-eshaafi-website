@@ -12,7 +12,6 @@ export default function Categories({ categories }: { categories: any[] }) {
   let carousel = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     if (carousel.current) {
-      console.log("h");
       setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
     }
   }, []);
@@ -50,7 +49,9 @@ export default function Categories({ categories }: { categories: any[] }) {
                   <div
                     key={indx}
                     // whileTap={{ cursor: "grabbing" }}
-                    // style={{ visibility: i.icon === "" ? "hidden" }}
+                    style={{
+                      visibility: blog.icon === "" ? "hidden" : "visible",
+                    }}
                     className={style.sliderItm}
                   >
                     <BlogCard blog={blog} link={"/blog/"} />

@@ -13,6 +13,7 @@ export default function Timer({ appointment }: any) {
   let deadline = appointment?.appoint_date;
   const getTime = () => {
     if (moment(deadline).valueOf() > Date.now()) {
+      setCall(true);
       const time = moment(deadline).valueOf() - Date.now();
       setDays(Math.floor(time / (1000 * 60 * 60 * 24)));
       setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
@@ -69,16 +70,7 @@ export default function Timer({ appointment }: any) {
           </div>
         </div>
       ) : (
-        // <Link to={"/appointments/" + params.id + "/videocall"}>
-        // <Button
-        //   variant="contained"
-        //   // onClick={handleCall}
-        // >
-        //   {/* <VideocamIcon style={{ color: "#fff" }} /> */}
-        //   Start Consultation
-        // </Button>
         <p style={{ color: "#009b94" }}>Doctor Will Call You Shortly</p>
-        // </Link>
       )}
     </div>
   );

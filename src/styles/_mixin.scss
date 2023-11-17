@@ -2,19 +2,19 @@
 
 // small mobile phone
 @mixin for-small-mobile-only {
-  @media (max-width: 300px) {
+  @media (max-width: 325px) {
     @content;
   }
 }
 // medium mobile phone
 @mixin for-medium-mobile-only {
-  @media (max-width: 399px) and (min-width: 300px) {
+  @media (max-width: 390px) and (min-width: 325px) {
     @content;
   }
 }
 // large mobile phone
 @mixin for-large-mobile-only {
-  @media (max-width: 530px) and (min-width: 400px) {
+  @media (max-width: 530px) and (min-width: 390px) {
     @content;
   }
 }
@@ -95,7 +95,7 @@
 }
 // above medium mobile mobile
 @mixin medium-mobile-and-below {
-  @media (max-width: 399px) {
+  @media (max-width: 390px) {
     @content;
   }
 }

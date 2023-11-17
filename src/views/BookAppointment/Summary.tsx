@@ -51,7 +51,7 @@ export default function Summary({
             : "Select Date "}{" "}
           {time ? moment(time, "HH:mm:ss").format("h:mm A") : " Select Time"}
         </span>
-        <span>{doc?.videoCallCharges} Rs.</span>
+        <span> Rs.{doc?.videoCallCharges} </span>
       </p>
       <Button
         variant="contained"

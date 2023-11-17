@@ -1,32 +1,63 @@
+"use client";
+import { useEffect, useState } from "react";
 import style from "../../styles/doctors.module.scss";
 import Button from "@/components/Button";
 import Link from "next/link";
 import { FaStar } from "react-icons/fa6";
 import Image from "next/image";
-//
-
-//
-export default function DoctorList({ list }: { list: any }) {
+import { BASE_URL } from "@/helper/CONST";
+import axios from "axios";
+// listing
+export default function DoctorList({ list }: any) {
+  const [docListing, setDocListing] = useState(list);
+  const [filters, setFilters] = useState({
+    search: "",
+  });
+  // // const [list, setListing] = useState([]);
+  // const [loading, setLoading] = useState({});
+  // getDoctors
+  const getDoctors = () => {
+    axios
+      .post(BASE_URL + "/patients/doctors/filter", {
+        type: "specialization",
+        search: filters.search,
+      })
+      .then((res) => {
+        // console.log(res);
+        setDocListing(res.data.response.Items);
+      })
+      .catch((error) => console.log(error));
+  };
+  useEffect(() => {
+    setDocListing(list);
+  }, []);
+  useEffect(() => {
+    if (filters.search) {
+      getDoctors();
+    }
+  }, [filters.search]);
   return (
     <section className="container border-bottom ">
       <h2>Book video consultation with the best doctors</h2>
       <div className="d-flex col-gap-1 align-items-star mt-5 sm-mt-1">
         <ul className={style.docList}>
-          {list.map((itm: any, indx: string) => (
+          {docListing.map((itm: any, indx: string) => (
             <li
               key={indx}
               className={`${style.docCard} d-flex flex-column row-gap-1`}
             >
               {/* introduction card */}
               <div className="d-flex justify-content-between">
-                <div className="d-flex align-items-center">
-                  <Image
-                    src={itm.personal_info.profileUrl}
-                    alt="doctor-image"
-                    className={style.docImg}
-                    width={100}
-                    height={100}
-                  />
+                <div className="d-flex align-items-center col-gap-1">
+                  <div className={`${style.imageContainer}`}>
+                    <Image
+                      src={itm.personal_info.profileUrl}
+                      alt="doctor-image"
+                      className={style.docImg}
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                   <span>
                     <h5 className={style.docTitle}>
                       {" "}
@@ -95,11 +126,23 @@ export default function DoctorList({ list }: { list: any }) {
             </li>
           ))}
         </ul>
-        {/* <div className="filters w-30 ">
+        <div className={style.filters + " w-30 "}>
           <div className="bg-main rounded border w-full p-1">
-            Specializaitons
+            <p className="text-dark">Specialization</p>
+            <select
+              name=""
+              id=""
+              className={style.selectFilter}
+              onChange={(e) => setFilters({ search: e.target.value })}
+            >
+              <option value="">Specialization</option>
+              <option value="all">All</option>
+              <option value="General Physician" selected>
+                General Physician
+              </option>
+            </select>
           </div>
-        </div> */}
+        </div>
       </div>
     </section>
   );

@@ -3,13 +3,16 @@ import { FaStar } from "react-icons/fa6";
 import Image from "next/image";
 
 export default function DoctorInfo({ doc }: { doc: any }) {
-  console.log(doc);
   return (
     <div className={style.docInfo + " w-100 border-bottom pb-4 mb-4"}>
       <div className="d-flex justify-between w-100">
         <div className="d-flex flex-column row-gap-1 w-100">
           <span className="d-flex col-gap-1 align-items-center">
-            <div className={doc?.isOnline ? style.docOnline : ""}>
+            <div
+              className={`${style.imageContainer} ${
+                doc?.isOnline ? style.docOnline : ""
+              }`}
+            >
               <Image
                 src={doc?.personal_info?.profileUrl}
                 alt="doctor-image"
