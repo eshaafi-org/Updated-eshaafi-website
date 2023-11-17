@@ -101,10 +101,6 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             }
           )
           .then((res) => {
-<<<<<<< HEAD
-            // console.log(res);
-=======
->>>>>>> 0c6ac36a8a8de2c97c3c54db875cc3dca15cf341
             setSuccess(true);
             setLoading(false);
             setPaymentScreen(false);
