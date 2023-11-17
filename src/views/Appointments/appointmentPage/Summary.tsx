@@ -39,11 +39,7 @@ export default function Summary({ summary, cancelAppointment }: any) {
       </p>
       {summary?.appointment_status === "missed" ||
         summary?.appointment_status === "completed" ||
-<<<<<<< HEAD
-        summary?.appointment_status === "called" || (
-=======
         summary?.appointment_status === "cancelled" || (
->>>>>>> 297105d85fe0e5b2baccda7ade5323c08adffde5
           <span className={styles.summaryBtn}>
             <Button
               variant="contained"
