@@ -29,7 +29,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   const params = useRouter();
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
-  const [method, setMethod] = useState<string>("");
+  const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [activeSlot, setSlot] = useState({
@@ -191,18 +191,38 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           })
           .catch((err) => {
             setLoading(false);
+            console.log(err);
             if (err.response.status === 401) {
-              toast("😐 Slot is unavailable", {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                // type: "info",
-              });
+              if (
+                err.response.data.response.message ===
+                "The incoming token has expired"
+              ) {
+                toast("😐 Need to login again", {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  // type: "info",
+                });
+                logout();
+                dispatch({ type: "loginModalSlice/signIn" });
+              } else {
+                toast("😐 Slot is unavailable", {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  // type: "info",
+                });
+              }
             } else if (err.response.status === 404) {
               toast("Slot Is Already In Booking Process..", {
                 position: "top-right",

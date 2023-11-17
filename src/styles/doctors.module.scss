@@ -703,7 +703,7 @@
 }
 .reviewText {
   font-size: 11px;
-  display: none;
+  // display: none;
   // margin-bottom: 0.5rem;
   @include for-large-mobile-only {
     font-size: 12px;

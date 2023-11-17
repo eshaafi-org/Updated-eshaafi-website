@@ -300,7 +300,9 @@ export default function Profile({ doctor, doctors }: any) {
                   </tr>
                 </table>
                 <p
-                  className={`d-flex justify-content-between ${style.display}`}
+                  className={`d-flex justify-content-between ${
+                    style.reviewText + " " + style.display
+                  }`}
                 >
                   <span className="flex">
                     {doctor?.isOnline ? <p>Online </p> : <p>Offline </p>}
