@@ -394,6 +394,7 @@
   margin-top: 1rem;
   @include mobile-landscape-and-below {
     justify-content: space-between;
+    margin-top: 0rem;
   }
 }
 // cancel appointment btn
@@ -414,7 +415,7 @@
   font-size: 12px;
   display: flex;
   justify-content: space-between;
-  @include above-mobile-landscape {
+  @include above-tablet {
     display: none;
   }
 }
