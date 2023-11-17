@@ -75,7 +75,7 @@
       padding: 0.5rem 0 0 0.5rem;
     }
     p {
-      @include mobile-landscape-and-below {
+      @include medium-mobile-and-below {
         display: none;
       }
     }
@@ -157,11 +157,12 @@
   }
   &:nth-child(2) {
     .serviceLink {
-      visibility: hidden;
+      // : hidvisibilityden;
+      display: none;
     }
     @include above-large-mobile {
       .serviceLink {
-        visibility: visible;
+        display: block;
       }
     }
     @include above-small-mobile {
