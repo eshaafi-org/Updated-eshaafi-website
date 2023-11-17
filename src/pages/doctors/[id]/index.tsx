@@ -229,7 +229,7 @@ export default function Profile({ doctor, doctors }: any) {
                       </div>
                       <div className={style.progress}>
                         <span className="d-flex justify-content-between">
-                          <h4 className={style.reviewText}>Communication</h4>
+                          <h4 className={style.reviewText}>Recommendation</h4>
                           <p className={style.docSecDes + " mb-2"}>
                             {doctor?.rating?.recommended}%
                           </p>
