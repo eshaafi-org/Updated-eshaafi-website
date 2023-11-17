@@ -42,7 +42,10 @@ export default function Home({ positions, doctors }: any) {
         <Mission />
         <Features />
         <Working />
-        {/* <Doctors doc={doctors} /> */}
+        {typeof window !== "undefined" && (
+          <Doctors doc={doctors} heading={"Book with Doctors"} />
+        )}
+
         {/* <Subscriptions /> */}
         {/* <Reviews />*/}
         <Blogs blogs={positions} />

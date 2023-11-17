@@ -114,6 +114,24 @@ export default function AppointmentsList({ type }: { type: string }) {
   const [lastEvaluatedKey, setLastEvaluatedKey] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
+  const { userAuth } = useSelector((state: any) => state.loginModalReducer);
+  // logout function
+  const logout = () => {
+    axios
+      .post(BASE_URL + `/auth/signOut`, {
+        access_token: userAuth.AccessToken,
+        type: 1,
+        uuid: userAuth.uuid,
+      })
+      .then((res) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+      })
+      .catch((err) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+      });
+  };
   // to load more data this function will run on scroll end
   const loadMoreData = () => {
     if (lastEvaluatedKey) {
@@ -142,6 +160,9 @@ export default function AppointmentsList({ type }: { type: string }) {
         .catch((error) => {
           console.log("error: " + error.response.data.message);
           setLoading(false);
+          if (error.response.status === 405) {
+            logout();
+          }
         });
     }
   };
@@ -178,8 +199,11 @@ export default function AppointmentsList({ type }: { type: string }) {
               theme: "light",
               type: "info",
             });
-            // dispatch({ type: "loginModalSlice/open" });
+            dispatch({ type: "loginModalSlice/signIn" });
             console.log(error);
+          } else if (error.response.status === 405) {
+            logout();
+            dispatch({ type: "loginModalSlice/signIn" });
           }
         });
     } catch (error) {

@@ -1,4 +1,5 @@
 //doctors List Page
+"use client";
 import BenefitsOfVideoConsultation from "@/views/Doctor/VideoConsultation";
 import FQuest from "@/views/Doctor/FQuest";
 import DoctorList from "@/views/Doctor/DoctorsList";

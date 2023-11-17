@@ -1,4 +1,5 @@
 // dependencies
+import { useState, useEffect } from "react";
 import style from "@/styles/doctors.module.scss";
 import Image from "next/image";
 import Button from "@/components/Button";
@@ -9,13 +10,35 @@ import moment from "moment/moment";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import AddressBar from "@/components/AddressBar";
+import Doctors from "@/views/Home/Doctors";
+import axios from "axios";
+import { useRouter } from "next/router";
 //
 let links = [
   { name: "Home", link: "/" },
   { name: "Doctors", link: "/doctors" },
 ];
-export default function Profile({ doctor }: any) {
-  console.log(doctor?.isOnline);
+export default function Profile({ doctor, doctors }: any) {
+  const [reviews, setReviews] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  // console.log(doctor?.isOnline);
+  const loadmoreReviews = () => {
+    setLoading(true);
+    axios
+      .get(BASE_URL + `/patients/doctors/${router.query.id}/reviews`)
+      .then((res) => {
+        setLoading(false);
+        setReviews(res.data.response.reviews);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    setReviews(doctor?.review);
+  }, []);
   return (
     <>
       <Head>
@@ -193,7 +216,7 @@ export default function Profile({ doctor }: any) {
                     <div className="px-2 w-full d-flex flex-column justify-content-center row-gap-1 w-100">
                       <div className={style.progress}>
                         <span className="d-flex justify-content-between">
-                          <h4 className={style.reviewText}>Satisfaction</h4>
+                          <h4 className={style.reviewText}>Behaviour</h4>
                           <p className={style.docSecDes + " mb-2"}>
                             {doctor?.rating?.behaviour}%
                           </p>
@@ -222,7 +245,7 @@ export default function Profile({ doctor }: any) {
                 </div>
                 {/* recommendations */}
                 <ul className="d-flex flex-column border-bottom py-3 row-gap-1">
-                  {doctor?.review.map((itm: any, indx: any) => (
+                  {reviews.map((itm: any, indx: any) => (
                     <li key={indx} className="d-flex flex-column">
                       <h5
                         className={
@@ -241,6 +264,21 @@ export default function Profile({ doctor }: any) {
                       </small>
                     </li>
                   ))}
+                  <Button
+                    variant="outlined"
+                    className={style.loadmoreReviews}
+                    onClick={loadmoreReviews}
+                  >
+                    {"View all reviews "}
+                    {loading && (
+                      <div
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                      >
+                        <span className="sr-only"></span>
+                      </div>
+                    )}
+                  </Button>
                 </ul>
               </section>
               {/* booking consultation */}
@@ -261,7 +299,11 @@ export default function Profile({ doctor }: any) {
                     <td>{doctor?.isOnline ? <p>Online</p> : <p>Offline</p>}</td>
                   </tr>
                 </table>
-                <p className={`flex justify-between ${style.display}`}>
+                <p
+                  className={`d-flex justify-content-between ${
+                    style.reviewText + " " + style.display
+                  }`}
+                >
                   <span className="flex">
                     {doctor?.isOnline ? <p>Online </p> : <p>Offline </p>}
                     <p>{doctor?.recommended}% Recommendation</p>
@@ -278,7 +320,9 @@ export default function Profile({ doctor }: any) {
             </section>
           </div>
         </section>
-        {/* <Doctors /> */}
+        {typeof window !== "undefined" && (
+          <Doctors doc={doctors} heading={"More Doctors"} />
+        )}
       </main>
     </>
   );
@@ -309,12 +353,27 @@ export async function getStaticPaths() {
 }
 export async function getStaticProps({ params: { id } }: any) {
   let response = await fetch(`${BASE_URL}/patients/doctors/${id}`);
-  const data = await response.json();
+  let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
+    cache: "no-cache",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      type: "specialization",
+      search: "General Physician",
+    }),
+  });
+  const [profile, doctors] = await Promise.all([response, doc]);
+  const data = await profile.json();
+  const docData = await doctors.json();
   //   console.log(data.response);
   return {
     props: {
       doctor: data?.response,
+      doctors: docData.response.Items,
     },
     revalidate: 1,
   };
 }
+// build

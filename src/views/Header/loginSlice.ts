@@ -5,12 +5,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   modalValue: false,
   userAuth: "",
+  drawer: false,
 };
 
 export const loginModalSlice = createSlice({
   name: "loginModalSlice",
   initialState,
   reducers: {
+    openDrawer: (state) => {
+      state.drawer = true;
+    },
+    closeDrawer: (state) => {
+      state.drawer = false;
+    },
     open: (state) => {
       state.modalValue = true;
     },
@@ -22,6 +29,10 @@ export const loginModalSlice = createSlice({
     },
     clearAuth: (state) => {
       state.userAuth = "";
+    },
+    signIn: (state) => {
+      state.drawer = true;
+      state.modalValue = true;
     },
   },
 });

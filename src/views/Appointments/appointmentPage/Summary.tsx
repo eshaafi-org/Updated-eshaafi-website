@@ -1,8 +1,8 @@
 import styles from "../../../styles/appointments.module.scss";
+
 import moment from "moment";
 import Button from "@/components/Button";
-export default function Summary({ summary }: any) {
-  console.log(summary);
+export default function Summary({ summary, cancelAppointment }: any) {
   return (
     <section className={styles.summary}>
       <div>
@@ -24,13 +24,26 @@ export default function Summary({ summary }: any) {
           </tr>
           <tr>
             <th>Payment Method</th>
-            <td className="capitalize">{summary?.paymentMethod}</td>
+            <td className="text-capitalize">{summary?.paymentMethod}</td>
           </tr>
         </table>
       </div>
+      <p className={styles.summaryText}>
+        <span>
+          {moment(summary?.appoint_date).format("dddd DD,MMM")}{" "}
+          {moment(summary?.appoint_start_time, "HH:mm:ss").format("h:mm A")}
+        </span>
+        <span className="text-capitalize">
+          {summary?.paymentMethod} Rs.{summary?.charges}{" "}
+        </span>
+      </p>
       {summary?.appointment_status === "missed" ||
         summary?.appointment_status === "completed" ||
+<<<<<<< HEAD
         summary?.appointment_status === "called" || (
+=======
+        summary?.appointment_status === "cancelled" || (
+>>>>>>> 297105d85fe0e5b2baccda7ade5323c08adffde5
           <span className={styles.summaryBtn}>
             <Button
               variant="contained"
@@ -41,13 +54,15 @@ export default function Summary({ summary }: any) {
               //     handleBook(true);
               //   } else handleBook(false);
               // }}
-              className="font-bold"
+              className="fw-bold"
               // disabled={!appointDate || !time ? true : false}
             >
               {/* {loading ? "Loading..." : "Confirm Booking"} */}
               Reschdule
             </Button>
-            <Button className={styles.cancelBtn}>Cancel Booking</Button>
+            <Button className={styles.cancelBtn} onClick={cancelAppointment}>
+              Cancel Booking
+            </Button>
           </span>
         )}
     </section>
