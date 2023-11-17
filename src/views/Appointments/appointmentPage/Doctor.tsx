@@ -76,7 +76,7 @@ export default function DoctorCard({ doctor }: any) {
         </span>
         <span
           className={
-            "d-flex flex-column align-items-center justify-content-center row-gap-1 border-start border-end w-25"
+            "d-flex flex-column align-items-center justify-content-center row-gap-1 border-start border-end w-50"
           }
         >
           <h5 className={style.experienceHeading}>
