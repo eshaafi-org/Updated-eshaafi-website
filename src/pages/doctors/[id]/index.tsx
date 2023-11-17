@@ -376,3 +376,4 @@ export async function getStaticProps({ params: { id } }: any) {
     revalidate: 1,
   };
 }
+// build
