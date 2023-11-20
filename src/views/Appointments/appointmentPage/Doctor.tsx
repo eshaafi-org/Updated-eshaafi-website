@@ -23,8 +23,9 @@ export default function DoctorCard({ doctor }: any) {
           </div>
           <span className="d-flex flex-column" style={{ rowGap: "0.2rem" }}>
             <h5 className={style.docTitle}>
-              {doctor?.doctorInfo?.firstName} &nbsp;
-              {doctor?.doctorInfo?.lastName}
+              {/* {doctor?.doctorInfo?.firstName} &nbsp;
+              {doctor?.doctorInfo?.lastName} */}
+              {doctor?.doctorInfo?.name}
             </h5>
             <p className={style.docSpecialization}>
               {doctor?.doctorInfo?.specialization}

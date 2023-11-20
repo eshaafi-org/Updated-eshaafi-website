@@ -87,7 +87,8 @@ export default function AppointmentPage() {
         }
       )
       .then((res) => {
-        console.log(res);
+        console.log(res.data.response.appointment_data[0]);
+        setDetail(res.data.response.appointment_data[0]);
         toast("Appointment Cancelled Successfully ", {
           position: "top-right",
           autoClose: 3000,

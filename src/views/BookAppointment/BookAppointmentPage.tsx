@@ -191,11 +191,10 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           })
           .catch((err) => {
             setLoading(false);
-            console.log(err);
+            console.log(err.response.data.message);
             if (err.response.status === 401) {
               if (
-                err.response.data.response.message ===
-                "The incoming token has expired"
+                err.response.data.message === "The incoming token has expired"
               ) {
                 toast("😐 Need to login again", {
                   position: "top-right",
