@@ -18,6 +18,7 @@ import {
   FaBell,
   FaUser,
   FaRegCalendarCheck,
+  FaFileMedical,
 } from "react-icons/fa6";
 import { GoTriangleDown } from "react-icons/go";
 import { FiLogOut } from "react-icons/fi";
@@ -256,10 +257,15 @@ const Header: React.FC<HeaderProps> = ({}) => {
                           </li>
                           <li className="p-1">
                             <Link href={"/"}>E-prescription</Link>
-                          </li>
-                          <li className="p-1">
-                            <Link href={"/"}>Medical Records</Link>
-                          </li> */}
+                          </li>*/}
+                            <li className="p-1">
+                              <Link
+                                href={"/medicalrecords"}
+                                className="w-100 d-flex"
+                              >
+                                Medical Records
+                              </Link>
+                            </li>
                             <li className="p-2">
                               <Link
                                 href={"/privacy-policy"}
@@ -445,6 +451,14 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         <Button className="d-flex col-gap-1 align-items-center">
                           <FaRegCalendarCheck style={{ fontSize: 20 }} />
                           <span className="text-main">Appointments</span>
+                        </Button>
+                      </Link>
+                    </li>
+                    <li className={`p-1 border-bottom`}>
+                      <Link href={"/medicalrecords"} onClick={handleClose}>
+                        <Button className="d-flex col-gap-1 align-items-center">
+                          <FaFileMedical style={{ fontSize: 20 }} />
+                          <span className="text-main">Medical Records</span>
                         </Button>
                       </Link>
                     </li>

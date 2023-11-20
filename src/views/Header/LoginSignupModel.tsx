@@ -357,7 +357,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
                   type="text"
                   name="dob"
                   max={moment().format("YYYY-MM-DD")}
-                  className={inputField.inputField + " w-100"}
+                  className={inputField.inputField + " " + style.dobField}
                   onChange={setStates}
                   onMouseEnter={onFocusHandler}
                   onFocus={onFocusHandler}
