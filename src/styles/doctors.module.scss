@@ -764,3 +764,9 @@
 .loadmoreReviews {
   align-self: start;
 }
+.chips {
+  display: block !important;
+  @include above-tablet {
+    display: none !important;
+  }
+}
