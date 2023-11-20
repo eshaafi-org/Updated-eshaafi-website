@@ -27,6 +27,7 @@ export default function AppointmentPage() {
   const params = useRouter();
   const [detail, setDetail] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [cancel, setCancel] = useState<boolean>(false);
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   const dispatch = useDispatch();
   const logout = () => {
@@ -87,8 +88,8 @@ export default function AppointmentPage() {
         }
       )
       .then((res) => {
-        console.log(res.data.response.appointment_data[0]);
-        setDetail(res.data.response.appointment_data[0]);
+        // setDetail(res.data.response.appointment_data[0]);
+        setCancel(true);
         toast("Appointment Cancelled Successfully ", {
           position: "top-right",
           autoClose: 3000,
@@ -152,9 +153,8 @@ export default function AppointmentPage() {
         </span>
         {detail?.appointment_status === "missed" ||
           detail?.appointment_status === "completed" ||
-          detail?.appointment_status === "cancelled" || (
-            <Timer appointment={detail} />
-          )}
+          detail?.appointment_status === "cancelled" ||
+          cancel || <Timer appointment={detail} />}
         {loading ? (
           <div
             className={
@@ -162,7 +162,7 @@ export default function AppointmentPage() {
             }
           >
             <section className={styles.appointmentDetail}>
-              <DoctorCard doctor={detail} />
+              <DoctorCard doctor={detail} cancel={cancel} />
               <div className={styles.btnContainer}>
                 <Link
                   href={`/medicalrecord`}
@@ -194,7 +194,11 @@ export default function AppointmentPage() {
                 </Link>
               </div>
             </section>
-            <Summary summary={detail} cancelAppointment={cancelAppointment} />
+            <Summary
+              summary={detail}
+              cancelAppointment={cancelAppointment}
+              cancel={cancel}
+            />
           </div>
         ) : (
           <div className="row">

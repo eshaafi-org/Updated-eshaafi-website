@@ -2,7 +2,7 @@ import styles from "../../../styles/appointments.module.scss";
 
 import moment from "moment";
 import Button from "@/components/Button";
-export default function Summary({ summary, cancelAppointment }: any) {
+export default function Summary({ summary, cancelAppointment, cancel }: any) {
   return (
     <section className={styles.summary}>
       <div>
@@ -39,7 +39,8 @@ export default function Summary({ summary, cancelAppointment }: any) {
       </p>
       {summary?.appointment_status === "missed" ||
         summary?.appointment_status === "completed" ||
-        summary?.appointment_status === "cancelled" || (
+        summary?.appointment_status === "cancelled" ||
+        cancel || (
           <span className={styles.summaryBtn}>
             <Button
               variant="contained"
