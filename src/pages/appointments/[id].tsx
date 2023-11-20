@@ -201,6 +201,7 @@ export default function AppointmentPage() {
             />
           </div>
         ) : (
+          // loader
           <div className="row">
             <div className="col-8">
               <p className="card-text placeholder-glow">

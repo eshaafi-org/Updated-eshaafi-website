@@ -46,14 +46,14 @@ export default function DoctorCard({ doctor, cancel }: any) {
           <p
             className={`
                   ${
-                    doctor?.appointment_status === "missed"
+                    doctor?.appointment_status === "cancelled" || cancel
+                      ? styles.statusCancelled
+                      : doctor?.appointment_status === "missed"
                       ? styles.statusMissed
                       : doctor?.appointment_status === "booked"
                       ? styles.statusBooked
                       : doctor?.appointment_status === "completed"
                       ? styles.statusCompleted
-                      : doctor?.appointment_status === "cancelled" || cancel
-                      ? styles.statusCancelled
                       : doctor?.appointment_status === "reschedule"
                       ? styles.statusReschedule
                       : doctor?.appointment_status === "unattended"
@@ -61,10 +61,10 @@ export default function DoctorCard({ doctor, cancel }: any) {
                       : styles.statusInprogress
                   } text-capitalize`}
           >
-            {doctor?.appointment_status === "booked"
-              ? "Upcoming"
-              : cancel
+            {cancel
               ? "Cancelled"
+              : doctor?.appointment_status === "booked"
+              ? "Upcoming"
               : doctor?.appointment_status}
           </p>
           <p className={styles.appointType}>{doctor?.appoint_type}</p>
