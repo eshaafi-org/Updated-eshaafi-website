@@ -6,6 +6,7 @@ import SlotTimer from "./SlotTimer";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { FaUserCircle } from "react-icons/fa";
+import AddressBar from "@/components/AddressBar";
 // reducer
 const reducer = (state: any, action: any) => {
   switch (action.type) {
@@ -42,6 +43,7 @@ export default function PaymentMethod({
   paymentId,
   setPaymentId,
   setMethod,
+  navigations,
 }: {
   patient: any;
   setPatient: any;
@@ -49,6 +51,7 @@ export default function PaymentMethod({
   paymentId: string;
   setPaymentId: any;
   setMethod: any;
+  navigations: any;
 }) {
   // states
   const [states, setStates] = useReducer(reducer, {
@@ -75,6 +78,7 @@ export default function PaymentMethod({
   return (
     <section className={style.paymentContainer}>
       <h2 className="pageSubHeading">Select Payment Method</h2>
+      <AddressBar links={navigations} />
       {/* slot timer  */}
       <SlotTimer />
       {/* profiel selection */}

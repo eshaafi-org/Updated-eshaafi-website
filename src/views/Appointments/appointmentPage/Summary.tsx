@@ -1,8 +1,14 @@
 import styles from "../../../styles/appointments.module.scss";
-
+import Link from "next/link";
 import moment from "moment";
 import Button from "@/components/Button";
+import { useDispatch } from "react-redux";
 export default function Summary({ summary, cancelAppointment, cancel }: any) {
+  const dispatch = useDispatch();
+  console.log(summary);
+  const sendData = () => {
+    dispatch({ type: "appointmentPageSlice/appointment", payload: summary });
+  };
   return (
     <section className={styles.summary}>
       <div>
@@ -42,21 +48,26 @@ export default function Summary({ summary, cancelAppointment, cancel }: any) {
         summary?.appointment_status === "cancelled" ||
         cancel || (
           <span className={styles.summaryBtn}>
-            <Button
-              variant="contained"
-              // onClick={() => {
-              //   if (paymentId) {
-              //     debugger;
-              //     console.log(paymentId, "hel");
-              //     handleBook(true);
-              //   } else handleBook(false);
-              // }}
-              className="fw-bold"
-              // disabled={!appointDate || !time ? true : false}
+            <Link
+              href={`/doctors/${summary.doctorId}/reschedule`}
+              onClick={sendData}
             >
-              {/* {loading ? "Loading..." : "Confirm Booking"} */}
-              Reschdule
-            </Button>
+              <Button
+                variant="contained"
+                // onClick={() => {
+                //   if (paymentId) {
+                //     debugger;
+                //     console.log(paymentId, "hel");
+                //     handleBook(true);
+                //   } else handleBook(false);
+                // }}
+                className="fw-bold"
+                // disabled={!appointDate || !time ? true : false}
+              >
+                {/* {loading ? "Loading..." : "Confirm Booking"} */}
+                Reschdule
+              </Button>
+            </Link>
             <Button className={styles.cancelBtn} onClick={cancelAppointment}>
               Cancel Booking
             </Button>

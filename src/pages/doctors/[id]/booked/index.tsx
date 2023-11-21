@@ -54,7 +54,11 @@ export default function Booking() {
             <SkeletonLoader />
           </div>
         ) : (
-          <BookAppointmentPage data={response} />
+          <BookAppointmentPage
+            data={response}
+            appointmentPage={{}}
+            reschedule={false}
+          />
         )}
       </main>
     </>

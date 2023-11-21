@@ -14,18 +14,36 @@ import Image from "next/image";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import moment from "moment";
 import AddressBar from "@/components/AddressBar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import Link from "next/link";
+import Button from "@/components/Button";
+import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
 // links
-let links = [
-  { name: "Home", link: "/" },
-  { name: "Doctors", link: "/doctors" },
-];
 
 // import { useRouter } from "next/navigation";
-export default function BookAppointmentPage({ data }: { data: any }) {
-  // const router = useRouter();
+export default function BookAppointmentPage({
+  data,
+  appointmentPage,
+  reschedule,
+}: {
+  data: any;
+  appointmentPage: any;
+  reschedule: boolean;
+}) {
+  const router = useRouter();
+  console.log(router.query.id);
+
+  let links = [
+    { name: "Home", link: "/" },
+    { name: "Doctors", link: "/doctors" },
+    {
+      name: `Dr. ${data.doctorInfo?.personal_info?.firstName}`,
+      link: `/doctors/${router.query.id}`,
+    },
+    { name: "Schedule", link: `/doctors/${router.query.id}/booked` },
+  ];
+
   const params = useRouter();
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
@@ -43,9 +61,8 @@ export default function BookAppointmentPage({ data }: { data: any }) {
   const [paymentId, setPaymentId] = useState<string>("");
   const [paymentScreen, setPaymentScreen] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const { modalValue, userAuth } = useSelector(
-    (state: any) => state.loginModalReducer
-  );
+  const { userAuth } = useSelector((state: any) => state.loginModalReducer);
+
   const proifileData: {
     appointmentSlotId: string;
     doctorId: string | undefined | string[];
@@ -55,6 +72,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
     doctorId: params.query.id,
     appoint_date: appointDate,
   };
+  // booking appointment
   const bookAppointmentData = () => {
     if (paymentId === "wallet") {
       return {
@@ -72,6 +90,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
       };
     }
   };
+  // logout if token expire function
   const logout = () => {
     axios
       .post(BASE_URL + `/auth/signOut`, {
@@ -88,6 +107,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
         localStorage.removeItem("user");
       });
   };
+  // handle booking appointment
   const handleBookAppoint = (flag: boolean) => {
     console.log(paymentId);
     if (localStorage.getItem("user")) {
@@ -223,7 +243,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
                 });
               }
             } else if (err.response.status === 404) {
-              toast("Slot Is Already In Booking Process..", {
+              toast(err.response.data.response.message, {
                 position: "top-right",
                 autoClose: 2000,
                 hideProgressBar: false,
@@ -267,6 +287,81 @@ export default function BookAppointmentPage({ data }: { data: any }) {
     }
     // console.log(postData);
   };
+  // handle reschedule of appointment
+  const handleRescheduleAppointment = () => {
+    setLoading(true);
+    axios
+      .post(
+        BASE_URL + `/appointment/${appointmentPage.appointmentId}/reschedule`,
+        {
+          appoint_date: appointDate,
+          appointmentSlotId: activeSlot.id,
+          doctorId: router.query.id,
+        },
+        {
+          headers: headers(),
+        }
+      )
+      .then((res) => {
+        setSuccess(true);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.response.data.response.message);
+        setLoading(false);
+        if (err.response.status === 400) {
+          toast(err.response.data.response.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "warning",
+          });
+        } else if (err.response.status === 410) {
+          toast("Your appointment reservation has expired", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "warning",
+          });
+        } else if (err.response.status === 405) {
+          toast("Your session has been expired, kindly sign-in again", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "warning",
+          });
+          logout();
+          dispatch({ type: "loginModalSlice/signIn" });
+        } else if (err.response.status === 404) {
+          toast(err.response.data.response.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "warning",
+          });
+        }
+      });
+  };
   return (
     <section className="container">
       {!success ? (
@@ -295,6 +390,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
               paymentId={paymentId}
               setPaymentId={setPaymentId}
               setMethod={setMethod}
+              navigations={links}
             />
           )}
           <Summary
@@ -306,10 +402,23 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             loading={loading}
             paymentId={paymentId}
             paymentScreen={paymentScreen}
+            reschedule={reschedule}
+            appointmentPage={appointmentPage}
+            handleRescheduleAppointment={handleRescheduleAppointment}
           />
         </div>
       ) : (
         <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
+          {/* <AddressBar links={links} /> */}
+          <Button
+            variant="outlined"
+            onClick={() => setSuccess(false)}
+            className="cardDescription"
+            style={{ alignSelf: "self-start" }}
+          >
+            <FaArrowLeft /> Schedule another appointment
+          </Button>
+
           <Image
             src={successGif.src}
             alt="successGif"
@@ -317,7 +426,7 @@ export default function BookAppointmentPage({ data }: { data: any }) {
             height={200}
           />
           <p style={{ fontSize: 22, color: "#40C175", fontWeight: 700 }}>
-            Booking successful!
+            {reschedule ? "Reschedule Successfully" : "Booking Successful!"}
           </p>
           <h5>
             {moment(appointDate).format("MMMM Do") + " "}{" "}
@@ -334,6 +443,20 @@ export default function BookAppointmentPage({ data }: { data: any }) {
           >
             <Image src={eShaafiApp} alt="download-eshaafi-app" />
           </a>
+          <Link
+            href={
+              reschedule
+                ? `appointments/${appointmentPage.appointmentId}`
+                : `/appointments/${response.appointmentId}`
+            }
+          >
+            <Button variant="outlined">view details</Button>
+          </Link>
+          <Link href={`/appointments`}>
+            <Button>
+              Check Appointments <FaRegListAlt />
+            </Button>
+          </Link>
         </div>
       )}
       <ToastContainer />

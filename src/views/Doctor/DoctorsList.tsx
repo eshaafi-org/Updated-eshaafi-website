@@ -155,7 +155,7 @@ export default function DoctorList({ list }: any) {
         </ul>
         <div className={style.filters + " w-30 "}>
           <div className="bg-main rounded border w-full p-1">
-            <p className="text-dark">Specialization</p>
+            <p style={{ color: "#222" }}>Specialization</p>
             <select
               name=""
               id=""

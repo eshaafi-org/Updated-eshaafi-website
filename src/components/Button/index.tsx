@@ -9,6 +9,7 @@ interface Props {
   onClick?: () => void;
   children?: React.ReactNode;
   disabled?: boolean;
+  style?: any;
 }
 
 export default function Button({
@@ -18,6 +19,7 @@ export default function Button({
   onClick,
   children,
   disabled,
+  style,
 }: Props) {
   return (
     <button
@@ -31,6 +33,7 @@ export default function Button({
       } ${className}`}
       onClick={onClick}
       disabled={disabled}
+      style={style}
     >
       {children}
     </button>
