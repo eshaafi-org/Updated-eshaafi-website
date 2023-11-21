@@ -5,6 +5,10 @@ import Button from "@/components/Button";
 import { useDispatch } from "react-redux";
 export default function Summary({ summary, cancelAppointment, cancel }: any) {
   const dispatch = useDispatch();
+  let currentTimestamp = Date.now();
+
+  // Add 2 hours in milliseconds (2 hours * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second)
+  let newTimestamp = currentTimestamp + 2 * 60 * 60 * 1000;
   console.log(summary);
   const sendData = () => {
     dispatch({ type: "appointmentPageSlice/appointment", payload: summary });
@@ -46,7 +50,8 @@ export default function Summary({ summary, cancelAppointment, cancel }: any) {
       {summary?.appointment_status === "missed" ||
         summary?.appointment_status === "completed" ||
         summary?.appointment_status === "cancelled" ||
-        cancel || (
+        cancel ||
+        newTimestamp > moment(summary?.appoint_date).valueOf() || (
           <span className={styles.summaryBtn}>
             <Link
               href={`/doctors/${summary.doctorId}/reschedule`}
