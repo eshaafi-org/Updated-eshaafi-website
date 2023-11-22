@@ -32,7 +32,6 @@ export default function BookAppointmentPage({
   reschedule: boolean;
 }) {
   const router = useRouter();
-  console.log(router.query.id);
 
   let links = [
     { name: "Home", link: "/" },

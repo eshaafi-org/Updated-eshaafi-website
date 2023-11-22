@@ -70,7 +70,7 @@ export default function Summary({ summary, cancelAppointment, cancel }: any) {
                 // disabled={!appointDate || !time ? true : false}
               >
                 {/* {loading ? "Loading..." : "Confirm Booking"} */}
-                Reschdule
+                Reschedule
               </Button>
             </Link>
             <Button className={styles.cancelBtn} onClick={cancelAppointment}>

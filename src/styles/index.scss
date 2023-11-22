@@ -17,6 +17,8 @@ body {
   font-weight: 400;
   color: $black;
   padding-top: 80px;
+  padding-right: 0 !important;
+  overflow: auto !important;
 }
 // global container
 .container {
