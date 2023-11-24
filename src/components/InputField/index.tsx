@@ -7,6 +7,8 @@ interface inputProps {
   name?: string;
   onChange?: any;
   maxLength?: number;
+  value?: any;
+  required?: boolean;
 }
 export const InputField: React.FC<inputProps> = ({
   className,
@@ -15,6 +17,8 @@ export const InputField: React.FC<inputProps> = ({
   name,
   onChange,
   maxLength,
+  value,
+  required,
 }) => {
   return (
     <input
@@ -24,6 +28,8 @@ export const InputField: React.FC<inputProps> = ({
       name={name}
       onChange={onChange}
       maxLength={maxLength}
+      value={value}
+      required={required}
     />
   );
 };

@@ -5,8 +5,8 @@ import Image from "next/image";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { FaUserCircle } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
-
-import AddProfile from "./AddProfile";
+import { ToastContainer, toast } from "react-toastify";
+import AddProfile from "./AddProfile.jsx";
 
 // reducer for state managements
 const reducer = (state: any, action: any) => {
@@ -24,12 +24,13 @@ const reducer = (state: any, action: any) => {
         profiles: [action.payload.self, ...action.payload.profiles],
       };
     }
-    case "WALLET": {
+    case "SET_PROFILES": {
       return {
         ...state,
-        wallet: !state.wallet,
+        profiles: action.payload,
       };
     }
+
     default: {
       return {
         [action.target.name]: action.target.value,
@@ -47,9 +48,8 @@ export default function Profiles({
   const [states, setStates] = useReducer(reducer, {
     loading: false,
     profiles: [],
-    wallet: false,
   });
-  const { loading, profiles, wallet } = states;
+  const { loading, profiles } = states;
   const getProfiles = () => {
     setStates({ type: "LOADING" });
     axios
@@ -131,9 +131,10 @@ export default function Profiles({
               </label>
             </li>
           ))}
-          <AddProfile />
+          <AddProfile setProfile={setStates} toast={toast} />
         </ul>
       )}
+      <ToastContainer />
     </section>
   );
 }

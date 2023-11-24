@@ -1,4 +1,3 @@
-"use client";
 import style from "@/styles/medicalRecords.module.scss";
 import { useState, useEffect } from "react";
 // import { useEffectOnce } from "react-use";
@@ -41,14 +40,12 @@ export default function MedicalRecord() {
         .get(BASE_URL + `/patients/medicalHistory`, { headers: headers() })
         .then((res) => {
           setRecords(res.data.response.data.Items);
-          console.log(res.data.response.data.Items);
         })
         .catch((error) => console.log(error));
     }
   };
   // delete a single record list
   const deleteSingleListRecord = (id: string, recordId: string) => {
-    console.log(id, recordId);
     axios
       .delete(
         BASE_URL + `/appointment/${"eShaafi"}/shareMedicalRecord/${recordId}`,

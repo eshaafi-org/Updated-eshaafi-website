@@ -61,11 +61,10 @@ const NumberOfAttach = ({ attached }) => {
 };
 // record item
 const RecordItem = ({ item, key, deleteRecord }) => {
-  console.log(item);
   const [show, setShow] = useState(false);
   const [options, setOptions] = useState(false);
   const [edit, setEdit] = useState(false);
-  console.log(item);
+
   const showOptions = () => {
     setOptions(!options);
   };

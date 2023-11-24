@@ -29,12 +29,14 @@ import { createPortal } from "react-dom";
 import { BASE_URL } from "@/helper/CONST";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 // this component will render only in client,
 
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component
 const Header: React.FC<HeaderProps> = ({}) => {
+  const router = useRouter();
   // const uuid = JSON.parse(localStorage.getItem("user"));
   // const [userAuth, setUserAuth] = useState<string | undefined | any>("");
   const [modal, setModal] = useState<boolean>(false);
@@ -90,6 +92,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
       .then((res) => {
         dispatch({ type: "loginModalSlice/clearAuth" });
         localStorage.removeItem("user");
+        router.push("/");
       })
       .catch((err) => {
         dispatch({ type: "loginModalSlice/clearAuth" });
