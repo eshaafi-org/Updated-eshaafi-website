@@ -5,10 +5,11 @@ import Head from "next/head";
 import Profiles from "@/components/Profiles";
 import { PageHeading } from "@/components/Typography/Heading";
 import AddressBar from "@/components/AddressBar";
-import AddRecords from "@/views/MedicalRecords/AddRecords";
+import AddRecords from "@/views/MedicalRecords/AddRecords/index.jsx";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import RecordTable from "@/views/MedicalRecords/MedicalRecords/RecordTable";
+import { ToastContainer, toast } from "react-toastify";
 // linkst
 const links = [
   { name: "Home", link: "/" },
@@ -46,14 +47,34 @@ export default function MedicalRecord() {
   };
   // delete a single record list
   const deleteSingleListRecord = (id: string, recordId: string) => {
+    const separatedArray = id.split("#");
+    console.log(separatedArray);
+
     axios
       .delete(
-        BASE_URL + `/appointment/${"eShaafi"}/shareMedicalRecord/${recordId}`,
+        BASE_URL +
+          `/appointment/${separatedArray[0]}/shareMedicalRecord/${recordId}`,
         {
           headers: headers(),
         }
       )
-      .then((res) => console.log(res))
+      .then((res) => {
+        toast("Deleted record successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+        setRecords((prev: any) =>
+          prev.filter((item: any) => item?.appointmentId !== id)
+        );
+        console.log(res);
+      })
       .catch((err) => console.log(err));
     // setRecords((prev: any) =>
     //   prev.filter((item: any) => item?.appointmentId !== id)
@@ -78,13 +99,20 @@ export default function MedicalRecord() {
               <AddressBar links={links} />
             </div>
             <Profiles patient={patient} setPatient={setPatient} />
-            <AddRecords />
+            <AddRecords
+              patient={patient}
+              getMedicalRecords={getMedicalRecords}
+              toast={toast}
+            />
             <RecordTable
               record={records}
               deleteRecord={deleteSingleListRecord}
+              patient={patient}
+              getMedicalRecords={getMedicalRecords}
             />
           </div>
         </section>
+        <ToastContainer />
       </main>
     </>
   );

@@ -11,16 +11,16 @@ import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
 import inputField from "@/components/InputField/Input.module.scss";
 import { FaXmark } from "react-icons/fa6";
 
-import { FaX, FaChevronLeft } from "react-icons/fa6";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
+// import { FaX, FaChevronLeft } from "react-icons/fa6";
+// import { Formik } from "formik";
+// import * as Yup from "yup";
+// import Link from "next/link";
+// import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import Image from "next/image";
-import { FaCamera } from "react-icons/fa";
+// import { useDispatch } from "react-redux";
+// import { useSelector } from "react-redux";
+// import Image from "next/image";
+// import { FaCamera } from "react-icons/fa";
 
 // reducer
 const reducer = (state, action) => {

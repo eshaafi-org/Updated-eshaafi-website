@@ -4,17 +4,19 @@ import Button from "@/components/Button";
 import { Modal } from "react-bootstrap";
 import style from "@/styles/medicalRecords.module.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import axios from "axios";
+// import axios from "axios";
 import { FaXmark } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
+import toArrayBuffer from "to-array-buffer";
+import axios from "axios";
 
 // import { Button } from '@mui/material'
 // import Modal from '@mui/material/Modal'
 // import { Box } from '@mui/material'
 // import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 // import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import moment from "moment";
-import { BASE_URL, headers } from "@/helper/CONST";
+// import moment from "moment";
+import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
 
 export default function ImageViewer({
   images,
@@ -24,33 +26,117 @@ export default function ImageViewer({
   setShow,
   edit,
   setEdit,
+  recordId,
+  entryId,
+  toast,
+  getMedicalRecords,
 }) {
   const [imagesList, setImagesList] = useState(images);
   const fileInputRef = useRef();
+  const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState("");
   // const [show, setShow] = useState(false);
   const [imgItem, setImgItem] = useState(0);
   const recordLength = images.length - 1;
   const handleClose = () => {
     setShow(false);
-    setEdit(false);
+    if (edit) {
+      setEdit(false);
+      getMedicalRecords();
+    }
   };
   const handleShow = () => setShow(true);
 
   // handle delete record
-  const handleDelete = (id) => {
-    // axios.delete(BASE_URL + `/appointment/${id}`, {
-    //   headers: headers(),
-    // });
-    // alert("h");
-    setImagesList((prev) => prev.filter((itm) => itm !== id));
+  const handleDelete = (imgId) => {
+    let id = entryId.split("#");
+    axios
+      .patch(
+        BASE_URL + `/appointment/${id[0]}/shareMedicalRecord/${recordId}`,
+        {
+          date: "",
+          doctor_name: "",
+          image: imagesList.filter((itm) => itm !== imgId),
+          pdf: [],
+          record_type: "Other",
+        },
+        { headers: headers() }
+      )
+      .then((res) => {
+        setImagesList((prev) => prev.filter((itm) => itm !== imgId));
+        toast("Record updated successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+      })
+      .catch((err) => console.log(err));
   };
   // console.log(images);
   const handleUpload = (e) => {
-    // e.preventDefault();
-    // setShow_del(false);
-    // setDrop(true);
-    // const [file] = e.target.files || e.dataTransfer.files;
-    // uploadFile(file);
+    setLoading(true);
+    let id = entryId.split("#");
+    console.log(id);
+    const [file] = e.target.files || e.dataTransfer.files;
+    // preview img
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    //preview onload function.
+    reader.onload = async () => {
+      // this is the base64 data
+      const fileRes = btoa(reader.result);
+      const base64Image = toArrayBuffer(fileRes);
+      axios
+        .post(`${BASE_URL}/image-upload-api/type/new`, base64Image, {
+          headers: imgheaders(),
+        })
+        .then((response) => {
+          let nextImg = response.data.response.url;
+          setLoading(false);
+          setImagesList((prev) => [...prev, nextImg]);
+          setFile(response.data.response.url);
+          return nextImg;
+        })
+        .then((res) => {
+          axios
+            .patch(
+              BASE_URL + `/appointment/${id[0]}/shareMedicalRecord/${recordId}`,
+              {
+                date: "",
+                doctor_name: "",
+                image: [...imagesList, res],
+                pdf: [],
+                record_type: "Other",
+              },
+              { headers: headers() }
+            )
+            .then((res) => {
+              toast("Record updated successfully", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "success",
+              });
+              console.log(res);
+            })
+            .catch((err) => console.log(err));
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(error);
+        });
+    };
   };
   return (
     <>
@@ -140,6 +226,14 @@ export default function ImageViewer({
                 )}
               </>
             ))}
+            {loading && (
+              <Button className={style.addRecordBtn}>
+                <div
+                  className="spinner-border text-white spinner-border-sm"
+                  role="status"
+                ></div>
+              </Button>
+            )}
             {edit && (
               <Button className={style.addRecordBtn}>
                 <input

@@ -7,7 +7,7 @@ import Button from "@/components/Button";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import Image from "next/image";
 import { useState } from "react";
-
+import { ToastContainer, toast } from "react-toastify";
 // name component
 const NumberOfAttach = ({ attached }) => {
   return (
@@ -60,11 +60,17 @@ const NumberOfAttach = ({ attached }) => {
   );
 };
 // record item
-const RecordItem = ({ item, key, deleteRecord }) => {
+const RecordItem = ({
+  item,
+  key,
+  deleteRecord,
+  patient,
+  getMedicalRecords,
+}) => {
   const [show, setShow] = useState(false);
   const [options, setOptions] = useState(false);
   const [edit, setEdit] = useState(false);
-
+  console.log(item);
   const showOptions = () => {
     setOptions(!options);
   };
@@ -75,9 +81,24 @@ const RecordItem = ({ item, key, deleteRecord }) => {
   };
   // handle Edit
   const handleEdit = () => {
+    // if (patient.patientId) {
     setShow(true);
     setEdit(true);
     setOptions(false);
+    // } else {
+    //   toast("Select the profile first", {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //     type: "warning",
+    //   });
+    //   setOptions(false);
+    // }
   };
   return (
     <li key={key} className={style.recordItem}>
@@ -107,6 +128,10 @@ const RecordItem = ({ item, key, deleteRecord }) => {
         setShow={setShow}
         edit={edit}
         setEdit={setEdit}
+        entryId={item?.appointmentId}
+        recordId={item?.shared_record?.recordId}
+        toast={toast}
+        getMedicalRecords={getMedicalRecords}
       />
       <Button onClick={showOptions}>
         <HiOutlineDotsHorizontal />
@@ -130,15 +155,25 @@ const RecordItem = ({ item, key, deleteRecord }) => {
   );
 };
 // record table
-export default function RecordTable({ record, deleteRecord }) {
-  const [recordList, setRecordList] = useState(record);
+export default function RecordTable({
+  record,
+  deleteRecord,
+  patient,
+  getMedicalRecords,
+}) {
   // const params = useParams();
   return (
     <div className="table-container">
       {record.length > 0 ? (
         <ul className={style.recordContainer}>
           {record.map((itm, key) => (
-            <RecordItem item={itm} key={key} deleteRecord={deleteRecord} />
+            <RecordItem
+              item={itm}
+              key={key}
+              deleteRecord={deleteRecord}
+              patient={patient}
+              getMedicalRecords={getMedicalRecords}
+            />
           ))}
         </ul>
       ) : (
@@ -147,6 +182,7 @@ export default function RecordTable({ record, deleteRecord }) {
           <p>No Records Uploaded</p>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }
