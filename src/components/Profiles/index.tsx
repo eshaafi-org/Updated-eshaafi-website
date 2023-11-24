@@ -65,7 +65,7 @@ export default function Profiles({
     getProfiles();
   }, []);
   return (
-    <section className="d-flex flex-column p-2">
+    <section className={style.profilesContainer}>
       {loading ? (
         <div className="d-flex col-gap-1 mt-4">
           <p className="d-flex flex-column card-text placeholder-glow justify-content-center align-items-start row-gap-1">
@@ -84,7 +84,7 @@ export default function Profiles({
           </p>
         </div>
       ) : (
-        <ul className="w-100 d-flex col-gap-1">
+        <ul className={style.profileList}>
           {profiles.map((itm: any, indx: any) => (
             <li key={indx}>
               <input

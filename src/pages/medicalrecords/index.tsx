@@ -20,8 +20,9 @@ const links = [
 ];
 export default function MedicalRecord() {
   const [patient, setPatient] = useState({ patientId: "" });
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  // geting records
   const getMedicalRecords = () => {
     if (patient.patientId) {
       axios
@@ -45,6 +46,22 @@ export default function MedicalRecord() {
         .catch((error) => console.log(error));
     }
   };
+  // delete a single record list
+  const deleteSingleListRecord = (id: string, recordId: string) => {
+    console.log(id, recordId);
+    axios
+      .delete(
+        BASE_URL + `/appointment/${"eShaafi"}/shareMedicalRecord/${recordId}`,
+        {
+          headers: headers(),
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    // setRecords((prev: any) =>
+    //   prev.filter((item: any) => item?.appointmentId !== id)
+    // );
+  };
   useEffect(() => {
     getMedicalRecords();
   }, [patient]);
@@ -56,17 +73,22 @@ export default function MedicalRecord() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
-      <section className="container">
-        <div className={style.medicalRecordContainer}>
-          <div className="d-flex flex-column row-gap-1">
-            <PageHeading content={"Medical Records"} />
-            <AddressBar links={links} />
+      <main style={{ overflowX: "hidden" }}>
+        <section className="container">
+          <div className={style.medicalRecordContainer}>
+            <div className="d-flex flex-column row-gap-1">
+              <PageHeading content={"Medical Records"} />
+              <AddressBar links={links} />
+            </div>
+            <Profiles patient={patient} setPatient={setPatient} />
+            <AddRecords />
+            <RecordTable
+              record={records}
+              deleteRecord={deleteSingleListRecord}
+            />
           </div>
-          <Profiles patient={patient} setPatient={setPatient} />
-          <AddRecords />
-          <RecordTable record={records} />
-        </div>
-      </section>
+        </section>
+      </main>
     </>
   );
 }

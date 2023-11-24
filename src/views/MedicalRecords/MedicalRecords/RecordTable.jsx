@@ -1,18 +1,19 @@
 // dependencies
-import ImageViewer from "./ViewFile";
+import ImageViewer from "./ImageViewer";
 import moment from "moment";
 import empty from "../../../../public/images/empty.svg";
 import style from "@/styles/medicalRecords.module.scss";
 import Button from "@/components/Button";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import Image from "next/image";
+import { useState } from "react";
 
 // name component
 const NumberOfAttach = ({ attached }) => {
   return (
     <>
       <div
-        className={style.date + " d-flex align-items-center"}
+        className={`${style.attachments} d-flex align-items-center`}
         style={{ columnGap: "5px" }}
       >
         {attached.slice(0, 2).map((item, index) => (
@@ -59,21 +60,42 @@ const NumberOfAttach = ({ attached }) => {
   );
 };
 // record item
-const RecordItem = ({ item, key }) => {
+const RecordItem = ({ item, key, deleteRecord }) => {
   console.log(item);
+  const [show, setShow] = useState(false);
+  const [options, setOptions] = useState(false);
+  const [edit, setEdit] = useState(false);
+  console.log(item);
+  const showOptions = () => {
+    setOptions(!options);
+  };
+  // deleting record
+  const handleDelete = (id, recordId) => {
+    setOptions(false);
+    deleteRecord(id, recordId);
+  };
+  // handle Edit
+  const handleEdit = () => {
+    setShow(true);
+    setEdit(true);
+    setOptions(false);
+  };
   return (
     <li key={key} className={style.recordItem}>
-      <div className={style.date} style={{ color: "#1C6BA4", fontWeight: 600 }}>
+      <div
+        className={`${style.date}`}
+        style={{ color: "#1C6BA4", fontWeight: 600 }}
+      >
         {moment(item.appoint_date).format("D,ddd")}
         <p style={{ color: "#1C6BA4", fontWeight: 400 }}>
           {moment(item.appoint_date).format("MMM,yyy")}
         </p>
       </div>
-      <div className={style.date}>
+      <div className={`${style.profile}`}>
         <p>Profile</p>
         {item?.shared_record?.patient_name}
       </div>
-      <div className={style.date}>
+      <div className={`${style.time}`}>
         <p>Time uploaded</p>
         {moment(item?.shared_record?.date).format("h:mm:a")}
       </div>
@@ -82,22 +104,42 @@ const RecordItem = ({ item, key }) => {
         images={item?.shared_record?.image}
         patientName={item?.shared_record?.patient_name}
         date={item.appoint_date}
+        show={show}
+        setShow={setShow}
+        edit={edit}
+        setEdit={setEdit}
       />
-      <Button>
+      <Button onClick={showOptions}>
         <HiOutlineDotsHorizontal />
       </Button>
+      {options && (
+        <div className={style.optionsDiv + " shadow rounded"}>
+          <div className={style.optionContainer}>
+            <Button onClick={handleEdit}>Edit</Button>
+            <Button
+              style={{ color: "red" }}
+              onClick={() =>
+                handleDelete(item.appointmentId, item?.shared_record?.recordId)
+              }
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+      )}
     </li>
   );
 };
 // record table
-export default function RecordTable({ record }) {
+export default function RecordTable({ record, deleteRecord }) {
+  const [recordList, setRecordList] = useState(record);
   // const params = useParams();
   return (
     <div className="table-container">
       {record.length > 0 ? (
         <ul className={style.recordContainer}>
           {record.map((itm, key) => (
-            <RecordItem item={itm} key={key} />
+            <RecordItem item={itm} key={key} deleteRecord={deleteRecord} />
           ))}
         </ul>
       ) : (
