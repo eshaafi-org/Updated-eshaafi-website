@@ -64,7 +64,7 @@ export default function ImageViewer({
       )
       .then((res) => {
         setImagesList((prev) => prev.filter((itm) => itm !== imgId));
-        toast("Record updated successfully", {
+        toast("Record Deleted Successfully", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -101,6 +101,7 @@ export default function ImageViewer({
           setLoading(false);
           setImagesList((prev) => [...prev, nextImg]);
           setFile(response.data.response.url);
+          fileInputRef.current.value = "";
           return nextImg;
         })
         .then((res) => {
@@ -242,7 +243,6 @@ export default function ImageViewer({
                 <input
                   type="file"
                   className={style.uploadingFile}
-                  // hidden
                   ref={fileInputRef}
                   accept=".jpg, .jpeg, .png, .webp"
                   onChange={(e) => handleUpload(e)}
