@@ -244,6 +244,7 @@ export default function ImageViewer({
                   className={style.uploadingFile}
                   // hidden
                   ref={fileInputRef}
+                  accept=".jpg, .jpeg, .png, .webp"
                   onChange={(e) => handleUpload(e)}
                 />
                 <MdAddToPhotos style={{ fontSize: "1.5rem" }} />

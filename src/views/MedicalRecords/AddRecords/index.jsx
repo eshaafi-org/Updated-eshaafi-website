@@ -145,7 +145,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
                 // hidden
                 ref={fileInputRef}
                 onChange={(e) => handleUpload(e)}
-                accept=".jpg, .jpeg, .png"
+                accept=".jpg, .jpeg, .png, .webp"
               />
               {loading ? (
                 <div
