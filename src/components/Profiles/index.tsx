@@ -93,12 +93,25 @@ export default function Profiles({
                 name="profile"
                 id={itm.profileId}
                 value={itm.profileId}
-                onChange={(e) =>
-                  setPatient({
-                    patientId: e.target.value,
-                    patientName: itm.name,
-                  })
-                }
+                // onChange={(e) =>
+                //   setPatient({
+                //     patientId: e.target.value,
+                //     patientName: itm.name,
+                //   })
+                // }
+                onClick={(e: any) => {
+                  if (patient.patientId === e.target.value) {
+                    setPatient({
+                      patientId: "",
+                      patientName: "",
+                    });
+                  } else {
+                    setPatient({
+                      patientId: e.target.value,
+                      patientName: itm.name,
+                    });
+                  }
+                }}
               />
               <label
                 className={`${

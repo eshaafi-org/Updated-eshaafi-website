@@ -59,7 +59,7 @@ export default function MedicalRecord() {
         }
       )
       .then((res) => {
-        toast("Deleted record successfully", {
+        toast("Record Deleted Successfully", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
