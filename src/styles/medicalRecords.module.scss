@@ -51,6 +51,9 @@
     p {
       font-size: 12px;
     }
+    @include large-mobile-and-below {
+      height: 50px;
+    }
   }
   @include above-tablet-large {
     grid-template-columns: repeat(6, 1fr);
@@ -72,9 +75,6 @@
 .attachments {
   display: flex;
   align-items: center;
-  @include large-mobile-and-below {
-    display: none;
-  }
 }
 // options styling
 .optionsDiv {
@@ -97,6 +97,12 @@
 }
 
 .time {
+  display: none;
+  @include above-tablet-large {
+    display: block;
+  }
+}
+.date {
   display: none;
   @include above-tablet-large {
     display: block;

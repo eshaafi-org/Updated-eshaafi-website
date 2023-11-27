@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "@/components/Button";
 import { Modal } from "react-bootstrap";
 import style from "@/styles/medicalRecords.module.scss";
@@ -9,7 +9,6 @@ import { FaXmark } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
 import toArrayBuffer from "to-array-buffer";
 import axios from "axios";
-import { useEffectOnce } from "react-use";
 // import { Button } from '@mui/material'
 // import Modal from '@mui/material/Modal'
 // import { Box } from '@mui/material'
@@ -139,9 +138,9 @@ export default function ImageViewer({
         });
     };
   };
-  useEffectOnce(() => {
+  useEffect(() => {
     setImagesList(images);
-  });
+  }, []);
   return (
     <>
       <Button
