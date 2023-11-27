@@ -136,7 +136,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
               height={90}
             />
             <p className=" fw-bold text-dark">Drop Your Image Here</p>
-            <p>Files Supported: PNG, JPG, PDF and </p>
+            <p>Files Supported: PNG, JPG, and PDF </p>
             <p className=" fw-bold text-dark">or</p>
             <Button variant="outlined" style={{ position: "relative" }}>
               <input
@@ -194,7 +194,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
                     role="status"
                   ></div>
                 ) : (
-                  "Uoload Records"
+                  "Upload Records"
                 )}
               </Button>
               <Button className="text-danger" onClick={handleClose}>

@@ -9,7 +9,7 @@ import { FaXmark } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
 import toArrayBuffer from "to-array-buffer";
 import axios from "axios";
-
+import { useEffectOnce } from "react-use";
 // import { Button } from '@mui/material'
 // import Modal from '@mui/material/Modal'
 // import { Box } from '@mui/material'
@@ -138,6 +138,9 @@ export default function ImageViewer({
         });
     };
   };
+  useEffectOnce(() => {
+    setImagesList(images);
+  });
   return (
     <>
       <Button

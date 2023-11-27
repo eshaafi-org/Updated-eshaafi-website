@@ -99,7 +99,7 @@ const RecordItem = ({
       </div>
       <div className={`${style.time}`}>
         <p>Time uploaded</p>
-        {moment(item?.shared_record?.date).format("h:mm:a")}
+        {moment(item?.shared_record?.date).format("h:mm a")}
       </div>
       <NumberOfAttach attached={item?.shared_record?.image} />
       <ImageViewer
