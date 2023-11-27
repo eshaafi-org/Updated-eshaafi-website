@@ -103,7 +103,7 @@ export default function Profiles({
               <label
                 className={`${
                   style.labelrdioclassProfile
-                } d-flex flex-column justify-content-center align-items-center ${
+                } d-flex flex-column justify-content-center align-items-center text-center ${
                   patient?.patientId === itm.profileId
                     ? style.labelActiveProfile
                     : ""

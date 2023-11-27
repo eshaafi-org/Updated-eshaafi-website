@@ -91,7 +91,7 @@ export default function MedicalRecord() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
-      <main style={{ overflowX: "hidden" }}>
+      <main>
         <section className="container">
           <div className={style.medicalRecordContainer}>
             <div className="d-flex flex-column row-gap-1">
@@ -110,9 +110,9 @@ export default function MedicalRecord() {
               patient={patient}
               getMedicalRecords={getMedicalRecords}
             />
+            <ToastContainer />
           </div>
         </section>
-        <ToastContainer />
       </main>
     </>
   );

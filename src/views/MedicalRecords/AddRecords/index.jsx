@@ -110,7 +110,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
   };
   return (
     <>
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between align-items-center">
         <SectionHeading content={"Uploaded Records"} />
         <Button onClick={handleShow} className={style.addRecordsBtn}>
           <HiOutlinePlus />

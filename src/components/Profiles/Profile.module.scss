@@ -65,19 +65,20 @@
 .profilesContainer {
   width: 100%;
   overflow-x: hidden;
-  // display: flex;
-  // overflow-x: auto;
 }
 .profileList {
-  // width: 100% !important;
+  position: relative;
+  width: 100% !important;
   display: flex;
   column-gap: 1rem;
   overflow-x: scroll;
-  white-space: nowrap;
-  @include above-tablet-large {
-    overflow-x: auto;
-  }
+  align-items: self-start;
+  // @include above-tablet-large {
+  // }
 }
+// .profileList::-webkit-scrollbar {
+//   width: 6px !important;
+// }
 // add profile modal container
 .addProfileModalContainer {
   display: flex;

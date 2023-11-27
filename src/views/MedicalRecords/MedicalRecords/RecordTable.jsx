@@ -12,10 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 const NumberOfAttach = ({ attached }) => {
   return (
     <>
-      <div
-        className={`${style.attachments} d-flex align-items-center`}
-        style={{ columnGap: "5px" }}
-      >
+      <div className={`${style.attachments}`} style={{ columnGap: "5px" }}>
         {attached.slice(0, 2).map((item, index) => (
           <span key={index} className={index === 1 ? "lastAttach" : " "}>
             <img src={item} alt="" className={"attachments"} />
@@ -81,24 +78,9 @@ const RecordItem = ({
   };
   // handle Edit
   const handleEdit = () => {
-    // if (patient.patientId) {
     setShow(true);
     setEdit(true);
     setOptions(false);
-    // } else {
-    //   toast("Select the profile first", {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //     type: "warning",
-    //   });
-    //   setOptions(false);
-    // }
   };
   return (
     <li key={key} className={style.recordItem}>

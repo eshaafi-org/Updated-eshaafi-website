@@ -468,21 +468,19 @@ p {
 .self-start {
   align-self: self-start;
 }
+/* Scrollbar Styling */
 // ::-webkit-scrollbar {
-//   width: 5px;
+//   width: 7px;
 // }
-
-// /* Track */
+// //
 // ::-webkit-scrollbar-track {
-//   background: #f1f1f1;
+//   background-color: #ebebeb;
+//   -webkit-border-radius: 10px;
+//   border-radius: 10px;
 // }
-
-// /* Handle */
+// //
 // ::-webkit-scrollbar-thumb {
-//   background: #888;
-// }
-
-// /* Handle on hover */
-// ::-webkit-scrollbar-thumb:hover {
-//   background: #555;
+//   -webkit-border-radius: 10px;
+//   border-radius: 10px;
+//   background: #ccc;
 // }

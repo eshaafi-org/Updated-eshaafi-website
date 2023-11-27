@@ -82,7 +82,11 @@ export default function PaymentMethod({
       {/* slot timer  */}
       <SlotTimer />
       {/* profiel selection */}
-      <section className="border rounded d-flex flex-column p-2">
+      <section
+        className={
+          style.profilesContainer + " border rounded d-flex flex-column p-2"
+        }
+      >
         <p>Booking For</p>
         {loading ? (
           <p className="card-text placeholder-glow">
