@@ -22,8 +22,10 @@ export default function Timer({ appointment }: any) {
     } else setCall(false);
   };
   useEffect(() => {
-    const interval = setInterval(() => getTime(), 1000);
-    return () => clearInterval(interval);
+    if (appointment?.appoint_date) {
+      const interval = setInterval(() => getTime(), 1000);
+      return () => clearInterval(interval);
+    }
   }, [appointment]);
 
   return (

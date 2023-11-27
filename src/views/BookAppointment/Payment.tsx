@@ -6,6 +6,7 @@ import SlotTimer from "./SlotTimer";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { FaUserCircle } from "react-icons/fa";
+import AddressBar from "@/components/AddressBar";
 // reducer
 const reducer = (state: any, action: any) => {
   switch (action.type) {
@@ -42,6 +43,7 @@ export default function PaymentMethod({
   paymentId,
   setPaymentId,
   setMethod,
+  navigations,
 }: {
   patient: any;
   setPatient: any;
@@ -49,6 +51,7 @@ export default function PaymentMethod({
   paymentId: string;
   setPaymentId: any;
   setMethod: any;
+  navigations: any;
 }) {
   // states
   const [states, setStates] = useReducer(reducer, {
@@ -75,10 +78,15 @@ export default function PaymentMethod({
   return (
     <section className={style.paymentContainer}>
       <h2 className="pageSubHeading">Select Payment Method</h2>
+      <AddressBar links={navigations} />
       {/* slot timer  */}
       <SlotTimer />
       {/* profiel selection */}
-      <section className="border rounded d-flex flex-column p-2">
+      <section
+        className={
+          style.profilesContainer + " border rounded d-flex flex-column p-2"
+        }
+      >
         <p>Booking For</p>
         {loading ? (
           <p className="card-text placeholder-glow">
@@ -137,7 +145,6 @@ export default function PaymentMethod({
       <section className=" d-flex flex-column row-gap-1">
         <span className="d-flex justify-content-between flex-column row-gap-1">
           <h3 className="text-dark">Payment Method </h3>
-
           <span className="d-flex align-items-center justify-content-end col-gap-1">
             <p>Use Wallet Balance</p>
             <div

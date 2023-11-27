@@ -13,6 +13,7 @@ export default function DoctorList({ list }: any) {
   const [filters, setFilters] = useState({
     search: "",
   });
+  const [docType, setDocType] = useState("General Physician");
   // // const [list, setListing] = useState([]);
   // const [loading, setLoading] = useState({});
   // getDoctors
@@ -38,7 +39,33 @@ export default function DoctorList({ list }: any) {
   }, [filters.search]);
   return (
     <section className="container border-bottom ">
-      <h2>Book video consultation with the best doctors</h2>
+      <h2 className={"mb-2"}>Book video consultation with the best doctors</h2>
+      <div className={style.chips}>
+        <div className="chip-group" role="radiogroup">
+          {/* <div
+            className="chip chip-checkbox"
+            aria-labelledby="radioTwoLabel"
+            tabIndex={0}
+            role="radio"
+            aria-checked="false"
+            onClick={() => setFilters({ search: "All" })}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="radioTwoLabel">All</span>
+          </div> */}
+          <div
+            className="chip chip-checkbox"
+            aria-labelledby="radioOneLabel"
+            tabIndex={0}
+            role="radio"
+            aria-checked="false"
+            onClick={() => setFilters({ search: "General Physician" })}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="radioOneLabel">General Physician</span>
+          </div>
+        </div>
+      </div>
       <div className="d-flex col-gap-1 align-items-star mt-5 sm-mt-1">
         <ul className={style.docList}>
           {docListing.map((itm: any, indx: string) => (
@@ -128,15 +155,17 @@ export default function DoctorList({ list }: any) {
         </ul>
         <div className={style.filters + " w-30 "}>
           <div className="bg-main rounded border w-full p-1">
-            <p className="text-dark">Specialization</p>
+            <p style={{ color: "#222" }}>Specialization</p>
             <select
               name=""
               id=""
               className={style.selectFilter}
               onChange={(e) => setFilters({ search: e.target.value })}
             >
-              <option value="">Specialization</option>
-              <option value="all">All</option>
+              <option value="" disabled>
+                Specialization
+              </option>
+              {/* <option value="all">All</option> */}
               <option value="General Physician" selected>
                 General Physician
               </option>

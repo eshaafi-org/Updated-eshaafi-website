@@ -2,8 +2,8 @@ import { FaStar } from "react-icons/fa6";
 import Image from "next/image";
 import style from "../../../styles/doctors.module.scss";
 import styles from "../../../styles/appointments.module.scss";
-export default function DoctorCard({ doctor }: any) {
-  console.log(doctor);
+export default function DoctorCard({ doctor, cancel }: any) {
+  // console.log(doctor);
   return (
     <div className="d-flex flex-column row-gap-2 border-bottom pb-4 w-100">
       <div className="d-flex justify-content-between align-items-start">
@@ -23,8 +23,9 @@ export default function DoctorCard({ doctor }: any) {
           </div>
           <span className="d-flex flex-column" style={{ rowGap: "0.2rem" }}>
             <h5 className={style.docTitle}>
-              {doctor?.doctorInfo?.firstName} &nbsp;
-              {doctor?.doctorInfo?.lastName}
+              {/* {doctor?.doctorInfo?.firstName} &nbsp;
+              {doctor?.doctorInfo?.lastName} */}
+              {doctor?.doctorInfo?.name}
             </h5>
             <p className={style.docSpecialization}>
               {doctor?.doctorInfo?.specialization}
@@ -45,14 +46,14 @@ export default function DoctorCard({ doctor }: any) {
           <p
             className={`
                   ${
-                    doctor?.appointment_status === "missed"
+                    doctor?.appointment_status === "cancelled" || cancel
+                      ? styles.statusCancelled
+                      : doctor?.appointment_status === "missed"
                       ? styles.statusMissed
                       : doctor?.appointment_status === "booked"
                       ? styles.statusBooked
                       : doctor?.appointment_status === "completed"
                       ? styles.statusCompleted
-                      : doctor?.appointment_status === "cancelled"
-                      ? styles.statusCancelled
                       : doctor?.appointment_status === "reschedule"
                       ? styles.statusReschedule
                       : doctor?.appointment_status === "unattended"
@@ -60,7 +61,9 @@ export default function DoctorCard({ doctor }: any) {
                       : styles.statusInprogress
                   } text-capitalize`}
           >
-            {doctor?.appointment_status === "booked"
+            {cancel
+              ? "Cancelled"
+              : doctor?.appointment_status === "booked"
               ? "Upcoming"
               : doctor?.appointment_status}
           </p>

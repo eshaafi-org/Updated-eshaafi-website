@@ -1,0 +1,156 @@
+@import "../../styles/mixin";
+@import "../../styles/variables";
+.btnCheck {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+.labelrdioclassProfile {
+  display: block;
+  background: #ffffff;
+  border-radius: 8px;
+  margin: 4px;
+  cursor: pointer;
+}
+.labelrdioclassProfile:hover {
+  color: #009b94;
+}
+.paymentProfileImage,
+.profileIcon {
+  width: 60px;
+  height: 60px;
+}
+.labelActiveProfile {
+  color: #009b94;
+  background: rgba(0, 155, 148, 0.08);
+  border-radius: 8px;
+  // border-top-left-radius: 50px;
+  // border-top-right-radius: 50px;
+  padding: 0.2rem;
+  position: relative;
+  img {
+    border: 3px solid #009b94;
+  }
+
+  span {
+    font-weight: 500;
+  }
+  .icon {
+    color: #fff;
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    border-radius: 50px;
+    background-color: #009b94;
+    font-size: 20px !important;
+    padding: 0.2rem;
+  }
+}
+// add profile btn
+.addProfileBtn {
+  font-size: 2.5rem !important;
+  color: #009b94 !important;
+  width: 60px;
+  height: 60px;
+  background-color: #f6f6f6 !important;
+  border-radius: 50% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: #009b94 !important;
+    color: #fff !important;
+  }
+}
+.profilesContainer {
+  width: 100%;
+  overflow-x: hidden;
+}
+.profileList {
+  position: relative;
+  width: 100% !important;
+  display: flex;
+  column-gap: 1rem;
+  overflow-x: scroll;
+  align-items: self-start;
+  // @include above-tablet-large {
+  // }
+}
+// .profileList::-webkit-scrollbar {
+//   width: 6px !important;
+// }
+// add profile modal container
+.addProfileModalContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.5rem;
+}
+// profile form
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  row-gap: 1.5rem;
+}
+// profile Image
+.profileImage {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+  align-self: center;
+  position: relative;
+  .uploadImage {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    background-color: #009b94;
+    padding: 0rem !important;
+    cursor: pointer;
+    input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .icon {
+      color: #fff;
+    }
+    &:hover {
+      background-color: #009b94;
+    }
+  }
+  .profileImg {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+  }
+}
+.selectOpt {
+  border: 1px solid #79747e;
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  background: none;
+  &:hover {
+    border: 1px solid $primary-clr;
+  }
+  &:focus-visible {
+    border: 1px solid $primary-clr;
+    outline: 1px solid $primary-clr;
+  }
+  option {
+    border: 1px solid #79747e;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+}

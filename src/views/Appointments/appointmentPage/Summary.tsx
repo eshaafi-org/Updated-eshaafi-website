@@ -1,8 +1,18 @@
 import styles from "../../../styles/appointments.module.scss";
-
+import Link from "next/link";
 import moment from "moment";
 import Button from "@/components/Button";
-export default function Summary({ summary, cancelAppointment }: any) {
+import { useDispatch } from "react-redux";
+export default function Summary({ summary, cancelAppointment, cancel }: any) {
+  const dispatch = useDispatch();
+  let currentTimestamp = Date.now();
+
+  // Add 2 hours in milliseconds (2 hours * 60 minutes/hour * 60 seconds/minute * 1000 milliseconds/second)
+  let newTimestamp = currentTimestamp + 2 * 60 * 60 * 1000;
+  console.log(summary);
+  const sendData = () => {
+    dispatch({ type: "appointmentPageSlice/appointment", payload: summary });
+  };
   return (
     <section className={styles.summary}>
       <div>
@@ -39,23 +49,30 @@ export default function Summary({ summary, cancelAppointment }: any) {
       </p>
       {summary?.appointment_status === "missed" ||
         summary?.appointment_status === "completed" ||
-        summary?.appointment_status === "cancelled" || (
+        summary?.appointment_status === "cancelled" ||
+        cancel ||
+        newTimestamp > moment(summary?.appoint_date).valueOf() || (
           <span className={styles.summaryBtn}>
-            <Button
-              variant="contained"
-              // onClick={() => {
-              //   if (paymentId) {
-              //     debugger;
-              //     console.log(paymentId, "hel");
-              //     handleBook(true);
-              //   } else handleBook(false);
-              // }}
-              className="fw-bold"
-              // disabled={!appointDate || !time ? true : false}
+            <Link
+              href={`/doctors/${summary.doctorId}/reschedule`}
+              onClick={sendData}
             >
-              {/* {loading ? "Loading..." : "Confirm Booking"} */}
-              Reschdule
-            </Button>
+              <Button
+                variant="contained"
+                // onClick={() => {
+                //   if (paymentId) {
+                //     debugger;
+                //     console.log(paymentId, "hel");
+                //     handleBook(true);
+                //   } else handleBook(false);
+                // }}
+                className="fw-bold"
+                // disabled={!appointDate || !time ? true : false}
+              >
+                {/* {loading ? "Loading..." : "Confirm Booking"} */}
+                Reschedule
+              </Button>
+            </Link>
             <Button className={styles.cancelBtn} onClick={cancelAppointment}>
               Cancel Booking
             </Button>

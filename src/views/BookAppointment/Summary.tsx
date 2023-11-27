@@ -10,6 +10,9 @@ export default function Summary({
   loading,
   paymentId,
   paymentScreen,
+  reschedule,
+  appointmentPage,
+  handleRescheduleAppointment,
 }: {
   doc: any;
   appointDate: any;
@@ -19,6 +22,9 @@ export default function Summary({
   loading: boolean;
   paymentId: string;
   paymentScreen: boolean;
+  reschedule: boolean;
+  appointmentPage: any;
+  handleRescheduleAppointment: any;
 }) {
   return (
     <section className={styles.summary}>
@@ -41,7 +47,11 @@ export default function Summary({
         </tr>
         <tr>
           <th>Payment Method</th>
-          <td>{method}</td>
+          <td className="text-capitalize">
+            {appointmentPage?.paymentMethod
+              ? appointmentPage.paymentMethod
+              : method}
+          </td>
         </tr>
       </table>
       <p className={styles.reviewTotalText}>
@@ -56,12 +66,16 @@ export default function Summary({
       <Button
         variant="contained"
         onClick={() => {
-          handleBook(paymentScreen);
+          if (reschedule) {
+            handleRescheduleAppointment();
+          } else {
+            handleBook(paymentScreen);
+          }
         }}
         className="font-bold"
         disabled={!appointDate || !time ? true : false}
       >
-        {loading ? "Loading..." : "Confirm Booking"}
+        {loading ? "Loading..." : reschedule ? "Schedule" : "Confirm Booking"}
       </Button>
     </section>
   );
