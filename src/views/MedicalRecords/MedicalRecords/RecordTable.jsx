@@ -115,7 +115,7 @@ const RecordItem = ({
         toast={toast}
         getMedicalRecords={getMedicalRecords}
       />
-      <Button onClick={showOptions}>
+      <Button onClick={showOptions} className={options ? style.editActive : ""}>
         <HiOutlineDotsHorizontal />
       </Button>
       {options && (
