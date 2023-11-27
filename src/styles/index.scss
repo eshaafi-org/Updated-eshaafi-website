@@ -17,6 +17,8 @@ body {
   font-weight: 400;
   color: $black;
   padding-top: 80px;
+  padding-right: 0 !important;
+  overflow: auto !important;
 }
 // global container
 .container {
@@ -114,13 +116,16 @@ p {
   color: #fff;
   font-weight: 500;
   border: 1px solid rgba(var(--primary-clr), 0.6);
-  padding: 5px 12px;
+  padding: 5px 9px;
   border-radius: 7px;
   margin-top: 0.5rem;
   @include above-tablet {
     padding: 10px 24px;
     border-radius: 7px;
     font-size: 1rem;
+  }
+  @include for-medium-mobile-only {
+    padding: 5px 12px;
   }
   @include for-mobile-landscap-to-tablet-portrait-only {
     padding: 6px 15px;
@@ -214,19 +219,19 @@ p {
 }
 // // card Description
 .cardDescription {
-  font-size: 11px;
+  font-size: 11px !important;
   line-height: unset;
   @include above-tablet {
-    font-size: 16px;
+    font-size: 16px !important;
   }
   @include for-mobile-landscap-to-tablet-portrait-only {
-    font-size: 14px;
+    font-size: 14px !important;
   }
   @include for-large-mobile-only {
-    font-size: 13px;
+    font-size: 13px !important;
   }
   @include for-medium-mobile-only {
-    font-size: 12px;
+    font-size: 12px !important;
   }
 }
 .text-main {
@@ -463,3 +468,19 @@ p {
 .self-start {
   align-self: self-start;
 }
+/* Scrollbar Styling */
+// ::-webkit-scrollbar {
+//   width: 7px;
+// }
+// //
+// ::-webkit-scrollbar-track {
+//   background-color: #ebebeb;
+//   -webkit-border-radius: 10px;
+//   border-radius: 10px;
+// }
+// //
+// ::-webkit-scrollbar-thumb {
+//   -webkit-border-radius: 10px;
+//   border-radius: 10px;
+//   background: #ccc;
+// }

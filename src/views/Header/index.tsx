@@ -18,6 +18,7 @@ import {
   FaBell,
   FaUser,
   FaRegCalendarCheck,
+  FaFileMedical,
 } from "react-icons/fa6";
 import { GoTriangleDown } from "react-icons/go";
 import { FiLogOut } from "react-icons/fi";
@@ -28,12 +29,14 @@ import { createPortal } from "react-dom";
 import { BASE_URL } from "@/helper/CONST";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 // this component will render only in client,
 
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component
 const Header: React.FC<HeaderProps> = ({}) => {
+  const router = useRouter();
   // const uuid = JSON.parse(localStorage.getItem("user"));
   // const [userAuth, setUserAuth] = useState<string | undefined | any>("");
   const [modal, setModal] = useState<boolean>(false);
@@ -89,6 +92,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
       .then((res) => {
         dispatch({ type: "loginModalSlice/clearAuth" });
         localStorage.removeItem("user");
+        router.push("/");
       })
       .catch((err) => {
         dispatch({ type: "loginModalSlice/clearAuth" });
@@ -256,10 +260,15 @@ const Header: React.FC<HeaderProps> = ({}) => {
                           </li>
                           <li className="p-1">
                             <Link href={"/"}>E-prescription</Link>
-                          </li>
-                          <li className="p-1">
-                            <Link href={"/"}>Medical Records</Link>
-                          </li> */}
+                          </li>*/}
+                            <li className="p-1">
+                              <Link
+                                href={"/medicalrecords"}
+                                className="w-100 d-flex"
+                              >
+                                Medical Records
+                              </Link>
+                            </li>
                             <li className="p-2">
                               <Link
                                 href={"/privacy-policy"}
@@ -445,6 +454,14 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         <Button className="d-flex col-gap-1 align-items-center">
                           <FaRegCalendarCheck style={{ fontSize: 20 }} />
                           <span className="text-main">Appointments</span>
+                        </Button>
+                      </Link>
+                    </li>
+                    <li className={`p-1 border-bottom`}>
+                      <Link href={"/medicalrecords"} onClick={handleClose}>
+                        <Button className="d-flex col-gap-1 align-items-center">
+                          <FaFileMedical style={{ fontSize: 20 }} />
+                          <span className="text-main">Medical Records</span>
                         </Button>
                       </Link>
                     </li>

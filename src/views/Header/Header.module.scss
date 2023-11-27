@@ -129,15 +129,6 @@
       height: 100%;
       border-radius: 0;
     }
-    // min-width: 400px;
-    // padding: 0 1rem;
-
-    // @include above-tablet {
-    //   width: 100%;
-    //   height: 100%;
-    //   border-radius: unset;
-    //   padding: unset;
-    // }
   }
 }
 .otpField {
@@ -264,4 +255,7 @@
     justify-content: center;
     align-items: self-start;
   }
+}
+.dobField {
+  min-width: 95%;
 }

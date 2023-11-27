@@ -21,7 +21,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/contextAPI/index.js"
+    "src/contextAPI/index.js",
+    "src/components/Profiles/AddProfile.jsx",
+    "src/views/MedicalRecords/AddRecords/index.jsx"
   ],
   "exclude": ["node_modules"]
 }
