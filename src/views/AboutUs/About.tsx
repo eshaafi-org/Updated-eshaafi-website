@@ -1,4 +1,32 @@
 import style from "@/styles/aboutus.module.scss";
+import aboutEshaafi from "../../../public/images/aboutEshaafi.png";
+import Image from "next/image";
 export default function About() {
-  return <div>about</div>;
+  return (
+    <div className="container">
+      <div className={style.aboutContainer}>
+        <div className={style.aboutDetails}>
+          <h3>About eShaafi</h3>
+          <h2>Our Story</h2>
+          <p className="cardDescription">
+            Guided by our unwavering commitment to 'Care That Never Quits,'
+            eShaafi stands tall as your beacon of quality healthcare. In our
+            hearts burns the belief that every soul in Pakistan deserves the
+            finest care.
+          </p>
+          <p className="cardDescription">
+            With this noble vision, we forge ahead, crafting a user-friendly
+            telemedicine app that unites patients with doctors – seamlessly, at
+            any moment, and from every corner.
+          </p>
+        </div>
+        <div className={style.aboutCover}>
+          <Image
+            src={aboutEshaafi}
+            alt="About-eshaafi-video-consultation-with-doctor"
+          />
+        </div>
+      </div>
+    </div>
+  );
 }

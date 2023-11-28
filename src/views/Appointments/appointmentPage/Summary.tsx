@@ -50,6 +50,7 @@ export default function Summary({ summary, cancelAppointment, cancel }: any) {
       {summary?.appointment_status === "missed" ||
         summary?.appointment_status === "completed" ||
         summary?.appointment_status === "cancelled" ||
+        summary?.appointment_status === "reschedule" ||
         cancel ||
         newTimestamp > moment(summary?.appoint_date).valueOf() || (
           <span className={styles.summaryBtn}>
