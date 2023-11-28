@@ -242,3 +242,17 @@
   left: 0;
   z-index: 1;
 }
+.activeImg {
+  border: 3px solid #0e5487;
+  border-radius: 5px;
+}
+.attachments {
+  background: #eee;
+  height: 40px;
+  width: 30px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px !important;
+}
