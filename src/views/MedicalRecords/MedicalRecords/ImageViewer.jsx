@@ -4,18 +4,12 @@ import Button from "@/components/Button";
 import { Modal } from "react-bootstrap";
 import style from "@/styles/medicalRecords.module.scss";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-// import axios from "axios";
 import { FaXmark } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
 import toArrayBuffer from "to-array-buffer";
 import axios from "axios";
-// import { Button } from '@mui/material'
-// import Modal from '@mui/material/Modal'
-// import { Box } from '@mui/material'
-// import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
-// import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-// import moment from "moment";
 import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
+import Image from "next/image";
 
 export default function ImageViewer({
   images,
@@ -169,10 +163,12 @@ export default function ImageViewer({
             <IoIosArrowBack />
           </Button>
           <div className={style.imageContainer}>
-            <img
+            <Image
               src={imagesList[imgItem]}
               alt=""
               className={style.viewingImage}
+              width={800}
+              height={800}
             />
           </div>
           <Button
@@ -191,7 +187,7 @@ export default function ImageViewer({
               <>
                 {edit ? (
                   <div className={style.editImageDiv}>
-                    <img
+                    <Image
                       onClick={() => setImgItem(index)}
                       key={index}
                       src={item}
@@ -199,9 +195,10 @@ export default function ImageViewer({
                       style={{
                         width: "100%",
                         height: "100%",
-
                         cursor: "pointer",
                       }}
+                      width={100}
+                      height={100}
                     />
                     {imagesList.length > 1 && (
                       <Button
@@ -213,10 +210,10 @@ export default function ImageViewer({
                     )}
                   </div>
                 ) : (
-                  <img
+                  <Image
                     onClick={() => setImgItem(index)}
                     key={index}
-                    className={index === imgItem ? "active-image" : ""}
+                    className={index === imgItem ? style.activeImg : ""}
                     src={item}
                     alt=""
                     style={{
@@ -225,6 +222,8 @@ export default function ImageViewer({
                       margin: "5px",
                       cursor: "pointer",
                     }}
+                    width={500}
+                    height={300}
                   />
                 )}
               </>
