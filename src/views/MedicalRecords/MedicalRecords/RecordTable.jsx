@@ -15,7 +15,13 @@ const NumberOfAttach = ({ attached }) => {
       <div className={`${style.attachments}`} style={{ columnGap: "5px" }}>
         {attached.slice(0, 2).map((item, index) => (
           <span key={index} className={index === 1 ? "lastAttach" : " "}>
-            <img src={item} alt="" className={"attachments"} />
+            <Image
+              src={item}
+              alt="attachments"
+              width={30}
+              height={40}
+              style={{ borderRadius: 7 }}
+            />
             {index === 1 && attached.length > 2 && (
               <p className="m-0 ms-1 attach-length" style={{ fontSize: 16 }}>
                 +{attached.slice(2).length}
