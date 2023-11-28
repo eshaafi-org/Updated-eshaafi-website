@@ -10,7 +10,7 @@ import toArrayBuffer from "to-array-buffer";
 import axios from "axios";
 import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
 import Image from "next/image";
-
+// image viewer
 export default function ImageViewer({
   images,
   patientName,
@@ -38,8 +38,8 @@ export default function ImageViewer({
       getMedicalRecords();
     }
   };
+  // handle show
   const handleShow = () => setShow(true);
-
   // handle delete record
   const handleDelete = (imgId) => {
     let id = entryId.split("#");
@@ -132,6 +132,7 @@ export default function ImageViewer({
         });
     };
   };
+  // updating records
   useEffect(() => {
     setImagesList(images);
   }, [images]);

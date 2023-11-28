@@ -20,7 +20,7 @@ const NumberOfAttach = ({ attached }) => {
               alt="attachments"
               width={30}
               height={40}
-              style={{ borderRadius: 7 }}
+              className={style.attachments}
             />
             {index === 1 && attached.length > 2 && (
               <p className="m-0 ms-1 attach-length" style={{ fontSize: 16 }}>
@@ -31,15 +31,6 @@ const NumberOfAttach = ({ attached }) => {
         ))}
       </div>
       <style jsx="true">{`
-        .attachments {
-          background: #eee;
-          height: 40px;
-          width: 30px;
-          border-radius: 5px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
         .lastAttach {
           display: flex;
           align-items: center;
