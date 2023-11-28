@@ -252,10 +252,6 @@ export default function ImageViewer({
           </div>
         </div>
         <style jsx="true">{`
-          .active-image {
-            border: 3px solid #0e5487;
-            border-radius: 5px;
-          }
           .image-view {
             cursor: pointer;
           }
