@@ -10,6 +10,8 @@ import uploadRecords from "../../../../public/images/uploadRecords.svg";
 import toArrayBuffer from "to-array-buffer";
 import axios from "axios";
 import { BASE_URL, imgheaders, headers } from "@/helper/CONST";
+import { FileUploader } from "react-drag-drop-files";
+const fileTypes = ["JPG", "PNG", "GIF"];
 export default function AddRecords({ patient, getMedicalRecords, toast }) {
   // states and variables
   const [images, setImages] = useState([]);
@@ -44,6 +46,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
   const handleUpload = (e) => {
     setLoading(true);
     const [file] = e.target.files || e.dataTransfer.files;
+    console.log(file);
     // preview img
     const reader = new FileReader();
     reader.readAsBinaryString(file);
@@ -52,6 +55,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
       // this is the base64 data
       const fileRes = btoa(reader.result);
       const base64Image = toArrayBuffer(fileRes);
+      console.log(base64Image);
       axios
         .post(`${BASE_URL}/image-upload-api/type/new`, base64Image, {
           headers: imgheaders(),
@@ -60,7 +64,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
           let nextImg = response.data.response.url;
           setLoading(false);
           setImages((prev) => [...prev, nextImg]);
-          setFile(response.data.response.url);
+          // setFile(response.data.response.url);
           return nextImg;
         })
         .catch((error) => {
@@ -108,6 +112,30 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
         console.log(err);
       });
   };
+  // handle file
+  const handleChange = (file) => {
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    const fileRes = btoa(reader.result);
+    const base64Image = toArrayBuffer(fileRes);
+    console.log(base64Image);
+    axios
+      .post(`${BASE_URL}/image-upload-api/type/new`, base64Image, {
+        headers: imgheaders(),
+      })
+      .then((response) => {
+        let nextImg = response.data.response.url;
+        setLoading(false);
+        setImages((prev) => [...prev, nextImg]);
+        // setFile(response.data.response.url);
+        console.log(response);
+        return nextImg;
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
@@ -118,6 +146,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
         </Button>
       </div>
       <Modal show={show} onHide={handleClose} size="lg">
+        {/* modal header */}
         <div className="d-flex align-items-center border-bottom align-items-center py-2">
           <div className="w-40 ps-3">
             <Button onClick={handleClose}>
@@ -135,9 +164,14 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
               width={80}
               height={90}
             />
-            <p className=" fw-bold text-dark">Drop Your Image Here</p>
-            <p>Files Supported: PNG, JPG, PDF and </p>
-            <p className=" fw-bold text-dark">or</p>
+            {/* <FileUploader
+              handleChange={handleChange}
+              name="file"
+              types={fileTypes}
+            /> */}
+            {/* <p className=" fw-bold text-dark">Drop Your Image Here</p> */}
+            <p>Files Supported: PNG, JPG, and PDF </p>
+            {/* <p className=" fw-bold text-dark">or</p> */}
             <Button variant="outlined" style={{ position: "relative" }}>
               <input
                 type="file"
@@ -145,12 +179,16 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
                 // hidden
                 ref={fileInputRef}
                 onChange={(e) => handleUpload(e)}
+                accept=".jpg, .jpeg, .png, .webp"
               />
               {loading ? (
-                <div
-                  className="spinner-border text-blue spinner-border-sm"
-                  role="status"
-                ></div>
+                <>
+                  Loading
+                  <div
+                    className="spinner-border text-blue spinner-border-sm ms-2"
+                    role="status"
+                  ></div>
+                </>
               ) : (
                 "Browse Files"
               )}
@@ -188,12 +226,15 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
                 disabled={images.length < 1}
               >
                 {uploading ? (
-                  <div
-                    className="spinner-border text-white spinner-border-sm"
-                    role="status"
-                  ></div>
+                  <>
+                    Loading
+                    <div
+                      className="spinner-border text-white spinner-border-sm ms-2"
+                      role="status"
+                    ></div>
+                  </>
                 ) : (
-                  "Uoload Records"
+                  "Upload Records"
                 )}
               </Button>
               <Button className="text-danger" onClick={handleClose}>

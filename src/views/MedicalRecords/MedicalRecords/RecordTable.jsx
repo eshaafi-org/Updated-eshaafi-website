@@ -99,7 +99,7 @@ const RecordItem = ({
       </div>
       <div className={`${style.time}`}>
         <p>Time uploaded</p>
-        {moment(item?.shared_record?.date).format("h:mm:a")}
+        {moment(item?.shared_record?.date).format("h:mm a")}
       </div>
       <NumberOfAttach attached={item?.shared_record?.image} />
       <ImageViewer
@@ -115,23 +115,29 @@ const RecordItem = ({
         toast={toast}
         getMedicalRecords={getMedicalRecords}
       />
-      <Button onClick={showOptions}>
+      <Button onClick={showOptions} className={options ? style.editActive : ""}>
         <HiOutlineDotsHorizontal />
       </Button>
       {options && (
-        <div className={style.optionsDiv + " shadow rounded"}>
-          <div className={style.optionContainer}>
-            <Button onClick={handleEdit}>Edit</Button>
-            <Button
-              style={{ color: "red" }}
-              onClick={() =>
-                handleDelete(item.appointmentId, item?.shared_record?.recordId)
-              }
-            >
-              Delete
-            </Button>
+        <>
+          <div className={style.optionsLayer} onClick={showOptions}></div>
+          <div className={style.optionsDiv + " shadow rounded"}>
+            <div className={style.optionContainer}>
+              <Button onClick={handleEdit}>Edit</Button>
+              <Button
+                style={{ color: "red" }}
+                onClick={() =>
+                  handleDelete(
+                    item.appointmentId,
+                    item?.shared_record?.recordId
+                  )
+                }
+              >
+                Delete
+              </Button>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </li>
   );

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "@/components/Button";
 import { Modal } from "react-bootstrap";
 import style from "@/styles/medicalRecords.module.scss";
@@ -9,7 +9,6 @@ import { FaXmark } from "react-icons/fa6";
 import { MdAddToPhotos } from "react-icons/md";
 import toArrayBuffer from "to-array-buffer";
 import axios from "axios";
-
 // import { Button } from '@mui/material'
 // import Modal from '@mui/material/Modal'
 // import { Box } from '@mui/material'
@@ -64,7 +63,7 @@ export default function ImageViewer({
       )
       .then((res) => {
         setImagesList((prev) => prev.filter((itm) => itm !== imgId));
-        toast("Record updated successfully", {
+        toast("Record Deleted Successfully", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -101,6 +100,7 @@ export default function ImageViewer({
           setLoading(false);
           setImagesList((prev) => [...prev, nextImg]);
           setFile(response.data.response.url);
+          fileInputRef.current.value = "";
           return nextImg;
         })
         .then((res) => {
@@ -138,6 +138,9 @@ export default function ImageViewer({
         });
     };
   };
+  useEffect(() => {
+    setImagesList(images);
+  }, [images]);
   return (
     <>
       <Button
@@ -239,8 +242,8 @@ export default function ImageViewer({
                 <input
                   type="file"
                   className={style.uploadingFile}
-                  // hidden
                   ref={fileInputRef}
+                  accept=".jpg, .jpeg, .png, .webp"
                   onChange={(e) => handleUpload(e)}
                 />
                 <MdAddToPhotos style={{ fontSize: "1.5rem" }} />

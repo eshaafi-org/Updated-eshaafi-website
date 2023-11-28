@@ -154,6 +154,7 @@ export default function AppointmentPage() {
         {detail?.appointment_status === "missed" ||
           detail?.appointment_status === "completed" ||
           detail?.appointment_status === "cancelled" ||
+          detail?.appointment_status === "reschedule" ||
           cancel || <Timer appointment={detail} />}
         {loading ? (
           <div
