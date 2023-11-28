@@ -39,7 +39,15 @@ export default function Home({ positions, doctors }: any) {
       <main className={`${styles.main} ${inter.className}`}>
         <Hero />
         <Services />
-        <Mission />
+        <Mission
+          heading={"Our Mission"}
+          subHeading={"Care That Never Quits"}
+          text={` At eShaafi, our mission is to provide continuous care that
+              surpasses boundaries and empowers individuals to take control of
+              their health. We are committed to delivering accessible, reliable,
+              and compassionate healthcare through cutting-edge telemedicine
+              solutions.`}
+        />
         <Features />
         <Working />
         {typeof window !== "undefined" && (

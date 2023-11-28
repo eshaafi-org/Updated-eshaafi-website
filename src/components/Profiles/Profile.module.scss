@@ -73,8 +73,9 @@
   column-gap: 1rem;
   overflow-x: scroll;
   align-items: self-start;
-  // @include above-tablet-large {
-  // }
+  @include above-tablet-large {
+    overflow-x: auto;
+  }
 }
 // .profileList::-webkit-scrollbar {
 //   width: 6px !important;
