@@ -140,7 +140,7 @@ export default function ImageViewer({
   };
   useEffect(() => {
     setImagesList(images);
-  }, []);
+  }, [images]);
   return (
     <>
       <Button

@@ -41,11 +41,11 @@ export const navLinks = [
     subLink: [],
     icon: <FaBloggerB style={{ fontSize: 20 }} />,
   },
-  // {
-  //   id: 6,
-  //   linkName: "About Us",
-  //   LinkRoute: "/aboutus",
-  //   subLink: [],
-  //   icon: <FaCircleInfo style={{ fontSize: 20 }} />,
-  // },
+  {
+    id: 6,
+    linkName: "About Us",
+    LinkRoute: "/aboutus",
+    subLink: [],
+    icon: <FaCircleInfo style={{ fontSize: 20 }} />,
+  },
 ];

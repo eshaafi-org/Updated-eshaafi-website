@@ -119,19 +119,25 @@ const RecordItem = ({
         <HiOutlineDotsHorizontal />
       </Button>
       {options && (
-        <div className={style.optionsDiv + " shadow rounded"}>
-          <div className={style.optionContainer}>
-            <Button onClick={handleEdit}>Edit</Button>
-            <Button
-              style={{ color: "red" }}
-              onClick={() =>
-                handleDelete(item.appointmentId, item?.shared_record?.recordId)
-              }
-            >
-              Delete
-            </Button>
+        <>
+          <div className={style.optionsLayer} onClick={showOptions}></div>
+          <div className={style.optionsDiv + " shadow rounded"}>
+            <div className={style.optionContainer}>
+              <Button onClick={handleEdit}>Edit</Button>
+              <Button
+                style={{ color: "red" }}
+                onClick={() =>
+                  handleDelete(
+                    item.appointmentId,
+                    item?.shared_record?.recordId
+                  )
+                }
+              >
+                Delete
+              </Button>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </li>
   );
