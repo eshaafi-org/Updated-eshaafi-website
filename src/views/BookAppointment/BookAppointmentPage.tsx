@@ -445,17 +445,17 @@ export default function BookAppointmentPage({
           <Link
             href={
               reschedule
-                ? `appointments/${appointmentPage.appointmentId}`
+                ? `/appointments/${appointmentPage.appointmentId}`
                 : `/appointments/${response.appointmentId}`
             }
           >
             <Button variant="outlined">view details</Button>
           </Link>
-          <Link href={`/appointments`}>
+          {/* <Link href={`/appointments`}>
             <Button>
               Check Appointments <FaRegListAlt />
             </Button>
-          </Link>
+          </Link> */}
         </div>
       )}
       <ToastContainer />

@@ -65,6 +65,8 @@ export default function DoctorCard({ doctor, cancel }: any) {
               ? "Cancelled"
               : doctor?.appointment_status === "booked"
               ? "Upcoming"
+              : doctor?.appointment_status === "reschedule"
+              ? "Rescheduled"
               : doctor?.appointment_status}
           </p>
           <p className={styles.appointType}>{doctor?.appoint_type}</p>
