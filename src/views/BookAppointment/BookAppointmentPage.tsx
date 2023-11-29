@@ -1,6 +1,6 @@
 "use client";
 import style from "../../styles/bookAppointment.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Slots from "./Slots";
 import Reviews from "@/views/BookAppointment/Reviews";
 import DoctorInfo from "./DoctorInfo";
@@ -31,6 +31,7 @@ export default function BookAppointmentPage({
   appointmentPage: any;
   reschedule: boolean;
 }) {
+  console.log(data);
   const router = useRouter();
 
   let links = [
@@ -46,6 +47,8 @@ export default function BookAppointmentPage({
   const params = useRouter();
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
+  console.log(appointDate);
+  console.log(data.Items[0].slot_date);
   const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -361,6 +364,12 @@ export default function BookAppointmentPage({
         }
       });
   };
+  // use effect
+  useEffect(() => {
+    if (data.Items) {
+      setAppointDate(data.Items[0].slot_date);
+    }
+  }, [data]);
   return (
     <section className="container">
       {!success ? (

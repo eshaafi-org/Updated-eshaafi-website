@@ -17,7 +17,7 @@ const benifits = [
   },
   {
     heading: "Hassel Free Online Payment",
-    text: "Avoid payment hassles and use online payment methods like Jazzcash for video consultations in only Rs.250.",
+    text: "Avoid payment hassles and use online payment methods like Jazzcash for video consultations in only Rs.300.",
   },
   {
     heading: "Free Follow Up appointment",
