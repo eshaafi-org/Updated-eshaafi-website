@@ -16,6 +16,8 @@ import Partners from "@/views/Home/Partners";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
 import fav from "../../public/favicon.ico";
+import heroImage from "../../public/heroImage.svg";
+
 // const inter = Roboto({
 //   subsets: ["latin"],
 //   weight: ["100", "300", "400", "500", "700"],
@@ -37,7 +39,12 @@ export default function Home({ positions, doctors }: any) {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <Hero />
+        <Hero
+          img={heroImage}
+          heading="Stress free access to quality healthcare"
+          text="Book Appointment with best Verified Doctors"
+          link={{ name: "book now", link: "/doctors" }}
+        />
         <Services />
         <Mission
           heading={"Our Mission"}

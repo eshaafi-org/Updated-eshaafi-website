@@ -9,7 +9,7 @@ import Gallery from "@/views/AboutUs/Gallery";
 import Working from "@/views/AboutUs/Working";
 import Team from "@/views/AboutUs/Team";
 import Tech from "@/views/AboutUs/Tech";
-
+import aboutHero from "../../../public/images/aboutCover.svg";
 export default function AboutUs() {
   return (
     <>
@@ -17,7 +17,12 @@ export default function AboutUs() {
         <title>eShaafi | About us</title>
       </Head>
       <main>
-        <Hero />
+        <Hero
+          img={aboutHero}
+          heading="Making Healthcare Accessible to All"
+          text="We bring accessible telemedicine to Pakistan, ensuring your wellness is our constant commitment"
+          link={{ name: "", link: "" }}
+        />
         <Stats />
         <Mission
           heading={"Our Mission"}
