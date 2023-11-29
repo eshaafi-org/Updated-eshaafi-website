@@ -45,7 +45,7 @@ export default function Working() {
                 <span>{`0${indx + 1}`}</span>
               </div>
               <span>
-                <h5 className="mb-2">{itm.heading}</h5>
+                <h5 className="mb-1">{itm.heading}</h5>
                 <p>{itm.text}</p>
               </span>
             </li>
