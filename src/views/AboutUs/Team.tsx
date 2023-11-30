@@ -21,7 +21,7 @@ const team = [
   {
     icon: member2,
     name: "Muhammad Faisal",
-    position: "Founder eShaafi",
+    position: "Co-Founder eShaafi",
     linkedin: "https://www.linkedin.com/in/muhammad-faisal-vp/",
   },
 ];

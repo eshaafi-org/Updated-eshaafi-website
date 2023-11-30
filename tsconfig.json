@@ -23,7 +23,8 @@
     "**/*.tsx",
     "src/contextAPI/index.js",
     "src/components/Profiles/AddProfile.jsx",
-    "src/views/MedicalRecords/AddRecords/index.jsx"
+    "src/views/MedicalRecords/AddRecords/index.jsx",
+    "src/components/Typography/index.jsx"
   ],
   "exclude": ["node_modules"]
 }

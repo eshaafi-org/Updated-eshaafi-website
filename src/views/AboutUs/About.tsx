@@ -24,6 +24,7 @@ export default function About() {
           <Image
             src={aboutEshaafi}
             alt="About-eshaafi-video-consultation-with-doctor"
+            unoptimized
           />
         </div>
       </div>
