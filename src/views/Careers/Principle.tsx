@@ -21,14 +21,14 @@ const principles = [
     text: "Our aim is provide quality healthcare to all and along with that we transform the healthcare industry by bring essential element of care in our system.",
   },
 ];
-export default function Principle() {
+export default function Principle({ list = principles }: any) {
   return (
     <div className="container sm-pt-0">
       <div className={style.principleContainer}>
-        <Heading24 children="Objectives" />
-        <Heading40 children="Our Guiding Principles" />
+        <Heading24>Objectives</Heading24>
+        <Heading40>Our Guiding Principles</Heading40>
         <ul className={style.principleList}>
-          {principles.map((itm, indx) => (
+          {list.map((itm: any, indx: number) => (
             <li key={indx} className={style.principleItm}>
               <Image src={itm.icon} alt={itm.heading} width={50} height={50} />
               <Text20>{itm.heading}</Text20>

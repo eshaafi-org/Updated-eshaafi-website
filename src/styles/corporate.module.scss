@@ -1,0 +1,49 @@
+@import "./mixin";
+// corporate imges styling
+.corporateImgContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+  }
+}
+.corporateImg {
+  img {
+    @include large-mobile-and-below {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+// plans section styling
+.plansContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+  }
+}
+// contact corporate
+.contactusContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+  }
+}
+.contactusCover {
+  img {
+    border-radius: 8px;
+    @include large-mobile-and-below {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+.form {
+  align-self: center;
+}

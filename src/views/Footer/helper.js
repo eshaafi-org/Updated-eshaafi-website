@@ -42,7 +42,7 @@ export const footerLinks = [
       // { name: "About Us", href: "/aboutus" },
       // { name: "Privacy Policy", href: "/privacypolicy" },
       { name: "Careers", href: "/careers" },
-      // { name: "Contact Us", href: "/contactus" },
+      { name: "Corporate", href: "/corporate" },
     ],
   },
   {

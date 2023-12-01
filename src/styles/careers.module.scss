@@ -71,6 +71,9 @@
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 2rem;
   margin-top: 2rem;
+  row-gap: 2rem;
+  // justify-items: center;
+  // align-content: center;
   @include large-mobile-and-below {
     grid-template-columns: 1fr;
     row-gap: 1.5rem;
@@ -225,4 +228,126 @@
   &:hover {
     box-shadow: 0px 8px 16px 2px rgba(202, 202, 202, 0.12);
   }
+}
+// job post page
+.applicationPage {
+  display: grid;
+  h1 {
+    margin: 1rem 0;
+    @include tablet-large-and-below {
+      font-size: 2rem;
+      margin: 1rem 0;
+    }
+  }
+}
+.heading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10rem;
+  padding-bottom: 5rem;
+  border-bottom: 1px solid #ebe0d9;
+}
+.publishForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+  p {
+    margin: 1rem 0;
+  }
+}
+.publishFormFields {
+  width: 50%;
+  p {
+    margin: 0;
+    color: red;
+    font-size: 12px;
+  }
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    margin: 1rem 0;
+    border: none;
+    h6 {
+      font-size: 1rem;
+    }
+  }
+  input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #79747e;
+    border-radius: 4px;
+    font-size: 1rem;
+    &:hover {
+      border-color: #282625;
+    }
+    &:focus-visible {
+      border: 1px solid var(--primaryClr);
+      outline: none;
+    }
+  }
+  button {
+    width: 100%;
+    padding: 16px 40px;
+    background: #fe9901;
+    border-radius: 4px;
+    color: #282625;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+    margin: 1rem 0;
+    border: 1px solid #fff;
+    &:hover {
+      border: 1px solid #282625;
+      color: #fff;
+    }
+  }
+  @include tablet-large-and-below {
+    width: 100%;
+  }
+}
+.cvUploading {
+  display: flex;
+  flex-direction: column;
+  p {
+    font-size: 1rem;
+    color: #7e7670;
+  }
+  input {
+    border: unset;
+    padding: unset;
+    margin: 1rem 0;
+  }
+}
+.agreement {
+  display: flex;
+  input {
+    flex-shrink: 5;
+    align-self: center;
+  }
+  p {
+    display: flex;
+    font-size: 1rem;
+    color: #7e7670;
+    // font-size: 0.8rem;
+  }
+}
+.publishForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
+}
+.contentClass {
+  margin-top: 3rem;
 }
