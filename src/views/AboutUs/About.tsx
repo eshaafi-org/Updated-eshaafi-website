@@ -7,7 +7,7 @@ export default function About() {
       <div className={style.aboutContainer}>
         <div className={style.aboutDetails}>
           <h3>About eShaafi</h3>
-          <h2>Our Story</h2>
+          <h2 className="mb-3">Our Story</h2>
           <p className="cardDescription">
             {` Guided by our unwavering commitment to 'Care That Never Quits,'
             eShaafi stands tall as your beacon of quality healthcare. In our
@@ -24,6 +24,7 @@ export default function About() {
           <Image
             src={aboutEshaafi}
             alt="About-eshaafi-video-consultation-with-doctor"
+            unoptimized
           />
         </div>
       </div>

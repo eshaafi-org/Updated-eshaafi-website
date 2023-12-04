@@ -2,7 +2,7 @@ import style from "@/styles/medicalRecords.module.scss";
 import { useState, useRef } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "@/components/Button";
-import { SectionHeading } from "@/components/Typography/Heading";
+import { SectionHeading } from "@/components/Typography";
 import { HiOutlinePlus } from "react-icons/hi2";
 import { FaXmark } from "react-icons/fa6";
 import Image from "next/image";
@@ -10,8 +10,8 @@ import uploadRecords from "../../../../public/images/uploadRecords.svg";
 import toArrayBuffer from "to-array-buffer";
 import axios from "axios";
 import { BASE_URL, imgheaders, headers } from "@/helper/CONST";
-import { FileUploader } from "react-drag-drop-files";
-const fileTypes = ["JPG", "PNG", "GIF"];
+// import { FileUploader } from "react-drag-drop-files";
+// const fileTypes = ["JPG", "PNG", "GIF"];
 export default function AddRecords({ patient, getMedicalRecords, toast }) {
   // states and variables
   const [images, setImages] = useState([]);

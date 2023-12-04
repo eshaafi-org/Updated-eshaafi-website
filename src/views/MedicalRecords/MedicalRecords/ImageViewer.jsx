@@ -57,6 +57,8 @@ export default function ImageViewer({
       )
       .then((res) => {
         setImagesList((prev) => prev.filter((itm) => itm !== imgId));
+        setImgItem(imagesList.length - 2);
+        console.log(imagesList.length - 2);
         toast("Record Deleted Successfully", {
           position: "top-right",
           autoClose: 3000,

@@ -37,10 +37,7 @@ export default function Values() {
       <div className={style.valuesContainer}>
         <div className={style.valuesText}>
           <h3>Our Values</h3>
-          <h2>
-            Values Representing <br />
-            eShaafi
-          </h2>
+          <h2>Values Representing eShaafi</h2>
         </div>
         <ul className={style.valuesList}>
           {values.map((itm, indx) => (

@@ -87,7 +87,6 @@
   }
 }
 ///// below Screens
-/// //above small mobile
 @mixin small-mobile-and-below {
   @media (max-width: 250px) {
     @content;
@@ -107,7 +106,7 @@
 }
 // above mobile landscape
 @mixin mobile-landscape-and-below {
-  @media (max-width: 531px) {
+  @media (max-width: 630px) {
     @content;
   }
 }

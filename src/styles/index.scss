@@ -382,6 +382,12 @@ p {
   .sm-mt-1 {
     margin-top: 1rem !important;
   }
+  .sm-mt-0 {
+    margin-top: 0 !important;
+  }
+  .sm-mt-0-5 {
+    margin-top: 0.5rem !important;
+  }
   .sm-row-gap-1 {
     row-gap: $base-unit !important;
   }

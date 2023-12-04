@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 // import { useEffectOnce } from "react-use";
 import Head from "next/head";
 import Profiles from "@/components/Profiles";
-import { PageHeading } from "@/components/Typography/Heading";
+import { PageHeading } from "@/components/Typography";
 import AddressBar from "@/components/AddressBar";
 import AddRecords from "@/views/MedicalRecords/AddRecords/index.jsx";
 import axios from "axios";
@@ -95,7 +95,7 @@ export default function MedicalRecord() {
         <section className="container">
           <div className={style.medicalRecordContainer}>
             <div className="d-flex flex-column row-gap-1">
-              <PageHeading content={"Medical Records"} />
+              <PageHeading>Medical Records</PageHeading>
               <AddressBar links={links} />
             </div>
             <Profiles patient={patient} setPatient={setPatient} />

@@ -1,3 +1,4 @@
+@import "./mixin.scss";
 // stats styling
 .statsContainer {
   background-color: #f5fbff;
@@ -5,6 +6,13 @@
   grid-template-columns: repeat(4, 1fr);
   border-radius: 16px;
   padding: 1.8rem 2.5rem;
+  @include mobile-landscape-and-below {
+    grid-template-columns: auto auto;
+    row-gap: 1rem;
+    padding: 1rem 0.5rem;
+  }
+  @include tablet-large-and-below {
+  }
 }
 .statsContent {
   width: 90%;
@@ -16,30 +24,75 @@
     color: #0e5487;
     font-size: 2.2rem;
     font-weight: 400;
+
+    @include tablet-large-and-below {
+      font-size: 1.5rem;
+    }
+    @include mobile-landscape-and-below {
+      font-size: 1rem;
+    }
   }
   .statsText {
     color: #777777;
     font-size: 1rem;
+
+    @include tablet-large-and-below {
+      font-size: 14px;
+    }
+    @include mobile-landscape-and-below {
+      font-size: 12px;
+    }
   }
   &:last-child {
     border-right: none;
+  }
+  @include mobile-landscape-and-below {
+    width: 95%;
+    &:nth-child(2) {
+      border-right: none;
+    }
+  }
+  @include tablet-large-and-below {
+    width: 95%;
   }
 }
 // about eshaafi styling
 .aboutContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+  }
 }
 .aboutDetails {
   align-self: center;
 }
 .aboutCover {
   justify-self: end;
+  img {
+    @include mobile-landscape-and-below {
+      width: 100%;
+      height: auto;
+    }
+  }
+  @include tablet-large-and-below {
+    justify-self: start;
+  }
+  @include mobile-landscape-and-below {
+    justify-self: center;
+  }
 }
 // values of eshaafi styling
 .valuesContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+  }
 }
 .valuesText {
 }
@@ -51,6 +104,16 @@
 .valueItem {
   display: grid;
   grid-template-columns: 70px 1fr;
+  img {
+    @include mobile-landscape-and-below {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  @include mobile-landscape-and-below {
+    grid-template-columns: auto 1fr;
+    column-gap: 0.5rem;
+  }
 }
 .itemDetail {
   h6 {
@@ -58,6 +121,20 @@
     span {
       color: #1c6ba4;
       font-weight: 700;
+    }
+    @include tablet-large-and-below {
+      font-size: 1.3rem;
+    }
+    @include mobile-landscape-and-below {
+      font-size: 1rem;
+    }
+  }
+  p {
+    @include tablet-large-and-below {
+      font-size: 15px;
+    }
+    @include mobile-landscape-and-below {
+      font-size: 14px;
     }
   }
 }
@@ -68,6 +145,10 @@
   grid-template-rows: repeat(3, 130px);
   row-gap: 0.5rem;
   column-gap: 0.5rem;
+  @include mobile-landscape-and-below {
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, 40px);
+  }
 }
 .galleryItem1 {
   grid-area: 1/1/2/2;
@@ -87,6 +168,7 @@
 .galleryImg {
   width: 100%;
   height: 100%;
+  border: 8px;
 }
 // tech section styling
 .techContainer {
@@ -102,38 +184,58 @@
   row-gap: 3rem;
   li {
     width: 20%;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     row-gap: 0.5rem;
+    @include mobile-landscape-and-below {
+      width: 33.333%;
+    }
+  }
+  @include mobile-landscape-and-below {
+    padding: 1rem 0.5rem;
   }
 }
 // team section styling
 .teamContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+  }
 }
 .teamList {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
   column-gap: 2rem;
   row-gap: 2rem;
+  @include tablet-large-and-below {
+  }
+  @include mobile-landscape-and-below {
+    column-gap: 1rem;
+    row-gap: 1rem;
+  }
 }
 .teamImg {
-  width: 300px;
+  max-width: 300px;
   height: auto;
   border-radius: 12px;
+  @include mobile-landscape-and-below {
+    width: 100%;
+  }
 }
 .memeber {
   position: relative;
+  max-width: 300px;
 }
 .memeberDetail {
   width: 100%;
   position: absolute;
   left: 0;
-  bottom: 0px;
+  bottom: -1px;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.8) 0%,
@@ -144,11 +246,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @include mobile-landscape-and-below {
+    padding: 0.3rem;
+  }
+}
+.memberHeading,
+.memberText {
+  @include mobile-landscape-and-below {
+    font-size: 11px;
+  }
+}
+.memberLink {
+  @include mobile-landscape-and-below {
+    width: 20px;
+    height: 20px;
+  }
 }
 // working container styling
 .workingContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+  }
 }
 .workingSteps {
   display: grid;
@@ -170,6 +290,12 @@
 }
 .stepImg {
   width: 45%;
+  img {
+    @include mobile-landscape-and-below {
+      width: 100%;
+      height: auto;
+    }
+  }
 }
 .stepBorder {
   position: relative;
@@ -183,11 +309,17 @@
   p {
     margin-bottom: 0;
     font-size: 12px;
+    @include mobile-landscape-and-below {
+      font-size: 11px;
+    }
   }
   span {
     color: #009b94;
     font-weight: 700;
     font-size: 1.2rem;
+    @include mobile-landscape-and-below {
+      font-size: 1rem;
+    }
   }
 }
 .stepBorder::after {
@@ -200,4 +332,20 @@
   left: 50%;
   z-index: 1;
   border: 1px dashed #eaeaea;
+  @include mobile-landscape-and-below {
+    height: 65%;
+    top: 35%;
+  }
+}
+.workingDetail {
+  h5 {
+    @include mobile-landscape-and-below {
+      font-size: 14px;
+    }
+  }
+  p {
+    @include mobile-landscape-and-below {
+      font-size: 11px;
+    }
+  }
 }
