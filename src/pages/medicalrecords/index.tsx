@@ -95,7 +95,7 @@ export default function MedicalRecord() {
         <section className="container">
           <div className={style.medicalRecordContainer}>
             <div className="d-flex flex-column row-gap-1">
-              <PageHeading content={"Medical Records"} />
+              <PageHeading>Medical Records</PageHeading>
               <AddressBar links={links} />
             </div>
             <Profiles patient={patient} setPatient={setPatient} />
