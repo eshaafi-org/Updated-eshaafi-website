@@ -1,10 +1,10 @@
 "use client";
 import style from "@/styles/careers.module.scss";
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { Heading24, Heading40, Text16 } from "@/components/Typography";
 import { IoIosArrowForward } from "react-icons/io";
 import { RxDotFilled } from "react-icons/rx";
-import axios from "axios";
+// import axios from "axios";
 import Link from "next/link";
 
 const jobs = [

@@ -1,5 +1,9 @@
 import style from "@/styles/corporate.module.scss";
-import { Heading24, Heading40, Text16 } from "@/components/Typography";
+import { Heading24, Heading40, Text16, Text22 } from "@/components/Typography";
+import plans1 from "../../../public/images/plans1.png";
+import plans2 from "../../../public/images/plans2.png";
+import plans3 from "../../../public/images/plans3.png";
+import plans4 from "../../../public/images/plans4.png";
 import Image from "next/image";
 export default function Plans() {
   return (
@@ -24,11 +28,22 @@ export default function Plans() {
           </Text16>
         </div>
         <div className={style.plansCoversSect}>
-          <div className={style.plan1}></div>
-          <div className={style.plan2}></div>
-          <div className={style.plan3}></div>
-          <div className={style.plan4}></div>
-          <div className={style.planText}></div>
+          <div className={style.plan1}>
+            <Image src={plans4} alt="eshaafi-plans" />
+          </div>
+          <div className={style.plan2}>
+            <Image src={plans3} alt="eshaafi-plans" />
+          </div>
+          <div className={style.plan3}>
+            <Image src={plans2} alt="eshaafi-plans" />
+          </div>
+          <div className={style.plan4}>
+            <Image src={plans1} alt="eshaafi-plans" />
+          </div>
+          <div className={style.planText}>
+            <Text22>+35 Partners</Text22>
+            <Text16>Providing accessible healthcare for all</Text16>
+          </div>
         </div>
       </div>
     </div>

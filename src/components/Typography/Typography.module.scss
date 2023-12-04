@@ -27,6 +27,14 @@
   }
 }
 // text
+.text22 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #0e5487;
+  @include large-mobile-and-below {
+    font-size: 12px;
+  }
+}
 .text20 {
   font-size: 20px;
   font-weight: 500;

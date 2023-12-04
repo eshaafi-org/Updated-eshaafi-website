@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 2rem;
-  @include large-mobile-and-below {
+  @include tablet-large-and-below {
     grid-template-columns: 1fr;
     row-gap: 1rem;
   }
@@ -74,6 +74,9 @@
   row-gap: 2rem;
   // justify-items: center;
   // align-content: center;
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr 1fr;
+  }
   @include large-mobile-and-below {
     grid-template-columns: 1fr;
     row-gap: 1.5rem;

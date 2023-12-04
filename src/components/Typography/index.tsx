@@ -23,6 +23,13 @@ const Heading24: React.FC<TypoProps> = ({ children, className }) => {
 };
 // texting components
 // text 20px
+const Text22: React.FC<TypoProps> = ({ children, style, className }) => {
+  return (
+    <p className={styles.text22 + " " + className} style={style}>
+      {children}
+    </p>
+  );
+};
 const Text20: React.FC<TypoProps> = ({ children, style, className }) => {
   return (
     <p className={styles.text20 + " " + className} style={style}>
@@ -60,4 +67,5 @@ export {
   Text14,
   Heading24,
   Text20,
+  Text22,
 };

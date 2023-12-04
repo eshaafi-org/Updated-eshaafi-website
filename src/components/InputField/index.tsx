@@ -9,6 +9,8 @@ interface inputProps {
   maxLength?: number;
   value?: any;
   required?: boolean;
+  onBlur?: any;
+  onFocus?: any;
 }
 export const InputField: React.FC<inputProps> = ({
   className,
@@ -19,6 +21,8 @@ export const InputField: React.FC<inputProps> = ({
   maxLength,
   value,
   required,
+  onBlur,
+  onFocus,
 }) => {
   return (
     <input
@@ -30,6 +34,8 @@ export const InputField: React.FC<inputProps> = ({
       maxLength={maxLength}
       value={value}
       required={required}
+      onBlur={onBlur}
+      onFocus={onFocus}
     />
   );
 };
