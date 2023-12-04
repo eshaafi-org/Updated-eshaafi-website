@@ -17,14 +17,14 @@ export default function Team() {
           <Heading40 className="mt-2 sm-mt-0-5">Why join eShaafi?</Heading40>
           <div className="d-flex flex-column row-gap-0-5 mt-4 sm-mt-0-5">
             <Text16>
-              eShaafi's team is united by our shared commitment to provide
+              {` eShaafi's team is united by our shared commitment to provide
               quality healthcare across Pakistan. By becoming a member of
               eShaafi, you will be at the forefront of a healthcare revolution
               in Pakistan, working with cutting-edge technology and enjoying
               continuous opportunities for professional growth. Our diverse and
               collaborative environment fosters innovation, while your work will
               be inherently meaningful, contributing to improved healthcare
-              access and patient well-being.
+              access and patient well-being.`}
             </Text16>
             <Text16>
               To join drop your resume at
