@@ -7,7 +7,7 @@ import style from "@/styles/eprescription.module.scss";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import moment from "moment";
-import { Text16, Text11 } from "@/components/Typography";
+import { Text16, Text11, Text22 } from "@/components/Typography";
 import Button from "@/components/Button";
 import { BsDownload } from "react-icons/bs";
 import styles from "@/styles/doctors.module.scss";
@@ -16,13 +16,25 @@ import pdfIcon from "../../../public/pdfIcon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
+// type check
+interface Prescription {
+  instructions: string;
+  prescription_date: string;
+  patientInfo: any; // Update with the actual type
+  doctorInfo: any; // Update with the actual type
+  doctorName: string;
+  // Add other properties as needed
+}
 // links
 const links = [
   { name: "Home", link: "/" },
   { name: "E-prescription", link: "/eprescription" },
 ];
 export default function Eprescription() {
-  const [prescription, setPrescription] = useState([]);
+  const [prescription, setPrescription] = useState<{
+    [key: string]: Prescription[];
+  }>({});
+  // const [months, setMonths] = useState([]);
   const [loading, setLoading] = useState(false);
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   const dispatch = useDispatch();
@@ -51,8 +63,18 @@ export default function Eprescription() {
     axios
       .get(BASE_URL + `/patients/prescription`, { headers: headers() })
       .then((res) => {
-        setPrescription(res.data.response.Items);
-        console.log(res.data.response.Items);
+        setPrescription(
+          res.data.response.Items.reduce((acc: any, prescription: any) => {
+            const month = new Date(
+              prescription.prescription_date
+            ).toLocaleString("default", { month: "long" });
+            if (!acc[month]) {
+              acc[month] = [];
+            }
+            acc[month].push(prescription);
+            return acc;
+          }, {})
+        );
         setLoading(false);
       })
       .catch((err) => {
@@ -111,6 +133,9 @@ export default function Eprescription() {
         }
       });
   };
+  const months: any = Object.keys(prescription);
+  console.log(prescription);
+
   // use effect
   useEffect(() => {
     getList();
@@ -126,8 +151,63 @@ export default function Eprescription() {
           <AddressBar links={links} />
           <div className={style.eprescriptionSection}>
             {!loading ? (
-              <ul className={style.eprescriptionContainer}>
-                {prescription.map((item: any, indx) => (
+              <div className={style.eprescriptionContainer}>
+                {months.map((month: any, index: number) => (
+                  <div key={index} className="mb-3">
+                    <Text22 className="text-dark mb-1">{month}</Text22>
+                    <ul className={style.eprescriptionContainer}>
+                      {(prescription[month] || []).map(
+                        (item: any, index: number) => (
+                          <li key={index} className={style.recordItem}>
+                            <div className={style.date}>
+                              <Text16 className="text-primary fw-bold">
+                                {moment(item.prescription_date).format(
+                                  "MM,ddd"
+                                )}
+                              </Text16>
+                              <Text11 className="text-primary">
+                                {moment(item.prescription_date).format(
+                                  "MMM, YYYY"
+                                )}
+                              </Text11>
+                            </div>
+                            <div className={style.profile}>
+                              <Text11>{item.patientInfo.relation}</Text11>
+                              <Text16 className="text-dark">
+                                {item.patientInfo.name}
+                              </Text16>
+                            </div>
+                            <div className={style.time}>
+                              <Text11>Doctor</Text11>
+                              <Text16 className="text-dark text-capitalize">
+                                {item.doctorName}
+                              </Text16>
+                            </div>
+                            <div className={style.attachments}>
+                              <div className={style.pdfContainer}>
+                                <Image
+                                  src={pdfIcon}
+                                  alt="eshaafi-pdf-eprescription"
+                                />
+                              </div>
+                            </div>
+                            <a
+                              href={item.prescription_url}
+                              // target="_blank"
+                              rel="noreferrer"
+                              className="d-flex align-items-center"
+                            >
+                              <Button className="d-flex align-items-center col-gap-1">
+                                Download <BsDownload />
+                              </Button>
+                            </a>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
+                ))}
+                {/* {prescription.map((item: any, indx) => (
                   <li key={indx} className={style.recordItem}>
                     <div className={style.date}>
                       <Text16 className="text-primary fw-bold">
@@ -165,8 +245,8 @@ export default function Eprescription() {
                       </Button>
                     </a>
                   </li>
-                ))}
-              </ul>
+                ))} */}
+              </div>
             ) : (
               <div className={style.eprescriptionContainer}>
                 <li className={style.recordItem}>
@@ -190,9 +270,11 @@ export default function Eprescription() {
                       <span className="placeholder col-7"></span>
                     </p>
                   </div>
-                  <p className="card-text placeholder-glow">
-                    <span className="placeholder col-7"></span>
-                  </p>
+                  <div className={style.date}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
                 </li>
                 <li className={style.recordItem}>
                   <div className={style.date}>
@@ -215,9 +297,11 @@ export default function Eprescription() {
                       <span className="placeholder col-7"></span>
                     </p>
                   </div>
-                  <p className="card-text placeholder-glow">
-                    <span className="placeholder col-7"></span>
-                  </p>
+                  <div className={style.date}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
                 </li>
                 <li className={style.recordItem}>
                   <div className={style.date}>
@@ -240,15 +324,17 @@ export default function Eprescription() {
                       <span className="placeholder col-7"></span>
                     </p>
                   </div>
-                  <p className="card-text placeholder-glow">
-                    <span className="placeholder col-7"></span>
-                  </p>
+                  <div className={style.date}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
                 </li>
               </div>
             )}
             <div className={styles.filters + " w-100 "}>
               <div className="bg-main rounded border w-100 p-1">
-                <p className="text-dark">Sort By</p>
+                <p className="text-dark fw-bolder">Sort By</p>
                 <select
                   name=""
                   id=""

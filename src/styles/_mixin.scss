@@ -100,7 +100,7 @@
 }
 // above large mobile mobile
 @mixin large-mobile-and-below {
-  @media (max-width: 530px) {
+  @media (max-width: 550px) {
     @content;
   }
 }
