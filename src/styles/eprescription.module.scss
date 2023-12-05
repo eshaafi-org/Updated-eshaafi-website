@@ -61,6 +61,7 @@
   }
 }
 .time {
+  padding-right: 1rem;
   @include large-mobile-and-below {
     display: none;
   }

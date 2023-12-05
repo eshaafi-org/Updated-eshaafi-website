@@ -137,9 +137,14 @@
   row-gap: 1rem;
   column-gap: 1rem;
   margin-top: 2rem;
+  // align-content: baseline;
+  // justify-items: start;
   @include large-mobile-and-below {
     grid-template-columns: 1fr;
     width: 100%;
+  }
+  input {
+    align-self: start;
   }
 }
 .formBtn {
