@@ -19,7 +19,7 @@ import {
   FaUser,
   FaRegCalendarCheck,
   FaFileMedical,
-  FaPrescriptionBottleMedical,
+  FaFilePrescription,
 } from "react-icons/fa6";
 import { GoTriangleDown } from "react-icons/go";
 import { FiLogOut } from "react-icons/fi";
@@ -477,9 +477,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     <li className={` border-bottom py-1`}>
                       <Link href={"/eprescription"} onClick={handleClose}>
                         <Button className="d-flex col-gap-1 align-items-center">
-                          <FaPrescriptionBottleMedical
-                            style={{ fontSize: 20 }}
-                          />
+                          <FaFilePrescription style={{ fontSize: 20 }} />
                           <span className="text-main">Eprescription</span>
                         </Button>
                       </Link>
