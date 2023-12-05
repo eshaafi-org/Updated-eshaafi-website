@@ -11,7 +11,7 @@
 .TeamContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 2rem;
+  column-gap: 5rem;
   @include tablet-landscape-and-mini-laptop-and-below {
     grid-template-columns: 1fr;
     row-gap: 1rem;
@@ -24,20 +24,27 @@
 }
 .cover {
   justify-self: end;
-  position: relative;
   display: grid;
   justify-self: center;
+}
+.teamImg {
+  position: relative;
   img {
     border-radius: 8px;
     @include large-mobile-and-below {
+      min-width: 300px;
       width: 100%;
+      min-height: 350px;
       height: auto;
+
+      // min-width: 300px;
+      // min-height: 300px;
     }
   }
 }
 .tosts {
   position: absolute;
-  right: 55%;
+  right: 60%;
   bottom: 20%;
   display: flex;
   flex-direction: column;

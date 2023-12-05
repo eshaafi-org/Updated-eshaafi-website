@@ -260,7 +260,7 @@ export default function Eprescription() {
                   </option> */}
                   {/* <option value="all">All</option> */}
                   <option value="General Physician" selected>
-                    ALL
+                    All
                   </option>
                 </select>
               </div>

@@ -35,16 +35,18 @@ export default function Team() {
           </div>
         </div>
         <div className={style.cover}>
-          <Image src={teamPhoto} alt="eshaafi-team-cover" />
-          <div className={style.tosts}>
-            <span>
-              <Text18 style={{ color: "#2788CD" }}>Product Team</Text18>
-              <Text14>Join our platform our product creating team</Text14>
-            </span>
-            <span>
-              <Text18 style={{ color: "#27CDC4" }}>Healthcare Team</Text18>
-              <Text14>Join our platform as a doctor.</Text14>
-            </span>
+          <div className={style.teamImg}>
+            <Image src={teamPhoto} alt="eshaafi-team-cover" />
+            <div className={style.tosts}>
+              <span>
+                <Text18 style={{ color: "#2788CD" }}>Product Team</Text18>
+                <Text14>Join our platform our product creating team</Text14>
+              </span>
+              <span>
+                <Text18 style={{ color: "#27CDC4" }}>Healthcare Team</Text18>
+                <Text14>Join our platform as a doctor.</Text14>
+              </span>
+            </div>
           </div>
         </div>
       </div>

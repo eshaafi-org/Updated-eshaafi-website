@@ -477,7 +477,9 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     <li className={` border-bottom py-1`}>
                       <Link href={"/eprescription"} onClick={handleClose}>
                         <Button className="d-flex col-gap-1 align-items-center">
-                          <FaFileMedical style={{ fontSize: 20 }} />
+                          <FaPrescriptionBottleMedical
+                            style={{ fontSize: 20 }}
+                          />
                           <span className="text-main">Eprescription</span>
                         </Button>
                       </Link>
