@@ -210,12 +210,12 @@ export default function ContactUs() {
               />
               {phone && (
                 <div>
-                  {phone.match(/^(3|[3][0-5])[0-9]{9}$/) ? (
+                  {phone.match(/^03[0-5][0-9]{8}$/) ? (
                     <p></p>
                   ) : (
                     <Text11 className="text-danger">
                       {" "}
-                      {`Invalid number (pattren:3000000000)*`}
+                      {`Invalid number (pattren:03[0-5]0000000)*`}
                     </Text11>
                   )}
                 </div>
