@@ -10,6 +10,7 @@ import benefit2 from "../../../public/images/benefit (2).svg";
 import benefit3 from "../../../public/images/benefit (3).svg";
 import benefit4 from "../../../public/images/benefit (4).svg";
 import benefit5 from "../../../public/images/benefit (5).svg";
+import benefit6 from "../../../public/images/benefit (6).svg";
 import corportat1 from "../../../public/images/corporate1.png";
 import corportat2 from "../../../public/images/corporate2.png";
 import corportat3 from "../../../public/images/corporate3.png";
@@ -43,7 +44,7 @@ const benifits = [
     text: "Track your health and progress with eShaafi's health tracker to stay updated and in control of your well-being.",
   },
   {
-    icon: benefit5,
+    icon: benefit6,
     heading: "Medical Records",
     text: "Our app connects you with experts and securely saves your medical records for convenient access and informed decisions.",
   },
@@ -70,28 +71,13 @@ export default function Coorporate() {
         <div className="container">
           <div className={style.corporateImgContainer}>
             <div className={style.corporateImg}>
-              <Image
-                src={corportat1}
-                alt="corportate-image"
-                width={1000}
-                height={1000}
-              />
+              <Image src={corportat1} alt="corportate-image" unoptimized />
             </div>
             <div className={style.corporateImg}>
-              <Image
-                src={corportat2}
-                alt="corportate-image"
-                width={1000}
-                height={1000}
-              />
+              <Image src={corportat2} alt="corportate-image" unoptimized />
             </div>
             <div className={style.corporateImg}>
-              <Image
-                src={corportat3}
-                alt="corportate-image"
-                width={1000}
-                height={1000}
-              />
+              <Image src={corportat3} alt="corportate-image" unoptimized />
             </div>
           </div>
         </div>

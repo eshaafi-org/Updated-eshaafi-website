@@ -65,6 +65,7 @@
   img {
     @include large-mobile-and-below {
       width: 90%;
+      min-width: 150px;
     }
   }
 }
@@ -76,6 +77,7 @@
   img {
     @include large-mobile-and-below {
       width: 90%;
+      min-width: 150px;
     }
   }
 }
@@ -114,6 +116,7 @@
     @include large-mobile-and-below {
       width: 100%;
       height: auto;
+      display: none;
     }
   }
   @include tablet-large-and-below {
