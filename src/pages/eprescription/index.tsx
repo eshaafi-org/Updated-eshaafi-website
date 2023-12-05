@@ -13,6 +13,9 @@ import { BsDownload } from "react-icons/bs";
 import styles from "@/styles/doctors.module.scss";
 import Image from "next/image";
 import pdfIcon from "../../../public/pdfIcon.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/router";
 // links
 const links = [
   { name: "Home", link: "/" },
@@ -21,6 +24,27 @@ const links = [
 export default function Eprescription() {
   const [prescription, setPrescription] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { userAuth } = useSelector((state: any) => state.loginModalReducer);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  // logout if token expire function
+  const logout = () => {
+    axios
+      .post(BASE_URL + `/auth/signOut`, {
+        access_token: userAuth.AccessToken,
+        type: 1,
+        uuid: userAuth.uuid,
+      })
+      .then((res) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+        router.push("/");
+      })
+      .catch((err) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+      });
+  };
   // get list
   const getList = () => {
     setLoading(true);
@@ -34,6 +58,57 @@ export default function Eprescription() {
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        if (err.response.status === 400) {
+          toast(err.response.data.response.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "info",
+          });
+        } else if (err.response.status === 410) {
+          toast(err.response.data.response.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "warning",
+          });
+        } else if (err.response.status === 405) {
+          toast("Your session has been expired, kindly sign-in again", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "warning",
+          });
+          logout();
+          dispatch({ type: "loginModalSlice/signIn" });
+        } else if (err.response.status === 404) {
+          toast(err.response.data.response.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "warning",
+          });
+        }
       });
   };
   // use effect
@@ -192,6 +267,7 @@ export default function Eprescription() {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </main>
     </>
   );
