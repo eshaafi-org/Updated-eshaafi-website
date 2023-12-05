@@ -15,11 +15,14 @@
 }
 .corporateImg {
   img {
+    width: 100%;
+    height: auto;
     @include tablet-large-and-below {
       width: 100%;
       height: auto;
     }
     @include large-mobile-and-below {
+      min-width: 330px;
       width: 100%;
       height: auto;
     }
@@ -60,10 +63,24 @@
 }
 .plan2 {
   align-self: center;
+  img {
+    @include large-mobile-and-below {
+      width: 90%;
+      min-width: 150px;
+    }
+  }
 }
 .plan3 {
   align-self: center;
   justify-self: end;
+  display: flex;
+  justify-content: end;
+  img {
+    @include large-mobile-and-below {
+      width: 90%;
+      min-width: 150px;
+    }
+  }
 }
 .planText {
   position: absolute;
@@ -100,11 +117,18 @@
     @include large-mobile-and-below {
       width: 100%;
       height: auto;
+      display: none;
     }
+  }
+  @include tablet-large-and-below {
+    justify-self: center;
   }
 }
 .form {
   align-self: center;
+  @include large-mobile-and-below {
+    text-align: center;
+  }
 }
 // contact us form
 .contactusForm {
@@ -113,13 +137,21 @@
   row-gap: 1rem;
   column-gap: 1rem;
   margin-top: 2rem;
+  // align-content: baseline;
+  // justify-items: start;
   @include large-mobile-and-below {
     grid-template-columns: 1fr;
     width: 100%;
   }
+  input {
+    align-self: start;
+  }
 }
 .formBtn {
-  grid-area: 4/1/5/3;
+  grid-area: 4/1/5/2;
+  @include tablet-large-and-below {
+    // grid-area: 5/1/6/2;
+  }
   @include large-mobile-and-below {
     grid-area: 7/1/8/2;
   }

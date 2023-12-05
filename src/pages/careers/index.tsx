@@ -18,11 +18,12 @@ export default function Careers() {
       <main>
         <Hero
           img={careerHero}
-          heading={"Become a Member of eShaafi"}
+          heading={"Become a member of eShaafi"}
           text={
             "Subscribe to our plans to avail discounts and exclusive offers"
           }
           link={{ name: "", link: "" }}
+          capitalize={false}
         />
         <div className="container">
           <p className={style.introText}>
@@ -33,7 +34,10 @@ export default function Careers() {
           </p>
         </div>
         <Team />
-        <Principle />
+        <Principle
+          heading={"Objectives"}
+          subHeading={"Our Guiding Principles"}
+        />
         <Mantra />
         <Jobs />
         <GetApp color="#DFEAF2" />

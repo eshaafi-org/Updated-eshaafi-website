@@ -27,7 +27,7 @@ export default function Team() {
               access and patient well-being.`}
             </Text16>
             <Text16>
-              To join drop your resume at
+              To join drop your resume at{" "}
               <a href="mail:hr@terafort.com" style={{ color: "#56A4EC" }}>
                 hr@terafort.com
               </a>
@@ -35,16 +35,18 @@ export default function Team() {
           </div>
         </div>
         <div className={style.cover}>
-          <Image src={teamPhoto} alt="eshaafi-team-cover" />
-          <div className={style.tosts}>
-            <span>
-              <Text18 style={{ color: "#2788CD" }}>Product Team</Text18>
-              <Text14>Join our platform our product creating team</Text14>
-            </span>
-            <span>
-              <Text18 style={{ color: "#27CDC4" }}>Healthcare Team</Text18>
-              <Text14>Join our platform as a doctor.</Text14>
-            </span>
+          <div className={style.teamImg}>
+            <Image src={teamPhoto} alt="eshaafi-team-cover" />
+            <div className={style.tosts}>
+              <span>
+                <Text18 style={{ color: "#2788CD" }}>Product Team</Text18>
+                <Text14>Join our platform our product creating team</Text14>
+              </span>
+              <span>
+                <Text18 style={{ color: "#27CDC4" }}>Healthcare Team</Text18>
+                <Text14>Join our platform as a doctor.</Text14>
+              </span>
+            </div>
           </div>
         </div>
       </div>

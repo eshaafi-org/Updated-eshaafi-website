@@ -19,6 +19,7 @@ import {
   FaUser,
   FaRegCalendarCheck,
   FaFileMedical,
+  FaFilePrescription,
 } from "react-icons/fa6";
 import { GoTriangleDown } from "react-icons/go";
 import { FiLogOut } from "react-icons/fi";
@@ -261,12 +262,20 @@ const Header: React.FC<HeaderProps> = ({}) => {
                           <li className="p-1">
                             <Link href={"/"}>E-prescription</Link>
                           </li>*/}
-                            <li className="p-1">
+                            <li className="p-2">
                               <Link
                                 href={"/medicalrecords"}
                                 className="w-100 d-flex"
                               >
                                 Medical Records
+                              </Link>
+                            </li>
+                            <li className="p-2">
+                              <Link
+                                href={"/eprescription"}
+                                className="w-100 d-flex"
+                              >
+                                Eprescription
                               </Link>
                             </li>
                             <li className="p-2">
@@ -449,7 +458,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       </Button>
                     </Link>
                   </li> */}
-                    <li className={`p-1 border-bottom`}>
+                    <li className={` border-bottom py-1`}>
                       <Link href={"/appointments"} onClick={handleClose}>
                         <Button className="d-flex col-gap-1 align-items-center">
                           <FaRegCalendarCheck style={{ fontSize: 20 }} />
@@ -457,11 +466,19 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         </Button>
                       </Link>
                     </li>
-                    <li className={`p-1 border-bottom`}>
+                    <li className={` border-bottom py-1`}>
                       <Link href={"/medicalrecords"} onClick={handleClose}>
                         <Button className="d-flex col-gap-1 align-items-center">
                           <FaFileMedical style={{ fontSize: 20 }} />
                           <span className="text-main">Medical Records</span>
+                        </Button>
+                      </Link>
+                    </li>
+                    <li className={` border-bottom py-1`}>
+                      <Link href={"/eprescription"} onClick={handleClose}>
+                        <Button className="d-flex col-gap-1 align-items-center">
+                          <FaFilePrescription style={{ fontSize: 20 }} />
+                          <span className="text-main">Eprescription</span>
                         </Button>
                       </Link>
                     </li>
@@ -509,7 +526,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         key={i.id}
                         className={`${
                           pathName == i.LinkRoute ? "active" : ""
-                        } p-0-5 border-bottom`}
+                        } py-1 border-bottom`}
                         onClick={handleClose}
                       >
                         <Link
@@ -530,7 +547,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   }
                 })}
                 {userAuth?.uuid && (
-                  <li className="p-0-5">
+                  <li className="py-1">
                     <Button
                       className="d-flex col-gap-1 align-items-center w-100"
                       onClick={logout}

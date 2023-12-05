@@ -5,6 +5,7 @@ import Image from "next/image";
 import contact from "../../../public/images/contact.png";
 import { InputField } from "@/components/InputField";
 import Button from "@/components/Button";
+import { Text11 } from "@/components/Typography";
 export default function ContactUs() {
   const [loading, setLoading] = useState(false);
 
@@ -36,31 +37,47 @@ export default function ContactUs() {
               // Add your form submission logic here
             }}
           >
-            <InputField
-              name="name"
-              value={name}
-              placeHolder="Name*"
-              onBlur={(e: any) => {
-                if (!name) {
-                  e.target.classList.add(style.errorClass);
-                } else {
+            <span>
+              <InputField
+                name="name"
+                value={name}
+                placeHolder="Name*"
+                onBlur={(e: any) => {
+                  if (!name) {
+                    e.target.classList.add(style.errorClass);
+                  } else {
+                    e.target.classList.remove(style.errorClass);
+                  }
+                }}
+                onFocus={(e: any) => {
                   e.target.classList.remove(style.errorClass);
-                }
-              }}
-              onFocus={(e: any) => {
-                e.target.classList.remove(style.errorClass);
-              }}
-              onChange={(e: any) => {
-                setForm((prev) => {
-                  return {
-                    ...prev,
-                    [e.target.name]: e.target.value,
-                  };
-                });
-              }}
-              // className={name || style.errorClass}
-              required={true}
-            />
+                }}
+                onChange={(e: any) => {
+                  setForm((prev) => {
+                    return {
+                      ...prev,
+                      [e.target.name]: e.target.value,
+                    };
+                  });
+                }}
+                // className={name || style.errorClass}
+                required={true}
+                className="w-100"
+              />
+              {name && (
+                <div>
+                  {name.match(/^[a-zA-Z -]{3,}$/) ? (
+                    <p></p>
+                  ) : (
+                    <Text11 className="text-danger">
+                      {" "}
+                      {`minimum 3 letters (User name can not contain numberic
+                          or special characters except -)*`}
+                    </Text11>
+                  )}
+                </div>
+              )}
+            </span>
             <InputField
               name="company"
               value={company}
@@ -112,6 +129,7 @@ export default function ContactUs() {
               required={true}
             />
             <InputField
+              type="number"
               name="noOfEmployees"
               value={noOfEmployees}
               placeHolder="No. of Employees*"
@@ -162,31 +180,47 @@ export default function ContactUs() {
               // className={email || style.errorClass}
               required={true}
             />
-            <InputField
-              name="phone"
-              value={phone}
-              placeHolder="Phone Number*"
-              onBlur={(e: any) => {
-                if (!phone) {
-                  e.target.classList.add(style.errorClass);
-                } else {
+            <span>
+              <InputField
+                type="tel"
+                name="phone"
+                value={phone}
+                placeHolder="Phone Number*"
+                onBlur={(e: any) => {
+                  if (!phone) {
+                    e.target.classList.add(style.errorClass);
+                  } else {
+                    e.target.classList.remove(style.errorClass);
+                  }
+                }}
+                onFocus={(e: any) => {
                   e.target.classList.remove(style.errorClass);
-                }
-              }}
-              onFocus={(e: any) => {
-                e.target.classList.remove(style.errorClass);
-              }}
-              onChange={(e: any) => {
-                setForm((prev) => {
-                  return {
-                    ...prev,
-                    [e.target.name]: e.target.value,
-                  };
-                });
-              }}
-              // className={phone || style.errorClass}
-              required={true}
-            />
+                }}
+                onChange={(e: any) => {
+                  setForm((prev) => {
+                    return {
+                      ...prev,
+                      [e.target.name]: e.target.value,
+                    };
+                  });
+                }}
+                // className={phone || style.errorClass}
+                required={true}
+                className="w-100"
+              />
+              {phone && (
+                <div>
+                  {phone.match(/^03[0-5][0-9]{8}$/) ? (
+                    <p></p>
+                  ) : (
+                    <Text11 className="text-danger">
+                      {" "}
+                      {`Invalid number (pattren:03[0-5]0000000)*`}
+                    </Text11>
+                  )}
+                </div>
+              )}
+            </span>
             <Button variant="contained" className={style.formBtn} type="submit">
               Submit{" "}
               {loading && (

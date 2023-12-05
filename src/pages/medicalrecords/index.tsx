@@ -1,6 +1,5 @@
 import style from "@/styles/medicalRecords.module.scss";
 import { useState, useEffect } from "react";
-// import { useEffectOnce } from "react-use";
 import Head from "next/head";
 import Profiles from "@/components/Profiles";
 import { PageHeading } from "@/components/Typography";

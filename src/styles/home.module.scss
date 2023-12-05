@@ -288,10 +288,12 @@
   justify-content: center;
   // margin: 0 auto;
   .workingImage {
-    width: 100%;
-    @include for-large-mobile-only {
-      width: 75%;
-    }
+    max-width: 350px;
+
+    height: auto;
+    // @include for-large-mobile-only {
+    //   width: 75%;
+    // }
   }
   @include above-large-mobile {
     width: 50%;

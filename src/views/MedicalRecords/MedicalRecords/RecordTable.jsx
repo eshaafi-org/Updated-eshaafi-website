@@ -54,7 +54,7 @@ const NumberOfAttach = ({ attached }) => {
   );
 };
 // record item
-const RecordItem = ({
+export const RecordItem = ({
   item,
   key,
   deleteRecord,
@@ -64,7 +64,6 @@ const RecordItem = ({
   const [show, setShow] = useState(false);
   const [options, setOptions] = useState(false);
   const [edit, setEdit] = useState(false);
-  console.log(item);
   const showOptions = () => {
     setOptions(!options);
   };
@@ -98,20 +97,24 @@ const RecordItem = ({
         <p>Time uploaded</p>
         {moment(item?.shared_record?.date).format("h:mm a")}
       </div>
-      <NumberOfAttach attached={item?.shared_record?.image} />
-      <ImageViewer
-        images={item?.shared_record?.image}
-        patientName={item?.shared_record?.patient_name}
-        date={item.appoint_date}
-        show={show}
-        setShow={setShow}
-        edit={edit}
-        setEdit={setEdit}
-        entryId={item?.appointmentId}
-        recordId={item?.shared_record?.recordId}
-        toast={toast}
-        getMedicalRecords={getMedicalRecords}
-      />
+      {item?.shared_record?.image && (
+        <NumberOfAttach attached={item?.shared_record?.image} />
+      )}
+      {item?.shared_record?.image && (
+        <ImageViewer
+          images={item?.shared_record?.image}
+          patientName={item?.shared_record?.patient_name}
+          date={item.appoint_date}
+          show={show}
+          setShow={setShow}
+          edit={edit}
+          setEdit={setEdit}
+          entryId={item?.appointmentId}
+          recordId={item?.shared_record?.recordId}
+          toast={toast}
+          getMedicalRecords={getMedicalRecords}
+        />
+      )}
       <Button onClick={showOptions} className={options ? style.editActive : ""}>
         <HiOutlineDotsHorizontal />
       </Button>

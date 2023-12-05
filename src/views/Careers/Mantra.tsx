@@ -5,8 +5,8 @@ import aboutGalleryImage from "../../../public/images/aboutGalleryImage.png";
 export default function Mantra() {
   return (
     <div className="container">
-      <Heading24>How eShaafi works</Heading24>
-      <Heading40>Our Working Mantra</Heading40>
+      <Heading24 className="sm-text-center">How eShaafi works</Heading24>
+      <Heading40 className="sm-text-center">Our Working Mantra</Heading40>
       <div className={style.mantraContainer}>
         <div className={style.galleryItem1}>
           <Image
