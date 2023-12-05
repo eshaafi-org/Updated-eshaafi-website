@@ -458,7 +458,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                       </Button>
                     </Link>
                   </li> */}
-                    <li className={` border-bottom`}>
+                    <li className={` border-bottom py-1`}>
                       <Link href={"/appointments"} onClick={handleClose}>
                         <Button className="d-flex col-gap-1 align-items-center">
                           <FaRegCalendarCheck style={{ fontSize: 20 }} />
@@ -466,7 +466,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         </Button>
                       </Link>
                     </li>
-                    <li className={` border-bottom`}>
+                    <li className={` border-bottom py-1`}>
                       <Link href={"/medicalrecords"} onClick={handleClose}>
                         <Button className="d-flex col-gap-1 align-items-center">
                           <FaFileMedical style={{ fontSize: 20 }} />
@@ -474,8 +474,8 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         </Button>
                       </Link>
                     </li>
-                    <li className={` border-bottom`}>
-                      <Link href={"/medicalrecords"} onClick={handleClose}>
+                    <li className={` border-bottom py-1`}>
+                      <Link href={"/eprescription"} onClick={handleClose}>
                         <Button className="d-flex col-gap-1 align-items-center">
                           <FaFileMedical style={{ fontSize: 20 }} />
                           <span className="text-main">Eprescription</span>
@@ -526,7 +526,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         key={i.id}
                         className={`${
                           pathName == i.LinkRoute ? "active" : ""
-                        } p-0-5 border-bottom`}
+                        } py-1 border-bottom`}
                         onClick={handleClose}
                       >
                         <Link
@@ -547,7 +547,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   }
                 })}
                 {userAuth?.uuid && (
-                  <li className="p-0-5">
+                  <li className="py-1">
                     <Button
                       className="d-flex col-gap-1 align-items-center w-100"
                       onClick={logout}

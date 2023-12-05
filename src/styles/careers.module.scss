@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 2rem;
-  @include mini-laptop-and-below {
+  @include tablet-landscape-and-mini-laptop-and-below {
     grid-template-columns: 1fr;
     row-gap: 1rem;
   }

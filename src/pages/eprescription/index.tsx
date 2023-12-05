@@ -9,6 +9,10 @@ import { BASE_URL, headers } from "@/helper/CONST";
 import moment from "moment";
 import { Text16, Text11 } from "@/components/Typography";
 import Button from "@/components/Button";
+import { BsDownload } from "react-icons/bs";
+import styles from "@/styles/doctors.module.scss";
+import Image from "next/image";
+import pdfIcon from "../../../public/pdfIcon.svg";
 // links
 const links = [
   { name: "Home", link: "/" },
@@ -16,15 +20,21 @@ const links = [
 ];
 export default function Eprescription() {
   const [prescription, setPrescription] = useState([]);
+  const [loading, setLoading] = useState(false);
   // get list
   const getList = () => {
+    setLoading(true);
     axios
       .get(BASE_URL + `/patients/prescription`, { headers: headers() })
       .then((res) => {
         setPrescription(res.data.response.Items);
         console.log(res.data.response.Items);
+        setLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
   // use effect
   useEffect(() => {
@@ -40,30 +50,146 @@ export default function Eprescription() {
           <PageHeading>E-prescription</PageHeading>
           <AddressBar links={links} />
           <div className={style.eprescriptionSection}>
-            <ul className={style.eprescriptionContainer}>
-              {prescription.map((item: any, indx) => (
-                <li key={indx} className={style.recordItem}>
+            {!loading ? (
+              <ul className={style.eprescriptionContainer}>
+                {prescription.map((item: any, indx) => (
+                  <li key={indx} className={style.recordItem}>
+                    <div className={style.date}>
+                      <Text16 className="text-primary fw-bold">
+                        {moment(item.prescription_date).format("MM,ddd")}
+                      </Text16>
+                      <Text11 className="text-primary">
+                        {moment(item.prescription_date).format("MMM, YYYY")}
+                      </Text11>
+                    </div>
+                    <div className={style.profile}>
+                      <Text11>{item.patientInfo.relation}</Text11>
+                      <Text16 className="text-dark">
+                        {item.patientInfo.name}
+                      </Text16>
+                    </div>
+                    <div className={style.time}>
+                      <Text11>Time uploaded</Text11>
+                      <Text16 className="text-dark">
+                        {moment(item.prescription_date).fromNow()}
+                      </Text16>
+                    </div>
+                    <div className={style.attachments}>
+                      <div className={style.pdfContainer}>
+                        <Image src={pdfIcon} alt="eshaafi-pdf-eprescription" />
+                      </div>
+                    </div>
+                    <a
+                      href={item.prescription_url}
+                      // target="_blank"
+                      rel="noreferrer"
+                      className="d-flex align-items-center"
+                    >
+                      <Button className="d-flex align-items-center col-gap-1">
+                        Download <BsDownload />
+                      </Button>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className={style.eprescriptionContainer}>
+                <li className={style.recordItem}>
                   <div className={style.date}>
-                    <Text16>
-                      {moment(item.prescription_date).format("MM,ddd")}
-                    </Text16>
-                    <Text11>
-                      {moment(item.prescription_date).format("MMM, YYYY")}
-                    </Text11>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
                   </div>
                   <div className={style.profile}>
-                    <Text11>{item.patientInfo.relation}</Text11>
-                    <Text16>{item.patientInfo.name}</Text16>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
                   </div>
                   <div className={style.time}>
-                    <Text11>Time uploaded</Text11>
-                    <Text16>{moment(item.prescription_date).fromNow()}</Text16>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
                   </div>
-                  <div className={style.attachments}>h</div>
-                  <Button>View</Button>
+                  <div className={style.time}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <p className="card-text placeholder-glow">
+                    <span className="placeholder col-7"></span>
+                  </p>
                 </li>
-              ))}
-            </ul>
+                <li className={style.recordItem}>
+                  <div className={style.date}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <div className={style.profile}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <div className={style.time}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <div className={style.time}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <p className="card-text placeholder-glow">
+                    <span className="placeholder col-7"></span>
+                  </p>
+                </li>
+                <li className={style.recordItem}>
+                  <div className={style.date}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <div className={style.profile}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <div className={style.time}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <div className={style.time}>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-7"></span>
+                    </p>
+                  </div>
+                  <p className="card-text placeholder-glow">
+                    <span className="placeholder col-7"></span>
+                  </p>
+                </li>
+              </div>
+            )}
+            <div className={styles.filters + " w-100 "}>
+              <div className="bg-main rounded border w-100 p-1">
+                <p className="text-dark">Sort By</p>
+                <select
+                  name=""
+                  id=""
+                  className={styles.selectFilter}
+                  // onChange={(e) => setFilters({ search: e.target.value })}
+                >
+                  {/* <option value="" disabled>
+                    Specialization
+                  </option> */}
+                  {/* <option value="all">All</option> */}
+                  <option value="General Physician" selected>
+                    ALL
+                  </option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
       </main>
