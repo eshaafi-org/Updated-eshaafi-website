@@ -42,6 +42,11 @@ const benifits = [
     heading: "Health Tracker",
     text: "Track your health and progress with eShaafi's health tracker to stay updated and in control of your well-being.",
   },
+  {
+    icon: benefit5,
+    heading: "Medical Records",
+    text: "Our app connects you with experts and securely saves your medical records for convenient access and informed decisions.",
+  },
 ];
 export default function Coorporate() {
   return (
@@ -51,30 +56,50 @@ export default function Coorporate() {
       </Head>
       <main>
         <Hero
-          heading="Elevate Employee Wellbeing with eShaafi"
+          heading="Elevate employee wellbeing with eShaafi"
           text="We bring seamless healthcare solution for your employees ensuring productivity."
           link={{ name: "Book Demo", link: "/" }}
           img={coporateHero}
+          capitalize={false}
         />
         <Mission
           heading="What it Includes"
           subHeading="We offer a complete virtual healthcare program"
-          text={`We aim revolutionize employee well-being with our comprehensive virtual healthcare program tailored for corporate needs. Our integrated solution ensures accessible and high-quality healthcare, promoting a healthier and more productive workforce. Experience the future of corporate wellness with seamless telemedicine services, personalized health resources, and a focus on overall employee vitality."`}
+          text={`We aim revolutionize employee well-being with our comprehensive virtual healthcare program tailored for corporate needs. Our integrated solution ensures accessible and high-quality healthcare, promoting a healthier and more productive workforce. Experience the future of corporate wellness with seamless telemedicine services, personalized health resources, and a focus on overall employee vitality.`}
         />
         <div className="container">
           <div className={style.corporateImgContainer}>
             <div className={style.corporateImg}>
-              <Image src={corportat1} alt="corportate-image" unoptimized />
+              <Image
+                src={corportat1}
+                alt="corportate-image"
+                width={1000}
+                height={1000}
+              />
             </div>
             <div className={style.corporateImg}>
-              <Image src={corportat2} alt="corportate-image" unoptimized />
+              <Image
+                src={corportat2}
+                alt="corportate-image"
+                width={1000}
+                height={1000}
+              />
             </div>
             <div className={style.corporateImg}>
-              <Image src={corportat3} alt="corportate-image" unoptimized />
+              <Image
+                src={corportat3}
+                alt="corportate-image"
+                width={1000}
+                height={1000}
+              />
             </div>
           </div>
         </div>
-        <Principle list={benifits} />
+        <Principle
+          list={benifits}
+          heading={"Benefits"}
+          subHeading={"Why choose us?"}
+        />
         <Plans />
         <ContactUs />
       </main>

@@ -52,18 +52,22 @@ export default function Jobs() {
         <Heading40>Opened Position</Heading40>
         <ul className={style.jobsList}>
           {jobs.map((itm, indx) => (
-            <Link href={"/careers/" + itm.id} key={indx}>
+            <Link
+              href={"/careers/" + itm.id}
+              key={indx}
+              className={style.jobLink}
+            >
               <li className={style.jobsItm}>
                 <div className="d-flex flex-column row-gap-0-5">
-                  <Heading24>{itm.heading}</Heading24>
+                  <Heading24 className="text-dark">{itm.heading}</Heading24>
                   <ul>
                     <li>
                       <RxDotFilled style={{ color: "#1C6BA4" }} />
-                      <Text16>{itm.depart}</Text16>
+                      <Text16 className="text-dark">{itm.depart}</Text16>
                     </li>
                     <li>
                       <RxDotFilled style={{ color: "#1C6BA4" }} />
-                      <Text16> {itm.location}</Text16>
+                      <Text16 className="text-dark"> {itm.location}</Text16>
                     </li>
                   </ul>
                 </div>

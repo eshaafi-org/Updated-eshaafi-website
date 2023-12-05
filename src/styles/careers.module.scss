@@ -12,7 +12,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 2rem;
-  @include tablet-large-and-below {
+  @include mini-laptop-and-below {
     grid-template-columns: 1fr;
     row-gap: 1rem;
   }
@@ -26,6 +26,7 @@
   justify-self: end;
   position: relative;
   display: grid;
+  justify-self: center;
   img {
     border-radius: 8px;
     @include large-mobile-and-below {
@@ -36,7 +37,7 @@
 }
 .tosts {
   position: absolute;
-  right: 60%;
+  right: 55%;
   bottom: 20%;
   display: flex;
   flex-direction: column;
@@ -54,7 +55,7 @@
       align-self: end;
     }
   }
-  @include large-mobile-and-below {
+  @include tablet-large-and-below {
     right: 25%;
     bottom: 5%;
   }
@@ -69,11 +70,9 @@
 .principleList {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 2rem;
+  column-gap: 2.5rem;
   margin-top: 2rem;
   row-gap: 2rem;
-  // justify-items: center;
-  // align-content: center;
   @include tablet-large-and-below {
     grid-template-columns: 1fr 1fr;
   }
@@ -207,6 +206,9 @@
     margin-top: 1rem;
   }
 }
+.jobLink:hover {
+  text-decoration: none !important;
+}
 .jobsItm {
   border-radius: 8px;
   background: #f5fbff;
@@ -223,6 +225,7 @@
     column-gap: 1rem;
     li {
       display: flex;
+      align-items: center;
     }
     @include large-mobile-and-below {
       column-gap: 0.5rem;

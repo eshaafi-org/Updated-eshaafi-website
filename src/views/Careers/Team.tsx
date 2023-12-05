@@ -27,7 +27,7 @@ export default function Team() {
               access and patient well-being.`}
             </Text16>
             <Text16>
-              To join drop your resume at
+              To join drop your resume at{" "}
               <a href="mail:hr@terafort.com" style={{ color: "#56A4EC" }}>
                 hr@terafort.com
               </a>

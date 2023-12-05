@@ -15,6 +15,8 @@
 }
 .corporateImg {
   img {
+    width: 100%;
+    height: auto;
     @include tablet-large-and-below {
       width: 100%;
       height: auto;
@@ -60,10 +62,22 @@
 }
 .plan2 {
   align-self: center;
+  img {
+    @include large-mobile-and-below {
+      width: 90%;
+    }
+  }
 }
 .plan3 {
   align-self: center;
   justify-self: end;
+  display: flex;
+  justify-content: end;
+  img {
+    @include large-mobile-and-below {
+      width: 90%;
+    }
+  }
 }
 .planText {
   position: absolute;
@@ -102,9 +116,15 @@
       height: auto;
     }
   }
+  @include tablet-large-and-below {
+    justify-self: center;
+  }
 }
 .form {
   align-self: center;
+  @include large-mobile-and-below {
+    text-align: center;
+  }
 }
 // contact us form
 .contactusForm {
@@ -119,7 +139,10 @@
   }
 }
 .formBtn {
-  grid-area: 4/1/5/3;
+  grid-area: 4/1/5/2;
+  @include tablet-large-and-below {
+    // grid-area: 5/1/6/2;
+  }
   @include large-mobile-and-below {
     grid-area: 7/1/8/2;
   }
