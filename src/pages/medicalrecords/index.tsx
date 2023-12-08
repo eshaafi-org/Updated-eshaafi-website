@@ -32,7 +32,6 @@ export default function MedicalRecord() {
         )
         .then((res) => {
           setRecords(res.data.response.data.Items);
-          console.log(res.data.response.data.Items);
         })
         .catch((error) => console.log(error));
     } else {
@@ -47,8 +46,6 @@ export default function MedicalRecord() {
   // delete a single record list
   const deleteSingleListRecord = (id: string, recordId: string) => {
     const separatedArray = id.split("#");
-    console.log(separatedArray);
-
     axios
       .delete(
         BASE_URL +
@@ -72,7 +69,6 @@ export default function MedicalRecord() {
         setRecords((prev: any) =>
           prev.filter((item: any) => item?.appointmentId !== id)
         );
-        console.log(res);
       })
       .catch((err) => console.log(err));
     // setRecords((prev: any) =>
