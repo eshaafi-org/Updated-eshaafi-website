@@ -215,9 +215,9 @@ export default function ImageViewer({
                 >
                   <span className={style.pdfText}>
                     <p className="text-primary fw-bold">Click To view</p>
-                    <p style={{ fontSize: 8, whiteSpace: "wrap" }}>
+                    {/* <p style={{ fontSize: 8, whiteSpace: "wrap" }}>
                       {imagesList[imgItem]}
-                    </p>
+                    </p> */}
                   </span>
                 </a>
               </div>
