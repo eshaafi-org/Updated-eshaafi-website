@@ -96,73 +96,76 @@ export default function ImageViewer({
   };
   // console.log(images);
   const handleUpload = async (e) => {
-    setLoading(true);
     let id = entryId.split("#");
     // console.log(id);
     const [file] = e.target.files || e.dataTransfer.files;
     // console.log(file);
     // preview img
-    const reader = new FileReader();
-    reader.readAsBinaryString(file);
-    //preview onload function.
-    reader.onload = async () => {
-      // this is the base64 data
-      const fileRes = btoa(reader.result);
-      // console.log(fileRes);
-      const base64Image = toArrayBuffer(fileRes);
-      console.log(base64Image);
-      axios
-        .post(
-          `${BASE_URL}/image-upload-api/type/${
-            fileType === "image" ? "new" : "pdf"
-          }`,
-          base64Image,
-          {
-            headers: imgheaders(),
-          }
-        )
-        .then((response) => {
-          let nextImg = response.data.response.url;
-          setLoading(false);
-          setImagesList((prev) => [...prev, nextImg]);
-          setFile(response.data.response.url);
-          fileInputRef.current.value = "";
-          return nextImg;
-        })
-        .then((res) => {
-          axios
-            .patch(
-              BASE_URL + `/appointment/${id[0]}/shareMedicalRecord/${recordId}`,
-              {
-                date: "",
-                doctor_name: "",
-                image: fileType === "image" ? [...imagesList, res] : [],
-                pdf: fileType === "image" ? [] : [...imagesList, res],
-                record_type: "Other",
-              },
-              { headers: headers() }
-            )
-            .then((res) => {
-              toast("Record updated successfully", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                type: "success",
-              });
-              console.log(res);
-            })
-            .catch((err) => console.log(err));
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-        });
-    };
+    if (file?.type) {
+      setLoading(true);
+      const reader = new FileReader();
+      reader.readAsBinaryString(file);
+      //preview onload function.
+      reader.onload = async () => {
+        // this is the base64 data
+        const fileRes = btoa(reader.result);
+        // console.log(fileRes);
+        const base64Image = toArrayBuffer(fileRes);
+        console.log(base64Image);
+        axios
+          .post(
+            `${BASE_URL}/image-upload-api/type/${
+              fileType === "image" ? "new" : "pdf"
+            }`,
+            base64Image,
+            {
+              headers: imgheaders(),
+            }
+          )
+          .then((response) => {
+            let nextImg = response.data.response.url;
+            setLoading(false);
+            setImagesList((prev) => [...prev, nextImg]);
+            setFile(response.data.response.url);
+            fileInputRef.current.value = "";
+            return nextImg;
+          })
+          .then((res) => {
+            axios
+              .patch(
+                BASE_URL +
+                  `/appointment/${id[0]}/shareMedicalRecord/${recordId}`,
+                {
+                  date: "",
+                  doctor_name: "",
+                  image: fileType === "image" ? [...imagesList, res] : [],
+                  pdf: fileType === "image" ? [] : [...imagesList, res],
+                  record_type: "Other",
+                },
+                { headers: headers() }
+              )
+              .then((res) => {
+                toast("Record updated successfully", {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  type: "success",
+                });
+                console.log(res);
+              })
+              .catch((err) => console.log(err));
+          })
+          .catch((error) => {
+            setLoading(false);
+            console.log(error);
+          });
+      };
+    }
   };
 
   // updating records
