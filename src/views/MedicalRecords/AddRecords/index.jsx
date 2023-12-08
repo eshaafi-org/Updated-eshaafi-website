@@ -54,44 +54,46 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
   const pdfRegex = /\bpdf\b/i;
   // handling uploading of image
   const handleUpload = (e) => {
-    setLoading(true);
     const [file] = e.target.files || e.dataTransfer.files;
-    console.log(file.type);
-    if (pdfRegex.test(file?.type)) {
-      setFileType(".pdf");
-    } else {
-      setFileType(".jpg, .jpeg, .png, .webp");
+    if (file?.type) {
+      setLoading(true);
+      // console.log(file.type);
+      if (pdfRegex.test(file?.type)) {
+        setFileType(".pdf");
+      } else {
+        setFileType(".jpg, .jpeg, .png, .webp");
+      }
+      // preview img
+      const reader = new FileReader();
+      reader.readAsBinaryString(file);
+      //preview onload function.
+      reader.onload = async () => {
+        // this is the base64 data
+        const fileRes = btoa(reader.result);
+        const base64Image = toArrayBuffer(fileRes);
+        axios
+          .post(
+            `${BASE_URL}/image-upload-api/type/${
+              pdfRegex.test(file?.type) ? "pdf" : "new"
+            }`,
+            base64Image,
+            {
+              headers: imgheaders(),
+            }
+          )
+          .then((response) => {
+            let nextImg = response.data.response.url;
+            setLoading(false);
+            setImages((prev) => [...prev, nextImg]);
+            // setFile(response.data.response.url);
+            return nextImg;
+          })
+          .catch((error) => {
+            setLoading(false);
+            console.log(error);
+          });
+      };
     }
-    // preview img
-    const reader = new FileReader();
-    reader.readAsBinaryString(file);
-    //preview onload function.
-    reader.onload = async () => {
-      // this is the base64 data
-      const fileRes = btoa(reader.result);
-      const base64Image = toArrayBuffer(fileRes);
-      axios
-        .post(
-          `${BASE_URL}/image-upload-api/type/${
-            pdfRegex.test(file?.type) ? "pdf" : "new"
-          }`,
-          base64Image,
-          {
-            headers: imgheaders(),
-          }
-        )
-        .then((response) => {
-          let nextImg = response.data.response.url;
-          setLoading(false);
-          setImages((prev) => [...prev, nextImg]);
-          // setFile(response.data.response.url);
-          return nextImg;
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(error);
-        });
-    };
   };
   // uploading records
   const uploadingRecords = () => {
