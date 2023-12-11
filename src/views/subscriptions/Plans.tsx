@@ -29,10 +29,10 @@ function Plan({ key, plan }: { key: number; plan: any }) {
           </li>
         ))}
       </ul>
-      <Button className="w-100 mt-3" variant="outlined">
+      {/* <Button className="w-100 mt-3" variant="outlined">
         Subscribe Now
       </Button>
-      <Button className="w-100 mt-3">View Detail</Button>
+      <Button className="w-100 mt-3">View Detail</Button> */}
     </li>
   );
 }
