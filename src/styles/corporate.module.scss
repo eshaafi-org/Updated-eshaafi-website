@@ -1,0 +1,199 @@
+@import "./mixin";
+// corporate imges styling
+.corporateImgContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 2rem;
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 2rem;
+  }
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+  }
+}
+.corporateImg {
+  position: relative;
+  img {
+    width: 100%;
+    height: auto;
+    @include tablet-large-and-below {
+      width: 100%;
+      height: auto;
+    }
+    @include large-mobile-and-below {
+      min-width: 330px;
+      width: 100%;
+      height: auto;
+    }
+  }
+  &:hover {
+    .overlay {
+      height: 100%;
+    }
+  }
+}
+// plans section styling
+.plansContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  column-gap: 2rem;
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 1rem;
+  }
+}
+// corporate plans section
+.plansCoversSect {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  row-gap: 1rem;
+  img {
+    border-radius: 8px;
+    @include large-mobile-and-below {
+      width: 100%;
+      height: auto;
+    }
+  }
+  @include large-mobile-and-below {
+    // margin-top: 1rem;
+    justify-self: center;
+  }
+}
+.plan1 {
+  justify-self: end;
+}
+.plan2 {
+  align-self: center;
+  img {
+    @include large-mobile-and-below {
+      width: 90%;
+      min-width: 150px;
+    }
+  }
+}
+.plan3 {
+  align-self: center;
+  justify-self: end;
+  display: flex;
+  justify-content: end;
+  img {
+    @include large-mobile-and-below {
+      width: 90%;
+      min-width: 150px;
+    }
+  }
+}
+.planText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0.6rem;
+  width: 35%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.81) 0%,
+    rgba(255, 255, 255, 0.72) 100%
+  );
+  box-shadow: 0px 2px 4px 0px rgba(201, 201, 201, 0.25);
+  backdrop-filter: blur(1px);
+  @include large-mobile-and-below {
+    width: 50%;
+  }
+}
+// contact corporate
+.contactusContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1rem;
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+  }
+}
+.contactusCover {
+  img {
+    border-radius: 8px;
+    @include large-mobile-and-below {
+      width: 100%;
+      height: auto;
+      display: none;
+    }
+  }
+  @include tablet-large-and-below {
+    justify-self: center;
+  }
+}
+.form {
+  align-self: center;
+  @include large-mobile-and-below {
+    text-align: center;
+  }
+}
+// contact us form
+.contactusForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 1rem;
+  column-gap: 1rem;
+  margin-top: 2rem;
+  // align-content: baseline;
+  // justify-items: start;
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  input {
+    align-self: start;
+  }
+}
+.formBtn {
+  grid-area: 4/1/5/2;
+  @include tablet-large-and-below {
+    // grid-area: 5/1/6/2;
+  }
+  @include large-mobile-and-below {
+    grid-area: 7/1/8/2;
+  }
+}
+.errorClass {
+  border: 1px solid red !important;
+}
+// over lay styling
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #00000033;
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: 0.5s ease;
+  color: #fff !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 0 1rem;
+
+  p {
+    color: #fff !important;
+    @include large-mobile-and-below {
+      text-align: left !important;
+    }
+  }
+  .innerText {
+    @include large-mobile-and-below {
+      display: none;
+    }
+  }
+  @include large-mobile-and-below {
+    padding: 0 0.2rem;
+  }
+}

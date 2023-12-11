@@ -1,0 +1,51 @@
+import style from "@/styles/corporate.module.scss";
+import { Heading24, Heading40, Text16, Text22 } from "@/components/Typography";
+import plans1 from "../../../public/images/plans1.png";
+import plans2 from "../../../public/images/plans2.png";
+import plans3 from "../../../public/images/plans3.png";
+import plans4 from "../../../public/images/plans4.png";
+import Image from "next/image";
+export default function Plans() {
+  return (
+    <div className="container">
+      <div className={style.plansContainer}>
+        <div className={style.plaText}>
+          <Heading24>Corporate Plan</Heading24>
+          <Heading40>
+            Prioritize health and boost productivity with eShaafi
+          </Heading40>
+          <Text16 className="mt-3">
+            Unlock a new era of workplace vitality with our cutting-edge
+            Corporate Telemedicine Program. Designed to seamlessly integrate
+            into your corporate culture, our program prioritizes the well-being
+            of your team, fostering a healthier, more productive workforce.
+          </Text16>
+          <Text16 className="mt-2">
+            Explore a range of telehealth services for your team- easy access to
+            medical consultations and preventive care, all from the convenience
+            of their devices. Choose our Corporate Program and watch your team
+            thrive.
+          </Text16>
+        </div>
+        <div className={style.plansCoversSect}>
+          <div className={style.plan1}>
+            <Image src={plans4} alt="eshaafi-plans" />
+          </div>
+          <div className={style.plan2}>
+            <Image src={plans3} alt="eshaafi-plans" />
+          </div>
+          <div className={style.plan3}>
+            <Image src={plans2} alt="eshaafi-plans" />
+          </div>
+          <div className={style.plan4}>
+            <Image src={plans1} alt="eshaafi-plans" />
+          </div>
+          <div className={style.planText}>
+            <Text22>+35 Partners</Text22>
+            <Text16>Providing accessible healthcare for all</Text16>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

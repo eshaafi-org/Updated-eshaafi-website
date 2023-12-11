@@ -21,7 +21,7 @@ const team = [
   {
     icon: member2,
     name: "Muhammad Faisal",
-    position: "Founder eShaafi",
+    position: "Co-Founder eShaafi",
     linkedin: "https://www.linkedin.com/in/muhammad-faisal-vp/",
   },
 ];
@@ -49,11 +49,19 @@ export default function Team() {
               />
               <div className={style.memeberDetail}>
                 <span>
-                  <h5>{itm.name}</h5>
-                  <p className="text-dark">{itm.position}</p>
+                  <h5 className={style.memberHeading}>{itm.name}</h5>
+                  <p className={`${style.memberText} text-dark`}>
+                    {itm.position}
+                  </p>
                 </span>
                 <a href={itm.linkedin} target="_blank">
-                  <Image src={linkedin} alt="linkedin" width={40} height={40} />
+                  <Image
+                    src={linkedin}
+                    alt="linkedin"
+                    width={40}
+                    height={40}
+                    className={style.memberLink}
+                  />
                 </a>
               </div>
             </li>

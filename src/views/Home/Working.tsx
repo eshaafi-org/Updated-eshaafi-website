@@ -56,6 +56,8 @@ export default function Working() {
               alt="working"
               className={style.workingImage}
               unoptimized
+              width={1000}
+              height={1000}
             />
           </span>
         </div>

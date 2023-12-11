@@ -87,7 +87,6 @@
   }
 }
 ///// below Screens
-/// //above small mobile
 @mixin small-mobile-and-below {
   @media (max-width: 250px) {
     @content;
@@ -101,13 +100,13 @@
 }
 // above large mobile mobile
 @mixin large-mobile-and-below {
-  @media (max-width: 530px) {
+  @media (max-width: 550px) {
     @content;
   }
 }
 // above mobile landscape
 @mixin mobile-landscape-and-below {
-  @media (max-width: 531px) {
+  @media (max-width: 630px) {
     @content;
   }
 }
@@ -119,7 +118,7 @@
 }
 // above large tablet screen
 @mixin tablet-large-and-below {
-  @media (max-width: 900px) {
+  @media (max-width: 950px) {
     @content;
   }
 }

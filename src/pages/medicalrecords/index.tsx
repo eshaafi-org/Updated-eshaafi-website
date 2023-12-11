@@ -1,9 +1,8 @@
 import style from "@/styles/medicalRecords.module.scss";
 import { useState, useEffect } from "react";
-// import { useEffectOnce } from "react-use";
 import Head from "next/head";
 import Profiles from "@/components/Profiles";
-import { PageHeading } from "@/components/Typography/Heading";
+import { PageHeading } from "@/components/Typography";
 import AddressBar from "@/components/AddressBar";
 import AddRecords from "@/views/MedicalRecords/AddRecords/index.jsx";
 import axios from "axios";
@@ -33,7 +32,6 @@ export default function MedicalRecord() {
         )
         .then((res) => {
           setRecords(res.data.response.data.Items);
-          console.log(res.data.response.data.Items);
         })
         .catch((error) => console.log(error));
     } else {
@@ -48,8 +46,6 @@ export default function MedicalRecord() {
   // delete a single record list
   const deleteSingleListRecord = (id: string, recordId: string) => {
     const separatedArray = id.split("#");
-    console.log(separatedArray);
-
     axios
       .delete(
         BASE_URL +
@@ -73,7 +69,6 @@ export default function MedicalRecord() {
         setRecords((prev: any) =>
           prev.filter((item: any) => item?.appointmentId !== id)
         );
-        console.log(res);
       })
       .catch((err) => console.log(err));
     // setRecords((prev: any) =>
@@ -95,7 +90,7 @@ export default function MedicalRecord() {
         <section className="container">
           <div className={style.medicalRecordContainer}>
             <div className="d-flex flex-column row-gap-1">
-              <PageHeading content={"Medical Records"} />
+              <PageHeading>Medical Records</PageHeading>
               <AddressBar links={links} />
             </div>
             <Profiles patient={patient} setPatient={setPatient} />

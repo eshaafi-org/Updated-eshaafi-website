@@ -38,13 +38,13 @@ export default function Working() {
               style={{ flexDirection: indx % 2 === 0 ? "row" : "row-reverse" }}
             >
               <div className={style.stepImg}>
-                <Image src={itm.icon} alt="working-step-eshaafi" />
+                <Image src={itm.icon} alt="working-step-eshaafi" unoptimized />
               </div>
               <div className={style.stepBorder}>
                 <p>Step</p>
                 <span>{`0${indx + 1}`}</span>
               </div>
-              <span>
+              <span className={style.workingDetail}>
                 <h5 className="mb-1">{itm.heading}</h5>
                 <p>{itm.text}</p>
               </span>

@@ -8,23 +8,25 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import Image from "next/image";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import pdfIcon from "../../../../public/pdfIcon.svg";
 // name component
-const NumberOfAttach = ({ attached }) => {
+const NumberOfAttach = ({ files }) => {
+  const pdfRegex = /\bpdf\b/i;
   return (
     <>
       <div className={`${style.attachments}`} style={{ columnGap: "5px" }}>
-        {attached.slice(0, 2).map((item, index) => (
+        {files.slice(0, 2).map((item, index) => (
           <span key={index} className={index === 1 ? "lastAttach" : " "}>
             <Image
-              src={item}
+              src={pdfRegex.test(item) ? pdfIcon : item}
               alt="attachments"
               width={30}
               height={40}
               className={style.attachmentsImages}
             />
-            {index === 1 && attached.length > 2 && (
+            {index === 1 && files.length > 2 && (
               <p className="m-0 ms-1 attach-length" style={{ fontSize: 16 }}>
-                +{attached.slice(2).length}
+                +{files.slice(2).length}
               </p>
             )}
           </span>
@@ -54,7 +56,7 @@ const NumberOfAttach = ({ attached }) => {
   );
 };
 // record item
-const RecordItem = ({
+export const RecordItem = ({
   item,
   key,
   deleteRecord,
@@ -64,7 +66,6 @@ const RecordItem = ({
   const [show, setShow] = useState(false);
   const [options, setOptions] = useState(false);
   const [edit, setEdit] = useState(false);
-  console.log(item);
   const showOptions = () => {
     setOptions(!options);
   };
@@ -98,9 +99,15 @@ const RecordItem = ({
         <p>Time uploaded</p>
         {moment(item?.shared_record?.date).format("h:mm a")}
       </div>
-      <NumberOfAttach attached={item?.shared_record?.image} />
+      <NumberOfAttach
+        files={[...item.shared_record.image, ...item.shared_record.pdf]}
+      />
       <ImageViewer
-        images={item?.shared_record?.image}
+        images={
+          item.shared_record?.image.length > 0
+            ? item.shared_record?.image
+            : item.shared_record?.pdf
+        }
         patientName={item?.shared_record?.patient_name}
         date={item.appoint_date}
         show={show}
@@ -111,6 +118,7 @@ const RecordItem = ({
         recordId={item?.shared_record?.recordId}
         toast={toast}
         getMedicalRecords={getMedicalRecords}
+        fileType={item.shared_record?.image.length > 0 ? "image" : "pdf"}
       />
       <Button onClick={showOptions} className={options ? style.editActive : ""}>
         <HiOutlineDotsHorizontal />

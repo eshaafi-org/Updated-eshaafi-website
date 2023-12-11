@@ -13,6 +13,7 @@
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   align-items: center;
+  column-gap: 1rem;
   // justify-items: start;
   @include above-mobile-landscape {
     // grid-template-columns: 1fr 1fr;
@@ -287,10 +288,12 @@
   justify-content: center;
   // margin: 0 auto;
   .workingImage {
-    width: 100%;
-    @include for-large-mobile-only {
-      width: 75%;
-    }
+    max-width: 350px;
+
+    height: auto;
+    // @include for-large-mobile-only {
+    //   width: 75%;
+    // }
   }
   @include above-large-mobile {
     width: 50%;
