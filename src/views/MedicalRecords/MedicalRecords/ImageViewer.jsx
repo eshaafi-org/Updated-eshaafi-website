@@ -12,6 +12,7 @@ import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
 import Image from "next/image";
 import { FaEye } from "react-icons/fa";
 import pdfIcon from "../../../../public/pdfIcon.svg";
+
 // import { Worker, Viewer } from "react-pdf-viewer";
 // import Worker from "react-pdf-viewer";
 // import "@react-pdf-viewer/core/lib/styles/index.css";
@@ -40,6 +41,7 @@ export default function ImageViewer({
   const recordLength = images.length - 1;
   const handleClose = () => {
     setShow(false);
+    setLoading(false);
     if (edit) {
       setEdit(false);
       getMedicalRecords();
@@ -52,7 +54,7 @@ export default function ImageViewer({
     let id = entryId.split("#");
     let listing = imagesList.filter((itm) => itm !== imgId);
     setImgItem(imagesList.length - 2);
-    console.log(listing);
+
     setImagesList(listing);
     // for image list
     let fileData = {
@@ -101,69 +103,209 @@ export default function ImageViewer({
     const [file] = e.target.files || e.dataTransfer.files;
     // console.log(file);
     // preview img
-    if (file?.type) {
-      setLoading(true);
-      const reader = new FileReader();
-      reader.readAsBinaryString(file);
-      //preview onload function.
-      reader.onload = async () => {
-        // this is the base64 data
-        const fileRes = btoa(reader.result);
-        // console.log(fileRes);
-        const base64Image = toArrayBuffer(fileRes);
-        console.log(base64Image);
-        axios
-          .post(
-            `${BASE_URL}/image-upload-api/type/${
-              fileType === "image" ? "new" : "pdf"
-            }`,
-            base64Image,
-            {
-              headers: imgheaders(),
-            }
-          )
-          .then((response) => {
-            let nextImg = response.data.response.url;
+    if (
+      file?.type === "image/jpeg" ||
+      file?.type === "application/pdf" ||
+      file?.type === "image/png" ||
+      file?.type === "image/webp"
+    ) {
+      if (file.size <= 4000000) {
+        setLoading(true);
+        if (pdfRegex.test(file?.type)) {
+          if (fileType === "image") {
             setLoading(false);
-            setImagesList((prev) => [...prev, nextImg]);
-            setFile(response.data.response.url);
-            fileInputRef.current.value = "";
-            return nextImg;
-          })
-          .then((res) => {
-            axios
-              .patch(
-                BASE_URL +
-                  `/appointment/${id[0]}/shareMedicalRecord/${recordId}`,
-                {
-                  date: "",
-                  doctor_name: "",
-                  image: fileType === "image" ? [...imagesList, res] : [],
-                  pdf: fileType === "image" ? [] : [...imagesList, res],
-                  record_type: "Other",
-                },
-                { headers: headers() }
-              )
-              .then((res) => {
-                toast("Record updated successfully", {
-                  position: "top-right",
-                  autoClose: 3000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                  type: "success",
+            toast(
+              `This is a different file format from your previous format is "${fileType}". You can add one record of one format with multiple entries.`,
+              {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "error",
+              }
+            );
+          } else {
+            const reader = new FileReader();
+            reader.readAsBinaryString(file);
+            //preview onload function.
+            reader.onload = async () => {
+              // this is the base64 data
+              const fileRes = btoa(reader.result);
+              // console.log(fileRes);
+              const base64Image = toArrayBuffer(fileRes);
+
+              axios
+                .post(
+                  `${BASE_URL}/image-upload-api/type/${
+                    fileType === "image" ? "new" : "pdf"
+                  }`,
+                  base64Image,
+                  {
+                    headers: imgheaders(),
+                  }
+                )
+                .then((response) => {
+                  let nextImg = response.data.response.url;
+                  setLoading(false);
+                  setImagesList((prev) => [...prev, nextImg]);
+                  setFile(response.data.response.url);
+                  fileInputRef.current.value = "";
+                  return nextImg;
+                })
+                .then((res) => {
+                  axios
+                    .patch(
+                      BASE_URL +
+                        `/appointment/${id[0]}/shareMedicalRecord/${recordId}`,
+                      {
+                        date: "",
+                        doctor_name: "",
+                        image: fileType === "image" ? [...imagesList, res] : [],
+                        pdf: fileType === "image" ? [] : [...imagesList, res],
+                        record_type: "Other",
+                      },
+                      { headers: headers() }
+                    )
+                    .then((res) => {
+                      toast("Record updated successfully", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        type: "success",
+                      });
+                    })
+                    .catch((err) => console.log(err));
+                })
+                .catch((error) => {
+                  setLoading(false);
+                  console.log(error);
                 });
-              })
-              .catch((err) => console.log(err));
-          })
-          .catch((error) => {
+            };
+          }
+        } else {
+          if (fileType === "pdf") {
             setLoading(false);
-            console.log(error);
+            toast(
+              `This is a different file format from your previous format is "${fileType}". You can add one record of one format with multiple entries.`,
+              {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "error",
+              }
+            );
+          } else {
+            const reader = new FileReader();
+            reader.readAsBinaryString(file);
+            //preview onload function.
+            reader.onload = async () => {
+              // this is the base64 data
+              const fileRes = btoa(reader.result);
+              // console.log(fileRes);
+              const base64Image = toArrayBuffer(fileRes);
+
+              axios
+                .post(
+                  `${BASE_URL}/image-upload-api/type/${
+                    fileType === "image" ? "new" : "pdf"
+                  }`,
+                  base64Image,
+                  {
+                    headers: imgheaders(),
+                  }
+                )
+                .then((response) => {
+                  let nextImg = response.data.response.url;
+                  setLoading(false);
+                  setImagesList((prev) => [...prev, nextImg]);
+                  setFile(response.data.response.url);
+                  fileInputRef.current.value = "";
+                  return nextImg;
+                })
+                .then((res) => {
+                  axios
+                    .patch(
+                      BASE_URL +
+                        `/appointment/${id[0]}/shareMedicalRecord/${recordId}`,
+                      {
+                        date: "",
+                        doctor_name: "",
+                        image: fileType === "image" ? [...imagesList, res] : [],
+                        pdf: fileType === "image" ? [] : [...imagesList, res],
+                        record_type: "Other",
+                      },
+                      { headers: headers() }
+                    )
+                    .then((res) => {
+                      toast("Record updated successfully", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        type: "success",
+                      });
+                    })
+                    .catch((err) => console.log(err));
+                })
+                .catch((error) => {
+                  setLoading(false);
+                  console.log(error);
+                });
+            };
+          }
+        }
+      } else {
+        setLoading(false);
+        if (file?.type) {
+          toast(`😵 File size is exceeded. Max size is 4mb `, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "error",
           });
-      };
+        }
+      }
+    } else {
+      setLoading(false);
+      if (file?.type) {
+        toast(
+          `🥺 Sorry, This file format does not supported, Choose the file with you last format: "${fileType}"`,
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "error",
+          }
+        );
+      }
     }
   };
 

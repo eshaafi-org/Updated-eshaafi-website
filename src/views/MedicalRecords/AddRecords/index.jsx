@@ -11,7 +11,7 @@ import toArrayBuffer from "to-array-buffer";
 import axios from "axios";
 import pdfIcon from "../../../../public/pdfIcon.svg";
 import { BASE_URL, imgheaders, headers } from "@/helper/CONST";
-import { ToastContainer, toast } from "react-toastify";
+
 // import { FileUploader } from "react-drag-drop-files";
 // const fileTypes = ["JPG", "PNG", "GIF"];
 export default function AddRecords({ patient, getMedicalRecords, toast }) {
@@ -56,18 +56,9 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
     // }
   };
   const pdfRegex = /\bpdf\b/i;
-  const imgRegex = /\bimage\b/i;
   // handling uploading of image
   const handleUpload = (e) => {
     const [file] = e.target.files || e.dataTransfer.files;
-    console.log(file);
-    // if (file?.type) {
-    //   setLoading(true);
-    //   if (pdfRegex.test(file?.type)) {
-    //     setFileType(".pdf");
-    //   } else {
-    //     setFileType(".jpg, .jpeg, .png, .webp");
-    //   }
     // if file type is supported than go head and upload the record
     if (file.size <= 4000000) {
       if (
@@ -394,7 +385,6 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
             </div>
           </div>
         </div>
-        <ToastContainer />
       </Modal>
     </>
   );
