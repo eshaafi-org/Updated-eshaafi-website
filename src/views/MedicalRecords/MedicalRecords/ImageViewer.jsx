@@ -156,7 +156,6 @@ export default function ImageViewer({
                   theme: "light",
                   type: "success",
                 });
-                console.log(res);
               })
               .catch((err) => console.log(err));
           })
