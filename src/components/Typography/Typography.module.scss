@@ -26,7 +26,15 @@
     font-size: 16px;
   }
 }
-// text
+// text//////////////////////
+.text24 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #0e5487;
+  @include large-mobile-and-below {
+    font-size: 11px;
+  }
+}
 .text22 {
   font-size: 22px;
   font-weight: 500;

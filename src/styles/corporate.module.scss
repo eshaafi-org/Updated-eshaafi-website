@@ -14,6 +14,7 @@
   }
 }
 .corporateImg {
+  position: relative;
   img {
     width: 100%;
     height: auto;
@@ -25,6 +26,11 @@
       min-width: 330px;
       width: 100%;
       height: auto;
+    }
+  }
+  &:hover {
+    .overlay {
+      height: 100%;
     }
   }
 }
@@ -158,4 +164,36 @@
 }
 .errorClass {
   border: 1px solid red !important;
+}
+// over lay styling
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #00000033;
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: 0.5s ease;
+  color: #fff !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 0 1rem;
+
+  p {
+    color: #fff !important;
+    @include large-mobile-and-below {
+      text-align: left !important;
+    }
+  }
+  .innerText {
+    @include large-mobile-and-below {
+      display: none;
+    }
+  }
+  @include large-mobile-and-below {
+    padding: 0 0.2rem;
+  }
 }

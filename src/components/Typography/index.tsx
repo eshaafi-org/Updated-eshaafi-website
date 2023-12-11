@@ -21,8 +21,16 @@ const Heading40: React.FC<TypoProps> = ({ children, className }) => {
 const Heading24: React.FC<TypoProps> = ({ children, className }) => {
   return <h2 className={styles.heading24 + " " + className}>{children}</h2>;
 };
-// texting components
-// text 20px
+// texting components////////////////////////////
+// text 24px
+const Text24: React.FC<TypoProps> = ({ children, style, className }) => {
+  return (
+    <p className={styles.text24 + " " + className} style={style}>
+      {children}
+    </p>
+  );
+};
+// text 22px
 const Text22: React.FC<TypoProps> = ({ children, style, className }) => {
   return (
     <p className={styles.text22 + " " + className} style={style}>
@@ -30,20 +38,13 @@ const Text22: React.FC<TypoProps> = ({ children, style, className }) => {
     </p>
   );
 };
+// text 20px
 const Text20: React.FC<TypoProps> = ({ children, style, className }) => {
   return (
     <p className={styles.text20 + " " + className} style={style}>
       {children}
     </p>
   );
-};
-// text 11 px
-const Text11: React.FC<TypoProps> = ({ children, className }) => {
-  return <p className={styles.text11 + " " + className}>{children}</p>;
-};
-// text 16 px
-const Text16: React.FC<TypoProps> = ({ children, className }) => {
-  return <p className={styles.text16 + " " + className}>{children}</p>;
 };
 // text 18 px
 const Text18: React.FC<TypoProps> = ({ children, style, className }) => {
@@ -53,6 +54,10 @@ const Text18: React.FC<TypoProps> = ({ children, style, className }) => {
     </p>
   );
 };
+// text 16 px
+const Text16: React.FC<TypoProps> = ({ children, className }) => {
+  return <p className={styles.text16 + " " + className}>{children}</p>;
+};
 // text 14 px
 const Text14: React.FC<TypoProps> = ({ children, style, className }) => {
   return (
@@ -60,6 +65,10 @@ const Text14: React.FC<TypoProps> = ({ children, style, className }) => {
       {children}
     </p>
   );
+};
+// text 11 px
+const Text11: React.FC<TypoProps> = ({ children, className }) => {
+  return <p className={styles.text11 + " " + className}>{children}</p>;
 };
 
 export {
@@ -73,4 +82,5 @@ export {
   Text20,
   Text22,
   Text11,
+  Text24,
 };

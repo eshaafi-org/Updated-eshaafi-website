@@ -2,6 +2,7 @@ import style from "@/styles/corporate.module.scss";
 import Head from "next/head";
 import Hero from "@/views/Home/Hero";
 import coporateHero from "../../../public/images/coporateHero.png";
+import { Text24, Text16 } from "@/components/Typography";
 import Mission from "@/views/Home/Mission";
 import Image from "next/image";
 import Principle from "@/views/Careers/Principle";
@@ -72,12 +73,33 @@ export default function Coorporate() {
           <div className={style.corporateImgContainer}>
             <div className={style.corporateImg}>
               <Image src={corportat1} alt="corportate-image" unoptimized />
+              <div className={style.overlay}>
+                <Text24 className={style.text}>Collaborations</Text24>
+                <Text16 className={style.innerText}>
+                  We believe collaboration enhances creativity, efficiency, and
+                  problem-solving.
+                </Text16>
+              </div>
             </div>
             <div className={style.corporateImg}>
               <Image src={corportat2} alt="corportate-image" unoptimized />
+              <div className={style.overlay}>
+                <Text24 className={style.text}>Collaborations</Text24>
+                <Text16 className={style.innerText}>
+                  We believe collaboration enhances creativity, efficiency, and
+                  problem-solving.
+                </Text16>
+              </div>
             </div>
             <div className={style.corporateImg}>
               <Image src={corportat3} alt="corportate-image" unoptimized />
+              <div className={style.overlay}>
+                <Text24 className={style.text}>Collaborations</Text24>
+                <Text16 className={style.innerText}>
+                  We believe collaboration enhances creativity, efficiency, and
+                  problem-solving.
+                </Text16>
+              </div>
             </div>
           </div>
         </div>

@@ -39,7 +39,7 @@ export default function Careers() {
           subHeading={"Our Guiding Principles"}
         />
         <Mantra />
-        <Jobs />
+        {/* <Jobs /> */}
         <GetApp color="#DFEAF2" />
       </main>
     </>

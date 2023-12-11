@@ -42,13 +42,13 @@ export const footerLinks = [
       // { name: "About Us", href: "/aboutus" },
       // { name: "Privacy Policy", href: "/privacypolicy" },
       { name: "Careers", href: "/careers" },
-      { name: "Corporate", href: "/corporate" },
     ],
   },
   {
     heading: "Services",
     links: [
       { name: "Video Consultation", href: "/doctors" },
+      { name: "Corporate Care Program", href: "/corporate" },
       // { name: "Home Nursing", href: "/" },
       // { name: "Labs", href: "/" },
       // { name: "Pharmacy", href: "/" },
