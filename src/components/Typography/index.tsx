@@ -66,6 +66,10 @@ const Text14: React.FC<TypoProps> = ({ children, style, className }) => {
     </p>
   );
 };
+// text 12 px
+const Text12: React.FC<TypoProps> = ({ children, className }) => {
+  return <p className={styles.text12 + " " + className}>{children}</p>;
+};
 // text 11 px
 const Text11: React.FC<TypoProps> = ({ children, className }) => {
   return <p className={styles.text11 + " " + className}>{children}</p>;
@@ -83,4 +87,5 @@ export {
   Text22,
   Text11,
   Text24,
+  Text12,
 };

@@ -53,7 +53,7 @@ export const footerLinks = [
       // { name: "Labs", href: "/" },
       // { name: "Pharmacy", href: "/" },
       // { name: "24/7 Support", href: "/" },
-      // { name: "Subscription Plans", href: "/" },
+      { name: "Subscription Plans", href: "/subscriptions" },
       // { name: "For Organization", href: "/" },
     ],
   },

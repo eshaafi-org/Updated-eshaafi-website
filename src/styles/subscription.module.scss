@@ -1,0 +1,46 @@
+.heroSection {
+  background-color: #dfeaf2;
+}
+.heroContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.FQuest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 2rem;
+}
+.questions {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 2rem;
+}
+.plansContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 2rem;
+}
+.planCard {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 2rem;
+  border-radius: 12px;
+}
+.saves {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem;
+  background-color: #c5e6fd;
+  color: #0e5487;
+  font-weight: 700;
+  border-radius: 0 12px 0 4px;
+}
+.price {
+  font-size: 28px;
+}

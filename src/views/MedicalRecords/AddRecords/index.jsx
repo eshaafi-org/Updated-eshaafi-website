@@ -1,5 +1,5 @@
 import style from "@/styles/medicalRecords.module.scss";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "@/components/Button";
 import { SectionHeading } from "@/components/Typography";
@@ -49,14 +49,18 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
     }
   };
   // handle delete record
-  const handleDeleteRecord = (img) => {
+  const handleDeleteRecord = async (img) => {
     setImages((prev) => prev.filter((itm) => itm !== img));
+    // if (images.length === 0) {
+    //   setFileType(".jpg, .jpeg, .png, .webp, .pdf");
+    // }
   };
   const pdfRegex = /\bpdf\b/i;
   const imgRegex = /\bimage\b/i;
   // handling uploading of image
   const handleUpload = (e) => {
     const [file] = e.target.files || e.dataTransfer.files;
+    console.log(file);
     // if (file?.type) {
     //   setLoading(true);
     //   if (pdfRegex.test(file?.type)) {
@@ -65,69 +69,150 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
     //     setFileType(".jpg, .jpeg, .png, .webp");
     //   }
     // if file type is supported than go head and upload the record
-    if (
-      file?.type === "image/jpeg" ||
-      file?.type === "application/pdf" ||
-      file?.type === "image/png"
-    ) {
-      setLoading(true);
-      // if previous jpeg
-      if (pdfRegex.test(file?.type)) {
-        // let suppose current file type is jpeg, png
-        console.log("i am true");
-        if (fileType === ".jpg, .jpeg, .png, .webp") {
-          setLoading(false);
-          toast(
-            `This is a different file format from your previous format is "${fileType}". You can add one record of one format with multiple entries.`,
-            {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              type: "error",
-            }
-          );
+    if (file.size <= 4000000) {
+      if (
+        file?.type === "image/jpeg" ||
+        file?.type === "application/pdf" ||
+        file?.type === "image/png" ||
+        file?.type === "image/webp"
+      ) {
+        setLoading(true);
+        // if previous jpeg
+        if (pdfRegex.test(file?.type)) {
+          // let suppose current file type is jpeg, png
+          if (fileType === ".jpg, .jpeg, .png, .webp") {
+            setLoading(false);
+            toast(
+              `This is a different file format from your previous format is "${fileType}". You can add one record of one format with multiple entries.`,
+              {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "error",
+              }
+            );
+          } else {
+            setFileType(".pdf");
+            const reader = new FileReader();
+            reader.readAsBinaryString(file);
+            //preview onload function.
+            reader.onload = async () => {
+              // this is the base64 data
+              const fileRes = btoa(reader.result);
+              const base64Image = toArrayBuffer(fileRes);
+              axios
+                .post(
+                  `${BASE_URL}/image-upload-api/type/${
+                    pdfRegex.test(file?.type) ? "pdf" : "new"
+                  }`,
+                  base64Image,
+                  {
+                    headers: imgheaders(),
+                  }
+                )
+                .then((response) => {
+                  let nextImg = response.data.response.url;
+                  setLoading(false);
+                  setImages((prev) => [...prev, nextImg]);
+                  // setFile(response.data.response.url);
+                  return nextImg;
+                })
+                .catch((error) => {
+                  setLoading(false);
+                  console.log(error);
+                });
+            };
+          }
         } else {
-          setFileType(".pdf");
-          const reader = new FileReader();
-          reader.readAsBinaryString(file);
-          //preview onload function.
-          reader.onload = async () => {
-            // this is the base64 data
-            const fileRes = btoa(reader.result);
-            const base64Image = toArrayBuffer(fileRes);
-            axios
-              .post(
-                `${BASE_URL}/image-upload-api/type/${
-                  pdfRegex.test(file?.type) ? "pdf" : "new"
-                }`,
-                base64Image,
-                {
-                  headers: imgheaders(),
-                }
-              )
-              .then((response) => {
-                let nextImg = response.data.response.url;
-                setLoading(false);
-                setImages((prev) => [...prev, nextImg]);
-                // setFile(response.data.response.url);
-                return nextImg;
-              })
-              .catch((error) => {
-                setLoading(false);
-                console.log(error);
-              });
-          };
+          if (fileType === ".pdf") {
+            setLoading(false);
+            toast(
+              `This is a different file format from your previous format is "${fileType}". You can add one record of one format with multiple entries.`,
+              {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "error",
+              }
+            );
+          } else {
+            // setting the file format
+            setFileType(".jpg, .jpeg, .png, .webp");
+            const reader = new FileReader();
+            reader.readAsBinaryString(file);
+            //preview onload function.
+            reader.onload = async () => {
+              // this is the base64 data
+              const fileRes = btoa(reader.result);
+              const base64Image = toArrayBuffer(fileRes);
+              axios
+                .post(
+                  `${BASE_URL}/image-upload-api/type/${
+                    pdfRegex.test(file?.type) ? "pdf" : "new"
+                  }`,
+                  base64Image,
+                  {
+                    headers: imgheaders(),
+                  }
+                )
+                .then((response) => {
+                  let nextImg = response.data.response.url;
+                  setLoading(false);
+                  setImages((prev) => [...prev, nextImg]);
+                  // setFile(response.data.response.url);
+                  return nextImg;
+                })
+                .catch((error) => {
+                  setLoading(false);
+                  console.log(error);
+                });
+            };
+          }
         }
+        // const reader = new FileReader();
+        // reader.readAsBinaryString(file);
+        // //preview onload function.
+        // reader.onload = async () => {
+        //   // this is the base64 data
+        //   const fileRes = btoa(reader.result);
+        //   const base64Image = toArrayBuffer(fileRes);
+        //   axios
+        //     .post(
+        //       `${BASE_URL}/image-upload-api/type/${
+        //         pdfRegex.test(file?.type) ? "pdf" : "new"
+        //       }`,
+        //       base64Image,
+        //       {
+        //         headers: imgheaders(),
+        //       }
+        //     )
+        //     .then((response) => {
+        //       let nextImg = response.data.response.url;
+        //       setLoading(false);
+        //       setImages((prev) => [...prev, nextImg]);
+        //       // setFile(response.data.response.url);
+        //       return nextImg;
+        //     })
+        //     .catch((error) => {
+        //       setLoading(false);
+        //       console.log(error);
+        //     });
+        // };
       } else {
-        if (fileType === ".pdf") {
-          setLoading(false);
+        setLoading(false);
+        if (file?.type) {
           toast(
-            `This is a different file format from your previous format is "${fileType}". You can add one record of one format with multiple entries.`,
+            `🥺 Sorry, This file format does not supported, Choose the file with you last format: "${fileType}"`,
             {
               position: "top-right",
               autoClose: 3000,
@@ -140,86 +225,22 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
               type: "error",
             }
           );
-        } else {
-          // setting the file format
-          setFileType(".jpg, .jpeg, .png, .webp");
-          const reader = new FileReader();
-          reader.readAsBinaryString(file);
-          //preview onload function.
-          reader.onload = async () => {
-            // this is the base64 data
-            const fileRes = btoa(reader.result);
-            const base64Image = toArrayBuffer(fileRes);
-            axios
-              .post(
-                `${BASE_URL}/image-upload-api/type/${
-                  pdfRegex.test(file?.type) ? "pdf" : "new"
-                }`,
-                base64Image,
-                {
-                  headers: imgheaders(),
-                }
-              )
-              .then((response) => {
-                let nextImg = response.data.response.url;
-                setLoading(false);
-                setImages((prev) => [...prev, nextImg]);
-                // setFile(response.data.response.url);
-                return nextImg;
-              })
-              .catch((error) => {
-                setLoading(false);
-                console.log(error);
-              });
-          };
         }
       }
-      // const reader = new FileReader();
-      // reader.readAsBinaryString(file);
-      // //preview onload function.
-      // reader.onload = async () => {
-      //   // this is the base64 data
-      //   const fileRes = btoa(reader.result);
-      //   const base64Image = toArrayBuffer(fileRes);
-      //   axios
-      //     .post(
-      //       `${BASE_URL}/image-upload-api/type/${
-      //         pdfRegex.test(file?.type) ? "pdf" : "new"
-      //       }`,
-      //       base64Image,
-      //       {
-      //         headers: imgheaders(),
-      //       }
-      //     )
-      //     .then((response) => {
-      //       let nextImg = response.data.response.url;
-      //       setLoading(false);
-      //       setImages((prev) => [...prev, nextImg]);
-      //       // setFile(response.data.response.url);
-      //       return nextImg;
-      //     })
-      //     .catch((error) => {
-      //       setLoading(false);
-      //       console.log(error);
-      //     });
-      // };
     } else {
       setLoading(false);
       if (file?.type) {
-        toast(
-          `🥺 Sorry, This file format does not supported, select this format "${fileType}"`,
-          {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            type: "error",
-          }
-        );
+        toast(`😵 File size is exceeded. Max size is 4mb `, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "error",
+        });
       }
     }
     // preview img
@@ -260,7 +281,12 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
         console.log(err);
       });
   };
-
+  // use effect
+  useEffect(() => {
+    if (images.length < 1) {
+      setFileType(".jpg, .jpeg, .png, .webp, .pdf");
+    }
+  }, [images]);
   return (
     <>
       <div className="d-flex justify-content-between align-items-center">
