@@ -1,7 +1,11 @@
 import style from "@/styles/careers.module.scss";
 import Image from "next/image";
 import { Heading24, Text24, Heading40, Text16 } from "@/components/Typography";
-import aboutGalleryImage from "../../../public/images/aboutGalleryImage.png";
+import career1 from "../../../public/images/career1.png";
+import career2 from "../../../public/images/career2.png";
+import career3 from "../../../public/images/career3.png";
+import career4 from "../../../public/images/career4.png";
+import career5 from "../../../public/images/career5.png";
 export default function Mantra() {
   return (
     <div className="container">
@@ -10,9 +14,10 @@ export default function Mantra() {
       <div className={style.mantraContainer}>
         <div className={style.galleryItem1}>
           <Image
-            src={aboutGalleryImage}
+            src={career2}
             alt="about-eshaafi-doctor-consultation"
             className={style.galleryImg}
+            unoptimized
           />
           <div className={style.overlay}>
             <Text24 className={style.text}>Collaborations</Text24>
@@ -24,9 +29,10 @@ export default function Mantra() {
         </div>
         <div className={style.galleryItem2}>
           <Image
-            src={aboutGalleryImage}
+            src={career1}
             alt="about-eshaafi-doctor-consultation"
             className={style.galleryImg}
+            unoptimized
           />
           <div className={style.overlay}>
             <Text24 className={style.text}>Finding Solutions</Text24>
@@ -38,9 +44,10 @@ export default function Mantra() {
         </div>
         <div className={style.galleryItem3}>
           <Image
-            src={aboutGalleryImage}
+            src={career3}
             alt="about-eshaafi-doctor-consultation"
             className={style.galleryImg}
+            unoptimized
           />
           <div className={style.overlay}>
             <Text24 className={style.text}>Bringing New Ideas</Text24>
@@ -52,9 +59,10 @@ export default function Mantra() {
         </div>
         <div className={style.galleryItem4}>
           <Image
-            src={aboutGalleryImage}
+            src={career4}
             alt="about-eshaafi-doctor-consultation"
             className={style.galleryImg}
+            unoptimized
           />
           <div className={style.overlay}>
             <Text24 className={style.text}>Accomplishing Goals</Text24>
@@ -66,9 +74,10 @@ export default function Mantra() {
         </div>
         <div className={style.galleryItem5}>
           <Image
-            src={aboutGalleryImage}
+            src={career5}
             alt="about-eshaafi-doctor-consultation"
             className={style.galleryImg}
+            unoptimized
           />
           <div className={style.overlay}>
             <Text24>Accepting Differences</Text24>
