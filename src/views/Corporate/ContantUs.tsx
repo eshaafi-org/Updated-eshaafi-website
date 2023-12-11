@@ -20,7 +20,7 @@ export default function ContactUs() {
   const { name, company, designation, noOfEmployees, email, phone } = form;
 
   return (
-    <div className="container">
+    <div className="container" id="demoContact">
       <div className={style.contactusContainer}>
         <div className={style.contactusCover}>
           <Image src={contact} alt="corporate-contact" />

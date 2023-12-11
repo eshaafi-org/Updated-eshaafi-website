@@ -60,7 +60,7 @@ export default function Coorporate() {
         <Hero
           heading="Elevate employee wellbeing with eShaafi"
           text="We bring seamless healthcare solution for your employees ensuring productivity."
-          link={{ name: "Book Demo", link: "/" }}
+          link={{ name: "Book Demo", link: "#demoContact" }}
           img={coporateHero}
           capitalize={false}
         />
@@ -74,30 +74,25 @@ export default function Coorporate() {
             <div className={style.corporateImg}>
               <Image src={corportat1} alt="corportate-image" unoptimized />
               <div className={style.overlay}>
-                <Text24 className={style.text}>Collaborations</Text24>
                 <Text16 className={style.innerText}>
-                  We believe collaboration enhances creativity, efficiency, and
-                  problem-solving.
+                  {` Our team of inhouse doctors follow our vision of ‘Care that
+                  never quits’ providing special care to all patients.`}
                 </Text16>
               </div>
             </div>
             <div className={style.corporateImg}>
               <Image src={corportat2} alt="corportate-image" unoptimized />
               <div className={style.overlay}>
-                <Text24 className={style.text}>Collaborations</Text24>
                 <Text16 className={style.innerText}>
-                  We believe collaboration enhances creativity, efficiency, and
-                  problem-solving.
+                  {` We offer 24/7 video consultations with Pakistan's top doctors to assist you with your medical concerns.`}
                 </Text16>
               </div>
             </div>
             <div className={style.corporateImg}>
               <Image src={corportat3} alt="corportate-image" unoptimized />
               <div className={style.overlay}>
-                <Text24 className={style.text}>Collaborations</Text24>
                 <Text16 className={style.innerText}>
-                  We believe collaboration enhances creativity, efficiency, and
-                  problem-solving.
+                  {`Our team of inhouse doctors follow our vision of ‘Care that never quits’ providing special care to all patients`}
                 </Text16>
               </div>
             </div>
