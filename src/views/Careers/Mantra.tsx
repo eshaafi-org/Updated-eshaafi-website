@@ -17,8 +17,8 @@ export default function Mantra() {
           <div className={style.overlay}>
             <Text24 className={style.text}>Collaborations</Text24>
             <Text16 className={style.innerText}>
-              We believe collaboration enhances creativity, efficiency, and
-              problem-solving.
+              {` We believe collaboration enhances creativity, efficiency, and
+              problem-solving.`}
             </Text16>
           </div>
         </div>
