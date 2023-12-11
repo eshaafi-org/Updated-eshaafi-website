@@ -45,8 +45,8 @@ export default function Mantra() {
           <div className={style.overlay}>
             <Text24 className={style.text}>Bringing New Ideas</Text24>
             <Text16 className={style.innerText}>
-              Innovation happens when different viewpoints come together, making
-              our solutions more creative and effective.
+              {` Innovation happens when different viewpoints come together, making
+              our solutions more creative and effective.`}
             </Text16>
           </div>
         </div>
@@ -59,8 +59,8 @@ export default function Mantra() {
           <div className={style.overlay}>
             <Text24 className={style.text}>Accomplishing Goals</Text24>
             <Text16 className={style.innerText}>
-              We reach our goals by working together as a team, using everyone's
-              strengths.
+              {` We reach our goals by working together as a team, using everyone's
+              strengths.`}
             </Text16>
           </div>
         </div>
@@ -73,8 +73,8 @@ export default function Mantra() {
           <div className={style.overlay}>
             <Text24>Accepting Differences</Text24>
             <Text16 className={style.innerText}>
-              As a team, we embrace our differences, recognizing that diversity
-              to strengthen us.
+              {` As a team, we embrace our differences, recognizing that diversity
+              to strengthen us.`}
             </Text16>
           </div>
         </div>
