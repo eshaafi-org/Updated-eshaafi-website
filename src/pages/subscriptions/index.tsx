@@ -2,7 +2,7 @@ import Head from "next/head";
 import style from "@/styles/subscription.module.scss";
 import { Heading24, Heading40, Text16, Text12 } from "@/components/Typography";
 import GetApp from "@/views/Home/GetApp";
-import SubscriptionPlans from "@/views/subscriptions/Plans";
+import SubscriptionPlans from "@/views/Subscription/Plans";
 import Mission from "@/views/Home/Mission";
 export default function Subscriptions() {
   return (
