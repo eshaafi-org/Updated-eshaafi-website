@@ -4,6 +4,7 @@ import { Heading24, Heading40, Text16, Text12 } from "@/components/Typography";
 import GetApp from "@/views/Home/GetApp";
 import SubscriptionPlans from "@/views/subscriptions/Plans";
 import Mission from "@/views/Home/Mission";
+import useDispatch from 'react-redux'
 export default function Subscriptions() {
   return (
     <>
