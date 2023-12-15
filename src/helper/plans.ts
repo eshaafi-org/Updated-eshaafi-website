@@ -1,6 +1,5 @@
 export const plans = [
   {
-
     calls: "1",
     id:1,
     price: "240",
