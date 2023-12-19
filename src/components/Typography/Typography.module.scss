@@ -27,6 +27,14 @@
   }
 }
 // text//////////////////////
+.text28 {
+  font-size: 28px;
+  font-weight: 500;
+  color: #0e5487;
+  @include large-mobile-and-below {
+    font-size: 12px;
+  }
+}
 .text24 {
   font-size: 24px;
   font-weight: 500;

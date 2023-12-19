@@ -185,7 +185,7 @@ export default function AddProfile({ setProfile, toast }) {
       </li>
       <Modal show={show} onHide={handleClose}>
         {/* modal head */}
-        <div className="d-flex align-items-center border-bottom align-items-center py-2">
+        <div className="d-flex align-items-center border-bottom py-2">
           <div className="w-40 ps-3">
             <Button onClick={handleClose}>
               <FaXmark className={style.deleteIcon} />
