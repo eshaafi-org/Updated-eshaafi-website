@@ -110,13 +110,13 @@
     @content;
   }
 }
-// above tablet screen
+// below tablet screen
 @mixin tablet-and-below {
   @media (max-width: 768px) {
     @content;
   }
 }
-// above large tablet screen
+// below large tablet screen
 @mixin tablet-large-and-below {
   @media (max-width: 950px) {
     @content;

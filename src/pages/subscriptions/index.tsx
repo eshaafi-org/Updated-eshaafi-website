@@ -1,3 +1,4 @@
+'use client'
 import Head from "next/head";
 import style from "@/styles/subscription.module.scss";
 import { Heading24, Heading40, Text16, Text12 } from "@/components/Typography";
