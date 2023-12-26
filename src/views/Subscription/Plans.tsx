@@ -11,13 +11,14 @@ import Modal from "react-bootstrap/Modal";
 import Link from "next/link";
 import axios from "axios";
 // View Details Modal
-function DetailModal({ plan }: { plan: any }) {
-  const selectedPlan = plan?.plansList?.[0];
+function DetailModal({ plan, selectedPlan }: { plan: any; selectedPlan: any }) {
   // states
   const [show, setShow] = useState(false);
+
   // modal open and close function
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow =() => setShow(true);
+  
   return (
     <>
       {/* Button where Modal open */}
@@ -69,39 +70,42 @@ function DetailModal({ plan }: { plan: any }) {
 }
 
 // const plan component
-function Plan({ key, plan }: { key: number; plan: any }) {
-  const selectedPlan = plan?.plansList;
+function Plan({ plan }: { plan: any }) {
   return (
-    <li key={key} className={style.planCard}>
-      <Text22 className="text-dark">{selectedPlan?.noOfCalls} Call Plan</Text22>
-      <Text22 className="text-dark">
-        <span className={style.price}>Rs. {selectedPlan?.charges}</span> per month{" "}
-      </Text22>
-      <Text16 className={style.saves}>Save Rs.{selectedPlan?.saveRupees}</Text16>
-      <p>Make three calls in {plan?.planCategory}</p>
-      <ul className="my-3">
-        <Text16 className={"text-dark fw-bolder"}>What it Includes?</Text16>
-        {Array.isArray(selectedPlan?.includes) &&
-          selectedPlan?.includes.map((itm: string, indx: number) => (
-            <li key={indx} className="my-2">
-              <IoCheckmark
-                style={{
-                  color: "#0EA472",
-                  fontSize: "1.5rem",
-                  marginRight: "1rem",
-                }}
-              />
-              {itm}
-            </li>
-          ))}
-      </ul>
-      <Link href={`/subscriptions/${selectedPlan?.pId}`}>
-        <Button className={`${style.subscribe} w-100 mt-3`} variant="outlined">
-          Subscribe Now
-        </Button>
-      </Link>
-      <DetailModal plan={plan} />
-    </li>
+    <>
+      {plan.plansList.map((selectedPlan: any, index: number) => (
+        <li key={index} className={style.planCard}>
+          <Text22 className="text-dark">{selectedPlan?.noOfCalls} Call Plan</Text22>
+          <Text22 className="text-dark">
+            <span className={style.price}>Rs. {selectedPlan?.charges}</span> per month{" "}
+          </Text22>
+          <Text16 className={style.saves}>Save Rs.{selectedPlan?.saveRupees}</Text16>
+          <p>Make three calls in {plan?.planCategory}</p>
+          <ul className="my-3">
+            <Text16 className={"text-dark fw-bolder"}>What it Includes?</Text16>
+            {Array.isArray(selectedPlan?.includes) &&
+              selectedPlan?.includes.map((itm: string, indx: number) => (
+                <li key={indx} className="my-2">
+                  <IoCheckmark
+                    style={{
+                      color: "#0EA472",
+                      fontSize: "1.5rem",
+                      marginRight: "1rem",
+                    }}
+                  />
+                  {itm}
+                </li>
+              ))}
+          </ul>
+          <Link href={`/subscriptions/${selectedPlan?.pId}`}>
+            <Button className={`${style.subscribe} w-100 mt-3`} variant="outlined">
+              Subscribe Now
+            </Button>
+          </Link>
+          <DetailModal plan={plan} selectedPlan={selectedPlan} />
+        </li>
+      ))}
+    </>
   );
 }
 // Button in the Function
@@ -150,11 +154,6 @@ export default function SubscriptionPlans() {
         ))}
       </div>
       <ul className={style.plansContainer}>
-        {/* {plans
-          .filter((plan) => plan.planCategory === selectedCategory)
-          .map((filteredPlan: any, indx: number) => (
-            <Plan key={indx} plan={filteredPlan} />
-          ))} */}
         {filteredPlans.map((category, index) => (
           <Plan key={index} plan={category} />
         ))}

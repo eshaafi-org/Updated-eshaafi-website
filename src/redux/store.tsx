@@ -4,11 +4,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { appointmentListReducer } from "@/views/Appointments/appointmentListSlicer";
 import { loginModalReducer } from "@/views/Header/loginSlice";
 import { appointmentPageReducer } from "@/views/Appointments/appointmentPageSlicer";
+// import { planListReducer } from "@views/Subscription/planListSlicer"
 
 const rootReducer = combineReducers({
   appointmentListReducer,
   loginModalReducer,
   appointmentPageReducer,
+  // planListReducer,
   //   counter: counterReducer,
   //add all your reducers here
 });
