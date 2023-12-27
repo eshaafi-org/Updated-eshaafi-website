@@ -1,19 +1,17 @@
 'use clientS'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddressBar from "@/components/AddressBar";
-import { plans } from "@/helper/plans";
 import Summary from "@/views/Subscription/Summary";
+import { plans } from "@/helper/plans";
 import style from '@/styles/bookSubscription.module.scss'
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 export default function SubscribePlans() {
-  const params = useRouter();
-  const { id } = params.query;
+  const router = useRouter();
+  const { id } = router.query;
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedMethod, setSelectedMethod] = useState<string | null>("Credit/Debit Card");
-
-  const planId = typeof id === "string" ? parseInt(id, 10) : undefined;
-  const selectedPlan = plans.find((plan) => plan.id === planId);
 
   let links = [
     { name: "Home", link: "/" },
@@ -24,7 +22,8 @@ export default function SubscribePlans() {
   const handlePaymentMethodChange = (method: string) => {
     setSelectedMethod((prevMethod) => (prevMethod === method ? null : method));
   };
-
+  const planId = typeof id === "string" ? parseInt(id, 10) : undefined;
+  const selectedPlan = plans.find((plan: { id: number | undefined; }) => plan.id === planId);
   return (
     <section className="container">
       <span>
@@ -63,7 +62,7 @@ export default function SubscribePlans() {
             </li>
           </ul>
         </div>
-        <Summary plan={selectedPlan} loading={loading} selectedMethod={selectedMethod}/>
+        <Summary plan={selectedPlan} loading={loading} selectedMethod={selectedMethod} />
       </div>
     </section>
   );

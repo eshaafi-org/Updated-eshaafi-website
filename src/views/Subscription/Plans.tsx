@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Key } from "react";
 import style from "@/styles/subscription.module.scss";
 // import { plans } from "@/helper/plans";
 import { Text22, Text16, Text28, Text11, Text18 } from "@/components/Typography";
@@ -10,6 +10,9 @@ import { BASE_URL, headers } from "@/helper/CONST";
 import Modal from "react-bootstrap/Modal";
 import Link from "next/link";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+// import { requestPlans, receivePlans, plansError } from './planListSlicer';
+// import { planListReducer } from "@/views/Subscription/planListSlicer";
 // View Details Modal
 function DetailModal({ plan, selectedPlan }: { plan: any; selectedPlan: any }) {
   // states
@@ -122,16 +125,25 @@ function DurationButton({ duration, selectedCategory, onClick }: { duration: str
 // Main Component rendering
 export default function SubscriptionPlans() {
   const [selectedCategory, setSelectedCategory] = useState("1 month");
+  const dispatch = useDispatch();
+  // const value = useSelector((state: any) => state.planListReducer.value);
+  // const plans = value;
   const [plans, setPlans] = useState([] as { planCategory: string }[]);
   const getSubscriptionPlans = () => {
+    // dispatch(requestPlans())
     axios
       .get(BASE_URL + "/patients/subscription", {
         headers: headers(),
       })
       .then((res) => {
         setPlans(res.data.response.Items);
+        // dispatch(receivePlans(res.data.response.Items));
       })
       .catch((error) => console.log(error));
+      // .catch((error) => {
+      //   dispatch(plansError(error));
+      //   console.log(error);
+      // });
   };
   useEffect(() => {
     getSubscriptionPlans();
@@ -140,7 +152,7 @@ export default function SubscriptionPlans() {
     setSelectedCategory(category);
   };
 
-  const filteredPlans = plans.filter((plan) => plan.planCategory === selectedCategory);
+  const filteredPlans = plans.filter((plan: { planCategory: string; }) => plan.planCategory === selectedCategory);
   return (
     <section className="container">
       <div className="d-flex justify-content-center mb-3 gap-2">
@@ -154,7 +166,7 @@ export default function SubscriptionPlans() {
         ))}
       </div>
       <ul className={style.plansContainer}>
-        {filteredPlans.map((category, index) => (
+        {filteredPlans.map((category: any, index: Key | null | undefined) => (
           <Plan key={index} plan={category} />
         ))}
       </ul>
