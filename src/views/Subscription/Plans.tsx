@@ -11,7 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import Link from "next/link";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-// import { requestPlans, receivePlans, plansError } from './planListSlicer';
+import { requestPlans, receivePlans, plansError } from './planListSlicer';
 // import { planListReducer } from "@/views/Subscription/planListSlicer";
 // View Details Modal
 function DetailModal({ plan, selectedPlan }: { plan: any; selectedPlan: any }) {
@@ -126,24 +126,24 @@ function DurationButton({ duration, selectedCategory, onClick }: { duration: str
 export default function SubscriptionPlans() {
   const [selectedCategory, setSelectedCategory] = useState("1 month");
   const dispatch = useDispatch();
-  // const value = useSelector((state: any) => state.planListReducer.value);
-  // const plans = value;
-  const [plans, setPlans] = useState([] as { planCategory: string }[]);
+  const value = useSelector((state: any) => state.planListReducer.value);
+  const plans = value;
+  // const [plans, setPlans] = useState([] as { planCategory: string }[]);
   const getSubscriptionPlans = () => {
-    // dispatch(requestPlans())
+    dispatch(requestPlans())
     axios
       .get(BASE_URL + "/patients/subscription", {
         headers: headers(),
       })
       .then((res) => {
-        setPlans(res.data.response.Items);
-        // dispatch(receivePlans(res.data.response.Items));
+        // setPlans(res.data.response.Items);
+        dispatch(receivePlans(res.data.response.Items));
       })
-      .catch((error) => console.log(error));
-      // .catch((error) => {
-      //   dispatch(plansError(error));
-      //   console.log(error);
-      // });
+      // .catch((error) => console.log(error));
+      .catch((error) => {
+        dispatch(plansError(error));
+        console.log(error);
+      });
   };
   useEffect(() => {
     getSubscriptionPlans();
