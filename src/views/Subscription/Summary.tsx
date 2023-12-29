@@ -48,10 +48,12 @@
 //   );
 // }
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/bookAppointment.module.scss";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { headers } from "@/helper/CONST";
 
 export default function Summary({
   plan,
@@ -65,52 +67,84 @@ export default function Summary({
   const router = useRouter();
   const { id } = router.query;
   const data = plan?.plansList.find((item: { pId: any }) => item.pId === id);
+  const [pp_SecureHash, setSecureHash] = useState('');
+  const [pp_TxnRefNo, setTxnRefNo] = useState('');
+  console.log(pp_TxnRefNo)
+  useEffect(() => {
+    // Example parameters (replace with actual values)
+     const timestamp = new Date().toISOString().replace(/[^0-9]/g, '');
+    const pp_MerchantID = "00302074";
+    const pp_Password = "z583y3x095";
+    const pp_TxnRefNo = `T${timestamp}SUB`;
+    const pp_Amount = "100";
+    
+    // Concatenate parameter values
+    const concatenatedString = `${pp_MerchantID}${pp_Password}${pp_TxnRefNo}${pp_Amount}`;
+
+    // Add secret key
+    const secretKey = "your_secret_key";
+    const concatenatedStringWithKey = `${concatenatedString}${secretKey}`;
+
+    // Generate SHA-256 hash using crypto library
+    const crypto = require('crypto');
+    const hash = crypto.createHash('sha256').update(concatenatedStringWithKey).digest('hex');
+    
+    // Set the generated hash in state
+    setTxnRefNo(pp_TxnRefNo);
+    setSecureHash(hash);
+  }, []);
+
 
   const handleSubscribe = async () => {
-    if (selectedMethod === "Jazz Cash") {
-      try {
-        const jazzCashApiUrl =
-          "https://payments.jazzcash.com.pk/ApplicationAPI/API/2.0/Purchase/DoMWalletTransaction";
+    // If the selectedMethod is not "Jazz Cash", proceed with the default payment URL
+    const paymentUrl = `https://eshaafi.com/payment.html?handshake=${id}&paymentFee=${data?.charges}`;
+    window.location.href = paymentUrl;
 
-        const response = await fetch(jazzCashApiUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ppAmount: data?.charges,
-            ppBillReference: "billRef",
-            ppDescription: "Description",
-            ppLanguage: "EN",
-            ppCNIC: "021997",
-            ppMerchantID: "00302074",
-            ppMobileNumber: "03008835072",
-            ppPassword: "z583y3x095",
-            ppProductID: id,
-            ppTxnCurrency: "PKR",
-            ppSecureHash: "", // Include the actual secure hash value
-            ppTxnDateTime: "", // Include the actual transaction date and time
-            ppTxnExpiryDateTime: "", // Include the actual transaction expiry date and time
-            ppTxnRefNo: "T2312280436131213PTD",
-          }),
-        });
+  };
+  const handleJazzCash = () => {
+    const currentDate = new Date();
+    const formattedCurrentDate = new Date().toISOString().replace(/[^0-9]/g, "");
 
-        if (response.ok) {
-          // Handle successful response (optional)
-          const jsonResponse = await response.json();
-          console.log("JazzCash API call success:", jsonResponse);
-        } else {
-          // Handle error response (optional)
-          console.error("JazzCash API call failed:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error in JazzCash API call:", error);
-      }
-    } else {
-      // If the selectedMethod is not "Jazz Cash", proceed with the default payment URL
-      const paymentUrl = `https://eshaafi.com/payment.html?handshake=${id}&paymentFee=${data?.charges}`;
-      window.location.href = paymentUrl;
-    }
+    const expiryDate = new Date(currentDate.getTime() + 60 * 60 * 1000); // 1 hour in milliseconds
+    const formattedExpiryDate = expiryDate.toISOString().replace(/[^0-9]/g, "");
+
+    // Ensure the Jazz Cash API endpoint URL is correct and accessible
+    const apiUrl = 'https://payments.jazzcash.com.pk/ApplicationAPI/API/2.0/Purchase/DoMWalletTransaction';
+
+    // Use the correct field names and update the request payload
+    const requestData = {
+      pp_Amount: "100",
+      pp_BillReference: "billRef",
+      pp_Description: "Description",
+      pp_Language: "EN",
+      pp_CNIC: "021997",
+      pp_MerchantID: "00302074",
+      pp_MobileNumber: "03008835072",
+      pp_Password: "z583y3x095",
+      pp_ProductID: null,
+      pp_TxnCurrency: "PKR",
+      pp_SecureHash: pp_SecureHash,
+      pp_TxnDateTime: formattedCurrentDate,
+      pp_TxnExpiryDateTime: formattedExpiryDate,
+      pp_TxnRefNo: pp_TxnRefNo,
+    };
+
+    // Update the headers to include Accept and Content-Type
+    const requestHeaders = {
+      Accept: 'application/json',
+      ...headers(),
+    };
+
+    // Perform the Axios POST request
+    axios.post(apiUrl, requestData, { headers: requestHeaders })
+      .then((response) => {
+        console.log("Jazz Cash API Response:", response.data);
+        // Handle the response data accordingly
+      })
+      .catch((error) => {
+        console.error("Jazz Cash API Error:", error);
+        // Handle the error or log more details for debugging
+      });
   };
 
   return (
@@ -133,7 +167,7 @@ export default function Summary({
       <Button
         variant="contained"
         className="font-bold"
-        onClick={handleSubscribe}
+        onClick={selectedMethod === 'Jazz Cash' ? handleJazzCash : handleSubscribe}
       >
         {loading ? "Loading..." : "Subscribe Plan"}
       </Button>
