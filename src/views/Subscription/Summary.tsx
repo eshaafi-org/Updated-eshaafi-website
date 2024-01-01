@@ -1,60 +1,12 @@
-// // Summary.js
-
-// import React from "react";
-// import styles from "../../styles/bookAppointment.module.scss";
-// import Button from "@/components/Button";
-// import { useRouter } from "next/router";
-
-// export default function Summary({
-//   plan,
-//   loading,
-//   selectedMethod,
-// }: {
-//   plan: any;
-//   loading: boolean;
-//   selectedMethod: any;
-// }) {
-//   const router = useRouter();
-//   const { id } = router.query;
-//   const data = plan?.plansList.find((item: { pId: any }) => item.pId === id);
-//   const handleSubscribe = () => {
-//     // Construct the payment URL with parameters
-//     const paymentUrl = `https://eshaafi.com/payment.html?handshake=${id}&paymentFee=${data?.charges}`;
-//     // Redirect to the payment page
-//     window.location.href = paymentUrl;
-//   };
-//   return (
-//     <section className={styles.summary}>
-//       <h1>Billing Summary</h1>
-//       <table>
-//         <tr>
-//           <th>Plan Name</th>
-//           <td>{data?.noOfCalls} Call/{data?.planCategory}</td>
-//         </tr>
-//         <tr>
-//           <th>Total</th>
-//           <td>Rs. {data?.charges}</td>
-//         </tr>
-//         <tr>
-//           <th>Payment Method</th>
-//           {/* <td className="text-capitalize">Credit/Debit Card</td> */}
-//           <td className="text-capitalize">{selectedMethod}</td>
-//         </tr>
-//       </table>
-//       <Button variant="contained" className="font-bold" onClick={handleSubscribe}>
-//         {loading ? "Loading..." : "Subscribe Plan"}
-//       </Button>
-//     </section>
-//   );
-// }
-
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/bookAppointment.module.scss";
+import style from "../../styles/subscription.module.scss";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { headers } from "@/helper/CONST";
 import Modal from "react-bootstrap/Modal";
+import { Text18 } from "@/components/Typography";
 
 export default function Summary({
   plan,
@@ -179,22 +131,28 @@ export default function Summary({
         show={show}
         onHide={() => setShow(false)}
       >
-        <h2>Jazz Cash Payment</h2>
-        <label htmlFor="mobileNumber">Jazz Cash mobile account number</label>
-        <input
-          type="text"
-          id="mobileNumber"
-          value={mobileNumber}
-          onChange={(e) => setMobileNumber(e.target.value)}
-        />
-        <label htmlFor="idCardNumber">CNIC number</label>
-        <input
-          type="text"
-          id="idCardNumber"
-          value={idCardNumber}
-          onChange={(e) => setIdCardNumber(e.target.value)}
-        />
-        <Button onClick={handleJazzCash}>Make Payment</Button>
+        <div className="d-flex flex-column p-3">
+          <h2>Jazz Cash Payment</h2>
+          <Text18 className="pt-4">Jazz Cash mobile account number</Text18>
+          <input
+            type="text"
+            id="mobileNumber"
+            placeholder="03000000000"
+            className={`${style.field} p-2 rounded`}
+            value={mobileNumber}
+            onChange={(e) => setMobileNumber(e.target.value)}
+          />
+          <Text18 className="pt-2">CNIC number</Text18>
+          <input
+            type="text"
+            id="idCardNumber"
+            placeholder="3440258888871"
+            className={`${style.field} p-2 rounded`}
+            value={idCardNumber}
+            onChange={(e) => setIdCardNumber(e.target.value)}
+          />
+          <Button className="mt-4" onClick={handleJazzCash}>Make Payment</Button>
+        </div>
       </Modal>
     </section>
   );

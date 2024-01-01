@@ -27,15 +27,18 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 2rem;
+  @include for-tablet-landscape-to-mini-laptop-only {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include for-large-tablet-only {
+    grid-template-columns: 1fr 1fr;
+  }
   @include tablet-and-below {
     grid-template-columns: 1fr 1fr;
   }
   @include large-mobile-and-below {
     grid-template-columns: 1fr;
   }
-  // @include large-mobile-and-below {
-  //   grid-template-columns: 1fr;
-  // }
 }
 .planCard {
   position: relative;
@@ -86,4 +89,13 @@
   max-width: 227px !important;
   width: 100% !important;
   border-radius: 23px !important;
+  color: #1E1E1E;
+}
+.buttonbg{
+  background: var(--primary-0, #F5FBFF);
+  border-radius: 23px;
+}
+.field{
+  outline: none !important;
+  border: 1px solid #D7DDEA;
 }

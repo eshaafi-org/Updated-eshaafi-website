@@ -23,13 +23,10 @@ export default function SubscribePlans() {
   const handlePaymentMethodChange = (method: string) => {
     setSelectedMethod((prevMethod) => (prevMethod === method ? null : method));
   };
-  // const planId = typeof id === "string" ? parseInt(id, 10) : undefined;
-  // const selectedPlan = plans.find((plan: { id: number | undefined; }) => plan.id === planId);
   const planId = typeof id === "string" ? id : undefined;
   const selectedPlan = value.find((category: { plansList: any[]; }) =>
     category.plansList.some((plan) => plan.pId === planId)
   );
-  console.log(selectedPlan)
   return (
     <section className="container">
       <span>
