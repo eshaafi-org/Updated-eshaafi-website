@@ -14,14 +14,14 @@ const team = [
   },
   {
     icon: member1,
-    name: "Omer Yousef",
-    position: "COO eShaafi",
+    name: "Omer Yousuf",
+    position: "Co-founder & COO",
     linkedin: "https://www.linkedin.com/in/omer-yousuf-coo/",
   },
   {
     icon: member2,
     name: "Muhammad Faisal",
-    position: "Co-Founder eShaafi",
+    position: "Co-founder & Director Healthcare",
     linkedin: "https://www.linkedin.com/in/muhammad-faisal-vp/",
   },
 ];
