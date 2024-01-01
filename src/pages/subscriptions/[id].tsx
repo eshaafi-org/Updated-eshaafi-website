@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import AddressBar from "@/components/AddressBar";
 import Summary from "@/views/Subscription/Summary";
-import { plans } from "@/helper/plans";
 import style from "@/styles/bookSubscription.module.scss";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
@@ -30,10 +29,6 @@ export default function SubscribePlans() {
   const selectedPlan = value.find((category: { plansList: any[] }) =>
     category.plansList.some((plan) => plan.pId === planId)
   );
-<<<<<<< HEAD
-  console.log(selectedPlan);
-=======
->>>>>>> 53eb128d6662f11e06e6ec9d2744fb25058f9c7f
   return (
     <>
       <Head>
