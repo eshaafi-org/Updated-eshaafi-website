@@ -54,6 +54,7 @@ import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { headers } from "@/helper/CONST";
+import Modal from "react-bootstrap/Modal";
 
 export default function Summary({
   plan,
@@ -69,15 +70,18 @@ export default function Summary({
   const data = plan?.plansList.find((item: { pId: any }) => item.pId === id);
   const [pp_SecureHash, setSecureHash] = useState('');
   const [pp_TxnRefNo, setTxnRefNo] = useState('');
-  console.log(pp_TxnRefNo)
+  const [show, setShow] = useState(false);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [idCardNumber, setIdCardNumber] = useState("");
+  const showModal = () => setShow(true)
   useEffect(() => {
     // Example parameters (replace with actual values)
-     const timestamp = new Date().toISOString().replace(/[^0-9]/g, '');
+    const timestamp = new Date().toISOString().replace(/[^0-9]/g, '');
     const pp_MerchantID = "00302074";
     const pp_Password = "z583y3x095";
     const pp_TxnRefNo = `T${timestamp}SUB`;
     const pp_Amount = "100";
-    
+
     // Concatenate parameter values
     const concatenatedString = `${pp_MerchantID}${pp_Password}${pp_TxnRefNo}${pp_Amount}`;
 
@@ -88,7 +92,7 @@ export default function Summary({
     // Generate SHA-256 hash using crypto library
     const crypto = require('crypto');
     const hash = crypto.createHash('sha256').update(concatenatedStringWithKey).digest('hex');
-    
+
     // Set the generated hash in state
     setTxnRefNo(pp_TxnRefNo);
     setSecureHash(hash);
@@ -167,10 +171,31 @@ export default function Summary({
       <Button
         variant="contained"
         className="font-bold"
-        onClick={selectedMethod === 'Jazz Cash' ? handleJazzCash : handleSubscribe}
+        onClick={selectedMethod === 'Jazz Cash' ? showModal : handleSubscribe}
       >
         {loading ? "Loading..." : "Subscribe Plan"}
       </Button>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+      >
+        <h2>Jazz Cash Payment</h2>
+        <label htmlFor="mobileNumber">Jazz Cash mobile account number</label>
+        <input
+          type="text"
+          id="mobileNumber"
+          value={mobileNumber}
+          onChange={(e) => setMobileNumber(e.target.value)}
+        />
+        <label htmlFor="idCardNumber">CNIC number</label>
+        <input
+          type="text"
+          id="idCardNumber"
+          value={idCardNumber}
+          onChange={(e) => setIdCardNumber(e.target.value)}
+        />
+        <Button onClick={handleJazzCash}>Make Payment</Button>
+      </Modal>
     </section>
   );
 }
