@@ -123,7 +123,8 @@ export const Model = ({ page = "login" }: { page: string }) => {
     axios
       .post(BASE_URL + "/auth/verifyOtp", {
         phone_no: "+92" + phoneNum,
-        code: code,
+        // code: code,
+        pin: "0101",
         type: 1,
       })
       .then((res) => {
