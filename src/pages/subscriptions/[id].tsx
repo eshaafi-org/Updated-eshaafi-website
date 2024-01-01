@@ -1,4 +1,4 @@
-"use clientS";
+"use client";
 import { useState, useEffect } from "react";
 import AddressBar from "@/components/AddressBar";
 import Summary from "@/views/Subscription/Summary";
@@ -34,58 +34,65 @@ export default function SubscribePlans() {
   );
   console.log(selectedPlan);
   return (
-    <section className="container">
-      <span>
-        <h2>Select Payment Method</h2>
-        <AddressBar links={links} />
-      </span>
-      <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
-        <div className={style.payment}>
-          <h3 className="text-dark">Payment Method </h3>
-          <ul
-            className={`d-flex flex-column row-gap-1 col-gap-2 w-100 mt-4 ${style.paymentMethodList}`}
-          >
-            <li
-              className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
+    <>
+      <Head>
+        <title>eShaafi | Payment</title>
+      </Head>
+      <section className="container">
+        <span>
+          <h2>Select Payment Method</h2>
+          <AddressBar links={links} />
+        </span>
+        <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
+          <div className={style.payment}>
+            <h3 className="text-dark">Payment Method </h3>
+            <ul
+              className={`d-flex flex-column row-gap-1 col-gap-2 w-100 mt-4 ${style.paymentMethodList}`}
             >
-              <input
-                type="radio"
-                id="creditDebitCard"
-                name="paymentMethod"
-                onChange={() => handlePaymentMethodChange("Credit/Debit Card")}
-                checked={selectedMethod === "Credit/Debit Card"}
-                style={{ width: "24px", height: "24px" }}
-              />
-              <label
-                htmlFor="creditDebitCard"
-                className={style.paymentMethodLabel}
+              <li
+                className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
               >
-                Credit/Debit Card
-              </label>
-            </li>
-            <li
-              className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
-            >
-              <input
-                type="radio"
-                id="jazzCash"
-                name="paymentMethod"
-                onChange={() => handlePaymentMethodChange("Jazz Cash")}
-                checked={selectedMethod === "Jazz Cash"}
-                style={{ width: "24px", height: "24px" }}
-              />
-              <label htmlFor="jazzCash" className={style.paymentMethodLabel}>
-                Jazz Cash
-              </label>
-            </li>
-          </ul>
+                <input
+                  type="radio"
+                  id="creditDebitCard"
+                  name="paymentMethod"
+                  onChange={() =>
+                    handlePaymentMethodChange("Credit/Debit Card")
+                  }
+                  checked={selectedMethod === "Credit/Debit Card"}
+                  style={{ width: "24px", height: "24px" }}
+                />
+                <label
+                  htmlFor="creditDebitCard"
+                  className={style.paymentMethodLabel}
+                >
+                  Credit/Debit Card
+                </label>
+              </li>
+              <li
+                className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
+              >
+                <input
+                  type="radio"
+                  id="jazzCash"
+                  name="paymentMethod"
+                  onChange={() => handlePaymentMethodChange("Jazz Cash")}
+                  checked={selectedMethod === "Jazz Cash"}
+                  style={{ width: "24px", height: "24px" }}
+                />
+                <label htmlFor="jazzCash" className={style.paymentMethodLabel}>
+                  Jazz Cash
+                </label>
+              </li>
+            </ul>
+          </div>
+          <Summary
+            plan={selectedPlan}
+            loading={loading}
+            selectedMethod={selectedMethod}
+          />
         </div>
-        <Summary
-          plan={selectedPlan}
-          loading={loading}
-          selectedMethod={selectedMethod}
-        />
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

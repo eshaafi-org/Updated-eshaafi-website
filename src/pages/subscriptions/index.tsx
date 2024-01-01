@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Head from "next/head";
 import style from "@/styles/subscription.module.scss";
 import { Heading24, Heading40, Text16, Text12 } from "@/components/Typography";
@@ -15,20 +15,6 @@ export default function Subscriptions() {
         <title>eShaafi | Subscriptions</title>
       </Head>
       <main>
-        {/* <div className={style.heroSection}>
-          <div className="container">
-            <div className={style.heroContainer}>
-              <Heading24>Subscription Plans </Heading24>
-              <h2 className={`pageHeading`}>
-                Find the Right Plan for Your Health
-              </h2>
-              <p className="mainHeadingText">
-                We offer a variety of plans for stress-free healthcare for you
-                and your family.
-              </p>
-            </div>
-          </div>
-        </div> */}
         <Hero
           heading={"Avail Subscriptions Plans by eShaafi"}
           text={

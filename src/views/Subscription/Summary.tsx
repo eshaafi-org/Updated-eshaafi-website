@@ -1,53 +1,4 @@
-// // Summary.js
-
-// import React from "react";
-// import styles from "../../styles/bookAppointment.module.scss";
-// import Button from "@/components/Button";
-// import { useRouter } from "next/router";
-
-// export default function Summary({
-//   plan,
-//   loading,
-//   selectedMethod,
-// }: {
-//   plan: any;
-//   loading: boolean;
-//   selectedMethod: any;
-// }) {
-//   const router = useRouter();
-//   const { id } = router.query;
-//   const data = plan?.plansList.find((item: { pId: any }) => item.pId === id);
-//   const handleSubscribe = () => {
-//     // Construct the payment URL with parameters
-//     const paymentUrl = `https://eshaafi.com/payment.html?handshake=${id}&paymentFee=${data?.charges}`;
-//     // Redirect to the payment page
-//     window.location.href = paymentUrl;
-//   };
-//   return (
-//     <section className={styles.summary}>
-//       <h1>Billing Summary</h1>
-//       <table>
-//         <tr>
-//           <th>Plan Name</th>
-//           <td>{data?.noOfCalls} Call/{data?.planCategory}</td>
-//         </tr>
-//         <tr>
-//           <th>Total</th>
-//           <td>Rs. {data?.charges}</td>
-//         </tr>
-//         <tr>
-//           <th>Payment Method</th>
-//           {/* <td className="text-capitalize">Credit/Debit Card</td> */}
-//           <td className="text-capitalize">{selectedMethod}</td>
-//         </tr>
-//       </table>
-//       <Button variant="contained" className="font-bold" onClick={handleSubscribe}>
-//         {loading ? "Loading..." : "Subscribe Plan"}
-//       </Button>
-//     </section>
-//   );
-// }
-
+"use client";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/bookAppointment.module.scss";
 import Button from "@/components/Button";
@@ -68,15 +19,15 @@ export default function Summary({
   const router = useRouter();
   const { id } = router.query;
   const data = plan?.plansList.find((item: { pId: any }) => item.pId === id);
-  const [pp_SecureHash, setSecureHash] = useState('');
-  const [pp_TxnRefNo, setTxnRefNo] = useState('');
+  const [pp_SecureHash, setSecureHash] = useState("");
+  const [pp_TxnRefNo, setTxnRefNo] = useState("");
   const [show, setShow] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
   const [idCardNumber, setIdCardNumber] = useState("");
-  const showModal = () => setShow(true)
+  const showModal = () => setShow(true);
   useEffect(() => {
     // Example parameters (replace with actual values)
-    const timestamp = new Date().toISOString().replace(/[^0-9]/g, '');
+    const timestamp = new Date().toISOString().replace(/[^0-9]/g, "");
     const pp_MerchantID = "00302074";
     const pp_Password = "z583y3x095";
     const pp_TxnRefNo = `T${timestamp}SUB`;
@@ -90,30 +41,34 @@ export default function Summary({
     const concatenatedStringWithKey = `${concatenatedString}${secretKey}`;
 
     // Generate SHA-256 hash using crypto library
-    const crypto = require('crypto');
-    const hash = crypto.createHash('sha256').update(concatenatedStringWithKey).digest('hex');
+    const crypto = require("crypto");
+    const hash = crypto
+      .createHash("sha256")
+      .update(concatenatedStringWithKey)
+      .digest("hex");
 
     // Set the generated hash in state
     setTxnRefNo(pp_TxnRefNo);
     setSecureHash(hash);
   }, []);
 
-
   const handleSubscribe = async () => {
     // If the selectedMethod is not "Jazz Cash", proceed with the default payment URL
     const paymentUrl = `https://eshaafi.com/payment.html?handshake=${id}&paymentFee=${data?.charges}`;
     window.location.href = paymentUrl;
-
   };
   const handleJazzCash = () => {
     const currentDate = new Date();
-    const formattedCurrentDate = new Date().toISOString().replace(/[^0-9]/g, "");
+    const formattedCurrentDate = new Date()
+      .toISOString()
+      .replace(/[^0-9]/g, "");
 
     const expiryDate = new Date(currentDate.getTime() + 60 * 60 * 1000); // 1 hour in milliseconds
     const formattedExpiryDate = expiryDate.toISOString().replace(/[^0-9]/g, "");
 
     // Ensure the Jazz Cash API endpoint URL is correct and accessible
-    const apiUrl = 'https://payments.jazzcash.com.pk/ApplicationAPI/API/2.0/Purchase/DoMWalletTransaction';
+    const apiUrl =
+      "https://payments.jazzcash.com.pk/ApplicationAPI/API/2.0/Purchase/DoMWalletTransaction";
 
     // Use the correct field names and update the request payload
     const requestData = {
@@ -135,12 +90,13 @@ export default function Summary({
 
     // Update the headers to include Accept and Content-Type
     const requestHeaders = {
-      Accept: 'application/json',
+      Accept: "application/json",
       ...headers(),
     };
 
     // Perform the Axios POST request
-    axios.post(apiUrl, requestData, { headers: requestHeaders })
+    axios
+      .post(apiUrl, requestData, { headers: requestHeaders })
       .then((response) => {
         console.log("Jazz Cash API Response:", response.data);
         // Handle the response data accordingly
@@ -157,7 +113,9 @@ export default function Summary({
       <table>
         <tr>
           <th>Plan Name</th>
-          <td>{data?.noOfCalls} Call/{data?.planCategory}</td>
+          <td>
+            {data?.noOfCalls} Call/{data?.planCategory}
+          </td>
         </tr>
         <tr>
           <th>Total</th>
@@ -171,14 +129,11 @@ export default function Summary({
       <Button
         variant="contained"
         className="font-bold"
-        onClick={selectedMethod === 'Jazz Cash' ? showModal : handleSubscribe}
+        onClick={selectedMethod === "Jazz Cash" ? showModal : handleSubscribe}
       >
         {loading ? "Loading..." : "Subscribe Plan"}
       </Button>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-      >
+      <Modal show={show} onHide={() => setShow(false)}>
         <h2>Jazz Cash Payment</h2>
         <label htmlFor="mobileNumber">Jazz Cash mobile account number</label>
         <input
