@@ -1,18 +1,21 @@
-'use clientS'
+"use clientS";
 import { useState, useEffect } from "react";
 import AddressBar from "@/components/AddressBar";
 import Summary from "@/views/Subscription/Summary";
 import { plans } from "@/helper/plans";
-import style from '@/styles/bookSubscription.module.scss'
+import style from "@/styles/bookSubscription.module.scss";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
+import Head from "next/head";
 
 export default function SubscribePlans() {
   const router = useRouter();
   const { id } = router.query;
   const [loading, setLoading] = useState<boolean>(false);
   const value = useSelector((state: any) => state.planListReducer.value);
-  const [selectedMethod, setSelectedMethod] = useState<string | null>("Credit/Debit Card");
+  const [selectedMethod, setSelectedMethod] = useState<string | null>(
+    "Credit/Debit Card"
+  );
 
   let links = [
     { name: "Home", link: "/" },
@@ -26,10 +29,10 @@ export default function SubscribePlans() {
   // const planId = typeof id === "string" ? parseInt(id, 10) : undefined;
   // const selectedPlan = plans.find((plan: { id: number | undefined; }) => plan.id === planId);
   const planId = typeof id === "string" ? id : undefined;
-  const selectedPlan = value.find((category: { plansList: any[]; }) =>
+  const selectedPlan = value.find((category: { plansList: any[] }) =>
     category.plansList.some((plan) => plan.pId === planId)
   );
-  console.log(selectedPlan)
+  console.log(selectedPlan);
   return (
     <section className="container">
       <span>
@@ -39,28 +42,37 @@ export default function SubscribePlans() {
       <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
         <div className={style.payment}>
           <h3 className="text-dark">Payment Method </h3>
-          <ul className={`d-flex flex-column row-gap-1 col-gap-2 w-100 mt-4 ${style.paymentMethodList}`}>
-            <li className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}>
+          <ul
+            className={`d-flex flex-column row-gap-1 col-gap-2 w-100 mt-4 ${style.paymentMethodList}`}
+          >
+            <li
+              className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
+            >
               <input
                 type="radio"
                 id="creditDebitCard"
                 name="paymentMethod"
                 onChange={() => handlePaymentMethodChange("Credit/Debit Card")}
                 checked={selectedMethod === "Credit/Debit Card"}
-                style={{ width: '24px', height: '24px' }}
+                style={{ width: "24px", height: "24px" }}
               />
-              <label htmlFor="creditDebitCard" className={style.paymentMethodLabel}>
+              <label
+                htmlFor="creditDebitCard"
+                className={style.paymentMethodLabel}
+              >
                 Credit/Debit Card
               </label>
             </li>
-            <li className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}>
+            <li
+              className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
+            >
               <input
                 type="radio"
                 id="jazzCash"
                 name="paymentMethod"
                 onChange={() => handlePaymentMethodChange("Jazz Cash")}
                 checked={selectedMethod === "Jazz Cash"}
-                style={{ width: '24px', height: '24px' }}
+                style={{ width: "24px", height: "24px" }}
               />
               <label htmlFor="jazzCash" className={style.paymentMethodLabel}>
                 Jazz Cash
@@ -68,7 +80,11 @@ export default function SubscribePlans() {
             </li>
           </ul>
         </div>
-        <Summary plan={selectedPlan} loading={loading} selectedMethod={selectedMethod} />
+        <Summary
+          plan={selectedPlan}
+          loading={loading}
+          selectedMethod={selectedMethod}
+        />
       </div>
     </section>
   );

@@ -5,7 +5,9 @@ import { Heading24, Heading40, Text16, Text12 } from "@/components/Typography";
 import GetApp from "@/views/Home/GetApp";
 import SubscriptionPlans from "@/views/Subscription/Plans";
 import Mission from "@/views/Home/Mission";
-import useDispatch from 'react-redux'
+import useDispatch from "react-redux";
+import Hero from "@/views/Home/Hero";
+import subscriptionImg from "../../../public/images/subscriptionPlans.png";
 export default function Subscriptions() {
   return (
     <>
@@ -13,7 +15,7 @@ export default function Subscriptions() {
         <title>eShaafi | Subscriptions</title>
       </Head>
       <main>
-        <div className={style.heroSection}>
+        {/* <div className={style.heroSection}>
           <div className="container">
             <div className={style.heroContainer}>
               <Heading24>Subscription Plans </Heading24>
@@ -26,7 +28,15 @@ export default function Subscriptions() {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
+        <Hero
+          heading={"Avail Subscriptions Plans by eShaafi"}
+          text={
+            "Subscribe to our plans to avail discounts and exclusive offers"
+          }
+          img={subscriptionImg}
+          link=""
+        />
         <SubscriptionPlans />
         <Mission
           heading={"Benefits"}

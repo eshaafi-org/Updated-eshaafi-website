@@ -14,7 +14,7 @@ const team = [
   },
   {
     icon: member1,
-    name: "Omer Yousef",
+    name: "Omer Yousuf",
     position: "COO eShaafi",
     linkedin: "https://www.linkedin.com/in/omer-yousuf-coo/",
   },
