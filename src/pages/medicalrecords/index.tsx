@@ -93,7 +93,7 @@ export default function MedicalRecord() {
               <PageHeading>Medical Records</PageHeading>
               <AddressBar links={links} />
             </div>
-            <Profiles patient={patient} setPatient={setPatient} />
+            <Profiles patient={patient} setPatient={setPatient} styling={""} />
             <AddRecords
               patient={patient}
               getMedicalRecords={getMedicalRecords}

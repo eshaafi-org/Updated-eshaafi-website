@@ -67,7 +67,7 @@ export default function Profiles({
     getProfiles();
   }, []);
   return (
-    <section className={styling}>
+    <section className={styling === "" ? style.profilesContainer : styling}>
       {loading ? (
         <div className="d-flex col-gap-1 mt-4">
           <p className="d-flex flex-column card-text placeholder-glow justify-content-center align-items-start row-gap-1">
