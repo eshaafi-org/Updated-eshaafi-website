@@ -4,6 +4,7 @@ import { plans } from "@/helper/plans";
 import Summary from "@/views/Subscription/Summary";
 import PaymentMethod from "@/views/Subscription/Payment";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function SubscribePlans() {
   const params = useRouter();
@@ -22,21 +23,26 @@ export default function SubscribePlans() {
     { name: "Subscribe Plan", link: `/subscriptions/${id}` },
   ];
   return (
-    <section className="container">
-      <span>
-        <h2>Select Payment Method</h2>
-        <AddressBar links={links} />
-      </span>
-      <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
-        <PaymentMethod
-          response={response}
-          paymentId={paymentId}
-          setPaymentId={setPaymentId}
-          setMethod={setMethod}
-          navigations={links}
-        />
-        <Summary plan={selectedPlan} loading={loading} />
-      </div>
-    </section>
+    <>
+      <Head>
+        <title>eShaafi | Subscribe</title>
+      </Head>
+      <section className="container">
+        <span>
+          <h2>Select Payment Method</h2>
+          <AddressBar links={links} />
+        </span>
+        <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
+          <PaymentMethod
+            response={response}
+            paymentId={paymentId}
+            setPaymentId={setPaymentId}
+            setMethod={setMethod}
+            navigations={links}
+          />
+          <Summary plan={selectedPlan} loading={loading} />
+        </div>
+      </section>
+    </>
   );
 }

@@ -246,6 +246,11 @@ const Header: React.FC<HeaderProps> = ({}) => {
                               </div>
                             </li>
                             <li className="p-2">
+                              <Link href={"/profile"} className="w-100 d-flex">
+                                Profile
+                              </Link>
+                            </li>
+                            <li className="p-2">
                               <Link
                                 href={"/appointments"}
                                 className="w-100 d-flex"
