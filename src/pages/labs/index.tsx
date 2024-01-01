@@ -1,5 +1,6 @@
 import Head from "next/head";
 import GetApp from "@/views/Home/GetApp";
+import Test from "@/views/Labs/Test";
 export default function Labs() {
   return (
     <>
@@ -8,6 +9,7 @@ export default function Labs() {
       </Head>
       <main>
         <GetApp color="#DFEAF2" />
+        <Test />
       </main>
     </>
   );

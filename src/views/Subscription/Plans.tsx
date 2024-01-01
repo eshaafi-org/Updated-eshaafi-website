@@ -13,7 +13,6 @@ import { RxCross2 } from "react-icons/rx";
 import Button from "@/components/Button";
 import { BASE_URL, headers } from "@/helper/CONST";
 import Modal from "react-bootstrap/Modal";
-import Link from "next/link";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { requestPlans, receivePlans, plansError } from "./planListSlicer";
