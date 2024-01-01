@@ -30,10 +30,6 @@ export default function SubscribePlans() {
   const selectedPlan = value.find((category: { plansList: any[] }) =>
     category.plansList.some((plan) => plan.pId === planId)
   );
-<<<<<<< HEAD
-  console.log(selectedPlan);
-=======
->>>>>>> 53eb128d6662f11e06e6ec9d2744fb25058f9c7f
   return (
     <>
       <Head>
