@@ -3,6 +3,7 @@ import style from "../../styles/blogs.module.scss";
 import moment from "moment";
 // featured blog card
 function Card({ blog }: any) {
+  console.log(blog);
   return (
     <Link href={`/blog/${blog.name}`} className={style.featuredBlogCard}>
       <div className="d-flex flex-column justify-content-end h-100">
@@ -11,7 +12,9 @@ function Card({ blog }: any) {
           <span className="mx-0-5" style={{ color: "#DFEAF2" }}>
             •
           </span>
-          {moment(blog?.date).format("MMM DD, YYYY")}{" "}
+          {moment(
+            blog?.scheduleDateTime ? blog.scheduleDateTime : blog.date
+          ).format("MMM DD, YYYY")}{" "}
         </p>
         <h5 className={style.blogHeading} style={{ color: "#fff" }}>
           {blog.title}

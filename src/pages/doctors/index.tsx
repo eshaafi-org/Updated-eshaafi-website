@@ -6,6 +6,7 @@ import DoctorList from "@/views/Doctor/DoctorsList";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import GetApp from "@/views/Home/GetApp";
+import { doctbenifits } from "@/helper/FAQData";
 // Renders the DoctorList, BenefitsOfVideoConsultation, and FQuest components
 export default function Doctors({ doctors }: any) {
   return (
@@ -19,7 +20,7 @@ export default function Doctors({ doctors }: any) {
       <main>
         <DoctorList list={doctors} />
         <BenefitsOfVideoConsultation />
-        <FQuest />
+        <FQuest benifits={doctbenifits} />
         <GetApp color="#DFEAF2" />
       </main>
     </>
