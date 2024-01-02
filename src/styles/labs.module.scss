@@ -1,1 +1,70 @@
 @import "./mixin";
+// Upload E-Prescription Button
+.uploadButton {
+  gap: 0.5rem;
+  background-color: #0e5487;
+  color: #fff;
+  padding: 12px;
+  &:hover {
+    background-color: #003154;
+  }
+}
+.cartButton {
+  gap: 0.5rem;
+  background-color: #0e5487;
+  color: #fff;
+  font-size: 11px;
+  width: 100%;
+  &:hover {
+    background-color: #003154;
+  }
+}
+
+// search Bar And Search Icon
+.search {
+  position: relative;
+  input {
+    background-color: #f5fbff;
+    padding: 12px 16px 12px 25px;
+    border: none;
+    outline: none;
+    width: 35%;
+  }
+}
+.searchIcon {
+  background-color: #f5fbff;
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #0e5487;
+}
+//Cart Design
+.cart {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 24px;
+  @include for-large-mobile-only {
+    grid-template-columns: 1fr;
+  }
+  @include for-medium-mobile-only {
+    grid-template-columns: 1fr;
+  }
+  @include for-small-mobile-only {
+    grid-template-columns: 1fr;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include for-large-tablet-only {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.cartDetail {
+  border: 1px solid #d7ddea;
+  border-radius: 12px;
+  padding: 1rem;
+}
