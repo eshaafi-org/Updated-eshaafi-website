@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/bookAppointment.module.scss";
+import style from "../../styles/subscription.module.scss";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { headers } from "@/helper/CONST";
 import Modal from "react-bootstrap/Modal";
+import { Text18 } from "@/components/Typography";
 
 export default function Summary({
   plan,
@@ -134,22 +136,30 @@ export default function Summary({
         {loading ? "Loading..." : "Subscribe Plan"}
       </Button>
       <Modal show={show} onHide={() => setShow(false)}>
-        <h2>Jazz Cash Payment</h2>
-        <label htmlFor="mobileNumber">Jazz Cash mobile account number</label>
-        <input
-          type="text"
-          id="mobileNumber"
-          value={mobileNumber}
-          onChange={(e) => setMobileNumber(e.target.value)}
-        />
-        <label htmlFor="idCardNumber">CNIC number</label>
-        <input
-          type="text"
-          id="idCardNumber"
-          value={idCardNumber}
-          onChange={(e) => setIdCardNumber(e.target.value)}
-        />
-        <Button onClick={handleJazzCash}>Make Payment</Button>
+        <div className="d-flex flex-column p-3">
+          <h2>Jazz Cash Payment</h2>
+          <Text18 className="pt-4">Jazz Cash mobile account number</Text18>
+          <input
+            type="text"
+            id="mobileNumber"
+            placeholder="03000000000"
+            className={`${style.field} p-2 rounded`}
+            value={mobileNumber}
+            onChange={(e) => setMobileNumber(e.target.value)}
+          />
+          <Text18 className="pt-2">CNIC number</Text18>
+          <input
+            type="text"
+            id="idCardNumber"
+            placeholder="3440258888871"
+            className={`${style.field} p-2 rounded`}
+            value={idCardNumber}
+            onChange={(e) => setIdCardNumber(e.target.value)}
+          />
+          <Button className="mt-4" onClick={handleJazzCash}>
+            Make Payment
+          </Button>
+        </div>
       </Modal>
     </section>
   );

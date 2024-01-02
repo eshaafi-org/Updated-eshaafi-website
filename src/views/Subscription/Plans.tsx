@@ -17,6 +17,7 @@ import Link from "next/link";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { requestPlans, receivePlans, plansError } from "./planListSlicer";
+import { useRouter } from "next/router";
 // View Details Modal
 function DetailModal({ plan, selectedPlan }: { plan: any; selectedPlan: any }) {
   // states
@@ -87,6 +88,19 @@ function DetailModal({ plan, selectedPlan }: { plan: any; selectedPlan: any }) {
 }
 // const plan component
 function Plan({ plan }: { plan: any }) {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const handleSubscribe = (selectedPlan: { pId: any }) => {
+    // Check if the user is present in local storage
+    const user = localStorage.getItem("user");
+    if (user) {
+      // If user is present, use Link to navigate to the next page
+      router.push(`/subscriptions/${selectedPlan?.pId}`);
+    } else {
+      // If user is not present, dispatch the login modal action
+      dispatch({ type: "loginModalSlice/signIn" });
+    }
+  };
   return (
     <>
       {plan.plansList.map((selectedPlan: any, index: number) => (
@@ -118,14 +132,13 @@ function Plan({ plan }: { plan: any }) {
                 </li>
               ))}
           </ul>
-          <Link href={`/subscriptions/${selectedPlan?.pId}`}>
-            <Button
-              className={`${style.subscribe} w-100 mt-3`}
-              variant="outlined"
-            >
-              Subscribe Now
-            </Button>
-          </Link>
+          <Button
+            className={`${style.subscribe} w-100 mt-3`}
+            variant="outlined"
+            onClick={() => handleSubscribe(selectedPlan)}
+          >
+            Subscribe Now
+          </Button>
           <DetailModal plan={plan} selectedPlan={selectedPlan} />
         </li>
       ))}
@@ -188,7 +201,9 @@ export default function SubscriptionPlans() {
   );
   return (
     <section className="container">
-      <div className="d-flex justify-content-center mb-3 gap-2">
+      <div
+        className={`${style.buttonbg} d-flex justify-content-center mb-3 gap-2`}
+      >
         {[1, 3, 6, 12].map((duration) => (
           <DurationButton
             key={duration}
