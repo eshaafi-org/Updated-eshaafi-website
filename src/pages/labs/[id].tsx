@@ -7,12 +7,13 @@ import { FaFilePrescription } from "react-icons/fa6";
 import style from "@/styles/labs.module.scss"
 import { FaSearch } from "react-icons/fa";
 import { tests } from "@/helper/labTest"
+import Link from "next/link";
 
 export default function Test() {
     let links = [
         { name: "Home", link: "/" },
         { name: "Lab Tests", link: "/labs" },
-        { name: "Chughtai Lab", link: `/id}` },
+        { name: "Chughtai Lab", link: `/labs/id` },
     ];
     return (
         <section className="container">
@@ -55,6 +56,8 @@ export default function Test() {
                     </li>
                 ))}
             </ul>
+            <Link href={""}>
+            </Link>
         </section>
     )
 }

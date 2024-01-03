@@ -1,4 +1,5 @@
 @import "./mixin";
+// ID (Lab with Name and Detail) Styling
 // Upload E-Prescription Button
 .uploadButton {
   gap: 0.5rem;
@@ -103,5 +104,56 @@
   }
   .packageText {
     padding: 1rem 0 0 1rem;
+  }
+}
+
+// CheckOut Page Styling
+// Deatail Div
+.orderDetail {
+  width: 65%;
+}
+.summary {
+  width: 35%;
+  border-radius: 12px;
+  border: 0.5px solid #d7ddea;
+  background: #f5fbff;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  table {
+    th {
+      text-align: start;
+      font-weight: 400;
+    }
+    tr {
+      display: flex;
+      justify-content: space-between;
+    }
+    td {
+      text-align: end;
+    }
+  }
+  input {
+    width: 100%;
+    background: #f5fbff;
+    border-radius: 4px;
+    padding: 10px 16px;
+    border: 1px solid #dfeaf2 !important;
+  }
+}
+.applyButton {
+  padding: 0.5rem 1rem;
+  margin-left: 4px;
+  border-radius: 4px;
+  background-color: #1c6ba4;
+  color: #fff;
+  &:hover {
+    background-color: #003154;
+  }
+  @include for-large-mobile-only {
+    padding: 0.5rem 0.8rem;
+  }
+  @include large-mobile-and-below {
+    padding: 0.5rem 0.6rem;
   }
 }
