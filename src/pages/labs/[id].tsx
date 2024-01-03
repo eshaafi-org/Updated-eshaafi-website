@@ -12,7 +12,7 @@ export default function Test() {
     let links = [
         { name: "Home", link: "/" },
         { name: "Lab Tests", link: "/labs" },
-        { name: "Chughtai Lab", link: `/chughtai}` },
+        { name: "Chughtai Lab", link: `/id}` },
     ];
     return (
         <section className="container">
