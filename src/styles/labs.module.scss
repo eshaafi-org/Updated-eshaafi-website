@@ -114,6 +114,7 @@
 }
 .summary {
   width: 35%;
+  height: fit-content;
   border-radius: 12px;
   border: 0.5px solid #d7ddea;
   background: #f5fbff;
@@ -156,4 +157,25 @@
   @include large-mobile-and-below {
     padding: 0.5rem 0.6rem;
   }
+}
+.address {
+  border-radius: 8px;
+  box-shadow: 0px 5px 10px 0px rgba(88, 88, 88, 0.08);
+}
+.note {
+  input {
+    border-radius: 8px;
+    border: 1px solid #d7ddea;
+    outline: none;
+  }
+}
+.blueColor{
+  color: #1B76B8;
+}
+.blackCol{
+  color: #192A3E;
+}
+.blackColor{
+  color: #192A3E;
+  font-weight: 600;
 }

@@ -1,3 +1,4 @@
+"use client";
 import AddressBar from "@/components/AddressBar";
 import Image from "next/image";
 import labIcon from "../../../public/images/labIcon.png"
@@ -8,6 +9,9 @@ import style from "@/styles/labs.module.scss"
 import { FaSearch } from "react-icons/fa";
 import { tests } from "@/helper/labTest"
 import Link from "next/link";
+import axios from "axios";
+import { BASE_URL, headers } from "@/helper/CONST";
+import { useEffect, useState } from "react";
 
 export default function Test() {
     let links = [
@@ -15,6 +19,23 @@ export default function Test() {
         { name: "Lab Tests", link: "/labs" },
         { name: "Chughtai Lab", link: `/labs/id` },
     ];
+    const [test, setTest] = useState([])
+    const getLabTest = () => {
+        axios
+            .get(BASE_URL + "/lab/patients/labs/test", {
+                headers: headers(),
+            })
+            .then((res) => {
+                setTest(res.data.response.Items);
+            })
+            // .catch((error) => console.log(error));
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+    useEffect(() => {
+        getLabTest()
+    }, [])
     return (
         <section className="container">
             <span>
@@ -47,11 +68,11 @@ export default function Test() {
                 <FaSearch className={style.searchIcon} />
             </div>
             <ul className={`${style.cart} mt-3`}>
-                {tests.map((test: any, index: any) => (
+                {test.map((tests: any, index: any) => (
                     <li key={index} className={style.cartDetail}>
-                        <Text22>{test.testName}</Text22>
-                        <Text16>{test.testDetail}</Text16>
-                        <Text14>{test.testPrice}</Text14>
+                        <Text22>{tests.MedicineName}</Text22>
+                        <Text16>{tests.category}</Text16>
+                        <Text14>{tests.productPrice}</Text14>
                         <Button className={`${style.cartButton} mt-2`}>Add to Cart</Button>
                     </li>
                 ))}
