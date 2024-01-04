@@ -24,9 +24,9 @@ body {
 .container {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 1.5rem 1rem;
-  @include above-tablet-large {
-    padding: 4 * $base-unit 2 * $base-unit;
+  padding: 4rem 1rem;
+  @include large-mobile-and-below {
+    padding: 2rem 1rem;
   }
 }
 // //---------------All the generic Tags-------------//

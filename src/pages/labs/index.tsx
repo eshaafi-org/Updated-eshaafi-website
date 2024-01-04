@@ -4,6 +4,10 @@ import Hero from "@/views/Home/Hero";
 import LabsCover from "../../../public/images/labsIcon.png";
 import LabsList from "@/views/Labs/LabsList";
 import PackagesList from "@/views/Labs/PackagesList";
+import FQuest from "@/views/Doctor/FQuest";
+import { labFAQs, whyBookWithUs } from "@/helper/FAQData";
+import Works from "@/views/Labs/Works";
+import UploadPrescription from "@/views/Labs/UploadPrescription";
 export default function Labs() {
   return (
     <>
@@ -18,7 +22,11 @@ export default function Labs() {
           link=""
         />
         <LabsList />
+        <UploadPrescription />
         <PackagesList />
+        <Works />
+        <FQuest quests={whyBookWithUs} heading={"Why book with us?"} />
+        <FQuest quests={labFAQs} heading={"Frequently Asked Questions"} />
         <GetApp color="#DFEAF2" />
       </main>
     </>

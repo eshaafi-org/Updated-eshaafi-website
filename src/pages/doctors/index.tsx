@@ -20,7 +20,7 @@ export default function Doctors({ doctors }: any) {
       <main>
         <DoctorList list={doctors} />
         <BenefitsOfVideoConsultation />
-        <FQuest benifits={doctbenifits} />
+        <FQuest quests={doctbenifits} heading={"Frequently Asked Questions"} />
         <GetApp color="#DFEAF2" />
       </main>
     </>

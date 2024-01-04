@@ -32,7 +32,7 @@
   font-weight: 500;
   color: #0e5487;
   @include large-mobile-and-below {
-    font-size: 12px;
+    font-size: 22px;
   }
 }
 .text24 {
@@ -40,7 +40,7 @@
   font-weight: 500;
   color: #0e5487;
   @include large-mobile-and-below {
-    font-size: 11px;
+    font-size: 20px;
   }
 }
 .text22 {
@@ -71,9 +71,6 @@
 }
 .text16 {
   font-size: 1rem;
-  @include large-mobile-and-below {
-    font-size: 12px;
-  }
 }
 .text14 {
   font-size: 0.9rem;
