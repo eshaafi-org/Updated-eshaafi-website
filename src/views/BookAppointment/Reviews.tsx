@@ -1,12 +1,12 @@
 import { MdThumbUp } from "react-icons/md";
 import moment from "moment";
 
-export default function Reviews({ reviews }: { reviews: any[] }) {
+export default function Reviews({ reviews }: { reviews: any }) {
   return (
     <section className="d-flex flex-column row-gap-1">
       <h5>Patient Reviews</h5>
       <ul className="d-flex flex-column row-gap-1">
-        {reviews?.map((itm, indx) => (
+        {reviews.map((itm: any, indx: number) => (
           <li key={indx} className="d-flex flex-column row-gap-0-5">
             <h3 className="d-flex align-items-center col-gap-1 text-dark">
               <MdThumbUp style={{ color: "#009b94" }} />

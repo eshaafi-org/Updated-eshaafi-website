@@ -31,13 +31,33 @@ export default function DoctorInfo({ doc }: { doc: any }) {
               </h5>
               <p className={style.docSpecialization}>{doc?.specialization}</p>
               <p className={style.docSpecialization}>
-                <FaStar style={{ color: "#FFC107" }} />
-                <FaStar style={{ color: "#FFC107" }} />
-                <FaStar style={{ color: "#FFC107" }} />
-                <FaStar style={{ color: "#FFC107" }} />
-                <FaStar style={{ color: "#FFC107" }} />
-                {` ${doc?.rating?.averageRating}/5 (${
-                  doc?.rating?.count + " reviews"
+                <FaStar
+                  style={{
+                    color: doc?.rating?.averageRating ? "#FFC107" : "#ccc",
+                  }}
+                />
+                <FaStar
+                  style={{
+                    color: doc?.rating?.averageRating ? "#FFC107" : "#ccc",
+                  }}
+                />
+                <FaStar
+                  style={{
+                    color: doc?.rating?.averageRating ? "#FFC107" : "#ccc",
+                  }}
+                />
+                <FaStar
+                  style={{
+                    color: doc?.rating?.averageRating ? "#FFC107" : "#ccc",
+                  }}
+                />
+                <FaStar
+                  style={{
+                    color: doc?.rating?.averageRating ? "#FFC107" : "#ccc",
+                  }}
+                />
+                {` ${doc?.rating?.averageRating || "0"}/5 (${
+                  doc?.rating?.count || "0" + " reviews"
                 })`}
               </p>
             </span>
@@ -51,7 +71,7 @@ export default function DoctorInfo({ doc }: { doc: any }) {
             </span>
             <span className="d-flex flex-column align-items-center justify-content-around border-start border-end w-40">
               <h5 className={style.docSecSubHeading}>
-                {doc?.rating.recommended}%
+                {doc?.rating.recommended || "0"}%
               </h5>
               <p className={style.docSecDes}>Positive feedback</p>
             </span>

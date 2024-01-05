@@ -79,14 +79,45 @@ export default function Doctors({
                       <span>
                         <p className={style.docSpec}>{doc.specialization}</p>
                         <p>
-                          <FaStar style={{ color: "#FFC107" }} />
-                          <FaStar style={{ color: "#FFC107" }} />
-                          <FaStar style={{ color: "#FFC107" }} />
-                          <FaStar style={{ color: "#FFC107" }} />
-                          <FaStar style={{ color: "#FFC107" }} />
-                          {`${doc?.rating?.averageRating}/5 (${
-                            doc?.rating?.count + " reviews"
-                          })`}
+                          <FaStar
+                            style={{
+                              color: doc?.rating?.averageRating
+                                ? "#FFC107"
+                                : "#ccc",
+                            }}
+                          />
+                          <FaStar
+                            style={{
+                              color: doc?.rating?.averageRating
+                                ? "#FFC107"
+                                : "#ccc",
+                            }}
+                          />
+                          <FaStar
+                            style={{
+                              color: doc?.rating?.averageRating
+                                ? "#FFC107"
+                                : "#ccc",
+                            }}
+                          />
+                          <FaStar
+                            style={{
+                              color: doc?.rating?.averageRating
+                                ? "#FFC107"
+                                : "#ccc",
+                            }}
+                          />
+                          <FaStar
+                            style={{
+                              color: doc?.rating?.averageRating
+                                ? "#FFC107"
+                                : "#ccc",
+                            }}
+                          />
+                          {`${doc?.rating?.averageRating || "0"}/5 (${
+                            doc?.rating?.count || "0 "
+                          } reviews
+                          )`}
                         </p>
                       </span>
                     </span>

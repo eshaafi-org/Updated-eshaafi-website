@@ -31,7 +31,6 @@ export default function BookAppointmentPage({
   appointmentPage: any;
   reschedule: boolean;
 }) {
-  console.log(data);
   const router = useRouter();
 
   let links = [
@@ -386,7 +385,11 @@ export default function BookAppointmentPage({
                 activeSlot={activeSlot}
                 setSlot={setSlot}
               />
-              <Reviews reviews={data?.doctorInfo?.review} />
+              {data.doctorInfo?.review.length > 1 && (
+                <Reviews
+                  reviews={data?.doctorInfo ? data.doctorInfo?.review : []}
+                />
+              )}
             </section>
           ) : (
             <PaymentMethod

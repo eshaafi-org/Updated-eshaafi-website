@@ -120,8 +120,12 @@ export default function DoctorList({ list }: any) {
 
                 <span className="d-flex flex-column align-items-center w-100  border-end border-start">
                   <h5 className={style.experienceHeading}>
-                    <FaStar style={{ color: "#FFC107" }} />
-                    {itm?.rating?.averageRating}/5
+                    <FaStar
+                      style={{
+                        color: itm?.rating?.averageRating ? "#FFC107" : "#ccc",
+                      }}
+                    />
+                    {itm?.rating?.averageRating || "0"}/5
                   </h5>
                   <p className={style.experienceText}>
                     {itm?.rating?.count} Reviews
@@ -130,7 +134,7 @@ export default function DoctorList({ list }: any) {
 
                 <span className="d-flex flex-column align-items-center ">
                   <h5 className={style.experienceHeading}>
-                    {itm.recommended}%
+                    {itm.recommended || "0"}%
                   </h5>
                   <p className={style.experienceText}>Positive feedback</p>
                 </span>

@@ -22,14 +22,14 @@ export default function Profile({ doctor, doctors }: any) {
   const [reviews, setReviews] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  // console.log(doctor?.isOnline);
   const loadmoreReviews = () => {
     setLoading(true);
     axios
       .get(BASE_URL + `/patients/doctors/${router.query.id}/reviews`)
       .then((res) => {
         setLoading(false);
-        setReviews(res.data.response.reviews);
+        console.log(res);
+        setReviews(res.data.response.reviews ? res.data.response.reviews : []);
       })
       .catch((err) => {
         setLoading(false);
@@ -37,7 +37,7 @@ export default function Profile({ doctor, doctors }: any) {
       });
   };
   useEffect(() => {
-    setReviews(doctor?.review);
+    setReviews(doctor?.review || []);
   }, []);
   return (
     <>
@@ -102,13 +102,44 @@ export default function Profile({ doctor, doctors }: any) {
                           " align-items-center d-flex "
                         }
                       >
-                        <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107" }} />
-                        <FaStar style={{ color: "#FFC107", marginRight: 5 }} />
-                        {`${doctor?.rating?.averageRating}/5 (${
-                          doctor?.rating?.count + " reviews"
+                        <FaStar
+                          style={{
+                            color: doctor?.rating?.averageRating
+                              ? "#FFC107"
+                              : "#ccc",
+                          }}
+                        />
+                        <FaStar
+                          style={{
+                            color: doctor?.rating?.averageRating
+                              ? "#FFC107"
+                              : "#ccc",
+                          }}
+                        />
+                        <FaStar
+                          style={{
+                            color: doctor?.rating?.averageRating
+                              ? "#FFC107"
+                              : "#ccc",
+                          }}
+                        />
+                        <FaStar
+                          style={{
+                            color: doctor?.rating?.averageRating
+                              ? "#FFC107"
+                              : "#ccc",
+                          }}
+                        />
+                        <FaStar
+                          style={{
+                            color: doctor?.rating?.averageRating
+                              ? "#FFC107"
+                              : "#ccc",
+                            marginRight: 5,
+                          }}
+                        />
+                        {`${doctor?.rating?.averageRating || "0"}/5 (${
+                          doctor?.rating?.count || "0" + " reviews"
                         })`}
                       </p>
                     </span>
@@ -122,7 +153,7 @@ export default function Profile({ doctor, doctors }: any) {
                     </span>
                     <span className="d-flex flex-column align-items-center row-gap-0-5">
                       <h5 className={style.profileExperienceHeading}>
-                        {doctor?.recommended}%
+                        {doctor?.recommended || "0"}%
                       </h5>
                       <p className={style.profileExperienceText}>
                         Positive feedback
@@ -207,7 +238,7 @@ export default function Profile({ doctor, doctors }: any) {
                       <div className={style.ring}>
                         <div className={style.centered_content}>
                           <div className={style.reviewText + " fw-bold"}>
-                            {doctor?.rating?.recommended}%
+                            {doctor?.rating?.recommended || "0"}%
                           </div>
                           <p className={style.docSecDes}>Recommend</p>
                         </div>
@@ -218,7 +249,7 @@ export default function Profile({ doctor, doctors }: any) {
                         <span className="d-flex justify-content-between">
                           <h4 className={style.reviewText}>Behaviour</h4>
                           <p className={style.docSecDes + " mb-2"}>
-                            {doctor?.rating?.behaviour}%
+                            {doctor?.rating?.behaviour || "0"}%
                           </p>
                         </span>
                         <span
@@ -231,7 +262,7 @@ export default function Profile({ doctor, doctors }: any) {
                         <span className="d-flex justify-content-between">
                           <h4 className={style.reviewText}>Recommendation</h4>
                           <p className={style.docSecDes + " mb-2"}>
-                            {doctor?.rating?.recommended}%
+                            {doctor?.rating?.recommended || "0"}%
                           </p>
                         </span>
                         <span
@@ -291,7 +322,7 @@ export default function Profile({ doctor, doctors }: any) {
                   </tr>
                   <tr>
                     <th>Recommendation</th>
-                    <td>{doctor?.recommended}%</td>
+                    <td>{doctor?.recommended || "0"}%</td>
                     {/* <td>{appointDate}</td> */}
                   </tr>
                   <tr>
@@ -367,7 +398,7 @@ export async function getStaticProps({ params: { id } }: any) {
   const [profile, doctors] = await Promise.all([response, doc]);
   const data = await profile.json();
   const docData = await doctors.json();
-  //   console.log(data.response);
+  console.log(data.response);
   return {
     props: {
       doctor: data?.response,
