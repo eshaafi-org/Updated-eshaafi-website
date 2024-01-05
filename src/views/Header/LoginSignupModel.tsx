@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { IoIosArrowForward, IoIosArrowRoundBack } from "react-icons/io";
 
 // reducer
 const reducer = (state: any, action: any) => {
@@ -81,6 +82,8 @@ export const Model = ({ page = "login" }: { page: string }) => {
     modelStates;
   const [otp, setOtp] = useState<boolean>(false);
   const [profile, setProfile] = useState<boolean>(false);
+  const [corporateLogin, setCorporateLogin] = useState<boolean>(false);
+  const [pin, setPin] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   // function for handling static window, so user can't move
@@ -95,12 +98,18 @@ export const Model = ({ page = "login" }: { page: string }) => {
       setStates({ type: "OTP_LOADING_TRUE" });
     }
     axios
-      .post(BASE_URL + "/auth/sendOtp", {
-        phone_no: `+92${e ? e.phone_no : phoneNum}`,
-        type: 1,
-        os_name: "web",
-      })
+      .post(
+        BASE_URL +
+          `/auth/sendOtp${corporateLogin ? "?corporateLogin=True" : ""}`,
+        {
+          phone_no: `+92${e ? e.phone_no : phoneNum}`,
+          type: 1,
+          os_name: "web",
+        }
+      )
       .then((res) => {
+        setPin(res.data.response.pinSet);
+        // toast(res.response.data.response.message);
         setStates({
           type: "OTP_LOADING_FALSE",
           payload: e ? e.phone_no : phoneNum,
@@ -123,8 +132,8 @@ export const Model = ({ page = "login" }: { page: string }) => {
     axios
       .post(BASE_URL + "/auth/verifyOtp", {
         phone_no: "+92" + phoneNum,
-        // code: code,
-        pin: "0101",
+        code: code,
+        // pin: "0101",
         type: 1,
       })
       .then((res) => {
@@ -202,9 +211,11 @@ export const Model = ({ page = "login" }: { page: string }) => {
                   </span>
                 )}
                 <span
-                  className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
+                  className={`d-flex flex-column align-items-center my-4 pt-0 px-2`}
                 >
-                  <h1 className="heading1">Welcome to eShaafi</h1>
+                  <h1 className="heading1 mb-2">
+                    {corporateLogin ? `Corporate Login` : `Welcome to eShaafi`}
+                  </h1>
                   <p className={`subText text-center text-capitalize `}>
                     Please enter your phone number, we will send you one time
                     password (OTP) for verification.
@@ -229,27 +240,60 @@ export const Model = ({ page = "login" }: { page: string }) => {
                       className="px-3 d-flex flex-column"
                     >
                       <div>
-                        <span className={style.phoneNum}>
-                          <select name="country" id="">
-                            <option value="+92">+92</option>
-                          </select>
-                          <input
-                            id="phone"
-                            type="tel"
-                            placeholder="3000000000"
-                            className={style.phoneInput}
-                            {...formik.getFieldProps("phone_no")}
-                            onChange={formik.handleChange}
-                            autoFocus
-                          />
-                        </span>
-                        {formik.errors.phone_no ? (
-                          <div
-                            style={{ color: "red", fontSize: 12, marginTop: 5 }}
+                        <div>
+                          <span className={style.phoneNum}>
+                            <select name="country" id="">
+                              <option value="+92">+92</option>
+                            </select>
+                            <input
+                              id="phone"
+                              type="tel"
+                              placeholder="3000000000"
+                              className={style.phoneInput}
+                              {...formik.getFieldProps("phone_no")}
+                              onChange={formik.handleChange}
+                              autoFocus
+                            />
+                          </span>
+                          {formik.errors.phone_no ? (
+                            <div
+                              style={{
+                                color: "red",
+                                fontSize: 12,
+                                marginTop: 5,
+                              }}
+                            >
+                              {String(formik.errors.phone_no)}
+                            </div>
+                          ) : null}
+                        </div>
+                        {!corporateLogin ? (
+                          <button
+                            type="button"
+                            className={style.corporateBtn}
+                            onClick={() => setCorporateLogin(true)}
                           >
-                            {String(formik.errors.phone_no)}
-                          </div>
-                        ) : null}
+                            <span>
+                              <p className="text-dark">Have corporate plan?</p>
+                              <p style={{ color: "#0E8781" }}>Login here</p>
+                            </span>
+                            <span>
+                              <IoIosArrowForward />
+                            </span>
+                          </button>
+                        ) : (
+                          <p
+                            className="mt-4"
+                            style={{
+                              color: "blue",
+                              fontSize: 12,
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setCorporateLogin(false)}
+                          >
+                            <IoIosArrowRoundBack /> Login With personal account
+                          </p>
+                        )}
                       </div>
                       <div className="d-flex flex-column my-4">
                         <Button

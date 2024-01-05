@@ -256,3 +256,16 @@
 .dobField {
   min-width: 95%;
 }
+.corporateBtn {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  outline: none;
+  border: none;
+  margin-top: 1rem;
+  width: 100%;
+  align-items: center;
+  border-radius: 12px;
+  text-align: left;
+  // background-color: ;
+}
