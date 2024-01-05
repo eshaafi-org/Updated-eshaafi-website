@@ -33,15 +33,12 @@
   }
 }
 .blogHeading {
-  font-size: 12px;
-  // min-height: 25px;
-  @include above-tablet {
-    font-size: 16px;
-    min-height: 40px;
-  }
-  @include above-tablet-large {
-    font-size: 20px;
-    min-height: 47px;
+  font-size: 1rem;
+  margin-top: 0.4rem;
+  text-transform: capitalize;
+  // min-height: 45px;
+  @include large-mobile-and-below {
+    min-height: unset;
   }
 }
 .blogDescription {

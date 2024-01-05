@@ -20,9 +20,9 @@ export default function BlogCard({ blog, link }: any) {
       />
       <h4 className={style.blogHeading}>{blog.title}</h4>
       <p style={{ fontSize: 11 }}>
-        {moment(blog.update_at ? blog.update_at : blog.created_at).format(
-          "D MMMM, YYYY"
-        )}{" "}
+        {moment(
+          blog.scheduleDateTime ? blog.scheduleDateTime : blog.date
+        ).format("D MMMM, YYYY")}{" "}
         <small className={style.blogTimeCircle}>{blog.readTime} min read</small>
       </p>
       <p className={style.blogDescription}>

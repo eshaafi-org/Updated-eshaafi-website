@@ -2,10 +2,7 @@
 @import "../../styles/variables";
 @import "../../styles/mixin";
 .header {
-  background-image: linear-gradient(
-    rgba(245, 251, 255, 1),
-    rgba(245, 251, 255, 0.63)
-  );
+  background-color: rgba(237, 246, 254, 1);
   position: fixed;
   top: 0;
   left: 0;

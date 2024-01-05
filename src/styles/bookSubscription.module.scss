@@ -1,0 +1,27 @@
+@import "../styles/mixin";
+@import "../styles//variables";
+/* bookSubscription.module.scss */
+
+.payment{ 
+  width: 70%;
+  @include large-mobile-and-below {
+    width: 100%;
+  }
+}
+.paymentContainer {
+  border: 1px solid #ccc;
+  padding: 16px;
+  width: 100%;
+}
+.paymentMethodList {
+  list-style-type: none;
+  padding: 0;
+}
+.paymentMethodItem {
+  margin-bottom: 8px;
+  font-size: 22px;
+  font-weight: 400;
+}
+.paymentMethodLabel {
+  margin-left: 8px;
+}

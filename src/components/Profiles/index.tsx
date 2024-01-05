@@ -41,9 +41,11 @@ const reducer = (state: any, action: any) => {
 export default function Profiles({
   patient,
   setPatient,
+  styling = style.profilesContainer,
 }: {
   patient: any;
   setPatient: any;
+  styling: any;
 }) {
   const [states, setStates] = useReducer(reducer, {
     loading: false,
@@ -65,7 +67,7 @@ export default function Profiles({
     getProfiles();
   }, []);
   return (
-    <section className={style.profilesContainer}>
+    <section className={styling === "" ? style.profilesContainer : styling}>
       {loading ? (
         <div className="d-flex col-gap-1 mt-4">
           <p className="d-flex flex-column card-text placeholder-glow justify-content-center align-items-start row-gap-1">
@@ -136,7 +138,10 @@ export default function Profiles({
                   <FaUserCircle className={style.profileIcon} />
                 )}
                 <span className="text-capitalize">
-                  {itm.name.length <= 5 ? itm.name : `${itm.name}`}
+                  <p className="text-dark">
+                    {itm.name.length <= 5 ? itm.name : `${itm.name}`}
+                  </p>
+                  {styling !== style.profileContainer && <p>{itm.relation}</p>}
                 </span>
                 {patient?.patientId === itm.profileId && (
                   <FaCheck className={style.icon} />

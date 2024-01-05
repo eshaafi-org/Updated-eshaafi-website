@@ -245,6 +245,14 @@ const Header: React.FC<HeaderProps> = ({}) => {
                                 <p>{userAuth?.phoneNo}</p>
                               </div>
                             </li>
+                             <li className="p-2">
+                            <Link href={"/profile"}>Profile</Link>
+                          </li>
+                            <li className="p-2">
+                              <Link href={"/profile"} className="w-100 d-flex">
+                                Profile
+                              </Link>
+                            </li>
                             <li className="p-2">
                               <Link
                                 href={"/appointments"}
@@ -253,10 +261,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                                 Appointments{" "}
                               </Link>
                             </li>
-                            {/* <li className="p-1">
-                            <Link href={"/"}>Profile</Link>
-                          </li>
-                          <li className="p-1">
+                          {/*<li className="p-1">
                             <Link href={"/"}>Orders</Link>
                           </li>
                           <li className="p-1">

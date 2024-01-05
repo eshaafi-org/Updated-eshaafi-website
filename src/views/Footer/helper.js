@@ -50,7 +50,7 @@ export const footerLinks = [
       { name: "Video Consultation", href: "/doctors" },
       // { name: "Corporate Care Program", href: "/corporate" },
       // { name: "Home Nursing", href: "/" },
-      // { name: "Labs", href: "/" },
+      { name: "Labs", href: "/labs" },
       // { name: "Pharmacy", href: "/" },
       // { name: "24/7 Support", href: "/" },
       // { name: "Subscription Plans", href: "/subscriptions" },

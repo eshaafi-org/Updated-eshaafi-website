@@ -117,18 +117,18 @@
 .benifitCont {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  // grid-template-rows: 1fr 1fr;
   row-gap: 2rem;
-  column-gap: 2rem;
-  @include above-small-mobile {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    row-gap: 0.5rem;
-  }
-  @include above-tablet {
+  column-gap: 3rem;
+  @include tablet-and-below {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(3, auto);
     row-gap: 1rem;
+  }
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 0.5rem;
   }
   li {
     .benefitItemCont {
