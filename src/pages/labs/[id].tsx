@@ -20,6 +20,30 @@ export default function Test() {
         { name: "Chughtai Lab", link: `/labs/id` },
     ];
     const [test, setTest] = useState([])
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    const handleSearch = () => {
+        axios
+            .get(BASE_URL + "/lab/patients/labs/test", {
+                headers: headers(),
+                params: {
+                    name: searchQuery,
+                },
+            })
+            .then((res) => {
+                setSearchResults(res.data.response.Items);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const handleKeyPress = (event: { key: string; }) => {
+        if (event.key === 'Enter') {
+            handleSearch();
+        }
+    };
     const getLabTest = () => {
         axios
             .get(BASE_URL + "/lab/patients/labs/test", {
@@ -42,7 +66,7 @@ export default function Test() {
                 <h2>Chughtai Lab</h2>
                 <AddressBar links={links} />
             </span>
-            <div className="mt-4 d-flex justify-content-between align-items-start">
+            <div className={`${style.labDetail} mt-4 d-flex justify-content-between align-items-start`}>
                 <div className="d-flex col-gap-1 align-items-center">
                     <Image
                         src={labIcon}
@@ -64,18 +88,43 @@ export default function Test() {
             <div className={`${style.search} mt-4 px-1`}>
                 <input
                     placeholder="Search for tests here"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyPress={handleKeyPress}
                 />
                 <FaSearch className={style.searchIcon} />
             </div>
             <ul className={`${style.cart} mt-3`}>
-                {test.map((tests: any, index: any) => (
+                {/* {test.map((tests: any, index: any) => (
                     <li key={index} className={style.cartDetail}>
                         <Text22>{tests.MedicineName}</Text22>
                         <Text16>{tests.category}</Text16>
                         <Text14>{tests.productPrice}</Text14>
                         <Button className={`${style.cartButton} mt-2`}>Add to Cart</Button>
                     </li>
-                ))}
+                ))} */}
+                {searchQuery ? (
+                    // Display search results when a search query is present
+                    searchResults.map((result: any, index: any) => (
+                        <li key={index} className={style.cartDetail}>
+                            {/* Display the search results here */}
+                            <Text22>{result.MedicineName}</Text22>
+                            <Text16>{result.category}</Text16>
+                            <Text14>{result.productPrice}</Text14>
+                            <Button className={`${style.cartButton} mt-2`}>Add to Cart</Button>
+                        </li>
+                    ))
+                ) : (
+                    // Display test data when there's no search query
+                    test.map((tests: any, index: any) => (
+                        <li key={index} className={style.cartDetail}>
+                            <Text22>{tests.MedicineName}</Text22>
+                            <Text16>{tests.category}</Text16>
+                            <Text14>{tests.productPrice}</Text14>
+                            <Button className={`${style.cartButton} mt-2`}>Add to Cart</Button>
+                        </li>
+                    ))
+                )}
             </ul>
             <Link href={""}>
             </Link>

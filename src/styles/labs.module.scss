@@ -1,6 +1,12 @@
 @import "./mixin";
 // ID (Lab with Name and Detail) Styling
 // Upload E-Prescription Button
+.labDetail {
+  @include large-mobile-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
 .uploadButton {
   gap: 0.5rem;
   background-color: #0e5487;
@@ -30,6 +36,15 @@
     border: none;
     outline: none;
     width: 35%;
+    @include tablet-large-and-below {
+      width: 50%;
+    }
+    @include tablet-and-below {
+      width: 60%;
+    }
+    @include large-mobile-and-below {
+      width: 100%;
+    }
   }
 }
 .searchIcon {
@@ -109,8 +124,25 @@
 
 // CheckOut Page Styling
 // Deatail Div
+.checkoutDetail {
+  @include tablet-large-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @include tablet-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @include large-mobile-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
 .orderDetail {
   width: 65%;
+  @include tablet-large-and-below {
+    width: 100%;
+  }
 }
 .summary {
   width: 35%;
@@ -141,6 +173,12 @@
     padding: 10px 16px;
     border: 1px solid #dfeaf2 !important;
   }
+  @include tablet-large-and-below {
+    width: 70%;
+  }
+  @include large-mobile-and-below {
+    width: 100%;
+  }
 }
 .applyButton {
   padding: 0.5rem 1rem;
@@ -169,13 +207,13 @@
     outline: none;
   }
 }
-.blueColor{
-  color: #1B76B8;
+.blueColor {
+  color: #1b76b8;
 }
-.blackCol{
-  color: #192A3E;
+.blackCol {
+  color: #192a3e;
 }
-.blackColor{
-  color: #192A3E;
+.blackColor {
+  color: #192a3e;
   font-weight: 600;
 }
