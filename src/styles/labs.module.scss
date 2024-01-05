@@ -90,6 +90,13 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   margin-top: 2rem;
+  @include tablet-and-below {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    margin-top: 1rem;
+  }
 }
 .labCard {
   border-radius: 12px;
@@ -110,7 +117,6 @@
 // packages list styleing
 .packageCard {
   border-radius: 12px;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   &:hover {
@@ -121,99 +127,90 @@
     padding: 1rem 0 0 1rem;
   }
 }
-
-// CheckOut Page Styling
-// Deatail Div
-.checkoutDetail {
-  @include tablet-large-and-below {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  @include tablet-and-below {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+.packageCardImg {
+  background-repeat: no-repeat;
+  background-position: bottom right;
+  padding: 5rem;
+  // background-size: 75%;
   @include large-mobile-and-below {
-    flex-wrap: wrap;
-    gap: 10px;
+    padding: 3rem;
+    background-size: 75%;
   }
 }
-.orderDetail {
-  width: 65%;
-  @include tablet-large-and-below {
-    width: 100%;
-  }
-}
-.summary {
-  width: 35%;
-  height: fit-content;
-  border-radius: 12px;
-  border: 0.5px solid #d7ddea;
-  background: #f5fbff;
+// working steps styling
+.workingStepsStyling {
   display: flex;
-  flex-direction: column;
-  row-gap: 1.5rem;
-  table {
-    th {
-      text-align: start;
-      font-weight: 400;
+  justify-content: center;
+  padding-bottom: 4rem;
+  border-bottom: 2px solid #bababa;
+  span {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    padding: 1rem 4rem 0 1rem;
+    width: 33.333%;
+    @include large-mobile-and-below {
+      width: 100%;
+      padding: 0rem 1rem 0 1rem;
     }
-    tr {
-      display: flex;
-      justify-content: space-between;
-    }
-    td {
-      text-align: end;
-    }
-  }
-  input {
-    width: 100%;
-    background: #f5fbff;
-    border-radius: 4px;
-    padding: 10px 16px;
-    border: 1px solid #dfeaf2 !important;
-  }
-  @include tablet-large-and-below {
-    width: 70%;
   }
   @include large-mobile-and-below {
-    width: 100%;
+    flex-direction: column;
   }
 }
-.applyButton {
-  padding: 0.5rem 1rem;
-  margin-left: 4px;
-  border-radius: 4px;
-  background-color: #1c6ba4;
-  color: #fff;
-  &:hover {
-    background-color: #003154;
+.labsWorkingBeforeAfter {
+  position: relative;
+  &::after {
+    position: absolute;
+    content: "";
+    width: 66px;
+    height: 1px;
+    background-color: #a7a7a7;
+    left: -60px;
+    @include large-mobile-and-below {
+      left: 50%;
+      width: 1px;
+      height: 24px;
+      top: 0;
+    }
   }
-  @include for-large-mobile-only {
-    padding: 0.5rem 0.8rem;
+  &::before {
+    position: absolute;
+    content: "";
+    width: 66px;
+    height: 1px;
+    background-color: #a7a7a7;
+    right: -10px;
+    @include large-mobile-and-below {
+      right: 50%;
+      width: 1px;
+      height: 24px;
+      bottom: 0;
+    }
   }
   @include large-mobile-and-below {
-    padding: 0.5rem 0.6rem;
+    padding: 1.5rem 1rem !important;
   }
 }
-.address {
-  border-radius: 8px;
-  box-shadow: 0px 5px 10px 0px rgba(88, 88, 88, 0.08);
-}
-.note {
-  input {
-    border-radius: 8px;
-    border: 1px solid #d7ddea;
-    outline: none;
+// uploading prescription section
+.uploadingPrescription {
+  display: flex;
+  background-color: #e3f3ff;
+  border-radius: 12px;
+  .prescriptionText {
+    width: 50%;
+    padding: 1rem 2rem;
+    @include large-mobile-and-below {
+      width: 100%;
+      padding: 1rem 1rem;
+    }
   }
-}
-.blueColor {
-  color: #1b76b8;
-}
-.blackCol {
-  color: #192a3e;
-}
-.blackColor {
-  color: #192a3e;
-  font-weight: 600;
+  .prescriptionImg {
+    width: 50%;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    @include large-mobile-and-below {
+      display: none;
+    }
+  }
 }

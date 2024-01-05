@@ -1,16 +1,22 @@
 import style from "../../styles/doctors.module.scss";
-
-export default function FQuest({ benifits }: { benifits: any }) {
+import { Text16, Text12 } from "@/components/Typography";
+export default function FQuest({
+  quests,
+  heading,
+}: {
+  quests: any;
+  heading: string;
+}) {
   return (
     <section className="container pt-0">
-      <h2>Frequently Asked Questions</h2>
+      <h2>{heading}</h2>
       <ul className={"border rounded p-3 mt-3 " + style.benifitCont}>
-        {benifits.map((itm: any, indx: number) => (
+        {quests.map((itm: any, indx: number) => (
           <li key={indx}>
             <div className={style.benefitItemCont}>
               <span className="flex flex-col row-gap-1">
-                <h4>{itm.heading}</h4>
-                <p>{itm.text}</p>
+                <p className="text-dark">{itm.heading}</p>
+                <Text12>{itm.text}</Text12>
               </span>
             </div>
           </li>

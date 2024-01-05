@@ -26,3 +26,37 @@ export const doctbenifits = [
     text: "Your safety is paramount. In case of emergencies, our doctors will provide immediate guidance and advise seeking appropriate medical attention.",
   },
 ];
+export const labFAQs = [
+  {
+    heading: "How do I schedule a lab test through the telehealth app?",
+    text: `Yes, eShaafi provides 24/7 video consultation . You can connect with doctor anytime or anywhere by booking appointment or through instant call.`,
+  },
+  {
+    heading: "Can I choose a specific laboratory or location for my lab test?",
+    text: `Absolutely. Our app allows you to choose from a list of partner laboratories and select a convenient location for your lab test.
+`,
+  },
+  {
+    heading:
+      "What is the cost associated with booking a lab test through the telehealth app?",
+    text: `The cost varies depending on the type of test. You can find detailed pricing information in the app, however by booking with eshaafi you can get upt o 30% discounts on test.
+`,
+  },
+];
+export const whyBookWithUs = [
+  {
+    heading: "Book free home sampling in a few easy steps",
+    text: `You can now book free home sampling of lab samples using eShaafi website or mobile app and lab will send a professional to collect your sanple.
+`,
+  },
+  {
+    heading: "Get exclusive discounts and bundles through eShaafi",
+    text: `Through eShaafi you can get upto 30% discounts on test will any lab of your choice.
+
+`,
+  },
+  {
+    heading: "Get your reports on your phone within one day",
+    text: `You can view your test results on your phone making lab tests easier than ever.`,
+  },
+];

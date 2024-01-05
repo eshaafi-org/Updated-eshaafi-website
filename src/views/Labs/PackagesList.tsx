@@ -1,12 +1,12 @@
 // import
 import packageIcon from "../../../public/images/packageIcon.png";
-import { Text16, Text24 } from "@/components/Typography";
+import { Text16, Text24, Text28 } from "@/components/Typography";
 import style from "@/styles/labs.module.scss";
 import Link from "next/link";
 export default function PackagesList() {
   return (
-    <section className="container">
-      <h1 className="fw-bold">Packages</h1>
+    <section className="container pt-0">
+      <Text28 className="fw-bold text-dark">Packages</Text28>
       <ul className={style.labList}>
         <li>
           <Link
@@ -21,11 +21,9 @@ export default function PackagesList() {
               <Text16>Includes 12 tests</Text16>
             </span>
             <div
+              className={style.packageCardImg}
               style={{
                 backgroundImage: `url(${packageIcon.src})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "bottom right",
-                padding: "5rem",
               }}
             ></div>
           </Link>

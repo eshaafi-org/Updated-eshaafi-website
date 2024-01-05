@@ -304,7 +304,7 @@
   cursor: grab;
   overflow: hidden;
   // margin-top: 4rem;
-  padding: 2rem 0px 4rem 0;
+  padding: 2rem 0px 0rem 0;
   // @include for-large-phone-only {
   //   margin: 1rem 0;
   //   padding: unset;
@@ -387,9 +387,6 @@
 // doctors section
 .docSection {
   padding: 4rem 0rem 4rem 0rem;
-  // @include for-large-phone-only {
-  //   padding: unset;
-  // }
 }
 /// get the app section
 .getAppImage {
