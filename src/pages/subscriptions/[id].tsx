@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import AddressBar from "@/components/AddressBar";
 import Summary from "@/views/Subscription/Summary";
-import { plans } from "@/helper/plans";
 import style from "@/styles/bookSubscription.module.scss";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";

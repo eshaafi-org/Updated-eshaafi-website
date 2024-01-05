@@ -4,7 +4,7 @@ export default function Stats() {
     <div className="container">
       <div className={style.statsContainer}>
         <span className={style.statsContent}>
-          <h6 className={style.statsHeading}>10,000+</h6>
+          <h6 className={style.statsHeading}>35,000+</h6>
           <p className={style.statsText}>App Downloads</p>
         </span>
         <span className={style.statsContent}>
@@ -16,8 +16,8 @@ export default function Stats() {
           <p className={style.statsText}>Successful Consultations</p>
         </span>
         <span className={style.statsContent}>
-          <h6 className={style.statsHeading}>20+</h6>
-          <p className={style.statsText}>Cities In Pakistan</p>
+          <h6 className={style.statsHeading}>All Across</h6>
+          <p className={style.statsText}>Pakistan</p>
         </span>
       </div>
     </div>

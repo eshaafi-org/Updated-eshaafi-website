@@ -8,7 +8,7 @@ const principles = [
   {
     icon: principle3,
     heading: "Driven by Purpose",
-    text: "We firmly believe in our vision to provide stress free healthcare across Pakistan and with that vision we continue to excel in creating eShaafi.",
+    text: "We firmly believe in our vision, that is to provide stress free healthcare across Pakistan and with that vision we continue to excel in building eShaafi.",
   },
   {
     icon: principle2,

@@ -13,7 +13,6 @@ import { RxCross2 } from "react-icons/rx";
 import Button from "@/components/Button";
 import { BASE_URL, headers } from "@/helper/CONST";
 import Modal from "react-bootstrap/Modal";
-import Link from "next/link";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { requestPlans, receivePlans, plansError } from "./planListSlicer";
@@ -156,9 +155,8 @@ function DurationButton({
   onClick: () => void;
 }) {
   const isActive = duration === selectedCategory;
-  const buttonClassName = `${
-    isActive ? style.activeButton : style.normalButton
-  }`;
+  const buttonClassName = `${isActive ? style.activeButton : style.normalButton
+    }`;
 
   return (
     <Button onClick={onClick} className={buttonClassName}>
@@ -201,21 +199,23 @@ export default function SubscriptionPlans() {
   );
   return (
     <section className="container">
-      <div
-        className={`${style.buttonbg} d-flex justify-content-center mb-3 gap-2`}
-      >
-        {[1, 3, 6, 12].map((duration) => (
-          <DurationButton
-            key={duration}
-            duration={`${duration} month${duration > 1 ? "s" : ""}`}
-            selectedCategory={selectedCategory}
-            onClick={() =>
-              handleCategoryClick({
-                category: `${duration} month${duration > 1 ? "s" : ""}`,
-              })
-            }
-          />
-        ))}
+      <div className="d-flex justify-content-center w-100 mb-3">
+        <span
+          className={style.buttonbg}
+        >
+          {[1, 3, 6, 12].map((duration) => (
+            <DurationButton
+              key={duration}
+              duration={`${duration} month${duration > 1 ? "s" : ""}`}
+              selectedCategory={selectedCategory}
+              onClick={() =>
+                handleCategoryClick({
+                  category: `${duration} month${duration > 1 ? "s" : ""}`,
+                })
+              }
+            />
+          ))}
+        </span>
       </div>
       <ul className={style.plansContainer}>
         {filteredPlans.map((category: any, index: Key | null | undefined) => (

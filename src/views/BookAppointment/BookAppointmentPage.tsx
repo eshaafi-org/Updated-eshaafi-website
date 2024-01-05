@@ -31,7 +31,6 @@ export default function BookAppointmentPage({
   appointmentPage: any;
   reschedule: boolean;
 }) {
-  console.log(data);
   const router = useRouter();
 
   let links = [
@@ -126,7 +125,7 @@ export default function BookAppointmentPage({
             setPaymentScreen(false);
           })
           .catch((err) => {
-            console.log(err.response.data.response.message);
+            // console.log(err.response.data.response.message);
             setLoading(false);
             if (err.response.status === 400) {
               toast(
@@ -284,7 +283,6 @@ export default function BookAppointmentPage({
       });
       dispatch({ type: "loginModalSlice/signIn" });
     }
-    // console.log(postData);
   };
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
@@ -385,7 +383,11 @@ export default function BookAppointmentPage({
                 activeSlot={activeSlot}
                 setSlot={setSlot}
               />
-              <Reviews reviews={data?.doctorInfo?.review} />
+              {data.doctorInfo?.review.length > 1 && (
+                <Reviews
+                  reviews={data?.doctorInfo ? data.doctorInfo?.review : []}
+                />
+              )}
             </section>
           ) : (
             <PaymentMethod
