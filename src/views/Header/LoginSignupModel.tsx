@@ -81,10 +81,8 @@ export const Model = ({ page = "login" }: { page: string }) => {
   const { phoneNum, otpLoading, verifyLoading, profileLoading, otpError } =
     modelStates;
   const [otp, setOtp] = useState<boolean>(false);
-  const [profile, setProfile] = useState<boolean>(false);
   const [corporateLogin, setCorporateLogin] = useState<boolean>(false);
-  const [pin, setPin] = useState<boolean>(false);
-  const [pinScreen, setPinScreen] = useState<boolean>(false);
+  const [profile, setProfile] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   // function for handling static window, so user can't move
@@ -99,19 +97,12 @@ export const Model = ({ page = "login" }: { page: string }) => {
       setStates({ type: "OTP_LOADING_TRUE" });
     }
     axios
-      .post(
-        BASE_URL +
-          `/auth/sendOtp${corporateLogin ? "?corporateLogin=True" : ""}`,
-        {
-          phone_no: `+92${e ? e.phone_no : phoneNum}`,
-          type: 1,
-          os_name: "web",
-        }
-      )
+      .post(BASE_URL + "/auth/sendOtp", {
+        phone_no: `+92${e ? e.phone_no : phoneNum}`,
+        type: 1,
+        os_name: "web",
+      })
       .then((res) => {
-        setPin(res.data.response.pinSet);
-        setPin(res.data.response.pinSet);
-        // toast(res.response.data.response.message);
         setStates({
           type: "OTP_LOADING_FALSE",
           payload: e ? e.phone_no : phoneNum,
@@ -139,22 +130,19 @@ export const Model = ({ page = "login" }: { page: string }) => {
       })
       .then((res) => {
         setStates({ type: "VERI_LOADING" });
-
         localStorage.setItem("user", JSON.stringify(res.data.response));
         return res.data.response;
+        // userAuth(res.data.response.uuid);
       })
       .then((res) => {
         if (res.profileCreated) {
           dispatch({ type: "loginModalSlice/setAuth", payload: res });
-          if (!pin) {
-            setPinScreen(true);
-          }
-        }
-        // else setProfile(true);
+          close();
+        } else setProfile(true);
       })
       .catch((err) => {
         setStates({ type: "VERI_ERROR" });
-        // console.error(err);
+        console.error(err);
       });
     // console.log(modelStates);
     // setProfile(true);
@@ -215,11 +203,9 @@ export const Model = ({ page = "login" }: { page: string }) => {
                   </span>
                 )}
                 <span
-                  className={`d-flex flex-column align-items-center my-4 pt-0 px-2`}
+                  className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
                 >
-                  <h1 className="heading1 mb-2">
-                    {corporateLogin ? `Corporate Login` : `Welcome to eShaafi`}
-                  </h1>
+                  <h1 className="heading1">Welcome to eShaafi</h1>
                   <p className={`subText text-center text-capitalize `}>
                     Please enter your phone number, we will send you one time
                     password (OTP) for verification.
@@ -244,61 +230,55 @@ export const Model = ({ page = "login" }: { page: string }) => {
                       className="px-3 d-flex flex-column"
                     >
                       <div>
-                        <div>
-                          <span className={style.phoneNum}>
-                            <select name="country" id="">
-                              <option value="+92">+92</option>
-                            </select>
-                            <input
-                              id="phone"
-                              type="tel"
-                              placeholder="3000000000"
-                              className={style.phoneInput}
-                              {...formik.getFieldProps("phone_no")}
-                              onChange={formik.handleChange}
-                              autoFocus
-                            />
-                          </span>
-                          {formik.errors.phone_no ? (
-                            <div
-                              style={{
-                                color: "red",
-                                fontSize: 12,
-                                marginTop: 5,
-                              }}
-                            >
-                              {String(formik.errors.phone_no)}
-                            </div>
-                          ) : null}
-                        </div>
-                        {!corporateLogin ? (
-                          <button
-                            type="button"
-                            className={style.corporateBtn}
-                            onClick={() => setCorporateLogin(true)}
+                        <span className={style.phoneNum}>
+                          <select name="country" id="">
+                            <option value="+92">+92</option>
+                          </select>
+                          <input
+                            id="phone"
+                            type="tel"
+                            placeholder="3000000000"
+                            className={style.phoneInput}
+                            {...formik.getFieldProps("phone_no")}
+                            onChange={formik.handleChange}
+                            autoFocus
+                          />
+                        </span>
+                        {formik.errors.phone_no ? (
+                          <div
+                            style={{ color: "red", fontSize: 12, marginTop: 5 }}
                           >
-                            <span>
-                              <p className="text-dark">Have corporate plan?</p>
-                              <p style={{ color: "#0E8781" }}>Login here</p>
-                            </span>
-                            <span>
-                              <IoIosArrowForward />
-                            </span>
-                          </button>
-                        ) : (
-                          <p
-                            className="mt-4"
-                            style={{
-                              color: "blue",
-                              fontSize: 12,
-                              cursor: "pointer",
-                            }}
-                            onClick={() => setCorporateLogin(false)}
-                          >
-                            <IoIosArrowRoundBack /> Login With personal account
-                          </p>
-                        )}
+                            {String(formik.errors.phone_no)}
+                          </div>
+                        ) : null}
                       </div>
+                      {!corporateLogin ? (
+                        <button
+                          type="button"
+                          className={style.corporateBtn}
+                          onClick={() => setCorporateLogin(true)}
+                        >
+                          <span>
+                            <p className="text-dark">Have corporate plan?</p>
+                            <p style={{ color: "#0E8781" }}>Login here</p>
+                          </span>
+                          <span>
+                            <IoIosArrowForward />
+                          </span>
+                        </button>
+                      ) : (
+                        <p
+                          className="mt-4"
+                          style={{
+                            color: "blue",
+                            fontSize: 12,
+                            cursor: "pointer",
+                          }}
+                          onClick={() => setCorporateLogin(false)}
+                        >
+                          <IoIosArrowRoundBack /> Login With personal account
+                        </p>
+                      )}
                       <div className="d-flex flex-column my-4">
                         <Button
                           type="submit"
@@ -326,72 +306,36 @@ export const Model = ({ page = "login" }: { page: string }) => {
               </>
             ) : (
               <>
-                {!pinScreen ? (
-                  <div>
-                    <span className="d-flex align-items-center border-bottom py-1">
-                      <Button onClick={() => setOtp(false)}>
-                        <FaChevronLeft />
-                      </Button>
-                      <p className="w-100 fw-bold text-center">
-                        Verify Phone Number
-                      </p>
-                    </span>
-                    <span
-                      className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
+                <span className="d-flex align-items-center border-bottom py-1">
+                  <Button onClick={() => setOtp(false)}>
+                    <FaChevronLeft />
+                  </Button>
+                  <p className="w-100 fw-bold text-center">
+                    Verify Phone Number
+                  </p>
+                </span>
+                <span
+                  className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
+                >
+                  <h1 className="heading1">Enter OTP</h1>
+                  <p className={`subText text-center text-capitalize`}>
+                    Please Check your phone for 6-digit otp sent to
+                    <br />
+                    <u
+                      className="text-primary curser"
+                      onClick={() => setOtp(false)}
                     >
-                      <h1 className="heading1">Enter OTP</h1>
-                      <p className={`subText text-center text-capitalize`}>
-                        Please Check your phone for 6-digit otp sent to
-                        <br />
-                        <u
-                          className="text-primary curser"
-                          onClick={() => setOtp(false)}
-                        >
-                          +92{phoneNum}
-                        </u>
-                      </p>
-                    </span>
-                    <Otpinput
-                      verifyLoading={verifyLoading}
-                      getVarified={getVarified}
-                      otpError={otpError}
-                      setStates={setStates}
-                      getOtp={getOtp}
-                      view={"otp"}
-                    />
-                  </div>
-                ) : (
-                  <div>
-                    <span className="d-flex align-items-center border-bottom py-1">
-                      <Button onClick={() => setOtp(false)}>
-                        <FaChevronLeft />
-                      </Button>
-                      <p className="w-100 fw-bold text-center text-dark">
-                        {!pin ? "Set PIN" : "Enter PIN"}
-                      </p>
-                    </span>
-                    <span
-                      className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
-                    >
-                      <h1 className="heading1">
-                        {!pin ? "Set PIN" : "Enter PIN"}
-                      </h1>
-                      <p className={`subText text-center text-capitalize`}>
-                        {!pin
-                          ? "Set PIN for your profile"
-                          : "Enter your pin to login"}
-                      </p>
-                    </span>
-                    <Otpinput
-                      verifyLoading={verifyLoading}
-                      getVarified={getVarified}
-                      otpError={otpError}
-                      setStates={setStates}
-                      getOtp={getOtp}
-                      view={"pin"}
-                    />
-                  </div>
-                )}
+                      +92{phoneNum}
+                    </u>
+                  </p>
+                </span>
+                <Otpinput
+                  verifyLoading={verifyLoading}
+                  getVarified={getVarified}
+                  otpError={otpError}
+                  setStates={setStates}
+                  getOtp={getOtp}
+                />
               </>
             )}
           </>

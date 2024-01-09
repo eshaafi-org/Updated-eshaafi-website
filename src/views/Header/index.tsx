@@ -33,7 +33,6 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Cart from "./Cart";
 // this component will render only in client,
-
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component
@@ -54,6 +53,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   // const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
+  const [pinSet, setPinSet] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { modalValue, userAuth, drawer } = useSelector(
     (state: any) => state.loginModalReducer
@@ -118,7 +118,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
     };
     // Attach the event listener to the window
     window.addEventListener("scroll", handleScroll);
-
     // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener("scroll", handleScroll);
