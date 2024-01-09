@@ -7,11 +7,14 @@ import Button from "@/components/Button";
 import { FaFilePrescription } from "react-icons/fa6";
 import style from "@/styles/labs.module.scss"
 import { FaSearch } from "react-icons/fa";
-import { tests } from "@/helper/labTest"
 import Link from "next/link";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { useEffect, useState } from "react";
+import FQuest from "@/views/Doctor/FQuest";
+import { labFAQs } from "@/helper/FAQData";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/views/Labs/labCartSlicer";
 
 export default function Test() {
     let links = [
@@ -22,6 +25,7 @@ export default function Test() {
     const [test, setTest] = useState([])
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const dispatch = useDispatch();
 
     const handleSearch = () => {
         axios
@@ -60,6 +64,11 @@ export default function Test() {
     useEffect(() => {
         getLabTest()
     }, [])
+    const handleAddToCart = (item: any) => {
+        // Dispatch the addToCart action from the cart slice
+        dispatch(addToCart(item));
+    };
+    console
     return (
         <section className="container">
             <span>
@@ -80,12 +89,12 @@ export default function Test() {
                         <Text14>Available 00:00am - 00:00pm</Text14>
                     </span>
                 </div>
-                <Button className={`${style.uploadButton} d-flex align-items-center`}>
+                <Button variant="contained" className={"d-flex align-items-center col-gap-0-5"}>
                     <FaFilePrescription style={{ width: '18px', height: '22px', color: '#98D0F9' }} />
                     Upload Prescription
                 </Button>
             </div>
-            <div className={`${style.search} mt-4 px-1`}>
+            <div className={`${style.search} mt-4`}>
                 <input
                     placeholder="Search for tests here"
                     value={searchQuery}
@@ -95,14 +104,6 @@ export default function Test() {
                 <FaSearch className={style.searchIcon} />
             </div>
             <ul className={`${style.cart} mt-3`}>
-                {/* {test.map((tests: any, index: any) => (
-                    <li key={index} className={style.cartDetail}>
-                        <Text22>{tests.MedicineName}</Text22>
-                        <Text16>{tests.category}</Text16>
-                        <Text14>{tests.productPrice}</Text14>
-                        <Button className={`${style.cartButton} mt-2`}>Add to Cart</Button>
-                    </li>
-                ))} */}
                 {searchQuery ? (
                     // Display search results when a search query is present
                     searchResults.map((result: any, index: any) => (
@@ -111,7 +112,13 @@ export default function Test() {
                             <Text22>{result.MedicineName}</Text22>
                             <Text16>{result.category}</Text16>
                             <Text14>{result.productPrice}</Text14>
-                            <Button className={`${style.cartButton} mt-2`}>Add to Cart</Button>
+                            <Button
+                                variant="contained"
+                                className={`${style.cartButton} mt-2`}
+                                onClick={() => handleAddToCart(result)}
+                            >
+                                Add to Cart
+                            </Button>
                         </li>
                     ))
                 ) : (
@@ -121,13 +128,23 @@ export default function Test() {
                             <Text22>{tests.MedicineName}</Text22>
                             <Text16>{tests.category}</Text16>
                             <Text14>{tests.productPrice}</Text14>
-                            <Button className={`${style.cartButton} mt-2`}>Add to Cart</Button>
+                            <Button
+                                variant="contained"
+                                className={`${style.cartButton} mt-2`}
+                                onClick={() => handleAddToCart(tests)}
+                            >
+                                Add to Cart
+                            </Button>
                         </li>
                     ))
                 )}
             </ul>
-            <Link href={""}>
-            </Link>
+            <div className="d-flex justify-content-center my-4 pb-2 border-bottom">
+                <Button variant="contained">
+                    Load More
+                </Button>
+            </div>
+                <FQuest quests={labFAQs} heading={"Frequently Asked Questions"} />
         </section>
     )
 }

@@ -5,11 +5,13 @@ import { appointmentListReducer } from "@/views/Appointments/appointmentListSlic
 import { loginModalReducer } from "@/views/Header/loginSlice";
 import { appointmentPageReducer } from "@/views/Appointments/appointmentPageSlicer";
 import { planListReducer } from "@/views/Subscription/planListSlicer";
+import { labCartReducer } from "@/views/Labs/labCartSlicer";
 const rootReducer = combineReducers({
   appointmentListReducer,
   loginModalReducer,
   appointmentPageReducer,
   planListReducer,
+  labCartReducer,
   // counter: counterReducer,
   //add all your reducers here
 });
