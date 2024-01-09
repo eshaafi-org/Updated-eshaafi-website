@@ -7,24 +7,10 @@
     gap: 10px;
   }
 }
-.uploadButton {
-  gap: 0.5rem;
-  background-color: #0e5487;
-  color: #fff;
-  padding: 12px;
-  &:hover {
-    background-color: #003154;
-  }
-}
 .cartButton {
   gap: 0.5rem;
-  background-color: #0e5487;
-  color: #fff;
   font-size: 11px;
   width: 100%;
-  &:hover {
-    background-color: #003154;
-  }
 }
 
 // search Bar And Search Icon
@@ -32,9 +18,11 @@
   position: relative;
   input {
     background-color: #f5fbff;
-    padding: 12px 16px 12px 25px;
+    padding: 12px 16px 12px 35px;
     border: none;
+    border-radius: 6px;
     outline: none;
+    font-size: 16px;
     width: 35%;
     @include tablet-large-and-below {
       width: 50%;
@@ -50,7 +38,7 @@
 .searchIcon {
   background-color: #f5fbff;
   position: absolute;
-  left: 5px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
   color: #0e5487;
@@ -83,6 +71,8 @@
   border: 1px solid #d7ddea;
   border-radius: 12px;
   padding: 1rem;
+  display: grid;
+  grid-template-rows: 1fr;
 }
 /// home page styling
 /// labs list section
@@ -212,5 +202,86 @@
     @include large-mobile-and-below {
       display: none;
     }
+  }
+}
+// CheckOut Page Styling
+.address {
+  border-radius: 8px;
+  box-shadow: 0px 5px 10px 0px rgba(88, 88, 88, 0.08);
+}
+.customModal {
+  max-width: 828px;
+  padding: 1rem;
+}
+.modalField {
+  grid-template-columns: 1fr 1fr;
+  @include tablet-and-below {
+    grid-template-columns: 1fr;
+  }
+}
+.discard {
+  color: #b00020;
+}
+.note {
+  input {
+    border-radius: 8px;
+    border: 1px solid #d7ddea;
+    outline: none;
+  }
+}
+.blueColor {
+  color: #1b76b8 !important;
+}
+.blackCol {
+  color: #192a3e !important;
+}
+.blackColor {
+  color: #192a3e !important;
+  font-weight: 600;
+}
+// Deatail Div
+.orderDetail {
+  width: 65%;
+}
+.summary {
+  width: 35%;
+  border-radius: 12px;
+  border: 0.5px solid #d7ddea;
+  background: #f5fbff;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  height: fit-content;
+  table {
+    th {
+      text-align: start;
+      font-weight: 400;
+    }
+    tr {
+      display: flex;
+      justify-content: space-between;
+    }
+    td {
+      text-align: end;
+    }
+  }
+  input {
+    width: 100%;
+    background: #f5fbff;
+    border-radius: 4px;
+    padding: 10px 16px;
+    border: 1px solid #dfeaf2 !important;
+  }
+}
+.applyButton {
+  padding: 0.5rem 1rem;
+  margin-left: 4px;
+  border-radius: 4px;
+  background-color: #1c6ba4;
+  @include for-large-mobile-only {
+    padding: 0.5rem 0.8rem;
+  }
+  @include large-mobile-and-below {
+    padding: 0.5rem 0.6rem;
   }
 }
