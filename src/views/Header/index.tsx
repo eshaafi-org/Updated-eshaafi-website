@@ -32,6 +32,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Cart from "./Cart";
+
 // this component will render only in client,
 // Define the props type for the header component
 type HeaderProps = {};
@@ -58,6 +59,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const { modalValue, userAuth, drawer } = useSelector(
     (state: any) => state.loginModalReducer
   );
+  const { cart } = useSelector((state: any) => state.labCartReducer);
   // console.log(modalValue);
   const handleOpen = useCallback(() => {
     document.body.style.overflow = "hidden";
@@ -123,6 +125,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  console.log(cart);
   return (
     <header
       className={`${style.header} ${isScrolled ? style.onScroll : ""}`}
@@ -203,8 +206,14 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     </Button>
                   </Link> */}
 
-                  <Button onClick={() => setShowCart(!showCart)}>
+                  <Button
+                    onClick={() => setShowCart(!showCart)}
+                    className={style.cartBtn}
+                  >
                     <FaCartShopping style={{ fontSize: 22 }} />
+                    {cart.length >= 1 && (
+                      <span className={style.cartNumber}>{cart.length}</span>
+                    )}
                   </Button>
                   {showCart &&
                     createPortal(

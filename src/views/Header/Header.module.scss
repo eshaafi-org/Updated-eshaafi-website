@@ -279,6 +279,9 @@
   left: 0;
   top: 0;
   backdrop-filter: blur(5px);
+  display: grid;
+}
+.cartBackDrop {
 }
 .cartSection {
   background-color: #fff;
@@ -298,7 +301,45 @@
 }
 .cartItems {
   border: 1px solid #ededed;
+  padding: 1rem;
+  overflow-y: auto;
 }
 .cartDetails {
   padding: 2rem 1rem;
+}
+.cartBtn {
+  position: relative;
+}
+.cartNumber {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #fece00;
+  color: #fff;
+  border-radius: 50%;
+  padding: 0.1rem 0.35rem;
+  font-size: 9px;
+  font-weight: 600;
+}
+.cartItem {
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr;
+  align-items: baseline;
+  column-gap: 0.5rem;
+}
+.cartControls {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  border: 1px solid #d7ddea;
+  border-radius: 4px;
+  align-items: center;
+  p {
+    text-align: center;
+    border-left: 1px solid #d7ddea;
+    border-right: 1px solid #d7ddea;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
