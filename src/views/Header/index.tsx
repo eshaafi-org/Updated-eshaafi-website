@@ -31,6 +31,7 @@ import { BASE_URL } from "@/helper/CONST";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import Cart from "./Cart";
 // this component will render only in client,
 
 // Define the props type for the header component
@@ -52,6 +53,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false); // State to track scrolling
   // const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
+  const [showCart, setShowCart] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { modalValue, userAuth, drawer } = useSelector(
     (state: any) => state.loginModalReducer
@@ -65,8 +67,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const handleClose = useCallback(() => {
     document.body.style.overflow = "auto";
     dispatch({ type: "loginModalSlice/closeDrawer" });
-
-    // setShow(false);
   }, []);
   // handling resize
   useEffect(() => {
@@ -79,6 +79,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   const handleModal = () => {
     document.body.style.overflow = "hidden";
     dispatch({ type: "loginModalSlice/open" });
@@ -194,7 +195,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
                   <Button variant="outlined" onClick={handleModal}>
                     login/sign up
                   </Button>
-                  {modalValue && <Model page="header" />}
                 </>
               ) : (
                 <>
@@ -202,13 +202,17 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     <Button>
                       <FaWallet style={{ fontSize: 22 }} />
                     </Button>
-                  </Link>
-                  <Link href={"/"}>
-                    <Button>
-                      <FaCartShopping style={{ fontSize: 22 }} />
-                    </Button>
-                  </Link>
-                  <Link href={"/"}>
+                  </Link> */}
+
+                  <Button onClick={() => setShowCart(!showCart)}>
+                    <FaCartShopping style={{ fontSize: 22 }} />
+                  </Button>
+                  {showCart &&
+                    createPortal(
+                      <Cart setShowCart={setShowCart} />,
+                      document.body
+                    )}
+                  {/* <Link href={"/"}>
                     <Button>
                       <FaBell style={{ fontSize: 22 }} />
                     </Button>
@@ -241,13 +245,12 @@ const Header: React.FC<HeaderProps> = ({}) => {
                           <ul className={style.profileLinks}>
                             <li className="border-bottom p-2 pb-0">
                               <div className="d-flex flex-column row-gap-0-5">
-                                <h4>{userAuth?.name}</h4>
+                                <h4 className="text-capitalize">
+                                  {userAuth?.name}
+                                </h4>
                                 <p>{userAuth?.phoneNo}</p>
                               </div>
                             </li>
-                             <li className="p-2">
-                            <Link href={"/profile"}>Profile</Link>
-                          </li>
                             <li className="p-2">
                               <Link href={"/profile"} className="w-100 d-flex">
                                 Profile
@@ -261,7 +264,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                                 Appointments{" "}
                               </Link>
                             </li>
-                          {/*<li className="p-1">
+                            {/*<li className="p-1">
                             <Link href={"/"}>Orders</Link>
                           </li>
                           <li className="p-1">
@@ -340,6 +343,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 )}
               </span>
             </span>
+            {modalValue && <Model page="header" />}
           </div>
         ) : (
           <Button onClick={handleOpen}>

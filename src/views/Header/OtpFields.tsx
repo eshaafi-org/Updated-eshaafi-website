@@ -17,6 +17,7 @@ interface OtpFieldsProps {
   otpError: boolean;
   setStates: any;
   getOtp: any;
+  view: string;
 }
 const Otpinput: React.FC<OtpFieldsProps> = ({
   verifyLoading,
@@ -24,6 +25,7 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
   otpError,
   setStates,
   getOtp,
+  view,
 }) => {
   const [otpValues, setOtpValues] = useState<OtpValues>({
     otp1: "",
@@ -105,7 +107,7 @@ const Otpinput: React.FC<OtpFieldsProps> = ({
             </p>
           </span>
         )}
-        <Timer getOtp={getOtp} />
+        {view === "pin" || <Timer getOtp={getOtp} />}
       </div>
       <Button
         className="mt-3 w-100"
