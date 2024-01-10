@@ -24,7 +24,8 @@
     "src/contextAPI/index.js",
     "src/components/Profiles/AddProfile.jsx",
     "src/views/MedicalRecords/AddRecords/index.jsx",
-    "src/components/Typography/index.jsx"
+    "src/components/Typography/index.jsx",
+    "src/pages/labs/prescription.jsx"
   ],
   "exclude": ["node_modules"]
 }
