@@ -125,7 +125,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  console.log(cart);
   return (
     <header
       className={`${style.header} ${isScrolled ? style.onScroll : ""}`}
