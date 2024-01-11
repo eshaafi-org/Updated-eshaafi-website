@@ -1,7 +1,7 @@
 import style from "@/styles/aboutus.module.scss";
 export default function Stats() {
   return (
-    <div className="container">
+    <div className="container ">
       <div className={style.statsContainer}>
         <span className={style.statsContent}>
           <h6 className={style.statsHeading}>35,000+</h6>

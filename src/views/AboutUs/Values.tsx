@@ -33,7 +33,7 @@ const values = [
 ];
 export default function Values() {
   return (
-    <div className="container">
+    <div className="container sm-pt-0">
       <div className={style.valuesContainer}>
         <div className={style.valuesText}>
           <h3>Our Values</h3>

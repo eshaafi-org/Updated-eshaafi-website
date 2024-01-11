@@ -11,6 +11,7 @@ interface inputProps {
   required?: boolean;
   onBlur?: any;
   onFocus?: any;
+  min?: any;
 }
 export const InputField: React.FC<inputProps> = ({
   className,
@@ -23,6 +24,7 @@ export const InputField: React.FC<inputProps> = ({
   required,
   onBlur,
   onFocus,
+  min,
 }) => {
   return (
     <input
@@ -36,6 +38,7 @@ export const InputField: React.FC<inputProps> = ({
       required={required}
       onBlur={onBlur}
       onFocus={onFocus}
+      min={(type = "date" && min)}
     />
   );
 };

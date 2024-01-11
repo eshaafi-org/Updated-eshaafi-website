@@ -211,11 +211,19 @@
 .address {
   border-radius: 8px;
   box-shadow: 0px 5px 10px 0px rgba(88, 88, 88, 0.08);
-
+  padding: 1.5rem;
+  .addressListItem {
+    border-bottom: 1px solid #d7ddea;
+    padding: 1rem 0;
+    &:last-child {
+      border-bottom: unset;
+      padding-bottom: unset !important;
+    }
+  }
 }
-input[type=radio].radioCheck:checked {
-  background-color: #009b94 !important; 
-}
+// input[type=radio].radioCheck:checked {
+//   background-color: #009b94 !important;
+// }
 .customModal {
   max-width: 828px;
   padding: 1rem;
@@ -308,6 +316,11 @@ input[type=radio].radioCheck:checked {
       align-items: center;
     }
   }
+  @include large-mobile-and-below {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 2rem;
+  }
 }
 .uploadHereCont {
   border: 1px dashed #ccc;
@@ -332,6 +345,9 @@ input[type=radio].radioCheck:checked {
   row-gap: 2rem;
   width: 100%;
   grid-template-columns: 70%;
+  @include large-mobile-and-below {
+    grid-template-columns: 100%;
+  }
 }
 .collectionForm {
   display: grid;
@@ -340,6 +356,7 @@ input[type=radio].radioCheck:checked {
   position: absolute;
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
+  // width: 100%;
 }
 .labelrdioclassProfile {
   display: block;
@@ -422,11 +439,11 @@ input[type=radio].radioCheck:checked {
   margin-left: 2rem;
   &::before {
     content: "";
-    bottom: 3px;
+    bottom: 5px;
     left: -30px;
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     border-radius: 50px;
     background-color: #009b94;
     border: 2px solid #fff;
@@ -442,11 +459,11 @@ input[type=radio].radioCheck:checked {
   margin-left: 2rem;
   &::before {
     content: "";
-    bottom: 3px;
+    bottom: 5px;
     left: -30px;
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     border-radius: 50px;
     border: 1px solid #555;
     // background-color: #555;
@@ -468,9 +485,21 @@ input[type=radio].radioCheck:checked {
 }
 .nameField {
   grid-area: 1/1/2/3;
+  @include large-mobile-and-below {
+    grid-area: 1/1/2/4;
+  }
 }
 .labField {
   grid-area: 2/2/3/4;
+  @include large-mobile-and-below {
+    grid-area: 2/1/3/4;
+    padding: 1rem 0;
+  }
+}
+.timeField {
+  @include large-mobile-and-below {
+    grid-area: 3/1/4/3;
+  }
 }
 .paymentMethod {
   border: 1px solid #cacaca;

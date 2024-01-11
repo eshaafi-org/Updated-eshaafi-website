@@ -15,6 +15,8 @@ import toArrayBuffer from "to-array-buffer";
 import { InputField } from "@/components/InputField";
 import successGif from "../../../public/images/success.gif";
 import { useSelector } from "react-redux";
+import Address from "@/views/Labs/Address";
+import moment from "moment";
 let links = [
   { name: "Home", link: "/" },
   { name: "Lab Tests", link: "/labs" },
@@ -29,6 +31,7 @@ export default function Prescription() {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [address, setAddress] = useState("");
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState("");
   const fileInputRef = useRef();
@@ -158,15 +161,17 @@ export default function Prescription() {
       date,
       labName,
       prescriptionUrl: images,
-      address: "asf",
-      // testUid: [],
+      // address: address,
       typeTest,
     };
-    console.log(data);
     axios
-      .post(BASE_URL + "/lab/patients/labs/book", data, {
-        headers: headers(),
-      })
+      .post(
+        BASE_URL + "/lab/patients/labs/book",
+        typeTest === "homeSample" ? { ...data, address } : data,
+        {
+          headers: headers(),
+        }
+      )
       .then((res) => {
         setUploading(false);
         toast(
@@ -187,7 +192,6 @@ export default function Prescription() {
       })
       .catch((err) => {
         setUploading(false);
-
         toast(`Some thing went wrong please try again later`, {
           position: "top-right",
           autoClose: 3000,
@@ -298,12 +302,15 @@ export default function Prescription() {
                     <InputField
                       type="date"
                       name="date"
+                      className={style.dateField}
                       value={date}
                       onChange={handleFormData}
+                      min={moment().format("YYYY-MM-DD")}
                     />
                     <InputField
                       type="time"
                       name="time"
+                      className={style.timeField}
                       value={time}
                       onChange={handleFormData}
                     />
@@ -318,12 +325,16 @@ export default function Prescription() {
                         --select--
                       </option>
                       {Labs.map((item, indx) => (
-                        <option value={item?.name} key={indx}>
+                        <option value={item?.key} key={indx}>
                           {item.name}
                         </option>
                       ))}
                     </select>
                   </div>
+                  {typeTest === "homeSample" && (
+                    <Address address={address} setAddress={setAddress} />
+                  )}
+
                   <div className={style.paymentMethod}>
                     <input
                       type="radio"
@@ -438,7 +449,11 @@ export default function Prescription() {
               <span
                 className="text-primary fw-bold"
                 style={{ cursor: "pointer" }}
-                onClick={() => setSuccess(false)}
+                onClick={() => {
+                  setSuccess(false);
+                  setShow(false);
+                  setImages("");
+                }}
               >
                 Upload more
               </span>

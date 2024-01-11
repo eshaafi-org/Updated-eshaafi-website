@@ -3,7 +3,7 @@ import aboutEshaafi from "../../../public/images/aboutEshaafi.png";
 import Image from "next/image";
 export default function About() {
   return (
-    <div className="container">
+    <div className="container sm-pt-0">
       <div className={style.aboutContainer}>
         <div className={style.aboutDetails}>
           <h3>About eShaafi</h3>
