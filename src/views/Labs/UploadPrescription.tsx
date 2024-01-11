@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import { Text28 } from "@/components/Typography";
 import labPrescriptionImage from "../../../public/images/labsPrescriptionImage.png";
 import { FaFilePrescription } from "react-icons/fa";
+import Link from "next/link";
 
 export default function UploadPrescription() {
   return (
@@ -12,13 +13,15 @@ export default function UploadPrescription() {
           <Text28 className="text-dark fw-bold">
             Book lab tests instantly just by uploading prescription
           </Text28>
-          <Button
-            variant="contained"
-            className="mt-3 d-flex align-items-center col-gap-0-5"
-          >
-            <FaFilePrescription />
-            Upload Prescription
-          </Button>
+          <Link href={"/labs/upload"}>
+            <Button
+              variant="contained"
+              className="mt-3 d-flex align-items-center col-gap-0-5"
+            >
+              <FaFilePrescription />
+              Upload Prescription
+            </Button>
+          </Link>
         </div>
         <div
           className={style.prescriptionImg}
