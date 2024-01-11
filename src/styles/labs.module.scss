@@ -211,6 +211,10 @@
 .address {
   border-radius: 8px;
   box-shadow: 0px 5px 10px 0px rgba(88, 88, 88, 0.08);
+
+}
+input[type=radio].radioCheck:checked {
+  background-color: #009b94 !important; 
 }
 .customModal {
   max-width: 828px;

@@ -6,12 +6,17 @@ import Button from "@/components/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { GoPlus } from "react-icons/go";
 import { LuMinus } from "react-icons/lu";
+import { useRouter } from "next/router";
 
 export default function Cart({ setShowCart }: { setShowCart: any }) {
   const { cart, totalAmount } = useSelector(
     (state: any) => state.labCartReducer
   );
-
+  const router = useRouter();
+  const handleProceedToCheckout = () => {
+    router.push("/checkout");
+    setShowCart(false);
+  };
   return (
     <section className={styles.cartContainer}>
       <div className={styles.cartSection}>
@@ -34,7 +39,7 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
           <Text12 className="mb-4 mt-2">
             Discounts and promo codes are applied at checkout
           </Text12>
-          <Button variant="contained" className="w-100">
+          <Button variant="contained" className="w-100" onClick={handleProceedToCheckout}>
             Proceed To Checkout
           </Button>
         </div>
