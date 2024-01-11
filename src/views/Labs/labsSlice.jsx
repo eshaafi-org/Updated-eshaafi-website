@@ -13,7 +13,10 @@ export const getLabsHome = createAsyncThunk("getLabsHome", async () => {
 export const labHomeSlice = createSlice({
   name: "labHomeSlice",
   initialState: {
-    value: {},
+    value: {
+      Labs: [],
+      PacakgeResponse: [],
+    },
     loading: false, // Add this line to define the initial loading state
   },
   reducers: {},

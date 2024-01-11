@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { getLabsHome } from "@/views/Labs/labsSlice";
 
 export default function Labs() {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   useEffect(() => {
     dispatch(getLabsHome());
   }, []);
