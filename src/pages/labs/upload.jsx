@@ -14,16 +14,20 @@ import { ToastContainer, toast } from "react-toastify";
 import toArrayBuffer from "to-array-buffer";
 import { InputField } from "@/components/InputField";
 import successGif from "../../../public/images/success.gif";
+import { useSelector } from "react-redux";
 let links = [
   { name: "Home", link: "/" },
   { name: "Lab Tests", link: "/labs" },
   { name: "Upload Prescription", link: `/labs/prescription` },
 ];
 export default function Prescription() {
+  const {
+    value: { Labs },
+  } = useSelector((state) => state.getLabHomeReducer);
   const pdfRegex = /\bpdf\b/i;
   const [images, setImages] = useState("");
   const [show, setShow] = useState(false);
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState("");
@@ -179,6 +183,7 @@ export default function Prescription() {
             type: "success",
           }
         );
+        setSuccess(true);
       })
       .catch((err) => {
         setUploading(false);
@@ -309,8 +314,14 @@ export default function Prescription() {
                       onChange={handleFormData}
                       className={style.labField}
                     >
-                      <option value="chugtai">hi</option>
-                      <option value="chugtai">hsi</option>
+                      <option value="" disabled>
+                        --select--
+                      </option>
+                      {Labs.map((item, indx) => (
+                        <option value={item?.name} key={indx}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className={style.paymentMethod}>
@@ -413,7 +424,26 @@ export default function Prescription() {
             </div>
           </div>
         ) : (
-          <div>success</div>
+          <div className="d-flex justify-content-center flex-column align-items-center">
+            <Image
+              src={successGif}
+              alt="eshaafi-lab-test-success"
+              width={300}
+              height={300}
+            />
+            <Text28 style={{ color: "#40C175" }}>Booking successful!</Text28>
+            <p className="w-25 text-center">
+              You have successfully booked your test our customer care will
+              contact you shortly{" "}
+              <span
+                className="text-primary fw-bold"
+                style={{ cursor: "pointer" }}
+                onClick={() => setSuccess(false)}
+              >
+                Upload more
+              </span>
+            </p>
+          </div>
         )}
         <ToastContainer />
       </section>
