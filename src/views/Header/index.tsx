@@ -353,9 +353,22 @@ const Header: React.FC<HeaderProps> = ({}) => {
             {modalValue && <Model page="header" />}
           </div>
         ) : (
-          <Button onClick={handleOpen}>
-            <FaBars />
-          </Button>
+          <span>
+            <Button
+              onClick={() => setShowCart(!showCart)}
+              className={style.cartBtn}
+            >
+              <FaCartShopping style={{ fontSize: 22 }} />
+              {cart.length >= 1 && (
+                <span className={style.cartNumber}>{cart.length}</span>
+              )}
+            </Button>
+            {showCart &&
+              createPortal(<Cart setShowCart={setShowCart} />, document.body)}
+            <Button onClick={handleOpen}>
+              <FaBars />
+            </Button>
+          </span>
         )}
       </nav>
       {/* responsive drawer modal */}

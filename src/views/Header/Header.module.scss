@@ -26,6 +26,7 @@
   padding: 0 1rem;
   justify-content: space-between;
   padding: 0 1rem;
+  align-items: center;
 }
 .mobilenavbar {
   display: flex;
@@ -281,8 +282,6 @@
   backdrop-filter: blur(5px);
   display: grid;
 }
-.cartBackDrop {
-}
 .cartSection {
   background-color: #fff;
   width: 380px;
@@ -292,6 +291,9 @@
   height: 100%;
   display: grid;
   grid-template-rows: auto 2fr auto;
+  @include large-mobile-and-below {
+    width: 100%;
+  }
 }
 .cartAction {
   padding: 0.5rem 0.5rem;
