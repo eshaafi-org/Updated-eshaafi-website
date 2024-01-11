@@ -418,15 +418,15 @@
   margin-left: 2rem;
   &::before {
     content: "";
-    bottom: 5px;
+    bottom: 3px;
     left: -30px;
     position: absolute;
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     border-radius: 50px;
     background-color: #009b94;
     border: 2px solid #fff;
-    outline: 1px solid #009b94;
+    outline: 2px solid #009b94;
 
     &:hover {
       border-color: #009b94;
@@ -438,11 +438,11 @@
   margin-left: 2rem;
   &::before {
     content: "";
-    bottom: 5px;
+    bottom: 3px;
     left: -30px;
     position: absolute;
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     border-radius: 50px;
     border: 1px solid #555;
     // background-color: #555;
