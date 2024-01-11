@@ -13,7 +13,7 @@ export default function PackagesList() {
       <Text28 className="fw-bold text-dark">Packages</Text28>
       <ul className={style.labList}>
         {PacakgeResponse.map((item: any, indx: number) => (
-          <li>
+          <li key={indx}>
             <Link
               href={"/labs"}
               className={style.packageCard}

@@ -82,6 +82,7 @@
   grid-template-columns: repeat(3, 1fr);
   margin-top: 2rem;
   column-gap: 1rem;
+  row-gap: 1rem;
   @include tablet-and-below {
     grid-template-columns: 1fr 1fr;
   }

@@ -15,7 +15,7 @@ export default function LabsList() {
       <Text28 className="fw-bold text-dark">Lab Partners </Text28>
       <ul className={style.labList}>
         {Labs.map((item: any, indx: number) => (
-          <li className={style.labCard}>
+          <li className={style.labCard} key={indx}>
             <Image src={labSvg} alt="lab-icons-eshaafi" />
             <span>
               <p className="fw-bold text-dark">{item.name}</p>
