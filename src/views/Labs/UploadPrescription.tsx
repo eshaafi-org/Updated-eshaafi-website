@@ -13,7 +13,7 @@ export default function UploadPrescription() {
           <Text28 className="text-dark fw-bold">
             Book lab tests instantly just by uploading prescription
           </Text28>
-          <Link href={"/labs/prescription"}>
+          <Link href={"/labs/upload"}>
             <Button
               variant="contained"
               className="mt-3 d-flex align-items-center col-gap-0-5"

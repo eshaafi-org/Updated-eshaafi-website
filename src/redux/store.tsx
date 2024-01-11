@@ -6,16 +6,20 @@ import { loginModalReducer } from "@/views/Header/loginSlice";
 import { appointmentPageReducer } from "@/views/Appointments/appointmentPageSlicer";
 import { planListReducer } from "@/views/Subscription/planListSlicer";
 import { labCartReducer } from "@/views/Labs/labCartSlicer";
+import { getLabHomeReducer } from "@/views/Labs/labsSlice";
+// import { getLabHomeReducer } from "@/views/Labs/labsSlice.jsx";
 const rootReducer = combineReducers({
   appointmentListReducer,
   loginModalReducer,
   appointmentPageReducer,
   planListReducer,
   labCartReducer,
+  getLabHomeReducer,
   // counter: counterReducer,
   //add all your reducers here
 });
 
-export const store = configureStore({
+const store = configureStore({
   reducer: rootReducer,
 });
+export default store;

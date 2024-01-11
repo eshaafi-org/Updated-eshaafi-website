@@ -1,3 +1,5 @@
+"use client";
+import { useEffect } from "react";
 import Head from "next/head";
 import GetApp from "@/views/Home/GetApp";
 import Hero from "@/views/Home/Hero";
@@ -8,7 +10,14 @@ import FQuest from "@/views/Doctor/FQuest";
 import { labFAQs, whyBookWithUs } from "@/helper/FAQData";
 import Works from "@/views/Labs/Works";
 import UploadPrescription from "@/views/Labs/UploadPrescription";
+import { useDispatch } from "react-redux";
+import { getLabsHome } from "@/views/Labs/labsSlice";
+
 export default function Labs() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getLabsHome());
+  }, []);
   return (
     <>
       <Head>
