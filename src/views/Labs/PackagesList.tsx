@@ -15,7 +15,7 @@ export default function PackagesList() {
         {PacakgeResponse.map((item: any, indx: number) => (
           <li key={indx}>
             <Link
-              href={"/labs"}
+              href={"/labs/packages/" + item.subscriptionName}
               className={style.packageCard}
               style={{
                 backgroundColor: "#DFEAF2",
