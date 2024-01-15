@@ -271,12 +271,12 @@ const Header: React.FC<HeaderProps> = ({}) => {
                                 Appointments{" "}
                               </Link>
                             </li>
-                            {/*<li className="p-1">
-                            <Link href={"/"}>Orders</Link>
-                          </li>
-                          <li className="p-1">
+                            <li className="p-2">
+                              <Link href={"/orders"}>Orders</Link>
+                            </li>
+                            {/* <li className="p-1">
                             <Link href={"/"}>E-prescription</Link>
-                          </li>*/}
+                          </li> */}
                             <li className="p-2">
                               <Link
                                 href={"/medicalrecords"}
