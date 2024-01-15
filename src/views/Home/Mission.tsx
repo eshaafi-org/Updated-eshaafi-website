@@ -9,7 +9,7 @@ export default function Mission({ heading, subHeading, text }: any) {
             <h2>{subHeading}</h2>
           </span>
           <span className="w-60 sm-w-full flex items-center">
-            <p className="cardDescription">{text}</p>
+            <p>{text}</p>
             {/* <Link href={"/"} className="link" style={{ fontSize: 20 }}>
               Read More
             </Link> */}

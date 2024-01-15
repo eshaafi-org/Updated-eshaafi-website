@@ -8,7 +8,7 @@ export default function FQuest({
   heading: string;
 }) {
   return (
-    <section className="container pt-0">
+    <section className="container sm-pt-0">
       <h2>{heading}</h2>
       <ul className={"border rounded p-3 mt-3 " + style.benifitCont}>
         {quests.map((itm: any, indx: number) => (

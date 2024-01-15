@@ -28,7 +28,7 @@ export default function LabsList() {
               href={`/labs/${item.name.replace(/ /g, "-")}`}
               className={style.labSelectBtn}
             >
-              <Button variant="contained">Select Plan</Button>
+              <Button variant="contained">Select Test</Button>
             </Link>
           </li>
         ))}

@@ -43,6 +43,22 @@ export const labFAQs = [
 `,
   },
 ];
+export const labPackagesFAQs = [
+  {
+    heading: "How does the eShaafi’s home nursing service work?",
+    text: `Our telemedicine app's home nursing service allows you to request a qualified and experienced nurse to visit your home and provide medical care and support.`,
+  },
+  {
+    heading: "Are the home nurses licensed and experienced?",
+    text: `Yes, all our home nurses are licensed and experienced healthcare professionals. They are selected based on their expertise to ensure you receive the highest quality care.
+`,
+  },
+  {
+    heading: "How is cost associated with the home nursing service billed?",
+    text: `Our app offers multiple payment methods including cash on delivery or online transaction via debit/credit card or jazzcash.
+`,
+  },
+];
 export const whyBookWithUs = [
   {
     heading: "Book free home sampling in a few easy steps",
