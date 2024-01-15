@@ -2,7 +2,7 @@
 import React from "react";
 import Button from "@/components/Button";
 import { InputField } from "@/components/InputField";
-import { Text14, Text16, Text18, Text28 } from "@/components/Typography";
+import { Text14, Text18, Text28 } from "@/components/Typography";
 import { RxCross2 } from "react-icons/rx";
 import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { FaPlus } from "react-icons/fa6";
 import style from "@/styles/labs.module.scss";
+import { ToastContainer, toast } from 'react-toastify';
 
 function AddressModal({ getAddress }: { getAddress: any }) {
   const [show, setShow] = useState(false);
@@ -32,11 +33,23 @@ function AddressModal({ getAddress }: { getAddress: any }) {
         headers: headers(),
       })
       .then((response) => {
+        toast("Address Added to Successfully ", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
         handleClose();
         getAddress();
       })
       .catch((error) => {
         console.error("Error saving address:", error);
+        toast.error("Error saving address");
       });
   }
   return (
@@ -132,6 +145,7 @@ function AddressModal({ getAddress }: { getAddress: any }) {
           </div>
         </ModalBody>
       </Modal>
+      
     </>
   );
 }
@@ -190,6 +204,7 @@ function Address({
           </li>
         ))}
       </ul>
+      <ToastContainer />
     </div>
   );
 }

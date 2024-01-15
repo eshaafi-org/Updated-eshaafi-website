@@ -4,12 +4,11 @@ import AddressBar from "@/components/AddressBar";
 import Button from "@/components/Button";
 import style from '@/styles/labs.module.scss'
 import { InputField } from "@/components/InputField";
-import { Text14, Text16, Text18, Text22, Text28 } from "@/components/Typography";
-import cod from "../../../public/images/cod.svg"
-import Image from "next/image";
+import { Text16, Text18, Text22, Text28 } from "@/components/Typography";
 import { useSelector } from "react-redux";
 import Head from "next/head";
-import Address from "@/views/Labs/Address";
+import { useState } from "react";
+import Info from "@/views/Labs/info";
 // add Address Modal
 
 // Defining the Checkout component
@@ -18,8 +17,8 @@ export default function Checkout() {
     let links = [
         { name: "Home", link: "/" },
         { name: "Lab Tests", link: "/labs" },
-        { name: "Chughtai Lab", link: `/labs/id` },
-        { name: "Checkout", link: `/labs/Checkout` },
+        { name: "Chughtai Lab", link: `/labs/Chugtai-Lab` },
+        { name: "Checkout", link: `Checkout` },
     ];
     const { cart, totalAmount } = useSelector(
         (state: any) => state.labCartReducer
@@ -37,7 +36,7 @@ export default function Checkout() {
                     <AddressBar links={links} />
                 </span>
                 {/* Main content of the Checkout page */}
-                <div className={`${style.checkoutDetail} d-flex justify-content-between col-gap-1`}>
+                <div className={`${style.checkoutDetail} d-flex justify-content-between col-gap-2`}>
                     {/* Order details section */}
                     <div className={style.orderDetail}>
                         <Text28 className={style.blackColor}>Order Detail</Text28>
@@ -48,24 +47,13 @@ export default function Checkout() {
                                     <Text22 className={style.blackCol}>{item.MedicineName}</Text22>
                                     <Text16 className={style.blueColor}>Rs. {item.productPrice}</Text16>
                                 </span>
-                                <Text16>{item.category} 1X</Text16>
+                                <Text16>{item.category} {item.quantity}X</Text16>
                             </div>
                         ))}
                         {/* Payment method section */}
                         <div>
-                            <Text28 className={style.blackColor}>Payment Method</Text28>
-                            <div className="d-flex align-items-center border rounded p-3 col-gap-1 mt-3">
-                                {/* Cash on Delivery icon */}
-                                <Image
-                                    src={cod}
-                                    alt="COD"
-                                    width={24}
-                                    height={24}
-                                />
-                                <Text22 className={style.blackCol}>Cash on Delivery</Text22>
-                            </div>
-                            {/* Address */}
-                            <Address />
+                            {/* Information */}
+                            <Info />
                             {/* Note section */}
                             <div className={`${style.note} mt-3`}>
                                 <Text28 className={style.blackColor}>Note</Text28>

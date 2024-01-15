@@ -52,7 +52,7 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
   );
 }
 const CartItem = ({ key, item }: { key: number; item: any }) => {
-  const [counter, setCounter] = useState(1);
+  const [counter, setCounter] = useState(item.quantity);
   const dispatch = useDispatch();
   return (
     <li key={key} className={styles.cartItem}>
@@ -68,15 +68,19 @@ const CartItem = ({ key, item }: { key: number; item: any }) => {
       <span className={styles.cartControls}>
         <Button
           onClick={() => {
-            if (counter) {
+            if (counter > 1) {
               setCounter(counter - 1);
+              dispatch({ type: 'labCartSlicer/addQuantity', payload: { barcode: item.barcode, quantity: counter - 1, totalPrice: parseInt(item.totalPrice) - parseInt(item.productPrice) } })
             }
           }}
         >
           <LuMinus />
         </Button>
         <p className="text-primary">{counter}</p>
-        <Button onClick={() => setCounter(counter + 1)}>
+        <Button onClick={() => {
+          setCounter(counter + 1)
+          dispatch({ type: 'labCartSlicer/addQuantity', payload: { barcode: item.barcode, quantity: counter + 1, totalPrice: parseInt(item.productPrice) + parseInt(item.totalPrice) } })
+        }}>
           <GoPlus />
         </Button>
       </span>

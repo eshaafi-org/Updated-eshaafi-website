@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "@/views/Labs/labCartSlicer";
 import Head from "next/head";
 import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 export default function Test() {
     let links = [
@@ -24,17 +25,21 @@ export default function Test() {
         { name: "Lab Tests", link: "/labs" },
         { name: "Chughtai Lab", link: `/labs/id` },
     ];
+    const router = useRouter();
+    const { id } = router.query;
     const [test, setTest] = useState([])
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const dispatch = useDispatch();
 
     const handleSearch = () => {
+        const labSlug = id === 'Chugtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
         axios
-            .get(BASE_URL + "/lab/patients/labs/test", {
+            .get(BASE_URL + `/lab/patients/labs/test`, {
                 headers: headers(),
                 params: {
                     name: searchQuery,
+                    vendor: labSlug,
                 },
             })
             .then((res) => {
@@ -50,51 +55,28 @@ export default function Test() {
             handleSearch();
         }
     };
-    const getLabTest = () => {
-        axios
-            .get(BASE_URL + "/lab/patients/labs/test", {
-                headers: headers(),
-            })
-            .then((res) => {
-                setTest(res.data.response.Items);
-            })
-            // .catch((error) => console.log(error));
-            .catch((error) => {
-                console.log(error);
-            });
-    };
     useEffect(() => {
-        getLabTest()
-    }, [])
-    // const handleAddToCart = (item: any) => {
-    //     // Dispatch the addToCart action from the cart slice
-    //     dispatch(addToCart(item));
-    //     toast("Test Added to Cart ", {
-    //         position: "top-right",
-    //         autoClose: 1000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //         type: "success",
-    //     });
-    // };
-    // Assuming each test has a unique identifier field, replace 'uniqueIdField' with the actual identifier field name
+        // Check if id is valid and not an empty string
+        if (id && id !== '') {
+            const labSlug = id === 'Chugtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
 
-    const handleAddToCart = (item: any) => {
-        // Check if the item is already in the cart
-        const isAlreadyInCart = test.some((cartItem: any) => cartItem.Sk === item.Sk);
-
-        // Dispatch the addToCart action from the cart slice only if it's not already in the cart
-        if (isAlreadyInCart) {
-            dispatch(addToCart(item));
+            axios
+                .get(BASE_URL + `/lab/patients/labs/test?vendor=${labSlug}`, {
+                    headers: headers(),
+                })
+                .then((res) => {
+                    setTest(res.data.response.Items);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
-
-        // Display the toast
-        toast(!isAlreadyInCart ? "Test Added to Cart" : "Test Added Again in the Cart", {
-            position: "top-right",
+    }, [id]);
+    const handleAddToCart = (item: any) => {
+        // Dispatch the addToCart action from the cart slice
+        dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
+        toast("Test Added to Cart ", {
+            position: "bottom-right",
             autoClose: 1000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -102,7 +84,7 @@ export default function Test() {
             draggable: true,
             progress: undefined,
             theme: "light",
-            type: isAlreadyInCart ? "warning" : "success",
+            type: "success",
         });
     };
 

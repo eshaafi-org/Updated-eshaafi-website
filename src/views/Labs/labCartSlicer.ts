@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { isTemplateExpression } from "typescript";
 
 interface LabCartState {
-  cart: any[]; // Assuming your cart items are strings. Adjust the type accordingly.
+  cart: any[];
   totalAmount: number;
 }
 
 interface AddToCartAction {
-  type: string; // You can use a more specific string or import action type constants
-  payload: string; // Adjust the type according to your payload
+  type: string;
+  payload: string;
 }
 
 const labCartSlicer = createSlice({
@@ -20,7 +21,7 @@ const labCartSlicer = createSlice({
     addToCart: (state, action: PayloadAction<string>) => {
       state.cart = [...state.cart, action.payload];
       state.totalAmount = state.cart.reduce(
-        (accumulator, item) => accumulator + parseInt(item.productPrice),
+        (accumulator, item) => accumulator + parseInt(item.totalPrice),
         0
       );
     },
@@ -37,6 +38,21 @@ const labCartSlicer = createSlice({
         0
       );
     },
+    addQuantity: (state, action) => {
+      state.cart = state.cart.map((cartItem) => {
+        if (cartItem.barcode === action.payload.barcode) {
+          cartItem.totalPrice = action.payload.totalPrice
+          return {
+            ...cartItem,
+            quantity: action.payload.quantity,
+          }
+        } else return cartItem
+      })
+      state.totalAmount = state.cart.reduce(
+        (accumulator, item) => accumulator + parseInt(item.totalPrice),
+        0
+      );
+    }
   },
 });
 
