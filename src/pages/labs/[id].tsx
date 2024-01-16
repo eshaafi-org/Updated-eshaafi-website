@@ -13,20 +13,33 @@ import { BASE_URL, headers } from "@/helper/CONST";
 import { useEffect, useState } from "react";
 import FQuest from "@/views/Doctor/FQuest";
 import { labFAQs } from "@/helper/FAQData";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/views/Labs/labCartSlicer";
 import Head from "next/head";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 export default function Test() {
+
+    const router = useRouter();
+    const { id } = router.query;
+    const getLabName = () => {
+        if (id === 'IDC-Lab') {
+            return 'IDC Lab';
+        } else if (id === 'Chugtai-Lab') {
+            return 'Chughtai Lab';
+        } else {
+            // Handle other cases or return a default value
+            return 'Unknown Lab';
+        }
+    };
     let links = [
         { name: "Home", link: "/" },
         { name: "Lab Tests", link: "/labs" },
-        { name: "Chughtai Lab", link: `/labs/id` },
+        { name: `${getLabName()}`, link: `/labs/${id}` },
     ];
-    const router = useRouter();
-    const { id } = router.query;
+    // const value = useSelector((state: any) => state.getLabHomeReducer.value.Labs)
+    // console.log(value)
     const [test, setTest] = useState([])
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -95,7 +108,7 @@ export default function Test() {
             </Head>
             <section className="container">
                 <span>
-                    <h2>Chughtai Lab</h2>
+                    <h2>{getLabName()}</h2>
                     <AddressBar links={links} />
                 </span>
                 <div className={`${style.labDetail} mt-4 d-flex justify-content-between align-items-start`}>
@@ -107,7 +120,7 @@ export default function Test() {
                             width={100}
                         />
                         <span>
-                            <Text24>Chughtai Lab</Text24>
+                            <Text24>{getLabName()}</Text24>
                             <Text16>1200+ Tests</Text16>
                             <Text14>Available 00:00am - 00:00pm</Text14>
                         </span>

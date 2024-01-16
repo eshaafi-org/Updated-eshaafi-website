@@ -5,32 +5,44 @@ import { useState } from "react";
 import Address from "./Address";
 import { Text18 } from "@/components/Typography";
 
-export default function Info() {
-    
-    const [address, setAddress] = useState("");
-    const [formFields, setFormFields] = useState({
-        typeTest: "",
-        patientName: "",
-        time: "",
-        date: "",
-        labName: "",
-    });
-    const { typeTest, patientName, time, date, labName } = formFields;
-    // all the functions
-    // get the form data from
-    const handleFormData = (e: { target: { name: any; value: any; }; }) => {
-        setFormFields((prev) => {
-            return {
-                ...prev,
-                [e.target.name]: e.target.value,
-            };
-        });
-    };
-    return(
+export default function Info({ typeTest, setTypeTest, address, setAddress, patientName, setPatientName, time, setTime, date, setDate, labName, setLabName }: {
+    typeTest: string,
+    setTypeTest: any,
+    patientName: string,
+    setPatientName: any,
+    address: string,
+    setAddress: any,
+    time: string,
+    setTime: any,
+    date: string,
+    setDate: any,
+    labName: string
+    setLabName: any,
+}) {
+
+    // const [address, setAddress] = useState("");
+    // const [formFields, setFormFields] = useState({
+    //     typeTest: "",
+    //     patientName: "",
+    //     time: "",
+    //     date: "",
+    //     labName: "",
+    // });
+    // const { typeTest, patientName, time, date, labName } = formFields;
+    // // all the functions
+    // // get the form data from
+    // const handleFormData = (e: { target: { name: any; value: any; }; }) => {
+    //     setFormFields((prev: any) => {
+    //         return {
+    //             ...prev,
+    //             [e.target.name]: e.target.value,
+    //         };
+    //     });
+    // };
+    return (
         <>
             <form
                 className={style.prescriptionForm}
-                // onSubmit={uploadPrescription}
             >
                 <div className={style.collectionForm}>
                     <p>Select Preference</p>
@@ -45,7 +57,8 @@ export default function Info() {
                                 name="typeTest"
                                 value={"labVisit"}
                                 className={style.btnCheck}
-                                onChange={handleFormData}
+                                // onChange={handleFormData}
+                                onChange={(e) => setTypeTest(e.target.value)}
                             />
                             <span
                                 className={
@@ -63,7 +76,8 @@ export default function Info() {
                         >
                             <input
                                 type="radio"
-                                onChange={handleFormData}
+                                // onChange={handleFormData}
+                                onChange={(e) => setTypeTest(e.target.value)}
                                 id="home"
                                 name="typeTest"
                                 value={"homeSample"}
@@ -87,14 +101,16 @@ export default function Info() {
                         className={style.nameField}
                         name="patientName"
                         value={patientName}
-                        onChange={handleFormData}
+                        // onChange={handleFormData}
+                        onChange={(e: { target: { value: SetStateAction<string>; }; }) => setPatientName(e.target.value)}
                     />
                     <InputField
                         type="date"
                         name="date"
                         className={style.dateField}
                         value={date}
-                        onChange={handleFormData}
+                        // onChange={handleFormData}
+                        onChange={(e: { target: { value: SetStateAction<string>; }; }) => setDate(e.target.value)}
                         min={moment().format("YYYY-MM-DD")}
                     />
                     <InputField
@@ -102,13 +118,15 @@ export default function Info() {
                         name="time"
                         className={style.timeField}
                         value={time}
-                        onChange={handleFormData}
+                        // onChange={handleFormData}
+                        onChange={(e: { target: { value: SetStateAction<string>; }; }) => setTime(e.target.value)}
                     />
                     <select
                         name="labName"
                         value={labName}
                         id=""
-                        onChange={handleFormData}
+                        // onChange={handleFormData}
+                        onChange={(e) => setLabName(e.target.value)}
                         className={style.labField}
                     >
                         <option value="" disabled>
@@ -120,7 +138,7 @@ export default function Info() {
                         <option value="idc">
                             IDC
                         </option>
-                        
+
                     </select>
                 </div>
                 {typeTest === "homeSample" && (
@@ -132,17 +150,9 @@ export default function Info() {
                         type="radio"
                         className={style.btnCheck}
                         name="paymentId"
-                        // id={itm.paymentId}
-                        // value={itm.paymentId}
-                        // onClick={() => {
-                        //     setPaymentId(itm.paymentId);
-                        //     setMethod(itm.type);
-                        // }}
-                    // disabled={wallet}
                     />
                     <label
                         className={`${style.labelrdioclass} d-flex  align-items-center p-3 row-gap-1`}
-                    // htmlFor={itm.paymentId}
                     >
                         <span className={style.paymentActive}>
                             <Text18 className="text-dark fw-bold">
@@ -152,31 +162,8 @@ export default function Info() {
                     </label>
                 </div>
                 <div className={style.notes}></div>
-                {/* <Button
-                    variant="contained"
-                    type="submit"
-                    disabled={
-                        images &&
-                            typeTest &&
-                            patientName &&
-                            date &&
-                            time &&
-                            labName
-                            ? false
-                            : true
-                    }
-                >
-                    Upload
-                    {uploading && (
-                        <>
-                            <div
-                                className="spinner-border text-blue spinner-border-sm ms-2"
-                                role="status"
-                            ></div>
-                        </>
-                    )}
-                </Button> */}
             </form>
         </>
     )
 }
+

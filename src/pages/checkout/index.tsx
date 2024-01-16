@@ -9,20 +9,79 @@ import { useSelector } from "react-redux";
 import Head from "next/head";
 import { useState } from "react";
 import Info from "@/views/Labs/info";
-// add Address Modal
-
+import axios from "axios";
+import { BASE_URL, headers } from "@/helper/CONST";
+import { ToastContainer, toast } from "react-toastify";
 // Defining the Checkout component
 export default function Checkout() {
     // Array of links for the breadcrumb navigation
     let links = [
         { name: "Home", link: "/" },
         { name: "Lab Tests", link: "/labs" },
-        { name: "Chughtai Lab", link: `/labs/Chugtai-Lab` },
-        { name: "Checkout", link: `Checkout` },
+        { name: "Checkout", link: `/checkout` },
     ];
     const { cart, totalAmount } = useSelector(
         (state: any) => state.labCartReducer
     );
+    const [address, setAddress] = useState("");
+    const [typeTest, setTypeTest] = useState("");
+    const [time, setTime] = useState("");
+    const [date, setDate] = useState("");
+    const [labName, setLabName] = useState("");
+    const [patientName, setPatientName] = useState("");
+    const [uploading, setUploading] = useState(false);
+
+    const bookLab = () => {
+        // e.preventDefault();
+        setUploading(true);
+        const data = {
+            patientName: patientName,
+            time: time,
+            date: date,
+            labName: labName,
+            typeTest: typeTest,
+            testUid: cart.map((item: { Sk: any; quantity: { toString: () => any; }; }) => ({ uuid: item.Sk, quantity: item.quantity.toString() })),
+        }
+        axios
+            .post(
+                BASE_URL + "/lab/patients/labs/book",
+                typeTest === "homeSample" ? { ...data, address } : data,
+                {
+                    headers: headers(),
+                }
+            )
+            .then((res) => {
+                setUploading(false);
+                toast(
+                    `Lab Booked successfully our team will contact you shortly`,
+                    {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        type: "success",
+                    }
+                )
+            })
+            .catch((err) => {
+                setUploading(false);
+                toast(`Some thing went wrong please try again later`, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    type: "error",
+                });
+            });
+    }
     // Rendering the Checkout component
     return (
         <>
@@ -53,7 +112,20 @@ export default function Checkout() {
                         {/* Payment method section */}
                         <div>
                             {/* Information */}
-                            <Info />
+                            <Info
+                                typeTest={typeTest}
+                                setTypeTest={setTypeTest}
+                                address={address}
+                                setAddress={setAddress}
+                                patientName={patientName}
+                                setPatientName={setPatientName}
+                                time={time}
+                                setTime={setTime}
+                                date={date}
+                                setDate={setDate}
+                                labName={labName}
+                                setLabName={setLabName}
+                            />
                             {/* Note section */}
                             <div className={`${style.note} mt-3`}>
                                 <Text28 className={style.blackColor}>Note</Text28>
@@ -91,10 +163,21 @@ export default function Checkout() {
                             <Button variant="contained" className={style.applyButton}>Apply</Button>
                         </span>
                         {/* Button for placing the order */}
-                        <Button variant="contained">Place Order</Button>
+                        <Button variant="contained" onClick={bookLab}>
+                            Place Order
+                            {uploading && (
+                                <>
+                                    <div
+                                        className="spinner-border text-blue spinner-border-sm ms-2"
+                                        role="status"
+                                    ></div>
+                                </>
+                            )}
+                        </Button>
                     </div>
                 </div>
             </section>
+            <ToastContainer />
         </>
     )
 }
