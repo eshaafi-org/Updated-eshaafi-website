@@ -1,7 +1,6 @@
 import { InputField } from "@/components/InputField";
 import style from "@/styles/labs.module.scss";
 import moment from "moment";
-import { useState } from "react";
 import Address from "./Address";
 import { Text18 } from "@/components/Typography";
 
@@ -20,25 +19,6 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
     setLabName: any,
 }) {
 
-    // const [address, setAddress] = useState("");
-    // const [formFields, setFormFields] = useState({
-    //     typeTest: "",
-    //     patientName: "",
-    //     time: "",
-    //     date: "",
-    //     labName: "",
-    // });
-    // const { typeTest, patientName, time, date, labName } = formFields;
-    // // all the functions
-    // // get the form data from
-    // const handleFormData = (e: { target: { name: any; value: any; }; }) => {
-    //     setFormFields((prev: any) => {
-    //         return {
-    //             ...prev,
-    //             [e.target.name]: e.target.value,
-    //         };
-    //     });
-    // };
     return (
         <>
             <form
@@ -57,7 +37,6 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                                 name="typeTest"
                                 value={"labVisit"}
                                 className={style.btnCheck}
-                                // onChange={handleFormData}
                                 onChange={(e) => setTypeTest(e.target.value)}
                             />
                             <span
@@ -76,7 +55,6 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         >
                             <input
                                 type="radio"
-                                // onChange={handleFormData}
                                 onChange={(e) => setTypeTest(e.target.value)}
                                 id="home"
                                 name="typeTest"
@@ -101,16 +79,14 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         className={style.nameField}
                         name="patientName"
                         value={patientName}
-                        // onChange={handleFormData}
-                        onChange={(e: { target: { value: SetStateAction<string>; }; }) => setPatientName(e.target.value)}
+                        onChange={(e: any) => setPatientName(e.target.value)}
                     />
                     <InputField
                         type="date"
                         name="date"
                         className={style.dateField}
                         value={date}
-                        // onChange={handleFormData}
-                        onChange={(e: { target: { value: SetStateAction<string>; }; }) => setDate(e.target.value)}
+                        onChange={(e: any) => setDate(e.target.value)}
                         min={moment().format("YYYY-MM-DD")}
                     />
                     <InputField
@@ -118,14 +94,11 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         name="time"
                         className={style.timeField}
                         value={time}
-                        // onChange={handleFormData}
-                        onChange={(e: { target: { value: SetStateAction<string>; }; }) => setTime(e.target.value)}
+                        onChange={(e: any) => setTime(e.target.value)}
                     />
                     <select
                         name="labName"
                         value={labName}
-                        id=""
-                        // onChange={handleFormData}
                         onChange={(e) => setLabName(e.target.value)}
                         className={style.labField}
                     >
