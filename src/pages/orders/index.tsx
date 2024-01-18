@@ -73,16 +73,6 @@ export default function Orders() {
                   <p className="card-text placeholder-glow">
                     <span className="placeholder col-4"></span>
                   </p>
-                  {/* <ul className={style.testList}>
-                    <li>
-                      <p className="card-text placeholder-glow">
-                        <span className="placeholder col-3"></span>
-                      </p>
-                      <p className="card-text placeholder-glow">
-                        <span className="placeholder col-3"></span>
-                      </p>
-                    </li>
-                  </ul> */}
                 </div>
                 <span className="placeholder col-2"></span>
               </li>
@@ -108,7 +98,9 @@ export default function Orders() {
           ) : (
             <ul className={style.orderListContainer}>
               {orders.map((item: any, indx: number) => (
-                <Order item={item} indx={indx} />
+                <li key={indx}>
+                  <Order item={item} indx={indx} />
+                </li>
               ))}
             </ul>
           )}
