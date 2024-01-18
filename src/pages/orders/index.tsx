@@ -55,18 +55,18 @@ export default function Orders() {
                   <p className="card-text placeholder-glow">
                     <span className="placeholder col-4"></span>
                   </p>
-                  <ul className={style.testList}>
-                    <li>
-                      <p className="card-text placeholder-glow">
-                        <span className="placeholder col-3"></span>
-                      </p>
-                      <p className="card-text placeholder-glow">
-                        <span className="placeholder col-3"></span>
-                      </p>
-                    </li>
-                  </ul>
+                  <span className="placeholder col-2"></span>
                 </div>
-                <span className="placeholder col-2"></span>
+                <ul className={style.testList}>
+                  <li>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-3"></span>
+                    </p>
+                    <p className="card-text placeholder-glow">
+                      <span className="placeholder col-3"></span>
+                    </p>
+                  </li>
+                </ul>
               </li>
               <li className={style.orderList}>
                 <div style={{ width: "50%" }}>
@@ -122,38 +122,40 @@ const Order = ({ item, indx }: { item: any; indx: number }) => {
   return (
     <>
       <li key={indx} className={style.orderList} onClick={() => setShow(true)}>
-        <span>
+        <div
+          className="w-100 d-flex justify-content-between align-items-center"
+          style={{ columnGap: "0.5rem" }}
+        >
           <Text18 className="text-dark fw-bold">
             Order# {item.appointmentId}
           </Text18>
-          {/* <p>{item.labName}</p> */}
-          <ul className={style.testList}>
-            {item?.testDetails?.map((test: any, key: number) => (
-              <li key={key}>{test.MedicineName}</li>
-            ))}
-          </ul>
-        </span>
-        <span
-          className={`${
-            item.appointment_status === "lab_confirmed"
-              ? style.confirmed
+          <span
+            className={`${
+              item.appointment_status === "lab_confirmed"
+                ? style.confirmed
+                : item.appointment_status === "lab_pending"
+                ? style.pending
+                : item.appointment_status === "lab_cancelled"
+                ? style.cancelled
+                : style.completed
+            }`}
+          >
+            {item.appointment_status === "lab_confirmed"
+              ? "Confirmed"
               : item.appointment_status === "lab_pending"
-              ? style.pending
+              ? "Pending"
               : item.appointment_status === "lab_cancelled"
-              ? style.cancelled
-              : style.completed
-          }`}
-        >
-          {item.appointment_status === "lab_confirmed"
-            ? "Confirmed"
-            : item.appointment_status === "lab_pending"
-            ? "Pending"
-            : item.appointment_status === "lab_cancelled"
-            ? "Cancelled"
-            : item.appointment_status === "lab_completed"
-            ? "Completed"
-            : ""}
-        </span>
+              ? "Cancelled"
+              : item.appointment_status === "lab_completed"
+              ? "Completed"
+              : ""}
+          </span>
+        </div>
+        <ul className={style.testList}>
+          {item?.testDetails?.map((test: any, key: number) => (
+            <li key={key}>{test.MedicineName}</li>
+          ))}
+        </ul>
       </li>
       <Modal show={show} onHide={() => setShow(false)}>
         <div className={style.orderModal}>
@@ -230,16 +232,23 @@ const Order = ({ item, indx }: { item: any; indx: number }) => {
           </div>
           <div className="modalPayment">
             <Text18 className="text-dark my-2">Payment Method</Text18>
-            <span className={style.modalContent}>{"Cash on Delievery"}</span>
+            <div
+              className={style.modalContent + " flex justify-content-between"}
+            >
+              {"Cash on Delievery"}
+              <span>Rs.{item.charges}</span>
+            </div>
           </div>
-          <div className="order">
-            <Text18 className="text-dark my-2">Order Details</Text18>
-            <ul className={style.modalContent + " flex-column"}>
-              {item?.testDetails?.map((test: any, key: number) => (
-                <li key={key}>{test.MedicineName}</li>
-              ))}
-            </ul>
-          </div>
+          {item?.testDetails.length > 0 && (
+            <div className="order">
+              <Text18 className="text-dark my-2">Order Details</Text18>
+              <ul className={style.modalContent + " flex-column"}>
+                {item?.testDetails?.map((test: any, key: number) => (
+                  <li key={key}>{test.MedicineName}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </Modal>
     </>

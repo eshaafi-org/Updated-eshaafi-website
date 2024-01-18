@@ -1,18 +1,30 @@
+@import "./mixin";
 .orderListContainer {
   width: 60%;
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
   margin-top: 3rem;
+  @include tablet-and-below {
+    width: 100%;
+  }
+  @include large-mobile-and-below {
+    width: 100%;
+  }
 }
 .orderList {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   box-shadow: 0px 2px 4px 1px rgba(138, 138, 138, 0.06);
   padding: 1.5rem 1rem;
   border-radius: 12px;
   align-items: start;
   border: 0.5px solid #d7ddea;
+  @include large-mobile-and-below {
+    padding: 0.8rem;
+    // align-items: center;
+  }
 }
 .confirmed {
   border-radius: 64px;
@@ -85,6 +97,11 @@
   justify-content: space-between;
   padding: 0 3rem 0 3rem;
   margin: 2rem 0;
+  width: 400px;
+  @include large-mobile-and-below {
+    padding: 0.5rem !important;
+    width: 290px;
+  }
 }
 .labStatus {
   display: flex;
@@ -115,10 +132,13 @@
     position: absolute;
     top: 9px;
     left: 30px;
-    width: 150px;
+    width: 120px;
     height: 3px;
     background-color: #c5fdfa;
     z-index: -1;
+    // @include large-mobile-and-below {
+    //   width: 90px;
+    // }
   }
 }
 .afterStatus {
@@ -130,9 +150,12 @@
     position: absolute;
     top: 9px;
     left: 30px;
-    width: 150px;
+    width: 120px;
     height: 3px;
     background-color: #1bb8b0;
     z-index: -4;
+    // @include large-mobile-and-below {
+    //   width: 90px;
+    // }
   }
 }
