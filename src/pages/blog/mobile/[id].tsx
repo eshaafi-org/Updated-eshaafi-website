@@ -19,8 +19,7 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { FiLink2 } from "react-icons/fi";
 import moment from "moment";
-import GetApp from "@/views/Home/GetApp";
-import AddressBar from "@/components/AddressBar";
+
 // page links
 const links = [
   { name: "Home", link: "/" },
@@ -28,7 +27,7 @@ const links = [
 ];
 export default function Post({ post }: any) {
   const [open, setOpen] = useState(false);
-  const baseUrl = "https://eshaafi.com";
+  const baseUrl = "https://beta.eshaafi.com";
   let router = useRouter();
 
   // copy blog post link funciton
@@ -44,6 +43,8 @@ export default function Post({ post }: any) {
       });
   };
   useEffect(() => {
+    let body = document.body;
+    body.style.paddingTop = "20px";
     const blogContent = document.querySelector("#blogContent");
     if (blogContent) {
       const h2: NodeListOf<HTMLHeadElement> | undefined =
