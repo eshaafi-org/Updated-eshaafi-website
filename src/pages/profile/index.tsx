@@ -4,7 +4,7 @@ import { PageHeading } from "@/components/Typography";
 import AddressBar from "@/components/AddressBar";
 import style from "@/styles/profile.module.scss";
 import { Text28, Text14, Text18 } from "@/components/Typography";
-import { services } from "@/helper/profileLinks";
+import { services, accounts } from "@/helper/profileLinks";
 import Image from "next/image";
 import Profiles from "@/components/Profiles";
 // links
@@ -53,9 +53,12 @@ export default function Profile() {
           <div className={style.accountLinks}>
             <Text28 className="text-dark">Account</Text28>
             <ul className={style.linksContainer}>
-              {services.map((item, indx) => (
+              {accounts.map((item, indx) => (
                 <li key={indx} className={style.linkItem}>
-                  <Text14 className="fw-bold text-dark">{item.name}</Text14>
+                  <Image src={item.icon} alt="service-icon-eshaafi" />
+                  <Text14 className="fw-bold text-dark mt-3 mb-2">
+                    {item.name}
+                  </Text14>
                   <Text14>{item.text}</Text14>
                 </li>
               ))}

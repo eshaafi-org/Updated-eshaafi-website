@@ -54,3 +54,35 @@ export const services = [
     text: "All plans subscribed",
   },
 ];
+export const accounts = [
+  {
+    icon: profileIcon4,
+    link: "",
+    name: "Terms and Conditions",
+    text: "Terms and Conditions",
+  },
+  {
+    icon: profileIcon2,
+    link: "",
+    name: "Privacy Policy",
+    text: "Privacy Policy",
+  },
+  {
+    icon: profileIcon1,
+    link: "",
+    name: "FAQ’s",
+    text: "FAQ’s",
+  },
+  {
+    icon: profileIcon1,
+    link: "",
+    name: "Logout",
+    text: "Logout from all profiles",
+  },
+  {
+    icon: profileIcon4,
+    link: "",
+    name: "Delete Account",
+    text: "All Profiles will be deleted",
+  },
+];
