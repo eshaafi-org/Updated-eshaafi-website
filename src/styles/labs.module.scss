@@ -2,6 +2,20 @@
 @import "./variables";
 // ID (Lab with Name and Detail) Styling
 // Upload E-Prescription Button
+.checkoutDetail {
+  @include tablet-large-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @include tablet-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @include large-mobile-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
 .labDetail {
   @include large-mobile-and-below {
     flex-wrap: wrap;
@@ -228,6 +242,10 @@
   max-width: 828px;
   padding: 1rem;
 }
+.customModal2 {
+  max-width: 600px;
+  padding: 1rem;
+}
 .modalField {
   grid-template-columns: 1fr 1fr;
   @include tablet-and-below {
@@ -257,6 +275,9 @@
 // Deatail Div
 .orderDetail {
   width: 65%;
+  @include tablet-large-and-below {
+    width: 100%;
+  }
 }
 .summary {
   width: 35%;
@@ -286,6 +307,12 @@
     border-radius: 4px;
     padding: 10px 16px;
     border: 1px solid #dfeaf2 !important;
+  }
+  @include tablet-large-and-below {
+    width: 70%;
+  }
+  @include large-mobile-and-below {
+    width: 100%;
   }
 }
 .applyButton {

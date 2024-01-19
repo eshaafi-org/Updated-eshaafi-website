@@ -7,26 +7,37 @@ import Button from "@/components/Button";
 import { FaFilePrescription } from "react-icons/fa6";
 import style from "@/styles/labs.module.scss"
 import { FaSearch } from "react-icons/fa";
-import Link from "next/link";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { useEffect, useState } from "react";
 import FQuest from "@/views/Doctor/FQuest";
 import { labFAQs } from "@/helper/FAQData";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/views/Labs/labCartSlicer";
 import Head from "next/head";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 export default function Test() {
+
+    const router = useRouter();
+    const { id } = router.query;
+    const getLabName = () => {
+        if (id === 'IDC-Lab') {
+            return 'IDC Lab';
+        } else if (id === 'Chugtai-Lab') {
+            return 'Chughtai Lab';
+        } else {
+            // Handle other cases or return a default value
+            return 'Unknown Lab';
+        }
+    };
     let links = [
         { name: "Home", link: "/" },
         { name: "Lab Tests", link: "/labs" },
-        { name: "Chughtai Lab", link: `/labs/id` },
+        { name: `${getLabName()}`, link: `/labs/${id}` },
     ];
-    const router = useRouter();
-    const { id } = router.query;
+    const value = useSelector((state: any) => state.labCartReducer.cart)
     const [test, setTest] = useState([])
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -73,20 +84,54 @@ export default function Test() {
         }
     }, [id]);
     const handleAddToCart = (item: any) => {
+        const itemId = item.Sk;
+        const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
         // Dispatch the addToCart action from the cart slice
-        dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
-        toast("Test Added to Cart ", {
-            position: "bottom-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            type: "success",
-        });
+        if (!isAlreadyInCart) {
+            // Dispatch the addToCart action from the cart slice
+            dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
+            toast("Test Added to Cart ", {
+                position: "bottom-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "success",
+            });
+        } else {
+            // Show a message or notification indicating that the test is already in the cart
+            toast("Test is already in the Cart", {
+                position: "bottom-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+            });
+        }
     };
+    // const handleAddToCart = (item: any) => {
+    //     const itemId = item.Sk;
+    //     // Dispatch the addToCart action from the cart slice
+    //     dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
+    //     toast("Test Added to Cart ", {
+    //         position: "bottom-right",
+    //         autoClose: 1000,
+    //         hideProgressBar: false,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //         theme: "light",
+    //         type: "success",
+    //     });
+    // };
 
     return (
         <>
@@ -95,7 +140,7 @@ export default function Test() {
             </Head>
             <section className="container">
                 <span>
-                    <h2>Chughtai Lab</h2>
+                    <h2>{getLabName()}</h2>
                     <AddressBar links={links} />
                 </span>
                 <div className={`${style.labDetail} mt-4 d-flex justify-content-between align-items-start`}>
@@ -107,7 +152,7 @@ export default function Test() {
                             width={100}
                         />
                         <span>
-                            <Text24>Chughtai Lab</Text24>
+                            <Text24>{getLabName()}</Text24>
                             <Text16>1200+ Tests</Text16>
                             <Text14>Available 00:00am - 00:00pm</Text14>
                         </span>
