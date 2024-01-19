@@ -20,15 +20,17 @@ function AddressModal({ getAddress }: { getAddress: any }) {
   const [show, setShow] = useState(false);
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const [landmark, setLandmark] = useState("");
+  const [landMark, setLandMark] = useState("");
+  const [loading, setLoading] = useState(false)
   // modal open and close function
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   function handleAddress() {
+    setLoading(true)
     const value = {
       area: city,
       city: city,
-      landMark: landmark,
+      landMark: landMark,
       address: address,
     };
     axios
@@ -49,10 +51,15 @@ function AddressModal({ getAddress }: { getAddress: any }) {
         });
         handleClose();
         getAddress();
+        setAddress('')
+        setCity('')
+        setLandMark('')
+        setLoading(false)
       })
       .catch((error) => {
         console.error("Error saving address:", error);
         toast.error("Error saving address");
+        setLoading(false)
       });
   }
   return (
@@ -85,7 +92,6 @@ function AddressModal({ getAddress }: { getAddress: any }) {
             Service
           </Text14>
           <div className={`${style.modalField} d-grid w-100 mt-3 gap-3`}>
-            {/* <InputField placeHolder="Address" className="w-100" /> */}
             <select
               className="form-select"
               value={city}
@@ -128,14 +134,18 @@ function AddressModal({ getAddress }: { getAddress: any }) {
             <InputField
               placeHolder="Landmark (Optional)"
               className="w-100"
-              value={landmark}
+              value={landMark}
               onChange={(e: { target: { value: string } }) =>
-                setLandmark(e.target.value)
+                setLandMark(e.target.value)
               }
             />
           </div>
           <div className="d-flex w-100 mt-5 col-gap-1">
             <Button variant="contained" type="submit" onClick={handleAddress}>
+              {loading && <div
+                className="spinner-border text-blue spinner-border-sm ms-2"
+                role="status"
+              ></div>}
               Save Address
             </Button>
             <Button
@@ -157,11 +167,13 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList:any }
   const [city, setCity] = useState(item?.city);
   const [address, setAddress] = useState(item?.address);
   const [landMark, setLandMark] = useState(item?.landMark);
+  const [loading, setLoading]= useState(false)
 
   // modal open and close function
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   function handleAddress() {
+    setLoading(true)
     const value = {
       area: city,
       city: city,
@@ -183,20 +195,26 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList:any }
           progress: undefined,
           theme: "light",
           type: "success",
-        });
+        })
+        handleClose();
         setAddressList((prevList: any[]) =>
-          prevList.map((item: { aId: any; }) =>
-            item.aId === response.data.address?.aId
-              ? response.data.address
-              : item
+          prevList.map((prevItem: { aId: any; area: any; landMark: any; address: any }) =>
+            prevItem.aId === item.aId
+              ? {
+                ...prevItem,
+                area: city !== prevItem.area ? city : prevItem.area,
+                landMark: landMark !== prevItem.landMark ? landMark : prevItem.landMark,
+                address: address !== prevItem.address ? address : prevItem.address,
+              }
+              : prevItem
           )
         );
-        console.log(setAddressList)
-        handleClose();
+        setLoading(false)
       })
       .catch((error) => {
         console.error("Error Updated address:", error);
         toast.error("Error Updated address");
+        setLoading(false)
       });
   }
   return (
@@ -280,6 +298,10 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList:any }
           </div>
           <div className="d-flex w-100 mt-5 col-gap-1">
             <Button variant="contained" type="submit" onClick={handleAddress}>
+            {loading && <div
+              className="spinner-border text-blue spinner-border-sm ms-2"
+              role="status"
+            ></div>}
               Update Address
             </Button>
             <Button
@@ -301,8 +323,9 @@ function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList:an
   // modal open and close function
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [loading, setLoading] = useState(false)
   function handleDeleteAddress() {
-    
+    setLoading(true)
     axios
       .delete(BASE_URL + `/lab/patients/labs/address/${aId}`, {
         headers: headers(),
@@ -323,10 +346,12 @@ function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList:an
         setAddressList((prevList:any) =>
           prevList.filter((item:any) => item.aId !== aId)
         );
+        setLoading(false)
       })
       .catch((error) => {
         console.error("Error Deleting address:", error);
         toast.error("Error Deleting address");
+        setLoading(false)
       });
   }
   return (
@@ -336,7 +361,7 @@ function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList:an
         className={`${style.blueColor} d-flex align-items-center gap-1`}
         onClick={handleShow}
       >
-        <RiDeleteBin6Line />
+        <RiDeleteBin6Line style={{color:"red"}} />
       </Button>
       <Modal
         show={show}
@@ -359,6 +384,10 @@ function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList:an
           </Text18>
           <div className="d-flex justify-content-center w-100 mt-3 col-gap-1">
             <Button variant="contained" type="submit" onClick={handleDeleteAddress}>
+              {loading && <div
+                className="spinner-border text-blue spinner-border-sm ms-2"
+                role="status"
+              ></div>}
               Delete Address
             </Button>
             <Button
@@ -408,7 +437,7 @@ function Address({
         {addressList.map((item: any, index: number) => (
           <li key={index} className={style.addressListItem}>
             <label
-              className={`${style.labelrdioclass} d-flex  align-items-center row-gap-1`}
+              className={`${style.labelrdioclass} d-flex  align-items-center justify-content-between row-gap-1 `}
             >
               <input
                 type="radio"
@@ -426,8 +455,10 @@ function Address({
               >
                 {item?.address + " " + item?.landMark + ", " + item?.city}
               </span>
-              <EditAddress item={item} setAddressList={setAddressList}/>
-              <DeleteAddress aId={item?.aId} setAddressList={setAddressList} />
+              <span className="d-flex">
+                <EditAddress item={item} setAddressList={setAddressList} />
+                <DeleteAddress aId={item?.aId} setAddressList={setAddressList} />
+              </span>
             </label>
           </li>
         ))}

@@ -7,7 +7,6 @@ import Button from "@/components/Button";
 import { FaFilePrescription } from "react-icons/fa6";
 import style from "@/styles/labs.module.scss"
 import { FaSearch } from "react-icons/fa";
-import Link from "next/link";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { useEffect, useState } from "react";
@@ -38,8 +37,7 @@ export default function Test() {
         { name: "Lab Tests", link: "/labs" },
         { name: `${getLabName()}`, link: `/labs/${id}` },
     ];
-    // const value = useSelector((state: any) => state.getLabHomeReducer.value.Labs)
-    // console.log(value)
+    const value = useSelector((state: any) => state.labCartReducer.cart)
     const [test, setTest] = useState([])
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
@@ -86,20 +84,54 @@ export default function Test() {
         }
     }, [id]);
     const handleAddToCart = (item: any) => {
+        const itemId = item.Sk;
+        const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
         // Dispatch the addToCart action from the cart slice
-        dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
-        toast("Test Added to Cart ", {
-            position: "bottom-right",
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-            type: "success",
-        });
+        if (!isAlreadyInCart) {
+            // Dispatch the addToCart action from the cart slice
+            dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
+            toast("Test Added to Cart ", {
+                position: "bottom-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "success",
+            });
+        } else {
+            // Show a message or notification indicating that the test is already in the cart
+            toast("Test is already in the Cart", {
+                position: "bottom-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                type: "warning",
+            });
+        }
     };
+    // const handleAddToCart = (item: any) => {
+    //     const itemId = item.Sk;
+    //     // Dispatch the addToCart action from the cart slice
+    //     dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
+    //     toast("Test Added to Cart ", {
+    //         position: "bottom-right",
+    //         autoClose: 1000,
+    //         hideProgressBar: false,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //         theme: "light",
+    //         type: "success",
+    //     });
+    // };
 
     return (
         <>
