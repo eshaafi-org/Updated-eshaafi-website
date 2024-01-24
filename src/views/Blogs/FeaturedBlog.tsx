@@ -3,7 +3,7 @@ import style from "../../styles/blogs.module.scss";
 import moment from "moment";
 // featured blog card
 function Card({ blog }: any) {
-  console.log(blog);
+  // console.log(blog);
   return (
     <Link href={`/blog/${blog.name}`} className={style.featuredBlogCard}>
       <div className="d-flex flex-column justify-content-end h-100">

@@ -39,7 +39,7 @@ export default function CategoryPage() {
         .get(`${BASE_URL}/new/users/blogs?last=${lastEvaluatedKey}`)
         .then((response) => {
           const newLastEvaluatedKey = response.data.response.LastEvaluatedKey;
-          console.log(newLastEvaluatedKey);
+          // console.log(newLastEvaluatedKey);
           setLastEvaluatedKey(newLastEvaluatedKey);
           const adminListNextPage = response.data.response.Items;
           setBlog((prevBlogs) => [...prevBlogs, ...adminListNextPage]);

@@ -12,31 +12,31 @@ import profileIcon10 from "../../public/images/profileIcon (10).svg";
 export const services = [
   {
     icon: profileIcon10,
-    link: "",
+    link: "/appointments",
     name: "My Appointments",
     text: "All video consultations",
   },
   {
     icon: profileIcon9,
-    link: "",
+    link: "/medicalrecords",
     name: "Medical Records",
     text: "Uploaded medical records",
   },
   {
     icon: profileIcon8,
-    link: "",
+    link: "/eprescription",
     name: "e-Prescription",
     text: "Prescriptions of appointments",
   },
-  {
-    icon: profileIcon7,
-    link: "",
-    name: "Health Tracker",
-    text: "Records to track health",
-  },
+  // {
+  //   icon: profileIcon7,
+  //   link: "",
+  //   name: "Health Tracker",
+  //   text: "Records to track health",
+  // },
   {
     icon: profileIcon6,
-    link: "",
+    link: "/orders",
     name: "Lab Tests",
     text: "all booked lab tests",
   },
@@ -49,7 +49,7 @@ export const services = [
   },
   {
     icon: profileIcon5,
-    link: "",
+    link: "/subscriptions",
     name: "My Plans",
     text: "All plans subscribed",
   },
@@ -57,19 +57,19 @@ export const services = [
 export const accounts = [
   {
     icon: profileIcon4,
-    link: "",
+    link: "/terms-and-conditions",
     name: "Terms and Conditions",
     text: "Terms and Conditions",
   },
   {
     icon: profileIcon2,
-    link: "",
+    link: "/privacy-policy",
     name: "Privacy Policy",
     text: "Privacy Policy",
   },
   {
     icon: profileIcon1,
-    link: "",
+    link: "/faq",
     name: "FAQ’s",
     text: "FAQ’s",
   },
