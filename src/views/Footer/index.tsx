@@ -24,6 +24,11 @@ const Footer: React.FC<FooterProps> = () => {
               Book video appointment with our in house doctors anytime and
               receive e-prescription every consultation.
             </p>
+            <p className="line-height-1 text-dark">
+              7th Floor, Business Hub Broadway Commercial,DHA Phase 8, Lahore,
+              54792 <br />
+              Availability: 24/7
+            </p>
             <h4 className="mt-3">Follow Us</h4>
             <ul className="d-flex col-gap-1 flex-wrap">
               {socialLinks.map((item, indx) => (
