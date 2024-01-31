@@ -9,13 +9,18 @@ import style from "@/styles/orders.module.scss";
 import { Modal } from "react-bootstrap";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { FaCircle } from "react-icons/fa";
-
+import { logout } from "@/components/Profiles";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import checkMark from "../../../public/images/checkmark.png";
 let links = [
   { name: "Home", link: "/" },
   { name: "My Orders", link: "/orders" },
 ];
 export default function Orders() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
@@ -34,7 +39,9 @@ export default function Orders() {
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error);
+        if (error.response.status === 401) {
+          logout(dispatch, router, userAuth);
+        }
       });
   }, []);
   return (

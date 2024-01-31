@@ -354,15 +354,17 @@ const Header: React.FC<HeaderProps> = ({}) => {
           </div>
         ) : (
           <span>
-            <Button
-              onClick={() => setShowCart(!showCart)}
-              className={style.cartBtn}
-            >
-              <FaCartShopping style={{ fontSize: 22 }} />
-              {cart.length >= 1 && (
-                <span className={style.cartNumber}>{cart.length}</span>
-              )}
-            </Button>
+            {userAuth?.uuid && (
+              <Button
+                onClick={() => setShowCart(!showCart)}
+                className={style.cartBtn}
+              >
+                <FaCartShopping style={{ fontSize: 22 }} />
+                {cart.length >= 1 && (
+                  <span className={style.cartNumber}>{cart.length}</span>
+                )}
+              </Button>
+            )}
             {showCart &&
               createPortal(<Cart setShowCart={setShowCart} />, document.body)}
             <Button onClick={handleOpen}>
@@ -393,7 +395,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 />
               )}
               <span>
-                <h4>{userAuth?.name}</h4>
+                <h4 className="text-capitalize">{userAuth?.name}</h4>
                 <p>{userAuth?.phoneNo}</p>
               </span>
             </span>
