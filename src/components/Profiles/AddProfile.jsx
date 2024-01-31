@@ -95,55 +95,29 @@ export default function AddProfile({ setProfile, toast }) {
   const updateProfile = (e) => {
     setStates({ type: "LOADER" });
     e.preventDefault();
-    axios
-      .post(
-        BASE_URL + "/patients/profile",
-        {
-          relation: states.relation,
-          name: states.name,
-          gender: states.gender,
-          dob: states.dob,
-          location: states.location,
-          percentage: 90,
-          url,
-        },
-        {
-          headers: headers(),
-        }
-      )
-      .then((res) => {
-        setStates({ type: "SUCCESS" });
-        dispatch({
-          type: "getProfilesSlice/updateProfiles",
-          payload: res.data.response.data,
-        });
-        setProfile({
-          type: "SET_PROFILES",
-          payload: [
-            res.data.response.data.self,
-            ...res.data.response.data.profiles,
-          ],
-        });
-        toast(res.data.response.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          type: "success",
-        });
-
-        // setStates({ type: "PROFILE_LOADING" });
-        // dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
-        // close();
-      })
-      .catch((err) => {
-        setStates({ type: "LOADER" });
-        if (err.response.data) {
-          toast(err.response.data.response.message, {
+    if (phone_no === "" && url === "") {
+      axios
+        .post(
+          BASE_URL + "/patients/profile",
+          {
+            name: states.name,
+            dob: states.dob,
+            gender: states.gender,
+            location: states.location,
+            relation: states.relation,
+            percentage: 90,
+          },
+          {
+            headers: headers(),
+          }
+        )
+        .then((res) => {
+          setStates({ type: "SUCCESS" });
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          toast(res.data.response.message, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -152,10 +126,77 @@ export default function AddProfile({ setProfile, toast }) {
             draggable: true,
             progress: undefined,
             theme: "light",
-            type: "error",
+            type: "success",
           });
-        }
-      });
+        })
+        .catch((err) => {
+          setStates({ type: "LOADER" });
+          if (err.response?.data) {
+            toast(err.response.data.response.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "error",
+            });
+          }
+        });
+    } else if (phone_no === "" && url !== "") {
+      axios
+        .post(
+          BASE_URL + "/patients/profile",
+          {
+            name: states.name,
+            dob: states.dob,
+            gender: states.gender,
+            location: states.location,
+            relation: states.relation,
+            percentage: 90,
+            url,
+          },
+          {
+            headers: headers(),
+          }
+        )
+        .then((res) => {
+          setStates({ type: "SUCCESS" });
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          toast(res.data.response.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          setStates({ type: "LOADER" });
+          if (err.response?.data) {
+            toast(err.response.data.response.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "error",
+            });
+          }
+        });
+    }
   };
 
   // on focus changing the input field
@@ -357,6 +398,15 @@ export default function AddProfile({ setProfile, toast }) {
               <option value="Spouse">Spouse</option>
               <option value="Other">Other</option>
             </select>
+            <InputField
+              type="tel"
+              placeHolder="Phone Optional"
+              value={phone_no}
+              // disabled={patient.relation === "Myself" || !edit}
+              onChange={setStates}
+              name="phone_no"
+              // onChange={handleChanged}
+            />
             <Button
               variant="contained"
               type="submit"

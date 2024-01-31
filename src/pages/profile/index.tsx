@@ -89,8 +89,6 @@ export default function Profile() {
         });
     }
   };
-  console.log(patient);
-
   return (
     <>
       <Head>
