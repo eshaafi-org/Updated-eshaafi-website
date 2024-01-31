@@ -67,22 +67,20 @@ const reducer = (state: any, action: any) => {
     }
   }
 };
-export default function Profiles
-  ({
-    patient,
-    setPatient,
-    styling = style.profilesContainer,
-    deleteProfile,
-    setEdit,
-  }: {
-    patient: any;
-    setPatient: any;
-    styling?: any;
-    deleteProfile?: any;
-    setEdit?: any;
-  }) {
+const Profiles = memo(function ProfilesComponent({
+  patient,
+  setPatient,
+  styling = style.profilesContainer,
+  deleteProfile,
+  setEdit,
+}: {
+  patient: any;
+  setPatient: any;
+  styling?: any;
+  deleteProfile?: any;
+  setEdit?: any;
+}) {
   const router = useRouter();
-  // const dispatch = useDispatch();
   const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   const { profiles, loading } = useSelector(
@@ -94,25 +92,25 @@ export default function Profiles
   });
   // const { loading, profiles } = states
   // logout
-  // const getProfiles = () => {
-  //   setStates({ type: "LOADING" });
-  //   axios
-  //     .get(BASE_URL + "/patients/profile", {
-  //       headers: headers(),
-  //     })
-  //     .then((res) => {
-  //       setStates({ type: "RESPONSE", payload: res.data.response.data });
-  //     })
-  //     .catch((err) => {
-  //       setStates({ type: "LOADING_FALSE" });
-  //       if (err.response.status === 401 || err.response.status === 405) {
-  //         logout(dispatch, router, userAuth);
-  //       }
-  //     });
-  // };
-
+  const getProfiles = () => {
+    setStates({ type: "LOADING" });
+    axios
+      .get(BASE_URL + "/patients/profile", {
+        headers: headers(),
+      })
+      .then((res) => {
+        setStates({ type: "RESPONSE", payload: res.data.response.data });
+      })
+      .catch((err) => {
+        setStates({ type: "LOADING_FALSE" });
+        if (err.response.status === 401 || err.response.status === 405) {
+          logout(dispatch, router, userAuth);
+        }
+      });
+  };
+  //
   useEffect(() => {
-    dispatch(getProfilesData())
+    dispatch(getProfilesData());
   }, []);
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>
@@ -162,8 +160,7 @@ export default function Profiles
                       location: itm.location,
                       gender: itm.gender,
                       dob: itm.dob,
-                      phone_no:
-                        itm.phone_no === undefined ? "" : itm.phone_no,
+                      phone_no: itm.phone_no === undefined ? "" : itm.phone_no,
                     });
                     if (setEdit) {
                       setEdit(false);
@@ -195,9 +192,7 @@ export default function Profiles
                   <p className="text-dark">
                     {itm.name.length <= 5 ? itm.name : `${itm.name}`}
                   </p>
-                  {styling !== style.profileContainer && (
-                    <p>{itm.relation}</p>
-                  )}
+                  {styling !== style.profileContainer && <p>{itm.relation}</p>}
                 </span>
                 {patient?.patientId === itm.profileId && (
                   <FaCheck className={style.icon} />
@@ -211,4 +206,5 @@ export default function Profiles
       <ToastContainer />
     </section>
   );
-}
+});
+export default Profiles;
