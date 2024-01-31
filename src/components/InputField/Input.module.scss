@@ -12,3 +12,8 @@
     outline: 1px solid $primary-clr;
   }
 }
+.inputField:disabled {
+  background-color: #fafafa; /* Add your desired background color */
+  color: #888; /* Add your desired text color */
+  cursor: not-allowed; /* Change cursor to indicate it's disabled */
+}

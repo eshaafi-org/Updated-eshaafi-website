@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import AddProfile from "./AddProfile.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import { getProfilesData } from "./profilesSlicer";
 // import
 export const logout = (dispatch: any, router: any, userAuth: any) => {
   axios
@@ -34,6 +35,12 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         loading: true,
+      };
+    }
+    case "LOADING_FALSE": {
+      return {
+        ...state,
+        loading: false,
       };
     }
     case "RESPONSE": {
@@ -62,19 +69,26 @@ const Profiles = memo(
     patient,
     setPatient,
     styling = style.profilesContainer,
+    deleteProfile,
+    setEdit,
   }: {
     patient: any;
     setPatient: any;
-    styling: any;
+    styling?: any;
+    deleteProfile?: any;
+    setEdit?: any;
   }) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { userAuth } = useSelector((state: any) => state.loginModalReducer);
+    const { profiles, loading } = useSelector(
+      (state: any) => state.getProfilesListReducer
+    );
     const [states, setStates] = useReducer(reducer, {
       loading: false,
       profiles: [],
     });
-    const { loading, profiles } = states;
+    // const { loading, profiles } = states
     // logout
     const getProfiles = () => {
       setStates({ type: "LOADING" });
@@ -86,13 +100,15 @@ const Profiles = memo(
           setStates({ type: "RESPONSE", payload: res.data.response.data });
         })
         .catch((err) => {
-          if (err.response.status === 401) {
+          setStates({ type: "LOADING_FALSE" });
+          if (err.response.status === 401 || err.response.status === 405) {
             logout(dispatch, router, userAuth);
-          } else console.error(err.response.status);
+          }
         });
     };
+
     useEffect(() => {
-      getProfiles();
+      dispatch(getProfilesData());
     }, []);
     return (
       <section className={styling === "" ? style.profilesContainer : styling}>
@@ -123,12 +139,6 @@ const Profiles = memo(
                   name="profile"
                   id={itm.profileId}
                   value={itm.profileId}
-                  // onChange={(e) =>
-                  //   setPatient({
-                  //     patientId: e.target.value,
-                  //     patientName: itm.name,
-                  //   })
-                  // }
                   onClick={(e: any) => {
                     if (patient.patientId === e.target.value) {
                       setPatient({
@@ -138,6 +148,7 @@ const Profiles = memo(
                         location: "",
                         gender: "",
                         dob: "",
+                        phone_no: "",
                       });
                     } else {
                       setPatient({
@@ -147,7 +158,12 @@ const Profiles = memo(
                         location: itm.location,
                         gender: itm.gender,
                         dob: itm.dob,
+                        phone_no:
+                          itm.phone_no === undefined ? "" : itm.phone_no,
                       });
+                      if (setEdit) {
+                        setEdit(false);
+                      }
                     }
                   }}
                 />

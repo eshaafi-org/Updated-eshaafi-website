@@ -13,6 +13,8 @@ interface inputProps {
   onFocus?: any;
   min?: any;
   max?: any;
+  readOnly?: boolean;
+  disabled?: boolean;
 }
 export const InputField: React.FC<inputProps> = ({
   className,
@@ -27,6 +29,8 @@ export const InputField: React.FC<inputProps> = ({
   onFocus,
   min,
   max,
+  disabled = false,
+  readOnly = false,
 }) => {
   return (
     <input
@@ -42,6 +46,8 @@ export const InputField: React.FC<inputProps> = ({
       onFocus={onFocus}
       min={type === "date" && min}
       max={type === "date" && max}
+      readOnly={readOnly}
+      disabled={disabled}
     />
   );
 };
