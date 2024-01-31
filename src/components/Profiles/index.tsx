@@ -10,6 +10,9 @@ import AddProfile from "./AddProfile.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { getProfilesData } from "./profilesSlicer";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+// import { AppDispatch } from "@/redux/store";
 // import
 export const logout = (dispatch: any, router: any, userAuth: any) => {
   axios
@@ -79,7 +82,7 @@ const Profiles = memo(
     setEdit?: any;
   }) => {
     const router = useRouter();
-    const dispatch = useDispatch();
+    const dispatch: ThunkDispatch<any, any, AnyAction> = useDispatch();
     const { userAuth } = useSelector((state: any) => state.loginModalReducer);
     const { profiles, loading } = useSelector(
       (state: any) => state.getProfilesListReducer
