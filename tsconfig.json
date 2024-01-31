@@ -26,7 +26,13 @@
     "src/views/MedicalRecords/AddRecords/index.jsx",
     "src/components/Typography/index.jsx",
     "src/pages/labs/upload.jsx",
+<<<<<<< HEAD
     "src/views/Labs/labsSlicer.jsx"
 , "src/components/Profiles/index.tsx"  ],
+=======
+    "src/views/Labs/labsSlicer.jsx",
+    "src/components/Profiles/index.tsx"
+  ],
+>>>>>>> 7b1f97d73b4fd0be473f55ac70707ac596b70e73
   "exclude": ["node_modules"]
 }
