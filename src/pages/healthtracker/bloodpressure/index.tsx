@@ -1,0 +1,71 @@
+/*
+Author: Zeeshan Naseeb 
+Date: 29-March-2024
+file: Health Tracker / Blood Pressure.
+*/
+import AddressBar from "@/components/AddressBar";
+import Head from "next/head";
+import Profiles from "@/components/Profiles";
+import { useState } from "react";
+import Button from "@/components/Button";
+import style from "@/styles/health.module.scss";
+import { Text20 } from "@/components/Typography";
+
+export default function BloodPressure() {
+    const links = [
+        { name: "Home", link: "/" },
+        { name: "Health Tracker", link: "/healthtracker" },
+        { name: "Blood Pressure", link: "/healthtracker/bloodpressure" },
+    ]
+    // States 
+    const [profile, setProfile] = useState('')
+    return (
+        <section className="container">
+            <Head>
+                <title>Health Tracker | Blood Pressure</title>
+            </Head>
+            <span>
+                <h2>Health Tracker</h2>
+                <AddressBar links={links} />
+            </span>
+            <Profiles patient={profile} setPatient={setProfile} />
+            <div>
+                <div></div>
+                <div className={`${style.bloodPressureForm} p-3`}>
+                    <Text20 style={{ color: "#3F3F3F" }}>Calculate BMI</Text20>
+                    <form>
+                        {/* Height input */}
+                        <div className='my-3'>
+                            <span className='d-flex flex-column w-100'>
+                                <label>Select Date</label>
+                                <input className={style.bloodPressureField}
+                                    type='text' />
+                            </span>
+                        </div>
+                        <div className='mb-3'>
+                            <span className='d-flex flex-column w-100'>
+                                <label>Select Time</label>
+                                <input className={style.bloodPressureField}
+                                    type='text' />
+                            </span>
+                        </div>
+                        {/* Weight input */}
+                        <span className='d-flex flex-column w-100 my-3'>
+                            <label>Upper pressure (mmHg)</label>
+                            <input className={style.bloodPressureField}
+                                type='text' />
+                        </span>
+                        {/* Age input */}
+                        <span className='d-flex flex-column w-100 my-3'>
+                            <label>Lower pressure (mmHg)</label>
+                            <input className={style.bloodPressureField}
+                                type='text' />
+                        </span>
+                        {/* Calculate BMI button */}
+                        <Button className={`${style.bmiCalculate} w-100 mt-3 p-3`}>Save</Button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    )
+}

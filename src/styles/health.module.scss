@@ -61,11 +61,11 @@
   display: flex;
   gap: 24px;
   @include mini-laptop-and-below {
-      flex-direction: column;
-    }
-    @include large-mobile-and-below {
-      width: 100%;
-    }
+    flex-direction: column;
+  }
+  @include large-mobile-and-below {
+    width: 100%;
+  }
   .bmiTracker {
     width: 70%;
     height: fit-content;
@@ -137,6 +137,28 @@
         background-color: #657c8c;
         cursor: not-allowed;
       }
+    }
+  }
+}
+// Blood Pressure file Styling
+.bloodPressureForm {
+  border-radius: 12px;
+  border: 0.5px solid #d7ddea;
+  background: rgba(245, 251, 255, 0.6);
+  box-shadow: 0px 8px 16px 0px rgba(37, 49, 65, 0.1);
+  .bloodPressureField {
+    background: rgba(245, 251, 255, 0.6);
+    width: 100%;
+    border: 1px solid #79747e;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    &:hover {
+      border: 1px solid $primary-clr;
+    }
+    &:focus-visible {
+      border: 1px solid $primary-clr;
+      outline: 1px solid $primary-clr;
     }
   }
 }

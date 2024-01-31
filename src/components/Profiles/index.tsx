@@ -45,7 +45,7 @@ export default function Profiles({
 }: {
   patient: any;
   setPatient: any;
-  styling: any;
+  styling?: any;
 }) {
   const [states, setStates] = useReducer(reducer, {
     loading: false,

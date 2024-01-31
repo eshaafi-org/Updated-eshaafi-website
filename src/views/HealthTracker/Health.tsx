@@ -44,7 +44,7 @@ export default function Health() {
                             </div>
                         </li>
                     </Link>
-                    <Link href={'/healthtracker/bloodPressure'}>
+                    <Link href={'/healthtracker/bloodpressure'}>
                         <li className={style.featureItm}>
                             <div className={style.featureItemCont}>
                                 <span className={style.featureText}>
@@ -86,7 +86,7 @@ export default function Health() {
                             </div>
                         </li>
                     </Link>
-                    <Link href={'/healthtracker/bodyTemprature'}>
+                    <Link href={'/healthtracker/bodytemprature'}>
                         <li className={style.featureItm}>
                             <div className={style.featureItemCont}>
                                 <span className={style.featureText}>
