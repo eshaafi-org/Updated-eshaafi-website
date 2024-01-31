@@ -90,27 +90,11 @@ const Profiles = memo(function ProfilesComponent({
     loading: false,
     profiles: [],
   });
-  // const { loading, profiles } = states
-  // logout
-  const getProfiles = () => {
-    setStates({ type: "LOADING" });
-    axios
-      .get(BASE_URL + "/patients/profile", {
-        headers: headers(),
-      })
-      .then((res) => {
-        setStates({ type: "RESPONSE", payload: res.data.response.data });
-      })
-      .catch((err) => {
-        setStates({ type: "LOADING_FALSE" });
-        if (err.response.status === 401 || err.response.status === 405) {
-          logout(dispatch, router, userAuth);
-        }
-      });
-  };
-  //
+  // getting profiles details
   useEffect(() => {
-    dispatch(getProfilesData());
+    if (profiles.length === 0) {
+      dispatch(getProfilesData());
+    }
   }, []);
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>
@@ -153,6 +137,7 @@ const Profiles = memo(function ProfilesComponent({
                       phone_no: "",
                     });
                   } else {
+                    console.log(itm);
                     setPatient({
                       patientId: e.target.value,
                       patientName: itm.name,
