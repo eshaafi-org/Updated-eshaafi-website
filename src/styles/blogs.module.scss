@@ -92,13 +92,16 @@
   }
 }
 .tableOfContent {
-  grid-area: 4/1/5/2;
   .desktop {
     display: none;
     @include above-tablet-large {
+      grid-area: 4/1/5/2;
       display: block;
     }
   }
+}
+.tableOfContentMobile {
+  grid-area: 4/1/5/2;
   .mobile {
     margin: 1rem 0;
     @include above-tablet-large {
@@ -106,10 +109,7 @@
     }
   }
   @include above-tablet-large {
-    grid-area: 2/1/3/2;
-    // position: sticky;
-    // top: 200px;
-    z-index: 9;
+    display: none;
   }
 }
 .share {

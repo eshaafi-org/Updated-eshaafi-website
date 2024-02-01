@@ -15,6 +15,7 @@ import {
   FaLinkedinIn,
   FaWhatsapp,
   FaChevronDown,
+  FaChevronUp,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiLink2 } from "react-icons/fi";
@@ -48,8 +49,9 @@ export default function Post({ post }: any) {
     if (blogContent) {
       const h2: NodeListOf<HTMLHeadElement> | undefined =
         blogContent?.querySelectorAll("h2");
-      // console.log(h2);
-      if (h2.length > 0) {
+      console.log(h2);
+      console.log(post.blogContent);
+      if (h2.length === post.blogContent.length) {
         // console.log("hey");
         // debugger;
         for (let i = 0; i < post?.blogContent?.length; i++) {
@@ -133,40 +135,6 @@ export default function Post({ post }: any) {
                             )
                           )}
                       </ul>
-                    </div>
-                    <div className={style.mobile}>
-                      <div
-                        onClick={() => setOpen(!open)}
-                        className="d-flex w-full justify-content-between border-bottom align-items-center pb-1"
-                        role="button"
-                        aria-expanded="false"
-                        aria-controls="collapseExample"
-                      >
-                        <p className="text-main fw-bold ">Table of Content</p>
-                        <FaChevronDown />
-                      </div>
-                      <Collapse in={open}>
-                        <div id="example-collapse-text">
-                          <ul className="d-flex flex-wrap col-gap-1 mt-1">
-                            {post?.blogContent?.length > 0 &&
-                              post?.blogContent.map(
-                                (link: string, indx: number) => (
-                                  <li key={indx} className="d-flex col-gap-0-5">
-                                    <a
-                                      className="font-bold text-primary "
-                                      href={"#" + link}
-                                    >
-                                      {link}
-                                    </a>
-                                    {indx + 1 === post?.blogContent.length || (
-                                      <span>|</span>
-                                    )}
-                                  </li>
-                                )
-                              )}
-                          </ul>
-                        </div>
-                      </Collapse>
                     </div>
                   </div>
                 )}
@@ -257,26 +225,7 @@ export default function Post({ post }: any) {
                 </div>
               </div>
               {post?.blogContent && post?.blogContent.length > 0 && (
-                <div className={style.tableOfContent}>
-                  {/* <div className={style.desktop}>
-                    <p className="text-main fw-bold mb-3">Table of Content</p>
-                    <ul className="d-flex flex-wrap col-gap-1">
-                      {post?.blogContent?.length > 0 &&
-                        post?.blogContent.map((link: string, indx: number) => (
-                          <li key={indx} className="d-flex col-gap-0-5">
-                            <a
-                              className="font-bold text-primary "
-                              href={"#" + link}
-                            >
-                              {link}
-                            </a>
-                            {indx + 1 === post?.blogContent.length || (
-                              <span>|</span>
-                            )}
-                          </li>
-                        ))}
-                    </ul>
-                  </div> */}
+                <div className={style.tableOfContentMobile}>
                   <div className={style.mobile}>
                     <div
                       onClick={() => setOpen(!open)}
@@ -286,7 +235,7 @@ export default function Post({ post }: any) {
                       aria-controls="collapseExample"
                     >
                       <p className="text-main fw-bold ">Table of Content</p>
-                      <FaChevronDown />
+                      {open ? <FaChevronUp /> : <FaChevronDown />}
                     </div>
                     <Collapse in={open}>
                       <div id="example-collapse-text">
@@ -313,6 +262,7 @@ export default function Post({ post }: any) {
                   </div>
                 </div>
               )}
+              {/* sharing section */}
               <div className={style.share}>
                 <div className={style.shareIcon}>
                   <p className="text-main fw-bold">Share this Article</p>
