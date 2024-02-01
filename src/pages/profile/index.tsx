@@ -16,6 +16,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { BASE_URL, headers } from "@/helper/CONST";
+import { useDispatch } from "react-redux";
 // links
 const links = [
   { name: "Home", link: "/" },
@@ -31,6 +32,7 @@ export default function Profile() {
     relation: "",
     phone_no: "",
   });
+  const dispatch = useDispatch();
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
@@ -46,8 +48,6 @@ export default function Profile() {
       };
     });
   };
-  //
-  // console.log(patient);
   // handling editing proflie
   const handleEditingProfile = () => {
     setEditLoading(true);
@@ -71,6 +71,12 @@ export default function Profile() {
           toast("Profile updated successfully!", {
             type: "success",
           });
+          // console.log(res.data.response.data);
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          setEdit(false);
         })
         .catch((error: any) => {
           setEditLoading(false);
@@ -83,9 +89,8 @@ export default function Profile() {
         });
     }
   };
-  // useEffect(() => {
-  //   setEdit(false);
-  // }, [patient]);
+  console.log(patient);
+
   return (
     <>
       <Head>
@@ -109,7 +114,7 @@ export default function Profile() {
                   <FaUserCircle style={{ fontSize: "5rem" }} />
                 )}
               </span>
-              <Text24 className="text-dark fw-bold text-capitalize">
+              <Text24 className="text-dark fw-bold text-capitalize text-center">
                 {patient?.patientName}
               </Text24>
               <p>{patient.phone_no}</p>
@@ -147,6 +152,8 @@ export default function Profile() {
                           show={modal}
                           setShow={setModal}
                           patient={patient}
+                          toast={toast}
+                          setPatient={setPatient}
                         />
                       </>
                     )}
@@ -332,20 +339,45 @@ function DeleteModal({
   show,
   setShow,
   patient,
+  toast,
+  setPatient,
 }: {
   show: boolean;
   setShow: any;
   patient: any;
+  toast: any;
+  setPatient: any;
 }) {
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
   const handleDeletingProflie = () => {
+    setLoading(true);
     axios
       .delete(BASE_URL + `/patients/profile/${patient.patientId}`, {
         headers: headers(),
       })
       .then((res) => {
-        console.log(res);
+        setLoading(false);
+        setShow(false);
+        setPatient({
+          dob: "",
+          gender: "",
+          location: "",
+          patientId: "",
+          patientName: "",
+          relation: "",
+          phone_no: "",
+        });
+        dispatch({
+          type: "getProfilesSlice/updateProfiles",
+          payload: res.data.response.data,
+        });
+        toast(`Profile deleted successfully!`, {
+          type: "success",
+        });
       })
       .catch((error: any) => {
+        setLoading(false);
         console.log(error);
       });
   };
@@ -373,7 +405,13 @@ function DeleteModal({
           style={{ background: "#B00020" }}
           onClick={handleDeletingProflie}
         >
-          Delete Profile
+          Delete Profile{" "}
+          {loading && (
+            <div
+              className="spinner-border text-white spinner-border-sm"
+              role="status"
+            ></div>
+          )}
         </button>
       </Modal.Footer>
     </Modal>

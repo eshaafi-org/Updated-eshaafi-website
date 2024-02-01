@@ -20,7 +20,11 @@ export const getProfilesSlice = createSlice({
     profiles: [],
     loading: false,
   },
-  reducers: {},
+  reducers: {
+    updateProfiles: (state, action) => {
+      state.profiles = [action.payload.self, ...action.payload.profiles];
+    },
+  },
   extraReducers: {
     [getProfilesData.pending]: (state) => {
       state.loading = true;
