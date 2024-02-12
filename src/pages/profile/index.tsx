@@ -264,14 +264,22 @@ export default function Profile() {
                   name="location"
                   onChange={handleChanged}
                 />
-                <InputField
-                  type="tel"
-                  placeHolder="Phone Optional"
-                  value={phone_no}
-                  disabled={patient.relation === "Myself" || !edit}
-                  name="phone_no"
-                  onChange={handleChanged}
-                />
+                <span>
+                  <InputField
+                    type="tel"
+                    placeHolder="Phone Optional"
+                    value={phone_no}
+                    disabled={patient.relation === "Myself" || !edit}
+                    name="phone_no"
+                    onChange={handleChanged}
+                    className="w-100"
+                  />
+                  {!phone_no && edit && (
+                    <p style={{ fontSize: 11, marginTop: 3 }}>
+                      Format:03xxxxxxxxx
+                    </p>
+                  )}
+                </span>
               </div>
               {edit && (
                 <div className="d-flex justify-content-end mt-4">

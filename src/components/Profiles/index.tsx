@@ -96,6 +96,7 @@ const Profiles = memo(function ProfilesComponent({
       dispatch(getProfilesData());
     }
   }, []);
+
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>
       {loading ? (
@@ -137,7 +138,6 @@ const Profiles = memo(function ProfilesComponent({
                       phone_no: "",
                     });
                   } else {
-                    console.log(itm);
                     setPatient({
                       patientId: e.target.value,
                       patientName: itm.name,
