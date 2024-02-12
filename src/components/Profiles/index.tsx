@@ -96,7 +96,7 @@ const Profiles = memo(function ProfilesComponent({
       dispatch(getProfilesData());
     }
   }, []);
-
+  console.log(patient);
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>
       {loading ? (

@@ -356,21 +356,24 @@ export default function AddProfile({ setProfile, toast }) {
     setStates({ type: "LOADER" });
     let { otp1, otp2, otp3, otp4, otp5, otp6 } = values;
     let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
+    const data = {
+      name: states.name,
+      dob: states.dob,
+      gender: states.gender,
+      location: states.location,
+      relation: states.relation,
+      percentage: 90,
+      url: url,
+      phone_no: "+92" + phone_no.slice(1),
+      code: code,
+      // type: 1,
+    };
+
+    const filteredObject = (({ url, ...rest }) => rest)(data);
     axios
       .post(
         BASE_URL + "/patients/profile",
-        {
-          name: states.name,
-          dob: states.dob,
-          gender: states.gender,
-          location: states.location,
-          relation: states.relation,
-          percentage: 90,
-          // url,
-          phone_no: "+92" + phone_no.slice(1),
-          code: code,
-          // type: 1,
-        },
+        url === "" ? filteredObject : data,
         {
           headers: headers(),
         }
@@ -435,7 +438,7 @@ export default function AddProfile({ setProfile, toast }) {
         </Button>
         Add
       </li>
-      <Modal show={show}>
+      <Modal show={show} onHide={() => setShow(false)}>
         {/* modal head */}
         <div className="d-flex align-items-center border-bottom py-2">
           <div className="w-40 ps-3">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useReducer } from "react";
 import Head from "next/head";
 import { InputField } from "@/components/InputField";
 import { PageHeading } from "@/components/Typography";
@@ -17,11 +17,74 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { useDispatch } from "react-redux";
+import Otpinput from "@/components/Profiles/OtpFields";
 // links
 const links = [
   { name: "Home", link: "/" },
   { name: "Profile", link: "/profile" },
 ];
+// reducer
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case "IMG_LOADER": {
+      return {
+        ...state,
+        imgLoader: !state.imgLoader,
+      };
+    }
+    case "SET_URL": {
+      return {
+        ...state,
+        imgLoader: false,
+        url: action.payload,
+      };
+    }
+    case "LOADER": {
+      return {
+        ...state,
+        loading: !state.loading,
+      };
+    }
+    case "SUCCESS": {
+      return {
+        ...state,
+        name: "",
+        dob: "",
+        gender: "",
+        location: "",
+        relation: "",
+        loading: false,
+        url: "",
+        phone_no: "",
+      };
+    }
+    case "OTP_SEND": {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+    case "OTP_ERROR": {
+      return {
+        ...state,
+        loading: false,
+        otpError: true,
+      };
+    }
+    case "OTP_ERROR_FALSE": {
+      return {
+        ...state,
+        otpError: false,
+      };
+    }
+    default: {
+      return {
+        ...state,
+        [action.target.name]: action.target.value,
+      };
+    }
+  }
+};
 export default function Profile() {
   const [patient, setPatient] = useState<any>({
     dob: "",
@@ -32,6 +95,12 @@ export default function Profile() {
     relation: "",
     phone_no: "",
   });
+  const [states, setStates] = useReducer(reducer, {
+    loading: false,
+    url: "",
+    otpError: false,
+  });
+  const { loading, otpError, url } = states;
   const dispatch = useDispatch();
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -52,8 +121,41 @@ export default function Profile() {
   const handleEditingProfile = () => {
     setEditLoading(true);
     if (patient.phone_no) {
-      setEditLoading(false);
-      setOtpShow(true);
+      const filteredObject = (({ patientName, ...rest }) => rest)(patient);
+      axios
+        .patch(
+          BASE_URL + `/patients/profile/${patientId}`,
+          {
+            ...filteredObject,
+            name: patient.patientName,
+            profileId: patient.patienId,
+            phone_no: "+92" + patient.phone_no.slice(1),
+          },
+          {
+            headers: headers(),
+          }
+        )
+        .then((res) => {
+          setEditLoading(false);
+          setOtpShow(true);
+          // toast("Profile updated successfully!", {
+          //   type: "success",
+          // });
+          // // console.log(res.data.response.data);
+          // dispatch({
+          //   type: "getProfilesSlice/updateProfiles",
+          //   payload: res.data.response.data,
+          // });
+          // setEdit(false);
+        })
+        .catch((error: any) => {
+          setEditLoading(false);
+          if (error.response.status === 401) {
+          }
+          toast(error.response.data.response.message, {
+            type: "error",
+          });
+        });
     } else {
       const filteredObject = (({ phone_no, patientName, ...rest }) => rest)(
         patient
@@ -88,6 +190,79 @@ export default function Profile() {
           });
         });
     }
+  };
+  const getVarified = (values: any) => {
+    setStates({ type: "LOADER" });
+    let { otp1, otp2, otp3, otp4, otp5, otp6 } = values;
+    let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
+    axios
+      .patch(
+        BASE_URL + `/patients/profile/${patientId}`,
+        {
+          name: patient.patientName,
+          dob: patient.dob,
+          gender: patient.gender,
+          location: patient.location,
+          relation: patient.relation,
+          percentage: 90,
+          // [url  "url"]: url,
+          phone_no: "+92" + phone_no.slice(1),
+          code: code,
+          profileId: patient.patientId,
+          // type: 1,
+        },
+        {
+          headers: headers(),
+        }
+      )
+      .then((res) => {
+        setStates({ type: "LOADER" });
+        dispatch({
+          type: "getProfilesSlice/updateProfiles",
+          payload: res.data.response.data,
+        });
+        setOtpShow(false);
+        toast(res.data.response.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+        setStates({ type: "SUCCESS" });
+        // setStates({ type: "VERI_LOADING" });
+        // localStorage.setItem("user", JSON.stringify(res.data.response));
+        // return res.data.response;
+        // userAuth(res.data.response.uuid);
+      })
+      .then((res) => {
+        // if (res.profileCreated) {
+        //   dispatch({ type: "loginModalSlice/setAuth", payload: res });
+        //   close();
+        // } else setProfile(true);
+      })
+      .catch((err) => {
+        setStates({ type: "OTP_ERROR" });
+        // setStates({ type: "VERI_ERROR" });
+        console.error(err.response.data.response?.message);
+        toast(err.response.data.response?.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "error",
+        });
+      });
+    // console.log(modelStates);
+    // setProfile(true);
   };
   return (
     <>
@@ -300,7 +475,16 @@ export default function Profile() {
                       </div>
                     )}{" "}
                   </Button>
-                  <OtpModal otpShow={otpShow} setOtpShow={setOtpShow} />
+                  <OtpModal
+                    otpModal={otpShow}
+                    setOtpModal={setOtpShow}
+                    verifyLoading={loading}
+                    getVarified={getVarified}
+                    otpError={otpError}
+                    setStates={setStates}
+                    // getOtp={getOtp}
+                    phone={phone_no}
+                  />
                 </div>
               )}
             </div>
@@ -423,34 +607,39 @@ function DeleteModal({
     </Modal>
   );
 }
-function OtpModal({ otpShow, setOtpShow }: { otpShow: any; setOtpShow: any }) {
-  return (
-    <Modal
-      aria-labelledby="contained-modal-title-vcenter"
-      show={otpShow}
-      onHide={() => setOtpShow(false)}
-    >
-      <Modal.Header closeButton className="border-bottom-0">
-        <p className="text-dark fw-bold">Delete Profile</p>
-      </Modal.Header>
-      <Modal.Body className="grid-example">
-        <p className="text-dark">
-          Are you sure? Deleting profile will delete medical records and
-          appointment history of this profile
-        </p>
-      </Modal.Body>
-      <Modal.Footer>
-        <button className="btn btn-light" onClick={() => setOtpShow(false)}>
-          Cancel
-        </button>
-        <button
-          className="btn btn-danger"
-          style={{ background: "#B00020" }}
-          // onClick={handleDeletingProflie}
+const OtpModal = memo(
+  ({
+    otpModal,
+    setOtpModal,
+    setStates,
+    phone,
+    getVarified,
+    verifyLoading,
+    otpError,
+  }: any) => {
+    return (
+      <Modal show={otpModal} onHide={() => setOtpModal(false)}>
+        <Modal.Header closeButton className="border-bottom-0">
+          <p className="text-dark fw-bold">OTP</p>
+        </Modal.Header>
+        <span
+          className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
         >
-          Delete Profile
-        </button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
+          <h1 className="heading1">Enter OTP</h1>
+          <p className={`subText text-center text-capitalize`}>
+            Please Check your phone for 6-digit otp sent to
+            <br />
+            <u className="text-primary curser">+92{phone.slice(1)}</u>
+          </p>
+        </span>
+        <Otpinput
+          verifyLoading={verifyLoading}
+          getVarified={getVarified}
+          otpError={otpError}
+          setStates={setStates}
+          // getOtp={getOtp}
+        />
+      </Modal>
+    );
+  }
+);
