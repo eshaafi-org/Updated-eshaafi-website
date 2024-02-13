@@ -603,39 +603,35 @@ export default function AddProfile({ setProfile, toast }) {
     </>
   );
 }
-const OtpModal = memo(
-  ({
-    otpModal,
-    setOtpModal,
-    setStates,
-    phone,
-    getVarified,
-    verifyLoading,
-    otpError,
-  }) => {
-    return (
-      <Modal show={otpModal} onHide={() => setOtpModal(false)}>
-        <Modal.Header closeButton className="border-bottom-0">
-          <p className="text-dark fw-bold">OTP</p>
-        </Modal.Header>
-        <span
-          className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
-        >
-          <h1 className="heading1">Enter OTP</h1>
-          <p className={`subText text-center text-capitalize`}>
-            Please Check your phone for 6-digit otp sent to
-            <br />
-            <u className="text-primary curser">+92{phone.slice(1)}</u>
-          </p>
-        </span>
-        <Otpinput
-          verifyLoading={verifyLoading}
-          getVarified={getVarified}
-          otpError={otpError}
-          setStates={setStates}
-          // getOtp={getOtp}
-        />
-      </Modal>
-    );
-  }
-);
+const OtpModal = ({
+  otpModal,
+  setOtpModal,
+  setStates,
+  phone,
+  getVarified,
+  verifyLoading,
+  otpError,
+}) => {
+  return (
+    <Modal show={otpModal} onHide={() => setOtpModal(false)}>
+      <Modal.Header closeButton className="border-bottom-0">
+        <p className="text-dark fw-bold">OTP</p>
+      </Modal.Header>
+      <span className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}>
+        <h1 className="heading1">Enter OTP</h1>
+        <p className={`subText text-center text-capitalize`}>
+          Please Check your phone for 6-digit otp sent to
+          <br />
+          <u className="text-primary curser">+92{phone.slice(1)}</u>
+        </p>
+      </span>
+      <Otpinput
+        verifyLoading={verifyLoading}
+        getVarified={getVarified}
+        otpError={otpError}
+        setStates={setStates}
+        // getOtp={getOtp}
+      />
+    </Modal>
+  );
+};
