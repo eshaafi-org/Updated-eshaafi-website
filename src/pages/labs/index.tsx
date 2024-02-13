@@ -26,7 +26,7 @@ export default function Labs() {
       <main>
         <Hero
           img={LabsCover}
-          heading="Get Upto 30% Discounts"
+          heading="Get Upto 25% Discounts"
           text="Avail major discounts on both lab visits and home sampling with eShaafi"
           link=""
         />

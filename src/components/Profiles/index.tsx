@@ -90,35 +90,11 @@ const Profiles = memo(function ProfilesComponent({
     loading: false,
     profiles: [],
   });
-<<<<<<< HEAD
-  // const { loading, profiles } = states
-  // logout
-  const getProfiles = () => {
-    setStates({ type: "LOADING" });
-    axios
-      .get(BASE_URL + "/patients/profile", {
-        headers: headers(),
-      })
-      .then((res) => {
-        setStates({ type: "RESPONSE", payload: res.data.response.data });
-      })
-      .catch((err) => {
-        setStates({ type: "LOADING_FALSE" });
-        if (err.response.status === 401 || err.response.status === 405) {
-          logout(dispatch, router, userAuth);
-        }
-      });
-  };
-  //
-  useEffect(() => {
-    dispatch(getProfilesData());
-=======
   // getting profiles details
   useEffect(() => {
     if (profiles.length === 0) {
       dispatch(getProfilesData());
     }
->>>>>>> 4fa441ccf9e78410c0c11721f5ae9f6554a42617
   }, []);
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>
@@ -161,10 +137,6 @@ const Profiles = memo(function ProfilesComponent({
                       phone_no: "",
                     });
                   } else {
-<<<<<<< HEAD
-=======
-                    console.log(itm);
->>>>>>> 4fa441ccf9e78410c0c11721f5ae9f6554a42617
                     setPatient({
                       patientId: e.target.value,
                       patientName: itm.name,
@@ -181,13 +153,6 @@ const Profiles = memo(function ProfilesComponent({
                 }}
               />
               <label
-<<<<<<< HEAD
-                className={`${style.labelrdioclassProfile
-                  } d-flex flex-column justify-content-center align-items-center text-center ${patient?.patientId === itm.profileId
-                    ? style.labelActiveProfile
-                    : ""
-                  }`}
-=======
                 className={`${
                   style.labelrdioclassProfile
                 } d-flex flex-column justify-content-center align-items-center text-center ${
@@ -195,7 +160,6 @@ const Profiles = memo(function ProfilesComponent({
                     ? style.labelActiveProfile
                     : ""
                 }`}
->>>>>>> 4fa441ccf9e78410c0c11721f5ae9f6554a42617
                 htmlFor={itm.profileId}
               >
                 {itm.url ? (

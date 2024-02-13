@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import AddressBar from "@/components/AddressBar";
 import Head from "next/head";
 import style from "@/styles/labs.module.scss";
@@ -17,6 +17,7 @@ import successGif from "../../../public/images/success.gif";
 import { useSelector } from "react-redux";
 import Address from "@/views/Labs/Address";
 import moment from "moment";
+import Link from "next/link";
 let links = [
   { name: "Home", link: "/" },
   { name: "Lab Tests", link: "/labs" },
@@ -31,6 +32,8 @@ export default function Prescription() {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [focus, setFocus] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
   const [address, setAddress] = useState("");
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState("");
@@ -73,8 +76,7 @@ export default function Prescription() {
           const base64Image = toArrayBuffer(fileRes);
           axios
             .post(
-              `${BASE_URL}/image-upload-api/type/${
-                pdfRegex.test(file?.type) ? "pdf" : "new"
+              `${BASE_URL}/image-upload-api/type/${pdfRegex.test(file?.type) ? "pdf" : "new"
               }`,
               base64Image,
               {
@@ -205,6 +207,44 @@ export default function Prescription() {
         });
       });
   };
+  // Focus Fields For PlaceHolder
+  function handleFocus() {
+    setFocus(true)
+  }
+  const handleBlur = () => {
+    setFocus(false)
+  }
+  function handleFocusTime() {
+    setIsFocus(true)
+  }
+  const handleBlurTime = () => {
+    setIsFocus(false)
+  }
+  // Function to format date as "DD/MM/YYYY" on blur
+  const formatDate = (date) => {
+    return moment(date).format("DD/MM/YYYY");
+  };
+
+  // Function to format time as 12-hour format on blur
+  const formatTime = (time) => {
+    return moment(time, "HH:mm").format("hh:mm A");
+  };
+  useEffect(() => {
+    // Check if typeTest is "homeSample" and address is empty
+    if (typeTest === "homeSample" && !address) {
+      // Make API call to fetch address
+      axios
+        .get(BASE_URL + "/api/getAddress")
+        .then((response) => {
+          // Update the address state with the fetched address
+          setAddress(response.data.address);
+        })
+        .catch((error) => {
+          console.error("Error fetching address:", error);
+          toast.error("Error fetching address");
+        });
+    }
+  }, [typeTest]);
   return (
     <>
       <Head>
@@ -300,18 +340,26 @@ export default function Prescription() {
                       onChange={handleFormData}
                     />
                     <InputField
-                      type="date"
+                      type={focus ? "date" : "text"}
                       name="date"
                       className={style.dateField}
-                      value={date}
+                      // value={date}
+                      value={date ? formatDate(date) : ""}
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                      placeHolder="Select Date"
                       onChange={handleFormData}
                       min={moment().format("YYYY-MM-DD")}
                     />
                     <InputField
-                      type="time"
+                      type={isFocus ? "time" : "text"}
                       name="time"
                       className={style.timeField}
-                      value={time}
+                      // value={time}
+                      value={time ? formatTime(time) : ""}
+                      onFocus={handleFocusTime}
+                      onBlur={handleBlurTime}
+                      placeHolder="Select Time"
                       onChange={handleFormData}
                     />
                     <select
@@ -319,16 +367,22 @@ export default function Prescription() {
                       value={labName}
                       id=""
                       onChange={handleFormData}
-                      className={style.labField}
+                      className={`${style.labField} p-2 rounded`}
                     >
                       <option value="" disabled>
-                        --select--
+                        Select Lab
                       </option>
-                      {Labs.map((item, indx) => (
+                      {/* {Labs.map((item, indx) => (
                         <option value={item?.key} key={indx}>
                           {item.name}
                         </option>
-                      ))}
+                      ))} */}
+                      <option value="chugtai">
+                        Chugtai Lab
+                      </option>
+                      <option value="idc">
+                        IDC
+                      </option>
                     </select>
                   </div>
                   {typeTest === "homeSample" && (
@@ -346,11 +400,11 @@ export default function Prescription() {
                         setPaymentId(itm.paymentId);
                         setMethod(itm.type);
                       }}
-                      // disabled={wallet}
+                    // disabled={wallet}
                     />
                     <label
                       className={`${style.labelrdioclass} d-flex  align-items-center p-3 row-gap-1`}
-                      // htmlFor={itm.paymentId}
+                    // htmlFor={itm.paymentId}
                     >
                       <span className={style.paymentActive}>
                         <Text18 className="text-dark fw-bold">
@@ -365,16 +419,16 @@ export default function Prescription() {
                     type="submit"
                     disabled={
                       images &&
-                      typeTest &&
-                      patientName &&
-                      date &&
-                      time &&
-                      labName
+                        typeTest &&
+                        patientName &&
+                        date &&
+                        time &&
+                        labName
                         ? false
                         : true
                     }
                   >
-                    Upload
+                    Place Order
                     {uploading && (
                       <>
                         <div
@@ -446,7 +500,7 @@ export default function Prescription() {
             <p className="w-25 text-center">
               You have successfully booked your test our customer care will
               contact you shortly{" "}
-              <span
+              {/* <span
                 className="text-primary fw-bold"
                 style={{ cursor: "pointer" }}
                 onClick={() => {
@@ -456,7 +510,17 @@ export default function Prescription() {
                 }}
               >
                 Upload more
-              </span>
+              </span> */}
+              <Link href={`/orders`}>
+                <Button variant="outlined" onClick={() => {
+                  setSuccess(false);
+                  setShow(false);
+                  setImages("");
+                }}
+                >
+                  view details
+                </Button>
+              </Link>
             </p>
           </div>
         )}

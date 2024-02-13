@@ -3,6 +3,7 @@ import style from "@/styles/labs.module.scss";
 import moment from "moment";
 import Address from "./Address";
 import { Text18 } from "@/components/Typography";
+import { useState } from "react";
 
 export default function Info({ typeTest, setTypeTest, address, setAddress, patientName, setPatientName, time, setTime, date, setDate, labName, setLabName }: {
     typeTest: string,
@@ -18,7 +19,29 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
     labName: string
     setLabName: any,
 }) {
+    const [focus, setFocus] = useState(false);
+    const [isFocus, setIsFocus] = useState(false);
+    function handleFocus() {
+        setFocus(true)
+    }
+    const handleBlur = () => {
+        setFocus(false)
+    }
+    function handleFocusTime() {
+        setIsFocus(true)
+    }
+    const handleBlurTime = () => {
+        setIsFocus(false)
+    }
+    // Function to format date as "DD/MM/YYYY" on blur
+    const formatDate = (date:any) => {
+        return moment(date).format("DD/MM/YYYY");
+    };
 
+    // Function to format time as 12-hour format on blur
+    const formatTime = (time:any) => {
+        return moment(time, "HH:mm").format("hh:mm A");
+    };
     return (
         <>
             <form
@@ -82,28 +105,36 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         onChange={(e: any) => setPatientName(e.target.value)}
                     />
                     <InputField
-                        type="date"
+                        type={focus ? "date" : "text"}
                         name="date"
                         className={style.dateField}
-                        value={date}
+                        // value={date}
+                        value={date ? formatDate(date) : ""}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                        placeHolder="Select Date"
                         onChange={(e: any) => setDate(e.target.value)}
                         min={moment().format("YYYY-MM-DD")}
                     />
                     <InputField
-                        type="time"
+                        type={isFocus ? "time" : "text"}
                         name="time"
                         className={style.timeField}
-                        value={time}
+                        // value={time}
+                        value={time ? formatTime(time) : ""}
+                        onFocus={handleFocusTime}
+                        onBlur={handleBlurTime}
+                        placeHolder="Select Time"
                         onChange={(e: any) => setTime(e.target.value)}
                     />
                     <select
                         name="labName"
                         value={labName}
                         onChange={(e) => setLabName(e.target.value)}
-                        className={style.labField}
+                        className={`${style.labField} p-2`}
                     >
                         <option value="" disabled>
-                            --select--
+                            Select Lab
                         </option>
                         <option value="chugtai">
                             Chugtai Lab
@@ -111,7 +142,6 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         <option value="idc">
                             IDC
                         </option>
-
                     </select>
                 </div>
                 {typeTest === "homeSample" && (

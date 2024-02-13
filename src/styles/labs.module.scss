@@ -215,7 +215,8 @@
   .prescriptionImg {
     width: 50%;
     background-repeat: no-repeat;
-    background-position: bottom right;
+    background-position: right;
+    background-size: contain;
     @include large-mobile-and-below {
       display: none;
     }

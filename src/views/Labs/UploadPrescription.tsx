@@ -1,7 +1,7 @@
 import style from "@/styles/labs.module.scss";
 import Button from "@/components/Button";
 import { Text28 } from "@/components/Typography";
-import labPrescriptionImage from "../../../public/images/labsPrescriptionImage.png";
+import labPrescriptionImage from "../../../public/images/labsIcon.png";
 import { FaFilePrescription } from "react-icons/fa";
 import Link from "next/link";
 
