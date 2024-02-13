@@ -88,7 +88,7 @@ function AddressModal({ getAddress }: { getAddress: any }) {
         </Modal.Header>
         <ModalBody>
           <Text14>
-            Please Provide your address to successfully book home Nursing
+            Please Provide your address to successfully book home Lab
             Service
           </Text14>
           <div className={`${style.modalField} d-grid w-100 mt-3 gap-3`}>
@@ -111,6 +111,7 @@ function AddressModal({ getAddress }: { getAddress: any }) {
               <option value="Sialkot">Sialkot</option>
               <option value="Gujranwala">Gujranwala</option>
               <option value="Abbottabad">Abbottabad</option>
+              <option value="Sahiwal">Sahiwal</option>
               <option value="Sargodha">Sargodha</option>
               <option value="Bahawalpur">Bahawalpur</option>
               <option value="Sukkur">Sukkur</option>

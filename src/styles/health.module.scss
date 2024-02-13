@@ -1,0 +1,164 @@
+@import "./mixin";
+@import "./variables";
+// Health File Styling
+.featureList {
+  a:hover {
+    text-decoration: none !important;
+  }
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 0.7rem;
+  column-gap: 0.5rem;
+  @include mini-laptop-and-below {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+  }
+}
+.featureItm {
+  height: 100%;
+  .featureItemCont {
+    padding: $base-padding;
+    border-radius: 12px;
+    border: 1px solid #d7ddea;
+    box-shadow: 0px 2px 4px 0px rgba(138, 138, 138, 0.06);
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    @include mini-laptop-and-below {
+    }
+    @include large-mobile-and-below {
+      align-items: center;
+    }
+  }
+  .featureText span {
+    @include large-mobile-and-below {
+      gap: 1rem !important;
+      h4 {
+        font-size: 22px !important;
+      }
+      p {
+        font-size: 14px !important;
+      }
+    }
+  }
+  // .featureLink {
+  //   padding: $base-padding;
+  //   text-align: center;
+  //   // grid-area: 1/1/2/3;
+  //   @include for-tablet-portrait-only {
+  //     grid-area: 2/1/3/4;
+  //   }
+  // }
+  // .featureImage {
+  //   .featureImg {
+  //   }
+  // }
+}
+// BMI file Styling
+.bmiData {
+  display: flex;
+  gap: 24px;
+  @include mini-laptop-and-below {
+    flex-direction: column;
+  }
+  @include large-mobile-and-below {
+    width: 100%;
+  }
+  .bmiTracker {
+    width: 70%;
+    height: fit-content;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0px 8px 16px 0px rgba(37, 49, 65, 0.1);
+    @include mini-laptop-and-below {
+      width: 100%;
+    }
+    @include large-mobile-and-below {
+      width: 100%;
+    }
+    .bmiResult {
+      border-radius: 1rem;
+      background: #fff;
+      box-shadow: 0px 8px 16px 0px rgba(37, 49, 65, 0.1);
+    }
+    .bmiResultDetail {
+      border-radius: 4px;
+      border: 1.2px solid #f2f2f2;
+      .bmiDetailBorder {
+        border-right: 1px solid #ddd;
+      }
+    }
+    .resultText {
+      color: #040a2b;
+      font-weight: 500;
+    }
+  }
+  .bmiForm {
+    border-radius: 12px;
+    border: 0.5px solid #d7ddea;
+    background: rgba(245, 251, 255, 0.6);
+    box-shadow: 0px 8px 16px 0px rgba(37, 49, 65, 0.1);
+    width: 30%;
+    @include mini-laptop-and-below {
+      width: 60%;
+    }
+    @include large-mobile-and-below {
+      width: 100%;
+    }
+    .bmiOptionField {
+      background: rgba(245, 251, 255, 0.6);
+      &:focus-visible {
+        border: 1px solid $primary-clr;
+        outline: 1px solid $primary-clr;
+      }
+    }
+    .bmiInputField {
+      background: rgba(245, 251, 255, 0.6);
+      width: 100%;
+      border: 1px solid #79747e;
+      padding: 1rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      &:hover {
+        border: 1px solid $primary-clr;
+      }
+      &:focus-visible {
+        border: 1px solid $primary-clr;
+        outline: 1px solid $primary-clr;
+      }
+    }
+    .bmiCalculate {
+      border-radius: 8px;
+      background: #0e5487;
+      color: #fff;
+      &:disabled {
+        background-color: #657c8c;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+// Blood Pressure file Styling
+.bloodPressureForm {
+  border-radius: 12px;
+  border: 0.5px solid #d7ddea;
+  background: rgba(245, 251, 255, 0.6);
+  box-shadow: 0px 8px 16px 0px rgba(37, 49, 65, 0.1);
+  .bloodPressureField {
+    background: rgba(245, 251, 255, 0.6);
+    width: 100%;
+    border: 1px solid #79747e;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    &:hover {
+      border: 1px solid $primary-clr;
+    }
+    &:focus-visible {
+      border: 1px solid $primary-clr;
+      outline: 1px solid $primary-clr;
+    }
+  }
+}

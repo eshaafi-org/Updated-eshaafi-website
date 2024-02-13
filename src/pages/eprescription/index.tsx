@@ -80,7 +80,7 @@ export default function Eprescription() {
       .catch((err) => {
         setLoading(false);
         console.log(err);
-        if (err.response.status === 400) {
+        if (err.response?.status === 400) {
           toast(err.response.data.response.message, {
             position: "top-right",
             autoClose: 3000,
@@ -92,7 +92,7 @@ export default function Eprescription() {
             theme: "light",
             type: "info",
           });
-        } else if (err.response.status === 410) {
+        } else if (err.response?.status === 410) {
           toast(err.response.data.response.message, {
             position: "top-right",
             autoClose: 3000,
@@ -104,7 +104,7 @@ export default function Eprescription() {
             theme: "light",
             type: "warning",
           });
-        } else if (err.response.status === 405) {
+        } else if (err.response?.status === 405) {
           toast("Your session has been expired, kindly sign-in again", {
             position: "top-right",
             autoClose: 2000,
@@ -118,7 +118,7 @@ export default function Eprescription() {
           });
           logout();
           dispatch({ type: "loginModalSlice/signIn" });
-        } else if (err.response.status === 404) {
+        } else if (err.response?.status === 404) {
           toast(err.response.data.response.message, {
             position: "top-right",
             autoClose: 2000,

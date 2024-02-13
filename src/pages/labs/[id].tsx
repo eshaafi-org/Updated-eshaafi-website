@@ -116,23 +116,6 @@ export default function Test() {
             });
         }
     };
-    // const handleAddToCart = (item: any) => {
-    //     const itemId = item.Sk;
-    //     // Dispatch the addToCart action from the cart slice
-    //     dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
-    //     toast("Test Added to Cart ", {
-    //         position: "bottom-right",
-    //         autoClose: 1000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //         type: "success",
-    //     });
-    // };
-
     return (
         <>
             <Head>

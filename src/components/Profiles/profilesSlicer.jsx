@@ -9,8 +9,8 @@ export const getProfilesData = createAsyncThunk("getProfilesData", async () => {
     .get(`${BASE_URL}/patients/profile`, {
       headers: headers(),
     })
-    .then((res) => res.data.response);
-  return response.data;
+    .then((res) => res.data.response.data);
+  return response;
 });
 
 // profiles
