@@ -9,6 +9,8 @@ import dynamic from "next/dynamic";
 import Script from "next/script";
 import Providers from "../redux/provider";
 
+// import LocoMotiveScroll from "locomotive-scroll";
+
 // rendering header as a client component
 const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
   ssr: false,
@@ -16,10 +18,11 @@ const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
 // import Context from "@/contextAPI";
 export default function App({ Component, pageProps }: AppProps) {
   let router = useRouter();
+
   return (
     // <Context>
     <Providers>
-      <>
+      <main id="root">
         {router.pathname === "/blog/second/[id]" ||
           router.pathname === "/blog/mobile/[id]" || <NoSSRHeader />}
         <Component {...pageProps} />
@@ -35,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
           gtag('config', 'G-1BXFKZVVFJ');
           `}
         </Script>
-      </>
+      </main>
     </Providers>
     // </Context>
   );

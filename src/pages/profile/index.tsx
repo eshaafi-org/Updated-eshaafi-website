@@ -444,7 +444,11 @@ export default function Profile() {
                     type="tel"
                     placeHolder="Phone Optional"
                     value={phone_no}
-                    disabled={patient.relation === "Myself" || !edit}
+                    disabled={
+                      patient.relation === "Myself" ||
+                      !edit ||
+                      (patient.phone_no && edit)
+                    }
                     name="phone_no"
                     onChange={handleChanged}
                     className="w-100"

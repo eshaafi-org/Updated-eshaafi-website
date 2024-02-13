@@ -12,11 +12,11 @@ interface OtpValues {
   otp6?: string;
 }
 interface OtpFieldsProps {
-  verifyLoading: boolean;
-  getVarified: any;
-  otpError: boolean;
-  setStates: any;
-  getOtp: any;
+  verifyLoading?: boolean;
+  getVarified?: any;
+  otpError?: boolean;
+  setStates?: any;
+  getOtp?: any;
 }
 const Otpinput: React.FC<OtpFieldsProps> = ({
   verifyLoading,

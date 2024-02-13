@@ -90,7 +90,15 @@ export async function getStaticProps() {
   return {
     props: {
       positions: data.response.Items ? data.response.Items : [],
-      doctors: docData.response.Items,
+      doctors: docData.response.Items.sort((a: any, b: any) => {
+        if (a.isOnline && !b.isOnline) {
+          return -1;
+        } else if (!a.isOnline && b.isOnline) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }),
     },
     revalidate: 1,
   };
