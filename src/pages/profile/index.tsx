@@ -1,3 +1,4 @@
+import styles from "@/components/Profiles/Profile.module.scss";
 import { useState, useEffect, memo, useReducer } from "react";
 import Head from "next/head";
 import { InputField } from "@/components/InputField";
@@ -15,9 +16,13 @@ import Button from "@/components/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { BASE_URL, headers } from "@/helper/CONST";
+import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
 import { useDispatch } from "react-redux";
 import Otpinput from "@/components/Profiles/OtpFields";
+import toArrayBuffer from "to-array-buffer";
+import { FaCamera } from "react-icons/fa6";
+// Type assertion
+const toArrayBufferTyped: (arg: any) => ArrayBuffer = toArrayBuffer();
 // links
 const links = [
   { name: "Home", link: "/" },
@@ -77,6 +82,19 @@ const reducer = (state: any, action: any) => {
         otpError: false,
       };
     }
+    case "SET_PROFILE": {
+      return {
+        ...state,
+        dob: action.payload.dob,
+        gender: action.payload.gender,
+        location: action.payload.location,
+        name: action.payload.name,
+        patientId: action.payload.patientId,
+        phone_no: action.payload.phone_no,
+        relation: action.payload.relation,
+        url: action.payload.url,
+      };
+    }
     default: {
       return {
         ...state,
@@ -91,23 +109,44 @@ export default function Profile() {
     gender: "",
     location: "",
     patientId: "",
-    patientName: "",
+    name: "",
     relation: "",
     phone_no: "",
+    url: "",
   });
   const [states, setStates] = useReducer(reducer, {
     loading: false,
-    url: "",
     otpError: false,
+    name: "",
+    dob: "",
+    gender: "",
+    relation: "",
+    location: "",
+    phone_no: "",
+    url: "",
+    patientId: "",
+    imgLoader: false,
   });
-  const { loading, otpError, url } = states;
+  const {
+    loading,
+    otpError,
+    imgUrl,
+    dob,
+    gender,
+    location,
+    patientId,
+    name,
+    relation,
+    phone_no,
+    imgLoader,
+    url,
+  } = states;
   const dispatch = useDispatch();
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
   const [otpShow, setOtpShow] = useState(false);
-  const { dob, gender, location, patientId, patientName, relation, phone_no } =
-    patient;
+  // const [imgLoader, setImgLoading] = useState(false);
   // getting changed values
   const handleChanged = (e: any) => {
     setPatient((prev: any) => {
@@ -120,33 +159,35 @@ export default function Profile() {
   // handling editing proflie
   const handleEditingProfile = () => {
     setEditLoading(true);
-    if (patient.phone_no) {
-      const filteredObject = (({ patientName, ...rest }) => rest)(patient);
+    if (patient.phone_no && patient.relation !== "Myself") {
+      const data: any = {
+        dob,
+        gender,
+        location,
+        name,
+        patientId,
+        relation,
+        phone_no,
+      };
+      if (url) {
+        data.url = url;
+      }
       axios
-        .patch(
-          BASE_URL + `/patients/profile/${patientId}`,
-          {
-            ...filteredObject,
-            name: patient.patientName,
-            profileId: patient.patienId,
-            phone_no: "+92" + patient.phone_no.slice(1),
-          },
-          {
-            headers: headers(),
-          }
-        )
+        .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
+          headers: headers(),
+        })
         .then((res) => {
           setEditLoading(false);
-          setOtpShow(true);
-          // toast("Profile updated successfully!", {
-          //   type: "success",
-          // });
+          // setOtpShow(true);
+          toast("Profile updated successfully!", {
+            type: "success",
+          });
           // // console.log(res.data.response.data);
-          // dispatch({
-          //   type: "getProfilesSlice/updateProfiles",
-          //   payload: res.data.response.data,
-          // });
-          // setEdit(false);
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          setEdit(false);
         })
         .catch((error: any) => {
           setEditLoading(false);
@@ -156,18 +197,24 @@ export default function Profile() {
             type: "error",
           });
         });
-    } else {
-      const filteredObject = (({ phone_no, patientName, ...rest }) => rest)(
-        patient
-      );
+    } else if (!patient.phone_no && patient.relation !== "Myself") {
+      // const filteredObject = (({ phone_no, ...rest }) => rest)(patient);
+      const data: any = {
+        dob,
+        gender,
+        location,
+        name,
+        patientId,
+        relation,
+        phone_no,
+      };
+      if (url) {
+        data.url = url;
+      }
       axios
-        .patch(
-          BASE_URL + `/patients/profile/${patientId}`,
-          { ...filteredObject, name: patient.patientName },
-          {
-            headers: headers(),
-          }
-        )
+        .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
+          headers: headers(),
+        })
         .then((res) => {
           setEditLoading(false);
           toast("Profile updated successfully!", {
@@ -261,9 +308,82 @@ export default function Profile() {
           type: "error",
         });
       });
-    // console.log(modelStates);
-    // setProfile(true);
+    // handle uploading profile image
   };
+  const uploadFile = (e: any) => {
+    setStates({ type: "IMG_LOADER" });
+    const [file] = e.target.files || e.dataTransfer.files;
+    if (file.size <= 2000000) {
+      if (
+        file?.type === "image/jpeg" ||
+        file?.type === "image/png" ||
+        file?.type === "image/webp"
+      ) {
+        const reader: any = new FileReader();
+        reader.readAsBinaryString(file);
+        //preview onload function.
+        reader.onload = async () => {
+          // this is the base64 data
+          const fileRes: any = btoa(reader.result);
+          const base64Image: any = toArrayBuffer(fileRes);
+          axios
+            .post(`${BASE_URL}/image-upload-api/type/new`, base64Image, {
+              headers: imgheaders(),
+            })
+            .then((response) => {
+              setStates({
+                type: "SET_URL",
+                payload: response.data.response.url,
+              });
+            })
+            .catch((error) => {
+              setStates({ type: "IMG_LOADER" });
+              console.log(error);
+            });
+        };
+      } else {
+        setStates({ type: "IMG_LOADER" });
+        if (file?.type) {
+          toast(
+            `🥺 Sorry, This file format does not supported, Choose the file with you last format: ".jpg, .jpeg, .png, .webp,"`,
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "error",
+            }
+          );
+        }
+      }
+    } else {
+      setStates({ type: "IMG_LOADER" });
+      if (file?.type) {
+        toast(`😵 File size is exceeded. Max size is 2mb `, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "error",
+        });
+      }
+    }
+    // preview img
+  };
+  useEffect(() => {
+    if (patient.name) {
+      setStates({ type: "SET_PROFILE", payload: patient });
+    }
+  }, [patient]);
+  console.log(patient);
   return (
     <>
       <Head>
@@ -277,18 +397,37 @@ export default function Profile() {
         <section className={style.profileContainer + " container pt-0"}>
           <div>
             <div className={style.profileCard}>
-              <span>
-                {patient.url ? (
+              <span
+                className={styles.profileImage}
+                style={{ background: "#fff" }}
+              >
+                {patient.url || url ? (
                   <Image
-                    src={patient.url}
+                    src={patient.url || url}
                     alt="eshaafi-best-doctor-online-consultation-patient-avatar"
+                    width={100}
+                    height={100}
+                    style={{ borderRadius: 50 }}
                   />
                 ) : (
                   <FaUserCircle style={{ fontSize: "5rem" }} />
                 )}
+                {edit && (
+                  <Button className={styles.uploadImage}>
+                    <input type="file" onChange={uploadFile} />
+                    {imgLoader ? (
+                      <div
+                        className="spinner-border text-white spinner-border-sm"
+                        role="status"
+                      ></div>
+                    ) : (
+                      <FaCamera className={styles.icon} />
+                    )}
+                  </Button>
+                )}
               </span>
               <Text24 className="text-dark fw-bold text-capitalize text-center">
-                {patient?.patientName}
+                {patient?.name}
               </Text24>
               <p>{patient.phone_no}</p>
               <p className="mt-1">{patient.relation}</p>
@@ -309,7 +448,7 @@ export default function Profile() {
                 <Text28 className="text-dark fw-bold">
                   Personal Information
                 </Text28>
-                {patient.patientName && (
+                {patient.name && (
                   <span>
                     {!edit && (
                       <>
@@ -345,12 +484,12 @@ export default function Profile() {
               <div className={style.profileInfo}>
                 <InputField
                   type="text"
-                  name="patientName"
+                  name="name"
                   placeHolder="Full Name"
-                  value={patientName}
+                  value={name}
                   className="text-capitalize"
                   disabled={!edit}
-                  onChange={handleChanged}
+                  onChange={setStates}
                 />
                 <InputField
                   type="date"
@@ -359,7 +498,7 @@ export default function Profile() {
                   value={dob}
                   disabled={!edit}
                   name="dob"
-                  onChange={handleChanged}
+                  onChange={setStates}
                 />
                 <select
                   name="gender"
@@ -367,7 +506,7 @@ export default function Profile() {
                   placeholder="Gender"
                   className={style.selectField}
                   value={gender}
-                  onChange={handleChanged}
+                  onChange={setStates}
                   disabled={!edit}
                 >
                   <option value="" disabled selected>
@@ -384,7 +523,7 @@ export default function Profile() {
                   placeholder="Relation"
                   className={style.selectField}
                   value={relation}
-                  onChange={handleChanged}
+                  onChange={setStates}
                   disabled={!edit}
                 >
                   <option value="" disabled selected>
@@ -437,7 +576,7 @@ export default function Profile() {
                   value={location}
                   disabled={!edit}
                   name="location"
-                  onChange={handleChanged}
+                  onChange={setStates}
                 />
                 <span>
                   <InputField
@@ -450,7 +589,7 @@ export default function Profile() {
                       (patient.phone_no && edit)
                     }
                     name="phone_no"
-                    onChange={handleChanged}
+                    onChange={setStates}
                     className="w-100"
                   />
                   {!phone_no && edit && (
@@ -463,7 +602,10 @@ export default function Profile() {
               {edit && (
                 <div className="d-flex justify-content-end mt-4">
                   <Button
-                    onClick={() => setEdit(false)}
+                    onClick={() => {
+                      setStates({ type: "SET_PROFILE", payload: patient });
+                      setEdit(false);
+                    }}
                     className="me-4 text-danger"
                   >
                     Cancel
@@ -558,7 +700,7 @@ function DeleteModal({
           gender: "",
           location: "",
           patientId: "",
-          patientName: "",
+          name: "",
           relation: "",
           phone_no: "",
         });

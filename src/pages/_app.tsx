@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Script from "next/script";
 import Providers from "../redux/provider";
+import { AnimatePresence } from "framer-motion";
 
 // import LocoMotiveScroll from "locomotive-scroll";
 
@@ -25,7 +26,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <main id="root">
         {router.pathname === "/blog/second/[id]" ||
           router.pathname === "/blog/mobile/[id]" || <NoSSRHeader />}
-        <Component {...pageProps} />
+        <AnimatePresence mode="wait">
+          <Component {...pageProps} />
+        </AnimatePresence>
         {router.pathname === "/blog/second/[id]" ||
           router.pathname === "/blog/mobile/[id]" || <Footer />}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-1BXFKZVVFJ" />

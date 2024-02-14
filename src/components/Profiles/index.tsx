@@ -95,8 +95,17 @@ const Profiles = memo(function ProfilesComponent({
     if (profiles.length === 0) {
       dispatch(getProfilesData());
     }
+    // console.log(profiles);
+    // setPatient(profiles[0]);
   }, []);
-  console.log(patient);
+  useEffect(() => {
+    if (profiles.length > 0) {
+      // console.log(profiles);
+      setPatient(profiles[0]);
+      // setEdit(true);
+    }
+  }, []);
+
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>
       {loading ? (
@@ -130,7 +139,7 @@ const Profiles = memo(function ProfilesComponent({
                   if (patient.patientId === e.target.value) {
                     setPatient({
                       patientId: "",
-                      patientName: "",
+                      name: "",
                       relation: "",
                       location: "",
                       gender: "",
@@ -140,12 +149,13 @@ const Profiles = memo(function ProfilesComponent({
                   } else {
                     setPatient({
                       patientId: e.target.value,
-                      patientName: itm.name,
+                      name: itm.name,
                       relation: itm.relation,
                       location: itm.location,
                       gender: itm.gender,
                       dob: itm.dob,
                       phone_no: itm.phone_no === undefined ? "" : itm.phone_no,
+                      url: itm.url,
                     });
                     if (setEdit) {
                       setEdit(false);

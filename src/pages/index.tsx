@@ -15,7 +15,6 @@ import Blogs from "@/views/Home/Blogs";
 import Partners from "@/views/Home/Partners";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
-import fav from "../../public/favicon.ico";
 import heroImage from "../../public/heroImage.svg";
 
 // const inter = Roboto({

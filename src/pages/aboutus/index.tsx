@@ -10,6 +10,7 @@ import Working from "@/views/AboutUs/Working";
 import Team from "@/views/AboutUs/Team";
 import Tech from "@/views/AboutUs/Tech";
 import aboutHero from "../../../public/images/aboutCover.svg";
+// import Inner from "@/components/Inner";
 export default function AboutUs() {
   return (
     <>
