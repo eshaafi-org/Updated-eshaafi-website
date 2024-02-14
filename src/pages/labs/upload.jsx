@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import AddressBar from "@/components/AddressBar";
 import Head from "next/head";
 import style from "@/styles/labs.module.scss";
+import Profiles from "@/components/Profiles";
 import { Text28, Text16, Text11, Text18 } from "@/components/Typography";
 import { IoCheckmarkDone } from "react-icons/io5";
 import uploadRecords from "../../../public/images/uploadRecords.svg";
@@ -21,7 +22,7 @@ import Link from "next/link";
 let links = [
   { name: "Home", link: "/" },
   { name: "Lab Tests", link: "/labs" },
-  { name: "Upload Prescription", link: `/labs/prescription` },
+  { name: "Upload Prescription", link: `/labs/upload` },
 ];
 export default function Prescription() {
   const {
@@ -37,6 +38,7 @@ export default function Prescription() {
   const [address, setAddress] = useState("");
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState("");
+  const [profile, setProfile] = useState('')
   const fileInputRef = useRef();
   const [formFields, setFormFields] = useState({
     typeTest: "",
@@ -224,27 +226,19 @@ export default function Prescription() {
   const formatDate = (date) => {
     return moment(date).format("DD/MM/YYYY");
   };
-
   // Function to format time as 12-hour format on blur
   const formatTime = (time) => {
     return moment(time, "HH:mm").format("hh:mm A");
   };
+  // useEffect hook to watch changes in profile and update patientName accordingly
   useEffect(() => {
-    // Check if typeTest is "homeSample" and address is empty
-    if (typeTest === "homeSample" && !address) {
-      // Make API call to fetch address
-      axios
-        .get(BASE_URL + "/api/getAddress")
-        .then((response) => {
-          // Update the address state with the fetched address
-          setAddress(response.data.address);
-        })
-        .catch((error) => {
-          console.error("Error fetching address:", error);
-          toast.error("Error fetching address");
-        });
+    if (profile && profile.patientName) {
+      setFormFields(prevState => ({
+        ...prevState,
+        patientName: profile.patientName
+      }));
     }
-  }, [typeTest]);
+  }, [profile]);
   return (
     <>
       <Head>
@@ -261,7 +255,7 @@ export default function Prescription() {
               <Text28 className="fw-bold text-dark">
                 Prescription Upload Guidelines
               </Text28>
-              <ul>
+              <ul className={style.listUl}>
                 <li>
                   <IoCheckmarkDone style={{ color: "#0E5487" }} />
                   <Text16>Avoid uploading blurry Images</Text16>
@@ -277,169 +271,173 @@ export default function Prescription() {
                   </Text16>
                 </li>
               </ul>
-              {show && (
-                <form
-                  className={style.prescriptionForm}
-                  onSubmit={uploadPrescription}
-                >
-                  <div className={style.collectionForm}>
-                    <p>Select Preference</p>
-                    <div className={style.collectionOptions}>
-                      <label
-                        htmlFor="lab"
-                        className={`${style.labelrdioclass} d-flex  align-items-center row-gap-1`}
-                      >
-                        <input
-                          type="radio"
-                          id="lab"
-                          name="typeTest"
-                          value={"labVisit"}
-                          className={style.btnCheck}
-                          onChange={handleFormData}
-                        />
-                        <span
-                          className={
-                            typeTest === "labVisit"
-                              ? style.typeActive
-                              : style.typeCircle
-                          }
-                        >
-                          Lab Visit
-                        </span>
-                      </label>
-                      <label
-                        htmlFor="home"
-                        className={`${style.labelrdioclass} d-flex  align-items-center row-gap-1`}
-                      >
-                        <input
-                          type="radio"
-                          onChange={handleFormData}
-                          id="home"
-                          name="typeTest"
-                          value={"homeSample"}
-                          className={style.btnCheck}
-                        />
-                        <span
-                          className={
-                            typeTest === "homeSample"
-                              ? style.typeActive
-                              : style.typeCircle
-                          }
-                        >
-                          Home Sampling
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                  <div className={style.formFields}>
-                    <InputField
-                      placeHolder="Patient Name"
-                      className={style.nameField}
-                      name="patientName"
-                      value={patientName}
-                      onChange={handleFormData}
-                    />
-                    <InputField
-                      type={focus ? "date" : "text"}
-                      name="date"
-                      className={style.dateField}
-                      // value={date}
-                      value={date ? formatDate(date) : ""}
-                      onFocus={handleFocus}
-                      onBlur={handleBlur}
-                      placeHolder="Select Date"
-                      onChange={handleFormData}
-                      min={moment().format("YYYY-MM-DD")}
-                    />
-                    <InputField
-                      type={isFocus ? "time" : "text"}
-                      name="time"
-                      className={style.timeField}
-                      // value={time}
-                      value={time ? formatTime(time) : ""}
-                      onFocus={handleFocusTime}
-                      onBlur={handleBlurTime}
-                      placeHolder="Select Time"
-                      onChange={handleFormData}
-                    />
-                    <select
-                      name="labName"
-                      value={labName}
-                      id=""
-                      onChange={handleFormData}
-                      className={`${style.labField} p-2 rounded`}
+              {/* {show && ( */}
+              <span>
+                <p className="mt-4 pb-2">Booking For</p>
+                <Profiles patient={profile} setPatient={setProfile} />
+              </span>
+              <form
+                className={style.prescriptionForm}
+                onSubmit={uploadPrescription}
+              >
+                <div className={style.collectionForm}>
+                  <p>Select Preference</p>
+                  <div className={style.collectionOptions}>
+                    <label
+                      htmlFor="lab"
+                      className={`${style.labelrdioclass} d-flex  align-items-center row-gap-1`}
                     >
-                      <option value="" disabled>
-                        Select Lab
-                      </option>
-                      {/* {Labs.map((item, indx) => (
+                      <input
+                        type="radio"
+                        id="lab"
+                        name="typeTest"
+                        value={"labVisit"}
+                        className={style.btnCheck}
+                        onChange={handleFormData}
+                      />
+                      <span
+                        className={
+                          typeTest === "labVisit"
+                            ? style.typeActive
+                            : style.typeCircle
+                        }
+                      >
+                        Lab Visit
+                      </span>
+                    </label>
+                    <label
+                      htmlFor="home"
+                      className={`${style.labelrdioclass} d-flex  align-items-center row-gap-1`}
+                    >
+                      <input
+                        type="radio"
+                        onChange={handleFormData}
+                        id="home"
+                        name="typeTest"
+                        value={"homeSample"}
+                        className={style.btnCheck}
+                      />
+                      <span
+                        className={
+                          typeTest === "homeSample"
+                            ? style.typeActive
+                            : style.typeCircle
+                        }
+                      >
+                        Home Sampling
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div className={style.formFields}>
+                  <InputField
+                    placeHolder="Patient Name"
+                    className={style.nameField}
+                    name="patientName"
+                    value={patientName}
+                    onChange={handleFormData}
+                  />
+                  <InputField
+                    type={focus ? "date" : "text"}
+                    name="date"
+                    className={style.dateField}
+                    // value={date}
+                    value={date ? formatDate(date) : ""}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    placeHolder="Select Date"
+                    onChange={handleFormData}
+                    min={moment().format("YYYY-MM-DD")}
+                  />
+                  <InputField
+                    type={isFocus ? "time" : "text"}
+                    name="time"
+                    className={style.timeField}
+                    // value={time}
+                    value={time ? formatTime(time) : ""}
+                    onFocus={handleFocusTime}
+                    onBlur={handleBlurTime}
+                    placeHolder="Select Time"
+                    onChange={handleFormData}
+                  />
+                  <select
+                    name="labName"
+                    value={labName}
+                    id=""
+                    onChange={handleFormData}
+                    className={`${style.labField} p-2 rounded`}
+                  >
+                    <option value="" disabled>
+                      Select Lab
+                    </option>
+                    {/* {Labs.map((item, indx) => (
                         <option value={item?.key} key={indx}>
                           {item.name}
                         </option>
                       ))} */}
-                      <option value="chugtai">
-                        Chugtai Lab
-                      </option>
-                      <option value="idc">
-                        IDC
-                      </option>
-                    </select>
-                  </div>
-                  {typeTest === "homeSample" && (
-                    <Address address={address} setAddress={setAddress} />
-                  )}
+                    <option value="chugtai">
+                      Chugtai Lab
+                    </option>
+                    <option value="idc">
+                      IDC
+                    </option>
+                  </select>
+                </div>
+                {typeTest === "homeSample" && (
+                  <Address address={address} setAddress={setAddress} />
+                )}
 
-                  <div className={style.paymentMethod}>
-                    <input
-                      type="radio"
-                      className={style.btnCheck}
-                      name="paymentId"
-                      // id={itm.paymentId}
-                      // value={itm.paymentId}
-                      onClick={() => {
-                        setPaymentId(itm.paymentId);
-                        setMethod(itm.type);
-                      }}
-                    // disabled={wallet}
-                    />
-                    <label
-                      className={`${style.labelrdioclass} d-flex  align-items-center p-3 row-gap-1`}
-                    // htmlFor={itm.paymentId}
-                    >
-                      <span className={style.paymentActive}>
-                        <Text18 className="text-dark fw-bold">
-                          Cash on Delivery
-                        </Text18>
-                      </span>
-                    </label>
-                  </div>
-                  <div className={style.notes}></div>
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    disabled={
-                      images &&
-                        typeTest &&
-                        patientName &&
-                        date &&
-                        time &&
-                        labName
-                        ? false
-                        : true
-                    }
+                <div className={style.paymentMethod}>
+                  <input
+                    type="radio"
+                    className={style.btnCheck}
+                    name="paymentId"
+                    // id={itm.paymentId}
+                    // value={itm.paymentId}
+                    onClick={() => {
+                      setPaymentId(itm.paymentId);
+                      setMethod(itm.type);
+                    }}
+                  // disabled={wallet}
+                  />
+                  <label
+                    className={`${style.labelrdioclass} d-flex  align-items-center p-3 row-gap-1`}
+                  // htmlFor={itm.paymentId}
                   >
-                    Place Order
-                    {uploading && (
-                      <>
-                        <div
-                          className="spinner-border text-blue spinner-border-sm ms-2"
-                          role="status"
-                        ></div>
-                      </>
-                    )}
-                  </Button>
-                </form>
-              )}
+                    <span className={style.paymentActive}>
+                      <Text18 className="text-dark fw-bold">
+                        Cash on Delivery
+                      </Text18>
+                    </span>
+                  </label>
+                </div>
+                <div className={style.notes}></div>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  disabled={
+                    // images &&
+                      typeTest &&
+                      patientName &&
+                      date &&
+                      time &&
+                      labName
+                      ? false
+                      : true
+                  }
+                >
+                  Place Order
+                  {uploading && (
+                    <>
+                      <div
+                        className="spinner-border text-blue spinner-border-sm ms-2"
+                        role="status"
+                      ></div>
+                    </>
+                  )}
+                </Button>
+              </form>
+              {/* )} */}
             </div>
             <div className={style.uploadEprescription}>
               <div className={style.uploadHereCont}>
@@ -500,17 +498,6 @@ export default function Prescription() {
             <p className="w-25 text-center">
               You have successfully booked your test our customer care will
               contact you shortly{" "}
-              {/* <span
-                className="text-primary fw-bold"
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  setSuccess(false);
-                  setShow(false);
-                  setImages("");
-                }}
-              >
-                Upload more
-              </span> */}
               <Link href={`/orders`}>
                 <Button variant="outlined" onClick={() => {
                   setSuccess(false);

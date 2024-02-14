@@ -149,7 +149,7 @@ export default function Checkout() {
                                 </tr>
                                 <tr>
                                     <th>Total Charges</th>
-                                    <td>{totalAmount}</td>
+                                    <td>Rs. {totalAmount}</td>
                                 </tr>
                                 <tr>
                                     <th>Payment Method</th>
@@ -158,10 +158,10 @@ export default function Checkout() {
                             </tbody>
                         </table>
                         {/* Input field and button for applying discount codes or promo codes */}
-                        <span className="w-100 d-flex">
+                        {/* <span className="w-100 d-flex">
                             <InputField placeHolder="Discount code or promo code" />
                             <Button variant="contained" className={style.applyButton}>Apply</Button>
-                        </span>
+                        </span> */}
                         {/* Button for placing the order */}
                         <Button variant="contained" onClick={bookLab}>
                             Place Order

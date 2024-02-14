@@ -18,7 +18,7 @@ export default function UploadPrescription() {
               variant="contained"
               className="mt-3 d-flex align-items-center col-gap-0-5"
             >
-              <FaFilePrescription />
+              <FaFilePrescription style={{ width: '18px', height: '22px', borderRadius: "6px" }} />
               Upload Prescription
             </Button>
           </Link>

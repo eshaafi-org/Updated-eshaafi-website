@@ -26,6 +26,10 @@
   gap: 0.5rem;
   font-size: 11px;
   width: 100%;
+  &:hover {
+    background-color: #0e5487 !important;
+    color: #fff;
+  }
 }
 
 // search Bar And Search Icon
@@ -61,7 +65,7 @@
 //Cart Design
 .cart {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Set a minimum width of 200px for each card */
   grid-gap: 24px;
   @include for-large-mobile-only {
     grid-template-columns: 1fr;
@@ -73,13 +77,13 @@
     grid-template-columns: 1fr;
   }
   @include for-mobile-landscap-to-tablet-portrait-only {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust the columns based on screen size */
   }
   @include for-large-tablet-only {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
   @include for-tablet-landscape-to-mini-laptop-only {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 }
 .cartDetail {
@@ -88,6 +92,21 @@
   padding: 1rem;
   display: grid;
   grid-template-rows: 1fr;
+}
+.blackColor {
+  color: #0d1b34 !important;
+  font-weight: 500 !important;
+}
+.blueColor {
+  color: #1b76b8 !important;
+  font-size: 16px;
+  font-weight: 700;
+}
+.fadeColor {
+  color: #77777777 !important;
+  text-decoration: line-through;
+  font-size: 16px;
+  font-weight: 700;
 }
 /// home page styling
 /// labs list section
@@ -333,7 +352,7 @@
   margin-top: 2rem;
   display: grid;
   grid-template-columns: 2fr 1fr;
-  ul {
+  .listUl {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
@@ -368,7 +387,7 @@
   height: 100%;
 }
 .prescriptionForm {
-  margin-top: 2rem;
+  margin-top: 1rem;
   display: grid;
   row-gap: 2rem;
   width: 100%;

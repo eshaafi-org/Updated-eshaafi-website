@@ -46,26 +46,23 @@ export default function Test() {
     const dispatch = useDispatch();
 
     const handleSearch = () => {
-        const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
-        axios
-            .get(BASE_URL + `/lab/patients/labs/test`, {
-                headers: headers(),
-                params: {
-                    name: searchQuery,
-                    vendor: labSlug,
-                },
-            })
-            .then((res) => {
-                setSearchResults(res.data.response.Items);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    const handleKeyPress = (event: { key: string; }) => {
-        if (event.key === 'Enter') {
-            handleSearch();
+        // Check if the search query length is at least 2 characters
+        if (searchQuery.length >= 1) {
+            const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
+            axios
+                .get(BASE_URL + `/lab/patients/labs/test`, {
+                    headers: headers(),
+                    params: {
+                        name: searchQuery,
+                        vendor: labSlug,
+                    },
+                })
+                .then((res) => {
+                    setSearchResults(res.data.response.Items);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     };
     useEffect(() => {
@@ -89,36 +86,42 @@ export default function Test() {
         }
     }, [id]);
     const handleAddToCart = (item: any) => {
-        const itemId = item.Sk;
-        const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
-        // Dispatch the addToCart action from the cart slice
-        if (!isAlreadyInCart) {
+        const user = localStorage.getItem("user");
+        if (user) {
+            const itemId = item.Sk;
+            const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
             // Dispatch the addToCart action from the cart slice
-            dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
-            toast("Test Added to Cart ", {
-                position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                type: "success",
-            });
+            if (!isAlreadyInCart) {
+                // Dispatch the addToCart action from the cart slice
+                dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
+                toast("Test Added to Cart ", {
+                    position: "bottom-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    type: "success",
+                });
+            } else {
+                // Show a message or notification indicating that the test is already in the cart
+                toast("Test is already in the Cart", {
+                    position: "bottom-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    type: "warning",
+                });
+            }
         } else {
-            // Show a message or notification indicating that the test is already in the cart
-            toast("Test is already in the Cart", {
-                position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                type: "warning",
-            });
+            // If user is not present, dispatch the login modal action
+            dispatch({ type: "loginModalSlice/signIn" });
         }
     };
     return (
@@ -152,7 +155,7 @@ export default function Test() {
                         </div>
                         <Link href={"/labs/upload"}>
                             <Button variant="contained" className={"d-flex align-items-center col-gap-0-5"}>
-                                <FaFilePrescription style={{ width: '18px', height: '22px', color: '#98D0F9' }} />
+                                <FaFilePrescription style={{ width: '18px', height: '22px', color: '#98D0F9', borderRadius: "6px" }} />
                                 Upload Prescription
                             </Button>
                         </Link>
@@ -161,8 +164,13 @@ export default function Test() {
                         <input
                             placeholder="Search for tests here"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            onKeyPress={handleKeyPress}
+                            // onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                if (e.target.value.length >= 1) {
+                                    handleSearch();
+                                }
+                            }}
                         />
                         <FaSearch className={style.searchIcon} />
                     </div>
@@ -172,8 +180,7 @@ export default function Test() {
                             searchResults.map((result: any, index: any) => (
                                 <li key={index} className={style.cartDetail}>
                                     {/* Display the search results here */}
-                                    <Text22>{result.MedicineName}</Text22>
-                                    <Text16>{result.category}</Text16>
+                                    <Text22 className={style.blackColor}>{result.MedicineName}</Text22>
                                     <Text14>{result.productPrice}</Text14>
                                     <Button
                                         variant="contained"
@@ -188,11 +195,13 @@ export default function Test() {
                             // Display test data when there's no search query
                             test.map((tests: any, index: any) => (
                                 <li key={index} className={style.cartDetail}>
-                                    <Text22>{tests.MedicineName}</Text22>
-                                    <Text16>{tests.category}</Text16>
-                                    <Text14>{tests.productPrice}</Text14>
+                                    <Text22 className={style.blackColor}>{tests.MedicineName}</Text22>
+                                    <span className="d-flex gap-1">
+                                        <Text14 className={style.blueColor}>Rs.{tests.productPrice}</Text14>
+                                        <Text14 className={style.fadeColor}>Rs.{tests.subPrice}</Text14>
+                                    </span>
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         className={`${style.cartButton} mt-2`}
                                         onClick={() => handleAddToCart(tests)}
                                     >
