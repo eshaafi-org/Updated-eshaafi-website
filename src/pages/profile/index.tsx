@@ -21,8 +21,9 @@ import { useDispatch } from "react-redux";
 import Otpinput from "@/components/Profiles/OtpFields";
 import toArrayBuffer from "to-array-buffer";
 import { FaCamera } from "react-icons/fa6";
+import { logout } from "@/components/Profiles";
 // Type assertion
-const toArrayBufferTyped: (arg: any) => ArrayBuffer = toArrayBuffer();
+
 // links
 const links = [
   { name: "Home", link: "/" },
@@ -146,16 +147,7 @@ export default function Profile() {
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
   const [otpShow, setOtpShow] = useState(false);
-  // const [imgLoader, setImgLoading] = useState(false);
-  // getting changed values
-  const handleChanged = (e: any) => {
-    setPatient((prev: any) => {
-      return {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
+
   // handling editing proflie
   const handleEditingProfile = () => {
     setEditLoading(true);
@@ -206,10 +198,12 @@ export default function Profile() {
         name,
         patientId,
         relation,
-        phone_no,
       };
       if (url) {
         data.url = url;
+      }
+      if (phone_no) {
+        data.phone_no = phone_no;
       }
       axios
         .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
@@ -654,7 +648,26 @@ export default function Profile() {
               <Text28 className="text-dark mb-3">Account</Text28>
               <ul className={style.linksContainer}>
                 {accounts.map((item, indx) => (
-                  <li key={indx} className={style.linkItem}>
+                  <li
+                    key={indx}
+                    className={style.linkItem}
+                    onClick={() => {
+                      if (
+                        item.name === "Delete Account" &&
+                        patient.relation === "Myself"
+                      ) {
+                        setModal(true);
+                      }
+                    }}
+                    style={{
+                      cursor:
+                        (item.name === "Delete Account" ||
+                          item.name === "Logout") &&
+                        patient.relation !== "Myself"
+                          ? "not-allowed"
+                          : "pointer",
+                    }}
+                  >
                     <Image src={item.icon} alt="service-icon-eshaafi" />
                     <Text14 className="fw-bold text-dark mt-3 mb-2">
                       {item.name}
@@ -693,24 +706,27 @@ function DeleteModal({
         headers: headers(),
       })
       .then((res) => {
-        setLoading(false);
-        setShow(false);
-        setPatient({
-          dob: "",
-          gender: "",
-          location: "",
-          patientId: "",
-          name: "",
-          relation: "",
-          phone_no: "",
-        });
-        dispatch({
-          type: "getProfilesSlice/updateProfiles",
-          payload: res.data.response.data,
-        });
-        toast(`Profile deleted successfully!`, {
-          type: "success",
-        });
+        if (patient.relation !== "Myself") {
+          setLoading(false);
+          setShow(false);
+          setPatient({
+            dob: "",
+            gender: "",
+            location: "",
+            patientId: "",
+            name: "",
+            relation: "",
+            phone_no: "",
+          });
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          toast(`Profile deleted successfully!`, {
+            type: "success",
+          });
+        } else if (patient.relation === "Myself") {
+        }
       })
       .catch((error: any) => {
         setLoading(false);
