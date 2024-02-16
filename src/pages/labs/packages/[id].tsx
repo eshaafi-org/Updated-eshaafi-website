@@ -43,6 +43,10 @@ export default function Packages() {
             <span>
               <Text24>{selectedPackage?.subscriptionName}</Text24>
               <p>{selectedPackage?.noOfTests}{" Test Included"}</p>
+              <span className="d-flex gap-2">
+                <Text14 className={style.blueColor}>Rs.{selectedPackage.charges}</Text14>
+                <Text14 className={style.fadeColor}>Rs.{selectedPackage.subCharges}</Text14>
+              </span>
             </span>
           </div>
           <Button variant="contained">Book All Tests</Button>
