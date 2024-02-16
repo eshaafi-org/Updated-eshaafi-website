@@ -65,7 +65,10 @@
 //Cart Design
 .cart {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Set a minimum width of 200px for each card */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Set a minimum width of 200px for each card */
   grid-gap: 24px;
   @include for-large-mobile-only {
     grid-template-columns: 1fr;
@@ -77,7 +80,10 @@
     grid-template-columns: 1fr;
   }
   @include for-mobile-landscap-to-tablet-portrait-only {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust the columns based on screen size */
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(250px, 1fr)
+    ); /* Adjust the columns based on screen size */
   }
   @include for-large-tablet-only {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -241,6 +247,68 @@
     }
   }
 }
+// Package Page Design
+.package {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  column-gap: 1.5rem;
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+  }
+}
+.packageList {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 1rem;
+  .labslist {
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 2px 4px 1px rgba(37, 49, 65, 0.05);
+    padding: 1rem;
+    img {
+      border: 1px solid #e4e4e4;
+      border-radius: 50%;
+      width: 82px;
+      height: 82px;
+      @include large-mobile-and-below {
+        width: 70px;
+        height: 70px;
+      }
+    }
+    @include large-mobile-and-below {
+      flex-direction: column;
+      gap: 0.7rem;
+      padding: 0.6rem;
+    }
+  }
+  .packageButton {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    @include large-mobile-and-below {
+      flex-direction: row;
+      button {
+        font-size: 12px;
+        width: 100%;
+        gap: 1rem;
+      }
+    }
+    :link {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+.helpline {
+  :link {
+    color: #fff;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
 // CheckOut Page Styling
 .address {
   border-radius: 8px;
@@ -288,7 +356,7 @@
 .blackCol {
   color: #192a3e !important;
 }
-.blackColor {
+.blackColor1 {
   color: #192a3e !important;
   font-weight: 600;
 }

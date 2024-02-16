@@ -93,7 +93,7 @@ export default function Test() {
             // Dispatch the addToCart action from the cart slice
             if (!isAlreadyInCart) {
                 // Dispatch the addToCart action from the cart slice
-                dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
+                dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice, subTotalPrice: item.subPrice, }));
                 toast("Test Added to Cart ", {
                     position: "bottom-right",
                     autoClose: 1000,

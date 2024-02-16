@@ -84,7 +84,11 @@ const CartItem = ({ key, item }: { key: number; item: any }) => {
           onClick={() => {
             if (counter > 1) {
               setCounter(counter - 1);
-              dispatch({ type: 'labCartSlicer/addQuantity', payload: { barcode: item.barcode, quantity: counter - 1, totalPrice: parseInt(item.totalPrice) - parseInt(item.productPrice) } })
+              dispatch({ type: 'labCartSlicer/addQuantity', payload: { barcode: item.barcode,
+                quantity: counter - 1, 
+                totalPrice: parseInt(item.totalPrice) - parseInt(item.productPrice),
+                subTotalPrice: parseInt(item.subPrice) - parseInt(item.subTotalPrice),
+              } })
             }
           }}
         >
@@ -102,7 +106,13 @@ const CartItem = ({ key, item }: { key: number; item: any }) => {
         <p className="text-primary">{counter}</p>
         <Button onClick={() => {
           setCounter(counter + 1)
-          dispatch({ type: 'labCartSlicer/addQuantity', payload: { barcode: item.barcode, quantity: counter + 1, totalPrice: parseInt(item.productPrice) + parseInt(item.totalPrice) } })
+          dispatch({
+            type: 'labCartSlicer/addQuantity', payload: {
+              barcode: item.barcode, quantity: counter + 1,
+              totalPrice: parseInt(item.productPrice) + parseInt(item.totalPrice),
+              subTotalPrice: parseInt(item.subPrice) + parseInt(item.subTotalPrice),
+            }
+          })
         }}>
           <GoPlus />
         </Button>

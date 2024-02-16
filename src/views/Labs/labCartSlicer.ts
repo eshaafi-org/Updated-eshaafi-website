@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { isTemplateExpression } from "typescript";
 
 interface LabCartState {
   cart: any[];
   totalAmount: number;
+  subTotalAmount: number;
 }
 
 interface AddToCartAction {
@@ -16,6 +16,7 @@ const labCartSlicer = createSlice({
   initialState: {
     cart: [],
     totalAmount: 0,
+    subTotalAmount:0,
   } as LabCartState,
   reducers: {
     addToCart: (state, action: PayloadAction<string>) => {
@@ -24,10 +25,18 @@ const labCartSlicer = createSlice({
         (accumulator, item) => accumulator + parseInt(item.totalPrice),
         0
       );
+      state.subTotalAmount = state.cart.reduce(
+        (accumulator, item) => accumulator + parseInt(item.subTotalPrice),
+        0
+      );
     },
     addAmount: (state) => {
       state.totalAmount = state.cart.reduce(
         (accumulator, item) => accumulator + item.productPrice,
+        0
+      );
+      state.subTotalAmount = state.cart.reduce(
+        (accumulator, item) => accumulator + item.subPrice,
         0
       );
     },
@@ -37,11 +46,16 @@ const labCartSlicer = createSlice({
         (accumulator, item) => accumulator + parseInt(item.productPrice),
         0
       );
+      state.subTotalAmount = state.cart.reduce(
+        (accumulator, item) => accumulator + parseInt(item.subPrice),
+        0
+      );
     },
     addQuantity: (state, action) => {
       state.cart = state.cart.map((cartItem) => {
         if (cartItem.barcode === action.payload.barcode) {
           cartItem.totalPrice = action.payload.totalPrice
+          cartItem.subTotalPrice = action.payload.subTotalPrice
           return {
             ...cartItem,
             quantity: action.payload.quantity,
@@ -50,6 +64,10 @@ const labCartSlicer = createSlice({
       })
       state.totalAmount = state.cart.reduce(
         (accumulator, item) => accumulator + parseInt(item.totalPrice),
+        0
+      );
+      state.subTotalAmount = state.cart.reduce(
+        (accumulator, item) => accumulator + parseInt(item.subTotalPrice),
         0
       );
     }

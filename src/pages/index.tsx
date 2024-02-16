@@ -86,10 +86,11 @@ export async function getStaticProps() {
   });
   const [blogs, doctors] = await Promise.all([response, doc]);
   const data = await blogs.json();
+  console.log(data)
   const docData = await doctors.json();
   return {
     props: {
-      positions: data.response.Items ? data.response.Items : [],
+      positions: data.response?.Items ? data.response?.Items : [],
       doctors: docData.response.Items,
     },
     revalidate: 1,

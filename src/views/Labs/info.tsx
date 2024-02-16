@@ -139,9 +139,9 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         <option value="chugtai">
                             Chugtai Lab
                         </option>
-                        <option value="idc">
+                        {/* <option value="idc">
                             IDC
-                        </option>
+                        </option> */}
                     </select>
                 </div>
                 {typeTest === "homeSample" && (

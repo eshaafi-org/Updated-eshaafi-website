@@ -378,9 +378,9 @@ export default function Prescription() {
                     <option value="chugtai">
                       Chugtai Lab
                     </option>
-                    <option value="idc">
+                    {/* <option value="idc">
                       IDC
-                    </option>
+                    </option> */}
                   </select>
                 </div>
                 {typeTest === "homeSample" && (

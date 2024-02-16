@@ -1,7 +1,7 @@
 // import
 import { CardsSkeletonLoader } from "@/components/SkeletonLoader";
 import packageIcon from "../../../public/images/packageIcon.png";
-import { Text16, Text24, Text28 } from "@/components/Typography";
+import { Text16, Text20, Text24, Text28 } from "@/components/Typography";
 import style from "@/styles/labs.module.scss";
 import Link from "next/link";
 import { useSelector } from "react-redux";
@@ -18,12 +18,15 @@ export default function PackagesList() {
         </div>
       ) : (
         <section className="container pt-0">
-          <Text28 className="fw-bold text-dark">Packages</Text28>
+          <div className="d-flex justify-content-between align-items-center">
+            <Text28 className="fw-bold text-dark">Packages</Text28>
+            <Text20><Link href={"/labs/packages"}>View All</Link></Text20>
+          </div>
           <ul className={style.labList}>
             {PacakgeResponse.map((item: any, indx: number) => (
               <li key={indx}>
                 <Link
-                  href={"/labs/packages/" + item.subscriptionName}
+                  href={"/labs/packages/" + item.pId}
                   className={style.packageCard}
                   style={{
                     backgroundColor: "#DFEAF2",
