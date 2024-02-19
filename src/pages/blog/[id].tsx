@@ -15,6 +15,7 @@ import {
   FaLinkedinIn,
   FaWhatsapp,
   FaChevronDown,
+  FaChevronUp,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiLink2 } from "react-icons/fi";
@@ -48,8 +49,9 @@ export default function Post({ post }: any) {
     if (blogContent) {
       const h2: NodeListOf<HTMLHeadElement> | undefined =
         blogContent?.querySelectorAll("h2");
-      // console.log(h2);
-      if (h2.length > 0) {
+      console.log(h2);
+      console.log(post.blogContent);
+      if (h2.length === post.blogContent.length) {
         // console.log("hey");
         // debugger;
         for (let i = 0; i < post?.blogContent?.length; i++) {
@@ -110,27 +112,120 @@ export default function Post({ post }: any) {
             {/* blog page  */}
             <div className={style.blogPage}>
               {/* share and table of content section */}
-              {post?.blogContent && post?.blogContent.length > 0 && (
-                <div className={style.tableOfContent}>
-                  <div className={style.desktop}>
-                    <p className="text-main fw-bold mb-3">Table of Content</p>
-                    <ul className="d-flex flex-wrap col-gap-1">
-                      {post?.blogContent?.length > 0 &&
-                        post?.blogContent.map((link: string, indx: number) => (
-                          <li key={indx} className="d-flex col-gap-0-5">
-                            <a
-                              className="font-bold text-primary "
-                              href={"#" + link}
-                            >
-                              {link}
-                            </a>
-                            {indx + 1 === post?.blogContent.length || (
-                              <span>|</span>
-                            )}
-                          </li>
-                        ))}
-                    </ul>
+              <div className={style.shareAndContentSection}>
+                {post?.blogContent && post?.blogContent.length > 0 && (
+                  <div className={style.tableOfContent}>
+                    <div className={style.desktop}>
+                      <p className="text-main fw-bold mb-3">Table of Content</p>
+                      <ul className="d-flex flex-wrap col-gap-1">
+                        {post?.blogContent?.length > 0 &&
+                          post?.blogContent.map(
+                            (link: string, indx: number) => (
+                              <li key={indx} className="d-flex col-gap-0-5">
+                                <a
+                                  className="font-bold text-primary "
+                                  href={"#" + link}
+                                >
+                                  {link}
+                                </a>
+                                {indx + 1 === post?.blogContent.length || (
+                                  <span>|</span>
+                                )}
+                              </li>
+                            )
+                          )}
+                      </ul>
+                    </div>
                   </div>
+                )}
+                <div className={style.shareWeb}>
+                  <div className={style.shareIcon}>
+                    <p className="text-main fw-bold">Share this Article</p>
+                    <span className="d-flex col-gap-0-5 flex-wrap">
+                      <button
+                        onClick={copyURLToClipboard}
+                        className={
+                          style.iconStyle + " d-flex col-gap-1 border-none"
+                        }
+                        title="Copy link"
+                        id={`${baseUrl + router?.asPath}`}
+                      >
+                        <FiLink2
+                          style={{ color: "#1B76B8", fontSize: "1rem" }}
+                        />
+                      </button>
+                      <button
+                        title="Share on Facebook"
+                        className="border-0 bg-none"
+                      >
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${
+                            baseUrl + router?.asPath
+                          }`}
+                          className={style.iconStyle}
+                          target="_blank"
+                        >
+                          <FaFacebookF
+                            style={{ color: "#1976D2", fontSize: "1rem" }}
+                          />
+                        </a>
+                      </button>
+                      <button
+                        title="Share-on-WhatsApp"
+                        id="whatsapp"
+                        className="border-0 bg-none"
+                      >
+                        <a
+                          href={`https://api.whatsapp.com/send?text=${
+                            baseUrl + router?.asPath
+                          }`}
+                          className={style.iconStyle}
+                          target="_blank"
+                        >
+                          <FaWhatsapp
+                            style={{ color: "#20B038", fontSize: "1rem" }}
+                          />
+                        </a>
+                      </button>
+                      <button
+                        title="Share-on-linkedin"
+                        id="linkedin"
+                        className="border-0 bg-none"
+                      >
+                        <a
+                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${
+                            baseUrl + router?.asPath
+                          }`}
+                          target="_blank"
+                          className={style.iconStyle}
+                        >
+                          <FaLinkedinIn
+                            style={{ color: "#1976D2", fontSize: "1rem" }}
+                          />
+                        </a>
+                      </button>
+                      <button
+                        title="Share on Twitter"
+                        className="border-0 bg-none"
+                      >
+                        <a
+                          href={`https://twitter.com/intent/tweet?url=${
+                            baseUrl + router?.asPath
+                          }`}
+                          className={style.iconStyle}
+                          target="_blank"
+                        >
+                          <FaXTwitter
+                            style={{ color: "#000", fontSize: "1rem" }}
+                          />
+                        </a>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {post?.blogContent && post?.blogContent.length > 0 && (
+                <div className={style.tableOfContentMobile}>
                   <div className={style.mobile}>
                     <div
                       onClick={() => setOpen(!open)}
@@ -140,7 +235,7 @@ export default function Post({ post }: any) {
                       aria-controls="collapseExample"
                     >
                       <p className="text-main fw-bold ">Table of Content</p>
-                      <FaChevronDown />
+                      {open ? <FaChevronUp /> : <FaChevronDown />}
                     </div>
                     <Collapse in={open}>
                       <div id="example-collapse-text">
@@ -167,6 +262,7 @@ export default function Post({ post }: any) {
                   </div>
                 </div>
               )}
+              {/* sharing section */}
               <div className={style.share}>
                 <div className={style.shareIcon}>
                   <p className="text-main fw-bold">Share this Article</p>

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import styles from "@/components/Profiles/Profile.module.scss";
+import { useState, useEffect, memo, useReducer } from "react";
 import Head from "next/head";
 import { InputField } from "@/components/InputField";
 import { PageHeading } from "@/components/Typography";
@@ -15,57 +16,199 @@ import Button from "@/components/Button";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { BASE_URL, headers } from "@/helper/CONST";
+import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
 import { useDispatch } from "react-redux";
+import Otpinput from "@/components/Profiles/OtpFields";
+import toArrayBuffer from "to-array-buffer";
+import { FaCamera } from "react-icons/fa6";
+import { logout } from "@/components/Profiles";
+// Type assertion
+
 // links
 const links = [
   { name: "Home", link: "/" },
   { name: "Profile", link: "/profile" },
 ];
+// reducer
+const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case "IMG_LOADER": {
+      return {
+        ...state,
+        imgLoader: !state.imgLoader,
+      };
+    }
+    case "SET_URL": {
+      return {
+        ...state,
+        imgLoader: false,
+        url: action.payload,
+      };
+    }
+    case "LOADER": {
+      return {
+        ...state,
+        loading: !state.loading,
+      };
+    }
+    case "SUCCESS": {
+      return {
+        ...state,
+        name: "",
+        dob: "",
+        gender: "",
+        location: "",
+        relation: "",
+        loading: false,
+        url: "",
+        phone_no: "",
+      };
+    }
+    case "OTP_SEND": {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+    case "OTP_ERROR": {
+      return {
+        ...state,
+        loading: false,
+        otpError: true,
+      };
+    }
+    case "OTP_ERROR_FALSE": {
+      return {
+        ...state,
+        otpError: false,
+      };
+    }
+    case "SET_PROFILE": {
+      return {
+        ...state,
+        dob: action.payload.dob,
+        gender: action.payload.gender,
+        location: action.payload.location,
+        name: action.payload.name,
+        patientId: action.payload.patientId,
+        phone_no: action.payload.phone_no,
+        relation: action.payload.relation,
+        url: action.payload.url,
+      };
+    }
+    default: {
+      return {
+        ...state,
+        [action.target.name]: action.target.value,
+      };
+    }
+  }
+};
 export default function Profile() {
   const [patient, setPatient] = useState<any>({
     dob: "",
     gender: "",
     location: "",
     patientId: "",
-    patientName: "",
+    name: "",
     relation: "",
     phone_no: "",
+    url: "",
   });
+  const [states, setStates] = useReducer(reducer, {
+    loading: false,
+    otpError: false,
+    name: "",
+    dob: "",
+    gender: "",
+    relation: "",
+    location: "",
+    phone_no: "",
+    url: "",
+    patientId: "",
+    imgLoader: false,
+  });
+  const {
+    loading,
+    otpError,
+    imgUrl,
+    dob,
+    gender,
+    location,
+    patientId,
+    name,
+    relation,
+    phone_no,
+    imgLoader,
+    url,
+  } = states;
   const dispatch = useDispatch();
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
   const [otpShow, setOtpShow] = useState(false);
-  const { dob, gender, location, patientId, patientName, relation, phone_no } =
-    patient;
-  // getting changed values
-  const handleChanged = (e: any) => {
-    setPatient((prev: any) => {
-      return {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
+
   // handling editing proflie
   const handleEditingProfile = () => {
     setEditLoading(true);
-    if (patient.phone_no) {
-      setEditLoading(false);
-      setOtpShow(true);
-    } else {
-      const filteredObject = (({ phone_no, patientName, ...rest }) => rest)(
-        patient
-      );
+    if (patient.phone_no && patient.relation !== "Myself") {
+      const data: any = {
+        dob,
+        gender,
+        location,
+        name,
+        patientId,
+        relation,
+        phone_no,
+      };
+      if (url) {
+        data.url = url;
+      }
       axios
-        .patch(
-          BASE_URL + `/patients/profile/${patientId}`,
-          { ...filteredObject, name: patient.patientName },
-          {
-            headers: headers(),
+        .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
+          headers: headers(),
+        })
+        .then((res) => {
+          setEditLoading(false);
+          // setOtpShow(true);
+          toast("Profile updated successfully!", {
+            type: "success",
+          });
+          // // console.log(res.data.response.data);
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          setEdit(false);
+        })
+        .catch((error: any) => {
+          setEditLoading(false);
+          if (error.response.status === 401) {
           }
-        )
+          toast(error.response.data.response.message, {
+            type: "error",
+          });
+        });
+    } else if (!patient.phone_no && patient.relation !== "Myself") {
+      // const filteredObject = (({ phone_no, ...rest }) => rest)(patient);
+      const data: any = {
+        dob,
+        gender,
+        location,
+        name,
+        patientId,
+        relation,
+      };
+      if (url) {
+        data.url = url;
+      }
+      if (phone_no) {
+        data.phone_no = phone_no;
+      }
+      axios
+        .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
+          headers: headers(),
+        })
         .then((res) => {
           setEditLoading(false);
           toast("Profile updated successfully!", {
@@ -89,8 +232,152 @@ export default function Profile() {
         });
     }
   };
+  const getVarified = (values: any) => {
+    setStates({ type: "LOADER" });
+    let { otp1, otp2, otp3, otp4, otp5, otp6 } = values;
+    let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
+    axios
+      .patch(
+        BASE_URL + `/patients/profile/${patientId}`,
+        {
+          name: patient.patientName,
+          dob: patient.dob,
+          gender: patient.gender,
+          location: patient.location,
+          relation: patient.relation,
+          percentage: 90,
+          // [url  "url"]: url,
+          phone_no: "+92" + phone_no.slice(1),
+          code: code,
+          profileId: patient.patientId,
+          // type: 1,
+        },
+        {
+          headers: headers(),
+        }
+      )
+      .then((res) => {
+        setStates({ type: "LOADER" });
+        dispatch({
+          type: "getProfilesSlice/updateProfiles",
+          payload: res.data.response.data,
+        });
+        setOtpShow(false);
+        toast(res.data.response.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+        setStates({ type: "SUCCESS" });
+        // setStates({ type: "VERI_LOADING" });
+        // localStorage.setItem("user", JSON.stringify(res.data.response));
+        // return res.data.response;
+        // userAuth(res.data.response.uuid);
+      })
+      .then((res) => {
+        // if (res.profileCreated) {
+        //   dispatch({ type: "loginModalSlice/setAuth", payload: res });
+        //   close();
+        // } else setProfile(true);
+      })
+      .catch((err) => {
+        setStates({ type: "OTP_ERROR" });
+        // setStates({ type: "VERI_ERROR" });
+        console.error(err.response.data.response?.message);
+        toast(err.response.data.response?.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "error",
+        });
+      });
+    // handle uploading profile image
+  };
+  const uploadFile = (e: any) => {
+    setStates({ type: "IMG_LOADER" });
+    const [file] = e.target.files || e.dataTransfer.files;
+    if (file.size <= 2000000) {
+      if (
+        file?.type === "image/jpeg" ||
+        file?.type === "image/png" ||
+        file?.type === "image/webp"
+      ) {
+        const reader: any = new FileReader();
+        reader.readAsBinaryString(file);
+        //preview onload function.
+        reader.onload = async () => {
+          // this is the base64 data
+          const fileRes: any = btoa(reader.result);
+          const base64Image: any = toArrayBuffer(fileRes);
+          axios
+            .post(`${BASE_URL}/image-upload-api/type/new`, base64Image, {
+              headers: imgheaders(),
+            })
+            .then((response) => {
+              setStates({
+                type: "SET_URL",
+                payload: response.data.response.url,
+              });
+            })
+            .catch((error) => {
+              setStates({ type: "IMG_LOADER" });
+              console.log(error);
+            });
+        };
+      } else {
+        setStates({ type: "IMG_LOADER" });
+        if (file?.type) {
+          toast(
+            `🥺 Sorry, This file format does not supported, Choose the file with you last format: ".jpg, .jpeg, .png, .webp,"`,
+            {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "error",
+            }
+          );
+        }
+      }
+    } else {
+      setStates({ type: "IMG_LOADER" });
+      if (file?.type) {
+        toast(`😵 File size is exceeded. Max size is 2mb `, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "error",
+        });
+      }
+    }
+    // preview img
+  };
+  useEffect(() => {
+    if (patient.name) {
+      setStates({ type: "SET_PROFILE", payload: patient });
+    }
+  }, [patient]);
   console.log(patient);
-
   return (
     <>
       <Head>
@@ -104,18 +391,37 @@ export default function Profile() {
         <section className={style.profileContainer + " container pt-0"}>
           <div>
             <div className={style.profileCard}>
-              <span>
-                {patient.url ? (
+              <span
+                className={styles.profileImage}
+                style={{ background: "#fff" }}
+              >
+                {patient.url || url ? (
                   <Image
-                    src={patient.url}
+                    src={patient.url || url}
                     alt="eshaafi-best-doctor-online-consultation-patient-avatar"
+                    width={100}
+                    height={100}
+                    style={{ borderRadius: 50 }}
                   />
                 ) : (
                   <FaUserCircle style={{ fontSize: "5rem" }} />
                 )}
+                {edit && (
+                  <Button className={styles.uploadImage}>
+                    <input type="file" onChange={uploadFile} />
+                    {imgLoader ? (
+                      <div
+                        className="spinner-border text-white spinner-border-sm"
+                        role="status"
+                      ></div>
+                    ) : (
+                      <FaCamera className={styles.icon} />
+                    )}
+                  </Button>
+                )}
               </span>
               <Text24 className="text-dark fw-bold text-capitalize text-center">
-                {patient?.patientName}
+                {patient?.name}
               </Text24>
               <p>{patient.phone_no}</p>
               <p className="mt-1">{patient.relation}</p>
@@ -136,7 +442,7 @@ export default function Profile() {
                 <Text28 className="text-dark fw-bold">
                   Personal Information
                 </Text28>
-                {patient.patientName && (
+                {patient.name && (
                   <span>
                     {!edit && (
                       <>
@@ -172,12 +478,12 @@ export default function Profile() {
               <div className={style.profileInfo}>
                 <InputField
                   type="text"
-                  name="patientName"
+                  name="name"
                   placeHolder="Full Name"
-                  value={patientName}
+                  value={name}
                   className="text-capitalize"
                   disabled={!edit}
-                  onChange={handleChanged}
+                  onChange={setStates}
                 />
                 <InputField
                   type="date"
@@ -186,7 +492,7 @@ export default function Profile() {
                   value={dob}
                   disabled={!edit}
                   name="dob"
-                  onChange={handleChanged}
+                  onChange={setStates}
                 />
                 <select
                   name="gender"
@@ -194,7 +500,7 @@ export default function Profile() {
                   placeholder="Gender"
                   className={style.selectField}
                   value={gender}
-                  onChange={handleChanged}
+                  onChange={setStates}
                   disabled={!edit}
                 >
                   <option value="" disabled selected>
@@ -211,7 +517,7 @@ export default function Profile() {
                   placeholder="Relation"
                   className={style.selectField}
                   value={relation}
-                  onChange={handleChanged}
+                  onChange={setStates}
                   disabled={!edit}
                 >
                   <option value="" disabled selected>
@@ -264,21 +570,36 @@ export default function Profile() {
                   value={location}
                   disabled={!edit}
                   name="location"
-                  onChange={handleChanged}
+                  onChange={setStates}
                 />
-                <InputField
-                  type="tel"
-                  placeHolder="Phone Optional"
-                  value={phone_no}
-                  disabled={patient.relation === "Myself" || !edit}
-                  name="phone_no"
-                  onChange={handleChanged}
-                />
+                <span>
+                  <InputField
+                    type="tel"
+                    placeHolder="Phone Optional"
+                    value={phone_no}
+                    disabled={
+                      patient.relation === "Myself" ||
+                      !edit ||
+                      (patient.phone_no && edit)
+                    }
+                    name="phone_no"
+                    onChange={setStates}
+                    className="w-100"
+                  />
+                  {!phone_no && edit && (
+                    <p style={{ fontSize: 11, marginTop: 3 }}>
+                      Format:03xxxxxxxxx
+                    </p>
+                  )}
+                </span>
               </div>
               {edit && (
                 <div className="d-flex justify-content-end mt-4">
                   <Button
-                    onClick={() => setEdit(false)}
+                    onClick={() => {
+                      setStates({ type: "SET_PROFILE", payload: patient });
+                      setEdit(false);
+                    }}
                     className="me-4 text-danger"
                   >
                     Cancel
@@ -294,7 +615,16 @@ export default function Profile() {
                       </div>
                     )}{" "}
                   </Button>
-                  <OtpModal otpShow={otpShow} setOtpShow={setOtpShow} />
+                  <OtpModal
+                    otpModal={otpShow}
+                    setOtpModal={setOtpShow}
+                    verifyLoading={loading}
+                    getVarified={getVarified}
+                    otpError={otpError}
+                    setStates={setStates}
+                    // getOtp={getOtp}
+                    phone={phone_no}
+                  />
                 </div>
               )}
             </div>
@@ -318,7 +648,26 @@ export default function Profile() {
               <Text28 className="text-dark mb-3">Account</Text28>
               <ul className={style.linksContainer}>
                 {accounts.map((item, indx) => (
-                  <li key={indx} className={style.linkItem}>
+                  <li
+                    key={indx}
+                    className={style.linkItem}
+                    onClick={() => {
+                      if (
+                        item.name === "Delete Account" &&
+                        patient.relation === "Myself"
+                      ) {
+                        setModal(true);
+                      }
+                    }}
+                    style={{
+                      cursor:
+                        (item.name === "Delete Account" ||
+                          item.name === "Logout") &&
+                        patient.relation !== "Myself"
+                          ? "not-allowed"
+                          : "pointer",
+                    }}
+                  >
                     <Image src={item.icon} alt="service-icon-eshaafi" />
                     <Text14 className="fw-bold text-dark mt-3 mb-2">
                       {item.name}
@@ -357,24 +706,27 @@ function DeleteModal({
         headers: headers(),
       })
       .then((res) => {
-        setLoading(false);
-        setShow(false);
-        setPatient({
-          dob: "",
-          gender: "",
-          location: "",
-          patientId: "",
-          patientName: "",
-          relation: "",
-          phone_no: "",
-        });
-        dispatch({
-          type: "getProfilesSlice/updateProfiles",
-          payload: res.data.response.data,
-        });
-        toast(`Profile deleted successfully!`, {
-          type: "success",
-        });
+        if (patient.relation !== "Myself") {
+          setLoading(false);
+          setShow(false);
+          setPatient({
+            dob: "",
+            gender: "",
+            location: "",
+            patientId: "",
+            name: "",
+            relation: "",
+            phone_no: "",
+          });
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          toast(`Profile deleted successfully!`, {
+            type: "success",
+          });
+        } else if (patient.relation === "Myself") {
+        }
       })
       .catch((error: any) => {
         setLoading(false);
@@ -417,34 +769,35 @@ function DeleteModal({
     </Modal>
   );
 }
-function OtpModal({ otpShow, setOtpShow }: { otpShow: any; setOtpShow: any }) {
+const OtpModal = ({
+  otpModal,
+  setOtpModal,
+  setStates,
+  phone,
+  getVarified,
+  verifyLoading,
+  otpError,
+}: any) => {
   return (
-    <Modal
-      aria-labelledby="contained-modal-title-vcenter"
-      show={otpShow}
-      onHide={() => setOtpShow(false)}
-    >
+    <Modal show={otpModal} onHide={() => setOtpModal(false)}>
       <Modal.Header closeButton className="border-bottom-0">
-        <p className="text-dark fw-bold">Delete Profile</p>
+        <p className="text-dark fw-bold">OTP</p>
       </Modal.Header>
-      <Modal.Body className="grid-example">
-        <p className="text-dark">
-          Are you sure? Deleting profile will delete medical records and
-          appointment history of this profile
+      <span className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}>
+        <h1 className="heading1">Enter OTP</h1>
+        <p className={`subText text-center text-capitalize`}>
+          Please Check your phone for 6-digit otp sent to
+          <br />
+          <u className="text-primary curser">+92{phone.slice(1)}</u>
         </p>
-      </Modal.Body>
-      <Modal.Footer>
-        <button className="btn btn-light" onClick={() => setOtpShow(false)}>
-          Cancel
-        </button>
-        <button
-          className="btn btn-danger"
-          style={{ background: "#B00020" }}
-          // onClick={handleDeletingProflie}
-        >
-          Delete Profile
-        </button>
-      </Modal.Footer>
+      </span>
+      <Otpinput
+        verifyLoading={verifyLoading}
+        getVarified={getVarified}
+        otpError={otpError}
+        setStates={setStates}
+        // getOtp={getOtp}
+      />
     </Modal>
   );
-}
+};

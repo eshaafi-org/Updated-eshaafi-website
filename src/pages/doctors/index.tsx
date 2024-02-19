@@ -40,9 +40,18 @@ export async function getStaticProps() {
   });
 
   const docData = await response.json();
+  console.log(docData.response.Items);
   return {
     props: {
-      doctors: docData.response.Items,
+      doctors: docData.response.Items.sort((a: any, b: any) => {
+        if (a.isOnline && !b.isOnline) {
+          return -1;
+        } else if (!a.isOnline && b.isOnline) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }),
     },
     revalidate: 1,
   };

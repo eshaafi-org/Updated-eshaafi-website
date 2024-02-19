@@ -15,7 +15,6 @@ import Blogs from "@/views/Home/Blogs";
 import Partners from "@/views/Home/Partners";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
-import fav from "../../public/favicon.ico";
 import heroImage from "../../public/heroImage.svg";
 
 // const inter = Roboto({
@@ -71,6 +70,47 @@ export default function Home({ positions, doctors }: any) {
   );
 }
 // blogs prerendering
+// export async function getStaticProps() {
+//   try {
+//     let response = await fetch(BASE_URL + "/new/users/blogs");
+//     let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
+//       cache: "no-cache",
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         type: "specialization",
+//         search: "General Physician",
+//       }),
+//     });
+
+//     if (!response.ok || !doc.ok) {
+//       throw new Error("Failed to fetch data");
+//     }
+
+//     const [blogs, doctors] = await Promise.all([response, doc]);
+//     const data = await blogs.json();
+//     const docData = await doctors.json();
+
+//     return {
+//       props: {
+//         positions: data.response.Items ? data.response.Items : [],
+//         doctors: docData.response.Items,
+//       },
+//       revalidate: 1,
+//     };
+//   } catch (error) {
+//     console.error("Error fetching data:", error);
+//     return {
+//       props: {
+//         positions: [],
+//         doctors: [],
+//       },
+//       revalidate: 1,
+//     };
+//   }
+// }
 export async function getStaticProps() {
   let response = await fetch(BASE_URL + "/new/users/blogs");
   let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
@@ -90,8 +130,21 @@ export async function getStaticProps() {
   const docData = await doctors.json();
   return {
     props: {
+<<<<<<< HEAD
       positions: data.response?.Items ? data.response?.Items : [],
       doctors: docData.response.Items,
+=======
+      positions: data.response.Items ? data.response.Items : [],
+      doctors: docData.response.Items.sort((a: any, b: any) => {
+        if (a.isOnline && !b.isOnline) {
+          return -1;
+        } else if (!a.isOnline && b.isOnline) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }),
+>>>>>>> 0fa83173409bcd83786f2c622e45fd955d8b9b3f
     },
     revalidate: 1,
   };

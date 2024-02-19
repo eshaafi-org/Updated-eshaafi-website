@@ -2,6 +2,7 @@ import style from "../../styles/blogs.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { MdNavigateNext } from "react-icons/md";
+import ReactMarkdown from "react-markdown";
 // recent blog card component
 function BlogCard({ blog }: any) {
   return (
@@ -18,7 +19,7 @@ function BlogCard({ blog }: any) {
       <span className={style.recentBlogContent}>
         <h5 className={style.blogHeading}>{blog.title}</h5>
         <p className={style.blogDescription}>
-          {blog.description.slice(0, 60)} ...
+          {blog.description.slice(0, 60)}...
           <Link href={`/blog/${blog.name}`} className={style.blogLink}>
             Read More
           </Link>

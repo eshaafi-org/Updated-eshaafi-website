@@ -2,12 +2,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "@/styles/index.scss";
 import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
-// import Header from "@/views/Header";
 import Footer from "@/views/Footer";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Script from "next/script";
 import Providers from "../redux/provider";
+
+// import LocoMotiveScroll from "locomotive-scroll";
 
 // rendering header as a client component
 const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
@@ -16,13 +17,15 @@ const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
 // import Context from "@/contextAPI";
 export default function App({ Component, pageProps }: AppProps) {
   let router = useRouter();
+
   return (
-    // <Context>
     <Providers>
-      <>
+      <main id="root">
         {router.pathname === "/blog/second/[id]" ||
           router.pathname === "/blog/mobile/[id]" || <NoSSRHeader />}
+
         <Component {...pageProps} />
+
         {router.pathname === "/blog/second/[id]" ||
           router.pathname === "/blog/mobile/[id]" || <Footer />}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-1BXFKZVVFJ" />
@@ -35,8 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
           gtag('config', 'G-1BXFKZVVFJ');
           `}
         </Script>
-      </>
+      </main>
     </Providers>
-    // </Context>
   );
 }

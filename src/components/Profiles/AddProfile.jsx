@@ -6,7 +6,7 @@ import { InputField } from "../InputField";
 import toArrayBuffer from "to-array-buffer";
 import Modal from "react-bootstrap/Modal";
 import Button from "../Button";
-import { useReducer, useState, useRef } from "react";
+import { useReducer, useState, useRef, memo } from "react";
 import axios from "axios";
 import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
 import inputField from "@/components/InputField/Input.module.scss";
@@ -15,6 +15,7 @@ import { FaXmark } from "react-icons/fa6";
 import { FaCamera } from "react-icons/fa6";
 import moment from "moment";
 import Image from "next/image";
+import Otpinput from "./OtpFields";
 // reducer function
 const reducer = (state, action) => {
   switch (action.type) {
@@ -50,6 +51,25 @@ const reducer = (state, action) => {
         phone_no: "",
       };
     }
+    case "OTP_SEND": {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
+    case "OTP_ERROR": {
+      return {
+        ...state,
+        loading: false,
+        otpError: true,
+      };
+    }
+    case "OTP_ERROR_FALSE": {
+      return {
+        ...state,
+        otpError: false,
+      };
+    }
     default: {
       return {
         ...state,
@@ -60,6 +80,7 @@ const reducer = (state, action) => {
 };
 export default function AddProfile({ setProfile, toast }) {
   // reducer states
+  const [otpModal, setOtpModal] = useState(false);
   const [states, setStates] = useReducer(reducer, {
     imgLoader: false,
     loading: false,
@@ -70,6 +91,7 @@ export default function AddProfile({ setProfile, toast }) {
     relation: "",
     url: "",
     phone_no: "",
+    otpError: false,
   });
   // exporting variables from reducer
   const {
@@ -82,7 +104,10 @@ export default function AddProfile({ setProfile, toast }) {
     relation,
     url,
     phone_no,
+    otpError,
   } = states;
+  // phone number matches variable
+  const validatePhone = /^03[0-5][0-9]{8}$/;
   // states
   const [show, setShow] = useState(false);
   // const [file, setFile] = useState("");
@@ -95,55 +120,29 @@ export default function AddProfile({ setProfile, toast }) {
   const updateProfile = (e) => {
     setStates({ type: "LOADER" });
     e.preventDefault();
-    axios
-      .post(
-        BASE_URL + "/patients/profile",
-        {
-          relation: states.relation,
-          name: states.name,
-          gender: states.gender,
-          dob: states.dob,
-          location: states.location,
-          percentage: 90,
-          url,
-        },
-        {
-          headers: headers(),
-        }
-      )
-      .then((res) => {
-        setStates({ type: "SUCCESS" });
-        dispatch({
-          type: "getProfilesSlice/updateProfiles",
-          payload: res.data.response.data,
-        });
-        setProfile({
-          type: "SET_PROFILES",
-          payload: [
-            res.data.response.data.self,
-            ...res.data.response.data.profiles,
-          ],
-        });
-        toast(res.data.response.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          type: "success",
-        });
-
-        // setStates({ type: "PROFILE_LOADING" });
-        // dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
-        // close();
-      })
-      .catch((err) => {
-        setStates({ type: "LOADER" });
-        if (err.response.data) {
-          toast(err.response.data.response.message, {
+    if (phone_no === "" && url === "") {
+      axios
+        .post(
+          BASE_URL + "/patients/profile",
+          {
+            name: states.name,
+            dob: states.dob,
+            gender: states.gender,
+            location: states.location,
+            relation: states.relation,
+            percentage: 90,
+          },
+          {
+            headers: headers(),
+          }
+        )
+        .then((res) => {
+          setStates({ type: "SUCCESS" });
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          toast(res.data.response.message, {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -152,12 +151,130 @@ export default function AddProfile({ setProfile, toast }) {
             draggable: true,
             progress: undefined,
             theme: "light",
-            type: "error",
+            type: "success",
           });
-        }
-      });
+        })
+        .catch((err) => {
+          setStates({ type: "LOADER" });
+          if (err.response?.data) {
+            toast(err.response.data.response.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "error",
+            });
+          }
+        });
+    } else if (phone_no === "" && url !== "") {
+      axios
+        .post(
+          BASE_URL + "/patients/profile",
+          {
+            name: states.name,
+            dob: states.dob,
+            gender: states.gender,
+            location: states.location,
+            relation: states.relation,
+            percentage: 90,
+            url,
+          },
+          {
+            headers: headers(),
+          }
+        )
+        .then((res) => {
+          setStates({ type: "SUCCESS" });
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          toast(res.data.response.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "success",
+          });
+        })
+        .catch((err) => {
+          setStates({ type: "LOADER" });
+          if (err.response?.data) {
+            toast(err.response.data.response.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "error",
+            });
+          }
+        });
+    } else if (phone_no) {
+      const data = {
+        name: states.name,
+        dob: states.dob,
+        gender: states.gender,
+        location: states.location,
+        relation: states.relation,
+        percentage: 90,
+        phone_no: "+92" + phone_no.slice(1),
+        // patientId: "",
+      };
+      url ? (data.url = url) : data;
+      axios
+        .post(BASE_URL + "/patients/profile", data, {
+          headers: headers(),
+        })
+        .then((res) => {
+          setShow(false);
+          setStates({ type: "OTP_SEND" });
+          setOtpModal(true);
+          // dispatch({
+          //   type: "getProfilesSlice/updateProfiles",
+          //   payload: res.data.response.data,
+          // });
+          // toast(res.data.response.message, {
+          //   position: "top-right",
+          //   autoClose: 3000,
+          //   hideProgressBar: false,
+          //   closeOnClick: true,
+          //   pauseOnHover: true,
+          //   draggable: true,
+          //   progress: undefined,
+          //   theme: "light",
+          //   type: "success",
+          // });
+        })
+        .catch((err) => {
+          setStates({ type: "LOADER" });
+          if (err.response?.data) {
+            toast(err.response.data.response.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "error",
+            });
+          }
+        });
+    }
   };
-
   // on focus changing the input field
   const onFocusHandler = () => {
     const inputRef = myInputRef.current;
@@ -234,7 +351,82 @@ export default function AddProfile({ setProfile, toast }) {
     }
     // preview img
   };
+  // verified otp
+  const getVarified = (values) => {
+    setStates({ type: "LOADER" });
+    let { otp1, otp2, otp3, otp4, otp5, otp6 } = values;
+    let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
+    const data = {
+      name: states.name,
+      dob: states.dob,
+      gender: states.gender,
+      location: states.location,
+      relation: states.relation,
+      percentage: 90,
+      url: url,
+      phone_no: "+92" + phone_no.slice(1),
+      code: code,
+      // type: 1,
+    };
 
+    const filteredObject = (({ url, ...rest }) => rest)(data);
+    axios
+      .post(
+        BASE_URL + "/patients/profile",
+        url === "" ? filteredObject : data,
+        {
+          headers: headers(),
+        }
+      )
+      .then((res) => {
+        setStates({ type: "LOADER" });
+        dispatch({
+          type: "getProfilesSlice/updateProfiles",
+          payload: res.data.response.data,
+        });
+        setOtpModal(false);
+        toast(res.data.response.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+        setStates({ type: "SUCCESS" });
+        // setStates({ type: "VERI_LOADING" });
+        // localStorage.setItem("user", JSON.stringify(res.data.response));
+        // return res.data.response;
+        // userAuth(res.data.response.uuid);
+      })
+      .then((res) => {
+        // if (res.profileCreated) {
+        //   dispatch({ type: "loginModalSlice/setAuth", payload: res });
+        //   close();
+        // } else setProfile(true);
+      })
+      .catch((err) => {
+        setStates({ type: "OTP_ERROR" });
+        // setStates({ type: "VERI_ERROR" });
+        console.error(err.response.data.response.message);
+        toast(err.response.data.response.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "error",
+        });
+      });
+    // console.log(modelStates);
+    // setProfile(true);
+  };
   return (
     <>
       <li
@@ -246,7 +438,7 @@ export default function AddProfile({ setProfile, toast }) {
         </Button>
         Add
       </li>
-      <Modal show={show}>
+      <Modal show={show} onHide={() => setShow(false)}>
         {/* modal head */}
         <div className="d-flex align-items-center border-bottom py-2">
           <div className="w-40 ps-3">
@@ -330,6 +522,7 @@ export default function AddProfile({ setProfile, toast }) {
               </option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
+              <option value="Other">Other</option>
             </select>
             <InputField
               placeHolder="City"
@@ -357,11 +550,34 @@ export default function AddProfile({ setProfile, toast }) {
               <option value="Spouse">Spouse</option>
               <option value="Other">Other</option>
             </select>
-            <Button
-              variant="contained"
-              type="submit"
-              disabled={name?.match(/^[a-zA-Z -]{3,}$/) ? false : true}
-            >
+            <span>
+              <InputField
+                type="tel"
+                placeHolder="Phone Optional"
+                value={phone_no}
+                // disabled={patient.relation === "Myself" || !edit}
+                onChange={setStates}
+                name="phone_no"
+                className="w-100 "
+
+                // onChange={handleChanged}
+              />
+              {!phone_no && (
+                <p style={{ fontSize: 11, marginTop: 3 }}>Format:03xxxxxxxxx</p>
+              )}
+              {phone_no ? (
+                validatePhone.test(phone_no) ? (
+                  ""
+                ) : (
+                  <p style={{ fontSize: 11, marginTop: 3, color: "red" }}>
+                    Phone format is not correct
+                  </p>
+                )
+              ) : (
+                ""
+              )}
+            </span>
+            <Button variant="contained" type="submit" disabled={loading}>
               {loading ? (
                 <div
                   className="spinner-border text-white spinner-border-sm"
@@ -374,6 +590,48 @@ export default function AddProfile({ setProfile, toast }) {
           </form>
         </div>
       </Modal>
+      <OtpModal
+        otpModal={otpModal}
+        setOtpModal={setOtpModal}
+        verifyLoading={loading}
+        getVarified={getVarified}
+        otpError={otpError}
+        setStates={setStates}
+        // getOtp={getOtp}
+        phone={phone_no}
+      />
     </>
   );
 }
+const OtpModal = ({
+  otpModal,
+  setOtpModal,
+  setStates,
+  phone,
+  getVarified,
+  verifyLoading,
+  otpError,
+}) => {
+  return (
+    <Modal show={otpModal} onHide={() => setOtpModal(false)}>
+      <Modal.Header closeButton className="border-bottom-0">
+        <p className="text-dark fw-bold">OTP</p>
+      </Modal.Header>
+      <span className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}>
+        <h1 className="heading1">Enter OTP</h1>
+        <p className={`subText text-center text-capitalize`}>
+          Please Check your phone for 6-digit otp sent to
+          <br />
+          <u className="text-primary curser">+92{phone.slice(1)}</u>
+        </p>
+      </span>
+      <Otpinput
+        verifyLoading={verifyLoading}
+        getVarified={getVarified}
+        otpError={otpError}
+        setStates={setStates}
+        // getOtp={getOtp}
+      />
+    </Modal>
+  );
+};
