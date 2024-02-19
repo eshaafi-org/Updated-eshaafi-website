@@ -10,8 +10,9 @@ import { LuMinus } from "react-icons/lu";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import labIcon from "../../../public/images/labIcon.png"
+import Link from "next/link";
 export default function Cart({ setShowCart }: { setShowCart: any }) {
-  const { cart, totalAmount } = useSelector(
+  const { cart, totalAmount, packages } = useSelector(
     (state: any) => state.labCartReducer
   );
   const router = useRouter();
@@ -29,9 +30,22 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
           </Button>
         </div>
         <ul className={styles.cartItems}>
-          {cart.map((item: any, indx: number) => (
-            <CartItem key={indx} item={item} />
-          ))}
+          {cart.length > 0 && (
+            <>
+              <Text16 className="fw-bold">Tests:</Text16>
+              {cart.map((item: any, indx: number) => (
+                <CartItem key={indx} item={item} />
+              ))}
+            </>
+          )}
+          {packages.length > 0 && (
+            <>
+              <Text16 className="fw-bold">Packages:</Text16>
+              {packages.map((item: any, indx: number) => (
+                <PackageItem key={indx} item={item} />
+              ))}
+            </>
+          )}
         </ul>
         <div className={styles.cartDetails}>
           <div className="w-100 d-flex justify-content-between align-items-center">
@@ -84,11 +98,14 @@ const CartItem = ({ key, item }: { key: number; item: any }) => {
           onClick={() => {
             if (counter > 1) {
               setCounter(counter - 1);
-              dispatch({ type: 'labCartSlicer/addQuantity', payload: { barcode: item.barcode,
-                quantity: counter - 1, 
-                totalPrice: parseInt(item.totalPrice) - parseInt(item.productPrice),
-                subTotalPrice: parseInt(item.subPrice) - parseInt(item.subTotalPrice),
-              } })
+              dispatch({
+                type: 'labCartSlicer/addQuantity', payload: {
+                  barcode: item.barcode,
+                  quantity: counter - 1,
+                  totalPrice: parseInt(item.totalPrice) - parseInt(item.productPrice),
+                  subTotalPrice: parseInt(item.subPrice) - parseInt(item.subTotalPrice),
+                }
+              })
             }
           }}
         >
@@ -111,6 +128,78 @@ const CartItem = ({ key, item }: { key: number; item: any }) => {
               barcode: item.barcode, quantity: counter + 1,
               totalPrice: parseInt(item.productPrice) + parseInt(item.totalPrice),
               subTotalPrice: parseInt(item.subPrice) + parseInt(item.subTotalPrice),
+            }
+          })
+        }}>
+          <GoPlus />
+        </Button>
+      </span>
+    </li>
+  );
+};
+const PackageItem = ({ key, item }: { key: number; item: any }) => {
+  const [counter, setCounter] = useState(item.quantity);
+  const dispatch = useDispatch();
+  return (
+    <li key={key} className={styles.cartItem}>
+      <Link href={`/labs/packages/${item.pId}`}>
+        <div className="d-flex align-items-center gap-1">
+          <Image
+            src={item.url || labIcon}
+            alt="Lab Image"
+            width={48}
+            height={48}
+          />
+          <span>
+            <Text16 className="text-capitalize text-dark fw-bold">
+              {item.subscriptionName.slice(0, 15)}...
+            </Text16>
+            <span className="d-flex gap-1">
+              <Text14 className={`${styles.blueColor} text-primary fw-bold`}>
+                Rs. {item?.charges}
+              </Text14>
+              <Text14 className={`${styles.fadeColor} fw-bold text-decoration-line-through`}>
+                Rs. {item?.subCharges}
+              </Text14>
+            </span>
+          </span>
+        </div>
+      </Link>
+      <span className={styles.cartControls}>
+        {item.quantity > 1 ? <Button
+          onClick={() => {
+            if (counter > 1) {
+              setCounter(counter - 1);
+              dispatch({
+                type: 'labCartSlicer/addQuantity', payload: {
+                  pId: item.pId,
+                  quantity: counter - 1,
+                  // totalPrice: parseInt(item.totalPrice) - parseInt(item.productPrice),
+                  // subTotalPrice: parseInt(item.subPrice) - parseInt(item.subTotalPrice),
+                }
+              })
+            }
+          }}
+        >
+          <LuMinus />
+        </Button> : <Button
+          onClick={() =>
+            dispatch({
+              type: "labCartSlicer/removeCartItem",
+              payload: item.pId,
+            })
+          }
+        >
+          <RiDeleteBin5Line />
+        </Button>}
+        <p className="text-primary">{counter}</p>
+        <Button onClick={() => {
+          setCounter(counter + 1)
+          dispatch({
+            type: 'labCartSlicer/addQuantity', payload: {
+              pId: item.pId, quantity: counter + 1,
+              // totalPrice: parseInt(item.productPrice) + parseInt(item.totalPrice),
+              // subTotalPrice: parseInt(item.subPrice) + parseInt(item.subTotalPrice),
             }
           })
         }}>

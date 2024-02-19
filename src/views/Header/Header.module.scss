@@ -306,6 +306,11 @@
   border: 1px solid #ededed;
   padding: 1rem;
   overflow-y: auto;
+  :link {
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
 .cartDetails {
   padding: 2rem 1rem;
@@ -347,7 +352,7 @@
     align-items: center;
   }
 }
-// Cart Button 
+// Cart Button
 .blueColor {
   color: #1b76b8 !important;
   font-size: 16px;

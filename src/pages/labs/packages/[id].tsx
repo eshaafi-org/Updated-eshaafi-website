@@ -7,22 +7,104 @@ import { labPackagesFAQs } from "@/helper/FAQData";
 import { Text24, Text28, Text22, Text14 } from "@/components/Typography";
 import Image from "next/image";
 import packageIcon from "../../../../public/images/packageIcon.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Key } from "react";
 import { useRouter } from "next/router";
+import { addPackageToCart, addToCart } from "@/views/Labs/labCartSlicer";
+import { ToastContainer, toast } from "react-toastify";
 let links = [
   { name: "Home", link: "/" },
   { name: "Lab Tests", link: "/labs" },
-  { name: "Packages", link: `/labs/packages/id` },
+  { name: "Packages", link: `/labs/packages` },
 ];
 export default function Packages() {
   const router = useRouter();
   const { id } = router.query;
+  const dispatch = useDispatch();
   const {
     loading,
     value: { PacakgeResponse },
   } = useSelector((state: any) => state.getLabHomeReducer);
   const selectedPackage = PacakgeResponse.find((packageItem: any) => packageItem.pId === id);
+  const { packages, cart } = useSelector((state: any) => state.labCartReducer)
+  const handleAddPackageToCart = (item: any) => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const itemId = item.pId;
+      const isAlreadyInCart = packages?.some((cartItem: any) => cartItem.pId === itemId);
+      // Dispatch the addToCart action from the cart slice
+      if (!isAlreadyInCart) {
+        // Dispatch the addToCart action from the cart slice
+        dispatch(addPackageToCart({ ...item, quantity: 1, }));
+        toast("Test Added to Cart ", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+      } else {
+        // Show a message or notification indicating that the test is already in the cart
+        toast("Test is already in the Cart", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "warning",
+        });
+      }
+    } else {
+      // If user is not present, dispatch the login modal action
+      dispatch({ type: "loginModalSlice/signIn" });
+    }
+  };
+  const handleAddToCart = (item: any) => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      const itemId = item.Sk;
+      const isAlreadyInCart = cart.some((cartItem: any) => cartItem.Sk === itemId);
+      // Dispatch the addToCart action from the cart slice
+      if (!isAlreadyInCart) {
+        // Dispatch the addToCart action from the cart slice
+        dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice, subTotalPrice: item.subPrice, }));
+        toast("Test Added to Cart ", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "success",
+        });
+      } else {
+        // Show a message or notification indicating that the test is already in the cart
+        toast("Test is already in the Cart", {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "warning",
+        });
+      }
+    } else {
+      // If user is not present, dispatch the login modal action
+      dispatch({ type: "loginModalSlice/signIn" });
+    }
+  };
   return (
     <>
       <Head>
@@ -44,12 +126,12 @@ export default function Packages() {
               <Text24>{selectedPackage?.subscriptionName}</Text24>
               <p>{selectedPackage?.noOfTests}{" Test Included"}</p>
               <span className="d-flex gap-2">
-                <Text14 className={style.blueColor}>Rs.{selectedPackage.charges}</Text14>
-                <Text14 className={style.fadeColor}>Rs.{selectedPackage.subCharges}</Text14>
+                <Text14 className={style.blueColor}>Rs.{selectedPackage?.charges}</Text14>
+                <Text14 className={style.fadeColor}>Rs.{selectedPackage?.subCharges}</Text14>
               </span>
             </span>
           </div>
-          <Button variant="contained">Book All Tests</Button>
+          <Button variant="contained" onClick={() => handleAddPackageToCart(selectedPackage)}>Book All Tests</Button>
         </div>
         <div className={style.testsListContainer}>
           <Text28 className="text-dark fw-bold">Select Test</Text28>
@@ -68,7 +150,7 @@ export default function Packages() {
                 <Button
                   variant="contained"
                   className={`${style.cartButton} mt-2`}
-                // onClick={() => handleAddToCart(result)}
+                  onClick={() => handleAddToCart(result)}
                 >
                   Add to Cart
                 </Button>
@@ -81,6 +163,7 @@ export default function Packages() {
           heading={"Frequently Asked Questions"}
         />
       </section>
+      <ToastContainer />
     </>
   );
 }

@@ -37,7 +37,7 @@ import Cart from "./Cart";
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component
-const Header: React.FC<HeaderProps> = ({}) => {
+const Header: React.FC<HeaderProps> = ({ }) => {
   const router = useRouter();
   // const uuid = JSON.parse(localStorage.getItem("user"));
   // const [userAuth, setUserAuth] = useState<string | undefined | any>("");
@@ -59,7 +59,9 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const { modalValue, userAuth, drawer } = useSelector(
     (state: any) => state.loginModalReducer
   );
-  const { cart } = useSelector((state: any) => state.labCartReducer);
+  const { cart, packages } = useSelector((state: any) => state.labCartReducer);
+  // Plus Both Value 
+  const totalItemCount = cart.length + packages.length;
   // console.log(modalValue);
   const handleOpen = useCallback(() => {
     document.body.style.overflow = "hidden";
@@ -210,8 +212,8 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     className={style.cartBtn}
                   >
                     <FaCartShopping style={{ fontSize: 22 }} />
-                    {cart.length >= 1 && (
-                      <span className={style.cartNumber}>{cart.length}</span>
+                    {totalItemCount >= 1 && (
+                      <span className={style.cartNumber}>{totalItemCount}</span>
                     )}
                   </Button>
                   {showCart &&
@@ -360,8 +362,8 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 className={style.cartBtn}
               >
                 <FaCartShopping style={{ fontSize: 22 }} />
-                {cart.length >= 1 && (
-                  <span className={style.cartNumber}>{cart.length}</span>
+                {totalItemCount >= 1 && (
+                  <span className={style.cartNumber}>{totalItemCount}</span>
                 )}
               </Button>
             )}
@@ -555,9 +557,8 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     return (
                       <li
                         key={i.id}
-                        className={`${
-                          pathName == i.LinkRoute ? "active" : ""
-                        } py-1 border-bottom`}
+                        className={`${pathName == i.LinkRoute ? "active" : ""
+                          } py-1 border-bottom`}
                         onClick={handleClose}
                       >
                         <Link

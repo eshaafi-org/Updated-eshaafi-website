@@ -2,13 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface LabCartState {
   cart: any[];
+  packages: any[];
   totalAmount: number;
   subTotalAmount: number;
-}
-
-interface AddToCartAction {
-  type: string;
-  payload: string;
 }
 
 const labCartSlicer = createSlice({
@@ -16,7 +12,8 @@ const labCartSlicer = createSlice({
   initialState: {
     cart: [],
     totalAmount: 0,
-    subTotalAmount:0,
+    subTotalAmount: 0,
+    packages: [],
   } as LabCartState,
   reducers: {
     addToCart: (state, action: PayloadAction<string>) => {
@@ -30,6 +27,9 @@ const labCartSlicer = createSlice({
         0
       );
     },
+    addPackageToCart: (state, action: PayloadAction<string>) => {
+      state.packages = [...state.packages, action.payload];
+    },
     addAmount: (state) => {
       state.totalAmount = state.cart.reduce(
         (accumulator, item) => accumulator + item.productPrice,
@@ -42,6 +42,7 @@ const labCartSlicer = createSlice({
     },
     removeCartItem: (state, action) => {
       state.cart = state.cart.filter((item) => item.barcode !== action.payload);
+      state.packages = state.packages.filter((item) => item.pId !== action.payload);
       state.totalAmount = state.cart.reduce(
         (accumulator, item) => accumulator + parseInt(item.productPrice),
         0
@@ -62,6 +63,14 @@ const labCartSlicer = createSlice({
           }
         } else return cartItem
       })
+      state.packages = state.packages.map((cartItem) => {
+        if (cartItem.pId === action.payload.pId) {
+          return {
+            ...cartItem,
+            quantity: action.payload.quantity,
+          }
+        } else return cartItem
+      })
       state.totalAmount = state.cart.reduce(
         (accumulator, item) => accumulator + parseInt(item.totalPrice),
         0
@@ -75,4 +84,5 @@ const labCartSlicer = createSlice({
 });
 
 export const { addToCart } = labCartSlicer.actions;
+export const { addPackageToCart } = labCartSlicer.actions;
 export const labCartReducer = labCartSlicer.reducer;
