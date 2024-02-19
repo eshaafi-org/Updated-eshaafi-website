@@ -63,7 +63,7 @@ export default function Home({ positions, doctors }: any) {
         {/* <Subscriptions /> */}
         {/* <Reviews />*/}
         <Blogs blogs={positions} />
-        <Partners />
+        {/* <Partners /> */}
         <GetApp color="#fff" />
       </main>
     </>
