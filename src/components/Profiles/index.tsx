@@ -12,10 +12,11 @@ import { useRouter } from "next/router";
 import { getProfilesData } from "./profilesSlicer";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
+
 // import { AppDispatch } from "@/redux/store";
 // import
-export const logout = (dispatch: any, router: any, userAuth: any) => {
-  axios
+export const logout = async (dispatch: any, router: any, userAuth: any) => {
+  await axios
     .post(BASE_URL + `/auth/signOut`, {
       access_token: userAuth.AccessToken,
       type: 1,
@@ -104,7 +105,7 @@ const Profiles = memo(function ProfilesComponent({
       setPatient(profiles[0]);
       // setEdit(true);
     }
-  }, []);
+  }, [profiles]);
 
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>

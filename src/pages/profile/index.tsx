@@ -6,10 +6,12 @@ import { PageHeading } from "@/components/Typography";
 import AddressBar from "@/components/AddressBar";
 import style from "@/styles/profile.module.scss";
 import { Text28, Text14, Text18, Text24 } from "@/components/Typography";
+import { useRouter } from "next/router";
 import { services, accounts } from "@/helper/profileLinks";
 import Image from "next/image";
 import Profiles from "@/components/Profiles";
 import Link from "next/link";
+
 import moment from "moment";
 import { FaUserCircle } from "react-icons/fa";
 import Button from "@/components/Button";
@@ -17,7 +19,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Otpinput from "@/components/Profiles/OtpFields";
 import toArrayBuffer from "to-array-buffer";
 import { FaCamera } from "react-icons/fa6";
@@ -36,6 +38,31 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         imgLoader: !state.imgLoader,
+      };
+    }
+    case "LOG_LOADING": {
+      return {
+        ...state,
+        logLoading: true,
+      };
+    }
+    case "LOG_LOADING_FALSE": {
+      return {
+        ...state,
+        logLoading: false,
+        logoutModal: false,
+      };
+    }
+    case "LOG_OUT_MODAL_FALSE": {
+      return {
+        ...state,
+        logoutModal: false,
+      };
+    }
+    case "LOG_OUT_MODAL_TRUE": {
+      return {
+        ...state,
+        logoutModal: true,
       };
     }
     case "SET_URL": {
@@ -127,6 +154,8 @@ export default function Profile() {
     url: "",
     patientId: "",
     imgLoader: false,
+    logoutModal: false,
+    logLoading: false,
   });
   const {
     loading,
@@ -141,13 +170,22 @@ export default function Profile() {
     phone_no,
     imgLoader,
     url,
+    logoutModal,
+    logLoading,
   } = states;
   const dispatch = useDispatch();
+  const router = useRouter();
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
   const [otpShow, setOtpShow] = useState(false);
-
+  const { userAuth } = useSelector((state: any) => state.loginModalReducer);
+  // logout main profile
+  const handleMainLogout = async () => {
+    setStates({ type: "LOG_LOADING" });
+    await logout(dispatch, router, userAuth);
+    setStates({ type: "LOG_LOADING_FALSE" });
+  };
   // handling editing proflie
   const handleEditingProfile = () => {
     setEditLoading(true);
@@ -232,6 +270,7 @@ export default function Profile() {
         });
     }
   };
+  // verified otp
   const getVarified = (values: any) => {
     setStates({ type: "LOADER" });
     let { otp1, otp2, otp3, otp4, otp5, otp6 } = values;
@@ -377,7 +416,7 @@ export default function Profile() {
       setStates({ type: "SET_PROFILE", payload: patient });
     }
   }, [patient]);
-  console.log(patient);
+
   return (
     <>
       <Head>
@@ -657,6 +696,11 @@ export default function Profile() {
                         patient.relation === "Myself"
                       ) {
                         setModal(true);
+                      } else if (
+                        item.name === "Logout" &&
+                        patient.relation === "Myself"
+                      ) {
+                        setStates({ type: "LOG_OUT_MODAL_TRUE" });
                       }
                     }}
                     style={{
@@ -680,6 +724,12 @@ export default function Profile() {
           </div>
         </section>
         <ToastContainer />
+        <LogoutModal
+          show={logoutModal}
+          setStates={setStates}
+          logout={handleMainLogout}
+          loading={logLoading}
+        />
       </main>
     </>
   );
@@ -697,18 +747,26 @@ function DeleteModal({
   toast: any;
   setPatient: any;
 }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const handleDeletingProflie = () => {
     setLoading(true);
-    axios
-      .delete(BASE_URL + `/patients/profile/${patient.patientId}`, {
-        headers: headers(),
-      })
-      .then((res) => {
-        if (patient.relation !== "Myself") {
+    if (patient.relation !== "Myself") {
+      axios
+        .delete(BASE_URL + `/patients/profile/${patient.patientId}`, {
+          headers: headers(),
+        })
+        .then((res) => {
           setLoading(false);
           setShow(false);
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          toast(`Profile deleted successfully!`, {
+            type: "success",
+          });
           setPatient({
             dob: "",
             gender: "",
@@ -718,20 +776,30 @@ function DeleteModal({
             relation: "",
             phone_no: "",
           });
-          dispatch({
-            type: "getProfilesSlice/updateProfiles",
-            payload: res.data.response.data,
-          });
-          toast(`Profile deleted successfully!`, {
-            type: "success",
-          });
-        } else if (patient.relation === "Myself") {
-        }
-      })
-      .catch((error: any) => {
-        setLoading(false);
-        console.log(error);
-      });
+        })
+        .catch((error: any) => {
+          setLoading(false);
+        });
+    } else if (patient.relation === "Myself") {
+      axios
+        .delete(BASE_URL + `/patients/profile/`, {
+          headers: headers(),
+        })
+        .then((res) => {
+          setLoading(false);
+          setShow(false);
+          dispatch({ type: "loginModalSlice/clearAuth" });
+          localStorage.removeItem("user");
+          router.push("/");
+        })
+        .catch((error: any) => {
+          setLoading(false);
+          setShow(false);
+          dispatch({ type: "loginModalSlice/clearAuth" });
+          localStorage.removeItem("user");
+          router.push("/");
+        });
+    }
   };
   return (
     <Modal
@@ -799,5 +867,46 @@ const OtpModal = ({
         // getOtp={getOtp}
       />
     </Modal>
+  );
+};
+const LogoutModal = ({ show, setStates, logout, loading }: any) => {
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={() => setStates({ type: "LOG_OUT_MODAL_FALSE" })}
+      >
+        <Modal.Header closeButton className="border-bottom-0">
+          <p className="text-dark fw-bold">Logout</p>
+        </Modal.Header>
+        <Modal.Body className="grid-example">
+          <p className="text-dark">
+            Are you sure? Logout profile will log you out from all the devices
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="btn btn-light"
+            onClick={() => setStates({ type: "LOG_OUT_MODAL_FALSE" })}
+          >
+            Cancel
+          </button>
+          <button
+            className="btn btn-danger"
+            style={{ background: "#B00020" }}
+            onClick={logout}
+            type="button"
+          >
+            Logout{" "}
+            {loading && (
+              <div
+                className="spinner-border text-white spinner-border-sm"
+                role="status"
+              ></div>
+            )}
+          </button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
