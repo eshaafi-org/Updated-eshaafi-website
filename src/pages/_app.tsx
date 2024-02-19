@@ -8,6 +8,8 @@ import dynamic from "next/dynamic";
 import Script from "next/script";
 import Providers from "../redux/provider";
 
+// import LocoMotiveScroll from "locomotive-scroll";
+
 // rendering header as a client component
 const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
   ssr: false,
@@ -21,7 +23,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <main id="root">
         {router.pathname === "/blog/second/[id]" ||
           router.pathname === "/blog/mobile/[id]" || <NoSSRHeader />}
+
         <Component {...pageProps} />
+
         {router.pathname === "/blog/second/[id]" ||
           router.pathname === "/blog/mobile/[id]" || <Footer />}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-1BXFKZVVFJ" />
