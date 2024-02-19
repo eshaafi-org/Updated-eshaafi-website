@@ -28,7 +28,7 @@ export default function Partners() {
   const xTransition = useMotionValue(0);
   console.log(width);
   useEffect(() => {
-    let finalPosition = -width;
+    let finalPosition = -(width + 32);
     let controls: any;
     controls = animate(xTransition, [0, finalPosition], {
       ease: "linear",
@@ -45,28 +45,23 @@ export default function Partners() {
     <section className="w-100 bg-white" style={{ overflowX: "hidden" }}>
       {/* <div className="container sm-pt-0"> */}
       <div
-        className="d-flex flex-column row-gap-2 align-items-center"
-        style={{ overflowX: "hidden" }}
+        className="d-flex flex-column align-items-center"
+        style={{
+          overflowX: "hidden",
+        }}
       >
-        <h2>Corporate Partners</h2>
+        <h2 className="">Corporate Partners</h2>
         <motion.ul className={styles.partnersList} style={{ x: xTransition }}>
-          <div
-            className="d-flex justify-content-around"
-            ref={ref}
-            style={{ minWidth: "100%" }}
-          >
+          <div className={styles.partnerAnimiList} ref={ref}>
             {[...partners].map((itm, indx) => (
-              <li key={indx}>
+              <li key={indx} className={styles.partnetItem}>
                 <Image src={itm.icon} alt="partner" />
               </li>
             ))}
           </div>
-          <div
-            className="d-flex  justify-content-around"
-            style={{ minWidth: "100%" }}
-          >
+          <div className={styles.partnerAnimiList}>
             {[...partners].map((itm, indx) => (
-              <li key={indx}>
+              <li key={indx} className={styles.partnetItem}>
                 <Image src={itm.icon} alt="partner" />
               </li>
             ))}
