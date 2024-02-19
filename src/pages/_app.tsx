@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Script from "next/script";
 import Providers from "../redux/provider";
+
 // rendering header as a client component
 const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
   ssr: false,
