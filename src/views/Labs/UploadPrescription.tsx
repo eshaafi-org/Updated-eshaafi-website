@@ -1,7 +1,7 @@
 import style from "@/styles/labs.module.scss";
 import Button from "@/components/Button";
 import { Text28 } from "@/components/Typography";
-import labPrescriptionImage from "../../../public/images/labsPrescriptionImage.png";
+import labPrescriptionImage from "../../../public/images/labsIcon.png";
 import { FaFilePrescription } from "react-icons/fa";
 import Link from "next/link";
 
@@ -18,7 +18,7 @@ export default function UploadPrescription() {
               variant="contained"
               className="mt-3 d-flex align-items-center col-gap-0-5"
             >
-              <FaFilePrescription />
+              <FaFilePrescription style={{ width: '18px', height: '22px', borderRadius: "6px" }} />
               Upload Prescription
             </Button>
           </Link>

@@ -9,7 +9,7 @@ import axios, { AxiosError } from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import empty from "../../../public/images/empty.svg";
 import Button from "@/components/Button";
-import SkeletonLoader from "@/components/SkeletonLoader";
+import {SkeletonLoader} from "@/components/SkeletonLoader";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";

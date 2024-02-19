@@ -17,15 +17,16 @@ import { addToCart } from "@/views/Labs/labCartSlicer";
 import Head from "next/head";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { CardsSkeletonLoader } from "@/components/SkeletonLoader";
+import Link from "next/link";
 
 export default function Test() {
-
     const router = useRouter();
     const { id } = router.query;
     const getLabName = () => {
         if (id === 'IDC-Lab') {
             return 'IDC Lab';
-        } else if (id === 'Chugtai-Lab') {
+        } else if (id === 'Chughtai-Lab') {
             return 'Chughtai Lab';
         } else {
             // Handle other cases or return a default value
@@ -39,37 +40,36 @@ export default function Test() {
     ];
     const value = useSelector((state: any) => state.labCartReducer.cart)
     const [test, setTest] = useState([])
+    const [loading, setLoading] = useState(false)
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const dispatch = useDispatch();
 
     const handleSearch = () => {
-        const labSlug = id === 'Chugtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
-        axios
-            .get(BASE_URL + `/lab/patients/labs/test`, {
-                headers: headers(),
-                params: {
-                    name: searchQuery,
-                    vendor: labSlug,
-                },
-            })
-            .then((res) => {
-                setSearchResults(res.data.response.Items);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    const handleKeyPress = (event: { key: string; }) => {
-        if (event.key === 'Enter') {
-            handleSearch();
+        // Check if the search query length is at least 2 characters
+        if (searchQuery.length >= 1) {
+            const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
+            axios
+                .get(BASE_URL + `/lab/patients/labs/test`, {
+                    headers: headers(),
+                    params: {
+                        name: searchQuery,
+                        vendor: labSlug,
+                    },
+                })
+                .then((res) => {
+                    setSearchResults(res.data.response.Items);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     };
     useEffect(() => {
         // Check if id is valid and not an empty string
         if (id && id !== '') {
-            const labSlug = id === 'Chugtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
+            setLoading(true)
+            const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
 
             axios
                 .get(BASE_URL + `/lab/patients/labs/test?vendor=${labSlug}`, {
@@ -77,43 +77,51 @@ export default function Test() {
                 })
                 .then((res) => {
                     setTest(res.data.response.Items);
+                    setLoading(false)
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoading(false)
                 });
         }
     }, [id]);
     const handleAddToCart = (item: any) => {
-        const itemId = item.Sk;
-        const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
-        // Dispatch the addToCart action from the cart slice
-        if (!isAlreadyInCart) {
+        const user = localStorage.getItem("user");
+        if (user) {
+            const itemId = item.Sk;
+            const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
             // Dispatch the addToCart action from the cart slice
-            dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice }));
-            toast("Test Added to Cart ", {
-                position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                type: "success",
-            });
+            if (!isAlreadyInCart) {
+                // Dispatch the addToCart action from the cart slice
+                dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice, subTotalPrice: item.subPrice, }));
+                toast("Test Added to Cart ", {
+                    position: "bottom-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    type: "success",
+                });
+            } else {
+                // Show a message or notification indicating that the test is already in the cart
+                toast("Test is already in the Cart", {
+                    position: "bottom-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    type: "warning",
+                });
+            }
         } else {
-            // Show a message or notification indicating that the test is already in the cart
-            toast("Test is already in the Cart", {
-                position: "bottom-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                type: "warning",
-            });
+            // If user is not present, dispatch the login modal action
+            dispatch({ type: "loginModalSlice/signIn" });
         }
     };
     return (
@@ -121,77 +129,91 @@ export default function Test() {
             <Head>
                 <title>eShaafi | Labs</title>
             </Head>
-            <section className="container">
-                <span>
-                    <h2>{getLabName()}</h2>
-                    <AddressBar links={links} />
-                </span>
-                <div className={`${style.labDetail} mt-4 d-flex justify-content-between align-items-start`}>
-                    <div className="d-flex col-gap-1 align-items-center">
-                        <Image
-                            src={labIcon}
-                            alt="labIcon"
-                            height={100}
-                            width={100}
-                        />
-                        <span>
-                            <Text24>{getLabName()}</Text24>
-                            <Text16>1200+ Tests</Text16>
-                            <Text14>Available 00:00am - 00:00pm</Text14>
-                        </span>
+            {loading ? (
+                <div className="container">
+                    <CardsSkeletonLoader />
+                </div>
+            ) : (
+                <section className="container">
+                    <span>
+                        <h2>{getLabName()}</h2>
+                        <AddressBar links={links} />
+                    </span>
+                    <div className={`${style.labDetail} mt-4 d-flex justify-content-between align-items-start`}>
+                        <div className="d-flex col-gap-1 align-items-center">
+                            <Image
+                                src={labIcon}
+                                alt="labIcon"
+                                height={100}
+                                width={100}
+                            />
+                            <span>
+                                <Text24>{getLabName()}</Text24>
+                                <Text16>1200+ Tests</Text16>
+                                <Text14>Available 00:00am - 00:00pm</Text14>
+                            </span>
+                        </div>
+                        <Link href={"/labs/upload"}>
+                            <Button variant="contained" className={"d-flex align-items-center col-gap-0-5"}>
+                                <FaFilePrescription style={{ width: '18px', height: '22px', color: '#98D0F9', borderRadius: "6px" }} />
+                                Upload Prescription
+                            </Button>
+                        </Link>
                     </div>
-                    <Button variant="contained" className={"d-flex align-items-center col-gap-0-5"}>
-                        <FaFilePrescription style={{ width: '18px', height: '22px', color: '#98D0F9' }} />
-                        Upload Prescription
-                    </Button>
-                </div>
-                <div className={`${style.search} mt-4`}>
-                    <input
-                        placeholder="Search for tests here"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                    />
-                    <FaSearch className={style.searchIcon} />
-                </div>
-                <ul className={`${style.cart} mt-3 pb-4`}>
-                    {searchQuery ? (
-                        // Display search results when a search query is present
-                        searchResults.map((result: any, index: any) => (
-                            <li key={index} className={style.cartDetail}>
-                                {/* Display the search results here */}
-                                <Text22>{result.MedicineName}</Text22>
-                                <Text16>{result.category}</Text16>
-                                <Text14>{result.productPrice}</Text14>
-                                <Button
-                                    variant="contained"
-                                    className={`${style.cartButton} mt-2`}
-                                    onClick={() => handleAddToCart(result)}
-                                >
-                                    Add to Cart
-                                </Button>
-                            </li>
-                        ))
-                    ) : (
-                        // Display test data when there's no search query
-                        test.map((tests: any, index: any) => (
-                            <li key={index} className={style.cartDetail}>
-                                <Text22>{tests.MedicineName}</Text22>
-                                <Text16>{tests.category}</Text16>
-                                <Text14>{tests.productPrice}</Text14>
-                                <Button
-                                    variant="contained"
-                                    className={`${style.cartButton} mt-2`}
-                                    onClick={() => handleAddToCart(tests)}
-                                >
-                                    Add to Cart
-                                </Button>
-                            </li>
-                        ))
-                    )}
-                </ul>
-                <FQuest quests={labFAQs} heading={"Frequently Asked Questions"} />
-            </section>
+                    <div className={`${style.search} mt-4`}>
+                        <input
+                            placeholder="Search for tests here"
+                            value={searchQuery}
+                            // onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                if (e.target.value.length >= 1) {
+                                    handleSearch();
+                                }
+                            }}
+                        />
+                        <FaSearch className={style.searchIcon} />
+                    </div>
+                    <ul className={`${style.cart} mt-3 pb-4`}>
+                        {searchQuery ? (
+                            // Display search results when a search query is present
+                            searchResults.map((result: any, index: any) => (
+                                <li key={index} className={style.cartDetail}>
+                                    {/* Display the search results here */}
+                                    <Text22 className={style.blackColor}>{result.MedicineName}</Text22>
+                                    <Text14>{result.productPrice}</Text14>
+                                    <Button
+                                        variant="contained"
+                                        className={`${style.cartButton} mt-2`}
+                                        onClick={() => handleAddToCart(result)}
+                                    >
+                                        Add to Cart
+                                    </Button>
+                                </li>
+                            ))
+                        ) : (
+                            // Display test data when there's no search query
+                            test.map((tests: any, index: any) => (
+                                <li key={index} className={style.cartDetail}>
+                                    <Text22 className={style.blackColor}>{tests.MedicineName}</Text22>
+                                    <span className="d-flex gap-1">
+                                        <Text14 className={style.blueColor}>Rs.{tests.productPrice}</Text14>
+                                        <Text14 className={style.fadeColor}>Rs.{tests.subPrice}</Text14>
+                                    </span>
+                                    <Button
+                                        variant="outlined"
+                                        className={`${style.cartButton} mt-2`}
+                                        onClick={() => handleAddToCart(tests)}
+                                    >
+                                        Add to Cart
+                                    </Button>
+                                </li>
+                            ))
+                        )}
+                    </ul>
+                    <FQuest quests={labFAQs} heading={"Frequently Asked Questions"} />
+                </section>
+            )}
             <ToastContainer />
         </>
     )

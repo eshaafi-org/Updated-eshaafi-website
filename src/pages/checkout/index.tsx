@@ -3,15 +3,15 @@
 import AddressBar from "@/components/AddressBar";
 import Button from "@/components/Button";
 import style from '@/styles/labs.module.scss'
-import { InputField } from "@/components/InputField";
 import { Text16, Text18, Text22, Text28 } from "@/components/Typography";
 import { useSelector } from "react-redux";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Info from "@/views/Labs/info";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { ToastContainer, toast } from "react-toastify";
+import Profiles from "@/components/Profiles";
 // Defining the Checkout component
 export default function Checkout() {
     // Array of links for the breadcrumb navigation
@@ -20,9 +20,10 @@ export default function Checkout() {
         { name: "Lab Tests", link: "/labs" },
         { name: "Checkout", link: `/checkout` },
     ];
-    const { cart, totalAmount } = useSelector(
+    const { cart, totalAmount, subTotalAmount } = useSelector(
         (state: any) => state.labCartReducer
     );
+    const [profile, setProfile] = useState<any>('')
     const [address, setAddress] = useState("");
     const [typeTest, setTypeTest] = useState("");
     const [time, setTime] = useState("");
@@ -82,6 +83,24 @@ export default function Checkout() {
                 });
             });
     }
+    // Function to calculate total quantity and total discount
+    const calculateTotals = () => {
+        let totalQuantity = 0;
+        let totalDiscount = 0;
+        // Iterate over each item in the cart
+        cart.forEach((item: any) => {
+            totalQuantity += item.quantity;
+            totalDiscount += parseInt(item.discount) || 0;
+        });
+        const averageDiscount = totalDiscount / cart.length;
+        return { totalQuantity, averageDiscount };
+    }
+    // useEffect hook to watch changes in profile and update patientName accordingly
+    useEffect(() => {
+        if (profile && profile.patientName) {
+            setPatientName(profile.patientName);
+        }
+    }, [profile]);
     // Rendering the Checkout component
     return (
         <>
@@ -98,15 +117,22 @@ export default function Checkout() {
                 <div className={`${style.checkoutDetail} d-flex justify-content-between col-gap-2`}>
                     {/* Order details section */}
                     <div className={style.orderDetail}>
-                        <Text28 className={style.blackColor}>Order Detail</Text28>
+                        <span>
+                            <p className="mt-4 pb-2">Booking For</p>
+                            <Profiles patient={profile} setPatient={setProfile} />
+                        </span>
+                        <Text28 className={style.blackColor1}>Order Detail</Text28>
                         {cart.map((item: any, index: number) => (
                             <div className="p-3" key={index}>
                                 {/* Individual test details */}
                                 <span className="d-flex align-items-center justify-content-between">
                                     <Text22 className={style.blackCol}>{item.MedicineName}</Text22>
-                                    <Text16 className={style.blueColor}>Rs. {item.productPrice}</Text16>
+                                    <span className="d-flex gap-1">
+                                        <Text16 className={style.fadeColor}>Rs. {item.subPrice}</Text16>
+                                        <Text16 className={style.blueColor}>Rs. {item.productPrice}</Text16>
+                                    </span>
                                 </span>
-                                <Text16>{item.category} {item.quantity}X</Text16>
+                                <Text16>Quantity {item.quantity}X</Text16>
                             </div>
                         ))}
                         {/* Payment method section */}
@@ -128,7 +154,7 @@ export default function Checkout() {
                             />
                             {/* Note section */}
                             <div className={`${style.note} mt-3`}>
-                                <Text28 className={style.blackColor}>Note</Text28>
+                                <Text28 className={style.blackColor1}>Note</Text28>
                                 {/* Input field for adding notes or instructions */}
                                 <input
                                     className="w-100 p-3 rounded mt-1"
@@ -139,17 +165,25 @@ export default function Checkout() {
                     </div>
                     {/* Order summary and additional details section */}
                     <div className={`${style.summary} d-flex flex-column p-4`}>
-                        <Text18 className={style.blackColor}>Order Summary</Text18>
+                        <Text18 className={style.blackColor1}>Order Summary</Text18>
                         {/* Table displaying order summary details */}
                         <table className="w-100">
                             <tbody className="d-flex flex-column row-gap-4">
                                 <tr>
                                     <th>Tests</th>
-                                    <td>2</td>
+                                    <td>{calculateTotals().totalQuantity}</td>
+                                </tr>
+                                <tr>
+                                    <th>Sub Total Charges</th>
+                                    <td>Rs. {subTotalAmount}</td>
+                                </tr>
+                                <tr>
+                                    <th>Discount</th>
+                                    <td>{calculateTotals().averageDiscount}%</td>
                                 </tr>
                                 <tr>
                                     <th>Total Charges</th>
-                                    <td>{totalAmount}</td>
+                                    <td>Rs. {totalAmount}</td>
                                 </tr>
                                 <tr>
                                     <th>Payment Method</th>
@@ -158,12 +192,23 @@ export default function Checkout() {
                             </tbody>
                         </table>
                         {/* Input field and button for applying discount codes or promo codes */}
-                        <span className="w-100 d-flex">
+                        {/* <span className="w-100 d-flex">
                             <InputField placeHolder="Discount code or promo code" />
                             <Button variant="contained" className={style.applyButton}>Apply</Button>
-                        </span>
+                        </span> */}
                         {/* Button for placing the order */}
-                        <Button variant="contained" onClick={bookLab}>
+                        <Button variant="contained"
+                            onClick={bookLab}
+                            disabled={
+                                typeTest &&
+                                    patientName &&
+                                    date &&
+                                    time &&
+                                    labName
+                                    ? false
+                                    : true
+                            }
+                        >
                             Place Order
                             {uploading && (
                                 <>

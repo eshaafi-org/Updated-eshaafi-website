@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import Button from "@/components/Button";
 import { InputField } from "@/components/InputField";
 import { Text14, Text18, Text28 } from "@/components/Typography";
@@ -61,6 +61,12 @@ function AddressModal({ getAddress }: { getAddress: any }) {
         toast.error("Error saving address");
         setLoading(false)
       });
+  }
+  function handleDiasble() {
+    if (address && city) {
+      return false;
+    }
+    return true
   }
   return (
     <>
@@ -128,6 +134,7 @@ function AddressModal({ getAddress }: { getAddress: any }) {
               placeHolder="Address"
               className="w-100"
               value={address}
+              maxLength={150}
               onChange={(e: { target: { value: string } }) =>
                 setAddress(e.target.value)
               }
@@ -136,13 +143,14 @@ function AddressModal({ getAddress }: { getAddress: any }) {
               placeHolder="Landmark (Optional)"
               className="w-100"
               value={landMark}
+              maxLength={50}
               onChange={(e: { target: { value: string } }) =>
                 setLandMark(e.target.value)
               }
             />
           </div>
           <div className="d-flex w-100 mt-5 col-gap-1">
-            <Button variant="contained" type="submit" onClick={handleAddress}>
+            <Button variant="contained" type="submit" onClick={handleAddress} disabled={handleDiasble()}>
               {loading && <div
                 className="spinner-border text-blue spinner-border-sm ms-2"
                 role="status"
@@ -163,12 +171,12 @@ function AddressModal({ getAddress }: { getAddress: any }) {
     </>
   );
 }
-function EditAddress({ item, setAddressList }: { item: any, setAddressList:any }) {
+function EditAddress({ item, setAddressList }: { item: any, setAddressList: any }) {
   const [show, setShow] = useState(false);
   const [city, setCity] = useState(item?.city);
   const [address, setAddress] = useState(item?.address);
   const [landMark, setLandMark] = useState(item?.landMark);
-  const [loading, setLoading]= useState(false)
+  const [loading, setLoading] = useState(false)
 
   // modal open and close function
   const handleClose = () => setShow(false);
@@ -217,6 +225,12 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList:any }
         toast.error("Error Updated address");
         setLoading(false)
       });
+  }
+  function handleDiasble() {
+    if (address && city) {
+      return false;
+    }
+    return true
   }
   return (
     <>
@@ -284,6 +298,7 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList:any }
               placeHolder="Address"
               className="w-100"
               value={address}
+              maxLength={150}
               onChange={(e: { target: { value: string } }) =>
                 setAddress(e.target.value)
               }
@@ -292,17 +307,18 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList:any }
               placeHolder="Landmark (Optional)"
               className="w-100"
               value={landMark}
+              maxLength={50}
               onChange={(e: { target: { value: string } }) =>
                 setLandMark(e.target.value)
               }
             />
           </div>
           <div className="d-flex w-100 mt-5 col-gap-1">
-            <Button variant="contained" type="submit" onClick={handleAddress}>
-            {loading && <div
-              className="spinner-border text-blue spinner-border-sm ms-2"
-              role="status"
-            ></div>}
+            <Button variant="contained" type="submit" onClick={handleAddress} disabled={handleDiasble()}>
+              {loading && <div
+                className="spinner-border text-blue spinner-border-sm ms-2"
+                role="status"
+              ></div>}
               Update Address
             </Button>
             <Button
@@ -319,7 +335,7 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList:any }
     </>
   );
 }
-function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList:any }) {
+function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList: any }) {
   const [show, setShow] = useState(false);
   // modal open and close function
   const handleClose = () => setShow(false);
@@ -344,8 +360,8 @@ function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList:an
           type: "success",
         });
         handleClose();
-        setAddressList((prevList:any) =>
-          prevList.filter((item:any) => item.aId !== aId)
+        setAddressList((prevList: any) =>
+          prevList.filter((item: any) => item.aId !== aId)
         );
         setLoading(false)
       })
@@ -362,7 +378,7 @@ function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList:an
         className={`${style.blueColor} d-flex align-items-center gap-1`}
         onClick={handleShow}
       >
-        <RiDeleteBin6Line style={{color:"red"}} />
+        <RiDeleteBin6Line style={{ color: "red" }} />
       </Button>
       <Modal
         show={show}
@@ -423,7 +439,6 @@ function Address({
       })
       .catch((err) => console.error(err));
   };
-
   useEffect(() => {
     getAddress();
   }, []);
@@ -436,9 +451,9 @@ function Address({
       {/* Displaying the address */}
       <ul className={`${style.address}`}>
         {addressList.map((item: any, index: number) => (
-          <li key={index} className={style.addressListItem}>
+          <li key={index} className={`${style.addressListItem} d-flex justify-content-between`}>
             <label
-              className={`${style.labelrdioclass} d-flex  align-items-center justify-content-between row-gap-1 `}
+              className={`${style.labelrdioclass} d-flex align-items-center row-gap-1`}
             >
               <input
                 type="radio"
@@ -456,11 +471,11 @@ function Address({
               >
                 {item?.address + " " + item?.landMark + ", " + item?.city}
               </span>
-              <span className="d-flex">
-                <EditAddress item={item} setAddressList={setAddressList} />
-                <DeleteAddress aId={item?.aId} setAddressList={setAddressList} />
-              </span>
             </label>
+            <span className="d-flex">
+              <EditAddress item={item} setAddressList={setAddressList} />
+              <DeleteAddress aId={item?.aId} setAddressList={setAddressList} />
+            </span>
           </li>
         ))}
       </ul>
