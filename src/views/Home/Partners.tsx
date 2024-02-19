@@ -1,3 +1,4 @@
+"use client";
 import styles from "@/styles/home.module.scss";
 import Image from "next/image";
 import partner1 from "/public/images/partner1.png";

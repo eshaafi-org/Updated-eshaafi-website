@@ -128,6 +128,7 @@ export async function getStaticProps() {
   const data = await blogs.json();
   console.log(data);
   const docData = await doctors.json();
+  console.log(docData.response.Items);
   return {
     props: {
       positions: data.response.Items ? data.response.Items : [],
