@@ -130,10 +130,6 @@ export async function getStaticProps() {
   const docData = await doctors.json();
   return {
     props: {
-<<<<<<< HEAD
-      positions: data.response?.Items ? data.response?.Items : [],
-      doctors: docData.response.Items,
-=======
       positions: data.response.Items ? data.response.Items : [],
       doctors: docData.response.Items.sort((a: any, b: any) => {
         if (a.isOnline && !b.isOnline) {
@@ -144,7 +140,6 @@ export async function getStaticProps() {
           return 0;
         }
       }),
->>>>>>> 0fa83173409bcd83786f2c622e45fd955d8b9b3f
     },
     revalidate: 1,
   };

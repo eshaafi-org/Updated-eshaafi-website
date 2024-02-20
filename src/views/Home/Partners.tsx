@@ -26,7 +26,6 @@ const partners = [
 export default function Partners() {
   let [ref, { width }] = useMeasure();
   const xTransition = useMotionValue(0);
-  console.log(width);
   useEffect(() => {
     let finalPosition = -width;
     let controls: any;
