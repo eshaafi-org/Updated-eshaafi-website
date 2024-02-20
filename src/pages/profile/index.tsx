@@ -864,7 +864,7 @@ function DeleteModal({
   );
 }
 // otp confirmation modal, when user add or edit sub profile with phone number
-const OtpModal = memo(function ({
+const OtpModal = ({
   otpModal,
   setOtpModal,
   setStates,
@@ -872,7 +872,7 @@ const OtpModal = memo(function ({
   getVarified,
   verifyLoading,
   otpError,
-}: any) {
+}: any) => {
   return (
     <Modal show={otpModal} onHide={() => setOtpModal(false)}>
       <Modal.Header closeButton className="border-bottom-0">
@@ -895,9 +895,9 @@ const OtpModal = memo(function ({
       />
     </Modal>
   );
-});
+};
 // main profile logout
-const LogoutModal = memo(function ({ show, setStates, logout, loading }: any) {
+const LogoutModal = ({ show, setStates, logout, loading }: any) => {
   return (
     <>
       <Modal
@@ -937,4 +937,4 @@ const LogoutModal = memo(function ({ show, setStates, logout, loading }: any) {
       </Modal>
     </>
   );
-});
+};
