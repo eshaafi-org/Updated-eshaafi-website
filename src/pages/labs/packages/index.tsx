@@ -22,7 +22,7 @@ export default function Packages() {
         loading,
         value: { PacakgeResponse },
     } = useSelector((state: any) => state.getLabHomeReducer);
-    const value = useSelector((state: any) => state.labCartReducer.packages)
+    const value = useSelector((state: any) => state.labCartReducer?.packages)
     const handleAddPackageToCart = (item: any) => {
         const user = localStorage.getItem("user");
         if (user) {
@@ -31,7 +31,7 @@ export default function Packages() {
             // Dispatch the addToCart action from the cart slice
             if (!isAlreadyInCart) {
                 // Dispatch the addToCart action from the cart slice
-                dispatch(addPackageToCart({ ...item, quantity: 1, }));
+                dispatch(addPackageToCart({ ...item, quantity: 1, totalPackPrice: item?.charges, subTotalPackPrice: item?.subCharges, }));
                 toast("Test Added to Cart ", {
                     position: "bottom-right",
                     autoClose: 1000,
@@ -83,7 +83,11 @@ export default function Packages() {
                             {PacakgeResponse.map((item: any, indx: number) => (
                                 <li key={indx} className={style.labslist}>
                                     <div className="d-flex gap-2">
-                                        <Image src={item.url ? item.url : packageIcon} alt="Labs Icon" />
+                                        <Image src={item.url ? item.url : packageIcon} alt="Labs Icon"
+                                            className={style.imagePackage}
+                                            width={82}
+                                            height={82}
+                                        />
                                         <span className={style.packageText}>
                                             <Text24 className="fw-bold text-dark">
                                                 {item.subscriptionName}

@@ -12,15 +12,17 @@ import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { ToastContainer, toast } from "react-toastify";
 import Profiles from "@/components/Profiles";
+import successGif from "../../../public/images/success.gif";
+import Image from "next/image";
+import Link from "next/link";
 // Defining the Checkout component
 export default function Checkout() {
     // Array of links for the breadcrumb navigation
     let links = [
         { name: "Home", link: "/" },
-        { name: "Lab Tests", link: "/labs" },
         { name: "Checkout", link: `/checkout` },
     ];
-    const { cart, totalAmount, subTotalAmount } = useSelector(
+    const { cart, totalAmount, subTotalAmount, packages } = useSelector(
         (state: any) => state.labCartReducer
     );
     const [profile, setProfile] = useState<any>('')
@@ -31,17 +33,32 @@ export default function Checkout() {
     const [labName, setLabName] = useState("");
     const [patientName, setPatientName] = useState("");
     const [uploading, setUploading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const bookLab = () => {
         // e.preventDefault();
         setUploading(true);
+        let testUid: { uuid: any; quantity: string }[] = [];
+        if (cart.length > 0) {
+            testUid = testUid.concat(cart.map((item: any) => ({ uuid: item.Sk, quantity: item.quantity.toString() })));
+        }
+        if (packages.length > 0) {
+            packages.forEach((pkg: any) => {
+                if (pkg.selectTest) {
+                    pkg.selectTest.forEach((item: any) => {
+                        testUid.push({ uuid: item.Sk, quantity: "1" });
+                    });
+                }
+            });
+        }
         const data = {
             patientName: patientName,
             time: time,
             date: date,
             labName: labName,
             typeTest: typeTest,
-            testUid: cart.map((item: { Sk: any; quantity: { toString: () => any; }; }) => ({ uuid: item.Sk, quantity: item.quantity.toString() })),
+            pId: packages.length > 0 ? packages.pId : "",
+            testUid: testUid,
         }
         axios
             .post(
@@ -67,6 +84,7 @@ export default function Checkout() {
                         type: "success",
                     }
                 )
+                setSuccess(true)
             })
             .catch((err) => {
                 setUploading(false);
@@ -90,9 +108,18 @@ export default function Checkout() {
         // Iterate over each item in the cart
         cart.forEach((item: any) => {
             totalQuantity += item.quantity;
-            totalDiscount += parseInt(item.discount) || 0;
+            // Remove the percentage sign and convert the discount to a number
+            const discount = parseFloat(item.discount.replace('%', '')) || 0;
+            totalDiscount += discount;
         });
-        const averageDiscount = totalDiscount / cart.length;
+        // Iterate over each item in the packages
+        packages.forEach((item: any) => {
+            totalQuantity += item.quantity;
+            // Remove the percentage sign and convert the discount to a number
+            const discount = parseFloat(item.saveRupees.replace('%', '')) || 0;
+            totalDiscount += discount;
+        });
+        const averageDiscount = totalDiscount / (cart.length + packages.length);
         return { totalQuantity, averageDiscount };
     }
     // useEffect hook to watch changes in profile and update patientName accordingly
@@ -107,7 +134,7 @@ export default function Checkout() {
             <Head>
                 <title>eShaafi | Labs</title>
             </Head>
-            <section className="container">
+            {success ?<section className="container">
                 <span>
                     {/* Heading and breadcrumb navigation */}
                     <h2>Checkout</h2>
@@ -122,19 +149,42 @@ export default function Checkout() {
                             <Profiles patient={profile} setPatient={setProfile} />
                         </span>
                         <Text28 className={style.blackColor1}>Order Detail</Text28>
-                        {cart.map((item: any, index: number) => (
-                            <div className="p-3" key={index}>
-                                {/* Individual test details */}
-                                <span className="d-flex align-items-center justify-content-between">
-                                    <Text22 className={style.blackCol}>{item.MedicineName}</Text22>
-                                    <span className="d-flex gap-1">
-                                        <Text16 className={style.fadeColor}>Rs. {item.subPrice}</Text16>
-                                        <Text16 className={style.blueColor}>Rs. {item.productPrice}</Text16>
-                                    </span>
-                                </span>
-                                <Text16>Quantity {item.quantity}X</Text16>
-                            </div>
-                        ))}
+                        {cart.length > 0 && (
+                            <>
+                                <Text16 className="fw-bold pt-2">Tests:</Text16>
+                                {cart.map((item: any, index: number) => (
+                                    <div className="p-3 pt-1" key={index}>
+                                        {/* Individual test details */}
+                                        <span className="d-flex align-items-center justify-content-between">
+                                            <Text22 className={style.blackCol}>{item.MedicineName}</Text22>
+                                            <span className="d-flex gap-1">
+                                                <Text16 className={style.fadeColor}>Rs. {item.subPrice}</Text16>
+                                                <Text16 className={style.blueColor}>Rs. {item.productPrice}</Text16>
+                                            </span>
+                                        </span>
+                                        <Text16>Quantity {item.quantity}X</Text16>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+                        {packages.length > 0 && (
+                            <>
+                                <Text16 className="fw-bold pt-2">Packages:</Text16>
+                                {packages.map((item: any, index: number) => (
+                                    <div className="p-3 pt-1" key={index}>
+                                        {/* Individual test details */}
+                                        <span className="d-flex align-items-center justify-content-between">
+                                            <Text22 className={style.blackCol}>{item.subscriptionName}</Text22>
+                                            <span className="d-flex gap-1">
+                                                <Text16 className={style.fadeColor}>Rs. {item.subCharges}</Text16>
+                                                <Text16 className={style.blueColor}>Rs. {item.charges}</Text16>
+                                            </span>
+                                        </span>
+                                        <Text16>Quantity {item.quantity}X</Text16>
+                                    </div>
+                                ))}
+                            </>
+                        )}
                         {/* Payment method section */}
                         <div>
                             {/* Information */}
@@ -171,7 +221,7 @@ export default function Checkout() {
                             <tbody className="d-flex flex-column row-gap-4">
                                 <tr>
                                     <th>Tests</th>
-                                    <td>{calculateTotals().totalQuantity}</td>
+                                    <td>{calculateTotals().totalQuantity ? calculateTotals().totalQuantity : 0}</td>
                                 </tr>
                                 <tr>
                                     <th>Sub Total Charges</th>
@@ -179,7 +229,7 @@ export default function Checkout() {
                                 </tr>
                                 <tr>
                                     <th>Discount</th>
-                                    <td>{calculateTotals().averageDiscount}%</td>
+                                    <td>{calculateTotals().averageDiscount ? calculateTotals().averageDiscount : 0}%</td>
                                 </tr>
                                 <tr>
                                     <th>Total Charges</th>
@@ -221,7 +271,28 @@ export default function Checkout() {
                         </Button>
                     </div>
                 </div>
-            </section>
+            </section>:
+                <div className="d-flex justify-content-center flex-column align-items-center">
+                    <Image
+                        src={successGif}
+                        alt="eshaafi-lab-test-success"
+                        width={300}
+                        height={300}
+                    />
+                    <Text28 style={{ color: "#40C175" }}>Booking successful!</Text28>
+                    <p className="w-25 text-center">
+                        You have successfully booked your test our customer care will
+                        contact you shortly{" "}
+                        <Link href={`/orders`}>
+                            <Button variant="outlined" onClick={() => {
+                                setSuccess(false);
+                            }}
+                            >
+                                view details
+                            </Button>
+                        </Link>
+                    </p>
+                </div>}
             <ToastContainer />
         </>
     )
