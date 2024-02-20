@@ -12,10 +12,11 @@ import { useRouter } from "next/router";
 import { getProfilesData } from "./profilesSlicer";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
+
 // import { AppDispatch } from "@/redux/store";
 // import
-export const logout = (dispatch: any, router: any, userAuth: any) => {
-  axios
+export const logout = async (dispatch: any, router: any, userAuth: any) => {
+  await axios
     .post(BASE_URL + `/auth/signOut`, {
       access_token: userAuth.AccessToken,
       type: 1,
@@ -98,13 +99,12 @@ const Profiles = memo(function ProfilesComponent({
     // console.log(profiles);
     // setPatient(profiles[0]);
   }, []);
+
   useEffect(() => {
     if (profiles.length > 0) {
-      // console.log(profiles);
       setPatient(profiles[0]);
-      // setEdit(true);
     }
-  }, []);
+  }, [profiles]);
 
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>
@@ -138,7 +138,7 @@ const Profiles = memo(function ProfilesComponent({
                 onClick={(e: any) => {
                   if (patient.patientId === e.target.value) {
                     setPatient({
-                      patientId: "",
+                      profileId: "",
                       name: "",
                       relation: "",
                       location: "",
@@ -148,7 +148,7 @@ const Profiles = memo(function ProfilesComponent({
                     });
                   } else {
                     setPatient({
-                      patientId: e.target.value,
+                      profileId: e.target.value,
                       name: itm.name,
                       relation: itm.relation,
                       location: itm.location,
@@ -167,7 +167,7 @@ const Profiles = memo(function ProfilesComponent({
                 className={`${
                   style.labelrdioclassProfile
                 } d-flex flex-column justify-content-center align-items-center text-center ${
-                  patient?.patientId === itm.profileId
+                  patient?.profileId === itm.profileId
                     ? style.labelActiveProfile
                     : ""
                 }`}
@@ -191,7 +191,7 @@ const Profiles = memo(function ProfilesComponent({
                   </p>
                   {styling !== style.profileContainer && <p>{itm.relation}</p>}
                 </span>
-                {patient?.patientId === itm.profileId && (
+                {patient?.profileId === itm.profileId && (
                   <FaCheck className={style.icon} />
                 )}
               </label>

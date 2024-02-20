@@ -399,8 +399,27 @@
 }
 /// corporate partners
 .partnersList {
-  position: absolute;
-  left: 0;
   display: flex;
   width: 100%;
+  column-gap: 2rem;
+  @include large-mobile-and-below {
+    // column-gap: 2rem;
+  }
+  // margin: 2rem 0;
+}
+.partnerAnimiList {
+  min-width: 100%;
+  display: flex;
+  justify-content: space-around;
+  column-gap: 2rem;
+  // overflow-x: hidden;
+  @include large-mobile-and-below {
+    min-width: unset;
+    justify-content: unset;
+  }
+}
+.partnerItem {
+  @include large-mobile-and-below {
+    width: fit-content;
+  }
 }

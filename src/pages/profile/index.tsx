@@ -6,6 +6,7 @@ import { PageHeading } from "@/components/Typography";
 import AddressBar from "@/components/AddressBar";
 import style from "@/styles/profile.module.scss";
 import { Text28, Text14, Text18, Text24 } from "@/components/Typography";
+import { useRouter } from "next/router";
 import { services, accounts } from "@/helper/profileLinks";
 import Image from "next/image";
 import Profiles from "@/components/Profiles";
@@ -17,7 +18,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { BASE_URL, headers, imgheaders } from "@/helper/CONST";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Otpinput from "@/components/Profiles/OtpFields";
 import toArrayBuffer from "to-array-buffer";
 import { FaCamera } from "react-icons/fa6";
@@ -36,6 +37,31 @@ const reducer = (state: any, action: any) => {
       return {
         ...state,
         imgLoader: !state.imgLoader,
+      };
+    }
+    case "LOG_LOADING": {
+      return {
+        ...state,
+        logLoading: true,
+      };
+    }
+    case "LOG_LOADING_FALSE": {
+      return {
+        ...state,
+        logLoading: false,
+        logoutModal: false,
+      };
+    }
+    case "LOG_OUT_MODAL_FALSE": {
+      return {
+        ...state,
+        logoutModal: false,
+      };
+    }
+    case "LOG_OUT_MODAL_TRUE": {
+      return {
+        ...state,
+        logoutModal: true,
       };
     }
     case "SET_URL": {
@@ -90,7 +116,7 @@ const reducer = (state: any, action: any) => {
         gender: action.payload.gender,
         location: action.payload.location,
         name: action.payload.name,
-        patientId: action.payload.patientId,
+        profileId: action.payload.profileId,
         phone_no: action.payload.phone_no,
         relation: action.payload.relation,
         url: action.payload.url,
@@ -109,7 +135,7 @@ export default function Profile() {
     dob: "",
     gender: "",
     location: "",
-    patientId: "",
+    profileId: "",
     name: "",
     relation: "",
     phone_no: "",
@@ -125,8 +151,10 @@ export default function Profile() {
     location: "",
     phone_no: "",
     url: "",
-    patientId: "",
+    profileId: "",
     imgLoader: false,
+    logoutModal: false,
+    logLoading: false,
   });
   const {
     loading,
@@ -135,19 +163,28 @@ export default function Profile() {
     dob,
     gender,
     location,
-    patientId,
+    profileId,
     name,
     relation,
     phone_no,
     imgLoader,
     url,
+    logoutModal,
+    logLoading,
   } = states;
   const dispatch = useDispatch();
+  const router = useRouter();
   const [editLoading, setEditLoading] = useState(false);
   const [edit, setEdit] = useState(false);
   const [modal, setModal] = useState(false);
   const [otpShow, setOtpShow] = useState(false);
-
+  const { userAuth } = useSelector((state: any) => state.loginModalReducer);
+  // logout main profile
+  const handleMainLogout = async () => {
+    setStates({ type: "LOG_LOADING" });
+    await logout(dispatch, router, userAuth);
+    setStates({ type: "LOG_LOADING_FALSE" });
+  };
   // handling editing proflie
   const handleEditingProfile = () => {
     setEditLoading(true);
@@ -157,7 +194,7 @@ export default function Profile() {
         gender,
         location,
         name,
-        patientId,
+        profileId,
         relation,
         phone_no,
       };
@@ -165,7 +202,7 @@ export default function Profile() {
         data.url = url;
       }
       axios
-        .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
+        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
           headers: headers(),
         })
         .then((res) => {
@@ -190,14 +227,14 @@ export default function Profile() {
           });
         });
     } else if (!patient.phone_no && patient.relation !== "Myself") {
-      // const filteredObject = (({ phone_no, ...rest }) => rest)(patient);
       const data: any = {
         dob,
         gender,
         location,
         name,
-        patientId,
+        profileId,
         relation,
+        phone_no,
       };
       if (url) {
         data.url = url;
@@ -206,7 +243,7 @@ export default function Profile() {
         data.phone_no = phone_no;
       }
       axios
-        .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
+        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
           headers: headers(),
         })
         .then((res) => {
@@ -223,7 +260,41 @@ export default function Profile() {
         })
         .catch((error: any) => {
           setEditLoading(false);
-
+          if (error.response.status === 401) {
+          }
+          toast(error.response.data.response.message, {
+            type: "error",
+          });
+        });
+    } else if (patient.relation === "Myself") {
+      const data: any = {
+        name,
+        dob,
+        gender,
+        relation,
+        location,
+      };
+      if (url) {
+        data.url = url;
+      }
+      axios
+        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
+          headers: headers(),
+        })
+        .then((res) => {
+          setEditLoading(false);
+          toast("Profile updated successfully!", {
+            type: "success",
+          });
+          // console.log(res.data.response.data);
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          setEdit(false);
+        })
+        .catch((error: any) => {
+          setEditLoading(false);
           if (error.response.status === 401) {
           }
           toast(error.response.data.response.message, {
@@ -232,13 +303,14 @@ export default function Profile() {
         });
     }
   };
+  // verified otp
   const getVarified = (values: any) => {
     setStates({ type: "LOADER" });
     let { otp1, otp2, otp3, otp4, otp5, otp6 } = values;
     let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
     axios
       .patch(
-        BASE_URL + `/patients/profile/${patientId}`,
+        BASE_URL + `/patients/profile/${profileId}`,
         {
           name: patient.patientName,
           dob: patient.dob,
@@ -249,7 +321,7 @@ export default function Profile() {
           // [url  "url"]: url,
           phone_no: "+92" + phone_no.slice(1),
           code: code,
-          profileId: patient.patientId,
+          profileId: patient.profileId,
           // type: 1,
         },
         {
@@ -275,16 +347,6 @@ export default function Profile() {
           type: "success",
         });
         setStates({ type: "SUCCESS" });
-        // setStates({ type: "VERI_LOADING" });
-        // localStorage.setItem("user", JSON.stringify(res.data.response));
-        // return res.data.response;
-        // userAuth(res.data.response.uuid);
-      })
-      .then((res) => {
-        // if (res.profileCreated) {
-        //   dispatch({ type: "loginModalSlice/setAuth", payload: res });
-        //   close();
-        // } else setProfile(true);
       })
       .catch((err) => {
         setStates({ type: "OTP_ERROR" });
@@ -302,8 +364,8 @@ export default function Profile() {
           type: "error",
         });
       });
-    // handle uploading profile image
   };
+  // handle uploading profile image
   const uploadFile = (e: any) => {
     setStates({ type: "IMG_LOADER" });
     const [file] = e.target.files || e.dataTransfer.files;
@@ -377,7 +439,7 @@ export default function Profile() {
       setStates({ type: "SET_PROFILE", payload: patient });
     }
   }, [patient]);
-  console.log(patient);
+
   return (
     <>
       <Head>
@@ -628,6 +690,7 @@ export default function Profile() {
                 </div>
               )}
             </div>
+            {/* services links */}
             <div className={style.servicesLinks}>
               <Text28 className="text-dark mb-3">Services</Text28>
               <ul className={style.linksContainer}>
@@ -644,6 +707,7 @@ export default function Profile() {
                 ))}
               </ul>
             </div>
+            {/* account related links */}
             <div className={style.accountLinks}>
               <Text28 className="text-dark mb-3">Account</Text28>
               <ul className={style.linksContainer}>
@@ -657,6 +721,11 @@ export default function Profile() {
                         patient.relation === "Myself"
                       ) {
                         setModal(true);
+                      } else if (
+                        item.name === "Logout" &&
+                        patient.relation === "Myself"
+                      ) {
+                        setStates({ type: "LOG_OUT_MODAL_TRUE" });
                       }
                     }}
                     style={{
@@ -680,6 +749,12 @@ export default function Profile() {
           </div>
         </section>
         <ToastContainer />
+        <LogoutModal
+          show={logoutModal}
+          setStates={setStates}
+          logout={handleMainLogout}
+          loading={logLoading}
+        />
       </main>
     </>
   );
@@ -697,27 +772,20 @@ function DeleteModal({
   toast: any;
   setPatient: any;
 }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  // deleting main and subprofile,
   const handleDeletingProflie = () => {
     setLoading(true);
-    axios
-      .delete(BASE_URL + `/patients/profile/${patient.patientId}`, {
-        headers: headers(),
-      })
-      .then((res) => {
-        if (patient.relation !== "Myself") {
+    if (patient.relation !== "Myself") {
+      axios
+        .delete(BASE_URL + `/patients/profile/${patient.profileId}`, {
+          headers: headers(),
+        })
+        .then((res) => {
           setLoading(false);
           setShow(false);
-          setPatient({
-            dob: "",
-            gender: "",
-            location: "",
-            patientId: "",
-            name: "",
-            relation: "",
-            phone_no: "",
-          });
           dispatch({
             type: "getProfilesSlice/updateProfiles",
             payload: res.data.response.data,
@@ -725,13 +793,39 @@ function DeleteModal({
           toast(`Profile deleted successfully!`, {
             type: "success",
           });
-        } else if (patient.relation === "Myself") {
-        }
-      })
-      .catch((error: any) => {
-        setLoading(false);
-        console.log(error);
-      });
+          setPatient({
+            dob: "",
+            gender: "",
+            location: "",
+            profileId: "",
+            name: "",
+            relation: "",
+            phone_no: "",
+          });
+        })
+        .catch((error: any) => {
+          setLoading(false);
+        });
+    } else if (patient.relation === "Myself") {
+      axios
+        .delete(BASE_URL + `/patients/profile/`, {
+          headers: headers(),
+        })
+        .then((res) => {
+          setLoading(false);
+          setShow(false);
+          dispatch({ type: "loginModalSlice/clearAuth" });
+          localStorage.removeItem("user");
+          router.push("/");
+        })
+        .catch((error: any) => {
+          setLoading(false);
+          setShow(false);
+          dispatch({ type: "loginModalSlice/clearAuth" });
+          localStorage.removeItem("user");
+          router.push("/");
+        });
+    }
   };
   return (
     <Modal
@@ -769,6 +863,7 @@ function DeleteModal({
     </Modal>
   );
 }
+// otp confirmation modal, when user add or edit sub profile with phone number
 const OtpModal = ({
   otpModal,
   setOtpModal,
@@ -799,5 +894,47 @@ const OtpModal = ({
         // getOtp={getOtp}
       />
     </Modal>
+  );
+};
+// main profile logout
+const LogoutModal = ({ show, setStates, logout, loading }: any) => {
+  return (
+    <>
+      <Modal
+        show={show}
+        onHide={() => setStates({ type: "LOG_OUT_MODAL_FALSE" })}
+      >
+        <Modal.Header closeButton className="border-bottom-0">
+          <p className="text-dark fw-bold">Logout</p>
+        </Modal.Header>
+        <Modal.Body className="grid-example">
+          <p className="text-dark">
+            Are you sure? Logout profile will log you out from all the devices
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="btn btn-light"
+            onClick={() => setStates({ type: "LOG_OUT_MODAL_FALSE" })}
+          >
+            Cancel
+          </button>
+          <button
+            className="btn btn-danger"
+            style={{ background: "#B00020" }}
+            onClick={logout}
+            type="button"
+          >
+            Logout{" "}
+            {loading && (
+              <div
+                className="spinner-border text-white spinner-border-sm"
+                role="status"
+              ></div>
+            )}
+          </button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
