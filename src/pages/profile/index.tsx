@@ -11,7 +11,6 @@ import { services, accounts } from "@/helper/profileLinks";
 import Image from "next/image";
 import Profiles from "@/components/Profiles";
 import Link from "next/link";
-
 import moment from "moment";
 import { FaUserCircle } from "react-icons/fa";
 import Button from "@/components/Button";
@@ -117,7 +116,7 @@ const reducer = (state: any, action: any) => {
         gender: action.payload.gender,
         location: action.payload.location,
         name: action.payload.name,
-        patientId: action.payload.patientId,
+        profileId: action.payload.profileId,
         phone_no: action.payload.phone_no,
         relation: action.payload.relation,
         url: action.payload.url,
@@ -136,7 +135,7 @@ export default function Profile() {
     dob: "",
     gender: "",
     location: "",
-    patientId: "",
+    profileId: "",
     name: "",
     relation: "",
     phone_no: "",
@@ -152,7 +151,7 @@ export default function Profile() {
     location: "",
     phone_no: "",
     url: "",
-    patientId: "",
+    profileId: "",
     imgLoader: false,
     logoutModal: false,
     logLoading: false,
@@ -164,7 +163,7 @@ export default function Profile() {
     dob,
     gender,
     location,
-    patientId,
+    profileId,
     name,
     relation,
     phone_no,
@@ -195,7 +194,7 @@ export default function Profile() {
         gender,
         location,
         name,
-        patientId,
+        profileId,
         relation,
         phone_no,
       };
@@ -203,7 +202,7 @@ export default function Profile() {
         data.url = url;
       }
       axios
-        .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
+        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
           headers: headers(),
         })
         .then((res) => {
@@ -228,14 +227,14 @@ export default function Profile() {
           });
         });
     } else if (!patient.phone_no && patient.relation !== "Myself") {
-      // const filteredObject = (({ phone_no, ...rest }) => rest)(patient);
       const data: any = {
         dob,
         gender,
         location,
         name,
-        patientId,
+        profileId,
         relation,
+        phone_no,
       };
       if (url) {
         data.url = url;
@@ -244,7 +243,7 @@ export default function Profile() {
         data.phone_no = phone_no;
       }
       axios
-        .patch(BASE_URL + `/patients/profile/${patientId}`, data, {
+        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
           headers: headers(),
         })
         .then((res) => {
@@ -261,7 +260,41 @@ export default function Profile() {
         })
         .catch((error: any) => {
           setEditLoading(false);
-
+          if (error.response.status === 401) {
+          }
+          toast(error.response.data.response.message, {
+            type: "error",
+          });
+        });
+    } else if (patient.relation === "Myself") {
+      const data: any = {
+        name,
+        dob,
+        gender,
+        relation,
+        location,
+      };
+      if (url) {
+        data.url = url;
+      }
+      axios
+        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
+          headers: headers(),
+        })
+        .then((res) => {
+          setEditLoading(false);
+          toast("Profile updated successfully!", {
+            type: "success",
+          });
+          // console.log(res.data.response.data);
+          dispatch({
+            type: "getProfilesSlice/updateProfiles",
+            payload: res.data.response.data,
+          });
+          setEdit(false);
+        })
+        .catch((error: any) => {
+          setEditLoading(false);
           if (error.response.status === 401) {
           }
           toast(error.response.data.response.message, {
@@ -277,7 +310,7 @@ export default function Profile() {
     let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
     axios
       .patch(
-        BASE_URL + `/patients/profile/${patientId}`,
+        BASE_URL + `/patients/profile/${profileId}`,
         {
           name: patient.patientName,
           dob: patient.dob,
@@ -288,7 +321,7 @@ export default function Profile() {
           // [url  "url"]: url,
           phone_no: "+92" + phone_no.slice(1),
           code: code,
-          profileId: patient.patientId,
+          profileId: patient.profileId,
           // type: 1,
         },
         {
@@ -314,16 +347,6 @@ export default function Profile() {
           type: "success",
         });
         setStates({ type: "SUCCESS" });
-        // setStates({ type: "VERI_LOADING" });
-        // localStorage.setItem("user", JSON.stringify(res.data.response));
-        // return res.data.response;
-        // userAuth(res.data.response.uuid);
-      })
-      .then((res) => {
-        // if (res.profileCreated) {
-        //   dispatch({ type: "loginModalSlice/setAuth", payload: res });
-        //   close();
-        // } else setProfile(true);
       })
       .catch((err) => {
         setStates({ type: "OTP_ERROR" });
@@ -757,7 +780,7 @@ function DeleteModal({
     setLoading(true);
     if (patient.relation !== "Myself") {
       axios
-        .delete(BASE_URL + `/patients/profile/${patient.patientId}`, {
+        .delete(BASE_URL + `/patients/profile/${patient.profileId}`, {
           headers: headers(),
         })
         .then((res) => {
@@ -774,7 +797,7 @@ function DeleteModal({
             dob: "",
             gender: "",
             location: "",
-            patientId: "",
+            profileId: "",
             name: "",
             relation: "",
             phone_no: "",
@@ -841,44 +864,40 @@ function DeleteModal({
   );
 }
 // otp confirmation modal, when user add or edit sub profile with phone number
-const OtpModal = memo(
-  ({
-    otpModal,
-    setOtpModal,
-    setStates,
-    phone,
-    getVarified,
-    verifyLoading,
-    otpError,
-  }: any) => {
-    return (
-      <Modal show={otpModal} onHide={() => setOtpModal(false)}>
-        <Modal.Header closeButton className="border-bottom-0">
-          <p className="text-dark fw-bold">OTP</p>
-        </Modal.Header>
-        <span
-          className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
-        >
-          <h1 className="heading1">Enter OTP</h1>
-          <p className={`subText text-center text-capitalize`}>
-            Please Check your phone for 6-digit otp sent to
-            <br />
-            <u className="text-primary curser">+92{phone.slice(1)}</u>
-          </p>
-        </span>
-        <Otpinput
-          verifyLoading={verifyLoading}
-          getVarified={getVarified}
-          otpError={otpError}
-          setStates={setStates}
-          // getOtp={getOtp}
-        />
-      </Modal>
-    );
-  }
-);
+const OtpModal = memo(function ({
+  otpModal,
+  setOtpModal,
+  setStates,
+  phone,
+  getVarified,
+  verifyLoading,
+  otpError,
+}: any) {
+  return (
+    <Modal show={otpModal} onHide={() => setOtpModal(false)}>
+      <Modal.Header closeButton className="border-bottom-0">
+        <p className="text-dark fw-bold">OTP</p>
+      </Modal.Header>
+      <span className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}>
+        <h1 className="heading1">Enter OTP</h1>
+        <p className={`subText text-center text-capitalize`}>
+          Please Check your phone for 6-digit otp sent to
+          <br />
+          <u className="text-primary curser">+92{phone.slice(1)}</u>
+        </p>
+      </span>
+      <Otpinput
+        verifyLoading={verifyLoading}
+        getVarified={getVarified}
+        otpError={otpError}
+        setStates={setStates}
+        // getOtp={getOtp}
+      />
+    </Modal>
+  );
+});
 // main profile logout
-const LogoutModal = memo(({ show, setStates, logout, loading }: any) => {
+const LogoutModal = memo(function ({ show, setStates, logout, loading }: any) {
   return (
     <>
       <Modal

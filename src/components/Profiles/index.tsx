@@ -99,11 +99,10 @@ const Profiles = memo(function ProfilesComponent({
     // console.log(profiles);
     // setPatient(profiles[0]);
   }, []);
+
   useEffect(() => {
     if (profiles.length > 0) {
-      // console.log(profiles);
       setPatient(profiles[0]);
-      // setEdit(true);
     }
   }, [profiles]);
 
@@ -139,7 +138,7 @@ const Profiles = memo(function ProfilesComponent({
                 onClick={(e: any) => {
                   if (patient.patientId === e.target.value) {
                     setPatient({
-                      patientId: "",
+                      profileId: "",
                       name: "",
                       relation: "",
                       location: "",
@@ -149,7 +148,7 @@ const Profiles = memo(function ProfilesComponent({
                     });
                   } else {
                     setPatient({
-                      patientId: e.target.value,
+                      profileId: e.target.value,
                       name: itm.name,
                       relation: itm.relation,
                       location: itm.location,
@@ -168,7 +167,7 @@ const Profiles = memo(function ProfilesComponent({
                 className={`${
                   style.labelrdioclassProfile
                 } d-flex flex-column justify-content-center align-items-center text-center ${
-                  patient?.patientId === itm.profileId
+                  patient?.profileId === itm.profileId
                     ? style.labelActiveProfile
                     : ""
                 }`}
@@ -192,7 +191,7 @@ const Profiles = memo(function ProfilesComponent({
                   </p>
                   {styling !== style.profileContainer && <p>{itm.relation}</p>}
                 </span>
-                {patient?.patientId === itm.profileId && (
+                {patient?.profileId === itm.profileId && (
                   <FaCheck className={style.icon} />
                 )}
               </label>

@@ -584,7 +584,7 @@ export default function AddProfile({ setProfile, toast }) {
                   role="status"
                 ></div>
               ) : (
-                "Continue"
+                "Save"
               )}
             </Button>
           </form>
