@@ -69,48 +69,7 @@ export default function Home({ positions, doctors }: any) {
     </>
   );
 }
-// blogs prerendering
-// export async function getStaticProps() {
-//   try {
-//     let response = await fetch(BASE_URL + "/new/users/blogs");
-//     let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
-//       cache: "no-cache",
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         type: "specialization",
-//         search: "General Physician",
-//       }),
-//     });
 
-//     if (!response.ok || !doc.ok) {
-//       throw new Error("Failed to fetch data");
-//     }
-
-//     const [blogs, doctors] = await Promise.all([response, doc]);
-//     const data = await blogs.json();
-//     const docData = await doctors.json();
-
-//     return {
-//       props: {
-//         positions: data.response.Items ? data.response.Items : [],
-//         doctors: docData.response.Items,
-//       },
-//       revalidate: 1,
-//     };
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//     return {
-//       props: {
-//         positions: [],
-//         doctors: [],
-//       },
-//       revalidate: 1,
-//     };
-//   }
-// }
 export async function getStaticProps() {
   let response = await fetch(BASE_URL + "/new/users/blogs");
   let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
