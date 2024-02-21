@@ -17,7 +17,7 @@ import { addToCart } from "@/views/Labs/labCartSlicer";
 import Head from "next/head";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { CardsSkeletonLoader } from "@/components/SkeletonLoader";
+import { CardsSkeletonLoader, SkeletonLoader } from "@/components/SkeletonLoader";
 import Link from "next/link";
 
 export default function Test() {
@@ -131,6 +131,7 @@ export default function Test() {
             </Head>
             {loading ? (
                 <div className="container">
+                    <SkeletonLoader />
                     <CardsSkeletonLoader />
                 </div>
             ) : (

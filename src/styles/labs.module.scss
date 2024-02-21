@@ -320,6 +320,13 @@
       text-decoration: none;
     }
   }
+  @include large-mobile-and-below {
+    flex-wrap: wrap;
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
 }
 // CheckOut Page Styling
 .address {
