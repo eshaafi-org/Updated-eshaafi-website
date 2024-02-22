@@ -461,6 +461,7 @@ export default function Profile() {
                   <Image
                     src={patient.url || url}
                     alt="eshaafi-best-doctor-online-consultation-patient-avatar"
+                    className={style.profileAvatar}
                     width={100}
                     height={100}
                     style={{ borderRadius: 50 }}
@@ -500,12 +501,18 @@ export default function Profile() {
           </div>
           <div className={style.settings}>
             <div className={style.profileInfoContainer}>
-              <div className="d-flex justify-content-between align-items-center">
+              <div className={style.personalInfoHeading}>
                 <Text28 className="text-dark fw-bold">
                   Personal Information
                 </Text28>
                 {patient.name && (
-                  <span>
+                  <span
+                    className={style.profileEdit}
+                    style={{
+                      flexDirection:
+                        patient.relation === "Myself" ? "row" : "row-reverse",
+                    }}
+                  >
                     {!edit && (
                       <>
                         {patient.relation !== "Myself" && (
@@ -711,39 +718,59 @@ export default function Profile() {
             <div className={style.accountLinks}>
               <Text28 className="text-dark mb-3">Account</Text28>
               <ul className={style.linksContainer}>
-                {accounts.map((item, indx) => (
-                  <li
-                    key={indx}
-                    className={style.linkItem}
-                    onClick={() => {
-                      if (
-                        item.name === "Delete Account" &&
-                        patient.relation === "Myself"
-                      ) {
-                        setModal(true);
-                      } else if (
-                        item.name === "Logout" &&
-                        patient.relation === "Myself"
-                      ) {
-                        setStates({ type: "LOG_OUT_MODAL_TRUE" });
-                      }
-                    }}
-                    style={{
-                      cursor:
-                        (item.name === "Delete Account" ||
-                          item.name === "Logout") &&
-                        patient.relation !== "Myself"
-                          ? "not-allowed"
-                          : "pointer",
-                    }}
-                  >
-                    <Image src={item.icon} alt="service-icon-eshaafi" />
-                    <Text14 className="fw-bold text-dark mt-3 mb-2">
-                      {item.name}
-                    </Text14>
-                    <Text14>{item.text}</Text14>
-                  </li>
-                ))}
+                {accounts.map((item, indx) => {
+                  if (
+                    item.name === "Logout" ||
+                    item.name === "Delete Account"
+                  ) {
+                    return (
+                      <li
+                        key={indx}
+                        className={style.linkItem}
+                        onClick={() => {
+                          if (
+                            item.name === "Delete Account" &&
+                            patient.relation === "Myself"
+                          ) {
+                            setModal(true);
+                          } else if (
+                            item.name === "Logout" &&
+                            patient.relation === "Myself"
+                          ) {
+                            setStates({ type: "LOG_OUT_MODAL_TRUE" });
+                          }
+                        }}
+                        style={{
+                          cursor:
+                            (item.name === "Delete Account" ||
+                              item.name === "Logout") &&
+                            patient.relation !== "Myself"
+                              ? "not-allowed"
+                              : "pointer",
+                        }}
+                      >
+                        <Image src={item.icon} alt="service-icon-eshaafi" />
+                        <Text14 className="fw-bold text-dark mt-3 mb-2">
+                          {item.name}
+                        </Text14>
+                        <Text14>{item.text}</Text14>
+                      </li>
+                    );
+                  } else
+                    return (
+                      <Link href={item.link} key={indx}>
+                        <li className={style.linkItem}>
+                          <Image src={item.icon} alt="service-icon-eshaafi" />
+                          <Text14 className="fw-bold text-dark mt-3 mb-2">
+                            {item.name}
+                          </Text14>
+                          <Text14 className="text-capitalize">
+                            {item.text}
+                          </Text14>
+                        </li>
+                      </Link>
+                    );
+                })}
               </ul>
             </div>
           </div>

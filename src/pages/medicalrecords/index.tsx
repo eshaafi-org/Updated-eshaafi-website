@@ -71,13 +71,11 @@ export default function MedicalRecord() {
         );
       })
       .catch((err) => console.log(err));
-    // setRecords((prev: any) =>
-    //   prev.filter((item: any) => item?.appointmentId !== id)
-    // );
   };
   useEffect(() => {
     getMedicalRecords();
   }, [patient]);
+
   return (
     <>
       <Head>

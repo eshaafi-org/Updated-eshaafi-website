@@ -78,7 +78,7 @@ const reducer = (state, action) => {
     }
   }
 };
-export default function AddProfile({ setProfile, toast }) {
+export default function AddProfile({ setProfile, toast, check }) {
   // reducer states
   const [otpModal, setOtpModal] = useState(false);
   const [states, setStates] = useReducer(reducer, {
@@ -429,14 +429,14 @@ export default function AddProfile({ setProfile, toast }) {
   };
   return (
     <>
-      <li
-        className="d-flex flex-column align-items-center justify-content-center"
-        style={{ color: "#009b94", fontSize: 14 }}
-      >
-        <Button className={style.addProfileBtn} onClick={handleShow}>
+      <li className={check ? style.profilesSection : style.profilesComponent}>
+        <Button
+          className={check ? style.profilesSectionBtn : style.addProfileBtn}
+          onClick={handleShow}
+        >
           <HiOutlinePlus />
         </Button>
-        Add
+        Add {check && "Profile"}
       </li>
       <Modal show={show} onHide={() => setShow(false)}>
         {/* modal head */}

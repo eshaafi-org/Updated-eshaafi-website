@@ -109,20 +109,23 @@ const Profiles = memo(function ProfilesComponent({
   return (
     <section className={styling === "" ? style.profilesContainer : styling}>
       {loading ? (
-        <div className="d-flex col-gap-1 mt-4">
+        <div
+          className="d-flex col-gap-1 mt-4 row-gap-1"
+          style={{ flexDirection: styling ? "column" : "row" }}
+        >
           <p className="d-flex flex-column card-text placeholder-glow justify-content-center align-items-start row-gap-1">
             <span
               className="placeholder col-7"
               style={{ width: 60, height: 60, borderRadius: 50 }}
             ></span>
-            <span className="placeholder col-12"></span>
+            {!styling ? <span className="placeholder col-12"></span> : ""}
           </p>
           <p className="d-flex flex-column card-text placeholder-glow justify-content-center align-items-start row-gap-1">
             <span
               className="placeholder col-7"
               style={{ width: 60, height: 60, borderRadius: 50 }}
             ></span>
-            <span className="placeholder col-12"></span>
+            {!styling ? <span className="placeholder col-12"></span> : ""}
           </p>
         </div>
       ) : (
@@ -197,7 +200,11 @@ const Profiles = memo(function ProfilesComponent({
               </label>
             </li>
           ))}
-          <AddProfile setProfile={setStates} toast={toast} />
+          <AddProfile
+            setProfile={setStates}
+            toast={toast}
+            check={styling ? true : false}
+          />
         </ul>
       )}
       <ToastContainer />

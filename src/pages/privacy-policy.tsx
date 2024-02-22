@@ -13,15 +13,15 @@ export default function PrivacyPolicy() {
       <section className="container">
         <div className={"flex flex-col " + style.contentCont}>
           <span className="w-full">
-            <h2 className="text-center">Privacy Policy</h2>
-            <p className="mt-1">
+            <h2 className="text-center mb-3">Privacy Policy</h2>
+            <p className="mt-3">
               Welcome to the eShaafi privacy policy, where we outline how we
               collect user data and the reasons behind it, detail our
               utilization of user information, and provide information on the
               choices available to you regarding your personal data.
             </p>
           </span>
-          <span className="mt-1">
+          <span className="mt-3">
             <h3 className={style.mainHeading + " mb-1"}>How to contact us?</h3>
             <p>
               If you have any questions about this privacy policy, contact our
@@ -30,7 +30,7 @@ export default function PrivacyPolicy() {
               042-3230479
             </p>
           </span>
-          <ol className={"flex flex-col row-gap-2 mt-1 " + style.contentList}>
+          <ol className={"flex flex-col row-gap-2 mt-3 " + style.contentList}>
             {privacy.map((itm: any, indx: any) => (
               <li key={indx} className={style.contentListItem}>
                 <h3 className={style.mainHeading}>
@@ -39,7 +39,7 @@ export default function PrivacyPolicy() {
                 </h3>
 
                 <p>{itm.headingText}</p>
-                <ul className="flex flex-col row-gap-1 mt-1">
+                <ul className="flex flex-col row-gap-1 mt-3">
                   {itm.sub.map((subItem: any, indx: any) => (
                     <li key={indx}>
                       <h3 className={style.subHeading}>{subItem.subHeading}</h3>
