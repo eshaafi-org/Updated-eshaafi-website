@@ -123,7 +123,7 @@ export default function AddProfile({ setProfile, toast, check }) {
     if (phone_no === "" && url === "") {
       axios
         .post(
-          BASE_URL + "/patients/profile",
+          BASE_URL + "/patients/profile?device=web",
           {
             name: states.name,
             dob: states.dob,
@@ -173,7 +173,7 @@ export default function AddProfile({ setProfile, toast, check }) {
     } else if (phone_no === "" && url !== "") {
       axios
         .post(
-          BASE_URL + "/patients/profile",
+          BASE_URL + "/patients/profile?device=web",
           {
             name: states.name,
             dob: states.dob,
@@ -234,7 +234,7 @@ export default function AddProfile({ setProfile, toast, check }) {
       };
       url ? (data.url = url) : data;
       axios
-        .post(BASE_URL + "/patients/profile", data, {
+        .post(BASE_URL + "/patients/?device=web", data, {
           headers: headers(),
         })
         .then((res) => {
@@ -372,7 +372,7 @@ export default function AddProfile({ setProfile, toast, check }) {
     const filteredObject = (({ url, ...rest }) => rest)(data);
     axios
       .post(
-        BASE_URL + "/patients/profile",
+        BASE_URL + "/patients/profile?device=web",
         url === "" ? filteredObject : data,
         {
           headers: headers(),

@@ -202,7 +202,7 @@ export default function Profile() {
         data.url = url;
       }
       axios
-        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
+        .patch(BASE_URL + `/patients/profile/${profileId}?device=web`, data, {
           headers: headers(),
         })
         .then((res) => {
@@ -243,7 +243,7 @@ export default function Profile() {
         data.phone_no = phone_no;
       }
       axios
-        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
+        .patch(BASE_URL + `/patients/profile/${profileId}?device=web`, data, {
           headers: headers(),
         })
         .then((res) => {
@@ -278,7 +278,7 @@ export default function Profile() {
         data.url = url;
       }
       axios
-        .patch(BASE_URL + `/patients/profile/${profileId}`, data, {
+        .patch(BASE_URL + `/patients/profile/${profileId}?device=web`, data, {
           headers: headers(),
         })
         .then((res) => {
@@ -310,7 +310,7 @@ export default function Profile() {
     let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
     axios
       .patch(
-        BASE_URL + `/patients/profile/${profileId}`,
+        BASE_URL + `/patients/profile/${profileId}?device=web`,
         {
           name: patient.patientName,
           dob: patient.dob,
@@ -807,9 +807,12 @@ function DeleteModal({
     setLoading(true);
     if (patient.relation !== "Myself") {
       axios
-        .delete(BASE_URL + `/patients/profile/${patient.profileId}`, {
-          headers: headers(),
-        })
+        .delete(
+          BASE_URL + `/patients/profile/${patient.profileId}?device=web`,
+          {
+            headers: headers(),
+          }
+        )
         .then((res) => {
           setLoading(false);
           setShow(false);
@@ -835,7 +838,7 @@ function DeleteModal({
         });
     } else if (patient.relation === "Myself") {
       axios
-        .delete(BASE_URL + `/patients/profile/`, {
+        .delete(BASE_URL + `/patients/profile/?device=web`, {
           headers: headers(),
         })
         .then((res) => {

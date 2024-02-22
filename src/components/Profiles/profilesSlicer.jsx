@@ -6,7 +6,7 @@ import axios from "axios";
 // thunk
 export const getProfilesData = createAsyncThunk("getProfilesData", async () => {
   const response = await axios
-    .get(`${BASE_URL}/patients/profile`, {
+    .get(`${BASE_URL}/patients/profile?device=web`, {
       headers: headers(),
     })
     .then((res) => res.data.response.data);
