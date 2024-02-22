@@ -14,7 +14,7 @@ import Link from "next/link";
 export default function Cart({ setShowCart }: { setShowCart: any }) {
   const { cart, totalAmount, packages } = useSelector(
     (state: any) => state.labCartReducer
-  );
+  )
   const router = useRouter();
   const handleProceedToCheckout = () => {
     router.push("/checkout");
@@ -174,8 +174,8 @@ const PackageItem = ({ key, item }: { key: number; item: any }) => {
                 type: 'labCartSlicer/addQuantity', payload: {
                   pId: item.pId,
                   quantity: counter - 1,
-                  // totalPrice: parseInt(item.totalPrice) - parseInt(item.productPrice),
-                  // subTotalPrice: parseInt(item.subPrice) - parseInt(item.subTotalPrice),
+                  totalPackPrice: parseInt(item.totalPackPrice) - parseInt(item.charges),
+                  subTotalPackPrice: parseInt(item.subTotalPackPrice) - parseInt(item.subCharges),
                 }
               })
             }
@@ -198,8 +198,8 @@ const PackageItem = ({ key, item }: { key: number; item: any }) => {
           dispatch({
             type: 'labCartSlicer/addQuantity', payload: {
               pId: item.pId, quantity: counter + 1,
-              // totalPrice: parseInt(item.productPrice) + parseInt(item.totalPrice),
-              // subTotalPrice: parseInt(item.subPrice) + parseInt(item.subTotalPrice),
+              totalPackPrice: parseInt(item.charges) + parseInt(item.totalPackPrice),
+              subTotalPackPrice: parseInt(item.subCharges) + parseInt(item.subTotalPackPrice),
             }
           })
         }}>

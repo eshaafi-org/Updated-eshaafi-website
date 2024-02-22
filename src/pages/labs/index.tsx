@@ -12,6 +12,7 @@ import Works from "@/views/Labs/Works";
 import UploadPrescription from "@/views/Labs/UploadPrescription";
 import { useDispatch } from "react-redux";
 import { getLabsHome } from "@/views/Labs/labsSlice";
+import HelpLine from "@/views/Labs/HelpLine";
 
 export default function Labs() {
   const dispatch: any = useDispatch();
@@ -32,6 +33,7 @@ export default function Labs() {
         />
         <LabsList />
         <UploadPrescription />
+        <HelpLine />
         <PackagesList />
         <Works />
         <FQuest quests={whyBookWithUs} heading={"Why book with us?"} />

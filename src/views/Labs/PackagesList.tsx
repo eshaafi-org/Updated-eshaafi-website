@@ -41,7 +41,8 @@ export default function PackagesList() {
                   <div
                     className={style.packageCardImg}
                     style={{
-                      backgroundImage: `url(${packageIcon.src})`,
+                      backgroundImage: `url(${item.url ? item.url : packageIcon})`,
+                      // backgroundImage: `url(${packageIcon.src})`,
                     }}
                   ></div>
                 </Link>
