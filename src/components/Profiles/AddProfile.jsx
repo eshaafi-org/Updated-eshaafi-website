@@ -78,7 +78,7 @@ const reducer = (state, action) => {
     }
   }
 };
-export default function AddProfile({ setProfile, toast }) {
+export default function AddProfile({ setProfile, toast, check }) {
   // reducer states
   const [otpModal, setOtpModal] = useState(false);
   const [states, setStates] = useReducer(reducer, {
@@ -123,7 +123,7 @@ export default function AddProfile({ setProfile, toast }) {
     if (phone_no === "" && url === "") {
       axios
         .post(
-          BASE_URL + "/patients/profile",
+          BASE_URL + "/patients/profile?device=web",
           {
             name: states.name,
             dob: states.dob,
@@ -173,7 +173,7 @@ export default function AddProfile({ setProfile, toast }) {
     } else if (phone_no === "" && url !== "") {
       axios
         .post(
-          BASE_URL + "/patients/profile",
+          BASE_URL + "/patients/profile?device=web",
           {
             name: states.name,
             dob: states.dob,
@@ -234,7 +234,7 @@ export default function AddProfile({ setProfile, toast }) {
       };
       url ? (data.url = url) : data;
       axios
-        .post(BASE_URL + "/patients/profile", data, {
+        .post(BASE_URL + "/patients/?device=web", data, {
           headers: headers(),
         })
         .then((res) => {
@@ -372,7 +372,7 @@ export default function AddProfile({ setProfile, toast }) {
     const filteredObject = (({ url, ...rest }) => rest)(data);
     axios
       .post(
-        BASE_URL + "/patients/profile",
+        BASE_URL + "/patients/profile?device=web",
         url === "" ? filteredObject : data,
         {
           headers: headers(),
@@ -429,14 +429,14 @@ export default function AddProfile({ setProfile, toast }) {
   };
   return (
     <>
-      <li
-        className="d-flex flex-column align-items-center justify-content-center"
-        style={{ color: "#009b94", fontSize: 14 }}
-      >
-        <Button className={style.addProfileBtn} onClick={handleShow}>
+      <li className={check ? style.profilesSection : style.profilesComponent}>
+        <Button
+          className={check ? style.profilesSectionBtn : style.addProfileBtn}
+          onClick={handleShow}
+        >
           <HiOutlinePlus />
         </Button>
-        Add
+        Add {check && "Profile"}
       </li>
       <Modal show={show} onHide={() => setShow(false)}>
         {/* modal head */}

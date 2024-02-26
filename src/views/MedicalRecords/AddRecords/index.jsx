@@ -32,7 +32,7 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
   };
   // show modal
   const handleShow = () => {
-    if (patient.patientId) {
+    if (patient.profileId) {
       setShow(true);
     } else {
       toast("Select any profile to proceed", {

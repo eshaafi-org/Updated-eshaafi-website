@@ -6,7 +6,7 @@ import BlogCard from "@/components/BlogCard";
 export default function Blogs({ blogs }: { blogs: any }) {
   const blogsList = blogs.slice(0, 3);
   return (
-    <section className="w-100 bg-white">
+    <section className="w-100 bg-white ">
       <div className="container pt-0">
         <div className="d-flex flex-column row-gap-2 w-100">
           <div className="d-flex justify-content-between w-100 align-items-base">

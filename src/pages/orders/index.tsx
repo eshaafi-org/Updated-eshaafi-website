@@ -12,6 +12,8 @@ import { FaCircle } from "react-icons/fa";
 import { logout } from "@/components/Profiles";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import empty from "../../../public/images/empty.svg";
+import Image from "next/image";
 import checkMark from "../../../public/images/checkmark.png";
 let links = [
   { name: "Home", link: "/" },
@@ -103,13 +105,30 @@ export default function Orders() {
               </li>
             </ul>
           ) : (
-            <ul className={style.orderListContainer}>
-              {orders.map((item: any, indx: number) => (
-                <li key={indx}>
-                  <Order item={item} indx={indx} />
-                </li>
-              ))}
-            </ul>
+            <>
+              {orders.length > 0 ? (
+                <ul className={style.orderListContainer}>
+                  {orders.map((item: any, indx: number) => (
+                    <li key={indx}>
+                      <Order item={item} indx={indx} />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="row ">
+                  <div className="col ">
+                    <div className="d-flex justify-content-center flex-column align-items-center row-gap-1">
+                      <Image
+                        src={empty}
+                        alt="search empty"
+                        className={style.emptyImage}
+                      />
+                      <p>No previous Orders</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </section>
       </main>
