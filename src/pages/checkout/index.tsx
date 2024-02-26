@@ -4,7 +4,7 @@ import AddressBar from "@/components/AddressBar";
 import Button from "@/components/Button";
 import style from '@/styles/labs.module.scss'
 import { Text16, Text18, Text22, Text28 } from "@/components/Typography";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import Info from "@/views/Labs/info";
@@ -25,6 +25,7 @@ export default function Checkout() {
     const { cart, totalAmount, subTotalAmount, packages } = useSelector(
         (state: any) => state.labCartReducer
     );
+    const dispatch = useDispatch();
     const [profile, setProfile] = useState<any>('')
     const [address, setAddress] = useState("");
     const [typeTest, setTypeTest] = useState("");
@@ -34,7 +35,17 @@ export default function Checkout() {
     const [patientName, setPatientName] = useState("");
     const [uploading, setUploading] = useState(false);
     const [success, setSuccess] = useState(false);
-
+    // Empty All field after api Success
+    const emptyData = () => {
+        setTypeTest('')
+        setTime('')
+        setDate('')
+        setLabName('')
+        setSuccess(true)
+        setUploading(false);
+        dispatch({ type: "labCartSlicer/resetCartState" })
+    }
+    // Book Lab test 
     const bookLab = () => {
         // e.preventDefault();
         setUploading(true);
@@ -69,7 +80,6 @@ export default function Checkout() {
                 }
             )
             .then((res) => {
-                setUploading(false);
                 toast(
                     `Lab Booked successfully our team will contact you shortly`,
                     {
@@ -84,7 +94,7 @@ export default function Checkout() {
                         type: "success",
                     }
                 )
-                setSuccess(true)
+                emptyData()
             })
             .catch((err) => {
                 setUploading(false);
@@ -124,8 +134,8 @@ export default function Checkout() {
     }
     // useEffect hook to watch changes in profile and update patientName accordingly
     useEffect(() => {
-        if (profile && profile.patientName) {
-            setPatientName(profile.patientName);
+        if (profile && profile.name) {
+            setPatientName(profile?.name);
         }
     }, [profile]);
     // Rendering the Checkout component
@@ -134,7 +144,7 @@ export default function Checkout() {
             <Head>
                 <title>eShaafi | Labs</title>
             </Head>
-            {success ?<section className="container">
+            {!success ? <section className="container">
                 <span>
                     {/* Heading and breadcrumb navigation */}
                     <h2>Checkout</h2>
@@ -271,7 +281,7 @@ export default function Checkout() {
                         </Button>
                     </div>
                 </div>
-            </section>:
+            </section> :
                 <div className="d-flex justify-content-center flex-column align-items-center">
                     <Image
                         src={successGif}
@@ -283,15 +293,15 @@ export default function Checkout() {
                     <p className="w-25 text-center">
                         You have successfully booked your test our customer care will
                         contact you shortly{" "}
-                        <Link href={`/orders`}>
-                            <Button variant="outlined" onClick={() => {
-                                setSuccess(false);
-                            }}
-                            >
-                                view details
-                            </Button>
-                        </Link>
                     </p>
+                    <Link href={`/orders`}>
+                        <Button variant="outlined" onClick={() => {
+                            setSuccess(false);
+                        }}
+                        >
+                            view details
+                        </Button>
+                    </Link>
                 </div>}
             <ToastContainer />
         </>

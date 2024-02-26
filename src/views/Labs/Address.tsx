@@ -14,30 +14,34 @@ import style from "@/styles/labs.module.scss";
 import { ToastContainer, toast } from 'react-toastify';
 import { MdEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { getAddress } from "./addressSlice";
 
 
-function AddressModal({ getAddress }: { getAddress: any }) {
+function AddressModal() {
   const [show, setShow] = useState(false);
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [landMark, setLandMark] = useState("");
   const [loading, setLoading] = useState(false)
+  const dispatch: any = useDispatch();
   // modal open and close function
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   function handleAddress() {
     setLoading(true)
-    const value = {
+    const data = {
       area: city,
       city: city,
       landMark: landMark,
       address: address,
     };
     axios
-      .post(BASE_URL + "/lab/patients/labs/address", value, {
+      .post(BASE_URL + "/lab/patients/labs/address", data, {
         headers: headers(),
       })
       .then((response) => {
+        setLoading(false)
         toast("Address Added to Successfully ", {
           position: "top-right",
           autoClose: 1000,
@@ -49,12 +53,11 @@ function AddressModal({ getAddress }: { getAddress: any }) {
           theme: "light",
           type: "success",
         });
-        handleClose();
-        getAddress();
+        dispatch({ type: "addressSlice/addAddress", payload: { data } })
         setAddress('')
         setCity('')
         setLandMark('')
-        setLoading(false)
+        handleClose();
       })
       .catch((error) => {
         console.error("Error saving address:", error);
@@ -171,29 +174,31 @@ function AddressModal({ getAddress }: { getAddress: any }) {
     </>
   );
 }
-function EditAddress({ item, setAddressList }: { item: any, setAddressList: any }) {
+function EditAddress({ item }: { item: any }) {
   const [show, setShow] = useState(false);
   const [city, setCity] = useState(item?.city);
   const [address, setAddress] = useState(item?.address);
   const [landMark, setLandMark] = useState(item?.landMark);
   const [loading, setLoading] = useState(false)
+  const dispatch: any = useDispatch();
 
   // modal open and close function
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   function handleAddress() {
     setLoading(true)
-    const value = {
+    const values = {
       area: city,
       city: city,
       landMark: landMark,
       address: address,
     };
     axios
-      .patch(BASE_URL + `/lab/patients/labs/address/${item.aId}`, value, {
+      .patch(BASE_URL + `/lab/patients/labs/address/${item.aId}`, values, {
         headers: headers(),
       })
       .then((response) => {
+        setLoading(false)
         toast("Address Updated Successfully ", {
           position: "top-right",
           autoClose: 1000,
@@ -205,20 +210,8 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList: any 
           theme: "light",
           type: "success",
         })
+        dispatch({ type: "addressSlice/editAddress", payload: { item, values } })
         handleClose();
-        setAddressList((prevList: any[]) =>
-          prevList.map((prevItem: { aId: any; area: any; landMark: any; address: any }) =>
-            prevItem.aId === item.aId
-              ? {
-                ...prevItem,
-                area: city !== prevItem.area ? city : prevItem.area,
-                landMark: landMark !== prevItem.landMark ? landMark : prevItem.landMark,
-                address: address !== prevItem.address ? address : prevItem.address,
-              }
-              : prevItem
-          )
-        );
-        setLoading(false)
       })
       .catch((error) => {
         console.error("Error Updated address:", error);
@@ -335,12 +328,13 @@ function EditAddress({ item, setAddressList }: { item: any, setAddressList: any 
     </>
   );
 }
-function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList: any }) {
+function DeleteAddress({ aId }: { aId: string }) {
   const [show, setShow] = useState(false);
   // modal open and close function
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [loading, setLoading] = useState(false)
+  const dispatch: any = useDispatch();
   function handleDeleteAddress() {
     setLoading(true)
     axios
@@ -348,6 +342,7 @@ function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList: a
         headers: headers(),
       })
       .then((response) => {
+        setLoading(false)
         toast("Address Deleted Successfully ", {
           position: "top-right",
           autoClose: 1000,
@@ -359,11 +354,8 @@ function DeleteAddress({ aId, setAddressList }: { aId: string, setAddressList: a
           theme: "light",
           type: "success",
         });
+        dispatch({ type: "addressSlice/deleteAddress", payload: { aId } })
         handleClose();
-        setAddressList((prevList: any) =>
-          prevList.filter((item: any) => item.aId !== aId)
-        );
-        setLoading(false)
       })
       .catch((error) => {
         console.error("Error Deleting address:", error);
@@ -428,29 +420,22 @@ function Address({
   address: string;
   setAddress: any;
 }) {
-  const [addressList, setAddressList] = useState([]);
-  const getAddress = () => {
-    axios
-      .get(BASE_URL + "/lab/patients/labs/address", {
-        headers: headers(),
-      })
-      .then((res) => {
-        setAddressList(res.data.response.Items);
-      })
-      .catch((err) => console.error(err));
-  };
+  const dispatch: any = useDispatch();
+  const { value, loading } = useSelector((state: any) => state.getAddressReducer);
   useEffect(() => {
-    getAddress();
+    if (value.length < 1) {
+      dispatch(getAddress());
+    }
   }, []);
   return (
     <div className={style.addressContainer}>
       <div className="d-flex align-items-center justify-content-between">
         <Text28 className={style.blackColor}>Address</Text28>
-        <AddressModal getAddress={getAddress} />
+        <AddressModal />
       </div>
       {/* Displaying the address */}
       <ul className={`${style.address}`}>
-        {addressList.map((item: any, index: number) => (
+        {value?.map((item: any, index: number) => (
           <li key={index} className={`${style.addressListItem} d-flex justify-content-between`}>
             <label
               className={`${style.labelrdioclass} d-flex align-items-center row-gap-1`}
@@ -473,8 +458,8 @@ function Address({
               </span>
             </label>
             <span className="d-flex">
-              <EditAddress item={item} setAddressList={setAddressList} />
-              <DeleteAddress aId={item?.aId} setAddressList={setAddressList} />
+              <EditAddress item={item} />
+              <DeleteAddress aId={item?.aId} />
             </span>
           </li>
         ))}

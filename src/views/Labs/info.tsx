@@ -3,7 +3,8 @@ import style from "@/styles/labs.module.scss";
 import moment from "moment";
 import Address from "./Address";
 import { Text18 } from "@/components/Typography";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import inputField from "@/components/InputField/Input.module.scss";
 
 export default function Info({ typeTest, setTypeTest, address, setAddress, patientName, setPatientName, time, setTime, date, setDate, labName, setLabName }: {
     typeTest: string,
@@ -19,28 +20,19 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
     labName: string
     setLabName: any,
 }) {
-    const [focus, setFocus] = useState(false);
-    const [isFocus, setIsFocus] = useState(false);
-    function handleFocus() {
-        setFocus(true)
-    }
-    const handleBlur = () => {
-        setFocus(false)
-    }
-    function handleFocusTime() {
-        setIsFocus(true)
-    }
-    const handleBlurTime = () => {
-        setIsFocus(false)
-    }
-    // Function to format date as "DD/MM/YYYY" on blur
-    const formatDate = (date:any) => {
-        return moment(date).format("DD/MM/YYYY");
+    const myInputRef = useRef<HTMLInputElement | null>(null);
+    const myInputRef2 = useRef<HTMLInputElement | null>(null);
+    const onFocusHandler = () => {
+        const inputRef = myInputRef.current;
+        if (inputRef) {
+            inputRef.type = "date";
+        }
     };
-
-    // Function to format time as 12-hour format on blur
-    const formatTime = (time:any) => {
-        return moment(time, "HH:mm").format("hh:mm A");
+    const onFocusHandlerTime = () => {
+        const inputRef = myInputRef2.current;
+        if (inputRef) {
+            inputRef.type = "time";
+        }
     };
     return (
         <>
@@ -104,28 +96,29 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         value={patientName}
                         onChange={(e: any) => setPatientName(e.target.value)}
                     />
-                    <InputField
-                        type={focus ? "date" : "text"}
+                    <input
+                        ref={myInputRef}
+                        placeholder="Select Date"
+                        type="text"
                         name="date"
-                        className={style.dateField}
-                        // value={date}
-                        value={date ? formatDate(date) : ""}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                        placeHolder="Select Date"
-                        onChange={(e: any) => setDate(e.target.value)}
+                        value={date}
                         min={moment().format("YYYY-MM-DD")}
+                        className={inputField.inputField}
+                        onChange={(e: any) => setDate(e.target.value)}
+                        // onMouseEnter={onFocusHandler}
+                        onFocus={onFocusHandler}
                     />
-                    <InputField
-                        type={isFocus ? "time" : "text"}
+                    <input
+                        ref={myInputRef2}
+                        placeholder="Select Time"
+                        type="text"
                         name="time"
-                        className={style.timeField}
-                        // value={time}
-                        value={time ? formatTime(time) : ""}
-                        onFocus={handleFocusTime}
-                        onBlur={handleBlurTime}
-                        placeHolder="Select Time"
+                        value={time}
+                        min={moment().format("hh:mm A")}
+                        className={inputField.inputField}
                         onChange={(e: any) => setTime(e.target.value)}
+                        // onMouseEnter={onFocusHandler}
+                        onFocus={onFocusHandlerTime}
                     />
                     <select
                         name="labName"

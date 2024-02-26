@@ -10,6 +10,7 @@ import { planListReducer } from "@/views/Subscription/planListSlicer";
 import { labCartReducer } from "@/views/Labs/labCartSlicer";
 import { getLabHomeReducer } from "@/views/Labs/labsSlice";
 import { getProfilesListReducer } from "@/components/Profiles/profilesSlicer";
+import { getAddressReducer } from "@/views/Labs/addressSlice"
 // import { getLabHomeReducer } from "@/views/Labs/labsSlice.jsx";
 const rootReducer = combineReducers({
   appointmentListReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   labCartReducer,
   getLabHomeReducer,
   getProfilesListReducer,
+  getAddressReducer,
   // counter: counterReducer,
   //add all your reducers here
 });

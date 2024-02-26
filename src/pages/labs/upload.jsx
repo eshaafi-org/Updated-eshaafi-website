@@ -18,6 +18,7 @@ import successGif from "../../../public/images/success.gif";
 import { useSelector } from "react-redux";
 import Address from "@/views/Labs/Address";
 import moment from "moment";
+import inputField from "@/components/InputField/Input.module.scss";
 import Link from "next/link";
 let links = [
   { name: "Home", link: "/" },
@@ -33,9 +34,7 @@ export default function Prescription() {
   const [show, setShow] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [focus, setFocus] = useState(false);
-  const [isFocus, setIsFocus] = useState(false);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState('');
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState("");
   const [profile, setProfile] = useState('')
@@ -48,6 +47,8 @@ export default function Prescription() {
     labName: "",
   });
   const { typeTest, patientName, time, date, labName } = formFields;
+  const myInputRef = useRef(null);
+  const myInputRef2 = useRef(null);
   // all the functions
   // get the form data from
   const handleFormData = (e) => {
@@ -168,10 +169,18 @@ export default function Prescription() {
       // address: address,
       typeTest,
     };
+    // Include prescriptionUrl field only if an image is present
+    if (images) {
+      data.prescriptionUrl = images;
+    }
+    // Include address field if typeTest is 'homeSample'
+    if (typeTest === 'homeSample') {
+      data.address = address;
+    }
     axios
       .post(
         BASE_URL + "/lab/patients/labs/book",
-        typeTest === "homeSample" ? { ...data, address } : data,
+        data,
         {
           headers: headers(),
         }
@@ -193,6 +202,12 @@ export default function Prescription() {
           }
         );
         setSuccess(true);
+        setFormFields({
+          typeTest: "",
+          time: "",
+          date: "",
+          labName: "",
+        });
       })
       .catch((err) => {
         setUploading(false);
@@ -209,33 +224,24 @@ export default function Prescription() {
         });
       });
   };
-  // Focus Fields For PlaceHolder
-  function handleFocus() {
-    setFocus(true)
-  }
-  const handleBlur = () => {
-    setFocus(false)
-  }
-  function handleFocusTime() {
-    setIsFocus(true)
-  }
-  const handleBlurTime = () => {
-    setIsFocus(false)
-  }
-  // Function to format date as "DD/MM/YYYY" on blur
-  const formatDate = (date) => {
-    return moment(date).format("DD/MM/YYYY");
+  const onFocusHandler = () => {
+    const inputRef = myInputRef.current;
+    if (inputRef) {
+      inputRef.type = "date";
+    }
   };
-  // Function to format time as 12-hour format on blur
-  const formatTime = (time) => {
-    return moment(time, "HH:mm").format("hh:mm A");
+  const onFocusHandlerTime = () => {
+    const inputRef = myInputRef2.current;
+    if (inputRef) {
+      inputRef.type = "time";
+    }
   };
   // useEffect hook to watch changes in profile and update patientName accordingly
   useEffect(() => {
-    if (profile && profile.patientName) {
+    if (profile && profile.name) {
       setFormFields(prevState => ({
         ...prevState,
-        patientName: profile.patientName
+        patientName: profile.name
       }));
     }
   }, [profile]);
@@ -337,28 +343,29 @@ export default function Prescription() {
                     value={patientName}
                     onChange={handleFormData}
                   />
-                  <InputField
-                    type={focus ? "date" : "text"}
+                  <input
+                    ref={myInputRef}
+                    placeholder="Select Date"
+                    type="text"
                     name="date"
-                    className={style.dateField}
-                    // value={date}
-                    value={date ? formatDate(date) : ""}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    placeHolder="Select Date"
-                    onChange={handleFormData}
+                    value={date}
                     min={moment().format("YYYY-MM-DD")}
-                  />
-                  <InputField
-                    type={isFocus ? "time" : "text"}
-                    name="time"
-                    className={style.timeField}
-                    // value={time}
-                    value={time ? formatTime(time) : ""}
-                    onFocus={handleFocusTime}
-                    onBlur={handleBlurTime}
-                    placeHolder="Select Time"
+                    className={inputField.inputField}
                     onChange={handleFormData}
+                    // onMouseEnter={onFocusHandler}
+                    onFocus={onFocusHandler}
+                  />
+                  <input
+                    ref={myInputRef2}
+                    placeholder="Select Time"
+                    type="text"
+                    name="time"
+                    value={time}
+                    min={moment(time, "HH:mm").format("hh:mm A")}
+                    className={inputField.inputField}
+                    onChange={handleFormData}
+                    // onMouseEnter={onFocusHandler}
+                    onFocus={onFocusHandlerTime}
                   />
                   <select
                     name="labName"
@@ -417,7 +424,7 @@ export default function Prescription() {
                   type="submit"
                   disabled={
                     // images &&
-                      typeTest &&
+                    typeTest &&
                       patientName &&
                       date &&
                       time &&

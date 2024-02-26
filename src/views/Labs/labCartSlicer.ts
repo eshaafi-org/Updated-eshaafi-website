@@ -115,7 +115,17 @@ const labCartSlicer = createSlice({
       );
       state.totalAmount = state.cartAmount + state.packageAmount;
       state.subTotalAmount = state.subCartAmount + state.subPackageAmount;
-    }
+    },
+    resetCartState: (state) => {
+      state.cart = [];
+      state.packages = [];
+      state.cartAmount = 0;
+      state.subCartAmount = 0;
+      state.packageAmount = 0;
+      state.subPackageAmount = 0;
+      state.totalAmount = 0;
+      state.subTotalAmount = 0;
+    },
   },
 });
 

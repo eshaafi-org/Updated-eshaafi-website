@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import AddressBar from "@/components/AddressBar";
 import Image from "next/image";
@@ -46,24 +47,21 @@ export default function Test() {
     const dispatch = useDispatch();
 
     const handleSearch = () => {
-        // Check if the search query length is at least 2 characters
-        if (searchQuery.length >= 1) {
-            const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
-            axios
-                .get(BASE_URL + `/lab/patients/labs/test`, {
-                    headers: headers(),
-                    params: {
-                        name: searchQuery,
-                        vendor: labSlug,
-                    },
-                })
-                .then((res) => {
-                    setSearchResults(res.data.response.Items);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
+        const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
+        axios
+            .get(BASE_URL + `/lab/patients/labs/test`, {
+                headers: headers(),
+                params: {
+                    name: searchQuery,
+                    vendor: labSlug,
+                },
+            })
+            .then((res) => {
+                setSearchResults(res.data.response.Items);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
     useEffect(() => {
         // Check if id is valid and not an empty string
@@ -124,6 +122,13 @@ export default function Test() {
             dispatch({ type: "loginModalSlice/signIn" });
         }
     };
+    useEffect(() => {
+        if (searchQuery.length >= 1) {
+            handleSearch();
+        } else {
+            setSearchResults([]);
+        }
+    }, [searchQuery]);
     return (
         <>
             <Head>
@@ -166,12 +171,7 @@ export default function Test() {
                             placeholder="Search for tests here"
                             value={searchQuery}
                             // onChange={(e) => setSearchQuery(e.target.value)}
-                            onChange={(e) => {
-                                setSearchQuery(e.target.value);
-                                if (e.target.value.length >= 1) {
-                                    handleSearch();
-                                }
-                            }}
+                            onChange={(e) => {setSearchQuery(e.target.value)}}
                         />
                         <FaSearch className={style.searchIcon} />
                     </div>
