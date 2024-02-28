@@ -62,8 +62,8 @@ const Text18: React.FC<TypoProps> = ({ children, style, className }) => {
   );
 };
 // text 16 px
-const Text16: React.FC<TypoProps> = ({ children, className }) => {
-  return <p className={styles.text16 + " " + className}>{children}</p>;
+const Text16: React.FC<TypoProps> = ({ children, className, style }) => {
+  return <p className={styles.text16 + " " + className} style={style}>{children}</p>;
 };
 // text 14 px
 const Text14: React.FC<TypoProps> = ({ children, style, className }) => {

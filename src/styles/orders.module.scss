@@ -13,6 +13,7 @@
   }
 }
 .orderList {
+  width: 100% !important;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -21,9 +22,43 @@
   border-radius: 12px;
   align-items: start;
   border: 0.5px solid #d7ddea;
+  text-transform: capitalize;
   @include large-mobile-and-below {
     padding: 0.8rem;
     // align-items: center;
+  }
+}
+// Table
+.tableData {
+  display: flex;
+  width: 100% !important;
+  justify-content: space-between;
+  tr {
+    display: flex;
+    flex-direction: column;
+    .date {
+      display: flex;
+      flex-direction: column;
+    }
+    @include large-mobile-and-below {
+      flex-direction: row;
+      justify-content: space-between;
+      .date {
+        flex-direction: row;
+        gap: 5px;
+      }
+    }
+  }
+  @include large-mobile-and-below {
+    flex-direction: column;
+  }
+}
+.tableDataModal {
+  width: 100%;
+  tr {
+    padding-bottom: 7px;
+    display: flex;
+    justify-content: space-between;
   }
 }
 .confirmed {
@@ -37,7 +72,7 @@
 }
 .pending {
   border-radius: 64px;
-  background: #ffdad2;
+  background: #D8E7FF;
   display: flex;
   padding: 3px 15px;
   justify-content: center;
@@ -83,6 +118,9 @@
   padding: 1.5rem;
   display: grid;
   row-gap: 0.1rem;
+  @include large-mobile-and-below {
+    padding: 0.7rem;
+  }
 }
 .modalContent {
   border: 0.5px solid #d7ddea;

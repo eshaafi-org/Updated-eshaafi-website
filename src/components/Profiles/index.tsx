@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import style from "./Profile.module.scss";
 import { useEffect, useReducer, memo } from "react";
 import axios from "axios";

@@ -9,6 +9,7 @@ import Button from '@/components/Button';
 import { Text11, Text14, Text16, Text20, Text22 } from '@/components/Typography';
 import AddressBar from '@/components/AddressBar';
 import Head from 'next/head';
+import { SimpleGauge } from "react-gauges";
 
 export default function Bmi() {
     // State variables
@@ -17,7 +18,7 @@ export default function Bmi() {
     const [heightInch, setHeightInch] = useState('');
     const [age, setAge] = useState('');
     const [weight, setWeight] = useState('');
-    const [bmiResult, setBmiResult] = useState<number | null>(null);
+    const [bmiResult, setBmiResult] = useState<number | null>(null)
     // Handle heightInch input with maximum limit
     const handleHeightInchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value.replace(/\D/, ''); // Remove non-numeric characters
@@ -57,7 +58,9 @@ export default function Bmi() {
             </span>
             <div className={style.bmiData}>
                 <div className={style.bmiTracker}>
-                    <div></div>
+                    <div>
+                        {/* <SimpleGauge value={20} borderType="square" indicatorVisible={false} /> */}
+                    </div>
                     <div className={`${style.bmiResult} d-flex flex-column row-gap-1`}>
                         {/* Display details */}
                         <div className={`${style.bmiResultDetail} d-flex justify-content-between p-3`}>
@@ -101,9 +104,9 @@ export default function Bmi() {
                         {/* Gender selection */}
                         <div className="my-3">
                             <label>Gender</label>
-                            <select className={`${style.bmiOptionField} w-100 p-3 rounded`} 
-                            value={gender} 
-                            onChange={(e: any) => setGender(e.target.value)}>
+                            <select className={`${style.bmiOptionField} w-100 p-3 rounded`}
+                                value={gender}
+                                onChange={(e: any) => setGender(e.target.value)}>
                                 <option value="">Select Option</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -148,7 +151,7 @@ export default function Bmi() {
                                 onChange={(e: any) => setAge(e.target.value.replace(/\D/, ''))} />
                         </span>
                         {/* Calculate BMI button */}
-                        <Button className={`${style.bmiCalculate} w-100 mt-3 p-3`} disabled={isDisabled} onClick={calculateBMI}>Calculate BMI</Button>
+                        <Button variant="contained" className={`${style.bmiCalculate} w-100 mt-3 p-3`} disabled={isDisabled} onClick={calculateBMI}>Calculate BMI</Button>
                     </form>
                 </div>
             </div>

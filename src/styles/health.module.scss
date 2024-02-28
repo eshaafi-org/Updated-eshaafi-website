@@ -67,6 +67,9 @@
     width: 100%;
   }
   .bmiTracker {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     width: 70%;
     height: fit-content;
     padding: 1rem;
@@ -82,17 +85,18 @@
       border-radius: 1rem;
       background: #fff;
       box-shadow: 0px 8px 16px 0px rgba(37, 49, 65, 0.1);
-    }
-    .bmiResultDetail {
-      border-radius: 4px;
-      border: 1.2px solid #f2f2f2;
-      .bmiDetailBorder {
-        border-right: 1px solid #ddd;
+      width: 50%;
+      .bmiResultDetail {
+        border-radius: 4px;
+        border: 1.2px solid #f2f2f2;
+        .bmiDetailBorder {
+          border-right: 1px solid #ddd;
+        }
       }
-    }
-    .resultText {
-      color: #040a2b;
-      font-weight: 500;
+      .resultText {
+        color: #040a2b;
+        font-weight: 500;
+      }
     }
   }
   .bmiForm {
@@ -131,10 +135,7 @@
     }
     .bmiCalculate {
       border-radius: 8px;
-      background: #0e5487;
-      color: #fff;
       &:disabled {
-        background-color: #657c8c;
         cursor: not-allowed;
       }
     }

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Text18, Text28, Text22 } from "@/components/Typography";
+import { Text18, Text28, Text22, Text16 } from "@/components/Typography";
 import { BASE_URL, headers } from "@/helper/CONST";
 import AddressBar from "@/components/AddressBar";
 import Head from "next/head";
@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import empty from "../../../public/images/empty.svg";
 import Image from "next/image";
+import moment from 'moment';
 import checkMark from "../../../public/images/checkmark.png";
 let links = [
   { name: "Home", link: "/" },
@@ -24,6 +25,7 @@ export default function Orders() {
   const dispatch = useDispatch();
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   const [orders, setOrders] = useState([]);
+  console.log(orders)
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
@@ -139,42 +141,55 @@ const Order = ({ item, indx }: { item: any; indx: number }) => {
   const [show, setShow] = useState(false);
   return (
     <>
-      <li key={indx} className={style.orderList} onClick={() => setShow(true)}>
-        <div
+      {/* <li key={indx} className={style.orderList} onClick={() => setShow(true)}> */}
+      {/* <div
           className="w-100 d-flex justify-content-between align-items-center"
           style={{ columnGap: "0.5rem" }}
-        >
-          <Text18 className="text-dark fw-bold">
-            Order# {item.appointmentId}
-          </Text18>
-          <span
-            className={`${
-              item.appointment_status === "lab_confirmed"
+        > */}
+      <table key={indx} className={style.orderList}>
+        <tbody className={style.tableData} onClick={() => setShow(true)}>
+          <tr>
+            <td className={style.date}>
+              <span style={{ color: "#1C6BA4", fontWeight: 500 }}>{moment(item.appoint_date).format('DD,ddd')}</span>
+              <span style={{ color: "#1C6BA4" }}>{moment(item.appoint_date).format('MMM YYYY')}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Profile</td>
+            <th>{item.name}</th>
+          </tr>
+          <tr>
+            <td>Booking Time</td>
+            <th>{moment(item.appoint_start_time, "HH:mm").format('h:mm A')}</th>
+          </tr>
+          <tr>
+            <td>Order ID</td>
+            <th>{item.appointmentId}</th>
+          </tr>
+          <tr>
+            <span
+              className={`${item.appointment_status === "lab_confirmed"
                 ? style.confirmed
                 : item.appointment_status === "lab_pending"
-                ? style.pending
-                : item.appointment_status === "lab_cancelled"
-                ? style.cancelled
-                : style.completed
-            }`}
-          >
-            {item.appointment_status === "lab_confirmed"
-              ? "Confirmed"
-              : item.appointment_status === "lab_pending"
-              ? "Pending"
-              : item.appointment_status === "lab_cancelled"
-              ? "Cancelled"
-              : item.appointment_status === "lab_completed"
-              ? "Completed"
-              : ""}
-          </span>
-        </div>
-        <ul className={style.testList}>
-          {item?.testDetails?.map((test: any, key: number) => (
-            <li key={key}>{test.MedicineName}</li>
-          ))}
-        </ul>
-      </li>
+                  ? style.pending
+                  : item.appointment_status === "lab_cancelled"
+                    ? style.cancelled
+                    : style.completed
+                }`}
+            >
+              {item.appointment_status === "lab_confirmed"
+                ? "Confirmed"
+                : item.appointment_status === "lab_pending"
+                  ? "Pending"
+                  : item.appointment_status === "lab_cancelled"
+                    ? "Cancelled"
+                    : item.appointment_status === "lab_completed"
+                      ? "Completed"
+                      : ""}
+            </span>
+          </tr>
+        </tbody>
+      </table>
       <Modal show={show} onHide={() => setShow(false)}>
         <div className={style.orderModal}>
           <div>
@@ -187,10 +202,9 @@ const Order = ({ item, indx }: { item: any; indx: number }) => {
                   className={
                     style.labStatus +
                     " text-dark " +
-                    `${
-                      item.appointment_status === "lab_pending"
-                        ? style.beforeStatus
-                        : style.afterStatus
+                    `${item.appointment_status === "lab_pending"
+                      ? style.beforeStatus
+                      : style.afterStatus
                     }`
                   }
                 >
@@ -201,10 +215,9 @@ const Order = ({ item, indx }: { item: any; indx: number }) => {
                   className={
                     style.labStatus +
                     " " +
-                    `${
-                      item.appointment_status === "lab_completed"
-                        ? style.afterStatus
-                        : style.beforeStatus
+                    `${item.appointment_status === "lab_completed"
+                      ? style.afterStatus
+                      : style.beforeStatus
                     }`
                   }
                   style={{
@@ -212,13 +225,13 @@ const Order = ({ item, indx }: { item: any; indx: number }) => {
                       item.appointment_status === "lab_completed" ? "5" : "2",
                     color:
                       item.appointment_status === "lab_completed" ||
-                      item.appointment_status === "lab_confirmed"
+                        item.appointment_status === "lab_confirmed"
                         ? "#000"
                         : "#717171",
                   }}
                 >
                   {item.appointment_status === "lab_confirmed" ||
-                  item.appointment_status === "lab_completed" ? (
+                    item.appointment_status === "lab_completed" ? (
                     <IoCheckmarkCircleSharp className={style.successSvg} />
                   ) : (
                     <FaCircle className={style.processSvg} />
@@ -244,17 +257,18 @@ const Order = ({ item, indx }: { item: any; indx: number }) => {
               </div>
             )}
           </div>
-          <div className="modalAddress">
+
+          {item.testType === "labVisit" ? null : <div className="modalAddress">
             <Text18 className="text-dark my-2">Address</Text18>
             <span className={style.modalContent}>{item.patientAddress}</span>
-          </div>
+          </div>}
           <div className="modalPayment">
             <Text18 className="text-dark my-2">Payment Method</Text18>
             <div
               className={style.modalContent + " flex justify-content-between"}
             >
               {"Cash on Delievery"}
-              <span>Rs.{item.charges}</span>
+              {/* <span>Rs.{item.charges}</span> */}
             </div>
           </div>
           {item?.testDetails.length > 0 && (
@@ -262,11 +276,38 @@ const Order = ({ item, indx }: { item: any; indx: number }) => {
               <Text18 className="text-dark my-2">Order Details</Text18>
               <ul className={style.modalContent + " flex-column"}>
                 {item?.testDetails?.map((test: any, key: number) => (
-                  <li key={key}>{test.MedicineName}</li>
+                  <li key={key}>
+                    <Text16 style={{ textTransform: "Capitalize" }}> {test.MedicineName} X {test.quantity}</Text16>
+                  </li>
                 ))}
               </ul>
             </div>
           )}
+          <Text18 className="text-dark mt-2">Patient Details</Text18>
+          <table className={style.modalContent}>
+            <tbody className={style.tableDataModal}>
+              <tr>
+                <td>Patient Name</td>
+                <td>{item.patientName}</td>
+              </tr>
+              <tr>
+                <td>Date and Time</td>
+                <td>{moment(item.appoint_date).format('ddd, MMM DD, YYYY')} {moment(item.appoint_start_time, "HH:mm").format('h:mm a')}</td>
+              </tr>
+              <tr>
+                <td>Subtotal</td>
+                <td>Rs.{item.charges}</td>
+              </tr>
+              <tr>
+                <td>Discount</td>
+                <td>{item.discount}%</td>
+              </tr>
+              <tr>
+                <th>Total</th>
+                <th>Rs.{item.grandTotal}</th>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </Modal>
     </>
