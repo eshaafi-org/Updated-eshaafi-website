@@ -82,7 +82,7 @@ export default function BloodPressure() {
                             <input className={style.bloodPressureField} type='text' />
                         </span>
                         {/* Calculate BMI button */}
-                        <Button variant="contained" className={`${style.bmiCalculate} w-100 mt-3 p-3`}>Save</Button>
+                        <Button variant="contained" className={`${style.bmiCalculate} w-100 mt-4 p-3`}>Save</Button>
                     </form>
                 </div>
             </div>
