@@ -58,32 +58,28 @@ export default function BloodPressure() {
                 <div className={`${style.bloodPressureForm} p-3`}>
                     <Text20 style={{ color: "#3F3F3F" }}>Add Blood Pressure</Text20>
                     <form>
-                        {/* Height input */}
+                        {/* Height Date and Time */}
                         <div className='my-3'>
                             <span className='d-flex flex-column w-100'>
                                 <label>Select Date</label>
-                                <input className={style.bloodPressureField}
-                                    type='date' />
+                                <input className={style.bloodPressureField} type='date' />
                             </span>
                         </div>
                         <div className='mb-3'>
                             <span className='d-flex flex-column w-100'>
                                 <label>Select Time</label>
-                                <input className={style.bloodPressureField}
-                                    type='time' />
+                                <input className={style.bloodPressureField} type='time' />
                             </span>
                         </div>
                         {/* Weight input */}
                         <span className='d-flex flex-column w-100 my-3'>
                             <label>Upper pressure (mmHg)</label>
-                            <input className={style.bloodPressureField}
-                                type='text' />
+                            <input className={style.bloodPressureField} type='text' />
                         </span>
                         {/* Age input */}
                         <span className='d-flex flex-column w-100 my-3'>
                             <label>Lower pressure (mmHg)</label>
-                            <input className={style.bloodPressureField}
-                                type='text' />
+                            <input className={style.bloodPressureField} type='text' />
                         </span>
                         {/* Calculate BMI button */}
                         <Button variant="contained" className={`${style.bmiCalculate} w-100 mt-3 p-3`}>Save</Button>
