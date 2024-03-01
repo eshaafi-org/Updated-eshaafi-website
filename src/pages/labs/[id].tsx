@@ -21,6 +21,18 @@ import { useRouter } from "next/router";
 import { CardsSkeletonLoader, SkeletonLoader } from "@/components/SkeletonLoader";
 import Link from "next/link";
 
+function debounce(func: any, wait: any) {
+    let timeout: any;
+    return function executedFunction(...args: any) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 export default function Test() {
     const router = useRouter();
     const { id } = router.query;
@@ -122,9 +134,10 @@ export default function Test() {
             dispatch({ type: "loginModalSlice/signIn" });
         }
     };
+    const debouncedSearch = debounce(() => handleSearch(), 500);
     useEffect(() => {
         if (searchQuery.length >= 1) {
-            handleSearch();
+            debouncedSearch();
         } else {
             setSearchResults([]);
         }
@@ -171,7 +184,7 @@ export default function Test() {
                             placeholder="Search for tests here"
                             value={searchQuery}
                             // onChange={(e) => setSearchQuery(e.target.value)}
-                            onChange={(e) => {setSearchQuery(e.target.value)}}
+                            onChange={(e) => { setSearchQuery(e.target.value) }}
                         />
                         <FaSearch className={style.searchIcon} />
                     </div>
