@@ -213,14 +213,14 @@ export default function Checkout() {
                                 setLabName={setLabName}
                             />
                             {/* Note section */}
-                            <div className={`${style.note} mt-3`}>
+                            {/* <div className={`${style.note} mt-3`}>
                                 <Text28 className={style.blackColor1}>Note</Text28>
                                 {/* Input field for adding notes or instructions */}
-                                <input
+                            {/*<input
                                     className="w-100 p-3 rounded mt-1"
                                     placeholder="Write Note for any instructions to follow"
                                 />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     {/* Order summary and additional details section */}
@@ -290,18 +290,15 @@ export default function Checkout() {
                         height={300}
                     />
                     <Text28 style={{ color: "#40C175" }}>Booking successful!</Text28>
-                    <p className="w-25 text-center">
+                    <p className="w-40 text-center">
                         You have successfully booked your test our customer care will
-                        contact you shortly{" "}
-                    </p>
-                    <Link href={`/orders`}>
-                        <Button variant="outlined" onClick={() => {
+                        contact you shortly {" "}
+                        <Link href={`/orders`} onClick={() => {
                             setSuccess(false);
-                        }}
-                        >
-                            view details
-                        </Button>
-                    </Link>
+                        }}>
+                            View Details
+                        </Link>
+                    </p>
                 </div>}
             <ToastContainer />
         </>

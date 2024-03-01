@@ -180,11 +180,13 @@ export default function Test() {
                             // Display search results when a search query is present
                             searchResults.map((result: any, index: any) => (
                                 <li key={index} className={style.cartDetail}>
-                                    {/* Display the search results here */}
                                     <Text22 className={style.blackColor}>{result.MedicineName}</Text22>
-                                    <Text14>{result.productPrice}</Text14>
+                                    <span className="d-flex gap-1">
+                                        <Text14 className={style.blueColor}>Rs.{result.productPrice}</Text14>
+                                        <Text14 className={style.fadeColor}>Rs.{result.subPrice}</Text14>
+                                    </span>
                                     <Button
-                                        variant="contained"
+                                        variant="outlined"
                                         className={`${style.cartButton} mt-2`}
                                         onClick={() => handleAddToCart(result)}
                                     >

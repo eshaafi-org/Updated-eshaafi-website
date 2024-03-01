@@ -398,7 +398,6 @@ export async function getStaticProps({ params: { id } }: any) {
   const [profile, doctors] = await Promise.all([response, doc]);
   const data = await profile.json();
   const docData = await doctors.json();
-  console.log(data.response);
   return {
     props: {
       doctor: data?.response,
