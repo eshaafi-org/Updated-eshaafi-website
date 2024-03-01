@@ -247,6 +247,12 @@
     }
   }
 }
+.butn {
+  width: 80%;
+  @include large-mobile-and-below {
+    width: 100%;
+  }
+}
 // Package Page Design
 .package {
   display: grid;
@@ -332,6 +338,12 @@
   }
 }
 // CheckOut Page Styling
+.addressContainer {
+  width: 80%;
+  @include large-mobile-and-below {
+    width: 100%;
+  }
+}
 .address {
   border-radius: 8px;
   box-shadow: 0px 5px 10px 0px rgba(88, 88, 88, 0.08);
@@ -617,31 +629,39 @@
 .formFields {
   display: grid;
   width: 80%;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr); 
   row-gap: 1rem;
   column-gap: 1rem;
+  @include large-mobile-and-below {
+    width: 100%;
+    grid-template-columns: 1fr; 
+  }
 }
 .nameField {
-  grid-area: 1/1/2/3;
+  grid-area: 1 / 1 / 2 / 3; 
   @include large-mobile-and-below {
-    grid-area: 1/1/2/4;
+    grid-area: auto; 
   }
 }
 .labField {
-  grid-area: 2/2/3/4;
+  grid-area: 2 / 2 / 3 / 4; 
   @include large-mobile-and-below {
-    grid-area: 2/1/3/4;
+    grid-area: auto; 
     padding: 1rem 0;
   }
 }
 .timeField {
   @include large-mobile-and-below {
-    grid-area: 3/1/4/3;
+    grid-area: auto; 
   }
 }
 .paymentMethod {
   border: 1px solid #cacaca;
   border-radius: 12px;
+  width: 80%;
+  @include large-mobile-and-below {
+    width: 100%;
+  }
 }
 // packages page styling ---///
 .packageHeader {

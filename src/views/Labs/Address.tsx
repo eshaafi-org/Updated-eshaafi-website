@@ -429,7 +429,7 @@ function Address({
   }, []);
   return (
     <div className={style.addressContainer}>
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center justify-content-between ">
         <Text28 className={style.blackColor}>Address</Text28>
         <AddressModal />
       </div>

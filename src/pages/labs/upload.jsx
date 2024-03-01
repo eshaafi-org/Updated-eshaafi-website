@@ -421,6 +421,7 @@ export default function Prescription() {
                 <div className={style.notes}></div>
                 <Button
                   variant="contained"
+                  className={style.butn}
                   type="submit"
                   disabled={
                     // images &&
@@ -502,18 +503,15 @@ export default function Prescription() {
               height={300}
             />
             <Text28 style={{ color: "#40C175" }}>Booking successful!</Text28>
-            <p className="w-25 text-center">
+            <p className="w-40 text-center">
               You have successfully booked your test our customer care will
-              contact you shortly{" "}
-              <Link href={`/orders`}>
-                <Button variant="outlined" onClick={() => {
+              contact you shortly {" "}
+                <Link href={`/orders`} onClick={() => {
                   setSuccess(false);
                   setShow(false);
                   setImages("");
-                }}
-                >
-                  view details
-                </Button>
+                }}>
+                  View Details
               </Link>
             </p>
           </div>
