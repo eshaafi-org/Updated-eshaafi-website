@@ -11,7 +11,7 @@ export default function Sugar() {
     const links = [
         { name: "Home", link: "/" },
         { name: "Health Tracker", link: "/healthtracker" },
-        { name: "Blood Pressure", link: "/healthtracker/sugar" },
+        { name: "Sugar", link: "/healthtracker/sugar" },
     ]
     // States 
     const [profile, setProfile] = useState({})
@@ -19,7 +19,7 @@ export default function Sugar() {
         <>
             <section className="container">
                 <Head>
-                    <title>Health Tracker | Blood Pressure</title>
+                    <title>Health Tracker | Sugar</title>
                 </Head>
                 <span>
                     <h2>Health Tracker</h2>
@@ -29,7 +29,7 @@ export default function Sugar() {
                 <div>
                     <div></div>
                     <div className={`${style.bloodPressureForm} p-3`}>
-                        <Text20 style={{ color: "#3F3F3F" }}>Add Blood Pressure</Text20>
+                        <Text20 style={{ color: "#3F3F3F" }}>Add Sugar Level</Text20>
                         <form>
                             {/* Height input */}
                             <div className='my-3'>
