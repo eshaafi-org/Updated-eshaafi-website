@@ -15,6 +15,7 @@ import { FaXmark } from "react-icons/fa6";
 import { FaCamera } from "react-icons/fa6";
 import moment from "moment";
 import Image from "next/image";
+import {logout} from '@/components/Profiles'
 import Otpinput from "./OtpFields";
 // reducer function
 const reducer = (state, action) => {
