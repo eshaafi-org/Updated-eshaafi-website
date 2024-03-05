@@ -10,20 +10,41 @@ interface LabCartState {
   cartAmount: number;
   subCartAmount: number;
 }
+// Helper function to save state to localStorage
+const saveToLocalStorage = (state: LabCartState) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem("labCartState", JSON.stringify(state));
+  }
+};
+
+// Helper function to load state from localStorage
+const loadFromLocalStorage = (): LabCartState | undefined => {
+  if (typeof window !== 'undefined') {
+    const stateFromStorage = localStorage.getItem("labCartState");
+    return stateFromStorage ? JSON.parse(stateFromStorage) : undefined;
+  }
+  return undefined;
+};
+
+// Load initial state from localStorage or set default state
+const initialState: LabCartState = loadFromLocalStorage() || {
+  cart: [],
+  packages: [],
+  cartAmount: 0,
+  subCartAmount: 0,
+  packageAmount: 0,
+  subPackageAmount: 0,
+  totalAmount: 0,
+  subTotalAmount: 0,
+};
 
 const labCartSlicer = createSlice({
   name: "labCartSlicer",
-  initialState: {
-    cart: [],
-    packages: [],
-    cartAmount: 0,
-    subCartAmount: 0,
-    packageAmount: 0,
-    subPackageAmount: 0,
-    totalAmount: 0,
-    subTotalAmount: 0,
-  } as LabCartState,
+  initialState,
   reducers: {
+    initializeState: (state, action: PayloadAction<LabCartState>) => {
+      return { ...state, ...action.payload };
+    },
     addToCart: (state, action: PayloadAction<string>) => {
       state.cart = [...state.cart, action.payload];
       state.cartAmount = state.cart.reduce(
@@ -36,6 +57,7 @@ const labCartSlicer = createSlice({
       );
       state.totalAmount = state.cartAmount + state.packageAmount;
       state.subTotalAmount = state.subCartAmount + state.subPackageAmount;
+      saveToLocalStorage(state);
     },
     addPackageToCart: (state, action: PayloadAction<string>) => {
       state.packages = [...state.packages, action.payload];
@@ -49,10 +71,12 @@ const labCartSlicer = createSlice({
       );
       state.totalAmount = state.cartAmount + state.packageAmount;
       state.subTotalAmount = state.subCartAmount + state.subPackageAmount;
+      saveToLocalStorage(state);
     },
     addAmount: (state) => {
       state.totalAmount = state.cartAmount + state.packageAmount;
       state.subTotalAmount = state.subCartAmount + state.subPackageAmount;
+      saveToLocalStorage(state);
     },
     removeCartItem: (state, action) => {
       state.cart = state.cart.filter((item) => item.barcode !== action.payload);
@@ -75,6 +99,7 @@ const labCartSlicer = createSlice({
       );
       state.totalAmount = state.cartAmount + state.packageAmount;
       state.subTotalAmount = state.subCartAmount + state.subPackageAmount;
+      saveToLocalStorage(state);
     },
     addQuantity: (state, action) => {
       state.cart = state.cart.map((cartItem) => {
@@ -115,6 +140,7 @@ const labCartSlicer = createSlice({
       );
       state.totalAmount = state.cartAmount + state.packageAmount;
       state.subTotalAmount = state.subCartAmount + state.subPackageAmount;
+      saveToLocalStorage(state);
     },
     resetCartState: (state) => {
       state.cart = [];
@@ -125,6 +151,7 @@ const labCartSlicer = createSlice({
       state.subPackageAmount = 0;
       state.totalAmount = 0;
       state.subTotalAmount = 0;
+      saveToLocalStorage(state);
     },
   },
 });

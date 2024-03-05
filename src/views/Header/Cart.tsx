@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text24, Text12, Text16, Text14 } from "@/components/Typography";
 import styles from "./Header.module.scss";
 import { RxCross2 } from "react-icons/rx";
@@ -12,9 +12,45 @@ import Image from "next/image";
 import labIcon from "../../../public/images/labIcon.png"
 import Link from "next/link";
 export default function Cart({ setShowCart }: { setShowCart: any }) {
+  const defaultState = {
+    cart: [],
+    packages: [],
+    totalAmount: 0,
+  };
+// function for handle local storage data updation
+  function useInitialState() {
+    const [initialState, setInitialState] = useState(defaultState);
+    useEffect(() => {
+      const updateStateFromLocalStorage = () => {
+        const stateFromLocalStorage = localStorage.getItem('labCartState');
+        if (stateFromLocalStorage) {
+          setInitialState(JSON.parse(stateFromLocalStorage));
+        }
+      };
+      // Listen for storage events (cross-tab updates)
+      window.addEventListener('storage', (event) => {
+        if (event.key === 'labCartState') {
+          updateStateFromLocalStorage();
+        }
+      });
+      // Listen for custom events (same-tab updates)
+      window.addEventListener('localStorageUpdate', updateStateFromLocalStorage);
+      // Initial load
+      updateStateFromLocalStorage();
+      return () => {
+        window.removeEventListener('storage', updateStateFromLocalStorage);
+        window.removeEventListener('localStorageUpdate', updateStateFromLocalStorage);
+      };
+    }, []);
+    return initialState;
+  }
+  const initialState = useInitialState();
   const { cart, totalAmount, packages } = useSelector(
     (state: any) => state.labCartReducer
   )
+  const currentCart = cart.length > 0 ? cart : initialState.cart;
+  const currentPackages = packages.length > 0 ? packages : initialState.packages;
+  const currentTotalAmount = totalAmount > 0 ? totalAmount : initialState.totalAmount;
   const router = useRouter();
   const handleProceedToCheckout = () => {
     router.push("/checkout");
@@ -30,18 +66,18 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
           </Button>
         </div>
         <ul className={styles.cartItems}>
-          {cart.length > 0 && (
+          {currentCart.length > 0 && (
             <>
               <Text16 className="fw-bold">Tests:</Text16>
-              {cart.map((item: any, indx: number) => (
+              {currentCart.map((item: any, indx: number) => (
                 <CartItem key={indx} item={item} />
               ))}
             </>
           )}
-          {packages.length > 0 && (
+          {currentPackages.length > 0 && (
             <>
               <Text16 className="fw-bold">Packages:</Text16>
-              {packages.map((item: any, indx: number) => (
+              {currentPackages.map((item: any, indx: number) => (
                 <PackageItem key={indx} item={item} />
               ))}
             </>
@@ -50,7 +86,7 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
         <div className={styles.cartDetails}>
           <div className="w-100 d-flex justify-content-between align-items-center">
             <Text24 className="text-dark fw-bold">Subtotal</Text24>
-            <Text24 className="text-dark fw-bold">Rs. {totalAmount}</Text24>
+            <Text24 className="text-dark fw-bold">Rs. {currentTotalAmount}</Text24>
           </div>
           {/* <Text12 className="mb-4 mt-2">
             Discounts and promo codes are applied at checkout
@@ -103,7 +139,7 @@ const CartItem = ({ key, item }: { key: number; item: any }) => {
                   barcode: item.barcode,
                   quantity: counter - 1,
                   totalPrice: parseInt(item.totalPrice) - parseInt(item.productPrice),
-                  subTotalPrice: parseInt(item.subPrice) - parseInt(item.subTotalPrice),
+                  subTotalPrice: parseInt(item.subTotalPrice) - parseInt(item.subPrice),
                 }
               })
             }

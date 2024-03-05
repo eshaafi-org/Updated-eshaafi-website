@@ -82,8 +82,12 @@ export default function Test() {
             const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
 
             axios
-                .get(BASE_URL + `/lab/patients/labs/test?vendor=${labSlug}`, {
+                .get(BASE_URL + `/lab/patients/labs/test`, {
                     headers: headers(),
+                    params: {
+                        name: "a",
+                        vendor: labSlug,
+                    },
                 })
                 .then((res) => {
                     setTest(res.data.response.Items);
@@ -169,7 +173,7 @@ export default function Test() {
                             <span>
                                 <Text24>{getLabName()}</Text24>
                                 <Text16>1200+ Tests</Text16>
-                                <Text14>Available 00:00am - 00:00pm</Text14>
+                                <Text14>Available 00:00 - 24:00</Text14>
                             </span>
                         </div>
                         <Link href={"/labs/upload"}>

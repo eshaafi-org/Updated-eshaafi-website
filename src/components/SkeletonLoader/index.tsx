@@ -23,41 +23,50 @@ export function SkeletonLoader() {
 export function CardsSkeletonLoader() {
   return (
     <div className="container pt-0 pb-0">
-      <div className="w-100">
-        <div className="card border-0 d-flex flex-row w-100" aria-hidden="true">
-          <div className="card-body">
-            <h5 className="card-title placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-            <h5 className="card-text placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-            <h5 className="card-text placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-          </div>
-          <div className="card-body">
-            <h5 className="card-title placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-            <h5 className="card-text placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-            <h5 className="card-text placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-          </div>
-          <div className="card-body">
-            <h5 className="card-title placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-            <h5 className="card-text placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-            <h5 className="card-text placeholder-glow">
-              <span className="placeholder col-9"></span>
-            </h5>
-          </div>
+      <div className="card border-0 d-flex flex-column flex-sm-row gap-3 w-100" aria-hidden="true">
+        <div className="card-body border">
+          <h5 className="card-title placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+          <h5 className="card-text placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+          <h5 className="card-text placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+        </div>
+        <div className="card-body border">
+          <h5 className="card-title placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+          <h5 className="card-text placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+          <h5 className="card-text placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+        </div>
+        <div className="card-body border">
+          <h5 className="card-title placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+          <h5 className="card-text placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+          <h5 className="card-text placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+        </div>
+        <div className="card-body border">
+          <h5 className="card-title placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+          <h5 className="card-text placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
+          <h5 className="card-text placeholder-glow">
+            <span className="placeholder col-12"></span>
+          </h5>
         </div>
       </div>
     </div>

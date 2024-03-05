@@ -22,9 +22,47 @@ export default function Checkout() {
         { name: "Home", link: "/" },
         { name: "Checkout", link: `/checkout` },
     ];
+    const defaultState = {
+        cart: [],
+        packages: [],
+        totalAmount: 0,
+        subTotalAmount:0,
+    };
+    // function for handle local storage data updation
+    function useInitialState() {
+        const [initialState, setInitialState] = useState(defaultState);
+        useEffect(() => {
+            const updateStateFromLocalStorage = () => {
+                const stateFromLocalStorage = localStorage.getItem('labCartState');
+                if (stateFromLocalStorage) {
+                    setInitialState(JSON.parse(stateFromLocalStorage));
+                }
+            };
+            // Listen for storage events (cross-tab updates)
+            window.addEventListener('storage', (event) => {
+                if (event.key === 'labCartState') {
+                    updateStateFromLocalStorage();
+                }
+            });
+            // Listen for custom events (same-tab updates)
+            window.addEventListener('localStorageUpdate', updateStateFromLocalStorage);
+            // Initial load
+            updateStateFromLocalStorage();
+            return () => {
+                window.removeEventListener('storage', updateStateFromLocalStorage);
+                window.removeEventListener('localStorageUpdate', updateStateFromLocalStorage);
+            };
+        }, []);
+        return initialState;
+    }
+    const initialState = useInitialState();
     const { cart, totalAmount, subTotalAmount, packages } = useSelector(
         (state: any) => state.labCartReducer
     );
+    const currentCart = cart.length > 0 ? cart : initialState.cart;
+    const currentPackages = packages.length > 0 ? packages : initialState.packages;
+    const currentTotalAmount = totalAmount > 0 ? totalAmount : initialState.totalAmount;
+    const currentSubTotalAmount = subTotalAmount > 0 ? subTotalAmount : initialState.subTotalAmount;
     const dispatch = useDispatch();
     const [profile, setProfile] = useState<any>('')
     const [address, setAddress] = useState("");
@@ -159,10 +197,10 @@ export default function Checkout() {
                             <Profiles patient={profile} setPatient={setProfile} />
                         </span>
                         <Text28 className={style.blackColor1}>Order Detail</Text28>
-                        {cart.length > 0 && (
+                        {currentCart.length > 0 && (
                             <>
                                 <Text16 className="fw-bold pt-2">Tests:</Text16>
-                                {cart.map((item: any, index: number) => (
+                                {currentCart.map((item: any, index: number) => (
                                     <div className="p-3 pt-1" key={index}>
                                         {/* Individual test details */}
                                         <span className="d-flex align-items-center justify-content-between">
@@ -177,10 +215,10 @@ export default function Checkout() {
                                 ))}
                             </>
                         )}
-                        {packages.length > 0 && (
+                        {currentPackages.length > 0 && (
                             <>
                                 <Text16 className="fw-bold pt-2">Packages:</Text16>
-                                {packages.map((item: any, index: number) => (
+                                {currentPackages.map((item: any, index: number) => (
                                     <div className="p-3 pt-1" key={index}>
                                         {/* Individual test details */}
                                         <span className="d-flex align-items-center justify-content-between">
@@ -235,7 +273,7 @@ export default function Checkout() {
                                 </tr>
                                 <tr>
                                     <th>Sub Total Charges</th>
-                                    <td>Rs. {subTotalAmount}</td>
+                                    <td>Rs. {currentSubTotalAmount}</td>
                                 </tr>
                                 <tr>
                                     <th>Discount</th>
@@ -243,7 +281,7 @@ export default function Checkout() {
                                 </tr>
                                 <tr>
                                     <th>Total Charges</th>
-                                    <td>Rs. {totalAmount}</td>
+                                    <td>Rs. {currentTotalAmount}</td>
                                 </tr>
                                 <tr>
                                     <th>Payment Method</th>
