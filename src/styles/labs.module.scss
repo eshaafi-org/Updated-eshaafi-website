@@ -24,7 +24,7 @@
 }
 .cartButton {
   gap: 0.5rem;
-  font-size: 11px;
+  font-size: 14px;
   width: 100%;
   &:hover {
     background-color: #0e5487 !important;
@@ -102,6 +102,7 @@
 .blackColor {
   color: #0d1b34 !important;
   font-weight: 500 !important;
+  text-transform: capitalize;
 }
 .blueColor {
   color: #1b76b8 !important;

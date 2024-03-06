@@ -86,7 +86,7 @@ export default function Health() {
                             </div>
                         </li>
                     </Link>
-                    <Link href={'/healthtracker/bodytemprature'}>
+                    <Link href={'/healthtracker/bodytemperature'}>
                         <li className={style.featureItm}>
                             <div className={style.featureItemCont}>
                                 <span className={style.featureText}>

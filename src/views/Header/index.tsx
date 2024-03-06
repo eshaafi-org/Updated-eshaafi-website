@@ -54,7 +54,6 @@ const Header: React.FC<HeaderProps> = ({ }) => {
   // const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
-  const [pinSet, setPinSet] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { modalValue, userAuth, drawer } = useSelector(
     (state: any) => state.loginModalReducer

@@ -28,7 +28,6 @@ export default function Profile({ doctor, doctors }: any) {
       .get(BASE_URL + `/patients/doctors/${router.query.id}/reviews`)
       .then((res) => {
         setLoading(false);
-        console.log(res);
         setReviews(res.data.response.reviews ? res.data.response.reviews : []);
       })
       .catch((err) => {
@@ -374,11 +373,9 @@ export async function getStaticPaths() {
   });
 
   const docData = await response.json();
-  // console.log(position);
   const paths = docData.response.Items.map((doc: any) => ({
     params: { id: doc.Id },
   }));
-  // console.log(paths);
   // { fallback: false } means other routes should 404
   return { paths, fallback: true };
 }

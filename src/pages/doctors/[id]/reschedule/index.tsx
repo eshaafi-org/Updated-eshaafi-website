@@ -32,7 +32,6 @@ export default function Scheduling() {
         )
         .then((res) => {
           setLoading(false);
-          console.log(res);
           setResponse(res.data.response);
         })
         .catch((err) => {

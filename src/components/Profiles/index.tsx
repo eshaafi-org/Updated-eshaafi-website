@@ -112,7 +112,7 @@ const Profiles = memo(function ProfilesComponent({
       {loading ? (
         <div
           className="d-flex col-gap-1 mt-4 row-gap-1"
-          style={{ flexDirection: styling ? "column" : "row" }}
+          style={{ flexDirection: styling ? "row" : "column" }}
         >
           <p className="d-flex flex-column card-text placeholder-glow justify-content-center align-items-start row-gap-1">
             <span
