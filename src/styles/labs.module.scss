@@ -62,6 +62,12 @@
   transform: translateY(-50%);
   color: #0e5487;
 }
+.searchbtn {
+  display: none;
+  @include large-mobile-and-below {
+    display: block;
+  }
+}
 //Cart Design
 .cart {
   display: grid;
@@ -630,30 +636,30 @@
 .formFields {
   display: grid;
   width: 80%;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
   row-gap: 1rem;
   column-gap: 1rem;
   @include large-mobile-and-below {
     width: 100%;
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
   }
 }
 .nameField {
-  grid-area: 1 / 1 / 2 / 3; 
+  grid-area: 1 / 1 / 2 / 3;
   @include large-mobile-and-below {
-    grid-area: auto; 
+    grid-area: auto;
   }
 }
 .labField {
-  grid-area: 2 / 2 / 3 / 4; 
+  grid-area: 2 / 2 / 3 / 4;
   @include large-mobile-and-below {
-    grid-area: auto; 
+    grid-area: auto;
     padding: 1rem 0;
   }
 }
 .timeField {
   @include large-mobile-and-below {
-    grid-area: auto; 
+    grid-area: auto;
   }
 }
 .paymentMethod {
