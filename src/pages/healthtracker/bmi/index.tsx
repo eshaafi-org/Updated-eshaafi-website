@@ -9,7 +9,7 @@ import Button from '@/components/Button';
 import { Text11, Text14, Text16, Text20, Text22 } from '@/components/Typography';
 import AddressBar from '@/components/AddressBar';
 import Head from 'next/head';
-import { SimpleGauge } from "react-gauges";
+// import { SimpleGauge } from "react-gauges";
 
 export default function Bmi() {
     // State variables

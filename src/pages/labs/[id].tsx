@@ -21,20 +21,6 @@ import { useRouter } from "next/router";
 import { CardsSkeletonLoader, SkeletonLoader } from "@/components/SkeletonLoader";
 import Link from "next/link";
 
-function debounce(func: any, wait: any, immediate: any) {
-    let timeout: any;
-    return function executedFunction(this: any) {
-        const context = this, args = arguments;
-        const later = function () {
-            timeout = null;
-            if (!immediate) func.apply(context, args);
-        };
-        const callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
-    };
-}
 export default function Test() {
     const router = useRouter();
     const { id } = router.query;
@@ -140,10 +126,9 @@ export default function Test() {
             dispatch({ type: "loginModalSlice/signIn" });
         }
     };
-    const debouncedSearch = debounce(() => handleSearch(), 300, true);
     useEffect(() => {
         if (searchQuery.length >= 1) {
-            debouncedSearch();
+            handleSearch();
         } else {
             setSearchResults([]);
         }
@@ -193,6 +178,7 @@ export default function Test() {
                         />
                         <FaSearch className={style.searchIcon} />
                     </div>
+                    <Button variant="contained" className={`${style.searchbtn} my-2`} onClick={handleSearch}>Search</Button>
                     <ul className={`${style.cart} mt-3 pb-4`}>
                         {searchQuery ? (
                             // Display search results when a search query is present
