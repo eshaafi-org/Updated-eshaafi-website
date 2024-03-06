@@ -82,6 +82,7 @@ export default function Checkout() {
         setSuccess(true)
         setUploading(false);
         dispatch({ type: "labCartSlicer/resetCartState" })
+        dispatch({ type: "labCartSlicer/clearLocalStorageState" })
     }
     // Book Lab test 
     const bookLab = () => {

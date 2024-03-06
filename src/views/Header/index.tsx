@@ -58,48 +58,9 @@ const Header: React.FC<HeaderProps> = ({ }) => {
   const { modalValue, userAuth, drawer } = useSelector(
     (state: any) => state.loginModalReducer
   );
-  const defaultState = {
-    cart: [],
-    packages: [],
-  };
-
-  function useInitialState() {
-  const [initialState, setInitialState] = useState(defaultState);
-
-  useEffect(() => {
-    // Function to update state based on local storage
-    const updateStateFromLocalStorage = () => {
-      const stateFromLocalStorage = localStorage.getItem('labCartState');
-      if (stateFromLocalStorage) {
-        setInitialState(JSON.parse(stateFromLocalStorage));
-      }
-    };
-
-    // Call it once to set initial state on mount
-    updateStateFromLocalStorage();
-
-    // Setup listener for storage changes
-    window.addEventListener('storage', (event) => {
-      if (event.key === 'labCartState') {
-        updateStateFromLocalStorage();
-      }
-    });
-
-    // Cleanup listener
-    return () => {
-      window.removeEventListener('storage', updateStateFromLocalStorage);
-    };
-  }, []); // Empty dependency array to run only on mount and unmount
-
-  return initialState;
-}
-
-  const initialState = useInitialState();
   const { cart, packages } = useSelector((state: any) => state.labCartReducer);
   // Plus Both Value 
-  const currentCart = cart.length > 0 ? cart : initialState.cart;
-  const currentPackages = packages.length > 0 ? packages : initialState.packages;
-  const totalItemCount = currentCart.length + currentPackages.length;
+  const totalItemCount = cart.length + packages.length;
   // console.log(modalValue);
   const handleOpen = useCallback(() => {
     document.body.style.overflow = "hidden";

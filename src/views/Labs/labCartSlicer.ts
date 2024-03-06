@@ -151,7 +151,11 @@ const labCartSlicer = createSlice({
       state.subPackageAmount = 0;
       state.totalAmount = 0;
       state.subTotalAmount = 0;
-      saveToLocalStorage(state);
+    },
+    clearLocalStorageState: () => {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem("labCartState");
+      }
     },
   },
 });

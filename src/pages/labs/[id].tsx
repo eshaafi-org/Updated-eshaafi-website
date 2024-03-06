@@ -21,18 +21,20 @@ import { useRouter } from "next/router";
 import { CardsSkeletonLoader, SkeletonLoader } from "@/components/SkeletonLoader";
 import Link from "next/link";
 
-function debounce(func: any, wait: any) {
+function debounce(func: any, wait: any, immediate: any) {
     let timeout: any;
-    return function executedFunction(...args: any) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
+    return function executedFunction(this: any) {
+        const context = this, args = arguments;
+        const later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
         };
+        const callNow = immediate && !timeout;
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
     };
 }
-
 export default function Test() {
     const router = useRouter();
     const { id } = router.query;
@@ -138,7 +140,7 @@ export default function Test() {
             dispatch({ type: "loginModalSlice/signIn" });
         }
     };
-    const debouncedSearch = debounce(() => handleSearch(), 500);
+    const debouncedSearch = debounce(() => handleSearch(), 300, true);
     useEffect(() => {
         if (searchQuery.length >= 1) {
             debouncedSearch();
@@ -187,8 +189,7 @@ export default function Test() {
                         <input
                             placeholder="Search for tests here"
                             value={searchQuery}
-                            // onChange={(e) => setSearchQuery(e.target.value)}
-                            onChange={(e) => { setSearchQuery(e.target.value) }}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
                         <FaSearch className={style.searchIcon} />
                     </div>
