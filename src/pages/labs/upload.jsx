@@ -56,8 +56,6 @@ export default function Prescription() {
     labName: "",
   });
   const { typeTest, patientName, time, date, labName } = formFields;
-  const myInputRef = useRef(null);
-  const myInputRef2 = useRef(null);
   // all the functions
   // get the form data from
   const handleFormData = (e) => {
@@ -233,18 +231,6 @@ export default function Prescription() {
         });
       });
   };
-  const onFocusHandler = () => {
-    const inputRef = myInputRef.current;
-    if (inputRef) {
-      inputRef.type = "date";
-    }
-  };
-  const onFocusHandlerTime = () => {
-    const inputRef = myInputRef2.current;
-    if (inputRef) {
-      inputRef.type = "time";
-    }
-  };
   // useEffect hook to watch changes in profile and update patientName accordingly
   useEffect(() => {
     if (profile && profile.name) {
@@ -353,28 +339,20 @@ export default function Prescription() {
                     onChange={handleFormData}
                   />
                   <input
-                    ref={myInputRef}
                     placeholder="Select Date"
-                    type="text"
+                    type="date"
                     name="date"
                     value={date}
                     min={moment().format("YYYY-MM-DD")}
                     className={inputField.inputField}
-                    onChange={handleFormData}
-                    // onMouseEnter={onFocusHandler}
-                    onFocus={onFocusHandler}
                   />
                   <input
-                    ref={myInputRef2}
                     placeholder="Select Time"
-                    type="text"
+                    type="time"
                     name="time"
                     value={time}
                     min={moment(time, "HH:mm").format("hh:mm A")}
                     className={inputField.inputField}
-                    onChange={handleFormData}
-                    // onMouseEnter={onFocusHandler}
-                    onFocus={onFocusHandlerTime}
                   />
                   <select
                     name="labName"
@@ -394,9 +372,9 @@ export default function Prescription() {
                     <option value="chugtai">
                       Chugtai Lab
                     </option>
-                    {/* <option value="idc">
+                    <option value="idc">
                       IDC
-                    </option> */}
+                    </option>
                   </select>
                 </div>
                 {typeTest === "homeSample" && (

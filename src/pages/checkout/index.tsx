@@ -82,7 +82,16 @@ export default function Checkout() {
     const [labName, setLabName] = useState("");
     const [patientName, setPatientName] = useState("");
     const [uploading, setUploading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [success, setSuccess] = useState(false); 
+    const [labOptions, setLabOptions] = useState<string[]>([]);
+
+    useEffect(() => {
+        const vendors: any = new Set();
+        currentCart.forEach((item: any) => {
+            if (item.vendor) vendors.add(item.vendor);
+        });
+        setLabOptions([...vendors]);
+    }, [currentCart]);
     // Empty All field after api Success
     const emptyData = () => {
         setTypeTest('')
@@ -260,6 +269,7 @@ export default function Checkout() {
                                 setDate={setDate}
                                 labName={labName}
                                 setLabName={setLabName}
+                                labOptions={labOptions}
                             />
                             {/* Note section */}
                             {/* <div className={`${style.note} mt-3`}>

@@ -48,9 +48,9 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
   const { cart, totalAmount, packages } = useSelector(
     (state: any) => state.labCartReducer
   )
-  const currentCart = cart.length > 0 ? cart : initialState.cart;
-  const currentPackages = packages.length > 0 ? packages : initialState.packages;
-  const currentTotalAmount = totalAmount > 0 ? totalAmount : initialState.totalAmount;
+  const currentCart = cart.length >= 0 ? cart : initialState.cart;
+  const currentPackages = packages.length >= 0 ? packages : initialState.packages;
+  const currentTotalAmount = totalAmount >= 0 ? totalAmount : initialState.totalAmount;
   const router = useRouter();
   const handleProceedToCheckout = () => {
     router.push("/checkout");
