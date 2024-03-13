@@ -53,12 +53,21 @@ export default function Summary({
     setTxnRefNo(pp_TxnRefNo);
     setSecureHash(hash);
   }, []);
-
+// geanrate Random ID for Dabit Card Payment 
+  function debitId() {
+    const prefix = "SUB2";
+    const randomChars = Array.from({ length: 4 }, () => String.fromCharCode(Math.floor(Math.random() * (90 - 65 + 1)) + 65)).join("");
+    const randomNumbers = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
+    return `${prefix}-${randomChars}-${randomNumbers}`;
+  }
+  // Debit card payment method
   const handleSubscribe = async () => {
-    // If the selectedMethod is not "Jazz Cash", proceed with the default payment URL
-    const paymentUrl = `https://eshaafi.com/payment.html?handshake=${id}&paymentFee=${data?.charges}`;
-    window.location.href = paymentUrl;
+    // Call the debitId function to get a unique ID
+    const handshakeId = debitId(); // This calls the function and stores the return value in handshakeId
+    const paymentUrl = `https://eshaafi.com/payment.html?handshake=${handshakeId}&paymentFee=${data?.charges}`;
+    window.location.href = paymentUrl; // Redirects the user to the payment URL with the unique ID and payment fee
   };
+
   const handleJazzCash = () => {
     const currentDate = new Date();
     const formattedCurrentDate = new Date()

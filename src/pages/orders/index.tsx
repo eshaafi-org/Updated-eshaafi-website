@@ -25,7 +25,6 @@ export default function Orders() {
   const dispatch = useDispatch();
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   const [orders, setOrders] = useState([]);
-  console.log(orders)
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
@@ -62,49 +61,30 @@ export default function Orders() {
           {loading ? (
             <ul className={style.orderListContainer}>
               <li className={style.orderList}>
-                <div style={{ width: "50%" }}>
+                <div style={{ width: "100%" }}>
                   <p className="card-text placeholder-glow">
-                    <span className="placeholder col-4"></span>
+                    <span className="placeholder col-12"></span>
                   </p>
-                  <span className="placeholder col-2"></span>
                 </div>
-                <ul className={style.testList}>
-                  <li>
-                    <p className="card-text placeholder-glow">
-                      <span className="placeholder col-3"></span>
-                    </p>
-                    <p className="card-text placeholder-glow">
-                      <span className="placeholder col-3"></span>
-                    </p>
-                  </li>
-                </ul>
+                <span className="placeholder col-10"></span>
               </li>
               <li className={style.orderList}>
-                <div style={{ width: "50%" }}>
+                <div style={{ width: "100%" }}>
                   <p className="card-text placeholder-glow">
-                    <span className="placeholder col-4"></span>
+                    <span className="placeholder col-12"></span>
                   </p>
                 </div>
-                <span className="placeholder col-2"></span>
+                <span className="placeholder col-10"></span>
               </li>
               <li className={style.orderList}>
-                <div style={{ width: "50%" }}>
+                <div style={{ width: "100%" }}>
                   <p className="card-text placeholder-glow">
-                    <span className="placeholder col-4"></span>
+                    <span className="placeholder col-12"></span>
                   </p>
-                  <ul className={style.testList}>
-                    <li>
-                      <p className="card-text placeholder-glow">
-                        <span className="placeholder col-3"></span>
-                      </p>
-                      <p className="card-text placeholder-glow">
-                        <span className="placeholder col-3"></span>
-                      </p>
-                    </li>
-                  </ul>
                 </div>
-                <span className="placeholder col-2"></span>
+                <span className="placeholder col-10"></span>
               </li>
+
             </ul>
           ) : (
             <>

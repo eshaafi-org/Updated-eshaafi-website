@@ -185,7 +185,6 @@ export default function SubscriptionPlans() {
       // .catch((error) => console.log(error));
       .catch((error) => {
         dispatch(plansError(error));
-        console.log(error);
       });
   };
   useEffect(() => {

@@ -63,12 +63,22 @@ export default function Checkout() {
     const currentPackages = packages.length > 0 ? packages : initialState.packages;
     const currentTotalAmount = totalAmount > 0 ? totalAmount : initialState.totalAmount;
     const currentSubTotalAmount = subTotalAmount > 0 ? subTotalAmount : initialState.subTotalAmount;
+    // Helper function to format date and time
+    const getCurrentDateTime = () => {
+        const now = new Date();
+        const date = now.toISOString().split('T')[0]; // Gets the date in YYYY-MM-DD format
+        const time = now.toTimeString().split(' ')[0].substring(0, 5); // Gets the time in HH:MM format
+        return { date, time };
+    };
+
+    // Initialize state
+    const { date: currentDate, time: currentTime } = getCurrentDateTime();
     const dispatch = useDispatch();
     const [profile, setProfile] = useState<any>('')
     const [address, setAddress] = useState("");
     const [typeTest, setTypeTest] = useState("");
-    const [time, setTime] = useState("");
-    const [date, setDate] = useState("");
+    const [time, setTime] = useState(currentTime);
+    const [date, setDate] = useState(currentDate);
     const [labName, setLabName] = useState("");
     const [patientName, setPatientName] = useState("");
     const [uploading, setUploading] = useState(false);
