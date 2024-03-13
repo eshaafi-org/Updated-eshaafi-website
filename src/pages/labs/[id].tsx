@@ -42,12 +42,14 @@ export default function Test() {
     const value = useSelector((state: any) => state.labCartReducer.cart)
     const [test, setTest] = useState([])
     const [loading, setLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const dispatch = useDispatch();
 
     const handleSearch = () => {
-        const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
+        setIsLoading(true)
+        const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC Lab' : '');
         axios
             .get(BASE_URL + `/lab/patients/labs/test`, {
                 headers: headers(),
@@ -57,9 +59,11 @@ export default function Test() {
                 },
             })
             .then((res) => {
+                setIsLoading(false)
                 setSearchResults(res.data.response.Items);
             })
             .catch((error) => {
+                setIsLoading(false)
                 console.log(error);
             });
     };
@@ -67,13 +71,12 @@ export default function Test() {
         // Check if id is valid and not an empty string
         if (id && id !== '') {
             setLoading(true)
-            const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC LAB' : '');
+            const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC Lab' : '');
 
             axios
                 .get(BASE_URL + `/lab/patients/labs/test`, {
                     headers: headers(),
                     params: {
-                        name: "a",
                         vendor: labSlug,
                     },
                 })
@@ -180,24 +183,32 @@ export default function Test() {
                     </div>
                     <Button variant="contained" className={`${style.searchbtn} my-2`} onClick={handleSearch}>Search</Button>
                     <ul className={`${style.cart} mt-3 pb-4`}>
-                        {searchQuery ? (
-                            // Display search results when a search query is present
-                            searchResults.map((result: any, index: any) => (
-                                <li key={index} className={style.cartDetail}>
-                                    <Text22 className={style.blackColor}>{result.MedicineName}</Text22>
-                                    <span className="d-flex gap-1">
-                                        <Text14 className={style.blueColor}>Rs.{result.productPrice}</Text14>
-                                        <Text14 className={style.fadeColor}>Rs.{result.subPrice}</Text14>
-                                    </span>
-                                    <Button
-                                        variant="outlined"
-                                        className={`${style.cartButton} mt-2`}
-                                        onClick={() => handleAddToCart(result)}
-                                    >
-                                        Add to Cart
-                                    </Button>
-                                </li>
-                            ))
+                        {searchQuery ? ( // Display search results when a search query is present
+                            isLoading ? (
+                                // Show loading message while API is being called
+                                <li className={style.loadingMessage}>Searching...</li>
+                            ) : (
+                                searchResults.length > 0 ? (
+                                    searchResults.map((result: any, index: any) => (
+                                        <li key={index} className={style.cartDetail}>
+                                            <Text22 className={style.blackColor}>{result.MedicineName}</Text22>
+                                            <span className="d-flex gap-1">
+                                                <Text14 className={style.blueColor}>Rs.{result.productPrice}</Text14>
+                                                <Text14 className={style.fadeColor}>Rs.{result.subPrice}</Text14>
+                                            </span>
+                                            <Button
+                                                variant="outlined"
+                                                className={`${style.cartButton} mt-2`}
+                                                onClick={() => handleAddToCart(result)}
+                                            >
+                                                Add to Cart
+                                            </Button>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className={style.noDataMessage}>No records found</li>
+                                )
+                            )
                         ) : (
                             // Display test data when there's no search query
                             test.map((tests: any, index: any) => (

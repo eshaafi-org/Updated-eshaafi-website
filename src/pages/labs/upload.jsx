@@ -29,6 +29,15 @@ export default function Prescription() {
   const {
     value: { Labs },
   } = useSelector((state) => state.getLabHomeReducer);
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0]; // Gets the date in YYYY-MM-DD format
+    const time = now.toTimeString().split(' ')[0].substring(0, 5); // Gets the time in HH:MM format
+    return { date, time };
+  };
+
+  // Initialize state
+  const { date: currentDate, time: currentTime } = getCurrentDateTime();
   const pdfRegex = /\bpdf\b/i;
   const [images, setImages] = useState("");
   const [show, setShow] = useState(false);
@@ -42,8 +51,8 @@ export default function Prescription() {
   const [formFields, setFormFields] = useState({
     typeTest: "",
     patientName: "",
-    time: "",
-    date: "",
+    time: currentTime,
+    date: currentDate,
     labName: "",
   });
   const { typeTest, patientName, time, date, labName } = formFields;

@@ -28,7 +28,7 @@ export default function SubscribePlans() {
   const planId = typeof id === "string" ? id : undefined;
   const selectedPlan = value.find((category: { plansList: any[] }) =>
     category.plansList.some((plan) => plan.pId === planId)
-  );
+  )
   return (
     <>
       <Head>
@@ -65,7 +65,7 @@ export default function SubscribePlans() {
                   Credit/Debit Card
                 </label>
               </li>
-              <li
+              {/* <li
                 className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
               >
                 <input
@@ -79,7 +79,7 @@ export default function SubscribePlans() {
                 <label htmlFor="jazzCash" className={style.paymentMethodLabel}>
                   Jazz Cash
                 </label>
-              </li>
+              </li> */}
             </ul>
           </div>
           <Summary
