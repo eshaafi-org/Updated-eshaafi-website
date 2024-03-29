@@ -10,7 +10,7 @@ export default function TermsAndConditions() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
-      <section className="container">
+      <section className="container pt-0">
         <div className={"flex flex-col " + style.contentCont}>
           <span className="w-full">
             <h2 className="text-center mb-3">Terms and Conditions</h2>
