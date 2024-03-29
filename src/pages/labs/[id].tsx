@@ -90,17 +90,60 @@ export default function Test() {
                 });
         }
     }, [id]);
+    // const handleAddToCart = (item: any) => {
+    //     const user = localStorage.getItem("user");
+    //     if (user) {
+    //         const itemId = item.Sk;
+    //         const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
+    //         // Dispatch the addToCart action from the cart slice
+    //         if (!isAlreadyInCart) {
+    //             // Dispatch the addToCart action from the cart slice
+    //             dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice, subTotalPrice: item.subPrice, }));
+    //             toast("Test Added to Cart ", {
+    //                 position: "bottom-right",
+    //                 autoClose: 1000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 progress: undefined,
+    //                 theme: "light",
+    //                 type: "success",
+    //             });
+    //         } else {
+    //             // Show a message or notification indicating that the test is already in the cart
+    //             toast("Test is already in the Cart", {
+    //                 position: "bottom-right",
+    //                 autoClose: 1000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 progress: undefined,
+    //                 theme: "light",
+    //                 type: "warning",
+    //             });
+    //         }
+    //     } else {
+    //         // If user is not present, dispatch the login modal action
+    //         dispatch({ type: "loginModalSlice/signIn" });
+    //     }
+    // };
     const handleAddToCart = (item: any) => {
         const user = localStorage.getItem("user");
         if (user) {
             const itemId = item.Sk;
-            const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
-            // Dispatch the addToCart action from the cart slice
-            if (!isAlreadyInCart) {
-                // Dispatch the addToCart action from the cart slice
-                dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice, subTotalPrice: item.subPrice, }));
-                toast("Test Added to Cart ", {
-                    position: "bottom-right",
+            // Check if the cart already has items and get the vendor of the first item
+            const cartHasItems = value.length > 0;
+            const firstItemVendor = cartHasItems ? value[0].vendor : null;
+
+            // Check if the new item's vendor matches the vendor of the items in the cart
+            const isVendorMatch = cartHasItems ? item.vendor === firstItemVendor : true;
+
+            if (!isVendorMatch) {
+                // If the vendor doesn't match, show a toast message and don't dispatch the add to cart action
+                toast("Please select tests from the same lab you have selected already", {
+                    position: "top-right",
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
@@ -108,27 +151,42 @@ export default function Test() {
                     draggable: true,
                     progress: undefined,
                     theme: "light",
-                    type: "success",
+                    type: "error",
                 });
             } else {
-                // Show a message or notification indicating that the test is already in the cart
-                toast("Test is already in the Cart", {
-                    position: "bottom-right",
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    type: "warning",
-                });
+                const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
+                if (!isAlreadyInCart) {
+                    dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice, subTotalPrice: item.subPrice }));
+                    toast("Test Added to Cart", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        type: "success",
+                    });
+                } else {
+                    toast("Test is already in the Cart", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        type: "warning",
+                    });
+                }
             }
         } else {
-            // If user is not present, dispatch the login modal action
             dispatch({ type: "loginModalSlice/signIn" });
         }
     };
+
     useEffect(() => {
         if (searchQuery.length >= 1) {
             handleSearch();
