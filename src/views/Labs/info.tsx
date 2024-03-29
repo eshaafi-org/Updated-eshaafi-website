@@ -3,10 +3,19 @@ import style from "@/styles/labs.module.scss";
 import moment from "moment";
 import Address from "./Address";
 import { Text18 } from "@/components/Typography";
-import { useRef, useState } from "react";
 import inputField from "@/components/InputField/Input.module.scss";
 
-export default function Info({ typeTest, setTypeTest, address, setAddress, patientName, setPatientName, time, setTime, date, setDate, labName, setLabName }: {
+export default function Info({ typeTest,
+    setTypeTest,
+    address,
+    setAddress,
+    patientName,
+    setPatientName,
+    time, setTime,
+    date, setDate,
+    labName, setLabName,
+    labOptions
+}: {
     typeTest: string,
     setTypeTest: any,
     patientName: string,
@@ -19,21 +28,8 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
     setDate: any,
     labName: string
     setLabName: any,
+    labOptions: any
 }) {
-    const myInputRef = useRef<HTMLInputElement | null>(null);
-    const myInputRef2 = useRef<HTMLInputElement | null>(null);
-    const onFocusHandler = () => {
-        const inputRef = myInputRef.current;
-        if (inputRef) {
-            inputRef.type = "date";
-        }
-    };
-    const onFocusHandlerTime = () => {
-        const inputRef = myInputRef2.current;
-        if (inputRef) {
-            inputRef.type = "time";
-        }
-    };
     return (
         <>
             <form
@@ -97,28 +93,22 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         onChange={(e: any) => setPatientName(e.target.value)}
                     />
                     <input
-                        ref={myInputRef}
                         placeholder="Select Date"
-                        type="text"
+                        type="date"
                         name="date"
                         value={date}
                         min={moment().format("YYYY-MM-DD")}
                         className={inputField.inputField}
                         onChange={(e: any) => setDate(e.target.value)}
-                        // onMouseEnter={onFocusHandler}
-                        onFocus={onFocusHandler}
                     />
                     <input
-                        ref={myInputRef2}
                         placeholder="Select Time"
-                        type="text"
+                        type="time"
                         name="time"
                         value={time}
-                        min={moment().format("hh:mm A")}
+                        min={moment().format("hh:mm a")}
                         className={inputField.inputField}
                         onChange={(e: any) => setTime(e.target.value)}
-                        // onMouseEnter={onFocusHandler}
-                        onFocus={onFocusHandlerTime}
                     />
                     <select
                         name="labName"
@@ -129,12 +119,12 @@ export default function Info({ typeTest, setTypeTest, address, setAddress, patie
                         <option value="" disabled>
                             Select Lab
                         </option>
-                        <option value="chugtai">
-                            Chugtai Lab
-                        </option>
-                        {/* <option value="idc">
-                            IDC
-                        </option> */}
+                        {labOptions.includes("Chughtai Lab") && (
+                            <option value="chugtai">Chughtai Lab</option>
+                        )}
+                        {labOptions.includes("IDC Lab") && (
+                            <option value="idc">IDC</option>
+                        )}
                     </select>
                 </div>
                 {typeTest === "homeSample" && (

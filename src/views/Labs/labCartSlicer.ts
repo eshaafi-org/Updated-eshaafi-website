@@ -99,7 +99,16 @@ const labCartSlicer = createSlice({
       );
       state.totalAmount = state.cartAmount + state.packageAmount;
       state.subTotalAmount = state.subCartAmount + state.subPackageAmount;
-      saveToLocalStorage(state);
+      // saveToLocalStorage(state);
+      if (state.cart.length === 0 && state.packages.length === 0) {
+        // Clear local storage if cart and packages are empty
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem("labCartState");
+        }
+      } else {
+        // Save the updated state to local storage as usual if not empty
+        saveToLocalStorage(state);
+      }
     },
     addQuantity: (state, action) => {
       state.cart = state.cart.map((cartItem) => {
