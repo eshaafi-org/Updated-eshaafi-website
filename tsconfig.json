@@ -28,6 +28,6 @@
     "src/pages/labs/upload.jsx",
     "src/views/Labs/labsSlicer.jsx",
     "src/components/Profiles/index.tsx"
-  ],
+, "src/views/Subscription/planListSlicer.jsx"  ],
   "exclude": ["node_modules"]
 }
