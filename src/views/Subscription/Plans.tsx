@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useState, useEffect, Key } from "react";
 import style from "@/styles/subscription.module.scss";
@@ -11,11 +12,10 @@ import {
 import { IoCheckmark } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import Button from "@/components/Button";
-import { BASE_URL, headers } from "@/helper/CONST";
 import Modal from "react-bootstrap/Modal";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { requestPlans, receivePlans, plansError } from "./planListSlicer";
+import { PlanSkeletonLoader } from "@/components/SkeletonLoader";
+import { getSubscriptionPlans } from "./planListSlicer";
 import { useRouter } from "next/router";
 // View Details Modal
 function DetailModal({ plan, selectedPlan }: { plan: any; selectedPlan: any }) {
@@ -155,9 +155,8 @@ function DurationButton({
   onClick: () => void;
 }) {
   const isActive = duration === selectedCategory;
-  const buttonClassName = `${
-    isActive ? style.activeButton : style.normalButton
-  }`;
+  const buttonClassName = `${isActive ? style.activeButton : style.normalButton
+    }`;
 
   return (
     <Button onClick={onClick} className={buttonClassName}>
@@ -168,27 +167,11 @@ function DurationButton({
 // Main Component rendering
 export default function SubscriptionPlans() {
   const [selectedCategory, setSelectedCategory] = useState("1 month");
-  const dispatch = useDispatch();
-  const value = useSelector((state: any) => state.planListReducer.value);
+  const dispatch: any = useDispatch();
+  const { value, loading} = useSelector((state: any) => state.planListReducer);
   const plans = value;
-  // const [plans, setPlans] = useState([] as { planCategory: string }[]);
-  const getSubscriptionPlans = () => {
-    dispatch(requestPlans());
-    axios
-      .get(BASE_URL + "/patients/subscription", {
-        headers: headers(),
-      })
-      .then((res) => {
-        // setPlans(res.data.response.Items);
-        dispatch(receivePlans(res.data.response.Items));
-      })
-      // .catch((error) => console.log(error));
-      .catch((error) => {
-        dispatch(plansError(error));
-      });
-  };
   useEffect(() => {
-    getSubscriptionPlans();
+    dispatch(getSubscriptionPlans());
   }, []);
   const handleCategoryClick = ({ category }: { category: string }) => {
     setSelectedCategory(category);
@@ -215,11 +198,12 @@ export default function SubscriptionPlans() {
           ))}
         </span>
       </div>
+      {loading ? <PlanSkeletonLoader /> :
       <ul className={style.plansContainer}>
         {filteredPlans.map((category: any, index: Key | null | undefined) => (
           <Plan key={index} plan={category} />
         ))}
-      </ul>
+      </ul>}
     </section>
   );
 }
