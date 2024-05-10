@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import AddressBar from "@/components/AddressBar";
 import Summary from "@/views/Subscription/Summary";
 import style from "@/styles/bookSubscription.module.scss";
@@ -12,8 +12,7 @@ import { getSubscriptionPlans } from "@/views/Subscription/planListSlicer";
 export default function SubscribePlans() {
   const router = useRouter();
   const { id } = router.query;
-  const [loading, setLoading] = useState<boolean>(false);
-  const value = useSelector((state: any) => state.planListReducer.value);
+  const { loading, value } = useSelector((state: any) => state.planListReducer);
 
   let links = [
     { name: "Home", link: "/" },
@@ -42,9 +41,9 @@ export default function SubscribePlans() {
         </span>
         <div className="d-flex align-items-start col-gap-1 position-relative w-100 justify-content-between">
           <div className={style.payment}>
-            <h3 className="text-dark">Payment Method</h3>
+            <h3 className="text-dark pt-4">Payment Method</h3>
             <ul
-              className={`d-flex flex-column row-gap-1 col-gap-2 w-100 mt-4 ${style.paymentMethodList}`}
+              className={`d-flex flex-column row-gap-1 col-gap-2 w-100 mt-2 ${style.paymentMethodList}`}
             >
               <li
                 className={`${style.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
@@ -54,7 +53,7 @@ export default function SubscribePlans() {
                   id="creditDebitCard"
                   name="paymentMethod"
                   checked
-                  style={{ width: "24px", height: "24px" }}
+                  // style={{ width: "24px", height: "24px" }}
                 />
                 <label
                   htmlFor="creditDebitCard"

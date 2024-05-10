@@ -2,7 +2,7 @@
 @import "../styles//variables";
 /* bookSubscription.module.scss */
 
-.payment{ 
+.payment {
   width: 70%;
   @include large-mobile-and-below {
     width: 100%;
@@ -21,6 +21,32 @@
   margin-bottom: 8px;
   font-size: 22px;
   font-weight: 400;
+  input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #0e5487;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+  }
+
+  input[type="radio"]:checked {
+    border-color: #0e5487;
+  }
+
+  input[type="radio"]:checked:after {
+    content: "";
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #0e5487;
+    margin: auto;
+    margin-top: 3px;
+  }
 }
 .paymentMethodLabel {
   margin-left: 8px;
