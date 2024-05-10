@@ -8,10 +8,11 @@ import { Text24, Text28, Text22, Text14 } from "@/components/Typography";
 import Image from "next/image";
 import packageIcon from "../../../../public/images/packageIcon.png";
 import { useDispatch, useSelector } from "react-redux";
-import { Key } from "react";
+import { Key, useEffect } from "react";
 import { useRouter } from "next/router";
 import { addPackageToCart, addToCart } from "@/views/Labs/labCartSlicer";
 import { ToastContainer, toast } from "react-toastify";
+import { getLabsHome } from "@/views/Labs/labsSlice";
 let links = [
   { name: "Home", link: "/" },
   { name: "Lab Tests", link: "/labs" },
@@ -20,11 +21,14 @@ let links = [
 export default function Packages() {
   const router = useRouter();
   const { id } = router.query;
-  const dispatch = useDispatch();
-  const {
-    loading,
-    value: { PacakgeResponse },
+  const dispatch: any = useDispatch();
+  const { loading, value : { PacakgeResponse },
   } = useSelector((state: any) => state.getLabHomeReducer);
+  useEffect(() => {
+    if (PacakgeResponse.length === 0 && !loading) {
+      dispatch(getLabsHome());
+    }
+  }, [])
   const selectedPackage = PacakgeResponse.find((packageItem: any) => packageItem.pId === id);
   const { packages, cart } = useSelector((state: any) => state.labCartReducer)
   const handleAddPackageToCart = (item: any) => {
