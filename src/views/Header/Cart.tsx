@@ -17,7 +17,7 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
     packages: [],
     totalAmount: 0,
   };
-// function for handle local storage data updation
+  // function for handle local storage data updation
   function useInitialState() {
     const [initialState, setInitialState] = useState(defaultState);
     useEffect(() => {
@@ -91,7 +91,9 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
           {/* <Text12 className="mb-4 mt-2">
             Discounts and promo codes are applied at checkout
           </Text12> */}
-          <Button variant="contained" className="w-100" onClick={handleProceedToCheckout}>
+          <Button variant="contained" className="w-100" onClick={handleProceedToCheckout}
+            disabled={currentCart.length === 0 && currentPackages.length === 0}
+          >
             Proceed To Checkout
           </Button>
         </div>
