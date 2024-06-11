@@ -27,7 +27,7 @@ export default function PrivacyPolicy() {
               If you have any questions about this privacy policy, contact our
               privacy team including our data protection officer by simply
               sending an email to contact@eshaafi.com or calling us at
-              042-3230479
+              03111151161
             </p>
           </span>
           <ol className={"flex flex-col row-gap-2 mt-1 " + style.contentList}>
