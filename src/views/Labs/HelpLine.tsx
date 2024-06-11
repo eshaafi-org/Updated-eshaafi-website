@@ -20,7 +20,7 @@ export default function HelpLine() {
                         </span>
                     </div>
                     <Button variant="contained" className="d-flex align-items-center gap-1 p-2">
-                        <Link href={"tel:042-3230479"}>
+                        <Link href={"tel:03111151161"}>
                             <MdCall style={{ height: '24px', width: "24px" }} /> Call Now
                         </Link>
                     </Button>

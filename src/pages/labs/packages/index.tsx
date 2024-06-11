@@ -114,7 +114,7 @@ export default function Packages() {
                             <Text16 className={`${style.blackColor} fw-bold`}>Need Help Booking Test?</Text16>
                             <Text14>Our customer support is here for your help</Text14>
                             <Button variant="contained" className="d-flex align-items-center gap-1 p-2">
-                                <Link href={"tel:042-3230479"}>
+                                    <Link href={"tel:03111151161"}>
                                     <MdCall style={{ height: '24px', width: "24px" }} /> Call Now
                                 </Link>
                             </Button>

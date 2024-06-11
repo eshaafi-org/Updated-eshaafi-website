@@ -90,45 +90,6 @@ export default function Test() {
                 });
         }
     }, [id]);
-    // const handleAddToCart = (item: any) => {
-    //     const user = localStorage.getItem("user");
-    //     if (user) {
-    //         const itemId = item.Sk;
-    //         const isAlreadyInCart = value.some((cartItem: any) => cartItem.Sk === itemId);
-    //         // Dispatch the addToCart action from the cart slice
-    //         if (!isAlreadyInCart) {
-    //             // Dispatch the addToCart action from the cart slice
-    //             dispatch(addToCart({ ...item, quantity: 1, totalPrice: item.productPrice, subTotalPrice: item.subPrice, }));
-    //             toast("Test Added to Cart ", {
-    //                 position: "bottom-right",
-    //                 autoClose: 1000,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: true,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //                 theme: "light",
-    //                 type: "success",
-    //             });
-    //         } else {
-    //             // Show a message or notification indicating that the test is already in the cart
-    //             toast("Test is already in the Cart", {
-    //                 position: "bottom-right",
-    //                 autoClose: 1000,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: true,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //                 theme: "light",
-    //                 type: "warning",
-    //             });
-    //         }
-    //     } else {
-    //         // If user is not present, dispatch the login modal action
-    //         dispatch({ type: "loginModalSlice/signIn" });
-    //     }
-    // };
     const handleAddToCart = (item: any) => {
         const user = localStorage.getItem("user");
         if (user) {

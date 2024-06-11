@@ -49,15 +49,10 @@ export default function Post({ post }: any) {
     if (blogContent) {
       const h2: NodeListOf<HTMLHeadElement> | undefined =
         blogContent?.querySelectorAll("h2");
-      console.log(h2);
-      console.log(post.blogContent);
       if (h2.length === post.blogContent.length) {
-        // console.log("hey");
         // debugger;
         for (let i = 0; i < post?.blogContent?.length; i++) {
-          // console.log("e");
           h2[i].id = post?.blogContent[i];
-          // console.log(h2[i]);
         }
       }
     }
