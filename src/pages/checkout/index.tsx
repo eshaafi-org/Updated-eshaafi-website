@@ -90,8 +90,11 @@ export default function Checkout() {
         currentCart.forEach((item: any) => {
             if (item.vendor) vendors.add(item.vendor);
         });
+        currentPackages.forEach((pkg: any) => {
+            if (pkg.labName) vendors.add(pkg.labName);
+        });
         setLabOptions([...vendors]);
-    }, [currentCart]);
+    }, [currentCart, currentPackages]);
     // Empty All field after api Success
     const emptyData = () => {
         setTypeTest('')

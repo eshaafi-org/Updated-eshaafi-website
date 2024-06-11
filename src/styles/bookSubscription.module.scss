@@ -2,6 +2,9 @@
 @import "../styles//variables";
 /* bookSubscription.module.scss */
 
+.payment1 {
+  width: 100%;
+}
 .payment {
   width: 70%;
   @include large-mobile-and-below {

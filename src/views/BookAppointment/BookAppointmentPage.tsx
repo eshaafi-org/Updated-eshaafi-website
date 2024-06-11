@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
+import Modal from "react-bootstrap/Modal";
 // links
 
 // import { useRouter } from "next/navigation";
@@ -49,6 +50,10 @@ export default function BookAppointmentPage({
   const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [paymentUrl, setPaymentUrl] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const handleModalClose = () => setShowModal(false);
+  const handleModalOpen = () => setShowModal(true);
   const [activeSlot, setSlot] = useState({
     time: "",
     id: "",
@@ -110,6 +115,24 @@ export default function BookAppointmentPage({
   const handleBookAppoint = (flag: boolean) => {
     if (localStorage.getItem("user")) {
       if (flag) {
+        if (patient.patientId === "") {
+          toast("Kindly Select a profile", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "info",
+          });
+          return;
+        }
+        if (paymentId === "payFast") {
+          handlePaymentGatewayOpen();
+          return;
+        }
         setLoading(true);
         axios
           .post(
@@ -284,6 +307,27 @@ export default function BookAppointmentPage({
       dispatch({ type: "loginModalSlice/signIn" });
     }
   };
+  //handle Payfast Integration
+  // const handlePayfast = async () => {
+  //   // Call the debitId function to get a unique ID
+  //   const handshakeId = response.appointmentId; // This calls the function and stores the return value in handshakeId
+  //   setPaymentUrl(`https://payfast.eshaafi.com/?handshake=${handshakeId}&paymentFee=${data?.doctorInfo?.videoCallCharges}`);
+  //   // window.location.href = paymentUrl; // Redirects the user to the payment URL with the unique ID and payment fee
+  //   handleModalOpen();
+  // };
+  const handlePaymentGatewayOpen = () => {
+    const url = `https://payfast.eshaafi.com/?handshake=${response.appointmentId}&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
+    const windowFeatures = "width=600,height=700,resizable,scrollbars=yes,status=1";
+    const newWindow = window.open(url, '_blank', windowFeatures);
+
+    // Check if the window successfully opened
+    if (newWindow) {
+      newWindow.focus();
+    } else {
+      alert("Popup blocked! Please allow popups for this website.");
+    }
+  };
+
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
     setLoading(true);
@@ -467,6 +511,18 @@ export default function BookAppointmentPage({
         </div>
       )}
       <ToastContainer />
+      <Modal show={showModal} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Payment Gateway</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <iframe
+            src={paymentUrl}
+            style={{ width: '100%', height: '500px' }}
+            frameBorder="0"
+          />
+        </Modal.Body>
+      </Modal>
     </section>
   );
 }
