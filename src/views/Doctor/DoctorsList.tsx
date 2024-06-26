@@ -173,7 +173,7 @@ export default function DoctorList({ list }: any) {
               <option value="General Physician" selected>
                 General Physician
               </option>
-              <option value="Child Specialist" selected>
+              <option value="Child Specialist">
                 Child Specialist
               </option>
             </select>
