@@ -5,23 +5,33 @@ import partner1 from "/public/images/partner1.png";
 import partner2 from "/public/images/partner2.png";
 import partner3 from "/public/images/partner3.png";
 import partner4 from "/public/images/partner4.png";
+import partner5 from "/public/images/partner5.png";
+import partner6 from "/public/images/partner6.png";
+import partner7 from "/public/images/partner7.png";
+import partner8 from "/public/images/partner8.png";
+import partner9 from "/public/images/partner9.png";
+import partner10 from "/public/images/partner10.png";
+import partner11 from "/public/images/partner11.png";
+import partner12 from "/public/images/partner12.png";
+import partner13 from "/public/images/partner13.png";
 import useMeasure from "react-use-measure";
 import { useMotionValue, animate, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 //
 const partners = [
-  {
-    icon: partner4,
-  },
-  {
-    icon: partner3,
-  },
-  {
-    icon: partner2,
-  },
-  {
-    icon: partner1,
-  },
+  { icon: partner1, },
+  { icon: partner2, },
+  { icon: partner3, },
+  { icon: partner4, },
+  { icon: partner5, },
+  { icon: partner6, },
+  { icon: partner7, },
+  { icon: partner8, },
+  { icon: partner9, },
+  { icon: partner10, },
+  { icon: partner11, },
+  { icon: partner12, },
+  { icon: partner13, },
 ];
 //
 export default function Partners() {
@@ -32,7 +42,7 @@ export default function Partners() {
     let controls: any;
     controls = animate(xTransition, [0, finalPosition], {
       ease: "linear",
-      duration: 8,
+      duration: 55,
       repeat: Infinity,
       repeatType: "loop",
       repeatDelay: 0,
@@ -42,7 +52,7 @@ export default function Partners() {
     };
   }, [xTransition, width]);
   return (
-    <section className="w-100 bg-white" style={{ overflowX: "hidden" }}>
+    <section className="w-100 bg-white p-4 mb-5" style={{ overflowX: "hidden" }}>
       {/* <div className="container sm-pt-0"> */}
       <div
         className="d-flex flex-column align-items-center"
@@ -50,7 +60,7 @@ export default function Partners() {
           overflowX: "hidden",
         }}
       >
-        <h2 className="">Corporate Partners</h2>
+        <h2 className="pb-4">Corporate Partners</h2>
         <motion.ul className={styles.partnersList} style={{ x: xTransition }}>
           <div className={styles.partnerAnimiList} ref={ref}>
             {[...partners].map((itm, indx) => (
