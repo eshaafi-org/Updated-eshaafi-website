@@ -20,9 +20,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
-// links
 
-// import { useRouter } from "next/navigation";
 export default function BookAppointmentPage({
   data,
   appointmentPage,
@@ -76,6 +74,7 @@ export default function BookAppointmentPage({
     doctorId: params.query.id,
     appoint_date: appointDate,
   };
+
   // booking appointment
   const bookAppointmentData = () => {
     if (paymentId === "wallet") {
@@ -94,6 +93,7 @@ export default function BookAppointmentPage({
       };
     }
   };
+
   // logout if token expire function
   const logout = () => {
     axios
@@ -111,6 +111,7 @@ export default function BookAppointmentPage({
         localStorage.removeItem("user");
       });
   };
+
   // handle booking appointment
   const handleBookAppoint = (flag: boolean) => {
     if (localStorage.getItem("user")) {
@@ -130,7 +131,7 @@ export default function BookAppointmentPage({
           return;
         }
         if (paymentId === "payFast") {
-          handlePaymentGatewayOpen();
+          handlePayfast();
           return;
         }
         setLoading(true);
@@ -148,7 +149,6 @@ export default function BookAppointmentPage({
             setPaymentScreen(false);
           })
           .catch((err) => {
-            // console.log(err.response.data.response.message);
             setLoading(false);
             if (err.response.status === 400) {
               toast(
@@ -227,12 +227,10 @@ export default function BookAppointmentPage({
               draggable: true,
               progress: undefined,
               theme: "light",
-              // type: "info",
             });
           })
           .catch((err) => {
             setLoading(false);
-            console.log(err.response.data.message);
             if (err.response.status === 401) {
               if (
                 err.response.data.message === "The incoming token has expired"
@@ -246,7 +244,6 @@ export default function BookAppointmentPage({
                   draggable: true,
                   progress: undefined,
                   theme: "light",
-                  // type: "info",
                 });
                 logout();
                 dispatch({ type: "loginModalSlice/signIn" });
@@ -260,7 +257,6 @@ export default function BookAppointmentPage({
                   draggable: true,
                   progress: undefined,
                   theme: "light",
-                  // type: "info",
                 });
               }
             } else if (err.response.status === 404) {
@@ -307,26 +303,27 @@ export default function BookAppointmentPage({
       dispatch({ type: "loginModalSlice/signIn" });
     }
   };
-  //handle Payfast Integration
-  // const handlePayfast = async () => {
-  //   // Call the debitId function to get a unique ID
-  //   const handshakeId = response.appointmentId; // This calls the function and stores the return value in handshakeId
-  //   setPaymentUrl(`https://payfast.eshaafi.com/?handshake=${handshakeId}&paymentFee=${data?.doctorInfo?.videoCallCharges}`);
-  //   // window.location.href = paymentUrl; // Redirects the user to the payment URL with the unique ID and payment fee
-  //   handleModalOpen();
-  // };
-  const handlePaymentGatewayOpen = () => {
-    const url = `https://payfast.eshaafi.com/?handshake=${response.appointmentId}&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
-    const windowFeatures = "width=600,height=700,resizable,scrollbars=yes,status=1";
-    const newWindow = window.open(url, '_blank', windowFeatures);
 
-    // Check if the window successfully opened
-    if (newWindow) {
-      newWindow.focus();
-    } else {
-      alert("Popup blocked! Please allow popups for this website.");
-    }
+  //handle Payfast Integration
+  const handlePayfast = async () => {
+    const handshakeId = response.appointmentId;
+    const url = `https://payfast.eshaafi.com/?handshake=${handshakeId}&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
+    setPaymentUrl(url);
+    const appointmentData = {
+      appointmentId: response.appointmentId,
+      patientName: patient.patientName,
+      patientId: patient.patientId,
+      paymentId: paymentId,
+    };
+    localStorage.setItem('appointmentData', JSON.stringify(appointmentData));
   };
+
+  // Redirect to payment URL once it's set
+  useEffect(() => {
+    if (paymentUrl) {
+      window.location.href = paymentUrl;
+    }
+  }, [paymentUrl]);
 
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
@@ -348,7 +345,6 @@ export default function BookAppointmentPage({
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err.response.data.response.message);
         setLoading(false);
         if (err.response.status === 400) {
           toast(err.response.data.response.message, {
@@ -403,12 +399,14 @@ export default function BookAppointmentPage({
         }
       });
   };
+
   // use effect
   useEffect(() => {
     if (data.Items) {
       setAppointDate(data.Items[0].slot_date);
     }
   }, [data]);
+
   return (
     <section className="container">
       {!success ? (
@@ -460,7 +458,6 @@ export default function BookAppointmentPage({
         </div>
       ) : (
         <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
-          {/* <AddressBar links={links} /> */}
           <Button
             variant="outlined"
             onClick={() => setSuccess(false)}
@@ -503,11 +500,6 @@ export default function BookAppointmentPage({
           >
             <Button variant="outlined">view details</Button>
           </Link>
-          {/* <Link href={`/appointments`}>
-            <Button>
-              Check Appointments <FaRegListAlt />
-            </Button>
-          </Link> */}
         </div>
       )}
       <ToastContainer />

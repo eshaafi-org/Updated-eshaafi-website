@@ -400,7 +400,7 @@
 /// corporate partners
 .partnersList {
   display: flex;
-  width: 100%;
+  // width: 100%;
   column-gap: 2rem;
   @include large-mobile-and-below {
     // column-gap: 2rem;
@@ -411,11 +411,13 @@
   min-width: 100%;
   display: flex;
   justify-content: space-around;
-  column-gap: 2rem;
+  column-gap: 5rem;
+  align-items: center;
   // overflow-x: hidden;
   @include large-mobile-and-below {
     min-width: unset;
     justify-content: unset;
+    column-gap: 2rem;
   }
 }
 .partnerItem {

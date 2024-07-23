@@ -12,7 +12,7 @@ import Doctors from "@/views/Home/Doctors";
 // // import Subscriptions from "@/views/Home/Subscriptions";
 // // import Reviews from "@/views/Home/Reviews";
 import Blogs from "@/views/Home/Blogs";
-// import Partners from "@/views/Home/Partners";
+import Partners from "@/views/Home/Partners";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
 import heroImage from "../../public/heroImage.svg";
@@ -62,8 +62,8 @@ export default function Home({ positions, doctors }: any) {
 
         {/* <Subscriptions /> */}
         {/* <Reviews />*/}
+        <Partners />
         <Blogs blogs={positions} />
-        {/* <Partners /> */}
         <GetApp color="#fff" />
       </main>
     </>
