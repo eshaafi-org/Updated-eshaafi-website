@@ -119,26 +119,26 @@ const partners = [
 ];
 
 export default function Partners() {
-  let [ref, { width }] = useMeasure();
+  const [ref, { width }] = useMeasure();
   const xTransition = useMotionValue(0);
 
   useEffect(() => {
     const handleLoad = () => {
       let finalPosition = -(width + 32);
-      let controls: any;
-      controls = animate(xTransition, [0, finalPosition], {
+      const controls : any  = animate(xTransition, [0, finalPosition], {
         ease: "linear",
         duration: 55,
         repeat: Infinity,
         repeatType: "loop",
         repeatDelay: 0,
       });
+
       return () => {
         controls.stop();
       };
     };
 
-    if (document.readyState === "complete") {
+    if (typeof window !== "undefined" && document.readyState === "complete") {
       handleLoad();
     } else {
       window.addEventListener("load", handleLoad);
