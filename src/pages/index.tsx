@@ -16,6 +16,7 @@ import Partners from "@/views/Home/Partners";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
 import heroImage from "../../public/heroImage.svg";
+import dynamic from 'next/dynamic';
 
 // const inter = Roboto({
 //   subsets: ["latin"],
@@ -29,6 +30,7 @@ const inter = Roboto({
 });
 
 export default function Home({ positions, doctors }: any) {
+  const Partners = dynamic(() => import('@/views/Home/Partners'), { ssr: false });
   return (
     <>
       <Head>
@@ -62,7 +64,8 @@ export default function Home({ positions, doctors }: any) {
 
         {/* <Subscriptions /> */}
         {/* <Reviews />*/}
-        <Partners />
+        {/* <Partners /> */}
+        {typeof window !== 'undefined' && <Partners />}
         <Blogs blogs={positions} />
         <GetApp color="#fff" />
       </main>
