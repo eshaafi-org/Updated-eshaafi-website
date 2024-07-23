@@ -125,7 +125,7 @@ export default function Partners() {
   useEffect(() => {
     const handleLoad = () => {
       let finalPosition = -(width + 32);
-      let controls;
+      let controls: any;
       controls = animate(xTransition, [0, finalPosition], {
         ease: "linear",
         duration: 55,
