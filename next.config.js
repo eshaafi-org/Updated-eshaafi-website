@@ -12,6 +12,7 @@ const nextConfig = {
       "terafort.s3.ap-southeast-1.amazonaws.com",
     ], // Add the domain causing the error here
   },
+  transpilePackages: ['react-use-measure', 'framer-motion'],
 };
 
 module.exports = nextConfig;
