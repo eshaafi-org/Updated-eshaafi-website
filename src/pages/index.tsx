@@ -132,7 +132,7 @@ export default function Home({ positions, doctors }: any) {
   return (
     <>
       <Head>
-        <title>Prodsign | We Care</title>
+        <title>Eshaafi | We Care</title>
         <meta name="description" content="Meet one on one with your doctor" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="icon" href={"/favicon.ico"} />
@@ -148,7 +148,7 @@ export default function Home({ positions, doctors }: any) {
         <Mission
           heading={"Our Mission"}
           subHeading={"Care That Never Quits"}
-          text={`  At eShaafi, our mission is to provide continuous care that
+          text={`At eShaafi, our mission is to provide continuous care that
                surpasses boundaries and empowers individuals to take control of
                their health. We are committed to delivering accessible, reliable,
                and compassionate healthcare through cutting-edge telemedicine
