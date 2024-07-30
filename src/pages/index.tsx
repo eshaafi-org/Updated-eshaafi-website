@@ -1,28 +1,127 @@
-import Head from "next/head";
-// import Image from "next/image";
-import { Roboto } from "next/font/google";
-import styles from "@/styles/home.module.scss";
-// import Link from "next/link";
-import Hero from "@/views/Home/Hero";
-import Services from "@/views/Home/Services";
-import Mission from "@/views/Home/Mission";
-import Features from "@/views/Home/Features";
-import Working from "@/views/Home/Working";
-import Doctors from "@/views/Home/Doctors";
-// // import Subscriptions from "@/views/Home/Subscriptions";
-// // import Reviews from "@/views/Home/Reviews";
-import Blogs from "@/views/Home/Blogs";
-import Partners from "@/views/Home/Partners";
-import GetApp from "@/views/Home/GetApp";
-import { BASE_URL } from "@/helper/CONST";
-import heroImage from "../../public/heroImage.svg";
-import dynamic from 'next/dynamic';
+// import Head from "next/head";
+// // import Image from "next/image";
+// import { Roboto } from "next/font/google";
+// import styles from "@/styles/home.module.scss";
+// // import Link from "next/link";
+// import Hero from "@/views/Home/Hero";
+// import Services from "@/views/Home/Services";
+// import Mission from "@/views/Home/Mission";
+// import Features from "@/views/Home/Features";
+// import Working from "@/views/Home/Working";
+// import Doctors from "@/views/Home/Doctors";
+// // // import Subscriptions from "@/views/Home/Subscriptions";
+// // // import Reviews from "@/views/Home/Reviews";
+// import Blogs from "@/views/Home/Blogs";
+// import Partners from "@/views/Home/Partners";
+// import GetApp from "@/views/Home/GetApp";
+// import { BASE_URL } from "@/helper/CONST";
+// import heroImage from "../../public/heroImage.svg";
+// import dynamic from 'next/dynamic';
+
+// // const inter = Roboto({
+// //   subsets: ["latin"],
+// //   weight: ["100", "300", "400", "500", "700"],
+// // });
+// // import { Roboto } from "next/font/google";
 
 // const inter = Roboto({
 //   subsets: ["latin"],
 //   weight: ["100", "300", "400", "500", "700"],
 // });
-// import { Roboto } from "next/font/google";
+
+// export default function Home({ positions, doctors }: any) {
+//   const Partners = dynamic(() => import('@/views/Home/Partners'), { ssr: false });
+//   return (
+//     <>
+//       <Head>
+//         <title>Eshaafi | We care</title>
+//         <meta name="description" content="Meet one on one with your doctor" />
+//         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+//         <link rel="icon" href={"/favicon.ico"} />
+//       </Head>
+//       <main className={`${styles.main} ${inter.className}`}>
+//         <Hero
+//           img={heroImage}
+//           heading="Stress free access to quality healthcare"
+//           text="Book Appointment with best Verified Doctors"
+//           link={{ name: "book now", link: "/doctors" }}
+//         />
+//         <Services />
+//         <Mission
+//           heading={"Our Mission"}
+//           subHeading={"Care That Never Quits"}
+//           text={` At eShaafi, our mission is to provide continuous care that
+//               surpasses boundaries and empowers individuals to take control of
+//               their health. We are committed to delivering accessible, reliable,
+//               and compassionate healthcare through cutting-edge telemedicine
+//               solutions.`}
+//         />
+//         <Features />
+//         <Working />
+//         {typeof window !== "undefined" && (
+//           <Doctors doc={doctors} heading={"Book with Doctors"} />
+//         )}
+
+//         {/* <Subscriptions /> */}
+//         {/* <Reviews />*/}
+//         {/* <Partners /> */}
+//         {typeof window !== 'undefined' && <Partners />}
+//         <Blogs blogs={positions} />
+//         <GetApp color="#fff" />
+//       </main>
+//     </>
+//   );
+// }
+
+// export async function getStaticProps() {
+//   let response = await fetch(BASE_URL + "/new/users/blogs");
+//   let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
+//     cache: "no-cache",
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       type: "specialization",
+//       search: "General Physician",
+//     }),
+//   });
+//   const [blogs, doctors] = await Promise.all([response, doc]);
+//   const data = await blogs.json();
+//   const docData = await doctors.json();
+//   return {
+//     props: {
+//       positions: data?.response?.Items ? data?.response?.Items : [],
+//       doctors: docData.response.Items.sort((a: any, b: any) => {
+//         if (a.isOnline && !b.isOnline) {
+//           return -1;
+//         } else if (!a.isOnline && b.isOnline) {
+//           return 1;
+//         } else {
+//           return 0;
+//         }
+//       }),
+//     },
+//     revalidate: 1,
+//   };
+// }
+
+import Head from "next/head";
+import dynamic from 'next/dynamic';
+import { Roboto } from "next/font/google";
+import styles from "@/styles/home.module.scss";
+import { BASE_URL } from "@/helper/CONST";
+import heroImage from "../../public/heroImage.svg";
+
+const Hero = dynamic(() => import('@/views/Home/Hero'), { ssr: false });
+const Services = dynamic(() => import('@/views/Home/Services'), { ssr: false });
+const Mission = dynamic(() => import('@/views/Home/Mission'), { ssr: false });
+const Features = dynamic(() => import('@/views/Home/Features'), { ssr: false });
+const Working = dynamic(() => import('@/views/Home/Working'), { ssr: false });
+const Doctors = dynamic(() => import('@/views/Home/Doctors'), { ssr: false });
+const Blogs = dynamic(() => import('@/views/Home/Blogs'), { ssr: false });
+const Partners = dynamic(() => import('@/views/Home/Partners'), { ssr: false });
+const GetApp = dynamic(() => import('@/views/Home/GetApp'), { ssr: false });
 
 const inter = Roboto({
   subsets: ["latin"],
@@ -30,11 +129,10 @@ const inter = Roboto({
 });
 
 export default function Home({ positions, doctors }: any) {
-  const Partners = dynamic(() => import('@/views/Home/Partners'), { ssr: false });
   return (
     <>
       <Head>
-        <title>Eshaafi | We care</title>
+        <title>Prodsign | We Care</title>
         <meta name="description" content="Meet one on one with your doctor" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="icon" href={"/favicon.ico"} />
@@ -50,22 +148,16 @@ export default function Home({ positions, doctors }: any) {
         <Mission
           heading={"Our Mission"}
           subHeading={"Care That Never Quits"}
-          text={` At eShaafi, our mission is to provide continuous care that
-              surpasses boundaries and empowers individuals to take control of
-              their health. We are committed to delivering accessible, reliable,
-              and compassionate healthcare through cutting-edge telemedicine
-              solutions.`}
+          text={`  At eShaafi, our mission is to provide continuous care that
+               surpasses boundaries and empowers individuals to take control of
+               their health. We are committed to delivering accessible, reliable,
+               and compassionate healthcare through cutting-edge telemedicine
+               solutions.`}
         />
         <Features />
         <Working />
-        {typeof window !== "undefined" && (
-          <Doctors doc={doctors} heading={"Book with Doctors"} />
-        )}
-
-        {/* <Subscriptions /> */}
-        {/* <Reviews />*/}
-        {/* <Partners /> */}
-        {typeof window !== 'undefined' && <Partners />}
+        <Doctors doc={doctors} heading={"Book with Doctors"} />
+        <Partners />
         <Blogs blogs={positions} />
         <GetApp color="#fff" />
       </main>
@@ -74,33 +166,28 @@ export default function Home({ positions, doctors }: any) {
 }
 
 export async function getStaticProps() {
-  let response = await fetch(BASE_URL + "/new/users/blogs");
-  let doc = await fetch(BASE_URL + "/patients/doctors/filter", {
-    cache: "no-cache",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      type: "specialization",
-      search: "General Physician",
+  const [blogsResponse, doctorsResponse] = await Promise.all([
+    fetch(BASE_URL + "/new/users/blogs"),
+    fetch(BASE_URL + "/patients/doctors/filter", {
+      cache: "no-cache",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: "specialization",
+        search: "General Physician",
+      }),
     }),
-  });
-  const [blogs, doctors] = await Promise.all([response, doc]);
-  const data = await blogs.json();
-  const docData = await doctors.json();
+  ]);
+
+  const blogs = await blogsResponse.json();
+  const doctors = await doctorsResponse.json();
+
   return {
     props: {
-      positions: data?.response?.Items ? data?.response?.Items : [],
-      doctors: docData.response.Items.sort((a: any, b: any) => {
-        if (a.isOnline && !b.isOnline) {
-          return -1;
-        } else if (!a.isOnline && b.isOnline) {
-          return 1;
-        } else {
-          return 0;
-        }
-      }),
+      positions: blogs?.response?.Items ?? [],
+      doctors: doctors.response.Items.sort((a: any, b: any) => (a.isOnline === b.isOnline ? 0 : a.isOnline ? -1 : 1)),
     },
     revalidate: 1,
   };
