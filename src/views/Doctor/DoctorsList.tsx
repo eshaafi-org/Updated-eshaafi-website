@@ -68,7 +68,7 @@ export default function DoctorList({ list }: any) {
       </div>
       <div className="d-flex col-gap-1 align-items-star mt-5 sm-mt-1">
         <ul className={style.docList}>
-          {docListing.map((itm: any, indx: string) => (
+          {docListing?.map((itm: any, indx: string) => (
             <li
               key={indx}
               className={`${style.docCard} d-flex flex-column row-gap-1`}
