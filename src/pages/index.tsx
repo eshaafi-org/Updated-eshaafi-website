@@ -114,11 +114,11 @@ import Services from "@/views/Home/Services";
 import Mission from "@/views/Home/Mission";
 import Features from "@/views/Home/Features";
 import Working from "@/views/Home/Working";
-import Blogs from "@/views/Home/Blogs";
+// import Blogs from "@/views/Home/Blogs";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
 import heroImage from "../../public/heroImage.svg";
-import Doctors from "@/views/Home/Doctors";
+// import Doctors from "@/views/Home/Doctors";
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
@@ -161,6 +161,8 @@ export default function Home() {
   }, []);
 
   const Partners = dynamic(() => import('@/views/Home/Partners'), { ssr: false });
+  const Doctors = dynamic(() => import('@/views/Home/Doctors'), { ssr: false });
+  const Blogs = dynamic(() => import('@/views/Home/Blogs'), { ssr: false });
 
   return (
     <>
@@ -190,8 +192,8 @@ export default function Home() {
         <Features />
         <Working />
         <Doctors doc={doctors} heading={"Book with Doctors"} />
-        <Blogs blogs={positions} />
         {typeof window !== 'undefined' && <Partners />}
+        <Blogs blogs={positions} />
         <GetApp color="#fff" />
       </main>
     </>
