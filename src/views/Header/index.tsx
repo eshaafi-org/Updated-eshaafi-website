@@ -36,7 +36,7 @@ import { useRouter } from "next/router";
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component
-const Header: React.FC<HeaderProps> = ({}) => {
+const Header: React.FC<HeaderProps> = ({ }) => {
   const router = useRouter();
   // const uuid = JSON.parse(localStorage.getItem("user"));
   // const [userAuth, setUserAuth] = useState<string | undefined | any>("");
@@ -227,7 +227,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                         alt="user-image"
                         width={30}
                         height={30}
-                        style={{ borderRadius: 50 }}
+                        style={{ borderRadius: 50, objectFit: 'cover' }}
                       />
                     )}
                   </Button>
@@ -524,9 +524,8 @@ const Header: React.FC<HeaderProps> = ({}) => {
                     return (
                       <li
                         key={i.id}
-                        className={`${
-                          pathName == i.LinkRoute ? "active" : ""
-                        } py-1 border-bottom`}
+                        className={`${pathName == i.LinkRoute ? "active" : ""
+                          } py-1 border-bottom`}
                         onClick={handleClose}
                       >
                         <Link
