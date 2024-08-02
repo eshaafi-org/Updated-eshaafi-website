@@ -114,11 +114,9 @@ import Services from "@/views/Home/Services";
 import Mission from "@/views/Home/Mission";
 import Features from "@/views/Home/Features";
 import Working from "@/views/Home/Working";
-// import Blogs from "@/views/Home/Blogs";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
 import heroImage from "../../public/heroImage.svg";
-// import Doctors from "@/views/Home/Doctors";
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
