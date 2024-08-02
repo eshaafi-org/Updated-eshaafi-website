@@ -96,9 +96,10 @@ export const Model = ({ page = "login" }: { page: string }) => {
     if (e) {
       setStates({ type: "OTP_LOADING_TRUE" });
     }
+    let processedPhoneNo = e ? (e.phone_no.startsWith('0') ? e.phone_no.substring(1) : e.phone_no) : (phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum);
     axios
       .post(BASE_URL + "/auth/sendOtp", {
-        phone_no: `+92${e ? e.phone_no : phoneNum}`,
+        phone_no: `+92${processedPhoneNo}`,
         type: 1,
         os_name: "web",
       })
@@ -122,9 +123,10 @@ export const Model = ({ page = "login" }: { page: string }) => {
     setStates({ type: "VERI_LOADING" });
     let { otp1, otp2, otp3, otp4, otp5, otp6 } = values;
     let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
+    let processedPhoneNo = phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum;
     axios
       .post(BASE_URL + "/auth/verifyOtp", {
-        phone_no: "+92" + phoneNum,
+        phone_no: "+92" + processedPhoneNo,
         code: code,
         type: 1,
       })
@@ -211,7 +213,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
                     password (OTP) for verification.
                   </p>
                 </span>
-                <Formik
+                {/* <Formik
                   initialValues={{ phone_no: phoneNum }}
                   validationSchema={Yup.object({
                     phone_no: Yup.string()
@@ -221,6 +223,30 @@ export const Model = ({ page = "login" }: { page: string }) => {
                         "Invalid phone number format"
                       )
                       .required("Phone number is required*"),
+                  })}
+                  onSubmit={getOtp}
+                > */}
+                <Formik
+                  initialValues={{ phone_no: phoneNum }}
+                  validationSchema={Yup.object({
+                    phone_no: Yup.string()
+                      .required("Phone number is required*")
+                      .test(
+                        "valid-phone",
+                        "Phone number must be valid",
+                        value => {
+                          if (!value) return false; // Required field, not checking for empty values.
+                          const firstChar = value.charAt(0);
+                          if (firstChar === '0') {
+                            // If it starts with '0', should be 11 digits.
+                            return value.length === 11 && /^(0[0-9]*)$/.test(value);
+                          } else if (firstChar === '3') {
+                            // If it starts with '3', should be 10 digits.
+                            return value.length === 10 && /^(3[0-5][0-9]*)$/.test(value);
+                          }
+                          return false; // If neither, fail the validation.
+                        }
+                      )
                   })}
                   onSubmit={getOtp}
                 >

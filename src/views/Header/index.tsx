@@ -237,9 +237,9 @@ const Header: React.FC<HeaderProps> = ({ }) => {
                       <Image
                         src={userAuth.url}
                         alt="user-image"
-                        width={30}
-                        height={30}
-                        style={{ borderRadius: 50 }}
+                        width={35}
+                        height={35}
+                        style={{ borderRadius: 50, objectFit: 'cover' }}
                       />
                     )}
                   </Button>

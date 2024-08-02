@@ -8,12 +8,12 @@ import service5 from "../../../public/images/services5.png";
 import service6 from "../../../public/images/services6.png";
 import style from "../../styles/home.module.scss";
 const services = [
-  {
-    heading: "Instant Call",
-    text: "Book appointment in one click",
-    link: "/doctors",
-    icon: service1,
-  },
+  // {
+  //   heading: "Instant Call",
+  //   text: "Book appointment in one click",
+  //   link: "/doctors",
+  //   icon: service1,
+  // },
   {
     heading: "Video Consultation",
     text: "Schedule Call with doctors",
