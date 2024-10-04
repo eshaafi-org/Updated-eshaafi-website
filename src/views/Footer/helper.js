@@ -84,7 +84,7 @@ export const socialLinks = [
   },
   {
     icon: <FaInstagram />,
-    link: "https://www.instagram.com/eshaafipk/",
+    link: "https://www.instagram.com/eshaaficares/",
   },
   {
     icon: <FaYoutube />,
