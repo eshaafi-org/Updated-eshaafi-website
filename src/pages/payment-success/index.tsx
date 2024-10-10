@@ -1,11 +1,20 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import successGif from "../../../public/images/success.gif";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import Link from "next/link";
 import Head from "next/head";
+import CryptoJS from "crypto-js";
 
 export default function PaymentSuccess() {
+    const router = useRouter();
+    const encryptionKey = "WThxTGd6M1FURmNLRnNYNGJZWWZtSXR4eGFMX3ZZWlVwT0dBMzlaNloyZz0=";
+
+    // Encrypt the router.query object
+    const queryString = JSON.stringify(router.query);
+    const encryptedQuery = CryptoJS.AES.encrypt(queryString, encryptionKey).toString();
+    console.log(encryptedQuery)
     return (
         <>
             <Head>
