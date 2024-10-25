@@ -307,7 +307,7 @@ export default function BookAppointmentPage({
   //handle Payfast Integration
   const handlePayfast = async () => {
     const handshakeId = response.appointmentId;
-    const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}&paymentFee=${data?.doctorInfo?.videoCallCharges}&slot_id=51aec218-feb0-467f-9691-9a584507db57`;
+    const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}slot_id=51aec218-feb0-467f-9691-9a584507db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
     setPaymentUrl(url);
     const appointmentData = {
       appointmentId: response.appointmentId,

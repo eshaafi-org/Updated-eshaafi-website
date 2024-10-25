@@ -220,7 +220,7 @@ export default function Profile() {
         })
         .catch((error: any) => {
           setEditLoading(false);
-          if (error.response.status === 401) {
+          if (error?.response?.status === 401) {
           }
           toast(error.response.data.response.message, {
             type: "error",
@@ -260,9 +260,9 @@ export default function Profile() {
         })
         .catch((error: any) => {
           setEditLoading(false);
-          if (error.response.status === 401) {
+          if (error?.response?.status === 401) {
           }
-          toast(error.response.data.response.message, {
+          toast(error?.response?.data?.response?.message, {
             type: "error",
           });
         });
@@ -295,7 +295,7 @@ export default function Profile() {
         })
         .catch((error: any) => {
           setEditLoading(false);
-          if (error.response.status === 401) {
+          if (error?.response?.status === 401) {
           }
           toast(error.response.data.response.message, {
             type: "error",

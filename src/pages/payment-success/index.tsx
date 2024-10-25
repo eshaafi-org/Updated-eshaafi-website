@@ -4,72 +4,96 @@ import { useRouter } from "next/router";
 import successGif from "../../../public/images/success.gif";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import Head from "next/head";
-import CryptoJS from "crypto-js";
 import { useEffect } from "react";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import { ToastContainer, toast } from "react-toastify";
+import crypto from "crypto";
+import base64url from "base64url";  // Make sure to install this package
 
 export default function PaymentSuccess() {
     const router = useRouter();
     console.log(router.query);
 
-    // Ensure the encryption key is Base64 decoded before use
-    const encryptionKey = CryptoJS.enc.Base64.parse("WThxTGd6M1FURmNLRnNYNGJZWWZtSXR4eGFMX3ZZWlVwT0dBMzlaNloyZz0=");
+    // Encryption key (same as in your Node.js code)
+    const encryptionKey = 'WThxTGd6M1FURmNLRnNYNGJZWWZtSXR4eGFMX3ZZWlVwT0dBMzlaNloyZz0=';
 
-    // Function to extract and structure basket_id and slot_id
+    // Decode the base64url-encoded key and ensure it's exactly 32 bytes
+    const key:any = base64url.toBuffer(encryptionKey).slice(0, 32);
+
+    // Function to encrypt data using AES-256-GCM with Node's crypto module
+    const encryptData = (data: any) => {
+        const iv:any = crypto.randomBytes(12); // AES-GCM requires a 12-byte IV
+        const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+
+        let encrypted = cipher.update(JSON.stringify(data), 'utf8', 'base64');
+        encrypted += cipher.final('base64');
+
+        const authTag = cipher.getAuthTag(); // Get the authentication tag
+
+        // Combine IV, encrypted data, and auth tag, then return base64url-encoded string
+        return base64url.encode(Buffer.concat([iv, Buffer.from(encrypted, 'base64'), authTag]));
+    };
+
+    // Function to parse and structure the basket_id and slot_id from the query
     const parseQuery = (query: any) => {
         const basketAndSlot = query.basket_id;
 
         if (basketAndSlot) {
-            // Separate the basket_id by splitting at "slot_id="
             const [basket_id, slotData] = basketAndSlot.split("slot_id=");
-            const slot_id = slotData ? slotData : ""; // In case slotData exists
-            return {
-                basket_id,
-                slot_id,
-            };
+            const slot_id = slotData ? slotData : "";
+            return { basket_id, slot_id };
         }
 
-        // Return empty object or handle the absence of basket_id gracefully
-        return {
-            basket_id: "",
-            slot_id: "",
-        };
+        return { basket_id: "", slot_id: "" };
     };
 
-    // Encrypt the router.query object including the new basket_id and slot_id
+    // Encrypt the router.query object including basket_id and slot_id
     const encryptQuery = (query: any) => {
-        // Extract the basket_id and slot_id from the query
         const { basket_id, slot_id } = parseQuery(query);
 
-        // Merge the new basket_id and slot_id with the rest of the query data
         const modifiedQuery = {
-            ...query,         // Include all existing query data
-            basket_id,        // Add extracted and cleaned basket_id
-            slot_id           // Add extracted slot_id
+            ...query,
+            basket_id,
+            slot_id,
         };
 
-        // Log all data before encryption
         console.log("Data before encryption:", modifiedQuery);
 
-        const queryString = JSON.stringify(modifiedQuery);
-
-        // Encrypt the data and return Base64 encoded ciphertext
-        const encrypted = CryptoJS.AES.encrypt(queryString, encryptionKey, {
-            mode: CryptoJS.mode.ECB,
-            padding: CryptoJS.pad.Pkcs7
-        });
-
-        return encrypted.toString();  // Convert to Base64 string for transmission
+        const encrypted = encryptData(modifiedQuery);
+        return encrypted;
     };
 
-    // Function to handle encrypted data submission
+    // Decrypt data function (AES-256-GCM decryption)
+    const decryptData = (encryptedData: string) => {
+        try {
+            const decoded = base64url.toBuffer(encryptedData);
+
+            const iv:any = decoded.slice(0, 12);  // First 12 bytes are IV
+            const authTag:any = decoded.slice(-16); // Last 16 bytes are authTag
+            const encryptedText:any = decoded.slice(12, -16); // Encrypted content
+
+            const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+            decipher.setAuthTag(authTag);
+
+            let decrypted = decipher.update(encryptedText, 'base64', 'utf8');
+            decrypted += decipher.final('utf8');
+
+            const decryptedObject = JSON.parse(decrypted);
+            console.log("Decrypted data:", decryptedObject);
+
+            return decryptedObject;
+        } catch (error) {
+            console.error("Error decrypting data:", error);
+            return null;
+        }
+    };
+
+    // Handle encrypted data submission
     const handleEncryptData = () => {
-        const encryptedQuery = encryptQuery(router.query);  // Encrypt the full query data
+        const encryptedQuery = encryptQuery(router.query);
         const data = { data: encryptedQuery };
 
-        // API call to backend to submit encrypted data
         axios.post(`${BASE_URL}/new/patients/payfast/payments`, data, {
             headers: headers(),
         })
@@ -85,14 +109,20 @@ export default function PaymentSuccess() {
                     progress: undefined,
                     theme: "light",
                 });
+
+                // Decrypt and log the query
+                const decryptedData = decryptData(encryptedQuery);
+                console.log("Decrypted Query Data:", decryptedData);
             })
             .catch((error) => {
+                const decryptedData = decryptData(encryptedQuery);
+                console.log("Decrypted Query Data:", decryptedData);
                 console.error("Error submitting encrypted data:", error);
                 toast.error("Error submitting payment data");
             });
     };
 
-    // On component mount, handle the encryption and data submission
+    // On component mount, handle encryption and data submission
     useEffect(() => {
         if (router.query.basket_id) {
             handleEncryptData();
