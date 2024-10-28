@@ -114,7 +114,6 @@ export default function PaymentSuccess() {
                 // Decrypt and log the query
                 const decryptedData = decryptData(encryptedQuery);
                 console.log("Decrypted Query Data:", decryptedData);
-
                 setLoading(false); // Stop loading after success
                 router.push("/payment-success/booking");
             })
@@ -125,7 +124,7 @@ export default function PaymentSuccess() {
                 toast.error("Error submitting payment data");
 
                 setLoading(false); // Stop loading after error
-                router.push("/payment-error/booking");
+                // router.push("/payment-error");
             });
     };
 
