@@ -40,7 +40,7 @@ export default function PaymentSuccess() {
         const basketAndSlot = query.basket_id;
 
         if (basketAndSlot) {
-            const [basket_id, slotData] = basketAndSlot.split("slot_id=");
+            const [basket_id, slotData] = basketAndSlot.split(":");
             const slot_id = slotData ? slotData : "";
             return { basket_id, slot_id };
         }
@@ -124,7 +124,7 @@ export default function PaymentSuccess() {
                 toast.error("Error submitting payment data");
 
                 setLoading(false); // Stop loading after error
-                router.push("/payment-error");
+                // router.push("/payment-error");
             });
     };
 
