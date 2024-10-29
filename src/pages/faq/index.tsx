@@ -1,45 +1,44 @@
-import { privacy } from "@/helper/privacyContent";
+import { faq } from "@/helper/faqContent";
 import style from "@/styles/content.module.scss";
 import Head from "next/head";
-export default function PrivacyPolicy() {
+export default function FAQ() {
   return (
     <>
       <Head>
-        <title>Eshaafi | Privacy Policy</title>
+        <title>Eshaafi | FAQs</title>
         <meta name="description" content="Meet one on one with your doctor" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
+
       <section className="container">
         <div className={"flex flex-col " + style.contentCont}>
           <span className="w-full">
-            <h2 className="text-center">Privacy Policy</h2>
-            <p className="mt-1">
-              Welcome to the eShaafi privacy policy, where we outline how we
-              collect user data and the reasons behind it, detail our
-              utilization of user information, and provide information on the
-              choices available to you regarding your personal data.
+            <h2 className="text-center mb-3">Frequently Asked Questions</h2>
+            <p className="mt-3">
+              {`Welcome to eShaafi’s Frequently Asked Questions (FAQ) section! We
+            understand that using telemedicine services may be a new experience
+            for many of our users, and we want to ensure you have all the
+            information you need to make the most of our platform. This
+            comprehensive FAQ is designed to address common inquiries and
+            provide clarity on various aspects of our app, from how to schedule
+            an appointment to ensuring the security of your medical data.
+            Whether you're a first-time user or a long-time member of our
+            telehealth community, we hope this resource proves helpful in
+            navigating your virtual healthcare journey with us`}
             </p>
           </span>
-          <span className="mt-1">
-            <h3 className={style.mainHeading + " mb-1"}>How to contact us?</h3>
-            <p>
-              If you have any questions about this privacy policy, contact our
-              privacy team including our data protection officer by simply
-              sending an email to contact@eshaafi.com or calling us at
-              03111151161
-            </p>
-          </span>
-          <ol className={"flex flex-col row-gap-2 mt-1 " + style.contentList}>
-            {privacy.map((itm: any, indx: any) => (
+
+          <ol className={"flex flex-col row-gap-2 mt-3 " + style.contentList}>
+            {faq.map((itm: any, indx: any) => (
               <li key={indx} className={style.contentListItem}>
                 <h3 className={style.mainHeading}>
-                  <span className="mr-1">{indx + 1}.</span>
+                  <span className="mr-1">Q{indx + 1}.</span>
                   {itm.heading}
                 </h3>
 
                 <p>{itm.headingText}</p>
-                <ul className="flex flex-col row-gap-1 mt-1">
+                <ul className="flex flex-col row-gap-1 mt-3">
                   {itm.sub.map((subItem: any, indx: any) => (
                     <li key={indx}>
                       <h3 className={style.subHeading}>{subItem.subHeading}</h3>

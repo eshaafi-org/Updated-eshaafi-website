@@ -21,10 +21,16 @@ export default function App({ Component, pageProps }: AppProps) {
     <Providers>
       <>
         {router.pathname === "/blog/second/[id]" ||
-          router.pathname === "/blog/mobile/[id]" || <NoSSRHeader />}
+          router.pathname === "/blog/mobile/[id]" ||
+          router.pathname === "/privacy-policy/mobile" ||
+          router.pathname === "/terms-and-conditions/mobile" ||
+          router.pathname === "/faq/mobile" || <NoSSRHeader />}
         <Component {...pageProps} />
         {router.pathname === "/blog/second/[id]" ||
-          router.pathname === "/blog/mobile/[id]" || <Footer />}
+          router.pathname === "/blog/mobile/[id]" ||
+          router.pathname === "/privacy-policy/mobile" ||
+          router.pathname === "/terms-and-conditions/mobile" ||
+          router.pathname === "/faq/mobile" || <Footer />}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-1BXFKZVVFJ" />
         <Script id="google-analytics">
           {`

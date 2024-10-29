@@ -10,11 +10,11 @@ export default function TermsAndConditions() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
-      <section className="container">
+      <section className="container pt-0">
         <div className={"flex flex-col " + style.contentCont}>
           <span className="w-full">
-            <h2 className="text-center">Terms and Conditions</h2>
-            <p className="mt-1">
+            <h2 className="text-center mb-3">Terms and Conditions</h2>
+            <p className="mt-3">
               Welcome to eShaafi! We are dedicated to enabling and empowering
               you to make smart choices for your health and well-being. Our
               mission is to provide you with a platform that empowers you to
@@ -24,7 +24,7 @@ export default function TermsAndConditions() {
               conditions that we apply in order to provide our services as
               defined below at the optimum level of our standards.
             </p>
-            <p className="mt-1">
+            <p className="mt-3">
               As a condition of your use of any of our platforms, you warrant
               that you are at least 18 years of age. We only accept prescription
               orders from customers who are 18 years old or over although they
@@ -33,13 +33,13 @@ export default function TermsAndConditions() {
               the minimum age requirement, you must immediately discontinue your
               use and access to the website.
             </p>
-            <p className="mt-1 font-bolder">
+            <p className="mt-3 font-bolder">
               PLEASE READ THE FOLLOWING TERMS AND CONDITIONS CAREFULLY. THESE
               CONTAIN IMPORTANT INFORMATION ABOUT YOUR RIGHTS AND OBLIGATIONS AS
               WELL AS LIMITATIONS AND EXCLUSIONS THAT APPLY TO OUR SERVICES.
             </p>
           </span>
-          <ol className={"flex flex-col row-gap-2 mt-1 " + style.contentList}>
+          <ol className={"flex flex-col row-gap-2 mt-3 " + style.contentList}>
             {termsAndConditions.map((itm: any, indx: any) => (
               <li key={indx} className={style.contentListItem}>
                 <h3 className={style.mainHeading}>
@@ -48,7 +48,7 @@ export default function TermsAndConditions() {
                 </h3>
 
                 <p>{itm.headingText}</p>
-                <ul className="flex flex-col row-gap-1 mt-1">
+                <ul className="flex flex-col row-gap-1 mt-3">
                   {itm.sub.map((subItem: any, indx: any) => (
                     <li key={indx}>
                       <h3 className={style.subHeading}>{subItem.subHeading}</h3>

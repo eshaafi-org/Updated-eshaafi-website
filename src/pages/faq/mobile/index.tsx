@@ -11,11 +11,11 @@ export default function FAQ() {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
 
-      <section className="container">
+      <section className="container pt-0">
         <div className={"flex flex-col " + style.contentCont}>
           <span className="w-full">
-            <h2 className="text-center">Frequently Asked Questions</h2>
-            <p className="mt-1">
+            <h2 className="text-center mb-3">Frequently Asked Questions</h2>
+            <p className="mt-3">
               {`Welcome to eShaafi’s Frequently Asked Questions (FAQ) section! We
             understand that using telemedicine services may be a new experience
             for many of our users, and we want to ensure you have all the
@@ -29,7 +29,7 @@ export default function FAQ() {
             </p>
           </span>
 
-          <ol className={"flex flex-col row-gap-2 mt-1 " + style.contentList}>
+          <ol className={"flex flex-col row-gap-2 mt-3 " + style.contentList}>
             {faq.map((itm: any, indx: any) => (
               <li key={indx} className={style.contentListItem}>
                 <h3 className={style.mainHeading}>
@@ -38,7 +38,7 @@ export default function FAQ() {
                 </h3>
 
                 <p>{itm.headingText}</p>
-                <ul className="flex flex-col row-gap-1 mt-1">
+                <ul className="flex flex-col row-gap-1 mt-3">
                   {itm.sub.map((subItem: any, indx: any) => (
                     <li key={indx}>
                       <h3 className={style.subHeading}>{subItem.subHeading}</h3>
