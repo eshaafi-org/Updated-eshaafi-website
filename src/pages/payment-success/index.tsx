@@ -124,7 +124,7 @@ export default function PaymentSuccess() {
                 toast.error("Error submitting payment data");
 
                 setLoading(false); // Stop loading after error
-                router.push("/payment-error");
+                router.push("/payment-error/booking");
             });
     };
 
