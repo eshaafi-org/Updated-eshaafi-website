@@ -91,6 +91,14 @@ export default function PaymentSuccess() {
 
     // Handle encrypted data submission
     const handleEncryptData = () => {
+        const { basket_id } = parseQuery(router.query);
+
+        // Check if the basket_id starts with "SUB"
+        if (basket_id.startsWith("SUB")) {
+            console.log("Subscription detected, skipping API call.");
+            router.push("/payment-success/booking");
+            return;
+        }
         setLoading(true); // Start loading
         const encryptedQuery = encryptQuery(router.query);
         const data = { data: encryptedQuery };
@@ -124,17 +132,14 @@ export default function PaymentSuccess() {
                 toast.error("Error submitting payment data");
 
                 setLoading(false); // Stop loading after error
-                router.push("/payment-error/booking");
+                router.push("/payment-error");
             });
     };
 
     // On component mount, handle encryption and data submission
     useEffect(() => {
-        if (router.query.basket_id && router.query.basket_id.includes(":")) {
-            // Only call the API if basket_id contains a colon
+        if (router.query.basket_id) {
             handleEncryptData();
-        } else {
-            console.log("basket_id does not contain a colon. Skipping API call.");
         }
     }, [router.query]);
 
