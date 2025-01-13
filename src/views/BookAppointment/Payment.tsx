@@ -146,13 +146,13 @@ export default function PaymentMethod({
         <span className="d-flex justify-content-between flex-column row-gap-1">
           <h3 className="text-dark">Payment Method </h3>
           <span className="d-flex align-items-center justify-content-end col-gap-1">
-            <p>Use Wallet Balance</p>
+            <p>Use Wallet Point</p>
             <div
               className={
                 style.checkboxWrapper + " d-flex align-items-center col-gap-1"
               }
             >
-              <span>Rs.{response.wallet} </span>
+              <span>you have {response.wallet} point </span>
               <input
                 type="checkbox"
                 className={style.scGJwTLC + " " + style.ikxBAC}
