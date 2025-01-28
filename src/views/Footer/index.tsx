@@ -5,6 +5,7 @@ import styles from "./Footer.module.scss";
 import Image from "next/image";
 import downloadButton from "../../../public/images/download-badge-google-play-badge.svg";
 import { Text14 } from "@/components/Typography";
+import Stores from "../Home/Stores";
 // links
 
 // Define the props type for the Footer component
@@ -66,13 +67,9 @@ const Footer: React.FC<FooterProps> = () => {
           ))}
           <div className={`d-flex flex-column row-gap-1 ${styles.downloads}`}>
             <h4>Download App</h4>
-            <Link href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share">
-              <Image
-                src={downloadButton}
-                className={styles.downloadImage}
-                alt="eshaafi-app-download"
-              />
-            </Link>
+            <div>
+              <Stores />
+            </div>
           </div>
         </div>
         <ul
