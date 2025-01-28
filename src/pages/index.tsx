@@ -8,9 +8,9 @@ import Features from "@/views/Home/Features";
 import Working from "@/views/Home/Working";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
-import heroImage from "../../public/heroImage.svg";
-import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import heroImage from "/public/images/heroImage.png";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const inter = Roboto({
   subsets: ["latin"],
@@ -41,25 +41,32 @@ export default function Home() {
         }),
       });
       const data = await response.json();
-      setDoctors(data.response.Items.sort((a: any, b: any) => {
-        return a.isOnline === b.isOnline ? 0 : a.isOnline ? -1 : 1;
-      }));
+      setDoctors(
+        data.response.Items.sort((a: any, b: any) => {
+          return a.isOnline === b.isOnline ? 0 : a.isOnline ? -1 : 1;
+        })
+      );
     };
 
     fetchBlogs();
     fetchDoctors();
   }, []);
 
-  const Partners = dynamic(() => import('@/views/Home/Partners'), { ssr: false });
-  const Doctors = dynamic(() => import('@/views/Home/Doctors'), { ssr: false });
-  const Blogs = dynamic(() => import('@/views/Home/Blogs'), { ssr: false });
+  const Partners = dynamic(() => import("@/views/Home/Partners"), {
+    ssr: false,
+  });
+  const Doctors = dynamic(() => import("@/views/Home/Doctors"), { ssr: false });
+  const Blogs = dynamic(() => import("@/views/Home/Blogs"), { ssr: false });
 
   return (
     <>
       <Head>
         <title>Eshaafi | We care</title>
         <meta name="description" content="Meet one on one with your doctor" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
@@ -82,7 +89,7 @@ export default function Home() {
         <Features />
         <Working />
         <Doctors doc={doctors} heading={"Book with Doctors"} />
-        {typeof window !== 'undefined' && <Partners />}
+        {typeof window !== "undefined" && <Partners />}
         <Blogs blogs={positions} />
         <GetApp color="#fff" />
       </main>

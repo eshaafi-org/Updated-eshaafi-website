@@ -3,7 +3,8 @@ import Image from "next/image";
 import getApp from "../../../public/images/getApp.png";
 import download from "../../../public/images/download-badge-google-play-badge.svg";
 import style from "../../styles/home.module.scss";
-
+import appStore from "/public/images/appstore.png";
+import Stores from "./Stores";
 export default function GetApp({ color = "#fff" }: { color: string }) {
   return (
     <section className="w-100" style={{ backgroundColor: color }}>
@@ -18,13 +19,7 @@ export default function GetApp({ color = "#fff" }: { color: string }) {
                 emergencies. Keep your health up to date.
               </p>
             </div>
-            <Link
-              href={
-                "https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share"
-              }
-            >
-              <Image src={download} alt="eshaafi-app-download" />
-            </Link>
+            <Stores />
           </div>
           <span>
             <Image

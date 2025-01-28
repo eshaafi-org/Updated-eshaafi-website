@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import service1 from "../../../public/images/services1.png";
 import service2 from "../../../public/images/services2.png";
-import service3 from "../../../public/images/services3.png";
+import service3 from "../../../public/images/service3.png";
 import service4 from "../../../public/images/services4.png";
 import service5 from "../../../public/images/services5.png";
 import service6 from "../../../public/images/services6.png";
@@ -21,9 +21,9 @@ const services = [
     icon: service2,
   },
   {
-    heading: "Home Nursing",
-    text: "Book home nursing services",
-    link: "/",
+    heading: "Lab Tests",
+    text: "Book lab tests and home sampling",
+    link: "/labs",
     icon: service3,
   },
   // {
@@ -67,16 +67,9 @@ export default function Services() {
                     </p>
                   </span>
                   <span className={style.serviceLink}>
-                    {itm.heading === "Home Nursing" ||
-                    itm.heading === "Instant Call" ? (
-                      <Link href={"/"} className="fw-bold cardHeading">
-                        Coming Soon
-                      </Link>
-                    ) : (
-                      <Link href={itm.link} className="linkBtn">
-                        Book Now
-                      </Link>
-                    )}
+                    <Link href={itm.link} className="linkBtn">
+                      Book Now
+                    </Link>
                   </span>
                   <span className={style.servicesImage}>
                     <Image
