@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import service1 from "../../../public/images/services1.png";
@@ -7,6 +8,7 @@ import service4 from "../../../public/images/services4.png";
 import service5 from "../../../public/images/services5.png";
 import service6 from "../../../public/images/services6.png";
 import style from "../../styles/home.module.scss";
+import { useState } from "react";
 const services = [
   // {
   //   heading: "Instant Call",
@@ -21,9 +23,9 @@ const services = [
     icon: service2,
   },
   {
-    heading: "Lab Tests",
+    heading: "Call Now",
     text: "Book lab tests and home sampling",
-    link: "/labs",
+    link: "/",
     icon: service3,
   },
   // {
@@ -46,6 +48,23 @@ const services = [
   // },
 ];
 export default function Services() {
+  const [isCalled, setIsCalled] = useState(false);
+
+  const handleCallNowClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Prevent page reload (if needed)
+    setIsCalled(true);
+  };
+  const buttonStyle = {
+    transition: "opacity 0.3s ease-in-out",
+    opacity: isCalled ? 0 : 1,
+  };
+
+  // Inline styles for the phone number with smoother transition
+  const phoneNumberStyle = {
+    opacity: isCalled ? 1 : 0,
+    transform: isCalled ? "translateY(0)" : "translateY(-20px)", // Adds a slight upward movement
+    transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out", // Smooth opacity and movement
+  };
   return (
     <section className="w-full bg-white">
       <div className="container">
@@ -66,11 +85,27 @@ export default function Services() {
                       {itm.text}
                     </p>
                   </span>
-                  <span className={style.serviceLink}>
-                    <Link href={itm.link} className="linkBtn">
-                      Book Now
-                    </Link>
-                  </span>
+                  {indx === 0 ? (
+                    <span className={style.serviceLink}>
+                      <Link href={itm.link} className="linkBtn">
+                        Book Now
+                      </Link>
+                    </span>
+                  ) : (
+                    <span className={style.serviceLink}>
+                      {isCalled ? (
+                        <span style={phoneNumberStyle}>031111151161</span>
+                      ) : (
+                        <span
+                          onClick={handleCallNowClick}
+                          style={buttonStyle}
+                          className="linkBtn"
+                        >
+                          Call Now
+                        </span>
+                      )}
+                    </span>
+                  )}
                   <span className={style.servicesImage}>
                     <Image
                       src={itm.icon}
