@@ -22,7 +22,7 @@ const services = [
   },
   {
     heading: "Lab Tests",
-    text: "Book lab tests and home sampling",
+    text: "Book labs test with free home sampling",
     link: "/labs",
     icon: service3,
   },
