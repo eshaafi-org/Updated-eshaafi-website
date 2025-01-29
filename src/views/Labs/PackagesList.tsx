@@ -36,8 +36,25 @@ export default function PackagesList() {
                 >
                   <span className={style.packageText}>
                     <Text24 className="fw-bold text-dark text-capitalize">
-                      {item.subscriptionName}
+                      {(() => {
+                        let transformedName = item.subscriptionName;
+
+                        transformedName =
+                          transformedName.slice(0, 3).toLowerCase() === "idc"
+                            ? transformedName[0].toUpperCase() +
+                              transformedName.slice(1, 3).toUpperCase() +
+                              transformedName.slice(3)
+                            : transformedName;
+
+                        transformedName =
+                          transformedName.slice(-1) === "B"
+                            ? transformedName.slice(0, -1)
+                            : transformedName;
+
+                        return transformedName;
+                      })()}
                     </Text24>
+
                     <Text16>Includes {item.noOfTests} tests</Text16>
                   </span>
                   <div
