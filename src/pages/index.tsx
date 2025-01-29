@@ -83,7 +83,7 @@ export default function Home() {
           text={`At eShaafi, our mission is to provide continuous care that
               surpasses boundaries and empowers individuals to take control of
               their health. We are committed to delivering accessible, reliable,
-              and compassionate healthcare through cutting-edge telemedicine
+              and compassionate healthcare through cutting-edge digital
               solutions.`}
         />
         <Features />
