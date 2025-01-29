@@ -23,7 +23,7 @@ const Footer: React.FC<FooterProps> = () => {
             <h2 className={"text-primary"}>eShaafi</h2>
             <p className="line-height-1" style={{ fontSize: 14 }}>
               Book video appointment with our in house doctors anytime and
-              receive e-prescription every consultation.
+              receive medical advice every consultation.
             </p>
             <p className="line-height-1 text-dark">
               7th Floor, Business Hub Broadway Commercial,DHA Phase 8, Lahore,

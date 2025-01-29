@@ -16,7 +16,7 @@ export default function About() {
           </p>
           <p className="cardDescription">
             {`  With this noble vision, we forge ahead, crafting a user-friendly
-            telemedicine app that unites patients with doctors – seamlessly, at
+            digital health care App that unites patients with doctors – seamlessly, at
             any moment, and from every corner.`}
           </p>
         </div>

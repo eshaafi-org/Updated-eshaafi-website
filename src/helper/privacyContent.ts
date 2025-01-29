@@ -208,7 +208,7 @@ Your personal information will also be shared with companies, organizations, or 
   {
     heading: "Account Deletion",
     headingText:
-      "You can delete your main as well as other profiles anytime. To do this select profile you want to delete click on the three dot menu at upper right corner and select delete or email us at contact@eshaafi.com All data including medical records, appointment history, e-prescription and personal details will be deleted. If main profile is deleted all other profiles will also be deleted.",
+      "You can delete your main as well as other profiles anytime. To do this select profile you want to delete click on the three dot menu at upper right corner and select delete or email us at contact@eshaafi.com All data including medical records, appointment history, medical advice and personal details will be deleted. If main profile is deleted all other profiles will also be deleted.",
     sub: [
       {
         subHeading: "",
