@@ -20,7 +20,7 @@ export default function AboutUs() {
         <Hero
           img={aboutHero}
           heading="Making Healthcare Accessible to All"
-          text="We bring accessible telemedicine to Pakistan, ensuring your wellness is our constant commitment"
+          text="We bring accessible digital healthcare solutions to Pakistan, ensuring your wellness is our constant commitment"
           link={{ name: "", link: "" }}
         />
         <Stats />
@@ -30,7 +30,7 @@ export default function AboutUs() {
           text={`At eShaafi, our mission is to provide continuous care that
               surpasses boundaries and empowers individuals to take control of
               their health. We are committed to delivering accessible, reliable,
-              and compassionate healthcare through cutting-edge telemedicine
+              and compassionate healthcare through cutting-edge digital healthcare
               solutions.`}
         />
         <About />
@@ -38,7 +38,7 @@ export default function AboutUs() {
         <Mission
           heading={"Our Vision"}
           subHeading={"What Impact we aim to create in healthcare"}
-          text={`At eShaafi, our mission is to provide continuous care that surpasses boundaries and empowers individuals to take control of their health. We are committed to delivering accessible, reliable, and compassionate healthcare through cutting-edge telemedicine solutions. Together, we're revolutionizing healthcare, making it convenient, efficient, and truly patient-centered.`}
+          text={`At eShaafi, our mission is to provide continuous care that surpasses boundaries and empowers individuals to take control of their health. We are committed to delivering accessible, reliable, and compassionate healthcare through cutting-edge digital healthcare solutions. Together, we're revolutionizing healthcare, making it convenient, efficient, and truly patient-centered.`}
         />
         <Gallery />
         <Working />
@@ -47,7 +47,7 @@ export default function AboutUs() {
           heading={"Our Technology"}
           subHeading={"Technology we use in eShaafi"}
           text={
-            "Harnessing cutting-edge technologies, our telemedicine app seamlessly integrates secure video consultation. With intuitive mobile and web access, patients receive personalized care, while healthcare providers make informed decisions, shaping the future of remote medical consultations."
+            "Harnessing cutting-edge technologies, our telehealth App seamlessly integrates secure video consultation. With intuitive mobile and web access, patients receive personalized care, while healthcare providers make informed decisions, shaping the future of remote medical consultations."
           }
         />
         <Tech />
