@@ -23,7 +23,7 @@ const services = [
     icon: service2,
   },
   {
-    heading: "Call Now",
+    heading: "Labs Tests",
     text: "Book lab tests and home sampling",
     link: "/",
     icon: service3,
