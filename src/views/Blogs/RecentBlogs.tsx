@@ -2,11 +2,18 @@ import style from "../../styles/blogs.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 import { MdNavigateNext } from "react-icons/md";
-import ReactMarkdown from "react-markdown";
 
 // recent blog card component
+import ReactMarkdown from "react-markdown";
+
+// Function to strip Markdown syntax
+const stripMarkdown = (text: string) => {
+  // Regular expression to remove markdown symbols (e.g., bold `**`, italics `_`)
+  return text.replace(/[\*\_\~\`\#\+\-\!\[\]\(\)\{\}]+/g, "").slice(0, 60); // Keep it to 60 chars
+};
+
 function BlogCard({ blog }: any) {
-  const truncatedDescription = blog.description.slice(0, 60); // Just truncate without adding "..."
+  const cleanDescription = stripMarkdown(blog.description); // Strip Markdown and truncate
 
   return (
     <Link href={`/blog/${blog.name}`} className={style.recentBlogCard}>
@@ -22,8 +29,8 @@ function BlogCard({ blog }: any) {
       <span className={style.recentBlogContent}>
         <h5 className={style.blogHeading}>{blog.title}</h5>
         <p className={style.blogDescription}>
-          {/* Render plain text for truncated part */}
-          <span>{truncatedDescription}...</span>
+          {/* Pass the clean string with the truncated description */}
+          <ReactMarkdown>{cleanDescription + "..."}</ReactMarkdown>
           <Link href={`/blog/${blog.name}`} className={style.blogLink}>
             Read More
           </Link>
