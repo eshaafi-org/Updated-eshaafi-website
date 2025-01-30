@@ -5,6 +5,8 @@ import { MdNavigateNext } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
 // recent blog card component
 function BlogCard({ blog }: any) {
+  const truncatedDescription = blog.description.slice(0, 60) + "..."; // Truncate description properly
+
   return (
     <Link href={`/blog/${blog.name}`} className={style.recentBlogCard}>
       <span className={style.blogImage}>
@@ -19,7 +21,8 @@ function BlogCard({ blog }: any) {
       <span className={style.recentBlogContent}>
         <h5 className={style.blogHeading}>{blog.title}</h5>
         <p className={style.blogDescription}>
-          {blog.description.slice(0, 60)}...
+          {/* Pass the full string into ReactMarkdown */}
+          <ReactMarkdown>{truncatedDescription}</ReactMarkdown>{" "}
           <Link href={`/blog/${blog.name}`} className={style.blogLink}>
             Read More
           </Link>

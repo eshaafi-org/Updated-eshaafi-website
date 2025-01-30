@@ -244,8 +244,8 @@ export default function Home() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          type: "specialization",
-          search: "General Physician",
+          type: "category",
+          // search: "General Physician",
         }),
       });
       const data = await response.json();

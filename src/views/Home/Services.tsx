@@ -9,13 +9,8 @@ import service5 from "../../../public/images/services5.png";
 import service6 from "../../../public/images/services6.png";
 import style from "../../styles/home.module.scss";
 import { useState } from "react";
+
 const services = [
-  // {
-  //   heading: "Instant Call",
-  //   text: "Book appointment in one click",
-  //   link: "/doctors",
-  //   icon: service1,
-  // },
   {
     heading: "Video Consultation",
     text: "Schedule Call with doctors",
@@ -24,47 +19,41 @@ const services = [
   },
   {
     heading: "Labs Tests",
-    text: "Book labs test with free home sampling",
+    text: "Get Up to 20% Off on Lab Tests with Free Home Sampling!",
     link: "/",
     icon: service3,
   },
-  // {
-  //   heading: "Lab Tests",
-  //   text: "Book lab tests and home sampling",
-  //   link: "/",
-  //   icon: service4,
-  // },
-  // {
-  //   heading: "Pharmacy",
-  //   text: "Receive medicines at your doorstep",
-  //   link: "/",
-  //   icon: service5,
-  // },
-  // {
-  //   heading: "Medical Kit",
-  //   text: "Lorem ipsum dolor sit amet, consectetur ",
-  //   link: "/",
-  //   icon: service6,
-  // },
 ];
+
 export default function Services() {
   const [isCalled, setIsCalled] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCallNowClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevent page reload (if needed)
+    e.preventDefault(); // Prevent page reload
     setIsCalled(true);
   };
+
+  const handleCopyPhoneNumber = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Prevent default behavior
+    const phoneNumber = "03111151161";
+    navigator.clipboard.writeText(phoneNumber).then(() => {
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000); // Reset copy state after 2 seconds
+    });
+  };
+
   const buttonStyle = {
     transition: "opacity 0.3s ease-in-out",
     opacity: isCalled ? 0 : 1,
   };
 
-  // Inline styles for the phone number with smoother transition
   const phoneNumberStyle = {
     opacity: isCalled ? 1 : 0,
-    transform: isCalled ? "translateY(0)" : "translateY(-20px)", // Adds a slight upward movement
-    transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out", // Smooth opacity and movement
+    transform: isCalled ? "translateY(0)" : "translateY(-20px)",
+    transition: "opacity 0.5s ease-in-out, transform 0.5s ease-in-out",
   };
+
   return (
     <section className="w-full bg-white">
       <div className="container">
@@ -75,7 +64,7 @@ export default function Services() {
               <li key={indx} className={style.serviceItm}>
                 <Link
                   href={itm.heading === "Instant Call" ? "/" : itm.link}
-                  className={` ${style.itemCont} ${
+                  className={`${style.itemCont} ${
                     (indx + 1) % 2 ? "bg-blue" : "bg-lite"
                   }`}
                 >
@@ -94,7 +83,16 @@ export default function Services() {
                   ) : (
                     <span className={style.serviceLink}>
                       {isCalled ? (
-                        <span style={phoneNumberStyle}>03111151161</span>
+                        <span style={phoneNumberStyle}>
+                          <>
+                            <button
+                              onClick={handleCopyPhoneNumber}
+                              className="copyBtn linkBtn"
+                            >
+                              {isCopied ? "Copied!" : "03 111 151 161"}
+                            </button>
+                          </>
+                        </span>
                       ) : (
                         <span
                           onClick={handleCallNowClick}
