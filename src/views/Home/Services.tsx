@@ -94,7 +94,7 @@ export default function Services() {
                   ) : (
                     <span className={style.serviceLink}>
                       {isCalled ? (
-                        <span style={phoneNumberStyle}>031111151161</span>
+                        <span style={phoneNumberStyle}>03111151161</span>
                       ) : (
                         <span
                           onClick={handleCallNowClick}
