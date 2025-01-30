@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdNavigateNext } from "react-icons/md";
 import ReactMarkdown from "react-markdown";
+
 // recent blog card component
 function BlogCard({ blog }: any) {
-  const truncatedDescription = blog.description.slice(0, 60) + "..."; // Truncate description properly
+  const truncatedDescription = blog.description.slice(0, 60); // Just truncate without adding "..."
 
   return (
     <Link href={`/blog/${blog.name}`} className={style.recentBlogCard}>
@@ -21,8 +22,8 @@ function BlogCard({ blog }: any) {
       <span className={style.recentBlogContent}>
         <h5 className={style.blogHeading}>{blog.title}</h5>
         <p className={style.blogDescription}>
-          {/* Pass the full string into ReactMarkdown */}
-          <ReactMarkdown>{truncatedDescription}</ReactMarkdown>{" "}
+          {/* Render plain text for truncated part */}
+          <span>{truncatedDescription}...</span>
           <Link href={`/blog/${blog.name}`} className={style.blogLink}>
             Read More
           </Link>
@@ -31,6 +32,7 @@ function BlogCard({ blog }: any) {
     </Link>
   );
 }
+
 // recent blogs section
 export default function RecentBlogs({ recentBlogs }: { recentBlogs: [] }) {
   return (
