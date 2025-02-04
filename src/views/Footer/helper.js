@@ -107,7 +107,7 @@ export const supportsList = [
   },
   {
     icon: secure,
-    text: "Secure online payment ",
+    text: "Secure online payment",
   },
   {
     icon: support,
