@@ -9,9 +9,7 @@ const Stores = () => {
   return (
     <div className={style.storecontainer}>
       <Link
-        href={
-          "https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share"
-        }
+        href={"https://eshaafi.sng.link/D5hwf/jn0r"}
         className={style.downloadlink}
       >
         <Image
@@ -21,7 +19,7 @@ const Stores = () => {
         />
       </Link>
       <Link
-        href="https://apps.apple.com/us/app/eshaafi-health-telemedicine/id6739331112"
+        href="https://eshaafi.sng.link/D5hwf/jn0r"
         className={style.downloadlink}
       >
         <Image
