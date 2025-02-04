@@ -14,7 +14,7 @@ export default function DoctorList({ list }: any) {
     search: "All", // Search query
   });
 
-  const [docType, setDocType] = useState("General Physician"); // Default to General Physician
+  const [docType, setDocType] = useState("General Physician");
 
   const getDoctors = () => {
     // Determine filter type based on the selected search category
@@ -76,6 +76,32 @@ export default function DoctorList({ list }: any) {
           >
             <input type="radio" name="radioEx" />
             <span id="radioOneLabel">General Physician</span>
+          </div>
+          <div
+            className="chip chip-checkbox"
+            aria-labelledby="radioOneLabel"
+            tabIndex={0}
+            role="radio"
+            aria-checked={
+              filters.search === "Skin Specialist" ? "true" : "false"
+            }
+            onClick={() => setFilters({ search: "Skin Specialist" })}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="radioOneLabel">Skin Specialist</span>
+          </div>
+          <div
+            className="chip chip-checkbox"
+            aria-labelledby="radioOneLabel"
+            tabIndex={0}
+            role="radio"
+            aria-checked={
+              filters.search === "Child Specialist" ? "true" : "false"
+            }
+            onClick={() => setFilters({ search: "Child Specialist" })}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="radioOneLabel">Child Specialist</span>
           </div>
         </div>
       </div>
