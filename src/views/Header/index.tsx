@@ -9,6 +9,7 @@ import logo from "./eshaafi-logo.svg";
 import Image from "next/image";
 import { Drawer } from "../../components/Drawer";
 import Button from "@/components/Button";
+
 import {
   FaPhone,
   FaBars,
@@ -36,7 +37,7 @@ import { useRouter } from "next/router";
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component
-const Header: React.FC<HeaderProps> = ({ }) => {
+const Header: React.FC<HeaderProps> = ({}) => {
   const router = useRouter();
   // const uuid = JSON.parse(localStorage.getItem("user"));
   // const [userAuth, setUserAuth] = useState<string | undefined | any>("");
@@ -227,7 +228,7 @@ const Header: React.FC<HeaderProps> = ({ }) => {
                         alt="user-image"
                         width={30}
                         height={30}
-                        style={{ borderRadius: 50, objectFit: 'cover' }}
+                        style={{ borderRadius: 50, objectFit: "cover" }}
                       />
                     )}
                   </Button>
@@ -319,17 +320,17 @@ const Header: React.FC<HeaderProps> = ({ }) => {
                       {
                         icon: <FaPhone style={{ fontSize: "1.5rem" }} />,
                         link: "tel:03111151161",
-                        name: " 03111151161",
+                        name: " 03 111 151 161",
                       },
-                      {
-                        icon: (
-                          <FaWhatsapp
-                            style={{ color: "green", fontSize: "1.5rem" }}
-                          />
-                        ),
-                        link: "https://wa.me/+923044442188",
-                        name: "03044442188",
-                      },
+                      // {
+                      //   icon: (
+                      //     <FaWhatsapp
+                      //       style={{ color: "green", fontSize: "1.5rem" }}
+                      //     />
+                      //   ),
+                      //   link: "https://wa.me/+923044442188",
+                      //   name: "03 044 442 188",
+                      // },
                     ]}
                   />
                 )}
@@ -404,17 +405,17 @@ const Header: React.FC<HeaderProps> = ({ }) => {
                         {
                           icon: <FaPhone style={{ fontSize: "1.5rem" }} />,
                           link: "tel:03111151161",
-                          name: " 03111151161",
+                          name: " 03 111 151 161",
                         },
-                        {
-                          icon: (
-                            <FaWhatsapp
-                              style={{ color: "green", fontSize: "1.5rem" }}
-                            />
-                          ),
-                          link: "https://wa.me/+923044442188",
-                          name: "03044442188",
-                        },
+                        // {
+                        //   icon: (
+                        //     <FaWhatsapp
+                        //       style={{ color: "green", fontSize: "1.5rem" }}
+                        //     />
+                        //   ),
+                        //   link: "https://wa.me/+923044442188",
+                        //   name: "03044442188",
+                        // },
                       ]}
                     />
                   )}
@@ -524,8 +525,9 @@ const Header: React.FC<HeaderProps> = ({ }) => {
                     return (
                       <li
                         key={i.id}
-                        className={`${pathName == i.LinkRoute ? "active" : ""
-                          } py-1 border-bottom`}
+                        className={`${
+                          pathName == i.LinkRoute ? "active" : ""
+                        } py-1 border-bottom`}
                         onClick={handleClose}
                       >
                         <Link
