@@ -20,7 +20,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
-
+import LottieLoading from "@/components/paymentLoading/paymentLoading";
 export default function BookAppointmentPage({
   data,
   appointmentPage,
@@ -43,12 +43,14 @@ export default function BookAppointmentPage({
   ];
 
   const params = useRouter();
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
   const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [paymentUrl, setPaymentUrl] = useState('');
+  const [paymentUrl, setPaymentUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => setShowModal(false);
   const handleModalOpen = () => setShowModal(true);
@@ -130,7 +132,7 @@ export default function BookAppointmentPage({
           });
           return;
         }
-        if (paymentId === "payFast") {
+        if (paymentId === "payPro") {
           handlePayfast();
           return;
         }
@@ -305,19 +307,106 @@ export default function BookAppointmentPage({
   };
 
   //handle Payfast Integration
+  // const handlePayfast = async () => {
+  //   const handshakeId = response.appointmentId;
+
+  //   // const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}:51aec218-feb0-467f-9691-9a5843407db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
+  //   setPaymentUrl("");
+  //   const appointmentData = {
+  //     appointmentId: response.appointmentId,
+  //     patientName: patient.patientName,
+  //     patientId: patient.patientId,
+  //     paymentId: paymentId,
+  //   };
+  //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
+  // };
+
   const handlePayfast = async () => {
-    const handshakeId = response.appointmentId;
-    const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}:51aec218-feb0-467f-9691-9a5843407db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
-    setPaymentUrl(url);
+    // Validate required data
+    if (!response.appointmentId || !activeSlot.id) {
+      toast("Invalid appointment or slot data. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "error",
+      });
+      return;
+    }
+
+    // Set loading state to true
+    setIsPaymentLoading(true);
+
+    // Prepare the payload for the API request
+    const payload = {
+      appointment_id: response.appointmentId, // Use the appointment ID from the response
+      slot_id: activeSlot.id, // Use the selected slot ID
+    };
+
+    console.log("Payload being sent:", payload); // Log the payload
+
+    try {
+      // Make the POST request to the API
+      const res = await axios.post(
+        "https://api.eshaafi.com/new/create-order",
+        payload
+      );
+
+      // Log the API response
+      console.log("API Response:", res.data);
+
+      // Handle the API response
+      if (res.data && res.data.response && res.data.response.click2pay_url) {
+        // If the request is successful, set the payment URL
+        setPaymentUrl(res.data.response.click2pay_url); // Use the click2pay_url from the response
+      } else {
+        // Handle API errors or unsuccessful responses
+        toast("Failed to create payment order. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      // Log the error
+      console.error("Error creating payment order:", error);
+
+      // Handle network or server errors
+      toast("An error occurred while creating the payment order.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "error",
+      });
+    } finally {
+      // Reset loading state
+      setIsPaymentLoading(false);
+    }
+
+    // Save appointment data to localStorage
     const appointmentData = {
       appointmentId: response.appointmentId,
       patientName: patient.patientName,
       patientId: patient.patientId,
       paymentId: paymentId,
     };
-    localStorage.setItem('appointmentData', JSON.stringify(appointmentData));
+    localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
   };
-
   // Redirect to payment URL once it's set
   useEffect(() => {
     if (paymentUrl) {
@@ -406,7 +495,7 @@ export default function BookAppointmentPage({
       setAppointDate(data.Items[0].slot_date);
     }
   }, [data]);
-
+  console.log(isPaymentLoading, "iytfgo8qwegcfhsdftg73");
   return (
     <section className="container">
       {!success ? (
@@ -502,18 +591,25 @@ export default function BookAppointmentPage({
           </Link>
         </div>
       )}
+      {isPaymentLoading ? (
+        // Show loading spinner or message
+        <div className="fullscreen-overlay d-flex justify-content-center align-items-center">
+          <LottieLoading transactionAmount="500" orderId="PLN-PYAN-5273" />
+        </div>
+      ) : paymentUrl ? (
+        // Show iframe once payment URL is available
+        <iframe
+          src={paymentUrl}
+          style={{ width: "100%", height: "500px" }}
+          frameBorder="0"
+        />
+      ) : null}
       <ToastContainer />
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Payment Gateway</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <iframe
-            src={paymentUrl}
-            style={{ width: '100%', height: '500px' }}
-            frameBorder="0"
-          />
-        </Modal.Body>
+        <Modal.Body></Modal.Body>
       </Modal>
     </section>
   );
