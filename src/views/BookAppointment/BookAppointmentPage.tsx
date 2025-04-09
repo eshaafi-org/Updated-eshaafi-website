@@ -341,48 +341,39 @@ export default function BookAppointmentPage({
     // Set loading state to true
     setIsPaymentLoading(true);
 
-    // Prepare the payload for the API request
-    const payload = {
-      appointment_id: response.appointmentId, // Use the appointment ID from the response
-      slot_id: activeSlot.id, // Use the selected slot ID
-    };
-
-    console.log("Payload being sent:", payload); // Log the payload
-
     try {
+      // Prepare the payload for the API request
+      const payload = {
+        appointment_id: response.appointmentId,
+        slot_id: activeSlot.id,
+      };
+
       // Make the POST request to the API
       const res = await axios.post(
         "https://api.eshaafi.com/new/create-order",
         payload
       );
+      console.log(res.data);
+      if (res.data?.response?.click2pay_url) {
+        // Save payment session data to localStorage
+        localStorage.setItem(
+          "paymentSession",
+          JSON.stringify({
+            appointmentId: response.appointmentId,
+            activeSlotId: activeSlot.id,
+            timestamp: activeSlot.time,
+            appointDate: appointDate,
+          })
+        );
 
-      // Log the API response
-      console.log("API Response:", res.data);
-
-      // Handle the API response
-      if (res.data && res.data.response && res.data.response.click2pay_url) {
-        // If the request is successful, set the payment URL
-        setPaymentUrl(res.data.response.click2pay_url); // Use the click2pay_url from the response
+        // Redirect to payment page
+        window.location.href = `${res.data.response.click2pay_url}&callback_url=https://beta.eshaafi.com`;
       } else {
-        // Handle API errors or unsuccessful responses
-        toast("Failed to create payment order. Please try again.", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          type: "error",
-        });
+        throw new Error("Payment URL not received");
       }
     } catch (error) {
-      // Log the error
-      console.error("Error creating payment order:", error);
-
-      // Handle network or server errors
-      toast("An error occurred while creating the payment order.", {
+      console.error("Payment initiation failed:", error);
+      toast("Failed to initiate payment. Please try again.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -394,20 +385,9 @@ export default function BookAppointmentPage({
         type: "error",
       });
     } finally {
-      // Reset loading state
       setIsPaymentLoading(false);
     }
-
-    // Save appointment data to localStorage
-    const appointmentData = {
-      appointmentId: response.appointmentId,
-      patientName: patient.patientName,
-      patientId: patient.patientId,
-      paymentId: paymentId,
-    };
-    localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
   };
-  // Redirect to payment URL once it's set
   useEffect(() => {
     if (paymentUrl) {
       window.location.href = paymentUrl;
@@ -594,7 +574,7 @@ export default function BookAppointmentPage({
       {isPaymentLoading ? (
         // Show loading spinner or message
         <div className="fullscreen-overlay d-flex justify-content-center align-items-center">
-          <LottieLoading transactionAmount="500" orderId="PLN-PYAN-5273" />
+          <LottieLoading />
         </div>
       ) : paymentUrl ? (
         // Show iframe once payment URL is available
