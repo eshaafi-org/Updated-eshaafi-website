@@ -367,7 +367,7 @@ export default function BookAppointmentPage({
         );
 
         // Redirect to payment page
-        window.location.href = `${res.data.response.click2pay_url}&callback_url=https://beta.eshaafi.com`;
+        window.location.href = `${res.data.response.click2pay_url}&callback_url=https://beta.eshaafi.com/payment-order/`;
       } else {
         throw new Error("Payment URL not received");
       }
