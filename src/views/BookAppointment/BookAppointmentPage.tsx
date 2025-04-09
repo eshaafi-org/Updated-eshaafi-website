@@ -20,7 +20,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
-
+import LottieLoading from "@/components/paymentLoading/paymentLoading";
 export default function BookAppointmentPage({
   data,
   appointmentPage,
@@ -43,12 +43,14 @@ export default function BookAppointmentPage({
   ];
 
   const params = useRouter();
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
   const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [paymentUrl, setPaymentUrl] = useState('');
+  const [paymentUrl, setPaymentUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => setShowModal(false);
   const handleModalOpen = () => setShowModal(true);
@@ -130,7 +132,7 @@ export default function BookAppointmentPage({
           });
           return;
         }
-        if (paymentId === "payFast") {
+        if (paymentId === "payPro") {
           handlePayfast();
           return;
         }
@@ -305,20 +307,87 @@ export default function BookAppointmentPage({
   };
 
   //handle Payfast Integration
-  const handlePayfast = async () => {
-    const handshakeId = response.appointmentId;
-    const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}:51aec218-feb0-467f-9691-9a5843407db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
-    setPaymentUrl(url);
-    const appointmentData = {
-      appointmentId: response.appointmentId,
-      patientName: patient.patientName,
-      patientId: patient.patientId,
-      paymentId: paymentId,
-    };
-    localStorage.setItem('appointmentData', JSON.stringify(appointmentData));
-  };
+  // const handlePayfast = async () => {
+  //   const handshakeId = response.appointmentId;
 
-  // Redirect to payment URL once it's set
+  //   // const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}:51aec218-feb0-467f-9691-9a5843407db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
+  //   setPaymentUrl("");
+  //   const appointmentData = {
+  //     appointmentId: response.appointmentId,
+  //     patientName: patient.patientName,
+  //     patientId: patient.patientId,
+  //     paymentId: paymentId,
+  //   };
+  //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
+  // };
+
+  const handlePayfast = async () => {
+    // Validate required data
+    if (!response.appointmentId || !activeSlot.id) {
+      toast("Invalid appointment or slot data. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "error",
+      });
+      return;
+    }
+
+    // Set loading state to true
+    setIsPaymentLoading(true);
+
+    try {
+      // Prepare the payload for the API request
+      const payload = {
+        appointment_id: response.appointmentId,
+        slot_id: activeSlot.id,
+      };
+
+      // Make the POST request to the API
+      const res = await axios.post(
+        "https://api.eshaafi.com/new/create-order",
+        payload
+      );
+      console.log(res.data);
+      if (res.data?.response?.click2pay_url) {
+        // Save payment session data to localStorage
+        localStorage.setItem(
+          "paymentSession",
+          JSON.stringify({
+            appointmentId: response.appointmentId,
+            activeSlotId: activeSlot.id,
+            timestamp: activeSlot.time,
+            appointDate: appointDate,
+          })
+        );
+
+        // Redirect to payment page
+        window.location.href = `${res.data.response.click2pay_url}&callback_url=https://beta.eshaafi.com`;
+      } else {
+        throw new Error("Payment URL not received");
+      }
+    } catch (error) {
+      console.error("Payment initiation failed:", error);
+      toast("Failed to initiate payment. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "error",
+      });
+    } finally {
+      setIsPaymentLoading(false);
+    }
+  };
   useEffect(() => {
     if (paymentUrl) {
       window.location.href = paymentUrl;
@@ -406,7 +475,7 @@ export default function BookAppointmentPage({
       setAppointDate(data.Items[0].slot_date);
     }
   }, [data]);
-
+  console.log(isPaymentLoading, "iytfgo8qwegcfhsdftg73");
   return (
     <section className="container">
       {!success ? (
@@ -502,18 +571,25 @@ export default function BookAppointmentPage({
           </Link>
         </div>
       )}
+      {isPaymentLoading ? (
+        // Show loading spinner or message
+        <div className="fullscreen-overlay d-flex justify-content-center align-items-center">
+          <LottieLoading />
+        </div>
+      ) : paymentUrl ? (
+        // Show iframe once payment URL is available
+        <iframe
+          src={paymentUrl}
+          style={{ width: "100%", height: "500px" }}
+          frameBorder="0"
+        />
+      ) : null}
       <ToastContainer />
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Payment Gateway</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <iframe
-            src={paymentUrl}
-            style={{ width: '100%', height: '500px' }}
-            frameBorder="0"
-          />
-        </Modal.Body>
+        <Modal.Body></Modal.Body>
       </Modal>
     </section>
   );

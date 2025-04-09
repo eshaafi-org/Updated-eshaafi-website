@@ -175,7 +175,7 @@ export default function PaymentMethod({
                     setSelectedPaymentMethod("wallet");
                   } else {
                     setPaymentId("");
-                    setSelectedPaymentMethod('');
+                    setSelectedPaymentMethod("");
                   }
                 }}
                 disabled={response.wallet === 0}
@@ -230,27 +230,24 @@ export default function PaymentMethod({
             >
               <input
                 type="radio"
-                id="payFast"
+                id="payPro"
                 name="paymentId"
-              // style={{ width: "24px", height: "24px" }}
+                // style={{ width: "24px", height: "24px" }}
                 checked={selectedPaymentMethod === "payFast"}
                 onChange={() => {
                   if (wallet) {
                     setStates({ type: "WALLET" });
-                    setPaymentId("payFast");
-                    setSelectedPaymentMethod("payFast");
-                    setMethod("payFast");
+                    setPaymentId("payPro");
+                    setSelectedPaymentMethod("payPro");
+                    setMethod("payPro");
                   } else {
                     setSelectedPaymentMethod("payFast");
-                    setPaymentId("payFast");
-                    setMethod("payFast");
+                    setPaymentId("payPro");
+                    setMethod("payPro");
                   }
                 }}
               />
-              <label
-                htmlFor="payFast"
-                className={styles.paymentMethodLabel}
-              >
+              <label htmlFor="payPro" className={styles.paymentMethodLabel}>
                 JazzCash / EasyPaisa / Debit Card
               </label>
             </li>
