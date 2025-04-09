@@ -31,16 +31,14 @@ export default function Index() {
       if (!ordId || !status) {
         console.log("Invalid payment parameters");
         setPaymentStatus("error");
-        setLoading(false);
-        return;
+        return; // no setLoading(false) here
       }
 
       const session = localStorage.getItem("paymentSession");
       if (!session) {
         console.error("No payment session found in localStorage");
         setPaymentStatus("error");
-        setLoading(false);
-        return;
+        return; // no setLoading(false) here
       }
 
       const parsedSession = JSON.parse(session);
@@ -63,7 +61,6 @@ export default function Index() {
         const result = await response.json();
         console.log("API Response:", result);
 
-        // Check both: URL status & API response
         if (
           status === "Success" &&
           result?.message === "Success" &&
@@ -78,7 +75,7 @@ export default function Index() {
         setPaymentStatus("error");
       }
 
-      setLoading(false);
+      setLoading(false); // ✅ final place after all checks
     };
 
     verifyPayment();
@@ -144,7 +141,7 @@ export default function Index() {
               <Stores />
             </div>
             <p className={styles["payment-note"]}>
-              or for more info see
+              or for more info see{" "}
               <Link href="/" className={styles["payment-link"]}>
                 Appointment Detail
               </Link>
