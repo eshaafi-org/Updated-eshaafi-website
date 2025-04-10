@@ -320,10 +320,21 @@ export default function BookAppointmentPage({
   //   };
   //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
   // };
+  const handlePopState = () => {
+    setIsPaymentLoading(false); // Loader ko band kar do
+  };
+  useEffect(() => {
+    window.addEventListener("popstate", handlePopState);
+
+    // Component unmount hone pe listener hatao
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
   const handlePayfast = async () => {
     // Validate required data
     if (!response.appointmentId || !activeSlot.id) {
-      toast("Invalid appointment or slot data. Please try again.", {
+      toast("A transaction against this slot_id already exists", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
