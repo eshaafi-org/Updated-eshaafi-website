@@ -320,16 +320,15 @@ export default function BookAppointmentPage({
   //   };
   //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
   // };
-  const handlePopState = () => {
-    setIsPaymentLoading(false); // Loader ko band kar do
-  };
   useEffect(() => {
-    window.addEventListener("popstate", handlePopState);
-
-    // Component unmount hone pe listener hatao
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        setIsPaymentLoading(false);
+      }
     };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
   }, []);
   const handlePayfast = async () => {
     // Validate required data
