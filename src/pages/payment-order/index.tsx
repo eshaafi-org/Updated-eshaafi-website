@@ -8,6 +8,7 @@ import Link from "next/link";
 import Animation from "../../../public/images/Animation.json";
 import Animation1 from "../../../public/images/Animation1.json";
 import dynamic from "next/dynamic";
+import { BASE_URL } from "@/helper/CONST";
 
 const LottieAnimation = dynamic(
   () => import("@/components/Animation/LottieAnimation"),
@@ -29,14 +30,13 @@ export default function Index() {
       const ordId = searchParams.get("ordId");
 
       if (!ordId || !status) {
-        console.log("Invalid payment parameters");
         setPaymentStatus("error");
         return; // no setLoading(false) here
       }
 
       const session = localStorage.getItem("paymentSession");
       if (!session) {
-        console.error("No payment session found in localStorage");
+        // console.error("No payment session found in localStorage");
         setPaymentStatus("error");
         return; // no setLoading(false) here
       }
@@ -50,7 +50,7 @@ export default function Index() {
       };
 
       try {
-        const response = await fetch("https://api.eshaafi.com/new/pay-order", {
+        const response = await fetch(`${BASE_URL}/new/pay-order`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function Index() {
         });
 
         const result = await response.json();
-        console.log("API Response:", result);
+        // console.log("API Response:", result);
 
         if (
           status === "Success" &&
@@ -71,7 +71,7 @@ export default function Index() {
           setPaymentStatus("error");
         }
       } catch (err) {
-        console.error("Error during payment verification", err);
+        // console.error("Error during payment verification", err);
         setPaymentStatus("error");
       }
 

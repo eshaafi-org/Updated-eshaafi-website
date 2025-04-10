@@ -8,7 +8,7 @@ import Summary from "./Summary";
 import { useRouter } from "next/router";
 import PaymentMethod from "./Payment";
 import axios from "axios";
-import { BASE_URL, headers } from "@/helper/CONST";
+import { BASE_URL, CALLBACK_URL, headers } from "@/helper/CONST";
 import successGif from "../../../public/images/success.gif";
 import Image from "next/image";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
@@ -21,6 +21,7 @@ import Button from "@/components/Button";
 import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
 import LottieLoading from "@/components/paymentLoading/paymentLoading";
+
 export default function BookAppointmentPage({
   data,
   appointmentPage,
@@ -44,13 +45,12 @@ export default function BookAppointmentPage({
 
   const params = useRouter();
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
-
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
   const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [paymentUrl, setPaymentUrl] = useState("");
+  // const [paymentUrl, setPaymentUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => setShowModal(false);
   const handleModalOpen = () => setShowModal(true);
@@ -306,7 +306,7 @@ export default function BookAppointmentPage({
     }
   };
 
-  //handle Payfast Integration
+  // handle Payfast Integration
   // const handlePayfast = async () => {
   //   const handshakeId = response.appointmentId;
 
@@ -320,7 +320,6 @@ export default function BookAppointmentPage({
   //   };
   //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
   // };
-
   const handlePayfast = async () => {
     // Validate required data
     if (!response.appointmentId || !activeSlot.id) {
@@ -349,11 +348,8 @@ export default function BookAppointmentPage({
       };
 
       // Make the POST request to the API
-      const res = await axios.post(
-        "https://api.eshaafi.com/new/create-order",
-        payload
-      );
-      console.log(res.data);
+      const res = await axios.post(`${BASE_URL}/new/create-order`, payload);
+
       if (res.data?.response?.click2pay_url) {
         // Save payment session data to localStorage
         localStorage.setItem(
@@ -366,13 +362,13 @@ export default function BookAppointmentPage({
           })
         );
 
-        // Redirect to payment page
-        window.location.href = `${res.data.response.click2pay_url}&callback_url=https://beta.eshaafi.com/payment-order/`;
+        // Redirect to payment page while keeping loader active until navigation
+        window.location.href = `${res.data.response.click2pay_url}&callback_url=${CALLBACK_URL}`;
       } else {
         throw new Error("Payment URL not received");
       }
     } catch (error) {
-      console.error("Payment initiation failed:", error);
+      // console.error("Payment initiation failed:", error);
       toast("Failed to initiate payment. Please try again.", {
         position: "top-right",
         autoClose: 3000,
@@ -384,15 +380,15 @@ export default function BookAppointmentPage({
         theme: "light",
         type: "error",
       });
-    } finally {
-      setIsPaymentLoading(false);
+      setIsPaymentLoading(false); // Only set to false on error
     }
+    // Note: We don't set isPaymentLoading to false on success because the page will redirect
   };
-  useEffect(() => {
-    if (paymentUrl) {
-      window.location.href = paymentUrl;
-    }
-  }, [paymentUrl]);
+  // useEffect(() => {
+  //   if (paymentUrl) {
+  //     window.location.href = paymentUrl;
+  //   }
+  // }, [paymentUrl]);
 
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
@@ -475,7 +471,7 @@ export default function BookAppointmentPage({
       setAppointDate(data.Items[0].slot_date);
     }
   }, [data]);
-  console.log(isPaymentLoading, "iytfgo8qwegcfhsdftg73");
+
   return (
     <section className="container">
       {!success ? (
@@ -571,19 +567,19 @@ export default function BookAppointmentPage({
           </Link>
         </div>
       )}
-      {isPaymentLoading ? (
-        // Show loading spinner or message
+      {isPaymentLoading && (
         <div className="fullscreen-overlay d-flex justify-content-center align-items-center">
           <LottieLoading />
         </div>
-      ) : paymentUrl ? (
+      )}
+      {/* ) : paymentUrl ? (
         // Show iframe once payment URL is available
         <iframe
           src={paymentUrl}
           style={{ width: "100%", height: "500px" }}
           frameBorder="0"
         />
-      ) : null}
+      ) : null} */}
       <ToastContainer />
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
