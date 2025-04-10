@@ -98,9 +98,8 @@ export default function Index() {
               {sessionData?.appointDate
                 ? moment(sessionData.appointDate).format("dddd DD, MMM")
                 : "No date available"}{" "}
-              |{" "}
               {sessionData?.timestamp
-                ? moment(sessionData.timestamp).format("h:mm A")
+                ? moment(sessionData.timestamp, "HH:mm").format("h:mm A")
                 : "-"}
             </p>
             <p className={styles["payment-note"]}>
@@ -131,8 +130,8 @@ export default function Index() {
                 : "Tuesday 12th"}
               |{" "}
               {sessionData?.timestamp
-                ? moment(sessionData.timestamp).format("h:mm A")
-                : "10:30am"}
+                ? moment(sessionData.timestamp, "HH:mm").format("h:mm A")
+                : "-"}
             </p>
             <p className={styles["payment-note"]}>
               To Attend Consultation Download the eShaafi App
