@@ -133,8 +133,9 @@
   li {
     .benefitItemCont {
       display: grid;
-      grid-template-columns: repeat(2, auto);
+      grid-template-columns: auto 1fr;
       column-gap: 0.5rem;
+      align-items: start;
       svg {
         font-size: 20px;
         color: #0e5487;
