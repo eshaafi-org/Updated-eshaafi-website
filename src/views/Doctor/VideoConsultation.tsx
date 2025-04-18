@@ -25,7 +25,7 @@ const benifits = [
   },
   {
     heading: "Receive Medical Advise ",
-    text: "Embace the future and medical advise after every appointment. No more having a hard time understanding your prescription",
+    text: "Embrace the future and receive medical advice after every appointment. No more struggling to understand your prescription.",
   },
 ];
 export default function BenefitsOfVideoConsultation() {
