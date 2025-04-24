@@ -90,7 +90,7 @@ export default function DoctorList({ list }: any) {
             <input type="radio" name="radioEx" />
             <span id="radioOneLabel">Skin Specialist</span>
           </div>
-          <div
+          {/* <div
             className="chip chip-checkbox"
             aria-labelledby="radioOneLabel"
             tabIndex={0}
@@ -102,7 +102,7 @@ export default function DoctorList({ list }: any) {
           >
             <input type="radio" name="radioEx" />
             <span id="radioOneLabel">Child Specialist</span>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -214,7 +214,7 @@ export default function DoctorList({ list }: any) {
                 All Doctors
               </option>
               <option value="General Physician">General Physician</option>
-              <option value="Child Specialist">Child Specialist</option>
+              {/* <option value="Child Specialist">Child Specialist</option> */}
               <option value="Skin Specialist">Skin Specialist</option>
               {/* Add more specializations as needed */}
             </select>
