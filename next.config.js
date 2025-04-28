@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true,
     domains: [
       "d3lf92qdmyc9ip.cloudfront.net",
       "d2jq593czhrhl9.cloudfront.net",
