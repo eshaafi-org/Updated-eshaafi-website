@@ -1,6 +1,6 @@
 import { MdOutlineDoneAll } from "react-icons/md";
 import Image from "next/image";
-import working from "../../../public/images/working.png";
+import working from "/public/images/working.png";
 
 import style from "../../styles/home.module.scss";
 import Stores from "./Stores";
