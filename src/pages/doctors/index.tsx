@@ -6,8 +6,13 @@ import DoctorList from "@/views/Doctor/DoctorsList";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import GetApp from "@/views/Home/GetApp";
+import { useState } from "react";
 // Renders the DoctorList, BenefitsOfVideoConsultation, and FQuest components
 export default function Doctors({ doctors }: any) {
+  const [videoCharges, setVideoCharges] = useState(
+    doctors.length > 0 ? doctors[0].videoCallCharges : 499
+  );
+
   return (
     <>
       <Head>
@@ -17,8 +22,8 @@ export default function Doctors({ doctors }: any) {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main>
-        <DoctorList list={doctors} />
-        <BenefitsOfVideoConsultation />
+        <DoctorList list={doctors} onChargesUpdate={setVideoCharges} />
+        <BenefitsOfVideoConsultation videoCharges={videoCharges} />
         <FQuest />
         <GetApp color="#DFEAF2" />
       </main>

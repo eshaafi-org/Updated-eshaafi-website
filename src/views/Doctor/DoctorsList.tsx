@@ -8,12 +8,16 @@ import Image from "next/image";
 import { BASE_URL } from "@/helper/CONST";
 import axios from "axios";
 
-export default function DoctorList({ list }: any) {
+export default function DoctorList({ list, onChargesUpdate }: any) {
   const [docListing, setDocListing] = useState(list);
   const [filters, setFilters] = useState({
     search: "All", // Search query
   });
-
+  useEffect(() => {
+    if (docListing.length > 0) {
+      onChargesUpdate(docListing[0].videoCallCharges);
+    }
+  }, [docListing, onChargesUpdate]);
   const [docType, setDocType] = useState("General Physician");
 
   const getDoctors = () => {
