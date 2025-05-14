@@ -8,7 +8,7 @@ import Summary from "./Summary";
 import { useRouter } from "next/router";
 import PaymentMethod from "./Payment";
 import axios from "axios";
-import { BASE_URL, CALLBACK_URL, headers } from "@/helper/CONST";
+import { BASE_URL, headers } from "@/helper/CONST";
 import successGif from "../../../public/images/success.gif";
 import Image from "next/image";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
@@ -20,7 +20,6 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
-import LottieLoading from "@/components/paymentLoading/paymentLoading";
 
 export default function BookAppointmentPage({
   data,
@@ -44,13 +43,12 @@ export default function BookAppointmentPage({
   ];
 
   const params = useRouter();
-  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
   const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  // const [paymentUrl, setPaymentUrl] = useState("");
+  const [paymentUrl, setPaymentUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => setShowModal(false);
   const handleModalOpen = () => setShowModal(true);
@@ -306,12 +304,11 @@ export default function BookAppointmentPage({
     }
   };
 
-  // handle Payfast Integration
+  //handle Payfast Integration
   // const handlePayfast = async () => {
   //   const handshakeId = response.appointmentId;
-
-  //   // const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}:51aec218-feb0-467f-9691-9a5843407db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
-  //   setPaymentUrl("");
+  //   const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}:51aec218-feb0-467f-9691-9a5843407db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
+  //   setPaymentUrl(url);
   //   const appointmentData = {
   //     appointmentId: response.appointmentId,
   //     patientName: patient.patientName,
@@ -320,85 +317,25 @@ export default function BookAppointmentPage({
   //   };
   //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
   // };
-  useEffect(() => {
-    const handlePageShow = (event: PageTransitionEvent) => {
-      if (event.persisted) {
-        setIsPaymentLoading(false);
-      }
-    };
 
-    window.addEventListener("pageshow", handlePageShow);
-    return () => window.removeEventListener("pageshow", handlePageShow);
-  }, []);
   const handlePayfast = async () => {
-    // Validate required data
-    if (!response.appointmentId || !activeSlot.id) {
-      toast("A transaction against this slot_id already exists", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        type: "error",
-      });
-      return;
-    }
-
-    // Set loading state to true
-    setIsPaymentLoading(true);
-
-    try {
-      // Prepare the payload for the API request
-      const payload = {
-        appointment_id: response.appointmentId,
-        slot_id: activeSlot.id,
-      };
-
-      // Make the POST request to the API
-      const res = await axios.post(`${BASE_URL}/new/create-order`, payload);
-
-      if (res.data?.response?.click2pay_url) {
-        // Save payment session data to localStorage
-        localStorage.setItem(
-          "paymentSession",
-          JSON.stringify({
-            appointmentId: response.appointmentId,
-            activeSlotId: activeSlot.id,
-            timestamp: activeSlot.time,
-            appointDate: appointDate,
-          })
-        );
-
-        // Redirect to payment page while keeping loader active until navigation
-        window.location.href = `${res.data.response.click2pay_url}&callback_url=${CALLBACK_URL}`;
-      } else {
-        throw new Error("Payment URL not received");
-      }
-    } catch (error) {
-      // console.error("Payment initiation failed:", error);
-      toast("Failed to initiate payment. Please try again.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        type: "error",
-      });
-      setIsPaymentLoading(false); // Only set to false on error
-    }
-    // Note: We don't set isPaymentLoading to false on success because the page will redirect
+    const handshakeId = response.appointmentId;
+    const url = `https://beta-pay.eshaafi.com/?appointment_id=${response.appointmentId}&slot_id=${activeSlot.id}`;
+    setPaymentUrl(url);
+    const appointmentData = {
+      appointmentId: response.appointmentId,
+      patientName: patient.patientName,
+      patientId: patient.patientId,
+      paymentId: paymentId,
+    };
+    localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
   };
-  // useEffect(() => {
-  //   if (paymentUrl) {
-  //     window.location.href = paymentUrl;
-  //   }
-  // }, [paymentUrl]);
+  // Redirect to payment URL once it's set
+  useEffect(() => {
+    if (paymentUrl) {
+      window.location.href = paymentUrl;
+    }
+  }, [paymentUrl]);
 
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
@@ -577,25 +514,18 @@ export default function BookAppointmentPage({
           </Link>
         </div>
       )}
-      {isPaymentLoading && (
-        <div className="fullscreen-overlay d-flex justify-content-center align-items-center">
-          <LottieLoading />
-        </div>
-      )}
-      {/* ) : paymentUrl ? (
-        // Show iframe once payment URL is available
-        <iframe
-          src={paymentUrl}
-          style={{ width: "100%", height: "500px" }}
-          frameBorder="0"
-        />
-      ) : null} */}
       <ToastContainer />
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Payment Gateway</Modal.Title>
         </Modal.Header>
-        <Modal.Body></Modal.Body>
+        <Modal.Body>
+          <iframe
+            src={paymentUrl}
+            style={{ width: "100%", height: "500px" }}
+            frameBorder="0"
+          />
+        </Modal.Body>
       </Modal>
     </section>
   );
