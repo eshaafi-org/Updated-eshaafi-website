@@ -1,11 +1,8 @@
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
-import RecentBlogs from "@/views/Blogs/RecentBlogs";
-import FeaturedBlogs from "@/views/Blogs/FeaturedBlog";
-import style from "../../styles/blogs.module.scss";
-import AddressBar from "@/components/AddressBar";
-import Categories from "@/views/Blogs/Categories";
-import GetApp from "@/views/Home/GetApp";
+import RecentBlogs from "../healthlibrary/recentblog";
+import HealthTopics from "../healthlibrary/healthtopic";
+import styles from "../../styles/healthlibrary.module.scss";
 // async function generateStaticParams() {
 //   const res = await fetch(BASE_URL + "/new/users/blogs", {
 //     cache: "force-cache",
@@ -33,18 +30,22 @@ export default function Blogs({ recentBlogs, categories }: any) {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main>
-        <section className="container">
-          <div className="d-flex items-start col-gap-1 position-relative flex-column w-100 row-gap-2 sm-row-gap-1">
-            <span>
-              <h2>Blogs</h2>
-              <AddressBar links={links} />
-            </span>
-            <FeaturedBlogs featuredBlogs={recentBlogs} />
-            <RecentBlogs recentBlogs={recentBlogs} />
-            <Categories categories={categories} />
+        <section className={styles.wellbeingSection}>
+          <div className={styles.overlay}></div>
+          <div className={styles.content}>
+            <h2>Explore tips to care for your body, mind and everyday wellbeing</h2>
+            <div className={styles.searchBar}>
+              <input
+                type="text"
+                placeholder="Search blogs..."
+                className={styles.input}
+              />
+            </div>
           </div>
         </section>
-        <GetApp color="#DFEAF2" />
+
+        <RecentBlogs recentBlogs={recentBlogs} />
+        <HealthTopics categories={categories} />
       </main>
     </>
   );

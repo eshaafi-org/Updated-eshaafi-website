@@ -4,7 +4,8 @@ import Link from "next/link";
 import styles from "./Footer.module.scss";
 import Image from "next/image";
 import downloadButton from "../../../public/images/download-badge-google-play-badge.svg";
-
+import { Text14 } from "@/components/Typography";
+import Stores from "../Home/Stores";
 // links
 
 // Define the props type for the Footer component
@@ -20,11 +21,11 @@ const Footer: React.FC<FooterProps> = () => {
             className={styles.intro + " " + "d-flex row-gap-0-5 flex-column"}
           >
             <h2 className={"text-primary"}>eShaafi</h2>
-            <p className="line-height-1">
+            <p className="line-height-1" style={{ fontSize: 14 }}>
               Book video appointment with our in house doctors anytime and
-              receive e-prescription every consultation.
+              receive medical advice with every consultation.
             </p>
-            <p className="line-height-1 text-dark">
+            <p className="line-height-1  text-dark">
               7th Floor, Business Hub Broadway Commercial,DHA Phase 8, Lahore,
               54792 <br />
               Availability: 24/7
@@ -53,7 +54,11 @@ const Footer: React.FC<FooterProps> = () => {
               <h4>{item.heading}</h4>
               {item.links.map((link, indx) => (
                 <li key={indx}>
-                  <Link href={link.href} className="text-main">
+                  <Link
+                    href={link.href}
+                    className="text-main"
+                    style={{ fontSize: 14 }}
+                  >
                     {link.name}
                   </Link>
                 </li>
@@ -62,13 +67,9 @@ const Footer: React.FC<FooterProps> = () => {
           ))}
           <div className={`d-flex flex-column row-gap-1 ${styles.downloads}`}>
             <h4>Download App</h4>
-            <Link href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share">
-              <Image
-                src={downloadButton}
-                className={styles.downloadImage}
-                alt="eshaafi-app-download"
-              />
-            </Link>
+            <div>
+              <Stores />
+            </div>
           </div>
         </div>
         <ul

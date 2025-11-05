@@ -71,13 +71,11 @@ export default function MedicalRecord() {
         );
       })
       .catch((err) => console.log(err));
-    // setRecords((prev: any) =>
-    //   prev.filter((item: any) => item?.appointmentId !== id)
-    // );
   };
   useEffect(() => {
     getMedicalRecords();
   }, [patient]);
+
   return (
     <>
       <Head>
@@ -93,7 +91,7 @@ export default function MedicalRecord() {
               <PageHeading>Medical Records</PageHeading>
               <AddressBar links={links} />
             </div>
-            <Profiles patient={patient} setPatient={setPatient} />
+            <Profiles patient={patient} setPatient={setPatient} styling={""} />
             <AddRecords
               patient={patient}
               getMedicalRecords={getMedicalRecords}

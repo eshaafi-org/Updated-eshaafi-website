@@ -1,0 +1,1074 @@
+@import "./mixin.scss";
+
+// ===== DOCTORS SECTION =====
+.doctorsSection {
+  width: 100%;
+  padding: 9.5rem 2rem 4rem 2rem;
+  background-color: #fff;
+
+  @include tablet-large-and-below {
+    padding: 4rem 1.5rem 3rem 1.5rem;
+  }
+
+  @include mobile-landscape-and-below {
+    padding: 3rem 1rem 2rem 1rem;
+  }
+}
+
+.doctorsWrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #595A5A;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  letter-spacing: -0.8px;
+  margin: 0;
+  line-height: 1.3;
+   margin-bottom: 2.5rem; 
+
+  @include tablet-large-and-below {
+    font-size: 2.2rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 1.6rem;
+  }
+}
+
+.highlightBlue {
+  color: #1c6ba4;
+  font-weight: 700;
+}
+
+.specialtyFilters {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-bottom: 4.5rem;
+  flex-wrap: wrap;
+
+  @include tablet-large-and-below {
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  @include mobile-landscape-and-below {
+    gap: 0.7rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+.filterButton {
+  padding: 0.65rem 1.3rem;
+  // border: 1px solid #d0d0d0;
+  border: none;
+  border-radius: 14px;
+  background-color: #f2f2f2;
+  // color: #555555;
+  color: rgba(85, 85, 85, 0.9);
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: #1c6ba4;
+    background-color: #e8f2f8;
+    color: #333;
+  }
+
+  &.active {
+    background-color: #0e5487;
+    color: #fff;
+    border-color: #0e5487;
+  }
+
+  @include tablet-large-and-below {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  @include mobile-landscape-and-below {
+    padding: 0.55rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+.doctorsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  margin-bottom: 0;
+
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @include mobile-landscape-and-below {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+// ===== DOCTOR CARD =====
+.doctorCard {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.8rem;
+  width: 95%;
+  max-width: 570px;
+  margin: 0 auto;
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+  }
+
+  @include tablet-large-and-below {
+    padding: 1.3rem;
+    gap: 0.6rem;
+    max-width: 450px;
+  }
+
+  @include mobile-landscape-and-below {
+    padding: 1rem;
+    gap: 0.5rem;
+    max-width: 100%;
+  }
+
+  // @include mobile-portrait-and-below {
+  //   padding: 0.8rem;
+  // }
+}
+
+.cardHeader {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+  align-items: flex-start;
+
+  @include tablet-large-and-below {
+    gap: 0.8rem;
+  }
+
+  @include mobile-landscape-and-below {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.imageContainer {
+  position: relative;
+  flex-shrink: 0;
+
+    .doctorImage {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #f5f5f5;
+    display: block;
+
+    @include mobile-landscape-and-below {
+      width: 75px;
+      height: 75px;
+    }
+  }
+
+    /* show small online dot on doctor image (bottom-right) */
+    .onlineIndicator {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: #32D24A;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      bottom: 4px;
+      right: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      z-index: 2;
+    }
+}
+
+/* extra utility class for module-safe active filter state */
+.filterActive {
+  background-color: #0e5487;
+  color: #fff;
+  border-color: #0e5487;
+}
+
+.doctorInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.25rem;
+
+  .ratingBadge {
+    display: inline-block;
+    background-color: #e8e8e8;
+    color: #888;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    width: fit-content;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    margin-bottom: 0.3rem;
+  }
+
+  .doctorName {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #000;
+    margin: 0;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+
+    @include mobile-landscape-and-below {
+      font-size: 1.2rem;
+    }
+  }
+
+  .specialtyRow {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    @include mobile-landscape-and-below {
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .specialty {
+      font-size: 1.023rem;
+      font-weight: 500;
+      color: #555555;
+      margin: 0;
+      font-family: 'Inter', Arial, Helvetica, sans-serif;
+    }
+
+    .experienceBadge {
+      display: inline-block;
+      background-color: #0e5487;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.8rem;
+      border-radius: 14px;
+      width: fit-content;
+      font-family: 'Inter', Arial, Helvetica, sans-serif;
+    }
+  }
+}
+
+.cardMiddle {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  align-items: flex-start;
+
+  .leftSection {
+    flex: 1;
+    padding-right: 1rem;
+    border-right: 1px solid #e0e0e0; // <<< THIS LINE to keep vertical separator
+  }
+
+  .rightSection {
+    flex: 1;
+    padding-left: 1rem;
+  }
+
+  // mobile pe remove line
+  @include mobile-landscape-and-below {
+    .leftSection {
+      border-right: none;
+      padding-right: 0;
+    }
+    .rightSection {
+      padding-left: 0;
+    }
+  }
+
+
+  .availabilityStatus {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    white-space: nowrap;
+
+    .availabilityText {
+      color: #000;
+      font-weight: 500;
+      font-size: 1.054rem;
+      font-family: 'Inter', Arial, Helvetica, sans-serif;
+    }
+  }
+
+  .consultationType {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: #32D24A;
+    font-weight: 700;
+    white-space: nowrap;
+    justify-content: flex-start;
+
+    .consultationIcon {
+      width: 30px;
+      height: 20px;
+    }
+
+    .consultationLabel {
+      color: #32D24A;
+      font-family: 'Inter', Arial, Helvetica, sans-serif;
+      font-size: 1.059rem;
+      font-weight: 400;
+    }
+  }
+}
+
+.rightSection {
+  .feeLabel {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #000;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+  }
+
+  .feeDescription {
+    font-size: 1.034rem;
+    color: #555555;
+    text-align: right;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+  }
+}
+
+.actionButtons {
+  display: flex;
+  gap: 1.7rem;
+
+  @include tablet-large-and-below {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @include mobile-landscape-and-below {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+.viewProfileBtn {
+  flex: 1;
+  padding: 1rem 3.5rem;
+  border: 2px solid #0e5487;
+  background-color: #fff;
+  color: #0e5487;
+  border-radius: 12px;
+  font-size: 1.054rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+
+  &:hover {
+    background-color: #f0f7fb;
+  }
+
+  @include tablet-large-and-below {
+    font-size: 0.85rem;
+    padding: 0.65rem 0.9rem;
+  }
+}
+
+.bookAppointmentBtn {
+  flex: 1;
+  padding: 1rem 2.5rem;
+  background-color: #0e5487;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.124rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+
+  &:hover {
+    background-color: #0d4670;
+  }
+
+  @include tablet-large-and-below {
+    font-size: 0.9rem;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .arrowIcon {
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+}
+
+// ===== CARE PLAN SECTION =====
+.carePlanSection {
+  width: 100%;
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+}
+
+.carePlanWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.carePlanHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.carePlanTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #595A5A;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+
+  .highlightBlue {
+    color: #0e5487;
+  }
+}
+
+.carePlanSubtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.6;
+  font-family: "Inter", Arial, Helvetica, sans-serif !important;
+}
+
+.planTabs {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+  margin-bottom: 3rem;
+  background-color: #EEF6FF;
+  padding: 1rem;
+  border-radius: 14px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.planTab {
+  padding: 1rem 1.4rem;
+  border: none;
+  background-color: transparent;
+  color: #000000;
+  font-size: 1.109rem;
+  font-weight: 400;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  position: relative;
+
+  &:hover {
+    color: #333;
+  }
+
+  &.active {
+    background-color: #fff;
+    color: #000000;
+    font-weight: 400;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+  }
+}
+
+.plansContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 2rem;
+  justify-content: center;
+  align-items: start;
+}
+
+// ===== PLAN CARD =====
+.planCard {
+  background: #fff;
+  border: 2px solid #00568A;
+  border-radius: 16px;
+  padding: 2rem 1.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  min-width: 320px;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+  }
+
+  &.popularPlan {
+    border-color: #e0e8ee;
+    border-width: 3px;
+    box-shadow: 0 8px 24px rgba(14, 84, 135, 0.2), inset 0 -30px 30px -20px rgba(14, 84, 135, 0.15);
+    background: linear-gradient(135deg, #f8fcff 0%, #fff 100%);
+    border-radius: 16px;
+    overflow: visible;
+    position: relative;
+    padding-bottom: 3rem;
+
+    .planTitle {
+      color: #0e5487;
+    }
+
+   
+  }
+}
+
+.popularBadge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #0e5487;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-radius: 14px 14px 0 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+.planHeader {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0;
+
+  .popularPlan & {
+    margin-top: 2.8rem;
+  }
+}
+
+.planTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0e5487;
+  margin: 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.savingBadge {
+  display: inline-block;
+  background-color: #EEF6FF;
+  color: #0e5487;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  margin-left:0.4rem;
+  border-radius: 20px;
+  border: 1.5px solid #0e5487;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.planPrice {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.price {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  // border-bottom: 1px solid #e5e5e5;
+}
+
+.priceDescription {
+  font-size: 1.35rem;
+  color: #8F8F8F;
+  margin: 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif !important;
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+  flex: 1;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.45rem 0;
+  font-size: 0.85rem;
+  color: #333;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.checkmark {
+  color: #0e5487;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  line-height: 1.4;
+  background-color: #fff;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #e0effa;
+  margin-top: 2px;
+  padding: 0.5rem;
+}
+
+.featureText {
+  text-align: left;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.subscribeBtn {
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  background-color: #0e5487;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+
+  &:hover {
+    background-color: #0d4670;
+  }
+}
+
+// ===== RESPONSIVE =====
+@media (max-width: 1200px) {
+  .plansContainer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .planCard {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .carePlanSection {
+    padding: 3rem 1.5rem;
+  }
+
+  .carePlanTitle {
+    font-size: 1.7rem;
+  }
+
+  .carePlanSubtitle {
+    font-size: 0.9rem;
+  }
+
+  .planTabs {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .planTab {
+    padding: 0.6rem 1.4rem;
+    font-size: 0.85rem;
+  }
+
+  .planCard {
+    padding: 1.8rem 1.3rem;
+  }
+
+  .planTitle {
+    font-size: 1.2rem;
+  }
+
+  .price {
+    font-size: 2rem;
+  }
+
+  .featureItem {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carePlanSection {
+    padding: 2.5rem 1rem;
+  }
+
+  .carePlanTitle {
+    font-size: 1.5rem;
+  }
+
+  .planTab {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .planCard {
+    padding: 1.5rem 1rem;
+  }
+
+  .price {
+    font-size: 1.8rem;
+  }
+}
+
+// ===== BENEFITS SECTION =====
+.benefitsSection {
+  width: 100%;
+  padding: 5rem 2rem 4rem 2rem;
+  background-color: #fafafa;
+
+  @include tablet-large-and-below {
+    padding: 4rem 1.5rem 3rem 1.5rem;
+  }
+
+  @include mobile-landscape-and-below {
+    padding: 3rem 1rem 2rem 1rem;
+  }
+}
+
+.benefitsWrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 90%;
+  
+}
+
+.benefitsHeader {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.benefitsTitle {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #595A5A;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  letter-spacing: -0.8px;
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+
+  @include tablet-large-and-below {
+    font-size: 2.2rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 1.6rem;
+  }
+}
+
+.benefitsSubtitle {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.6;
+  font-family: "Inter", Arial, Helvetica, sans-serif !important;
+
+  @include tablet-large-and-below {
+    font-size: 0.95rem;
+  }
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+
+  @include tablet-large-and-below {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  @include mobile-landscape-and-below {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.benefitIcon {
+  width: 70px;
+  height: 70px;
+  background-color: #e8f4f8; 
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  display: flex;             
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 40px;             
+    height: 40px;
+    object-fit: contain;
+    display: block;
+  }
+}
+
+
+.benefitCard {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 18px;
+  padding: 2rem 1.8rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  min-height: 260px; // slightly taller
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  gap: 1rem;
+  
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+  }
+
+  @include tablet-large-and-below {
+    padding: 1.5rem;
+    min-height: 250px;
+  }
+
+  @include mobile-landscape-and-below {
+    padding: 1.3rem;
+    min-height: 240px;
+  }
+}
+
+
+// .benefitIcon {
+//   width: 70px;
+//   height: 70px;
+//   background-color: #e8f4f8;
+//   border-radius: 8px;
+//   margin-bottom: 1.2rem;
+// }
+
+.benefitTitle {
+  font-size: 1.27rem;
+  font-weight: 500 !important;
+  color: #000;
+  margin: 0 0 0.8rem 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  letter-spacing: -0.3px;
+}
+
+.benefitDescription {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  font-family: "Inter", Arial, Helvetica, sans-serif !important;
+}
+
+// ===== FAQ SECTION =====
+.faqSection {
+  width: 100%;
+  padding: 5rem 2rem 4rem 2rem;
+  background-color: #fff;
+
+  @include tablet-large-and-below {
+    padding: 4rem 1.5rem 3rem 1.5rem;
+  }
+
+  @include mobile-landscape-and-below {
+    padding: 3rem 1rem 2rem 1rem;
+  }
+}
+
+.faqWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.faqHeader {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.faqTitle {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #595A5A;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  letter-spacing: -0.8px;
+  margin: 0;
+  line-height: 1.3;
+
+  @include tablet-large-and-below {
+    font-size: 2.2rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 1.6rem;
+  }
+}
+
+.faqContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.faqItem {
+  border-bottom: 1px solid #e8e8e8;
+  padding-bottom: 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.faqQuestion {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 1.2rem 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+
+  &:hover {
+    color: #1c6ba4;
+  }
+
+  &.expanded {
+    color: #1c6ba4;
+  }
+}
+
+.questionText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1c6ba4;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+
+  @include tablet-large-and-below {
+    font-size: 0.95rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 0.9rem;
+  }
+}
+
+.toggleIcon {
+  font-size: 1.2rem;
+  color: #1c6ba4;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* ensure svg icons inside the toggle render small and aligned */
+.toggleIcon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.faqAnswer {
+  padding: 0 0 1.2rem 0;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.faqAnswer p {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif !important;
+
+  @include tablet-large-and-below {
+    font-size: 0.9rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 0.85rem;
+  }
+}
+
+  /* Enforce Inter font for all Find Doctors related sections to avoid accidental serif fallbacks */
+  .doctorsSection,
+  .carePlanSection,
+  .benefitsSection,
+  .faqSection {
+    font-family: 'Inter', Arial, Helvetica, sans-serif !important;
+  }

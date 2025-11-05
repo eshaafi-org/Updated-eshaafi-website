@@ -1,0 +1,567 @@
+// Variables
+$primary-color: #00568A;
+$secondary-color: #00B8AF;
+$accent-color: #EEF6FF;
+$light-blue: #E0EFFF;
+$text-dark: #595A5A;
+$text-gray: #555555;
+$text-light: #FFFFFF;
+$background-light: #FAFAFA;
+$success-color: #32D24A;
+
+$font-trenda: 'Trenda', sans-serif;
+$font-inter: 'Inter', sans-serif;
+
+// Mixins
+@mixin flex-column($gap: 0) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-position($left: 0, $top: 0) {
+  position: absolute;
+  left: $left;
+  top: $top;
+}
+
+@mixin text-style($size, $weight, $line-height, $color) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+  color: $color;
+}
+
+/* ==========================================================================
+   Main Styles - Mind Wellness Page
+   ========================================================================== */
+
+.mind-wellness-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: $background-light;
+  padding-bottom: 80px;
+  font-family: $font-inter;
+
+  // Hero Section
+  .hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh; // kept 100vh as requested
+    background: url('/images/mindwellnesshero.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+
+    .hero-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.75) 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 90%;
+      max-width: 918px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .hero-title {
+       display: block;   
+      color: #ffffff;
+      font-family: $font-trenda;
+      font-size: 2.9rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    .cta-button {
+      color: #ffffff;
+      font-family: $font-inter;
+      padding: 0.5rem 1rem;
+      border: 2px solid #ffffff;
+      border-radius: 24px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.32s ease;
+      z-index: 3;
+
+      &:hover {
+        transform: scale(1.04);
+        backdrop-filter: blur(3px);
+      }
+    }
+  }
+
+  // Conditions We Treat Section
+  .conditions-section {
+    margin: 60px auto 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 90%;
+    max-width: 771px;
+    align-items: center;
+    text-align: center;
+
+    .section-title {
+      font-family: $font-trenda;
+      @include text-style(46px, 700, 40px, $primary-color);
+      margin: 20px 0;
+    }
+
+    .section-subtitle {
+      font-family: $font-inter;
+      @include text-style(18px, 400, 28px, #000000);
+      margin-bottom: 40px;
+    }
+  }
+
+  // Condition Cards Grid
+  .condition-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); // 2 columns by default
+    gap: 30px;
+    width: 90%;
+    max-width: 1290px;
+    margin: 20px auto 40px;
+
+    .condition-card {
+      background: $accent-color;
+      border-radius: 20px;
+      padding: 24px;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.32s ease, box-shadow 0.32s ease;
+      will-change: transform, opacity;
+
+      // Hidden baseline for animation (option A: opacity 0 + translateY)
+      opacity: 0;
+      transform: translateY(25px);
+
+      &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      }
+
+      .condition-icon {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          display: block;
+        }
+      }
+
+      .condition-content {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        text-align: left;
+
+        .condition-title {
+          font-family: $font-trenda;
+          @include text-style(18px, 500, 26px, $primary-color);
+          margin: 0;
+        }
+
+        .condition-description {
+          font-family: $font-inter;
+          @include text-style(16px, 400, 22px, $text-gray);
+          margin: 0;
+        }
+      }
+    }
+
+    // stagger delays for nicer appearance
+    .condition-card:nth-child(1) { animation-delay: 0.04s; }
+    .condition-card:nth-child(2) { animation-delay: 0.10s; }
+    .condition-card:nth-child(3) { animation-delay: 0.16s; }
+    .condition-card:nth-child(4) { animation-delay: 0.22s; }
+    .condition-card:nth-child(5) { animation-delay: 0.28s; }
+    .condition-card:nth-child(6) { animation-delay: 0.34s; }
+    .condition-card:nth-child(7) { animation-delay: 0.40s; }
+    .condition-card:nth-child(8) { animation-delay: 0.46s; }
+  }
+
+  // Utility classes used inline in TSX
+  .blue { color: #00568A; }
+  .gray { color: #595A5A; }
+
+  .view-all-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 70px;
+  }
+
+  .view-all-button {
+    background: #00568A;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 18px 24px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    &:hover {
+      background: #00446b;
+      transform: scale(1.04);
+    }
+  }
+
+  // Tools Section
+  .tools-section {
+    margin: 160px auto;
+    width: 90%;
+    max-width: 1040px;
+    text-align: center;
+
+    .tools-title {
+      font-family: $font-trenda;
+      font-size: 46px;
+      font-weight: 700;
+      margin-bottom: 60px;
+    }
+
+    .tools-grid {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+
+      .tool-card {
+        background: #E5F4FF;
+        border-radius: 20px;
+        width: 300px;
+        min-height: 260px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        transition: transform 0.32s ease, box-shadow 0.32s ease;
+        will-change: transform, opacity;
+
+        // baseline hidden for animation
+        opacity: 0;
+        transform: translateY(25px);
+
+        &:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        .tool-icon {
+          width: 60px;
+          height: 60px;
+        }
+
+        .tool-title {
+          font-family: $font-trenda;
+          font-size: 20px;
+          color: #00568A;
+          margin: 0;
+        }
+
+        .tool-description {
+          font-family: $font-inter;
+          font-size: 15px;
+          color: #000;
+          line-height: 1.5;
+          max-width: 85%;
+          text-align: center;
+        }
+      }
+
+      // stagger for tools
+      .tool-card:nth-child(1) { animation-delay: 0.06s; }
+      .tool-card:nth-child(2) { animation-delay: 0.12s; }
+      .tool-card:nth-child(3) { animation-delay: 0.18s; }
+    }
+  }
+
+  // Video Section
+  .video-section {
+    width: 90%;
+    max-width: 1320px;
+    margin: 40px auto;
+
+    .video-container {
+      background: $light-blue;
+      border-radius: 30px;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; // wrap naturally for narrow screens
+
+      .video-content {
+        flex: 1 1 420px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-right: 20px;
+
+        .video-title {
+          font-family: $font-inter;
+          font-weight: 600;
+          @include text-style(28px, 600, 32px, $primary-color);
+          margin: 0;
+          word-wrap: break-word;
+          white-space: normal;
+        }
+
+        .video-subtitle {
+          font-family: $font-inter;
+          @include text-style(18px, 400, 24px, $text-gray);
+          margin: 0;
+          word-wrap: break-word;
+          white-space: normal;
+        }
+      }
+
+      .video-thumbnail {
+        // width: 360px;
+        // height: 220px;
+        // border-radius: 20px;
+        // overflow: hidden;
+        // flex: 0 0 360px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+      }
+    }
+  }
+
+  .video-thumbnail iframe {
+  width: 100%;
+  max-width: 560px;
+  height: 215px;
+  border-radius: 20px;
+}
+
+
+  // Bottom CTA Section
+  .bottom-cta {
+    margin-top: 120px;
+    display: flex;
+    justify-content: center;
+    padding: 120px 24px;
+    gap: 10px;
+    width: 100%;
+    background: $primary-color;
+
+    .cta-text {
+      font-family: $font-inter;
+      @include text-style(32px, 600, 40px, $text-light);
+      text-align: center;
+      max-width: 1100px;
+    }
+  }
+} // end .mind-wellness-page
+
+/* ==========================================================================
+   Animation keyframes & class
+   ========================================================================== */
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// class applied by IntersectionObserver in TSX
+.animate-show {
+  animation-name: fadeUp;
+  animation-duration: 0.7s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   Order: 1440, 1200, 992, 768, 576
+   ========================================================================== */
+
+/* 1440px and below - slight tightening */
+@media (max-width: 1440px) {
+  .mind-wellness-page {
+    .hero-section .hero-title { font-size: 2.9rem; }
+    .conditions-section .section-title { font-size: 42px; }
+    .tools-section .tools-title { font-size: 42px; }
+    .condition-cards { gap: 26px; }
+    .tools-grid { gap: 20px; }
+  }
+}
+
+/* 1200px and below - desktop small */
+@media (max-width: 1200px) {
+  .mind-wellness-page {
+    padding-bottom: 70px;
+
+    .hero-section .hero-title { font-size: 2.4rem; }
+    .conditions-section .section-title { font-size: 40px; }
+    .video-section .video-thumbnail { width: 320px; height: 200px; flex: 0 0 320px; }
+
+    .condition-cards { max-width: 1080px; gap: 24px; }
+    .tools-grid .tool-card { width: 280px; min-height: 240px; padding: 20px; }
+  }
+}
+
+/* 992px and below - tablet large (still 2 columns) */
+@media (max-width: 992px) {
+  .mind-wellness-page {
+    .hero-section { height: 90vh; }
+    .hero-section .hero-title { font-size: 2.2rem; }
+    .conditions-section .section-title { font-size: 36px; }
+    .condition-cards { grid-template-columns: repeat(1, 1fr); gap: 20px; max-width: 920px; }
+    .tools-section { margin: 120px auto; }
+    .video-section .video-container { padding: 18px; }
+    .tools-grid .tool-card { width: 260px; padding: 18px; }
+  }
+}
+
+/* 768px and below - small tablet (still 2 columns per choice A) */
+@media (max-width: 768px) {
+  .mind-wellness-page {
+    .hero-section { height: 90vh; }
+    .hero-section .hero-title { font-size: 1.9rem; }
+    .conditions-section .section-title { font-size: 34px; }
+    .condition-cards { grid-template-columns: repeat(1, 1fr); gap: 18px; max-width: 720px; margin-bottom: 28px; }
+
+    .condition-card { min-height: 150px; padding: 20px; }
+    .condition-card .condition-title { font-size: 17px; }
+    .condition-card .condition-description { font-size: 15px; line-height: 20px; }
+
+    .tools-grid { gap: 16px; }
+    .tools-grid .tool-card { width: 48%; min-height: 220px; padding: 16px; }
+
+    .video-section .video-container { gap: 14px; }
+    .video-section .video-thumbnail { width: 300px; height: 180px; flex: 0 0 300px; }
+  }
+}
+
+/* 576px and below - mobile small (1 column stack, compact padding option B) */
+@media (max-width: 576px) {
+  .mind-wellness-page {
+    padding-bottom: 60px;
+
+    .hero-section {
+      height: 100vh; /* kept 100vh as requested */
+      .hero-content { width: 92%; margin-bottom: 2.5rem; }
+      .hero-title { font-size: 2.3rem; }
+      .cta-button { font-size: 1rem; padding: 10px 14px; }
+    }
+
+    .conditions-section {
+      margin: 40px auto 12px;
+      .section-title { font-size: 36px; }
+      .section-subtitle { font-size: 15px; line-height: 22px; }
+    }
+
+    // stack to 1 column
+    .condition-cards {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      max-width: 520px;
+      padding: 0 12px;
+    }
+
+    .condition-card {
+      padding: 16px; // reduced mobile padding (option B)
+      min-height: auto;
+      .condition-title { font-size: 16px; }
+      .condition-description { font-size: 14px; line-height: 20px; }
+      .condition-icon { width: 48px; height: 48px; }
+    }
+
+    .view-all-wrapper { margin: 28px 0 48px; }
+
+    .tools-section {
+      margin: 80px auto;
+      .tools-title { font-size: 32px; margin-bottom: 28px; }
+      .tools-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+      }
+      .tool-card {
+        width: 100%;
+        max-width: 520px;
+        padding: 16px; // compact mobile
+        min-height: auto;
+        .tool-title { font-size: 18px; }
+        .tool-description { font-size: 14px; }
+      }
+    }
+
+    .video-section {
+      .video-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 12px;
+        .video-content { padding-right: 0; text-align: center; }
+        .video-thumbnail { width: 100%; max-width: 520px; height: 220px; flex: 0 0 auto; }
+      }
+    }
+
+    .bottom-cta { padding: 80px 16px; .cta-text { font-size: 24px; } }
+  }
+}
+
+/* ==========================================================================
+   Cleanup: removed absolute-positioned icons block (was requested to remove)
+   ========================================================================== */
+
+/* End of file */

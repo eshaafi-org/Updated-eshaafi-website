@@ -16,6 +16,7 @@ import pdfIcon from "../../../public/pdfIcon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
+import empty from "../../../public/images/empty.svg";
 // type check
 interface Prescription {
   instructions: string;
@@ -80,7 +81,7 @@ export default function Eprescription() {
       .catch((err) => {
         setLoading(false);
         console.log(err);
-        if (err.response.status === 400) {
+        if (err.response?.status === 400) {
           toast(err.response.data.response.message, {
             position: "top-right",
             autoClose: 3000,
@@ -92,7 +93,7 @@ export default function Eprescription() {
             theme: "light",
             type: "info",
           });
-        } else if (err.response.status === 410) {
+        } else if (err.response?.status === 410) {
           toast(err.response.data.response.message, {
             position: "top-right",
             autoClose: 3000,
@@ -104,7 +105,7 @@ export default function Eprescription() {
             theme: "light",
             type: "warning",
           });
-        } else if (err.response.status === 405) {
+        } else if (err.response?.status === 405) {
           toast("Your session has been expired, kindly sign-in again", {
             position: "top-right",
             autoClose: 2000,
@@ -118,7 +119,7 @@ export default function Eprescription() {
           });
           logout();
           dispatch({ type: "loginModalSlice/signIn" });
-        } else if (err.response.status === 404) {
+        } else if (err.response?.status === 404) {
           toast(err.response.data.response.message, {
             position: "top-right",
             autoClose: 2000,
@@ -134,8 +135,6 @@ export default function Eprescription() {
       });
   };
   const months: any = Object.keys(prescription);
-  console.log(prescription);
-
   // use effect
   useEffect(() => {
     getList();
@@ -149,104 +148,83 @@ export default function Eprescription() {
         <div className="container">
           <PageHeading>E-prescription</PageHeading>
           <AddressBar links={links} />
+
           <div className={style.eprescriptionSection}>
             {!loading ? (
-              <div className={style.eprescriptionContainer}>
-                {months.map((month: any, index: number) => (
-                  <div key={index} className="mb-3">
-                    <Text22 className="text-dark mb-1">{month}</Text22>
-                    <ul className={style.eprescriptionContainer}>
-                      {(prescription[month] || []).map(
-                        (item: any, index: number) => (
-                          <li key={index} className={style.recordItem}>
-                            <div className={style.date}>
-                              <Text16 className="text-primary fw-bold">
-                                {moment(item.prescription_date).format(
-                                  "MM,ddd"
-                                )}
-                              </Text16>
-                              <Text11 className="text-primary">
-                                {moment(item.prescription_date).format(
-                                  "MMM, YYYY"
-                                )}
-                              </Text11>
-                            </div>
-                            <div className={style.profile}>
-                              <Text11>{item.patientInfo.relation}</Text11>
-                              <Text16 className="text-dark">
-                                {item.patientInfo.name}
-                              </Text16>
-                            </div>
-                            <div className={style.time}>
-                              <Text11>Doctor</Text11>
-                              <Text16 className="text-dark text-capitalize">
-                                {item.doctorName}
-                              </Text16>
-                            </div>
-                            <div className={style.attachments}>
-                              <div className={style.pdfContainer}>
-                                <Image
-                                  src={pdfIcon}
-                                  alt="eshaafi-pdf-eprescription"
-                                />
-                              </div>
-                            </div>
-                            <a
-                              href={item.prescription_url}
-                              // target="_blank"
-                              rel="noreferrer"
-                              className="d-flex align-items-center"
-                            >
-                              <Button className="d-flex align-items-center col-gap-1">
-                                Download <BsDownload />
-                              </Button>
-                            </a>
-                          </li>
-                        )
-                      )}
-                    </ul>
+              <>
+                {months.length > 0 ? (
+                  <div className={style.eprescriptionContainer}>
+                    {months.map((month: any, index: number) => (
+                      <div key={index} className="mb-3">
+                        <Text22 className="text-dark mb-1">{month}</Text22>
+                        <ul className={style.eprescriptionContainer}>
+                          {(prescription[month] || []).map(
+                            (item: any, index: number) => (
+                              <li key={index} className={style.recordItem}>
+                                <div className={style.date}>
+                                  <Text16 className="text-primary fw-bold">
+                                    {moment(item.prescription_date).format(
+                                      "MM,ddd"
+                                    )}
+                                  </Text16>
+                                  <Text11 className="text-primary">
+                                    {moment(item.prescription_date).format(
+                                      "MMM, YYYY"
+                                    )}
+                                  </Text11>
+                                </div>
+                                <div className={style.profile}>
+                                  <Text11>{item.patientInfo.relation}</Text11>
+                                  <Text16 className="text-dark">
+                                    {item.patientInfo.name}
+                                  </Text16>
+                                </div>
+                                <div className={style.time}>
+                                  <Text11>Doctor</Text11>
+                                  <Text16 className="text-dark text-capitalize">
+                                    {item.doctorName}
+                                  </Text16>
+                                </div>
+                                <div className={style.attachments}>
+                                  <div className={style.pdfContainer}>
+                                    <Image
+                                      src={pdfIcon}
+                                      alt="eshaafi-pdf-eprescription"
+                                    />
+                                  </div>
+                                </div>
+                                <a
+                                  href={item.prescription_url}
+                                  // target="_blank"
+                                  rel="noreferrer"
+                                  className="d-flex align-items-center"
+                                >
+                                  <Button className="d-flex align-items-center col-gap-1">
+                                    Download <BsDownload />
+                                  </Button>
+                                </a>
+                              </li>
+                            )
+                          )}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                {/* {prescription.map((item: any, indx) => (
-                  <li key={indx} className={style.recordItem}>
-                    <div className={style.date}>
-                      <Text16 className="text-primary fw-bold">
-                        {moment(item.prescription_date).format("MM,ddd")}
-                      </Text16>
-                      <Text11 className="text-primary">
-                        {moment(item.prescription_date).format("MMM, YYYY")}
-                      </Text11>
-                    </div>
-                    <div className={style.profile}>
-                      <Text11>{item.patientInfo.relation}</Text11>
-                      <Text16 className="text-dark">
-                        {item.patientInfo.name}
-                      </Text16>
-                    </div>
-                    <div className={style.time}>
-                      <Text11>Time uploaded</Text11>
-                      <Text16 className="text-dark">
-                        {moment(item.prescription_date).fromNow()}
-                      </Text16>
-                    </div>
-                    <div className={style.attachments}>
-                      <div className={style.pdfContainer}>
-                        <Image src={pdfIcon} alt="eshaafi-pdf-eprescription" />
+                ) : (
+                  <div className="row ">
+                    <div className="col ">
+                      <div className="d-flex justify-content-center flex-column align-items-center row-gap-1">
+                        <Image
+                          src={empty}
+                          alt="search empty"
+                          className={styles.emptyImage}
+                        />
+                        <p>No previous prescriptions</p>
                       </div>
                     </div>
-                    <a
-                      href={item.prescription_url}
-                      // target="_blank"
-                      rel="noreferrer"
-                      className="d-flex align-items-center"
-                    >
-                      <Button className="d-flex align-items-center col-gap-1">
-                        Download <BsDownload />
-                      </Button>
-                    </a>
-                  </li>
-                ))} */}
-              </div>
+                  </div>
+                )}
+              </>
             ) : (
               <div className={style.eprescriptionContainer}>
                 <li className={style.recordItem}>

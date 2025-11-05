@@ -2,7 +2,6 @@
 import Image from "next/image";
 import styles from "../../styles/home.module.scss";
 import Link from "next/link";
-
 export default function Hero({
   img,
   heading,
@@ -24,6 +23,7 @@ export default function Hero({
                 {link.name}
               </Link>
             )}
+            
           </span>
           <span className="sm-w-full flex justify-end">
             <Image
@@ -36,5 +36,6 @@ export default function Hero({
         </div>
       </div>
     </section>
+ 
   );
 }

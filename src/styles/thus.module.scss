@@ -1,0 +1,379 @@
+//*******************************//
+//  heroSection//
+//********************************//
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('/images/thushero-bg.png'); // tum image change kar lena
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* bottom soft black gradient */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.75) 100%);
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 3rem;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.title {
+  color: #ffffff;
+//   font-family: "Trenda", sans-serif;
+  font-family:  'Inter', sans-serif !important;
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+//   text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.ctaBtn {
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  padding: 0.75rem 2.2rem;
+  border: 1px solid #ffffff;
+  border-radius: 24px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.32s ease;
+
+  &:hover {
+    transform: scale(1.04);
+    backdrop-filter: blur(3px);
+  }
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .title { font-size: 1.7rem; }
+  .contentWrapper { margin-bottom: 3rem; }
+}
+
+/*****************Thus Info section***********************/
+.thusSection {
+  width: 100%;
+  padding: 5rem 0;
+  background: #ffffff;
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    font-family: "Inter", sans-serif !important;
+    color: #595A5A;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+
+    span {
+      color: #00568A;
+    }
+  }
+
+  .desc {
+    font-size: 1.125rem;
+    font-family: "Inter", sans-serif;
+    color: #555555;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.45;
+  }
+
+  .bigSpace { height: 5rem; }
+
+  .subTitle {
+    font-size: 2.5rem;
+    font-family: "Inter", sans-serif !important;
+    color: #595A5A;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+
+    span { color: #00568A; }
+  }
+
+  .smallText {
+    font-family: "Inter", sans-serif;
+    font-size: 1.25rem;
+    color: #555555;
+    margin-bottom: 3rem;
+  }
+
+  /* BLUE BACKGROUND FULL WIDTH */
+  .cardsArea {
+    width: 100%;
+    background: #E5F4FF;
+    /* keep comfortable top padding and add extra bottom padding */
+    padding: 4rem 2rem 6rem 2rem;
+    border-radius: 0px; // remove radius so it looks full strip
+    margin-top: 2rem;
+  }
+
+  .cardsInnerContainer {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .cardsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    
+  }
+
+
+.card {
+  background: #ffffff;
+  /* increase top padding and keep sides the same so icons align at a fixed distance from the card top */
+  padding: 3.5rem 1.5rem 2rem 1.5rem;
+  border-radius: 18px;
+  text-align: center;
+  min-height: 490px;
+  display: flex;
+  flex-direction: column;
+  /* Top-align content so the icon sits at a consistent distance from the top
+    across all cards (prevents icons shifting when titles wrap). */
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 0.5px solid #b4b3b3;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-in-out;
+  
+
+  &.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .cardIcon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 2.25rem; 
+    margin-top:2rem;   // consistent spacing below icon
+    /* remove visual nudging so icons align uniformly */
+    transform: none;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  h4 {
+    color: #00568A;  // title blue
+    font-family: "Inter", sans-serif !important;
+    font-size: 1.35rem;
+    margin: 0 0 0.75rem 0;
+    transform: none;
+  }
+
+  p {
+    color: #555555;
+    font-family: "Inter", sans-serif;
+    font-size: 0.93rem;
+    line-height: 1.5;
+    transform: none;
+    /* push the paragraph down to the bottom of the card (flexbox) */
+  
+  }
+}
+
+
+
+  @media(max-width:992px){
+    .cardsGrid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media(max-width:600px){
+    .cardsGrid { grid-template-columns: 1fr; }
+    .title { font-size: 1.9rem; }
+    .subTitle { font-size: 1.5rem; }
+  }
+}
+
+
+//////*************our impact***************//////
+.impactSection {
+  width: 100%;
+  padding: 5rem 2rem;
+  background-color: #f8f9fa;
+}
+
+.impactWrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.impactTitle {
+  text-align: center;
+  font-size: 2.5rem !important;
+  font-weight: 600;
+  color: #595A5A; 
+  margin: 0 0 4rem 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+
+  .highlight {
+    color: #00568A;
+  }
+}
+
+.impactContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; // reduced from 2.5rem
+  margin-bottom: 5rem;
+}
+
+// Impact Card
+.impactCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 7rem;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-in-out;
+
+  &.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.left, &.right {
+    .imageWrapper {
+      padding: 0;
+    }
+
+    .textContent {
+      padding: 0;
+      text-align: left; // always left-aligned
+      justify-self: start; // override right cards
+    }
+  }
+
+
+  &.left {
+    .imageWrapper { justify-self: end; }
+    .textContent { justify-self: start; }
+  }
+
+  &.right {
+    .textContent { justify-self: end; }
+    .imageWrapper { justify-self: start; order: 2; }
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.impactImage {
+  width: 100%;
+  max-width: 480px;
+  height: 330px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #00568A;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: block;
+}
+
+.imageCaption {
+  font-size: 0.8rem;
+  color: #00568A;
+  margin: 0.8rem 0 0 0;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+.textContent {
+  flex: 1;
+  max-width: 700px;
+}
+
+.description {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+  line-height: 1.6;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+// CTA Section
+.ctaSection {
+  background-color: #0e5487;
+  padding: 3.5rem 4rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 1.5rem 0;
+}
+
+.ctaButton {
+  padding: 0.9rem 2.5rem;
+  background-color: #fff;
+  color: #0e5487;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+  }
+}
+
+// Responsive adjustments (already mostly fine)
+@media (max-width: 1200px) {
+  .impactCard { grid-template-columns: 1fr; gap: 2rem; }
+  .impactImage { max-width: 500px; }
+}
+
+@media (max-width: 768px) {
+  .impactImage { max-width: 350px; height: 180px; }
+  .description { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .impactImage { height: 160px; }
+  .description { font-size: 0.95rem; }
+  .imageCaption { font-size: 0.75rem; }
+}

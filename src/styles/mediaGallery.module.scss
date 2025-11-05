@@ -1,0 +1,296 @@
+/* Hero remains the same */
+
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/media-gallery-bg.png') center/cover no-repeat;
+  padding: 200px 20px;
+  color: #fff;
+  text-align: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero h1 {
+  font-size: clamp(48px, 8vw, 56px);
+  margin: 0 0 12px;
+  font-weight: 600;
+  line-height:1;
+  letter-spacing: -0.5px;
+   font-family: "Inter", sans-serif !important; /* updated font */
+  color: #fff !important;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+.heroContent { text-align:center; color:#fff; }
+.partnerBtn {
+  display:inline-block;
+  margin-top:22px;
+  background:-transparent;
+  color:#fff;
+  padding:12px 40px;
+  border-radius:999px;
+  font-weight:700;
+  text-decoration:none!important;
+  border:4px solid rgba(255,255,255,0.95);
+  font-size:18px;
+  transition:all .28s cubic-bezier(.25,.1,.25,1); // smoother
+  transform:translateY(0); // base
+}
+
+.partnerBtn:hover{
+  background:transparent !important;
+  color:#fff !important;
+  border-color:rgba(255,255,255,0.95) !important;
+  transform:translateY(-4px);    
+}
+
+// .partnerBtn:hover{ background: rgba(255, 255, 255, 0.06); }
+
+/* Main container */
+.container {
+  max-width: 1180px;
+  margin: 36px auto 56px;
+  padding: 0 20px;
+}
+
+/* Section header spacing above each section */
+.sectionHeader {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin: 60px 0 20px; /* increased top space */
+}
+
+/* Grid layout */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+/* Card changes: remove white background */
+.card {
+  background: transparent;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Remove gap between image and body */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border-radius: 8px; /* Optional: add slight rounding */
+
+  &:hover {
+    transform: translateY(-5px);
+    
+    .cardImage {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      transform: scale(1.08); /* Slightly more zoom on hover */
+    }
+  }
+
+  a {
+    display: block;
+    width: 100%;
+    height: 320px; /* Set fixed height for image container */
+    overflow: hidden;
+    position: relative;
+    background-color: #f5f5f5;
+  }
+}
+
+/* Animated cards - only for newly loaded items */
+.cardAnimated {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Keyframes for smooth fade in and slide up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(1.05); /* Slightly zoom in to ensure full coverage */
+}
+
+.cardBody {
+  padding: 12px 8px;
+  flex: 1;
+  max-width: 90%;
+  margin-top: 8px; /* Add spacing above text content */
+}
+
+.cardExcerpt {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.readMore {
+  display: inline-block;
+  color: #555555;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+  
+  &:hover {
+      background: #00446b;
+      transform: scale(1.04);
+    }
+}
+
+/* Section title */
+.sectionTitle {
+  font-size:24px;
+  font-weight:700;
+}
+
+/* CTA / Footprint Section */
+.footprint {
+  max-width:1180px;
+  margin: 76px auto 60px;
+  padding: 0 20px;
+}
+.ctaLarge {
+  margin-top: 28px;
+  background: linear-gradient(90deg,#00568A,#00568A);
+  color: #fff;
+  border-radius: 22px;
+  padding: 52px 28px;
+  display: flex;
+  flex-direction: row;       /* horizontal on desktop */
+  align-items: center;       /* vertically center items */
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;           /* allow wrapping on smaller screens */
+}
+
+.ctaLarge .ctaText {
+  font-weight: 600;
+  font-size: clamp(30px, 4vw, 28px); /* responsive text */
+  font-family: "Inter", sans-serif !important;
+  line-height: 1.2;
+  max-width: 50%;             /* text wraps naturally */
+
+}
+
+.ctaLarge .ctaButton {
+  background-color: #fff;
+  color:#00568A;
+  padding:12px 20px;
+  border-radius:999px;
+  font-weight:500;
+  text-decoration:none;
+  font-size: clamp(16px, 2vw, 18px); /* responsive font */
+  display:flex;
+  align-items:center;
+  gap:8px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.3s;
+  flex-shrink: 0;             /* prevent button from shrinking */
+}
+
+.ctaLarge .ctaButton:hover {
+  &:hover {
+    transform: scale(1.04);
+    backdrop-filter: blur(3px);
+  }
+}
+
+/* Fully responsive adjustments */
+@media (max-width: 1200px) {
+  .ctaLarge .ctaText { font-size: clamp(28px, 5vw, 64px); }
+  .ctaLarge .ctaButton { font-size: clamp(15px, 2vw, 18px); }
+}
+
+@media (max-width: 880px) {
+  .ctaLarge {
+    flex-direction: column;    /* stack text + button on smaller devices */
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .ctaLarge .ctaText {
+    font-size: clamp(22px, 8vw, 40px);
+    max-width: 100%;
+  }
+  .ctaLarge .ctaButton {
+    font-size: 16px;
+    padding: 12px 20px;
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .ctaLarge .ctaText { font-size: clamp(18px, 6vw, 28px); }
+  .ctaLarge .ctaButton { font-size: 14px; padding: 10px 16px; }
+}
+
+
+// @media (max-width: 880px) 
+// { .footprintRow { flex-direction:column; align-items:stretch; } 
+// .footprintImageWrap { text-align:left; } 
+// .footprintIcons { justify-content:flex-start; } 
+// .ctaLarge { flex-direction:column; gap:12px; align-items:flex-start; } }
+
+/* Load More Button */
+.loadMoreWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 40px;
+}
+
+.loadMoreBtn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 28px;
+  gap: 8px;
+  background: #00568A;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.loadMoreBtn:hover {
+  &:hover {
+      background: #00446b;
+      transform: scale(1.04);
+    }
+}
+
+.loadMoreText {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  text-decoration: none;
+  white-space: nowrap;
+}
+

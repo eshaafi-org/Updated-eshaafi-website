@@ -1,0 +1,145 @@
+.expertCareSection {
+  width: 100%;
+  padding: 60px 20px;
+  background-color: #fff;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 40px;
+
+  h2 {
+    font-size: 2.75rem;
+    font-weight: 400;
+    margin-bottom: 5px;
+    color: #595A5A;
+    font-family: "Inter", sans-serif;
+    line-height: 150%;
+    letter-spacing: 0;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  .coloredText {
+    color: #00568a;
+  }
+}
+
+.cardsContainer {
+  position: relative;
+  width: 100%;
+  height: clamp(420px, 65vw, 480px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 70px;
+  gap: 50px;
+  overflow: hidden;
+}
+
+.card {
+  position: absolute;
+  width: min(400px, 85vw);
+  height: 93%;
+  transform-style: preserve-3d;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.active {
+    transform: scale(1);
+    filter: none;
+    z-index: 10;
+  }
+
+  &.side {
+    transform: scale(0.8);
+    filter: blur(8px) brightness(0.85);
+    z-index: 5;
+  }
+}
+
+.cardContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+
+  &.active {
+    background-color: #87D2FF;
+  }
+
+  &.inactive {
+    background-color: #DEDEDE;
+  }
+}
+
+.cardImage {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 95%;
+    height: 95%;
+    object-fit: cover;
+    pointer-events: none;
+    border-radius: 14px;
+  }
+}
+
+.cardText {
+  padding: 12px 25px;
+  text-align: left;
+  font-family: "Inter", sans-serif !important;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 600 !important;
+    margin-bottom: 12px;
+    color: #000;
+    font-family: "Inter", sans-serif !important;
+    letter-spacing: 0;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 15px;
+    color: #000;
+    line-height: 1.6;
+    font-weight: 400;
+    font-family: "Inter", sans-serif !important;
+    margin: 0;
+  }
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+
+  button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: #333;
+      color: #fff;
+    }
+  }
+}

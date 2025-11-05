@@ -23,6 +23,13 @@ const Heading24: React.FC<TypoProps> = ({ children, className }) => {
 };
 // texting components////////////////////////////
 // text 24px
+const Text28: React.FC<TypoProps> = ({ children, style, className }) => {
+  return (
+    <p className={styles.text28 + " " + className} style={style}>
+      {children}
+    </p>
+  );
+};
 const Text24: React.FC<TypoProps> = ({ children, style, className }) => {
   return (
     <p className={styles.text24 + " " + className} style={style}>
@@ -55,8 +62,8 @@ const Text18: React.FC<TypoProps> = ({ children, style, className }) => {
   );
 };
 // text 16 px
-const Text16: React.FC<TypoProps> = ({ children, className }) => {
-  return <p className={styles.text16 + " " + className}>{children}</p>;
+const Text16: React.FC<TypoProps> = ({ children, className, style }) => {
+  return <p className={styles.text16 + " " + className} style={style}>{children}</p>;
 };
 // text 14 px
 const Text14: React.FC<TypoProps> = ({ children, style, className }) => {
@@ -86,6 +93,7 @@ export {
   Text20,
   Text22,
   Text11,
+  Text28,
   Text24,
   Text12,
 };

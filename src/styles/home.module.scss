@@ -1,5 +1,14 @@
 @import "./mixin";
 @import "./variables";
+// @import "tailwindcss";
+
+
+/* @import "tw-animate-css";
+@import 'tw-animate-css'; */
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+
 // main/home page styling
 .main {
   display: flex;
@@ -14,7 +23,9 @@
   grid-template-columns: 1.5fr 1fr;
   align-items: center;
   column-gap: 1rem;
+  // justify-items: start;
   @include above-mobile-landscape {
+    // grid-template-columns: 1fr 1fr;
     justify-items: center;
   }
 }
@@ -84,6 +95,7 @@
     justify-self: end;
     align-self: center;
     .servicesImg {
+      // width: 100px;
       min-width: 70px;
       width: 100%;
       height: auto;
@@ -194,7 +206,10 @@
   @include above-tablet {
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 1.5rem;
-  } 
+  } // @include for-large-phone-only {
+  //   grid-template-columns: 1fr;
+  //   row-gap: 2rem;
+  // }
 }
 /// Feature Section
 .featureList {
@@ -202,6 +217,13 @@
   grid-template-columns: 1fr;
   row-gap: 0.7rem;
   column-gap: 0.5rem;
+
+  // @include for-large-tablet-only {
+  //   grid-template-columns: 1fr 1fr;
+  // }
+  // @include for-mobile-landscap-to-tablet-portrait-only {
+  //   grid-template-columns: 1fr 1fr;
+  // }
   @include above-large-mobile {
     row-gap: 1rem;
     column-gap: 1rem;
@@ -232,6 +254,14 @@
     grid-area: 1/1/3/2;
     padding: $base-padding;
   }
+  // .featureLink {
+  //   padding: $base-padding;
+  //   text-align: center;
+  //   // grid-area: 1/1/2/3;
+  //   @include for-tablet-portrait-only {
+  //     grid-area: 2/1/3/4;
+  //   }
+  // }
   .featureImage {
     display: flex;
     align-items: end;
@@ -262,11 +292,17 @@
 }
 .workingImg {
   width: 100%;
+  // height: auto;
   display: flex;
   justify-content: center;
+  // margin: 0 auto;
   .workingImage {
     max-width: 350px;
+
     height: auto;
+    // @include for-large-mobile-only {
+    //   width: 75%;
+    // }
   }
   @include above-large-mobile {
     width: 50%;
@@ -276,8 +312,12 @@
 .docContainer {
   cursor: grab;
   overflow: hidden;
-  padding: 2rem 0px 4rem 0;
-
+  // margin-top: 4rem;
+  padding: 2rem 0px 0rem 0;
+  // @include for-large-phone-only {
+  //   margin: 1rem 0;
+  //   padding: unset;
+  // }
 }
 .innerDocContainer {
   display: flex;
@@ -312,6 +352,201 @@
     }
   }
 }
+.docCarousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.carouselRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.carouselCard {
+  background: transparent;
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 240px;
+  max-width: 360px;
+  box-shadow: none;
+  transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
+  position: relative;
+  overflow: visible; /* allow footer to overflow */
+  padding-bottom: 96px; /* room for the overlapping footer */
+}
+.cardSide {
+  transform: scale(0.95);
+  background: #fff;
+}
+.cardCenter {
+  transform: scale(1);
+  background: #f1fbff; /* light-blue framed background */
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(3,77,117,0.08);
+  min-width: 360px;
+}
+
+/* full-image containers for cards */
+.cardImageCenter {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+.cardImageSide {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+.arrowBtn {
+  background: transparent;
+  border: 1px solid #d7eaf0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+.carouselDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dfecec;
+  border: none;
+}
+.dotActive {
+  width: 22px;
+  height: 8px;
+  border-radius: 999px;
+  background: #0b5b8a;
+  border: none;
+}
+.smallPill {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #fff;
+  color: #0b5b8a;
+  border: 1px solid #daf0f7;
+  font-size: 12px;
+  margin-top: 6px;
+}
+.smallRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  margin-left: 8px;
+}
+.greenBtn {
+  display: inline-block;
+  background: #10a37f;
+  color: #fff !important;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.greenBtnOutline {
+  display: inline-block;
+  background: #fff;
+  color: #0b8f6d !important;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 2px solid rgba(16,163,127,0.12);
+  box-shadow: 0 6px 18px rgba(11,91,138,0.03);
+}
+
+/* Adjust button sizing for footer variants */
+.cardFooterInner {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -34px; /* overlap */
+  width: calc(100% - 40px);
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 14px 40px rgba(3,77,117,0.07);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* fee text and button sizing inside footer */
+.cardFooterInner .feeText {
+  flex: 0 0 auto;
+  margin-right: 8px;
+}
+.cardFooterCenter .greenBtn {
+  flex: 1 1 auto; /* fill remaining space but not overflow */
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  border-radius: 10px;
+}
+.cardFooterSide .greenBtnOutline {
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+/* bottom footer card inside each carousel card (overlapping the image) */
+.cardFooterSide,
+.cardFooterCenter {
+  display: block;
+}
+.cardFooterInner {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -34px; /* overlap */
+  width: calc(100% - 40px);
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 14px 40px rgba(3,77,117,0.07);
+}
+.cardFooterCenter .cardFooterInner {
+  max-width: 520px;
+  padding: 18px 22px;
+}
+.cardFooterSide .cardFooterInner {
+  max-width: 280px;
+  padding: 12px 14px;
+}
+.feeText {
+  font-weight: 700;
+  color: #0b5b8a;
+}
 .docImg {
   width: 65px;
   height: 65px;
@@ -338,14 +573,24 @@
     z-index: 2;
   }
 }
-
+// .docDot {
+//   &::after {
+//     content: "hello";
+//     position: absolute;
+//     display: block;
+//     background-color: $success-clr;
+//     width: 10px;
+//     height: 10px;
+//     border-radius: 50px;
+//     bottom: 0;
+//     right: 0;
+//     z-index: 2;
+//   }
+// }
 // signin sign up mdal
 // doctors section
 .docSection {
   padding: 4rem 0rem 4rem 0rem;
-  // @include for-large-phone-only {
-  //   padding: unset;
-  // }
 }
 /// get the app section
 .getAppImage {
@@ -385,3 +630,31 @@
   }
 }
 
+.storecontainer {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap; // Allows items to wrap on smaller screens
+
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    justify-content: center; // Center items on smaller screens
+  }
+
+  /* Adjusting the images to be responsive */
+  .downloadlink {
+    display: inline-block;
+  }
+
+  /* For the image sizes, ensuring flexibility */
+  .appstore {
+    min-width: 100px;
+    width: 190px;
+    height: 55px;
+
+    /* Adjust for smaller screens */
+    @media (max-width: 768px) {
+      width: 150px;
+      height: 45px;
+    }
+  }
+}

@@ -1,0 +1,349 @@
+@import "@/styles/mixin.scss";
+@import "@/styles/variables.scss";
+
+.comingSoonContainer {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.backgroundGradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #f8fcff 0%, #edf6fe 50%, #e8f4f8 100%);
+  z-index: 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(14, 84, 135, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -50%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(28, 107, 164, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  width: 100%;
+  padding: 3rem 2rem;
+  text-align: center;
+
+  @include tablet-large-and-below {
+    padding: 2rem 1.5rem;
+  }
+
+  @include mobile-landscape-and-below {
+    padding: 1.5rem 1rem;
+  }
+}
+
+.header {
+  margin-bottom: 4rem;
+
+  @include mobile-landscape-and-below {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.logoSection {
+  margin-bottom: 2rem;
+}
+
+.mainTitle {
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #1e1e1e;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+
+  @include tablet-large-and-below {
+    font-size: 3.5rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 2.5rem;
+  }
+}
+
+.mainTitleHighlight {
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: $primary-clr;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+
+  @include tablet-large-and-below {
+    font-size: 3.5rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 2.5rem;
+  }
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: $text-clr;
+  margin: 1.5rem 0 0 0;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+
+  @include tablet-large-and-below {
+    font-size: 1.1rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 1rem;
+  }
+}
+
+.countdownSection {
+  margin: 4rem 0;
+  display: flex;
+  justify-content: center;
+
+  @include mobile-landscape-and-below {
+    margin: 2.5rem 0;
+  }
+}
+
+.countdown {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: $white;
+  padding: 2.5rem 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(14, 84, 135, 0.1);
+  border: 2px solid rgba(14, 84, 135, 0.1);
+
+  @include tablet-large-and-below {
+    padding: 2rem 2rem;
+    gap: 0.8rem;
+  }
+
+  @include mobile-landscape-and-below {
+    padding: 1.5rem 1.5rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+}
+
+.timeUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timeValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: $primary-clr;
+  line-height: 1;
+
+  @include tablet-large-and-below {
+    font-size: 2rem;
+  }
+
+  @include mobile-landscape-and-below {
+    font-size: 1.5rem;
+  }
+}
+
+.timeLabel {
+  font-size: 0.85rem;
+  color: $text-clr;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  @include mobile-landscape-and-below {
+    font-size: 0.75rem;
+  }
+}
+
+.separator {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $primary-clr;
+  margin: 0 0.5rem;
+  opacity: 0.3;
+
+  @include mobile-landscape-and-below {
+    margin: 0 0.2rem;
+    font-size: 1.5rem;
+  }
+}
+
+.subscriptionSection {
+  margin: 3rem 0;
+
+  @include mobile-landscape-and-below {
+    margin: 2rem 0;
+  }
+}
+
+.subscriptionForm {
+  display: flex;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @include mobile-landscape-and-below {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
+
+.emailInput {
+  flex: 1;
+  min-width: 250px;
+  padding: 1rem 1.5rem;
+  border: 2px solid $primary-clr;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: $black;
+  transition: all 0.3s ease;
+
+  &::placeholder {
+    color: $text-clr;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(14, 84, 135, 0.1);
+    border-color: $primary-clr;
+  }
+
+  @include mobile-landscape-and-below {
+    min-width: 100%;
+  }
+}
+
+.notifyButton {
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, $primary-clr 0%, #1c6ba4 100%);
+  color: $white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(14, 84, 135, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(14, 84, 135, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @include mobile-landscape-and-below {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+.successMessage {
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  background: #d4edda;
+  color: #155724;
+  border-radius: 8px;
+  font-weight: 500;
+  border: 2px solid #c3e6cb;
+  animation: slideInDown 0.3s ease;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 2px solid rgba(14, 84, 135, 0.1);
+
+  @include tablet-large-and-below {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+  }
+
+  @include mobile-landscape-and-below {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+}
+
+.featureItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: $text-clr;
+    font-weight: 500;
+
+    @include mobile-landscape-and-below {
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.featureIcon {
+  font-size: 3rem;
+  line-height: 1;
+
+  @include mobile-landscape-and-below {
+    font-size: 2.5rem;
+  }
+}

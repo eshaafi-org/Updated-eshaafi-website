@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Image from "next/image";
 import style from "../../styles/bookAppointment.module.scss";
+import styles from "@/styles/bookSubscription.module.scss";
 import SlotTimer from "./SlotTimer";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
@@ -60,6 +61,7 @@ export default function PaymentMethod({
     wallet: false,
   });
   const { loading, profiles, wallet } = states;
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   // getting all the profile of patient
   const getProfiles = () => {
     setStates({ type: "LOADING" });
@@ -143,27 +145,38 @@ export default function PaymentMethod({
       </section>
       {/* payment section */}
       <section className=" d-flex flex-column row-gap-1">
-        <span className="d-flex justify-content-between flex-column row-gap-1">
+        <span className="d-flex justify-content-between  row-gap-1">
           <h3 className="text-dark">Payment Method </h3>
           <span className="d-flex align-items-center justify-content-end col-gap-1">
-            <p>Use Wallet Balance</p>
+            <p>Use Wallet Point</p>
             <div
               className={
                 style.checkboxWrapper + " d-flex align-items-center col-gap-1"
               }
             >
-              <span>Rs.{response.wallet} </span>
+              <span>you have {response.wallet} point </span>
               <input
                 type="checkbox"
                 className={style.scGJwTLC + " " + style.ikxBAC}
                 checked={wallet}
                 name="wallet"
+                // onChange={(e) => {
+                //   setStates({ type: "WALLET" });
+                //   if (e.target.checked) {
+                //     setPaymentId("wallet");
+                //     setMethod("Wallet");
+                //   } else setPaymentId("");
+                // }}
                 onChange={(e) => {
                   setStates({ type: "WALLET" });
                   if (e.target.checked) {
                     setPaymentId("wallet");
                     setMethod("Wallet");
-                  } else setPaymentId("");
+                    setSelectedPaymentMethod("wallet");
+                  } else {
+                    setPaymentId("");
+                    setSelectedPaymentMethod("");
+                  }
                 }}
                 disabled={response.wallet === 0}
               />
@@ -208,6 +221,38 @@ export default function PaymentMethod({
             ))}
           </ul>
         )}
+        <div className={styles.payment1}>
+          <ul
+            className={`d-flex flex-column row-gap-1 col-gap-2 w-100 mt-2 ${styles.paymentMethodList}`}
+          >
+            <li
+              className={`${styles.paymentMethodItem} border rounded w-100 p-3 d-flex align-items-center`}
+            >
+              <input
+                type="radio"
+                id="payPro"
+                name="paymentId"
+                // style={{ width: "24px", height: "24px" }}
+                checked={selectedPaymentMethod === "payFast"}
+                onChange={() => {
+                  if (wallet) {
+                    setStates({ type: "WALLET" });
+                    setPaymentId("payPro");
+                    setSelectedPaymentMethod("payPro");
+                    setMethod("payPro");
+                  } else {
+                    setSelectedPaymentMethod("payFast");
+                    setPaymentId("payPro");
+                    setMethod("payPro");
+                  }
+                }}
+              />
+              <label htmlFor="payPro" className={styles.paymentMethodLabel}>
+                JazzCash / EasyPaisa / Debit Card
+              </label>
+            </li>
+          </ul>
+        </div>
       </section>
     </section>
   );

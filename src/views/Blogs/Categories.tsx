@@ -1,67 +1,47 @@
-import style from "../../styles/blogs.module.scss";
-import { useEffect, useRef, useState } from "react";
+import styles from "../../styles/healthlibrary.module.scss";
 import Link from "next/link";
 import { MdNavigateNext } from "react-icons/md";
-import { motion } from "framer-motion";
-import { useWindowSize } from "react-use";
-import BlogCard from "@/components/BlogCard";
 
 export default function Categories({ categories }: { categories: any[] }) {
-  const size = useWindowSize();
-  const [width, setWidth] = useState<number | null>(null);
-  let carousel = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (carousel.current) {
-      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
-    }
-  }, []);
   return (
-    <ul className={style.categoryCont}>
+    <>
       {categories.map((item, indx) => (
-        <li key={indx}>
-          {" "}
-          <div className="d-flex w-100 justify-content-between sm-col-gap-0-5">
-            <span>
-              <h2 className={style.blogPageHeadings}>{item.name}</h2>
-              <p className="mainHeadingText">{item.description}</p>
-            </span>
-            <Link
-              href={`/blog/category/${item.name.replace(/\s/g, "")}`}
-              className="link"
-            >
+        <section key={indx} className={styles.categorySection}>
+          <div className={styles.categoryHeader}>
+            <div className={styles.categoryTitle}>
+              <div className={styles.categoryIcon}>
+                <img src="/images/tech/blog-icon.png" alt={item.name} />
+              </div>
+              <div>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+              </div>
+            </div>
+            <Link href={`/blog/category/${item.name.replace(/\s/g, "")}`} className={styles.viewAllBtn}>
               View all <MdNavigateNext />
             </Link>
           </div>
-          {typeof window !== "undefined" && (
-            <motion.div
-              ref={carousel}
-              whileTap={{ cursor: "grabbing" }}
-              className={style.categoryBlogsContainer}
-            >
-              <motion.div
-                whileTap={{ cursor: "grabbing" }}
-                drag={"x"}
-                dragConstraints={{ right: 0, left: -width! }}
-                key={JSON.stringify(size)}
-                className={style.innerCategoryBlogsContainer}
-              >
-                {item.blogs.map((blog: any, indx: number) => (
-                  <div
-                    key={indx}
-                    // whileTap={{ cursor: "grabbing" }}
-                    style={{
-                      visibility: blog.icon === "" ? "hidden" : "visible",
-                    }}
-                    className={style.sliderItm}
-                  >
-                    <BlogCard blog={blog} link={"/blog/"} />
+          <div className={styles.articlesGrid}>
+            {item.blogs.slice(0, 3).map((blog: any, index: number) => (
+              <Link key={index} href={`/blog/${blog.name}`} className={styles.articleCard}>
+                <div className={styles.articleImage}>
+                  <img src={blog.url} alt={blog.title} />
+                </div>
+                <div className={styles.articleContent}>
+                  <h4>{blog.title}</h4>
+                  <div className={styles.articleMeta}>
+                    <span className={styles.readTime}>5 min read</span>
+                    <div className={styles.authorInfo}>
+                      <img src="/images/author.png" alt="Author" />
+                      <span>Author</span>
+                    </div>
                   </div>
-                ))}
-              </motion.div>
-            </motion.div>
-          )}
-        </li>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
       ))}
-    </ul>
+    </>
   );
 }

@@ -1,12 +1,12 @@
 //doctors List Page
-"use client";
 import BenefitsOfVideoConsultation from "@/views/Doctor/VideoConsultation";
 import FQuest from "@/views/Doctor/FQuest";
-import DoctorList from "@/views/Doctor/DoctorsList";
+import DoctorGrid from "@/components/FindDoctors/DoctorGrid";
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import GetApp from "@/views/Home/GetApp";
-// Renders the DoctorList, BenefitsOfVideoConsultation, and FQuest components
+import { doctbenifits } from "@/helper/FAQData";
+// Renders the DoctorGrid, BenefitsOfVideoConsultation, and FQuest components
 export default function Doctors({ doctors }: any) {
   return (
     <>
@@ -17,9 +17,9 @@ export default function Doctors({ doctors }: any) {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main>
-        <DoctorList list={doctors} />
+        <DoctorGrid doctors={doctors} />
         <BenefitsOfVideoConsultation />
-        <FQuest />
+        <FQuest quests={doctbenifits} heading={"Frequently Asked Questions"} />
         <GetApp color="#DFEAF2" />
       </main>
     </>
@@ -33,12 +33,13 @@ export async function getStaticProps() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      type: "specialization",
-      search: "General Physician",
+      type: "categroy",
+      // search: "",
     }),
   });
 
   const docData = await response.json();
+  console.log("docData", docData);
   return {
     props: {
       doctors: docData.response.Items.sort((a: any, b: any) => {

@@ -1,0 +1,1071 @@
+@import "./mixin";
+@import "./variables";
+
+// Labs Hero Section
+.labsHeroContainer {
+  width: 100%;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+  @include large-mobile-and-below {
+    min-height: 450px;
+  }
+}
+
+.labsHeroOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.labsHeroContent {
+  text-align: center;
+  color: #ffffff;
+  z-index: 1;
+  padding: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 0.5rem;
+}
+
+.labsHeroHeading {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  order: 1;
+  
+  @include above-tablet {
+    font-size: 3rem;
+  }
+  
+  @include tablet-and-below {
+    font-size: 2rem;
+  }
+  
+  @include large-mobile-and-below {
+    font-size: 1.75rem;
+  }
+}
+
+.highlightRed {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.labsHeroText {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #ffffff;
+  order: 2;
+  
+  @include tablet-and-below {
+    font-size: 1rem;
+  }
+  
+  @include large-mobile-and-below {
+    font-size: 0.9rem;
+  }
+}
+
+// ID (Lab with Name and Detail) Styling
+// Upload E-Prescription Button
+.checkoutDetail {
+  @include tablet-large-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @include tablet-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @include large-mobile-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+.labDetail {
+  @include large-mobile-and-below {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+.cartButton {
+  gap: 0.5rem;
+  font-size: 14px;
+  width: 100%;
+  &:hover {
+    background-color: #0e5487 !important;
+    color: #fff;
+  }
+}
+
+// search Bar And Search Icon
+.search {
+  position: relative;
+  input {
+    background-color: #f5fbff;
+    padding: 12px 16px 12px 35px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    font-size: 16px;
+    width: 35%;
+    @include tablet-large-and-below {
+      width: 50%;
+    }
+    @include tablet-and-below {
+      width: 60%;
+    }
+    @include large-mobile-and-below {
+      width: 100%;
+    }
+  }
+}
+.searchIcon {
+  background-color: #f5fbff;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #0e5487;
+}
+.searchbtn {
+  display: none;
+  @include large-mobile-and-below {
+    display: block;
+  }
+}
+//Cart Design
+.cart {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Set a minimum width of 200px for each card */
+  grid-gap: 24px;
+  @include for-large-mobile-only {
+    grid-template-columns: 1fr;
+  }
+  @include for-medium-mobile-only {
+    grid-template-columns: 1fr;
+  }
+  @include for-small-mobile-only {
+    grid-template-columns: 1fr;
+  }
+  @include for-mobile-landscap-to-tablet-portrait-only {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(250px, 1fr)
+    ); /* Adjust the columns based on screen size */
+  }
+  @include for-large-tablet-only {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  @include for-tablet-landscape-to-mini-laptop-only {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+.cartDetail {
+  border: 1px solid #d7ddea;
+  border-radius: 12px;
+  padding: 1rem;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+.blackColor {
+  color: #0d1b34 !important;
+  font-weight: 500 !important;
+  text-transform: capitalize;
+}
+.blueColor {
+  color: #1b76b8 !important;
+  font-size: 16px;
+  font-weight: 700;
+}
+.fadeColor {
+  color: #77777777 !important;
+  text-decoration: line-through;
+  font-size: 16px;
+  font-weight: 700;
+}
+/// home page styling
+/// labs list section
+.labsHeadingContainer {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.interFont {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.labList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 2rem;
+  column-gap: 2rem;
+  row-gap: 2rem;
+  @include tablet-and-below {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    margin-top: 1rem;
+  }
+}
+
+.labCard {
+  border-radius: 12px;
+  /* slightly darker thin black border for Lab Partner cards */
+  border: 1px solid rgba(0,0,0,0.32);
+  box-shadow: 0px 1px 3px 0px rgba(37, 49, 65, 0.08);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1rem 0 1rem;
+  font-family: 'Inter', sans-serif;
+  background: #ffffff;
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0px 4px 12px 0px rgba(37, 49, 65, 0.1);
+  }
+  
+  img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  
+  span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    
+    p {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin: 0;
+      color: #1a1a1a;
+      font-family: 'Inter', sans-serif !important;
+    }
+  }
+}
+
+.labSelectBtn {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 0.75rem 0;
+  
+  button {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+  }
+}
+
+.labCardText {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400 !important;
+}
+// packages list styleing
+.packagesHeadingContainer {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.viewAllLink {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 500 !important;
+  color: #0e5487 !important;
+  text-decoration: none !important;
+  
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
+
+.packagesList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1.5rem;
+  row-gap: 2rem;
+  
+  @include tablet-and-below {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+  }
+}
+
+.packageCard {
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  background: #EEF6FF; /* requested pale-blue */
+  padding: 1.5rem;
+  gap: 1.25rem;
+  align-items: stretch; /* let children fill height so we can align contents to bottom */
+  justify-content: space-between;
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+  min-height: 220px;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 8px 20px rgba(37,49,65,0.06);
+  }
+
+  @include large-mobile-and-below {
+    flex-direction: column;
+    min-height: auto;
+    align-items: flex-start;
+  }
+}
+
+.packageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 60%;
+  height: 100%;
+  justify-content: flex-end; /* push text to bottom */
+  align-items: flex-start;
+
+  @include large-mobile-and-below {
+    width: 100%;
+    justify-content: flex-start; /* normal flow on mobile */
+  }
+}
+
+.packageText {
+  padding: 0;
+
+  /* Target the paragraph-based typography components (Text24 etc.) */
+  p {
+    margin: 0;
+    font-size: 1.6rem !important; /* ~24px */
+    line-height: 1.04 !important; /* tighten vertical spacing */
+    font-weight: 500 !important; /* use thinner weight */
+    color: #222222 !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  /* Ensure the small subtext paragraph inside the same container stays small
+     (Text16 emits a <p> and is passed the module class `packageSubtext`).
+     This selector targets the p element which also has the packageSubtext class
+     and has higher specificity to override broader p rules. */
+  p.packageSubtext {
+    margin: 0.25rem 0 0 0 !important;
+    font-size: 0.88rem !important; /* small subtext */
+    line-height: 1.25 !important;
+    font-weight: 400 !important;
+    color: #6b7780 !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  @include large-mobile-and-below {
+    h3, h2 {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.packageSubtext {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400 !important; /* use normal weight so it remains readable */
+  color: #6b7780 !important;
+  font-size: 0.78rem !important; /* reduced size for 'Includes X tests' */
+  margin-top: 0.25rem !important;
+}
+
+.packageCardImg {
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* keep image toward the right */
+  height: 100%;
+  min-height: 160px; /* ensure background image area is visible */
+  background-repeat: no-repeat;
+  background-position: right bottom; /* place image at bottom-right */
+  background-size: auto 100%; /* slightly bigger image */
+  position: relative;
+
+  img {
+  max-width: 300px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  @include large-mobile-and-below {
+    width: 100%;
+    margin-top: 0.75rem;
+  }
+}
+// working steps styling
+.worksHeadingContainer {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.workingStepsStyling {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 0;
+  border-bottom: none;
+  
+  @include tablet-and-below {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+.workingStep {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  
+  img {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+}
+
+.workingStepText {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400 !important;
+  color: #1a1a1a !important;
+  line-height: 1.5;
+  text-align: left;
+}
+
+// uploading prescription section
+.uploadingPrescription {
+  display: flex;
+  background-color: #e3f3ff;
+  border-radius: 12px;
+  .prescriptionText {
+    width: 50%;
+    padding: 1rem 2rem;
+    @include large-mobile-and-below {
+      width: 100%;
+      padding: 1rem 1rem;
+    }
+  }
+  .prescriptionImg {
+    width: 50%;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    @include large-mobile-and-below {
+      display: none;
+    }
+  }
+}
+.butn {
+  width: 80%;
+  @include large-mobile-and-below {
+    width: 100%;
+  }
+}
+// Package Page Design
+.package {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  column-gap: 1.5rem;
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    row-gap: 1.5rem;
+  }
+}
+.packageList {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 1rem;
+  .labslist {
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0px 2px 4px 1px rgba(37, 49, 65, 0.05);
+    padding: 1rem;
+    .imagePackage {
+      border: 1px solid #e4e4e4;
+      border-radius: 50%;
+      width: 82px;
+      height: 82px;
+      @include large-mobile-and-below {
+        width: 70px;
+        height: 70px;
+      }
+    }
+    @include large-mobile-and-below {
+      flex-direction: column;
+      gap: 0.7rem;
+      padding: 0.6rem;
+    }
+  }
+  .packageButton {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    @include large-mobile-and-below {
+      flex-direction: row;
+      button {
+        font-size: 12px;
+        width: 100%;
+        gap: 1rem;
+      }
+    }
+    :link {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+.helpline {
+  :link {
+    color: #fff;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+// HelpLine Component
+.helplineCom {
+  border-radius: 12px;
+  background: #e6f2f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  gap: 2rem;
+  
+  @include large-mobile-and-below {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
+.helplineContent {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+}
+
+.helplineText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.helplineHeading {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  color: #1a1a1a !important;
+  margin: 0 !important;
+  font-size: 1.3rem !important;
+}
+
+.helplineSubtext {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 400 !important;
+  color: #666666 !important;
+  margin: 0 !important;
+  font-size: 1rem !important;
+}
+
+.helplineButton {
+  display: flex !important;
+  align-items: center;
+  gap: 0.75rem !important;
+  padding: 0.75rem 1.5rem !important;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif !important;
+  border-radius: 12px !important; /* rounded corners for the Call Now button */
+  
+  @include large-mobile-and-below {
+    width: 100%;
+    justify-content: center;
+  }
+}
+// CheckOut Page Styling
+.addressContainer {
+  width: 80%;
+  @include large-mobile-and-below {
+    width: 100%;
+  }
+}
+.address {
+  border-radius: 8px;
+  box-shadow: 0px 5px 10px 0px rgba(88, 88, 88, 0.08);
+  padding: 1.5rem;
+  .addressListItem {
+    border-bottom: 1px solid #d7ddea;
+    padding: 1rem 0;
+    &:last-child {
+      border-bottom: unset;
+      padding-bottom: unset !important;
+    }
+  }
+}
+// input[type=radio].radioCheck:checked {
+//   background-color: #009b94 !important;
+// }
+.customModal {
+  max-width: 828px;
+  padding: 1rem;
+}
+.customModal2 {
+  max-width: 600px;
+  padding: 1rem;
+}
+.modalField {
+  grid-template-columns: 1fr 1fr;
+  @include tablet-and-below {
+    grid-template-columns: 1fr;
+  }
+}
+.discard {
+  color: #b00020;
+}
+.note {
+  input {
+    border-radius: 8px;
+    border: 1px solid #d7ddea;
+    outline: none;
+  }
+}
+.blueColor {
+  color: #1b76b8 !important;
+}
+.blackCol {
+  color: #192a3e !important;
+}
+.blackColor1 {
+  color: #192a3e !important;
+  font-weight: 600;
+}
+// Deatail Div
+.orderDetail {
+  width: 65%;
+  @include tablet-large-and-below {
+    width: 100%;
+  }
+}
+.summary {
+  width: 35%;
+  border-radius: 12px;
+  border: 0.5px solid #d7ddea;
+  background: #f5fbff;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  height: fit-content;
+  table {
+    /* Target the paragraph produced by Text24/Text22 heading components specifically */
+    p.text24, p.text22 {
+      margin: 0;
+      font-size: 1.6rem !important; /* ~24px */
+      line-height: 1.08 !important; /* tighten vertical spacing */
+      font-weight: 600 !important; /* make heading slightly bolder than subtext */
+      color: #0d1b34 !important;
+      font-family: 'Inter', sans-serif !important;
+    }
+
+    /* Ensure the small subtext (Text16) remains small and sits under the heading */
+    p.text16, & .packageSubtext {
+      margin: 0.2rem 0 0 0;
+      font-size: 0.78rem !important; /* smaller subtext */
+      line-height: 1.25 !important;
+      font-weight: 400 !important; /* lighter than heading */
+      color: #6b7780 !important; /* lighter color than heading */
+      font-family: 'Inter', sans-serif !important;
+    }
+    td {
+      text-align: end;
+    }
+  }
+  input {
+    width: 100%;
+    background: #f5fbff;
+    border-radius: 4px;
+    padding: 10px 16px;
+    border: 1px solid #dfeaf2 !important;
+  }
+  @include tablet-large-and-below {
+    width: 70%;
+  }
+  @include large-mobile-and-below {
+    width: 100%;
+  }
+}
+.applyButton {
+  padding: 0.5rem 1rem;
+  margin-left: 4px;
+  border-radius: 4px;
+  background-color: #1c6ba4;
+  @include for-large-mobile-only {
+    padding: 0.5rem 0.8rem;
+  }
+  @include large-mobile-and-below {
+    padding: 0.5rem 0.6rem;
+  }
+}
+/// labs eprescription page stylin
+.prescriptionContent {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  .listUl {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    row-gap: 0.5rem;
+    li {
+      display: flex;
+      column-gap: 0.5rem;
+      align-items: center;
+    }
+  }
+  @include large-mobile-and-below {
+    display: flex;
+    flex-direction: column-reverse;
+    row-gap: 2rem;
+  }
+}
+.uploadHereCont {
+  border: 1px dashed #ccc;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.5rem;
+  padding: 1rem;
+}
+.uploadingFile[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+.prescriptionForm {
+  margin-top: 1rem;
+  display: grid;
+  row-gap: 2rem;
+  width: 100%;
+  grid-template-columns: 100%;
+  @include large-mobile-and-below {
+    grid-template-columns: 100%;
+  }
+}
+
+.formFieldsContainer {
+  display: grid;
+  width: 100%;
+}
+
+.formFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 1.5rem;
+  row-gap: 1.5rem;
+  @include tablet-and-below {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  
+  label {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #192a3e;
+  }
+}
+
+.inputFieldStyle {
+  padding: 10px 12px !important;
+  border-radius: 6px !important;
+  border: 1px solid #d7ddea !important;
+  font-size: 14px;
+  
+  &:focus {
+    border-color: #1b76b8 !important;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+}
+
+.collectionForm {
+  display: grid;
+  gap: 1rem;
+}
+.btnCheck {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+  // width: 100%;
+}
+.labelrdioclassProfile {
+  display: block;
+  background: #ffffff;
+  border-radius: 8px;
+  margin: 4px;
+  cursor: pointer;
+}
+.labelrdioclassProfile:hover {
+  color: #009b94;
+}
+.labelActiveProfile {
+  color: #009b94;
+  background: rgba(0, 155, 148, 0.08);
+  border-radius: 8px;
+  // border-top-left-radius: 50px;
+  // border-top-right-radius: 50px;
+  padding: 0.2rem;
+  position: relative;
+  img {
+    border: 3px solid #009b94;
+  }
+  &::after {
+    content: "\2713";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+    background-color: #009b94;
+    top: 5px;
+    right: 6px;
+    color: #fff;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+  }
+}
+.paymentActive {
+  position: relative;
+  margin-left: 2rem;
+  &::before {
+    content: "";
+    bottom: 5px;
+    left: -30px;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    background-color: $primary-clr;
+    border: 2px solid #fff;
+    outline: 2px solid $primary-clr;
+
+    &:hover {
+      border-color: #009b94;
+    }
+  }
+}
+.paymentCircle {
+  position: relative;
+  margin-left: 2rem;
+  &::before {
+    content: "";
+    bottom: 5px;
+    left: -30px;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    border: 1px solid #555;
+    // background-color: #555;
+    &:hover {
+      border-color: #009b94;
+    }
+  }
+}
+.typeActive {
+  position: relative;
+  margin-left: 2rem;
+  &::before {
+    content: "";
+    bottom: 5px;
+    left: -30px;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    background-color: #009b94;
+    border: 2px solid #fff;
+    outline: 2px solid #009b94;
+
+    &:hover {
+      border-color: #009b94;
+    }
+  }
+}
+.typeCircle {
+  position: relative;
+  margin-left: 2rem;
+  &::before {
+    content: "";
+    bottom: 5px;
+    left: -30px;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50px;
+    border: 1px solid #555;
+    // background-color: #555;
+    &:hover {
+      border-color: #009b94;
+    }
+  }
+}
+.collectionOptions {
+  display: flex;
+  column-gap: 3rem;
+  margin-top: 0.5rem;
+}
+.formFields {
+  display: grid;
+  width: 80%;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 1rem;
+  column-gap: 1rem;
+  @include large-mobile-and-below {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+}
+.nameField {
+  grid-area: 1 / 1 / 2 / 3;
+  @include large-mobile-and-below {
+    grid-area: auto;
+  }
+}
+.labField {
+  grid-area: 2 / 2 / 3 / 4;
+  background-color: #f5fbff;
+  border: 1px solid #d7ddea !important;
+  border-radius: 6px;
+  padding: 10px 12px !important;
+  font-size: 14px;
+  cursor: pointer;
+  
+  &:focus {
+    border-color: #1b76b8 !important;
+    outline: none;
+  }
+  
+  @include large-mobile-and-below {
+    grid-area: auto;
+  }
+}
+.timeField {
+  @include large-mobile-and-below {
+    grid-area: auto;
+  }
+}
+.paymentMethod {
+  border: 1px solid #d7ddea;
+  border-radius: 8px;
+  width: 100%;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #1b76b8;
+    background-color: #f5fbff;
+  }
+  
+  @include large-mobile-and-below {
+    width: 100%;
+  }
+}
+
+.paymentMethodContainer {
+  display: grid;
+  gap: 1rem;
+}
+// packages page styling ---///
+.packageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 2rem;
+  @include large-mobile-and-below {
+    flex-direction: column;
+    row-gap: 1rem;
+  }
+}
+.packageIcon {
+  border-radius: 50%;
+  width: 100px;
+  height: 95px;
+  box-shadow: 0px 1px 5px rgba($color: #000000, $alpha: 0.1);
+  background-color: #dfeaf2;
+}
+.packageDetails {
+  display: flex;
+  align-items: flex-start;
+  column-gap: 1rem;
+}
+.testsListContainer {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.testsList {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 1rem;
+  row-gap: 1rem;
+  @include tablet-and-below {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+  }
+}

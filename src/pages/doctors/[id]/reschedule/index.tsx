@@ -6,7 +6,7 @@ import BookAppointmentPage from "@/views/BookAppointment/BookAppointmentPage";
 import { useRouter } from "next/router";
 import Head from "next/head";
 // import { useParams } from "next/navigation";
-import SkeletonLoader from "@/components/SkeletonLoader";
+import { SkeletonLoader } from "@/components/SkeletonLoader";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Scheduling() {
@@ -32,7 +32,6 @@ export default function Scheduling() {
         )
         .then((res) => {
           setLoading(false);
-          console.log(res);
           setResponse(res.data.response);
         })
         .catch((err) => {

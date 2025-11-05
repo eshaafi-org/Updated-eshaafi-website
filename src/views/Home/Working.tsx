@@ -1,9 +1,9 @@
 import { MdOutlineDoneAll } from "react-icons/md";
 import Image from "next/image";
-import working from "../../../public/images/working.svg";
-import download from "/public/images/download-badge-google-play-badge.svg";
-import Link from "next/link";
+import working from "../../../public/images/working.png";
+
 import style from "../../styles/home.module.scss";
+import Stores from "./Stores";
 export default function Working() {
   return (
     <section className="w-100 bg-white">
@@ -39,14 +39,8 @@ export default function Working() {
                 />
                 <p className="capitalize">Appointment Successfully Booked</p>
               </li>
-              <li className="flex col-gap-1 mt-1">
-                <Link
-                  href={
-                    "https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share"
-                  }
-                >
-                  <Image src={download} alt="eshaafi-download" />
-                </Link>
+              <li>
+                <Stores />
               </li>
             </ul>
           </div>

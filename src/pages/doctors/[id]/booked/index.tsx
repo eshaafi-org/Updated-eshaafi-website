@@ -6,7 +6,7 @@ import BookAppointmentPage from "@/views/BookAppointment/BookAppointmentPage";
 import { useRouter } from "next/router";
 import Head from "next/head";
 // import { useParams } from "next/navigation";
-import SkeletonLoader from "@/components/SkeletonLoader";
+import {SkeletonLoader} from "@/components/SkeletonLoader";
 export default function Booking() {
   const [response, setResponse] = useState({});
   const [loading, setLoading] = useState(true);
@@ -27,7 +27,6 @@ export default function Booking() {
         )
         .then((res) => {
           setLoading(false);
-
           setResponse(res.data.response);
         })
         .catch((err) => {

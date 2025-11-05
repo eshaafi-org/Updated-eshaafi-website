@@ -14,6 +14,13 @@ export const navLinks = [
     subLink: [],
     icon: <FaUserDoctor style={{ fontSize: 20 }} />,
   },
+  {
+    id: 2,
+    linkName: "Lab Test",
+    LinkRoute: "/labs",
+    subLink: [],
+    icon: <FaUserNurse style={{ fontSize: 20 }} />,
+  },
   // {
   //   id: 2,
   //   linkName: "Home Nursing",

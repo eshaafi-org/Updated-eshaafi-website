@@ -1,0 +1,82 @@
+/* ***************************************
+ * Medicine Page Styles
+ **************************************** */
+.medicinePage {
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 2rem;
+
+  background:  rgba(255, 255, 255, 0.35);
+  animation: fadeBg 1.2s ease-in-out;
+
+  @keyframes fadeBg {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .glassBox {
+    padding: 60px 90px;
+    border-radius: 20px;
+    background:
+    linear-gradient(135deg, #E9F6FF 0%, #F6FBFF 100%);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.45);
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    animation: popIn .7s ease-out;
+
+    @keyframes popIn {
+      0% { transform: scale(.85); opacity: 0;}
+      100% { transform: scale(1); opacity: 1;}
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      font-family: "Inter", sans-serif;
+      color: #00568A;
+      margin-bottom: 12px;
+      letter-spacing: .5px;
+    }
+
+    p {
+      font-size: 1.4rem;
+      font-family: "Inter", sans-serif;
+      color: #01324B;
+      opacity: .95;
+      font-weight: 400;
+      letter-spacing: .4px;
+    }
+  }
+  .loadingBar {
+  margin-top: 25px;
+  width: 140px;
+  height: 6px;
+  border-radius: 50px;
+  background: rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 45%;
+    background: linear-gradient(90deg, #00568A, #00B8AF);
+    animation: loaderMove 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes loaderMove {
+  0% { left: -45%; }
+  50% { left: 50%; }
+  100% { left: 100%; }
+}
+
+}
+

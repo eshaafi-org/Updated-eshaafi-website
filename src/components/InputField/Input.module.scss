@@ -1,3 +1,4 @@
+@import "../../styles/mixin";
 @import "../../styles/variables";
 .inputField {
   border: 1px solid #79747e;
@@ -11,4 +12,13 @@
     border: 1px solid $primary-clr;
     outline: 1px solid $primary-clr;
   }
+  @include tablet-and-below {
+    padding: 0.6rem;
+    font-size: 14px;
+  }
+}
+.inputField:disabled {
+  background-color: #fafafa; /* Add your desired background color */
+  color: #888; /* Add your desired text color */
+  cursor: not-allowed; /* Change cursor to indicate it's disabled */
 }

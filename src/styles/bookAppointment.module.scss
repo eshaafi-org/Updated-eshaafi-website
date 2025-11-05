@@ -225,7 +225,7 @@ div.scrollmenu a:hover {
     border-spacing: 0 1em;
     th {
       text-align: start;
-      font-weight: 400;
+      font-weight: 500;
     }
     td {
       text-align: end;
@@ -457,5 +457,5 @@ div.scrollmenu a:hover {
 }
 // summary
 .profilesContainer {
-  overflow-x: scroll;
+  overflow-x: auto;
 }

@@ -19,9 +19,8 @@ import { ToastContainer, toast } from "react-toastify";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
-// links
+import Modal from "react-bootstrap/Modal";
 
-// import { useRouter } from "next/navigation";
 export default function BookAppointmentPage({
   data,
   appointmentPage,
@@ -46,11 +45,13 @@ export default function BookAppointmentPage({
   const params = useRouter();
   const [response, setResponse] = useState<any>({});
   const [appointDate, setAppointDate] = useState(moment().format("YYYY-MM-DD"));
-  console.log(appointDate);
-  console.log(data.Items[0].slot_date);
   const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [paymentUrl, setPaymentUrl] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const handleModalClose = () => setShowModal(false);
+  const handleModalOpen = () => setShowModal(true);
   const [activeSlot, setSlot] = useState({
     time: "",
     id: "",
@@ -73,6 +74,7 @@ export default function BookAppointmentPage({
     doctorId: params.query.id,
     appoint_date: appointDate,
   };
+
   // booking appointment
   const bookAppointmentData = () => {
     if (paymentId === "wallet") {
@@ -91,6 +93,7 @@ export default function BookAppointmentPage({
       };
     }
   };
+
   // logout if token expire function
   const logout = () => {
     axios
@@ -108,10 +111,29 @@ export default function BookAppointmentPage({
         localStorage.removeItem("user");
       });
   };
+
   // handle booking appointment
   const handleBookAppoint = (flag: boolean) => {
     if (localStorage.getItem("user")) {
       if (flag) {
+        if (patient.patientId === "") {
+          toast("Kindly Select a profile", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            type: "info",
+          });
+          return;
+        }
+        if (paymentId === "payPro") {
+          handlePayfast();
+          return;
+        }
         setLoading(true);
         axios
           .post(
@@ -127,7 +149,6 @@ export default function BookAppointmentPage({
             setPaymentScreen(false);
           })
           .catch((err) => {
-            // console.log(err.response.data.response.message);
             setLoading(false);
             if (err.response.status === 400) {
               toast(
@@ -206,12 +227,10 @@ export default function BookAppointmentPage({
               draggable: true,
               progress: undefined,
               theme: "light",
-              // type: "info",
             });
           })
           .catch((err) => {
             setLoading(false);
-            console.log(err.response.data.message);
             if (err.response.status === 401) {
               if (
                 err.response.data.message === "The incoming token has expired"
@@ -225,7 +244,6 @@ export default function BookAppointmentPage({
                   draggable: true,
                   progress: undefined,
                   theme: "light",
-                  // type: "info",
                 });
                 logout();
                 dispatch({ type: "loginModalSlice/signIn" });
@@ -239,7 +257,6 @@ export default function BookAppointmentPage({
                   draggable: true,
                   progress: undefined,
                   theme: "light",
-                  // type: "info",
                 });
               }
             } else if (err.response.status === 404) {
@@ -286,6 +303,40 @@ export default function BookAppointmentPage({
       dispatch({ type: "loginModalSlice/signIn" });
     }
   };
+
+  //handle Payfast Integration
+  // const handlePayfast = async () => {
+  //   const handshakeId = response.appointmentId;
+  //   const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}:51aec218-feb0-467f-9691-9a5843407db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
+  //   setPaymentUrl(url);
+  //   const appointmentData = {
+  //     appointmentId: response.appointmentId,
+  //     patientName: patient.patientName,
+  //     patientId: patient.patientId,
+  //     paymentId: paymentId,
+  //   };
+  //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
+  // },.;
+
+  const handlePayfast = async () => {
+    const handshakeId = response.appointmentId;
+    const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}slot_id=51aec218-feb0-467f-9691-9a584507db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
+    setPaymentUrl(url);
+    const appointmentData = {
+      appointmentId: response.appointmentId,
+      patientName: patient.patientName,
+      patientId: patient.patientId,
+      paymentId: paymentId,
+    };
+    localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
+  };
+  // Redirect to payment URL once it's set
+  useEffect(() => {
+    if (paymentUrl) {
+      window.location.href = paymentUrl;
+    }
+  }, [paymentUrl]);
+
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
     setLoading(true);
@@ -306,7 +357,6 @@ export default function BookAppointmentPage({
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err.response.data.response.message);
         setLoading(false);
         if (err.response.status === 400) {
           toast(err.response.data.response.message, {
@@ -361,12 +411,14 @@ export default function BookAppointmentPage({
         }
       });
   };
+
   // use effect
   useEffect(() => {
     if (data.Items) {
       setAppointDate(data.Items[0].slot_date);
     }
   }, [data]);
+
   return (
     <section className="container">
       {!success ? (
@@ -418,7 +470,6 @@ export default function BookAppointmentPage({
         </div>
       ) : (
         <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
-          {/* <AddressBar links={links} /> */}
           <Button
             variant="outlined"
             onClick={() => setSuccess(false)}
@@ -461,14 +512,21 @@ export default function BookAppointmentPage({
           >
             <Button variant="outlined">view details</Button>
           </Link>
-          {/* <Link href={`/appointments`}>
-            <Button>
-              Check Appointments <FaRegListAlt />
-            </Button>
-          </Link> */}
         </div>
       )}
       <ToastContainer />
+      <Modal show={showModal} onHide={handleModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Payment Gateway</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <iframe
+            src={paymentUrl}
+            style={{ width: "100%", height: "500px" }}
+            frameBorder="0"
+          />
+        </Modal.Body>
+      </Modal>
     </section>
   );
 }

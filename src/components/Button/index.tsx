@@ -3,7 +3,7 @@ import styles from "./Button.module.scss";
 
 // Props Interface
 interface Props {
-  type?: "button" | "submit";
+  type?: "button" | "submit" | "reset";
   className?: string;
   variant?: "outlined" | "contained" | "text";
   onClick?: () => void;
@@ -24,13 +24,12 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`${
-        variant === "text"
+      className={`${variant === "text"
           ? styles.text
           : variant === "outlined"
-          ? styles.outlined
-          : styles.contained
-      } ${className}`}
+            ? styles.outlined
+            : styles.contained
+        } ${className}`}
       onClick={onClick}
       disabled={disabled}
       style={style}

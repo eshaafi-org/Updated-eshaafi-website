@@ -27,12 +27,20 @@
   }
 }
 // text//////////////////////
+.text28 {
+  font-size: 28px;
+  font-weight: 500;
+  color: #0e5487;
+  @include large-mobile-and-below {
+    font-size: 22px;
+  }
+}
 .text24 {
   font-size: 24px;
   font-weight: 500;
   color: #0e5487;
   @include large-mobile-and-below {
-    font-size: 11px;
+    font-size: 20px;
   }
 }
 .text22 {
@@ -40,7 +48,7 @@
   font-weight: 500;
   color: #0e5487;
   @include large-mobile-and-below {
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 .text20 {
@@ -52,7 +60,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   @include large-mobile-and-below {
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 .text12 {
@@ -63,9 +71,6 @@
 }
 .text16 {
   font-size: 1rem;
-  @include large-mobile-and-below {
-    font-size: 12px;
-  }
 }
 .text14 {
   font-size: 0.9rem;

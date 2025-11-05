@@ -14,6 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { IoIosArrowForward, IoIosArrowRoundBack } from "react-icons/io";
 
 // reducer
 const reducer = (state: any, action: any) => {
@@ -80,6 +81,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
   const { phoneNum, otpLoading, verifyLoading, profileLoading, otpError } =
     modelStates;
   const [otp, setOtp] = useState<boolean>(false);
+  const [corporateLogin, setCorporateLogin] = useState<boolean>(false);
   const [profile, setProfile] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
@@ -211,6 +213,30 @@ export const Model = ({ page = "login" }: { page: string }) => {
                     password (OTP) for verification.
                   </p>
                 </span>
+                {/* <Formik
+                  initialValues={{ phone_no: phoneNum }}
+                  validationSchema={Yup.object({
+                    phone_no: Yup.string()
+                      .required("Phone number is required*")
+                      .test(
+                        "valid-phone",
+                        "Phone number must be valid",
+                        value => {
+                          if (!value) return false; // Required field, not checking for empty values.
+                          const firstChar = value.charAt(0);
+                          if (firstChar === '0') {
+                            // If it starts with '0', should be 11 digits.
+                            return value.length === 11 && /^(0[0-9]*)$/.test(value);
+                          } else if (firstChar === '3') {
+                            // If it starts with '3', should be 10 digits.
+                            return value.length === 10 && /^(3[0-5][0-9]*)$/.test(value);
+                          }
+                          return false; // If neither, fail the validation.
+                        }
+                      )
+                  })}
+                  onSubmit={getOtp}
+                > */}
                 <Formik
                   initialValues={{ phone_no: phoneNum }}
                   validationSchema={Yup.object({
@@ -263,6 +289,33 @@ export const Model = ({ page = "login" }: { page: string }) => {
                           </div>
                         ) : null}
                       </div>
+                      {!corporateLogin ? (
+                        <button
+                          type="button"
+                          className={style.corporateBtn}
+                          onClick={() => setCorporateLogin(true)}
+                        >
+                          <span>
+                            <p className="text-dark">Have corporate plan?</p>
+                            <p style={{ color: "#0E8781" }}>Login here</p>
+                          </span>
+                          <span>
+                            <IoIosArrowForward />
+                          </span>
+                        </button>
+                      ) : (
+                        <p
+                          className="mt-4"
+                          style={{
+                            color: "blue",
+                            fontSize: 12,
+                            cursor: "pointer",
+                          }}
+                          onClick={() => setCorporateLogin(false)}
+                        >
+                          <IoIosArrowRoundBack /> Login With personal account
+                        </p>
+                      )}
                       <div className="d-flex flex-column my-4">
                         <Button
                           type="submit"

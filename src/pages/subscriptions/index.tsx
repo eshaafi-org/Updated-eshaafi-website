@@ -1,9 +1,14 @@
+"use client";
 import Head from "next/head";
 import style from "@/styles/subscription.module.scss";
 import { Heading24, Heading40, Text16, Text12 } from "@/components/Typography";
 import GetApp from "@/views/Home/GetApp";
-import SubscriptionPlans from "@/views/subscriptions/Plans";
+import SubscriptionPlans from "@/views/Subscription/Plans";
 import Mission from "@/views/Home/Mission";
+import useDispatch from "react-redux";
+import Hero from "@/views/Home/Hero";
+import subscriptionImg from "../../../public/images/subscriptionPlans.png";
+import FQuest from "@/views/Doctor/FQuest";
 export default function Subscriptions() {
   return (
     <>
@@ -11,20 +16,14 @@ export default function Subscriptions() {
         <title>eShaafi | Subscriptions</title>
       </Head>
       <main>
-        <div className={style.heroSection}>
-          <div className="container">
-            <div className={style.heroContainer}>
-              <Heading24>Subscription Plans </Heading24>
-              <h2 className={`pageHeading`}>
-                Find the Right Plan for Your Health
-              </h2>
-              <p className="mainHeadingText">
-                We offer a variety of plans for stress-free healthcare for you
-                and your family.
-              </p>
-            </div>
-          </div>
-        </div>
+        <Hero
+          heading={"Avail Subscriptions Plans by eShaafi"}
+          text={
+            "Subscribe to our plans to avail discounts and exclusive offers"
+          }
+          img={subscriptionImg}
+          link=""
+        />
         <SubscriptionPlans />
         <Mission
           heading={"Benefits"}
@@ -33,44 +32,30 @@ export default function Subscriptions() {
             "eShaafi's subscription plans are designed with your convenience in mind. We understand the importance of uninterrupted access to telehealth services, and that's why we offer exclusive discounts as part of our plans. With eShaafi, you get a one-stop solution for all your healthcare needs."
           }
         />
-        <div className="container">
-          <div className={style.FQuest}>
-            <Heading40>Frequently Asked Questions</Heading40>
-            <div className={style.questions}>
-              <span>
-                <Text16
-                  className={"tw-bolder text-dark"}
-                >{`What is eShaafi's subscription plan?`}</Text16>
-                <Text12>
-                  {` eShaafi's subscription plan is a membership program that
+        <FQuest
+          heading="Frequently Asked Questions"
+          quests={[
+            {
+              heading: "What is eShaafi's subscription plan?",
+              text: `eShaafi's subscription plan is a membership program that
                   offers exclusive benefits and discounts for accessing
-                  telehealth services and addressing healthcare needs.`}
-                </Text12>
-              </span>
-              <span>
-                <Text16
-                  className={"tw-bolder text-dark"}
-                >{`Can I cancel my subscription at any time?`}</Text16>
-                <Text12>
-                  {`Yes, you have the flexibility to cancel your eShaafi
+                  telehealth services and addressing healthcare needs. `,
+            },
+            {
+              heading: "Can I cancel my subscription at any time?",
+              text: `Yes, you have the flexibility to cancel your eShaafi
                   subscription at any time, and there are no long-term
-                  commitments.`}
-                </Text12>
-              </span>
-              <span>
-                <Text16 className={"tw-bolder text-dark"}>
-                  {`What benefits do I get with these plans?`}{" "}
-                </Text16>
-                <Text12>
-                  {` With an eShaafi subscription, you can enjoy uninterrupted
+                  commitments.`,
+            },
+            {
+              heading: "What benefits do I get with these plans?",
+              text: ` With an eShaafi subscription, you can enjoy uninterrupted
                   access to telehealth services, receive exclusive discounts on
                   healthcare consultations, prescriptions, and more, all in one
-                  place.`}
-                </Text12>
-              </span>
-            </div>
-          </div>
-        </div>
+                  place.`,
+            },
+          ]}
+        />
         <GetApp color="#EDF6FE" />
       </main>
     </>

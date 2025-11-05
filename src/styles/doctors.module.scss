@@ -26,6 +26,13 @@
   border-radius: 50%;
 }
 
+/* Hide the green dot indicators (keep any 'Online' text) */
+.circle,
+.onlinecircle,
+.innercircle {
+  display: none !important;
+}
+
 .onlinetext {
   color: $success-clr;
   font-weight: bold;
@@ -117,18 +124,18 @@
 .benifitCont {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  // grid-template-rows: 1fr 1fr;
   row-gap: 2rem;
-  column-gap: 2rem;
-  @include above-small-mobile {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    row-gap: 0.5rem;
-  }
-  @include above-tablet {
+  column-gap: 3rem;
+  @include tablet-and-below {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(3, auto);
     row-gap: 1rem;
+  }
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 0.5rem;
   }
   li {
     .benefitItemCont {
@@ -308,20 +315,110 @@
 
 .serviceItem {
   display: inline-block;
-  padding: 0.2rem 0.7rem;
-  margin-right: 0.5rem;
+  padding: 0.35rem 1rem;
+  margin-right: 0.75rem;
   margin-bottom: 1rem;
-  border: 1px solid #f2f2f2;
-  border-radius: 4px;
-  background-color: #f2f2f2;
-  color: #192a3e;
+  border: 1px solid #0b5b8a; /* blue outline */
+  border-radius: 999px;
+  background-color: #ffffff; /* white background */
+  color: #0b5b8a;
   text-align: center;
   text-decoration: none;
   font-size: 14px;
+  box-shadow: 0 2px 6px rgba(11,91,138,0.06);
   @include above-mobile-landscape {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.25rem;
     margin-right: 1rem;
   }
+}
+
+/* Section list and alignment for education / experience */
+.sectionList {
+  li + li {
+    margin-top: 0.5rem;
+  }
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 1.25rem;
+}
+.eduItem {
+  width: 100%;
+  .left {
+    flex: 1 1 auto;
+  }
+  .right {
+    width: 80px;
+    text-align: right;
+    color: #6b7780;
+  }
+}
+
+/* Patient review summary panel */
+.patientReviewSection {
+  padding: 1rem 0 1.5rem 0;
+}
+.patientReviewSummary {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  background: #eaf7fb;
+  padding: 18px;
+  border-radius: 12px;
+}
+.summaryLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.reviewAvg {
+  font-size: 36px;
+  font-weight: 700;
+  color: #192a3e;
+}
+.reviewStars {
+  margin-top: 6px;
+  display:flex;
+  gap:6px;
+}
+.summaryRight {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Review list items */
+.reviewItemRow {
+  padding: 1rem 0;
+  border-bottom: 1px solid #f1f3f5;
+}
+.reviewDate {
+  color: #6b7780;
+  font-size: 13px;
+}
+.reviewAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #dce9ff;
+  color: #0b5b8a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.reviewStarsInline {
+  display: flex;
+  gap: 6px;
+}
+.reviewAuthor {
+  font-weight: 700;
+  color: #22303a;
+}
+.reviewTextItem {
+  color: #535a60;
+  margin-top: 0.75rem;
+  line-height: 1.6;
 }
 // doctor profile styling
 
@@ -373,6 +470,90 @@
     width: 100px;
     height: 100px;
   }
+}
+
+/* Profile hero styles */
+.profileHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+.ratingRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.ratingBadgeLarge {
+  background: #fff;
+  color: #222;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.expPill {
+  background: #00568A;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.bookBtn {
+  display: inline-block;
+  width: 100%;
+  max-width: none; /* fill available width */
+  margin-top: 1rem;
+  padding: 16px 22px;
+  background: #0b5b8a; /* darker teal/blue closer to design */
+  color: #fff !important;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 8px 28px rgba(13,110,253,0.12);
+}
+
+/* Make avatar bigger in hero */
+.profileHero .imageContainer {
+  width: 140px;
+  height: 140px;
+}
+
+.profileHero .docImg {
+  width: 140px !important;
+  height: 140px !important;
+  border-radius: 50% !important;
+}
+
+/* rating badge small white pill like screenshot */
+.ratingBadgeSmall {
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+/* adjust hero typography */
+.docTitle {
+  font-size: 22px;
+  margin-top: 8px;
+  margin-bottom: 6px;
+}
+.docSpecialization {
+  color: #55656a;
+  margin-bottom: 12px;
 }
 
 .ellipse_div {
@@ -522,25 +703,32 @@
   }
 }
 .docOnline {
-  border: 3px solid green;
+  /* show a small green online dot at bottom-right of the avatar in profile hero */
+  border: none !important;
   border-radius: 50%;
   position: relative;
+
+  /* small dot */
   &::after {
     content: "";
     position: absolute;
-    width: 12px;
-    height: 12px;
-    background-color: green;
-    bottom: 10px;
-    right: 0px;
+    width: 14px;
+    height: 14px;
+    background-color: #32D24A; /* green */
     border-radius: 50%;
-    z-index: 2;
+    border: 2px solid #fff; /* thinner white ring so it sits inside */
+    /* move slightly more inside the avatar */
+    bottom: 12px;
+    right: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    z-index: 5;
   }
 }
 .docPageHeading {
   font-size: 16px;
   // margin-bottom: 0.3rem !important;
   text-transform: capitalize;
+  padding-top: 3rem;
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 1.5rem !important;
     // margin-bottom: 0.5rem !important;
@@ -552,8 +740,9 @@
 }
 /// doctor profile page
 .docSecHeading {
-  font-size: 0.9rem;
-  margin-bottom: 0.7rem !important;
+  font-size: 1.05rem;
+  margin-bottom: 0.9rem !important;
+  font-weight: 700; /* make section headings bold */
   @include for-medium-mobile-only {
     font-size: 1rem;
   }
@@ -626,61 +815,57 @@
 //
 .docProfileContainer {
   width: 100%;
+  display: grid;
+  /* single column layout now that right summary block is removed */
+  grid-template-columns: 1fr;
+  column-gap: 0;
+  align-items: start;
 }
 .profiling {
   width: 100%;
-  @include above-tablet {
-    width: 60%;
+  /* add horizontal padding so text sections don't touch the edges */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  @include above-large-mobile {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 .summary {
   display: block;
-  background-color: $secondary-clr;
-  border-radius: 7px;
-  padding: 1rem;
+  background-color: #e6f6fb; /* light blue card */
+  border-radius: 12px;
+  padding: 28px 22px;
   row-gap: 1.5rem;
-  position: fixed;
-  bottom: 0px;
-  right: 0;
   width: 100%;
-  z-index: 2;
+  box-shadow: 0 6px 18px rgba(13,110,253,0.06);
   table {
-    display: none;
-    border-spacing: 0 1em;
+    display: table;
+    border-spacing: 0 0.8rem;
     width: 100%;
     border-collapse: separate;
     tr {
-      margin: 1rem 0;
+      margin: 0.6rem 0;
     }
     th {
       text-align: start;
-      font-weight: 400;
+      font-weight: 500;
+      color: #22303a;
+      font-size: 15px;
     }
     td {
       text-align: end;
-    }
-    @include above-tablet {
-      display: table;
+      color: #22303a;
+      font-weight: 600;
     }
   }
   @include above-tablet {
-    // display: block;
-    width: 40%;
     position: sticky;
-    top: 100px;
+    top: 120px;
   }
-  // @include for-tablet-portrait-only {
-  //   width: 100%;
-  //   // position: fixed !important;
-  //   bottom: 10px;
-  //   z-index: 3;
-  //   h1 {
-  //     display: none;
-  //   }
-  //   table {
-  //     display: none;
-  //   }
-  // }
+  @include tablet-and-below {
+    margin-top: 1.5rem;
+  }
 }
 //
 .profileExperienceHeading {
@@ -753,6 +938,7 @@
   }
 }
 .selectFilter {
+  outline: 0;
   padding: 0.6rem;
   width: 100%;
   background-color: #f5fbff;
@@ -768,5 +954,117 @@
   display: block !important;
   @include above-tablet {
     display: none !important;
+  }
+}
+
+// FAQ Accordion Styling
+.faqHeadingContainer {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.faqHeading {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 2.2rem;
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+}
+
+.faqHeadingHighlight {
+  color: #0e5487;
+}
+
+.faqContainer {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.faqItem {
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
+  border-radius: 0;
+  overflow: visible;
+  transition: all 0.3s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.faqItemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  cursor: pointer;
+  background: transparent;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: transparent;
+  }
+}
+
+.faqQuestion {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 1rem;
+  font-weight: 600 !important;
+  color: #0e5487 !important;
+  margin: 0;
+  flex: 1;
+}
+
+.faqToggleBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+  color: #0e5487;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #0a3d60;
+  }
+
+  /* ensure icon svgs are small and aligned */
+  svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+}
+
+.faqItemContent {
+  padding: 0 0 1.5rem 0;
+  background: transparent;
+  border-top: none;
+  animation: slideDown 0.3s ease;
+}
+
+.faqAnswer {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.95rem;
+  font-weight: 400 !important;
+  color: #666666 !important;
+  line-height: 1.6;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
