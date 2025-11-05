@@ -15,9 +15,9 @@ import Imagesection from "@/views/Home/Imagesection";
 import Medicalcare from "@/views/Home/Medicalcare";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
-import heroImage from "../../public/heroImage.svg";
-import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import heroImage from "../../public/heroImage.png";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 
 

@@ -5,12 +5,12 @@ import feature2 from "../../../public/images/feature2.png";
 import feature3 from "../../../public/images/feature3.png";
 import style from "../../styles/home.module.scss";
 const features = [
-  {
-    heading: "E-prescription",
-    text: "Receive a digital prescription on every appointment",
-    link: "/",
-    icon: feature1,
-  },
+//   {
+//     heading: "E-prescription",
+//     text: "Receive a digital prescription on every appointment",
+//     link: "/",
+//     icon: feature1,
+//   },
   {
     heading: "Medical Records",
     text: "Manage and share All your medical Records ",

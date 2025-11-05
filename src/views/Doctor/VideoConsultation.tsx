@@ -34,6 +34,33 @@ export default function BenefitsOfVideoConsultation() {
   //   console.log(svgRef.current);
   // }, []);
 
+export default function BenefitsOfVideoConsultation({ videoCharges }: any) {
+  const benifits = [
+    {
+      heading: "Connect With Doctors 24/7",
+      text: "Our in house doctors are available 24/7. You can book appointment with any online doctor anytime.",
+    },
+    {
+      heading: "Quality Healthcare",
+      text: "Now receive quality healthcare from comfort of your home and connect with the best doctors.",
+    },
+    {
+      heading: "Complete Family Healthcare",
+      text: "Add in your family members profiles to book their appointment in a one stop solution to your healthcare problems with eShaafi.",
+    },
+    {
+      heading: "Hassel Free Online Payment",
+      text: `Avoid payment hassles and use online payment methods like Jazzcash for video consultations in only Rs.${videoCharges}.`,
+    },
+    {
+      heading: "Free Follow Up appointment",
+      text: "Our doctors can book you a free follow up on multiple appointments.",
+    },
+    {
+      heading: "Receive Medical Advise ",
+      text: "Embrace the future and receive medical advice after every appointment. No more struggling to understand your prescription.",
+    },
+  ];
   return (
     <section className="container">
       <h2>Benefits of Video Consultation</h2>

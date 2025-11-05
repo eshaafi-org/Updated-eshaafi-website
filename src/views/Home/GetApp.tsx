@@ -25,7 +25,7 @@ export default function GetApp({ color = "#fff" }: { color: string }) {
             <Image
               src={getApp}
               alt="subscription plans"
-              style={{ width: "100%", height: "auto" }}
+              style={{ width: "100%" }}
               className={style.getAppImage}
             />
           </span>

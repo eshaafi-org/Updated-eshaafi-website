@@ -39,7 +39,7 @@ import Cart from "./Cart";
 // Define the props type for the header component
 type HeaderProps = {};
 // define the header component
-const Header: React.FC<HeaderProps> = ({ }) => {
+const Header: React.FC<HeaderProps> = ({}) => {
   const router = useRouter();
   // const uuid = JSON.parse(localStorage.getItem("user"));
   // const [userAuth, setUserAuth] = useState<string | undefined | any>("");

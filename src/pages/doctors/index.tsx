@@ -8,6 +8,10 @@ import GetApp from "@/views/Home/GetApp";
 import { doctbenifits } from "@/helper/FAQData";
 // Renders the DoctorGrid, BenefitsOfVideoConsultation, and FQuest components
 export default function Doctors({ doctors }: any) {
+  const [videoCharges, setVideoCharges] = useState(
+    doctors.length > 0 ? doctors[0].videoCallCharges : 499
+  );
+
   return (
     <>
       <Head>
