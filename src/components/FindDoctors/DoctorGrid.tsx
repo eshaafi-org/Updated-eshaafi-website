@@ -15,9 +15,10 @@ interface Doctor {
 
 interface DoctorGridProps {
   doctors: any[]
+  showAllSpecialties?: boolean // If true, don't exclude any specialties (for Mind-Wellness)
 }
 
-const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors }) => {
+const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, showAllSpecialties = false }) => {
   const [activeSpecialty, setActiveSpecialty] = useState('All Doctor')
 
   const mappedDoctors: Doctor[] = doctors.map((doc: any) => ({
@@ -34,10 +35,10 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors }) => {
   // derive specialties from backend doctors list so filters reflect actual data
   const specialties = useMemo(() => {
     const set = new Set<string>()
-    const exclude = [
+    const exclude = showAllSpecialties ? [] : [
       'clinical psychologist',
       'counselor',
-      
+      'counsellor',
     ]
     mappedDoctors.forEach((d) => {
       const s = String(d.specialty || '').trim()
@@ -48,8 +49,7 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors }) => {
       set.add(s)
     })
     return ['All Doctor', ...Array.from(set).sort((a, b) => a.localeCompare(b))]
-  }, [mappedDoctors])
-console.log("specialties", specialties);
+  }, [mappedDoctors, showAllSpecialties])
   return (
     <section className={styles.doctorsSection}>
       <div className={styles.doctorsWrapper}>

@@ -141,6 +141,7 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
 
           {/* Filtered Doctor Grid */}
           <DoctorGrid 
+            showAllSpecialties={true}
             doctors={
               activeSpecialty === "All Specialists"
                 ? doctors
