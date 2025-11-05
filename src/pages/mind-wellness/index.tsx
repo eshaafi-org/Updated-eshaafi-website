@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/mind-wellness.module.scss";
 import Link from "next/link";
 import DoctorGrid from "@/components/FindDoctors/DoctorGrid";
-import { BASE_URL } from "@/helper/CONST";
+import { fetchAndSortDoctors, DoctorQueryPresets, filterMentalHealthSpecialists } from "@/helper/doctorApi";
 
 interface Doctor {
   id: string;
@@ -18,6 +18,34 @@ interface Doctor {
 export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] }) {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const toolRefs = useRef<(HTMLElement | null)[]>([]);
+  const [activeSpecialty, setActiveSpecialty] = useState("All Specialists");
+
+  // Derive specialties from fetched doctors (all unique ones)
+  const specialties = useMemo(() => {
+    const mentalHealthKeywords = [
+      "psychiatrist",
+      "psychologist",
+      "clinical psychologist",
+      "counselor",
+      "counsellor",
+      "therapist",
+      "psychotherapist",
+    ];
+
+    const set = new Set<string>();
+    doctors.forEach((doc: any) => {
+      const spec = String(doc.specialization || "").trim();
+      if (spec) {
+        set.add(spec);
+      }
+    });
+
+    return [
+      "All Specialists",
+      ...Array.from(set)
+        .sort((a, b) => a.localeCompare(b)),
+    ];
+  }, [doctors]);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -86,7 +114,43 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
 
         {/* Doctor Grid */}
         <section id="therapists-section" style={{ marginTop: -80 }}>
-          <DoctorGrid doctors={doctors} />
+          {/* Specialty Filter Buttons */}
+          <div style={{ padding: "0 1rem 2rem", maxWidth: "1240px", margin: "0 auto" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "center" }}>
+              {specialties.map((specialty) => (
+                <button
+                  key={specialty}
+                  onClick={() => setActiveSpecialty(specialty)}
+                  style={{
+                    padding: "0.75rem 1.5rem",
+                    borderRadius: "25px",
+                    border: activeSpecialty === specialty ? "none" : "2px solid #0e5487",
+                    backgroundColor: activeSpecialty === specialty ? "#0e5487" : "transparent",
+                    color: activeSpecialty === specialty ? "white" : "#0e5487",
+                    cursor: "pointer",
+                    fontWeight: activeSpecialty === specialty ? "600" : "500",
+                    fontSize: "0.95rem",
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  {specialty}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Filtered Doctor Grid */}
+          <DoctorGrid 
+            doctors={
+              activeSpecialty === "All Specialists"
+                ? doctors
+                : doctors.filter((doc: any) =>
+                    String(doc.specialization || "")
+                      .toLowerCase()
+                      .includes(activeSpecialty.toLowerCase())
+                  )
+            }
+          />
         </section>
 
         {/* Conditions Section */}
@@ -185,22 +249,20 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
 }
 
 export async function getStaticProps() {
-  const response = await fetch(BASE_URL + "/patients/doctors/filter", {
-    cache: "no-cache",
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ type: "specialization", search: "General Physician" }),
-  });
+  /**
+   * Fetch all doctors and filter for mental-health specialists client-side
+   * This ensures we capture all psychiatrists, psychologists, counselors, therapists
+   */
+  const allDoctors = await fetchAndSortDoctors(
+    DoctorQueryPresets.allDoctors()
+  );
 
-  const docData = await response.json();
+  // Filter to only mental-health specialists
+  const mentalHealthDoctors = filterMentalHealthSpecialists(allDoctors);
 
   return {
     props: {
-      doctors: docData.response.Items.sort((a: any, b: any) => {
-        if (a.isOnline && !b.isOnline) return -1;
-        if (!a.isOnline && b.isOnline) return 1;
-        return 0;
-      }),
+      doctors: mentalHealthDoctors,
     },
     revalidate: 1,
   };
