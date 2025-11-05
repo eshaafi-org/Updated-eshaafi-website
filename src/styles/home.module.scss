@@ -629,3 +629,32 @@
     width: fit-content;
   }
 }
+
+.storecontainer {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap; // Allows items to wrap on smaller screens
+
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    justify-content: center; // Center items on smaller screens
+  }
+
+  /* Adjusting the images to be responsive */
+  .downloadlink {
+    display: inline-block;
+  }
+
+  /* For the image sizes, ensuring flexibility */
+  .appstore {
+    min-width: 100px;
+    width: 190px;
+    height: 55px;
+
+    /* Adjust for smaller screens */
+    @media (max-width: 768px) {
+      width: 150px;
+      height: 45px;
+    }
+  }
+}

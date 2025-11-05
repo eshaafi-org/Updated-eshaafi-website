@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import successGif from "../../../public/images/success.gif";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
 import Head from "next/head";
@@ -136,6 +137,7 @@ export default function PaymentSuccess() {
                 <meta name="description" content="Meet one on one with your doctor" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
                 <Image
@@ -160,5 +162,6 @@ export default function PaymentSuccess() {
             </div>
             <ToastContainer />
         </>
+    );
     );
 }
