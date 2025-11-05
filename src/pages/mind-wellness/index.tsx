@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/mind-wellness.module.scss";
@@ -18,34 +18,6 @@ interface Doctor {
 export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] }) {
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const toolRefs = useRef<(HTMLElement | null)[]>([]);
-  const [activeSpecialty, setActiveSpecialty] = useState("All Specialists");
-
-  // Derive specialties from fetched doctors (all unique ones)
-  const specialties = useMemo(() => {
-    const mentalHealthKeywords = [
-      "psychiatrist",
-      "psychologist",
-      "clinical psychologist",
-      "counselor",
-      "counsellor",
-      "therapist",
-      "psychotherapist",
-    ];
-
-    const set = new Set<string>();
-    doctors.forEach((doc: any) => {
-      const spec = String(doc.specialization || "").trim();
-      if (spec) {
-        set.add(spec);
-      }
-    });
-
-    return [
-      "All Specialists",
-      ...Array.from(set)
-        .sort((a, b) => a.localeCompare(b)),
-    ];
-  }, [doctors]);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -113,44 +85,11 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
 
 
         {/* Doctor Grid */}
-        <section id="therapists-section" style={{ marginTop: -80 }}>
-          {/* Specialty Filter Buttons */}
-          <div style={{ padding: "0 1rem 2rem", maxWidth: "1240px", margin: "0 auto" }}>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "center" }}>
-              {specialties.map((specialty) => (
-                <button
-                  key={specialty}
-                  onClick={() => setActiveSpecialty(specialty)}
-                  style={{
-                    padding: "0.75rem 1.5rem",
-                    borderRadius: "25px",
-                    border: activeSpecialty === specialty ? "none" : "2px solid #0e5487",
-                    backgroundColor: activeSpecialty === specialty ? "#0e5487" : "transparent",
-                    color: activeSpecialty === specialty ? "white" : "#0e5487",
-                    cursor: "pointer",
-                    fontWeight: activeSpecialty === specialty ? "600" : "500",
-                    fontSize: "0.95rem",
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  {specialty}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Filtered Doctor Grid */}
+        <section id="therapists-section" style={{ marginTop: -80, paddingTop: "3rem" }}>
+          {/* Filtered Doctor Grid with built-in specialization filters */}
           <DoctorGrid 
             showAllSpecialties={true}
-            doctors={
-              activeSpecialty === "All Specialists"
-                ? doctors
-                : doctors.filter((doc: any) =>
-                    String(doc.specialization || "")
-                      .toLowerCase()
-                      .includes(activeSpecialty.toLowerCase())
-                  )
-            }
+            doctors={doctors}
           />
         </section>
 
