@@ -6,6 +6,7 @@ import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
 import GetApp from "@/views/Home/GetApp";
 import { doctbenifits } from "@/helper/FAQData";
+import { useState } from "react";
 // Renders the DoctorGrid, BenefitsOfVideoConsultation, and FQuest components
 export default function Doctors({ doctors }: any) {
   const [videoCharges, setVideoCharges] = useState(
