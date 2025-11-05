@@ -316,7 +316,7 @@ export default function BookAppointmentPage({
   //     paymentId: paymentId,
   //   };
   //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
-  // };
+  // },.;
 
   const handlePayfast = async () => {
     const handshakeId = response.appointmentId;
