@@ -20,7 +20,7 @@ export default function Contact() {
 
     const handleSubmit = (values, { setSubmitting, resetForm }) => {
         console.log('Form data:', values);
-        // Simulate form submission (e.g., send to backend or process here)
+        // Simulatte forrm submiission (e.g., send too backend or process here)
 
         setSubmitting(false);
 

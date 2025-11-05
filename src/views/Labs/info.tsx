@@ -2,7 +2,7 @@ import { InputField } from "@/components/InputField";
 import style from "@/styles/labs.module.scss";
 import moment from "moment";
 import Address from "./Address";
-import { Text18 } from "@/components/Typography";
+import { Text18, Text14, Text16 } from "@/components/Typography";
 import inputField from "@/components/InputField/Input.module.scss";
 
 export default function Info({ typeTest,
@@ -32,15 +32,13 @@ export default function Info({ typeTest,
 }) {
     return (
         <>
-            <form
-                className={style.prescriptionForm}
-            >
+            <form className={style.prescriptionForm}>
                 <div className={style.collectionForm}>
-                    <p>Select Preference</p>
+                    <Text16 className="fw-bold text-dark">Select Preference</Text16>
                     <div className={style.collectionOptions}>
                         <label
                             htmlFor="lab"
-                            className={`${style.labelrdioclass} d-flex  align-items-center row-gap-1`}
+                            className={`${style.labelrdioclass} d-flex align-items-center row-gap-2`}
                         >
                             <input
                                 type="radio"
@@ -49,6 +47,7 @@ export default function Info({ typeTest,
                                 value={"labVisit"}
                                 className={style.btnCheck}
                                 onChange={(e) => setTypeTest(e.target.value)}
+                                checked={typeTest === "labVisit"}
                             />
                             <span
                                 className={
@@ -57,12 +56,12 @@ export default function Info({ typeTest,
                                         : style.typeCircle
                                 }
                             >
-                                Lab Visit
+                                <Text14 className="fw-500">Lab Visit</Text14>
                             </span>
                         </label>
                         <label
                             htmlFor="home"
-                            className={`${style.labelrdioclass} d-flex  align-items-center row-gap-1`}
+                            className={`${style.labelrdioclass} d-flex align-items-center row-gap-2`}
                         >
                             <input
                                 type="radio"
@@ -71,6 +70,7 @@ export default function Info({ typeTest,
                                 name="typeTest"
                                 value={"homeSample"}
                                 className={style.btnCheck}
+                                checked={typeTest === "homeSample"}
                             />
                             <span
                                 className={
@@ -79,73 +79,105 @@ export default function Info({ typeTest,
                                         : style.typeCircle
                                 }
                             >
-                                Home Sampling
+                                <Text14 className="fw-500">Home Sampling</Text14>
                             </span>
                         </label>
                     </div>
                 </div>
-                <div className={style.formFields}>
-                    <InputField
-                        placeHolder="Patient Name"
-                        className={style.nameField}
-                        name="patientName"
-                        value={patientName}
-                        onChange={(e: any) => setPatientName(e.target.value)}
-                    />
-                    <input
-                        placeholder="Select Date"
-                        type="date"
-                        name="date"
-                        value={date}
-                        min={moment().format("YYYY-MM-DD")}
-                        className={inputField.inputField}
-                        onChange={(e: any) => setDate(e.target.value)}
-                    />
-                    <input
-                        placeholder="Select Time"
-                        type="time"
-                        name="time"
-                        value={time}
-                        min={moment().format("hh:mm a")}
-                        className={inputField.inputField}
-                        onChange={(e: any) => setTime(e.target.value)}
-                    />
-                    <select
-                        name="labName"
-                        value={labName}
-                        onChange={(e) => setLabName(e.target.value)}
-                        className={`${style.labField} p-2`}
-                    >
-                        <option value="" disabled>
-                            Select Lab
-                        </option>
-                        {labOptions.includes("Chughtai Lab") && (
-                            <option value="chugtai">Chughtai Lab</option>
-                        )}
-                        {labOptions.includes("IDC Lab") && (
-                            <option value="idc">IDC</option>
-                        )}
-                    </select>
+
+                <div className={style.formFieldsContainer}>
+                    <div className={style.formFields}>
+                        <div className={style.formGroup}>
+                            <label htmlFor="patientName" className="fw-500 text-dark">
+                                Patient Name
+                            </label>
+                            <InputField
+                                placeHolder="Enter patient name"
+                                className={style.inputFieldStyle}
+                                name="patientName"
+                                value={patientName}
+                                onChange={(e: any) => setPatientName(e.target.value)}
+                            />
+                        </div>
+                        <div className={style.formGroup}>
+                            <label htmlFor="date" className="fw-500 text-dark">
+                                Select Date
+                            </label>
+                            <input
+                                placeholder="Select Date"
+                                type="date"
+                                id="date"
+                                name="date"
+                                value={date}
+                                min={moment().format("YYYY-MM-DD")}
+                                className={`${inputField.inputField} ${style.inputFieldStyle}`}
+                                onChange={(e: any) => setDate(e.target.value)}
+                            />
+                        </div>
+                        <div className={style.formGroup}>
+                            <label htmlFor="time" className="fw-500 text-dark">
+                                Select Time
+                            </label>
+                            <input
+                                placeholder="Select Time"
+                                type="time"
+                                id="time"
+                                name="time"
+                                value={time}
+                                className={`${inputField.inputField} ${style.inputFieldStyle}`}
+                                onChange={(e: any) => setTime(e.target.value)}
+                            />
+                        </div>
+                        <div className={style.formGroup}>
+                            <label htmlFor="labName" className="fw-500 text-dark">
+                                Select Lab
+                            </label>
+                            <select
+                                id="labName"
+                                name="labName"
+                                value={labName}
+                                onChange={(e) => setLabName(e.target.value)}
+                                className={`${style.labField} ${style.inputFieldStyle}`}
+                            >
+                                <option value="" disabled>
+                                    Select Lab
+                                </option>
+                                {labOptions.includes("Chughtai Lab") && (
+                                    <option value="chugtai">Chughtai Lab</option>
+                                )}
+                                {labOptions.includes("IDC Lab") && (
+                                    <option value="idc">IDC Lab</option>
+                                )}
+                            </select>
+                        </div>
+                    </div>
                 </div>
+
                 {typeTest === "homeSample" && (
                     <Address address={address} setAddress={setAddress} />
                 )}
 
-                <div className={style.paymentMethod}>
-                    <input
-                        type="radio"
-                        className={style.btnCheck}
-                        name="paymentId"
-                    />
-                    <label
-                        className={`${style.labelrdioclass} d-flex  align-items-center p-3 row-gap-1`}
-                    >
-                        <span className={style.paymentActive}>
-                            <Text18 className="text-dark fw-bold">
-                                Cash on Delivery
-                            </Text18>
-                        </span>
-                    </label>
+                <div className={style.paymentMethodContainer}>
+                    <Text16 className="fw-bold text-dark mb-3">Payment Method</Text16>
+                    <div className={style.paymentMethod}>
+                        <input
+                            type="radio"
+                            id="paymentCod"
+                            className={style.btnCheck}
+                            name="paymentId"
+                            defaultChecked
+                        />
+                        <label
+                            htmlFor="paymentCod"
+                            className={`${style.labelrdioclass} d-flex align-items-center p-3 row-gap-2`}
+                        >
+                            <span className={style.paymentActive}>
+                                <Text16 className="text-dark fw-bold">
+                                    Cash on Delivery
+                                </Text16>
+                            </span>
+                        </label>
+                    </div>
                 </div>
                 <div className={style.notes}></div>
             </form>

@@ -2,8 +2,7 @@
 import { useEffect } from "react";
 import Head from "next/head";
 import GetApp from "@/views/Home/GetApp";
-import Hero from "@/views/Home/Hero";
-import LabsCover from "../../../public/images/labImage.png";
+import LabsHero from "@/views/Labs/LabsHero";
 import LabsList from "@/views/Labs/LabsList";
 import PackagesList from "@/views/Labs/PackagesList";
 import FQuest from "@/views/Doctor/FQuest";
@@ -25,20 +24,28 @@ export default function Labs() {
         <title>eShaafi | Labs</title>
       </Head>
       <main>
-        <Hero
-          img={LabsCover}
-          heading="Get Upto 25% Discounts"
+        <LabsHero
+          heading="Get Upto 30% Discounts"
           text="Avail major discounts on both lab visits and home sampling with eShaafi"
-          link=""
         />
-        <LabsList />
+        <div style={{ paddingTop: "4rem", paddingBottom: "3rem" }}>
+          <LabsList />
+        </div>
         <UploadPrescription />
-        <HelpLine />
-        <PackagesList />
-        <Works />
-        <FQuest quests={whyBookWithUs} heading={"Why book with us?"} />
-        <FQuest quests={labFAQs} heading={"Frequently Asked Questions"} />
-        <GetApp color="#DFEAF2" />
+        <div style={{ paddingTop: "2rem", paddingBottom: "2rem" }}>
+          <PackagesList />
+        </div>
+        <div style={{ paddingTop: "2rem", paddingBottom: "2rem" }}>
+          <Works />
+        </div>
+        <div style={{ paddingTop: "2rem", paddingBottom: "2rem" }}>
+          <HelpLine />
+        </div>
+        {/* <FQuest quests={whyBookWithUs} heading={"Why book with us?"} /> */}
+        <div style={{ paddingTop: "2rem" }}>
+          <FQuest quests={labFAQs} heading={"Frequently Asked Questions"} />
+        </div>
+        {/* <GetApp color="#DFEAF2" /> */}
       </main>
     </>
   );

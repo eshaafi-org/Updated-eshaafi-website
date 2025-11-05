@@ -1,5 +1,15 @@
 @import "./variables";
 @import "./mixin";
+// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+// @import "tailwindcss";
+
+
+/* @import "tw-animate-css";
+@import 'tw-animate-css'; */
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
 
 // //---------------Globals style-------------//
 :root {
@@ -9,15 +19,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Roboto" !important;
+  font-family: "Inter", sans-serif !important;
 }
 body {
-  font-family: "Roboto", Arial, Helvetica, sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   font-size: $base-font;
   font-weight: 400;
   color: $black;
-  padding-top: 80px;
-  padding-right: 0 !important;
+  // padding-top: 80px;
+  // padding-right: 0 !important;
   overflow: auto !important;
   overflow-x: hidden !important;
 }
@@ -34,7 +44,7 @@ body {
 // global anchor tag styling
 a {
   text-decoration: none;
-  font-family: "Roboto" !important;
+  font-family: "Inter", sans-serif !important;
   // display: block !important;
   color: #1c6ba4;
   &:hover {
@@ -50,13 +60,14 @@ h4,
 h5,
 h6 {
   color: $heading-clr;
-  font-family: "Roboto" !important;
-  margin-bottom: 0 !important;
+  font-family: "Inter", sans-serif !important;
+  // margin-bottom: 0 !important;
+  font-weight: 700 !important;
 }
 
 h2 {
   font-size: 1.5rem;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   @include above-tablet-landscape-and-mini-laptop {
     font-size: 2.5rem;
   }
@@ -100,7 +111,7 @@ ul {
 p {
   color: $text-clr;
   margin: 0;
-  font-family: "Roboto" !important;
+  font-family: "Inter" !important;
   // font-size: 14px;
 }
 
@@ -494,3 +505,18 @@ p {
 //   border-radius: 10px;
 //   background: #ccc;
 // }
+@font-face {
+  font-family: 'Trenda';
+  src: url('/fonts/Trenda-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Trenda';
+  src: url('/fonts/Trenda-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

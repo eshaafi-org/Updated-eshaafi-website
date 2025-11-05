@@ -62,7 +62,7 @@ export default function DoctorList({ list }: any) {
             onClick={() => setFilters({ search: "General Physician" })}
           >
             <input type="radio" name="radioEx" />
-            <span id="radioOneLabel">General Physician</span>
+            <span id="radioOneLabel" style={{ fontFamily: "Inter, sans-serif", fontWeight: 500 }}>General Physician</span>
           </div>
         </div>
       </div>
@@ -144,6 +144,7 @@ export default function DoctorList({ list }: any) {
                 <Link
                   href={"/doctors/" + itm.Id}
                   className="linkBtn w-50 bg-white text-primary text-center"
+                  style={{ marginTop: '0.75rem' }}
                 >
                   view profile
                 </Link>

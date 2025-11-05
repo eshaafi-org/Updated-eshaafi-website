@@ -18,31 +18,28 @@ export default function PackagesList() {
         </div>
       ) : (
         <section className="container pt-0">
-          <div className="d-flex justify-content-between align-items-center">
-            <Text28 className="fw-bold text-dark">Packages</Text28>
-            <Text20><Link href={"/labs/packages"}>View All</Link></Text20>
+          <div className={style.packagesHeadingContainer}>
+            <Text28 className={`fw-bold text-dark ${style.interFont}`}>Packages</Text28>
           </div>
-          <ul className={style.labList}>
+          <ul className={style.packagesList}>
             {PacakgeResponse.map((item: any, indx: number) => (
               <li key={indx}>
                 <Link
                   href={"/labs/packages/" + item.pId}
                   className={style.packageCard}
-                  style={{
-                    backgroundColor: "#DFEAF2",
-                  }}
                 >
-                  <span className={style.packageText}>
-                    <Text24 className="fw-bold text-dark">
-                      {item.subscriptionName}
-                    </Text24>
-                    <Text16>Includes {item.noOfTests} tests</Text16>
-                  </span>
+                  <div className={style.packageContent}>
+                    <span className={style.packageText}>
+                      <Text24 className={`fw-bold text-dark ${style.interFont}`}>
+                        {item.subscriptionName}
+                      </Text24>
+                      <Text16 className={style.packageSubtext}>Includes {item.noOfTests} tests</Text16>
+                    </span>
+                  </div>
                   <div
                     className={style.packageCardImg}
                     style={{
                       backgroundImage: `url(${item.url ? item.url : packageIcon})`,
-                      // backgroundImage: `url(${packageIcon.src})`,
                     }}
                   ></div>
                 </Link>

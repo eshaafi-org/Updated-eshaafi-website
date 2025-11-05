@@ -7,27 +7,28 @@ import Image from "next/image";
 export default function Works() {
   return (
     <section className="container pt-0">
-      <Text28 className="text-dark fw-bold mb-3">How it works?</Text28>
+      <div className={style.worksHeadingContainer}>
+        <Text28 className={`text-dark fw-bold ${style.interFont}`}>How it works?</Text28>
+      </div>
       <div className={style.workingStepsStyling}>
-        <span>
-          <Image src={labsWorkingIcon3} alt="labs-icon-eshaafi" />
-          <Text12 className="text-dark">
+        <div className={style.workingStep}>
+          <Image src={labsWorkingIcon3} alt="labs-icon-eshaafi" width={40} height={40} />
+          <Text12 className={`text-dark ${style.workingStepText}`}>
             Search and book either lab visit or home sampling.
           </Text12>
-        </span>
-        <span className={style.labsWorkingBeforeAfter}>
-          <Image src={labsWorkingIcon2} alt="labs-icon-eshaafi" />
-          <Text12 className="text-dark">
-            You can visit the lab, or we will send a professional to collect
-            your sample.
+        </div>
+        <div className={style.workingStep}>
+          <Image src={labsWorkingIcon2} alt="labs-icon-eshaafi" width={40} height={40} />
+          <Text12 className={`text-dark ${style.workingStepText}`}>
+            You can visit the lab, or we will send a professional to collect your sample.
           </Text12>
-        </span>
-        <span>
-          <Image src={labsWorkingIcon1} alt="labs-icon-eshaafi" />
-          <Text12 className="text-dark">
+        </div>
+        <div className={style.workingStep}>
+          <Image src={labsWorkingIcon1} alt="labs-icon-eshaafi" width={40} height={40} />
+          <Text12 className={`text-dark ${style.workingStepText}`}>
             You will receive an SMS to download your report on your phone
           </Text12>
-        </span>
+        </div>
       </div>
     </section>
   );

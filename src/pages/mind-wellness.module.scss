@@ -1,0 +1,314 @@
+// Variables
+$primary-color: #00568A;
+$secondary-color: #00B8AF;
+$accent-color: #EEF6FF;
+$light-blue: #E0EFFF;
+$text-dark: #595A5A;
+$text-gray: #555555;
+$text-light: #FFFFFF;
+$background-light: #FAFAFA;
+$success-color: #32D24A;
+
+$font-trenda: 'Trenda', sans-serif;
+$font-inter: 'Inter', sans-serif;
+
+// Mixins
+@mixin flex-column($gap: 0) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absolute-position($left: 0, $top: 0) {
+  position: absolute;
+  left: $left;
+  top: $top;
+}
+
+@mixin text-style($size, $weight, $line-height, $color) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+  color: $color;
+}
+
+// Main Styles
+.mind-wellness-page {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: $background-light;
+  padding-bottom: 80px;
+
+  // Hero Section
+  .hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url('/images/Doctors 8-Picsart-AiImageEnhancer.png') ;
+    background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+    .hero-overlay {
+    position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.75) 100%);
+    }
+
+    .hero-content {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 90%;
+      max-width: 918px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero-title {
+      color: #ffffff;
+  font-family: "Trenda", sans-serif;
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+//   text-transform: uppercase;
+  margin-bottom: 1rem;
+    }
+
+    .cta-button {
+      color: #ffffff;
+  font-family: "Inter", sans-serif;
+  padding: 0.75rem 2.2rem;
+  border: 1px solid #ffffff;
+  border-radius: 24px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.32s ease;
+
+  &:hover {
+    transform: scale(1.04);
+    backdrop-filter: blur(3px);
+  }
+    }
+  }
+
+  // Conditions We Treat Section
+  .conditions-section {
+    margin: 60px auto 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 90%;
+    max-width: 771px;
+    align-items: center;
+    text-align: center;
+
+    .section-title {
+      font-family: $font-trenda;
+      @include text-style(32px, 700, 40px, $primary-color);
+      margin: 0;
+    }
+
+    .section-subtitle {
+      font-family: $font-inter;
+      @include text-style(18px, 400, 28px, #000000);
+      margin: 0;
+    }
+  }
+
+  // Condition Cards Grid
+  .condition-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    width: 90%;
+    max-width: 1290px;
+    margin: 20px auto 40px;
+
+    .condition-card {
+      background: $accent-color;
+      border-radius: 20px;
+      padding: 24px;
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+
+      .condition-content {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .condition-title {
+          font-family: $font-trenda;
+          @include text-style(22px, 600, 28px, $primary-color);
+          margin: 0;
+        }
+
+        .condition-description {
+          font-family: $font-inter;
+          @include text-style(16px, 400, 24px, $text-gray);
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  // View All Button
+  .view-all-button {
+    margin: 32px auto;
+    display: flex;
+    justify-content: center;
+    padding: 16px 24px;
+    gap: 10px;
+    width: 377px;
+    height: 72px;
+    background: $primary-color;
+    border-radius: 18px;
+
+    .button-text {
+      font-family: $font-inter;
+      @include text-style(18px, 500, 24px, $text-light);
+    }
+  }
+
+  // Tools Section
+  .tools-section {
+    margin: 60px auto;
+    width: 90%;
+    max-width: 1040px;
+
+    .section-title {
+      text-align: center;
+      font-family: $font-trenda;
+      @include text-style(28px, 700, 36px, $primary-color);
+      margin-bottom: 18px;
+    }
+
+    .tools-grid {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+
+      .tool-card {
+        width: 320px;
+        height: 220px;
+        background: $light-blue;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+
+        .tool-title {
+          font-family: $font-trenda;
+          @include text-style(20px, 700, 28px, $primary-color);
+        }
+
+        .tool-description {
+          font-family: $font-inter;
+          @include text-style(16px, 400, 22px, #000000);
+          width: 80%;
+        }
+      }
+    }
+  }
+
+  // Video Section
+  .video-section {
+    width: 90%;
+    max-width: 1320px;
+    margin: 40px auto;
+
+    .video-container {
+      background: $light-blue;
+      border-radius: 30px;
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+
+      .video-content {
+        max-width: 543px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .video-title {
+          font-family: $font-inter;
+          @include text-style(24px, 600, 32px, $primary-color);
+          margin: 0;
+        }
+
+        .video-subtitle {
+          font-family: $font-inter;
+          @include text-style(18px, 400, 24px, $text-gray);
+          margin: 0;
+        }
+      }
+
+      .video-thumbnail {
+        width: 360px;
+        height: 220px;
+        background: url('/images/THUMBNAIL WEBSITE VIDEO') center/cover no-repeat;
+        border-radius: 20px;
+      }
+    }
+  }
+
+  // Bottom CTA Section
+  .bottom-cta {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    padding: 48px 24px;
+    gap: 10px;
+    width: 100%;
+    background: $primary-color;
+
+    .cta-text {
+      font-family: $font-inter;
+      @include text-style(28px, 600, 36px, $text-light);
+      text-align: center;
+      max-width: 1100px;
+    }
+  }
+}
+
+// Icons (Condition Section)
+.condition-icons {
+  .relationship-icon {
+    position: absolute;
+    left: 105px;
+    top: 2843px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .psychosis-icon {
+    position: absolute;
+    left: 105px;
+    top: 3052px;
+    width: 60px;
+    height: 60px;
+  }
+}

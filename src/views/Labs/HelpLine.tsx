@@ -1,7 +1,7 @@
 import { Text16, Text24 } from '@/components/Typography'
 import Image from 'next/image'
 import React from 'react'
-import helpLine from "../../../public/images/helpLine.png"
+import bnr1 from "../../../public/images/bnr1.png"
 import Button from '@/components/Button'
 import Link from 'next/link'
 import { MdCall } from "react-icons/md";
@@ -11,19 +11,19 @@ export default function HelpLine() {
     return (
         <>
             <section className='container pt-0'>
-                <div className={style.helplineCom}>
-                    <div className="d-flex align-items-center">
-                        <Image src={helpLine} alt='Help Line Image' />
-                        <span>
-                            <Text24>Need help booking test?</Text24>
-                            <Text16>Our customer support is here for your help</Text16>
-                        </span>
+                <div className={style.helplineCom} >
+                    <div className={style.helplineContent}>
+                        <Image src={bnr1} alt='Help Line Image' width={100} height={100} />
+                        <div className={style.helplineText}>
+                            <Text24 className={style.helplineHeading}>Need help booking test?</Text24>
+                            <Text16 className={style.helplineSubtext}>Our customer support is here for your help</Text16>
+                        </div>
                     </div>
-                    <Button variant="contained" className="d-flex align-items-center gap-1 p-2">
-                        <Link href={"tel:03111151161"}>
-                            <MdCall style={{ height: '24px', width: "24px" }} /> Call Now
-                        </Link>
-                    </Button>
+                    <a href={"tel:+923111151161"}>
+                        <Button variant="contained" className={style.helplineButton}>
+                            <MdCall style={{ height: '20px', width: "20px" }} /> Call Now
+                        </Button>
+                    </a>
                 </div>
             </section>
         </>

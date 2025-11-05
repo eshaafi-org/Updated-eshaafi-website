@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 //
 let links = [
   { name: "Home", link: "/" },
-  { name: "Doctors", link: "/doctors" },
+  { name: "Doctors", link: "/find-doctors" },
 ];
 export default function Profile({ doctor, doctors }: any) {
   const [reviews, setReviews] = useState<any>([]);
@@ -64,14 +64,16 @@ export default function Profile({ doctor, doctors }: any) {
                 " d-flex justify-content-between col-gap-1 align-items-start"
               }
             >
-              <section
+                <section
                 className={
                   style.profiling + " doc-profile bg-white d-flex flex-column"
                 }
+                style={{ paddingTop: "1rem" }}
               >
                 {/* profile card */}
                 <div className="d-flex flex-column mt-2 border-bottom pb-3">
-                  <div className="d-flex col-gap-1">
+                  {/* Profile hero: centered avatar, rating, exp pill, name, specialization, CTA */}
+                  <div className={style.profileHero}>
                     <div
                       className={`${style.imageContainer}  ${
                         doctor?.isOnline ? style.docOnline : ""
@@ -80,69 +82,37 @@ export default function Profile({ doctor, doctors }: any) {
                       <Image
                         src={doctor?.personal_info?.profileUrl}
                         alt="doctor-image"
-                        width={100}
-                        height={100}
-                        style={{ borderRadius: "50px" }}
+                        width={160}
+                        height={160}
+                        style={{ borderRadius: "50%" }}
                         className={style.docImg}
                       />
                     </div>
 
-                    <span className="d-flex flex-column">
-                      <h5 className={style.docTitle}>
-                        {doctor?.personal_info?.firstName} &nbsp;
-                        {doctor?.personal_info?.lastName}
-                      </h5>
-                      <p className={style.docSpecialization}>
-                        {doctor?.specialization}
-                      </p>
-                      <p
-                        className={
-                          style.docSpecialization +
-                          " align-items-center d-flex "
-                        }
-                      >
-                        <FaStar
-                          style={{
-                            color: doctor?.rating?.averageRating
-                              ? "#FFC107"
-                              : "#ccc",
-                          }}
-                        />
-                        <FaStar
-                          style={{
-                            color: doctor?.rating?.averageRating
-                              ? "#FFC107"
-                              : "#ccc",
-                          }}
-                        />
-                        <FaStar
-                          style={{
-                            color: doctor?.rating?.averageRating
-                              ? "#FFC107"
-                              : "#ccc",
-                          }}
-                        />
-                        <FaStar
-                          style={{
-                            color: doctor?.rating?.averageRating
-                              ? "#FFC107"
-                              : "#ccc",
-                          }}
-                        />
-                        <FaStar
-                          style={{
-                            color: doctor?.rating?.averageRating
-                              ? "#FFC107"
-                              : "#ccc",
-                            marginRight: 5,
-                          }}
-                        />
-                        {`${doctor?.rating?.averageRating || "0"}/5 (${
-                          doctor?.rating?.count || "0" + " reviews"
-                        })`}
-                      </p>
-                    </span>
+                    <div className={style.ratingRow}>
+                      <div className={style.ratingBadgeSmall}>
+                        <FaStar style={{ color: "#F5B400" }} />
+                        {(Number(doctor?.rating?.averageRating) || 0).toFixed(1)}
+                      </div>
+                      <div className={style.expPill}>
+                        {doctor?.yearsOfExperience || "0"}+ year Exp
+                      </div>
+                    </div>
+
+                    <h5 className={style.docTitle}>
+                      {doctor?.personal_info?.firstName} &nbsp;
+                      {doctor?.personal_info?.lastName}
+                    </h5>
+                    <p className={style.docSpecialization}>{doctor?.specialization}</p>
+
+                    <Link
+                      href={`/doctors/${doctor?.Id}/booked`}
+                      className={`linkBtn ${style.bookBtn}`}
+                    >
+                      Book Appointment
+                    </Link>
                   </div>
+
                   <div className="d-flex justify-content-around my-3">
                     <span className="d-flex flex-column align-items-center row-gap-0-5">
                       <h5 className={style.profileExperienceHeading}>
@@ -160,43 +130,39 @@ export default function Profile({ doctor, doctors }: any) {
                     </span>
                     <span className="d-flex flex-column align-items-center row-gap-0-5">
                       <h5 className={style.profileExperienceHeading}>
-                        {doctor?.videoCallCharges}
+                        Rs {doctor?.videoCallCharges}
                       </h5>
-                      <p className={style.profileExperienceText}>Fee in PKR</p>
+                      <p className={style.profileExperienceText}>Consultation</p>
                     </span>
                   </div>
                 </div>
                 {/* educational information */}
-                <ul className={`d-flex flex-column border-bottom py-3`}>
+                <ul className={`d-flex flex-column border-bottom py-3 ${style.sectionList}`}>
                   <h5 className={style.docSecHeading}>Education</h5>
                   {doctor?.educationalDocuments.map((itm: any, indx: any) => (
-                    <li key={indx} className="d-flex  flex-column mb-2">
-                      <h4 className={style.docSecSubHeading}>
-                        {itm?.degree} {`(${itm?.field_of_study}) `}
-                      </h4>
-                      <span className="d-flex justify-content-between">
+                    <li key={indx} className={`d-flex justify-content-between align-items-start mb-3 ${style.eduItem}`}>
+                      <div className="left">
+                        <h4 className={style.docSecSubHeading}>{itm?.degree} {`(${itm?.field_of_study}) `}</h4>
                         <p className={style.docSecDes}>{itm?.location}</p>
-                        <p className={style.docSecDes}>
-                          {moment(itm?.end_date).format("YYYY")}
-                        </p>
-                      </span>
+                      </div>
+                      <div className="right">
+                        <p className={style.docSecDes}>{moment(itm?.end_date).format("YYYY")}</p>
+                      </div>
                     </li>
                   ))}
                 </ul>
                 {/* work experience */}
-                <ul className={`d-flex flex-column border-bottom py-3`}>
+                <ul className={`d-flex flex-column border-bottom py-3 ${style.sectionList}`}>
                   <h5 className={style.docSecHeading}>Work Experience</h5>
                   {doctor?.experiences.map((itm: any, indx: any) => (
-                    <li key={indx} className="d-flex flex-column  mb-2">
-                      <h4 className={style.docSecSubHeading}>{itm?.title}</h4>
-                      <span className="d-flex justify-content-between">
-                        <p className={style.docSecDes}>
-                          {itm?.company}, {itm?.location}
-                        </p>
-                        <p className={style.docSecDes}>
-                          {moment(itm?.end_date).format("YYYY")}
-                        </p>
-                      </span>
+                    <li key={indx} className={`d-flex justify-content-between align-items-start mb-3 ${style.eduItem}`}>
+                      <div className="left">
+                        <h4 className={style.docSecSubHeading}>{itm?.title}</h4>
+                        <p className={style.docSecDes}>{itm?.company}, {itm?.location}</p>
+                      </div>
+                      <div className="right">
+                        <p className={style.docSecDes}>{moment(itm?.end_date).format("YYYY")}</p>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -230,44 +196,42 @@ export default function Profile({ doctor, doctors }: any) {
                   </ul>
                 </div>
                 {/* patient review */}
-                <div className="d-flex flex-column border-bottom py-3 justify-content-center">
-                  <h5 className={style.docSecHeading}>Patients Review</h5>
-                  <div className={`d-flex justify-content-center`}>
-                    <div className={style.mainring}>
-                      <div className={style.ring}>
-                        <div className={style.centered_content}>
-                          <div className={style.reviewText + " fw-bold"}>
-                            {doctor?.rating?.recommended || "0"}%
-                          </div>
-                          <p className={style.docSecDes}>Recommend</p>
-                        </div>
+                <div className={`d-flex flex-column border-bottom py-3 ${style.patientReviewSection}`}>
+                  <h5 className={style.docSecHeading}>Patient Review</h5>
+                  <div className={style.patientReviewSummary}>
+                    <div className={style.summaryLeft}>
+                      <div className={style.reviewAvg}>{(Number(doctor?.rating?.averageRating) || 0).toFixed(1)}</div>
+                      <div className={style.reviewStars}>
+                        <FaStar style={{ color: "#F5B400" }} />
+                        <FaStar style={{ color: "#F5B400" }} />
+                        <FaStar style={{ color: "#F5B400" }} />
+                        <FaStar style={{ color: "#F5B400" }} />
+                        <FaStar style={{ color: "#F5B400" }} />
                       </div>
                     </div>
-                    <div className="px-2 w-full d-flex flex-column justify-content-center row-gap-1 w-100">
+                    <div className={style.summaryRight}>
                       <div className={style.progress}>
                         <span className="d-flex justify-content-between">
-                          <h4 className={style.reviewText}>Behaviour</h4>
-                          <p className={style.docSecDes + " mb-2"}>
-                            {doctor?.rating?.behaviour || "0"}%
-                          </p>
+                          <h4 className={style.reviewText}>5 stars</h4>
+                          <p className={style.docSecDes + " mb-2"}>486</p>
                         </span>
-                        <span
-                          className={style.progressBar}
-                          style={{ width: `${doctor?.rating?.behaviour}%` }}
-                        ></span>
+                        <span className={style.progressBar} style={{ width: `80%` }}></span>
                         <span className={style.progressBarLight}></span>
                       </div>
                       <div className={style.progress}>
                         <span className="d-flex justify-content-between">
-                          <h4 className={style.reviewText}>Recommendation</h4>
-                          <p className={style.docSecDes + " mb-2"}>
-                            {doctor?.rating?.recommended || "0"}%
-                          </p>
+                          <h4 className={style.reviewText}>4 stars</h4>
+                          <p className={style.docSecDes + " mb-2"}>74</p>
                         </span>
-                        <span
-                          className={style.progressBar}
-                          style={{ width: `${doctor?.rating?.recommended}%` }}
-                        ></span>
+                        <span className={style.progressBar} style={{ width: `30%` }}></span>
+                        <span className={style.progressBarLight}></span>
+                      </div>
+                      <div className={style.progress}>
+                        <span className="d-flex justify-content-between">
+                          <h4 className={style.reviewText}>3 stars</h4>
+                          <p className={style.docSecDes + " mb-2"}>14</p>
+                        </span>
+                        <span className={style.progressBar} style={{ width: `20%` }}></span>
                         <span className={style.progressBarLight}></span>
                       </div>
                     </div>
@@ -276,22 +240,24 @@ export default function Profile({ doctor, doctors }: any) {
                 {/* recommendations */}
                 <ul className="d-flex flex-column border-bottom py-3 row-gap-1">
                   {reviews.map((itm: any, indx: any) => (
-                    <li key={indx} className="d-flex flex-column">
-                      <h5
-                        className={
-                          style.docSecHeading +
-                          " d-flex align-items-center col-gap-0-5"
-                        }
-                        style={{ color: "#009B94" }}
-                      >
-                        <MdThumbUp />
-                        Recommended
-                      </h5>
-                      <p style={{ color: "#192A3E" }}>“{itm.review}”</p>
-                      <small className="align-self-end">
-                        by {itm?.patientInfo + " "}
-                        {moment(itm?.appoint_date).startOf("day").fromNow()}
-                      </small>
+                    <li key={indx} className={`d-flex flex-column ${style.reviewItemRow}`}>
+                      <small className={style.reviewDate}>{moment(itm?.appoint_date).format("MMM D, YYYY")}</small>
+                      <div className="d-flex align-items-center col-gap-1 my-2">
+                        <div className={style.reviewAvatar}>
+                          {String(itm?.patientInfo || "").split(" ").map((n:any)=>n[0]).slice(0,2).join("")}
+                        </div>
+                        <div>
+                          <div className={style.reviewStarsInline}>
+                            <FaStar style={{ color: "#F5B400" }} />
+                            <FaStar style={{ color: "#F5B400" }} />
+                            <FaStar style={{ color: "#F5B400" }} />
+                            <FaStar style={{ color: "#F5B400" }} />
+                            <FaStar style={{ color: "#F5B400" }} />
+                          </div>
+                          <div className={style.reviewAuthor}>{itm?.patientInfo}</div>
+                        </div>
+                      </div>
+                      <p className={style.reviewTextItem}>{itm?.review}</p>
                     </li>
                   ))}
                   <Button
@@ -310,42 +276,6 @@ export default function Profile({ doctor, doctors }: any) {
                     )}
                   </Button>
                 </ul>
-              </section>
-              {/* booking consultation */}
-              <section className={style.summary}>
-                <h2 className={style.reviewText}>Video Consultation</h2>
-                <table>
-                  <tr>
-                    <th>Fee in Pkr</th>
-                    <td>Rs. {doctor?.videoCallCharges}</td>
-                  </tr>
-                  <tr>
-                    <th>Recommendation</th>
-                    <td>{doctor?.recommended || "0"}%</td>
-                    {/* <td>{appointDate}</td> */}
-                  </tr>
-                  <tr>
-                    <th>Availability</th>
-                    <td>{doctor?.isOnline ? <p>Online</p> : <p>Offline</p>}</td>
-                  </tr>
-                </table>
-                <p
-                  className={`d-flex justify-content-between ${
-                    style.reviewText + " " + style.display
-                  }`}
-                >
-                  <span className="flex">
-                    {doctor?.isOnline ? <p>Online </p> : <p>Offline </p>}
-                    <p>{doctor?.recommended}% Recommendation</p>
-                  </span>
-                  <span>{doctor?.videoCallCharges} Rs.</span>
-                </p>
-                <Link
-                  href={"/doctors/" + doctor?.Id + "/booked"}
-                  className="linkBtn d-flex w-100 justify-content-center"
-                >
-                  book appointment
-                </Link>
               </section>
             </section>
           </div>

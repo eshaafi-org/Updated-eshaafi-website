@@ -7,6 +7,10 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Script from "next/script";
 import Providers from "../redux/provider";
+// import { Urbanist } from 'next/font/google';
+import Finalfooter from "@/views/Footer/Finalfooter";
+
+
 
 // import LocoMotiveScroll from "locomotive-scroll";
 
@@ -14,6 +18,13 @@ import Providers from "../redux/provider";
 const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
   ssr: false,
 });
+
+// import urbanist font
+// const urbanist = Urbanist({ 
+//   subsets: ['latin'],
+//   weight: ['400', '500', '600', '700']
+// });
+
 // import Context from "@/contextAPI";
 export default function App({ Component, pageProps }: AppProps) {
   let router = useRouter();
@@ -28,12 +39,19 @@ export default function App({ Component, pageProps }: AppProps) {
           router.pathname === "/faq/mobile" ||<NoSSRHeader />}
 
         <Component {...pageProps} />
-
+         
+        <Script
+        src="https://kit.fontawesome.com/a076d05399.js"
+        crossOrigin="anonymous"
+        />
         {router.pathname === "/blog/second/[id]" ||
           router.pathname === "/blog/mobile/[id]" ||
           router.pathname === "/privacy-policy/mobile" ||
           router.pathname === "/terms-and-conditions/mobile" ||
-          router.pathname === "/faq/mobile" || <Footer />}
+          router.pathname === "/faq/mobile" || <Finalfooter />
+          // <Footer />
+          
+          }
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-1BXFKZVVFJ" />
         <Script id="google-analytics">
           {`

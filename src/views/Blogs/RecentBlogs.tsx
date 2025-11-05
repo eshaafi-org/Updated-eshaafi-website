@@ -1,50 +1,38 @@
-import style from "../../styles/blogs.module.scss";
-import Image from "next/image";
+import styles from "../../styles/healthlibrary.module.scss";
 import Link from "next/link";
-import { MdNavigateNext } from "react-icons/md";
-import ReactMarkdown from "react-markdown";
-// recent blog card component
-function BlogCard({ blog }: any) {
-  return (
-    <Link href={`/blog/${blog.name}`} className={style.recentBlogCard}>
-      <span className={style.blogImage}>
-        <Image
-          src={blog.url}
-          className={style.recentBlogImage}
-          width={200}
-          height={200}
-          alt={blog.url}
-        />
-      </span>
-      <span className={style.recentBlogContent}>
-        <h5 className={style.blogHeading}>{blog.title}</h5>
-        <p className={style.blogDescription}>
-          {blog.description.slice(0, 60)}...
-          <Link href={`/blog/${blog.name}`} className={style.blogLink}>
-            Read More
-          </Link>
-        </p>
-      </span>
-    </Link>
-  );
-}
 // recent blogs section
-export default function RecentBlogs({ recentBlogs }: { recentBlogs: [] }) {
+export default function RecentBlogs({ recentBlogs }: { recentBlogs: any[] }) {
+  const mainBlog = recentBlogs[0];
+  const smallBlogs = recentBlogs.slice(1, 5);
+
   return (
-    <div className={style.recentBlogs}>
-      <span className="d-flex w-100 justify-content-between">
-        <h2 className={style.blogPageHeadings}>Recent Uploads</h2>
-        <Link href="/blog/category/recent" className="link">
-          View all <MdNavigateNext />
-        </Link>
-      </span>
-      <ul className={style.recentBlogsList}>
-        {recentBlogs.slice(0, 4).map((blog, indx) => (
-          <li key={indx}>
-            <BlogCard blog={blog} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <section className={styles.recentBlogs}>
+      <div className={styles.headerRow}>
+        <h2 className={styles.title}>Recent Blogs</h2>
+        <button className={styles.contributeBtn}>Contribute your Blog</button>
+      </div>
+
+      <div className={styles.blogGrid}>
+        <div className={styles.mainBlog}>
+          <img src={mainBlog?.url} alt={mainBlog?.title} />
+          <div className={styles.overlayText}>{mainBlog?.title}</div>
+        </div>
+
+        <div className={styles.smallBlogs}>
+          {smallBlogs.map((blog, index) => (
+            <div key={index} className={styles.blogItem}>
+              <img src={blog?.url} alt={blog?.title} />
+              <div className={styles.overlayText}>{blog?.title}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.sideButton}>
+          <Link href="/blog/category/recent">
+            <button className={styles.viewAllBtn}>View All Blogs</button>
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }

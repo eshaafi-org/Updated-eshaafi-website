@@ -1,0 +1,1277 @@
+.wellbeingSection {
+  position: relative;
+  width: 100%;
+  height: 650px;
+  background: url("/images/healthhero-bg.png") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; // content moves to bottom
+  padding-bottom: 80px; // spacing from bottom
+
+  // ✅ Overlay only at the bottom part of image
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65%; // overlay only bottom part
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+    z-index: 1;
+  }
+
+  .content {
+    text-align: center;
+    color: white;
+    max-width: 983px;
+    padding: 0 20px;
+    z-index: 2;
+    position: relative;
+
+    h2 {
+      color: white;
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+
+    .searchBar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      height: 60px;
+
+      .input {
+        flex: 1;
+        height: 100%;
+        background: transparent;
+        border: 2px solid #fff;
+        border-radius: 50px;
+        padding: 0 25px;
+        color: white;
+        font-size: 18px;
+        outline: none;
+        backdrop-filter: blur(5px);
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .wellbeingSection {
+    height: 500px;
+    padding-bottom: 50px;
+
+    .overlay {
+      height: 55%; // more visible on mobile
+    }
+
+    .content {
+      h2 {
+        font-size: 26px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+
+      .searchBar {
+        flex-direction: column;
+        gap: 10px;
+        height: auto;
+        color: white;
+
+        .input {
+          width: 100%;
+          padding: 12px 18px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+/*recent blog*/
+.recentBlogs {
+  padding: 60px 40px;
+  background-color: #f9f9f9;
+
+  .headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+
+    .title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #595A5A;
+    }
+
+    .contributeBtn {
+      background-color: #00568A;
+      color: #fff;
+      border: none;
+      padding: 15px 20px;
+      border-radius: 15px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .blogGrid {
+    display: grid;
+    grid-template-columns: 1.5fr 1.2fr auto;
+    gap: 20px;
+    align-items: stretch;
+
+    .mainBlog {
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 15px;
+        object-fit: cover;
+      }
+
+      .overlayText {
+        position: absolute;
+        bottom: 15px;
+        left: 20px;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .smallBlogs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 15px;
+
+      .blogItem {
+        position: relative;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 12px;
+          object-fit: cover;
+        }
+
+        .overlayText {
+          position: absolute;
+          bottom: 10px;
+          left: 10px;
+          font-size: 14px;
+          font-weight: 500;
+          color: white;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+
+    .sideButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .viewAllBtn {
+        background-color: #00568A;
+        color: #fff;
+        writing-mode: vertical-rl;
+        height: 30%;
+        transform: rotate(0deg);
+        border: none;
+        padding: 10px 16px;
+        border-radius: 15px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+  }
+
+  /* ✅ Responsive */
+  @media (max-width: 992px) {
+    padding: 40px 30px;
+
+    .blogGrid {
+      grid-template-columns: 1fr;
+      .sideButton {
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+// ============================================
+// FILE: healthtopics.module.scss
+// ============================================
+.healthTopicsSection {
+  position: relative;
+  width: 100%;
+  padding: 2rem 0;
+  background: #fafafa;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  // Header Section
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+
+    h2 {
+      font-family: "Inter", sans-serif !important;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+
+      span {
+        color: #00568A;
+      }
+    }
+
+    p {
+      font-family: "Inter", sans-serif;
+      font-size: 0.9375rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+  }
+
+  // Category Tabs
+  .categoryTabs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+
+    .categoryTab {
+      padding: 0.625rem 1.5rem;
+      border-radius: 9999px;
+      border: 1px solid #00568A;
+      background: white;
+      color: #00568A;
+      font-family: "Inter", sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: #e0f2fe;
+      }
+
+      &.active {
+        background: #00568A;
+        color: white;
+      }
+    }
+  }
+
+  // Category Section
+  .categorySection {
+    margin-bottom: 3rem;
+  }
+
+  .categoryHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .categoryTitle {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .categoryIcon {
+        width: 4.5rem;
+        height: 4.5rem;
+        background: #E7C8FF; 
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 1.8rem;
+          height: 1.8rem;
+          object-fit: contain;
+        }
+      }
+
+
+      h3 {
+        font-family: "Inter", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #000000;
+        margin: 0 0 0.25rem 0;
+        line-height: 1.3;
+      }
+
+      p {
+        font-family: "Inter", sans-serif;
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+        line-height: 1.4;
+      }
+    }
+
+    .viewAllBtn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      color: #00568A;
+      font-family: "Inter", sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      span {
+        font-size: 1.25rem;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        color: #0c4a6e;
+
+        span {
+          transform: translateX(4px);
+        }
+      }
+    }
+  }
+
+  // Articles Grid
+  .articlesGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .articleCard {
+    background: transparent;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    .articleImage {
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      background: #e5e7eb;
+      border-radius: 1rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+    }
+
+    .articleContent {
+      padding: 1rem 0 0 0;
+
+      h4 {
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #000000;
+        margin: 0 0 0.75rem 0;
+        line-height: 1.4;
+      }
+
+     .articleMeta {
+  display: flex;
+  flex-direction: column; /* 👈 Stack vertically */
+  align-items: flex-start;
+  gap: 0.4rem;
+
+  .readTime {
+    font-family: "Inter", sans-serif;
+    font-size: 0.8125rem;
+    color: #6b7280;
+  }
+
+  .authorInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    img {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    span {
+      font-family: "Inter", sans-serif;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: #374151;
+    }
+  }
+}
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 1024px) {
+    padding: 4rem 0;
+
+    .header h2 {
+      font-size: 2rem;
+    }
+
+    .categoryTabs {
+      margin-bottom: 2.5rem;
+
+      .categoryTab {
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+      }
+    }
+
+    .articlesGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .categoryHeader {
+      .categoryTitle {
+        .categoryIcon {
+          width: 3rem;
+          height: 3rem;
+          font-size: 1.75rem;
+        }
+
+        h3 {
+          font-size: 1.125rem;
+        }
+
+        p {
+          font-size: 0.8125rem;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+
+    .container {
+      padding: 0 1.5rem;
+    }
+
+    .header {
+      margin-bottom: 2.5rem;
+
+      h2 {
+        font-size: 1.75rem;
+      }
+
+      p {
+        font-size: 0.875rem;
+      }
+    }
+
+    .categoryTabs {
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+
+      .categoryTab {
+        padding: 0.5rem 1rem;
+        font-size: 0.8125rem;
+      }
+    }
+
+    .categoryHeader {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+
+      .viewAllBtn {
+        align-self: flex-end;
+      }
+    }
+
+    .articlesGrid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .articleCard .articleImage {
+      height: 180px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 2.5rem 0;
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .header {
+      margin-bottom: 2rem;
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 0.8125rem;
+      }
+    }
+
+    .categoryTabs {
+      .categoryTab {
+        padding: 0.5rem 0.875rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    .categoryHeader {
+      padding: 0.875rem;
+
+      .categoryTitle {
+        .categoryIcon {
+          width: 2.5rem;
+          height: 2.5rem;
+          font-size: 1.5rem;
+        }
+
+        h3 {
+          font-size: 1rem;
+        }
+
+        p {
+          font-size: 0.75rem;
+        }
+      }
+
+      .viewAllBtn {
+        padding: 0;
+        font-size: 0.875rem;
+      }
+    }
+
+    .articleCard {
+      .articleImage {
+        height: 160px;
+      }
+
+      .articleContent {
+        padding: 1rem;
+
+        h4 {
+          font-size: 0.9375rem;
+        }
+
+        .articleMeta {
+          .readTime,
+          .authorInfo span {
+            font-size: 0.75rem;
+          }
+
+          .authorInfo img {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+/*prevent*/
+.preventiveCareSection {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  background: #fafafa;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .categorySection {
+    margin-bottom: 3rem;
+  }
+
+  .categoryHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .categoryTitle {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .categoryIcon {
+        width: 4.5rem;
+        height: 4.5rem;
+        background: #B2FFCF;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+      }
+
+      h3 {
+        font-family: "Inter", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #000000;
+        margin: 0 0 0.25rem 0;
+      }
+
+      p {
+        font-family: "Inter", sans-serif;
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+      }
+    }
+
+    .viewAllBtn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      color: #00568A;
+      font-family: "Inter", sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      span {
+        font-size: 1.25rem;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        color: #0c4a6e;
+
+        span {
+          transform: translateX(4px);
+        }
+      }
+    }
+  }
+
+  .articlesGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .articleCard {
+    background: transparent;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    .articleImage {
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 1rem;
+      background: #e5e7eb;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+    }
+
+    .articleContent {
+      padding: 1rem 0 0 0;
+
+      h4 {
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #000000;
+        margin: 0 0 0.75rem 0;
+      }
+
+      .articleMeta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+
+        .readTime {
+          font-family: "Inter", sans-serif;
+          font-size: 0.8125rem;
+          color: #6b7280;
+        }
+
+        .authorInfo {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          img {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          span {
+            font-family: "Inter", sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: #374151;
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive
+  @media (max-width: 1024px) {
+    .articlesGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .articleCard .articleImage {
+      height: 250px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+
+    .container {
+      padding: 0 1.5rem;
+    }
+
+    .articlesGrid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .articleCard .articleImage {
+      height: 200px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 2.5rem 0;
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .articleCard .articleImage {
+      height: 160px;
+    }
+
+    .articleContent h4 {
+      font-size: 0.9375rem;
+    }
+  }
+}
+
+/*everyday health*/
+.everydayHealthSection {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  background: #fafafa;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .categorySection {
+    margin-bottom: 3rem;
+  }
+
+  .categoryHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .categoryTitle {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .categoryIcon {
+        width: 4.5rem;
+        height: 4.5rem;
+        background: #BAE5FF; // Light blue for Telehealth
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 1.8rem;
+          height: 1.8rem;
+          object-fit: contain;
+        }
+      }
+
+      h3 {
+        font-family: "Inter", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #000000;
+        margin: 0 0 0.25rem 0;
+      }
+
+      p {
+        font-family: "Inter", sans-serif;
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+      }
+    }
+
+    .viewAllBtn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      color: #00568A;
+      font-family: "Inter", sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      span {
+        font-size: 1.25rem;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        color: #0c4a6e;
+
+        span {
+          transform: translateX(4px);
+        }
+      }
+    }
+  }
+
+  .articlesGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .articleCard {
+    background: transparent;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    .articleImage {
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 1rem;
+      background: #e5e7eb;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+    }
+
+    .articleContent {
+      padding: 1rem 0 0 0;
+
+      h4 {
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #000000;
+        margin: 0 0 0.75rem 0;
+      }
+
+      .articleMeta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+
+        .readTime {
+          font-family: "Inter", sans-serif;
+          font-size: 0.8125rem;
+          color: #6b7280;
+        }
+
+        .authorInfo {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          img {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          span {
+            font-family: "Inter", sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: #374151;
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive
+  @media (max-width: 1024px) {
+    .articlesGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .articleCard .articleImage {
+      height: 250px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+
+    .container {
+      padding: 0 1.5rem;
+    }
+
+    .articlesGrid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .articleCard .articleImage {
+      height: 200px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 2.5rem 0;
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .articleCard .articleImage {
+      height: 160px;
+    }
+
+    .articleContent h4 {
+      font-size: 0.9375rem;
+    }
+  }
+}
+
+/*****abouttelehealth****/
+.aboutTelehealthSection {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  background: #fafafa;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .categorySection {
+    margin-bottom: 3rem;
+  }
+
+  .categoryHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    .categoryTitle {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .categoryIcon {
+        width: 3.5rem;
+        height: 3.5rem;
+        background: #FFE5AD; 
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 1.8rem;
+          height: 1.8rem;
+          object-fit: contain;
+        }
+      }
+
+      h3 {
+        font-family: "Inter", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #000000;
+        margin: 0 0 0.25rem 0;
+      }
+
+      p {
+        font-family: "Inter", sans-serif;
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0;
+      }
+    }
+
+    .viewAllBtn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      color: #00568A;
+      font-family: "Inter", sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      span {
+        font-size: 1.25rem;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        color: #0c4a6e;
+
+        span {
+          transform: translateX(4px);
+        }
+      }
+    }
+  }
+
+  .articlesGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .articleCard {
+    background: transparent;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    .articleImage {
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      border-radius: 1rem;
+      background: #e5e7eb;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+    }
+
+    .articleContent {
+      padding: 1rem 0 0 0;
+
+      h4 {
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #000000;
+        margin: 0 0 0.75rem 0;
+      }
+
+      .articleMeta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+
+        .readTime {
+          font-family: "Inter", sans-serif;
+          font-size: 0.8125rem;
+          color: #6b7280;
+        }
+
+        .authorInfo {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          img {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          span {
+            font-family: "Inter", sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: #374151;
+          }
+        }
+      }
+    }
+  }
+
+  // 🔹 Responsive Styles
+  @media (max-width: 1024px) {
+    .articlesGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .articleCard .articleImage {
+      height: 250px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 3rem 0;
+
+    .container {
+      padding: 0 1.5rem;
+    }
+
+    .articlesGrid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .articleCard .articleImage {
+      height: 200px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 2.5rem 0;
+
+    .container {
+      padding: 0 1rem;
+    }
+
+    .articleCard .articleImage {
+      height: 160px;
+    }
+
+    .articleContent h4 {
+      font-size: 0.9375rem;
+    }
+  }
+}
+
