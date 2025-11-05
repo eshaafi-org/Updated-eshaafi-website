@@ -505,7 +505,6 @@ p {
 //   border-radius: 10px;
 //   background: #ccc;
 // }
-<<<<<<< HEAD
 @font-face {
   font-family: 'Trenda';
   src: url('/fonts/Trenda-Regular.woff2') format('woff2');
@@ -520,18 +519,4 @@ p {
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-=======
-.fullscreen-overlay {
-  background: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
->>>>>>> 18f0558ec9e2bf64fabadab413ef0aacd1fd65c5
 }
