@@ -20,27 +20,37 @@ export async function fetchAndSortDoctors(options: FetchDoctorsOptions) {
     body.search = search;
   }
 
-  const response = await fetch(BASE_URL + "/patients/doctors/filter", {
-    cache: "no-cache",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
+  try {
+    const response = await fetch(BASE_URL + "/patients/doctors/filter", {
+      cache: "no-cache",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
-  const data = await response.json();
-  const doctors = data.response?.Items || [];
-
-  // Sort: online doctors first, then offline
-  return doctors.sort((a: any, b: any) => {
-    if (a.isOnline && !b.isOnline) {
-      return -1;
-    } else if (!a.isOnline && b.isOnline) {
-      return 1;
+    if (!response.ok) {
+      console.error(`Doctor API error: ${response.status} ${response.statusText}`);
+      throw new Error(`Failed to fetch doctors: ${response.status}`);
     }
-    return 0;
-  });
+
+    const data = await response.json();
+    const doctors = data.response?.Items || [];
+
+    // Sort: online doctors first, then offline
+    return doctors.sort((a: any, b: any) => {
+      if (a.isOnline && !b.isOnline) {
+        return -1;
+      } else if (!a.isOnline && b.isOnline) {
+        return 1;
+      }
+      return 0;
+    });
+  } catch (error) {
+    console.error("Error fetching doctors:", error);
+    throw error;
+  }
 }
 
 /**

@@ -11,7 +11,7 @@ const FindDoctorsPage: React.FC<{ doctors: any[] }> = ({ doctors }) => {
         <meta name="description" content="Book video consultation with the best doctors" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <FindDoctorsView doctors={doctors} />
+      <FindDoctorsView doctors={doctors || []} />
     </>
   )
 }
@@ -19,12 +19,24 @@ const FindDoctorsPage: React.FC<{ doctors: any[] }> = ({ doctors }) => {
 export default FindDoctorsPage
 
 export async function getStaticProps() {
-  const doctors = await fetchAndSortDoctors(DoctorQueryPresets.allDoctors());
+  try {
+    const doctors = await fetchAndSortDoctors(DoctorQueryPresets.allDoctors());
 
-  return {
-    props: {
-      doctors,
-    },
-    revalidate: 1,
-  };
+    return {
+      props: {
+        doctors,
+      },
+      revalidate: 1,
+    };
+  } catch (error) {
+    console.error("Error fetching doctors in find-doctors page:", error);
+    
+    // Return empty doctors array as fallback
+    return {
+      props: {
+        doctors: [],
+      },
+      revalidate: 60, // Retry after 60 seconds if there's an error
+    };
+  }
 }
