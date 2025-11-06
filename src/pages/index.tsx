@@ -74,7 +74,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Eshaafi | Care That Never Quits</title>
+        <title>eShaafi | Care That Never Quits</title>
         <meta name="description" content="Meet one on one with your doctor" />
         <meta
           name="viewport"
