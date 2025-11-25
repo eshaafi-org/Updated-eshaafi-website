@@ -1,8 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
 import logo from "../../public/eshaafiLogo.svg";
 import { Model } from "../views/Header/LoginSignupModel";
 export default function Login() {
+
+  const [showmodel, setShowModal] = useState(false);
+
   return (
     <>
       <Head>

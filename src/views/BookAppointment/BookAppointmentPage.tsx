@@ -48,7 +48,7 @@ export default function BookAppointmentPage({
   const [method, setMethod] = useState<string>("-");
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [paymentUrl, setPaymentUrl] = useState("");
+  const [paymentUrl, setPaymentUrl] = useState('');
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => setShowModal(false);
   const handleModalOpen = () => setShowModal(true);
@@ -130,7 +130,7 @@ export default function BookAppointmentPage({
           });
           return;
         }
-        if (paymentId === "payPro") {
+        if (paymentId === "payFast") {
           handlePayfast();
           return;
         }
@@ -305,19 +305,6 @@ export default function BookAppointmentPage({
   };
 
   //handle Payfast Integration
-  // const handlePayfast = async () => {
-  //   const handshakeId = response.appointmentId;
-  //   const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}:51aec218-feb0-467f-9691-9a5843407db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
-  //   setPaymentUrl(url);
-  //   const appointmentData = {
-  //     appointmentId: response.appointmentId,
-  //     patientName: patient.patientName,
-  //     patientId: patient.patientId,
-  //     paymentId: paymentId,
-  //   };
-  //   localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
-  // },.;
-
   const handlePayfast = async () => {
     const handshakeId = response.appointmentId;
     const url = `https://betapayfast.eshaafi.com/?handshake=${handshakeId}slot_id=51aec218-feb0-467f-9691-9a584507db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
@@ -328,8 +315,9 @@ export default function BookAppointmentPage({
       patientId: patient.patientId,
       paymentId: paymentId,
     };
-    localStorage.setItem("appointmentData", JSON.stringify(appointmentData));
+    localStorage.setItem('appointmentData', JSON.stringify(appointmentData));
   };
+
   // Redirect to payment URL once it's set
   useEffect(() => {
     if (paymentUrl) {
@@ -522,7 +510,7 @@ export default function BookAppointmentPage({
         <Modal.Body>
           <iframe
             src={paymentUrl}
-            style={{ width: "100%", height: "500px" }}
+            style={{ width: '100%', height: '500px' }}
             frameBorder="0"
           />
         </Modal.Body>

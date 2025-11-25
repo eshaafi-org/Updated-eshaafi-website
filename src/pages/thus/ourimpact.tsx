@@ -64,7 +64,7 @@ const OurImpact: React.FC = () => {
   ];
 
   return (
-    <section className={styles.impactSection}>
+    <section  id="journey"className={styles.impactSection}>
       <div className={styles.impactWrapper}>
        <h2 className={styles.impactTitle}>
   Our <span className={styles.highlight}>Impact</span> So Far
@@ -83,7 +83,9 @@ const OurImpact: React.FC = () => {
           ))}
         </div>
 
-        <div className={styles.ctaSection}>
+      </div>
+      
+        <div  id="join" className={styles.ctaSection}>
           <h3 className={styles.ctaTitle}>Join us in making healthcare accessible for everyone.</h3>
           {/* <button className={styles.ctaButton}>Get in touch</button> */}
           <Link href="/getintouch">
@@ -91,7 +93,6 @@ const OurImpact: React.FC = () => {
 </Link>
 
         </div>
-      </div>
     </section>
   );
 };

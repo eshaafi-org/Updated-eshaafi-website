@@ -1,9 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "../../styles/homepage.module.scss";
 
 export default function Schedule() {
   const [activeStep, setActiveStep] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const steps = [
     {
@@ -26,13 +28,33 @@ export default function Schedule() {
     },
   ];
 
-  // ✅ Auto-change video every 7 seconds
+  // ✅ Auto-advance to next step after video ends or after 7 seconds
+  const handleNextStep = () => {
+    setActiveStep((prevStep) => (prevStep + 1) % steps.length);
+  };
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveStep((prevStep) => (prevStep + 1) % steps.length);
-    }, 7000); // 7 seconds per video
-    return () => clearInterval(interval);
-  }, [steps.length]);
+    // Reset video when step changes
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      // Force play for smooth transition
+      videoRef.current.play().catch((err) => {
+        console.warn("Video autoplay blocked:", err);
+      });
+    }
+
+    // Clear existing interval
+    if (intervalRef.current) clearInterval(intervalRef.current);
+
+    // Set 7-second auto-advance interval
+    intervalRef.current = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % steps.length);
+    }, 7000);
+
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [activeStep, steps.length]);
 
   return (
     <section className={styles.appointmentSection}>
@@ -81,18 +103,20 @@ export default function Schedule() {
                   className={styles.mobileImage}
                 />
 
-                {/* ✅ Auto-playing video overlay */}
+                {/* ✅ Auto-playing video overlay - smooth playback */}
                 <div className={styles.videoOverlay}>
                   <video
+                    ref={videoRef}
                     className={styles.videoPlayer}
                     src={steps[activeStep].videoUrl}
                     autoPlay
                     muted
-                    loop
                     playsInline
+                    preload="auto"
                     onEnded={() => {
-                      setActiveStep((prevStep) => (prevStep + 1) % steps.length);
+                      setActiveStep((prev) => (prev + 1) % steps.length);
                     }}
+                    key={activeStep}
                   />
                 </div>
               </div>

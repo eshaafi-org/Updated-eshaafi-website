@@ -3,8 +3,8 @@
 /* Blue Hero Section */
 .heroBlue {
   width: 100%;          
-  background-color: #0066a1;
-padding: 160px 20px 100px; 
+   background: linear-gradient(180deg, #001624 0%, #00568A 100%);
+padding: 180px 20px 100px; 
   text-align: center;    
   color: white;         
 
@@ -153,7 +153,8 @@ padding: 160px 20px 100px;
 /////////////********get in touch*******//////////
 .heroSection {
   width: 100%;
-  background: #00568A;
+  // background: #00568A;
+    background: linear-gradient(180deg, #001624 0%, #00568A 100%);
   padding: 140px 2%;   // lamba
   text-align: center;
 
@@ -235,8 +236,9 @@ padding: 160px 20px 100px;
 /********************Contribute your blog****************************/
 .heroSection {
   width: 100%;
-  background: #00568A;
-  padding: 150px 2%;
+  // background: #00568A;
+    background: linear-gradient(180deg, #001624 10%, #00568A 100%);
+  padding: 180px 2%;
   text-align: center;
 
   .title {

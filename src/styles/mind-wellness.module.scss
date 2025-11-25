@@ -394,7 +394,8 @@ $font-inter: 'Inter', sans-serif;
     padding: 120px 24px;
     gap: 10px;
     width: 100%;
-    background: $primary-color;
+    // background: $primary-color;
+    background: linear-gradient(180deg, #001624 0%, #00568A 100%);
 
     .cta-text {
       font-family: $font-inter;
@@ -548,20 +549,19 @@ $font-inter: 'Inter', sans-serif;
 
     .video-section {
       .video-container {
-        flex-direction: column;
+        // flex-direction: column;
         align-items: center;
+        gap:32px;
         padding: 12px;
         .video-content { padding-right: 0; text-align: center; }
         .video-thumbnail { width: 100%; max-width: 520px; height: 220px; flex: 0 0 auto; }
       }
+      
     }
+
 
     .bottom-cta { padding: 80px 16px; .cta-text { font-size: 24px; } }
   }
 }
 
-/* ==========================================================================
-   Cleanup: removed absolute-positioned icons block (was requested to remove)
-   ========================================================================== */
 
-/* End of file */

@@ -49,7 +49,7 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors }) => {
     })
     return ['All Doctor', ...Array.from(set).sort((a, b) => a.localeCompare(b))]
   }, [mappedDoctors])
-console.log("specialties", specialties);
+
   return (
     <section className={styles.doctorsSection}>
       <div className={styles.doctorsWrapper}>

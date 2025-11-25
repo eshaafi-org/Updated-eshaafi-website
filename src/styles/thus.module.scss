@@ -173,8 +173,7 @@
     width: 70px;
     height: 70px;
     margin-bottom: 2.25rem; 
-    margin-top:2rem;   // consistent spacing below icon
-    /* remove visual nudging so icons align uniformly */
+    margin-top:2rem;  
     transform: none;
 
     img {
@@ -198,7 +197,6 @@
     font-size: 0.93rem;
     line-height: 1.5;
     transform: none;
-    /* push the paragraph down to the bottom of the card (flexbox) */
   
   }
 }
@@ -330,22 +328,37 @@
 }
 
 // CTA Section
+// .ctaSection {
+//   width: 100%;
+//   background: linear-gradient(180deg, #001624 0%, #00568A 100%);
+//   padding: 3.5rem 4rem;
+//   border-radius: 0; // rounded corners hata diye
+//   text-align: center;
+// }
 .ctaSection {
-  background-color: #0e5487;
-  padding: 3.5rem 4rem;
-  border-radius: 12px;
+  width: 100vw; // pura viewport width
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  
+  background: linear-gradient(180deg, #001624 0%, #00568A 100%);
+  padding: 6rem 2rem; // top-bottom padding, left-right thoda rakha
   text-align: center;
+  border-radius: 0;
 }
 
+
 .ctaTitle {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: 600;
   color: #fff;
   margin: 0 0 1.5rem 0;
 }
 
 .ctaButton {
-  padding: 0.9rem 2.5rem;
+  padding: 0.7rem 2.3rem;
   background-color: #fff;
   color: #0e5487;
   border: none;
@@ -361,6 +374,7 @@
   }
 }
 
+
 // Responsive adjustments (already mostly fine)
 @media (max-width: 1200px) {
   .impactCard { grid-template-columns: 1fr; gap: 2rem; }
@@ -373,6 +387,9 @@
 }
 
 @media (max-width: 480px) {
+  .impactTitle {
+    font-size: 1.8rem !important;
+  }
   .impactImage { height: 160px; }
   .description { font-size: 0.95rem; }
   .imageCaption { font-size: 0.75rem; }

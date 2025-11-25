@@ -2,9 +2,6 @@
   "name": "eshaafi-page-project",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": ">=20"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -26,7 +23,7 @@
     "eslint-config-next": "13.4.19",
     "fernet": "^0.3.2",
     "formik": "^2.4.5",
-    "framer-motion": "^10.18.0",
+    "framer-motion": "^10.16.4",
     "lucide-react": "^0.545.0",
     "moment": "^2.29.4",
     "next": "13.4.19",

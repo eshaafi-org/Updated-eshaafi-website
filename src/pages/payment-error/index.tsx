@@ -1,17 +1,7 @@
-"use client";
 import Head from 'next/head'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 export default function PaymentError() {
-    useEffect(() => {
-        console.log(sessionStorage.getItem('hasReloaded'));
-        if (!sessionStorage.getItem('hasReloaded')) {
-            // Mark that the page has reloaded
-            sessionStorage.setItem('hasReloaded', 'true');
-            // Reload the page
-            window.location.reload();
-        }
-    }, []);
     return (
         <div className='container'>
             <Head>

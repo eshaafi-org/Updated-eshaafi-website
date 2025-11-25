@@ -4,8 +4,8 @@ import { Inter} from "next/font/google";
 import styles from "@/styles/homepage.module.scss";
 // import Hero from "@/views/Home/Hero";
 import Herosection from "@/views/Home/Herosection"
-import Schedule from "@/views/Home/Schedule";
-import ExpertCareSection from "@/views/Home/ExpertCareSection";
+import Schedule from "@/views/Home/Psychologists";
+import ExpertCareSection from "@/views/Home/ServiceCard";
 // import Mission from "@/views/Home/Mission";
 // import Features from "@/views/Home/Features";
 import HealthcareLanding from "@/views/Home/HealthcareLanding";
@@ -49,37 +49,30 @@ export default function Home() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          type: "category",
-          // search: "General Physician",
+          type: "specialization",
+          search: "General Physician",
         }),
       });
       const data = await response.json();
-      setDoctors(
-        data.response.Items.sort((a: any, b: any) => {
-          return a.isOnline === b.isOnline ? 0 : a.isOnline ? -1 : 1;
-        })
-      );
+      setDoctors(data.response.Items.sort((a: any, b: any) => {
+        return a.isOnline === b.isOnline ? 0 : a.isOnline ? -1 : 1;
+      }));
     };
 
     fetchBlogs();
     fetchDoctors();
   }, []);
 
-  const Partners = dynamic(() => import("@/views/Home/Partners"), {
-    ssr: false,
-  });
-  const Doctors = dynamic(() => import("@/views/Home/Doctors"), { ssr: false });
-  const Blogs = dynamic(() => import("@/views/Home/Blogs"), { ssr: false });
+  const Partners = dynamic(() => import('@/views/Home/Partners'), { ssr: false });
+  const Doctors = dynamic(() => import('@/views/Home/Doctors'), { ssr: false });
+  const Blogs = dynamic(() => import('@/views/Home/Blogs'), { ssr: false });
 
   return (
     <>
       <Head>
         <title>Eshaafi | Care That Never Quits</title>
         <meta name="description" content="Meet one on one with your doctor" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main className={`${styles.main} `}>
@@ -100,15 +93,15 @@ export default function Home() {
           text={`At eShaafi, our mission is to provide continuous care that
               surpasses boundaries and empowers individuals to take control of
               their health. We are committed to delivering accessible, reliable,
-              and compassionate healthcare through cutting-edge digital
+              and compassionate healthcare through cutting-edge telemedicine
               solutions.`}
         /> */}
-        <HealthcareLanding/>
+        {/* <HealthcareLanding/> */}
         {/* <Features /> */}
-        <TrustedBySection/>
+        {/* <TrustedBySection/> */}
         {/* <Working /> */}
         {/* <Doctors doc={doctors} heading={"Book with Doctors"} /> */}
-        <Imagesection/>
+        {/* <Imagesection/> */}
         {/* {typeof window !== 'undefined' && <Partners />}
         <Blogs blogs={positions} />
         <GetApp color="#fff" /> */}

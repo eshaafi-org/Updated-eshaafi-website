@@ -148,13 +148,13 @@ export default function PaymentMethod({
         <span className="d-flex justify-content-between  row-gap-1">
           <h3 className="text-dark">Payment Method </h3>
           <span className="d-flex align-items-center justify-content-end col-gap-1">
-            <p>Use Wallet Point</p>
+            <p>Use Wallet Balance</p>
             <div
               className={
                 style.checkboxWrapper + " d-flex align-items-center col-gap-1"
               }
             >
-              <span>you have {response.wallet} point </span>
+              <span>Rs.{response.wallet} </span>
               <input
                 type="checkbox"
                 className={style.scGJwTLC + " " + style.ikxBAC}
@@ -175,7 +175,7 @@ export default function PaymentMethod({
                     setSelectedPaymentMethod("wallet");
                   } else {
                     setPaymentId("");
-                    setSelectedPaymentMethod("");
+                    setSelectedPaymentMethod('');
                   }
                 }}
                 disabled={response.wallet === 0}
@@ -230,24 +230,27 @@ export default function PaymentMethod({
             >
               <input
                 type="radio"
-                id="payPro"
+                id="payFast"
                 name="paymentId"
-                // style={{ width: "24px", height: "24px" }}
+              // style={{ width: "24px", height: "24px" }}
                 checked={selectedPaymentMethod === "payFast"}
                 onChange={() => {
                   if (wallet) {
                     setStates({ type: "WALLET" });
-                    setPaymentId("payPro");
-                    setSelectedPaymentMethod("payPro");
-                    setMethod("payPro");
+                    setPaymentId("payFast");
+                    setSelectedPaymentMethod("payFast");
+                    setMethod("payFast");
                   } else {
                     setSelectedPaymentMethod("payFast");
-                    setPaymentId("payPro");
-                    setMethod("payPro");
+                    setPaymentId("payFast");
+                    setMethod("payFast");
                   }
                 }}
               />
-              <label htmlFor="payPro" className={styles.paymentMethodLabel}>
+              <label
+                htmlFor="payFast"
+                className={styles.paymentMethodLabel}
+              >
                 JazzCash / EasyPaisa / Debit Card
               </label>
             </li>
