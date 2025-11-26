@@ -136,7 +136,7 @@
 
 /* Hero Button Styles */
 .heroBtn{
-  padding: 14px 32px;
+  padding: 12px 30px;
   font-size: 16px;
   font-weight: 500;
   border-radius: 50px;
@@ -442,11 +442,16 @@
   // Specific adjustments for each card type
   &:nth-child(1) { // Labs
     .service-card__image {
+      /* make image occupy right side and flush to card's right edge */
       .service-img {
-        max-width: 90%;
+        max-width: 100%;
+        width: 100%;
+        display: block;
         margin-left: auto;
-        margin-right: 0px;
+        margin-right: -30px; /* offset card horizontal padding (30px) to make image flush */
       }
+      /* allow overflow so negative margin can reach card edge */
+      overflow: visible;
     }
   }
 
@@ -472,19 +477,34 @@
 
   &:nth-child(4) { // Corporate Care
     .service-card__image {
+      /* expand image to fill the entire card horizontally (Corporate Care) */
+      width: calc(100% + 60px); /* compensate for card horizontal padding (30px each side) */
+      margin-left: -30px;
+      margin-right: -30px;
+      padding: 0;
+
       .service-img {
-        max-width: 100%;
-        margin-bottom: 130px;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        display: block;
       }
     }
   }
 
   &:nth-child(5) { // Wellness Sessions
     .service-card__image {
+      /* make image take full width of card with no side spacing */
+      width: calc(100% + 60px);
+      margin-left: -30px;
+      margin-right: -30px;
+      padding: 0;
+
       .service-img {
-        max-width: 100%;
-         margin-left: 0px;
-        margin-right: 0px;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        display: block;
       }
     }
   }

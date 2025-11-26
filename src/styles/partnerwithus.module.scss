@@ -1,6 +1,7 @@
 .partnerPage {
   position: relative;
   width: 100%;
+  margin-top: 50px;
   min-height: 100vh;
   background: white;
   overflow-x: hidden;
@@ -1360,7 +1361,8 @@
   }
 
   .testimonialCard {
-    background: #f0f9ff;
+    // background: #f0f9ff;
+     background: linear-gradient(to bottom, #abd2eb 0%, #b4dffa 20%, #F2F2F2 100% );
     padding: 3rem 2.5rem 2.5rem;
     position: relative;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);

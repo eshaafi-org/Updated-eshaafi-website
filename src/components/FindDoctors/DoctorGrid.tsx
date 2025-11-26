@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import styles from '@/styles/findDoctors.module.scss'
 import DoctorCard from './DoctorCard'
 
@@ -49,6 +50,28 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors }) => {
     })
     return ['All Doctor', ...Array.from(set).sort((a, b) => a.localeCompare(b))]
   }, [mappedDoctors])
+
+  // pick up ?specialty=... from the URL and set active filter on client-side
+  const router = useRouter()
+  useEffect(() => {
+    const raw = router.query.specialty
+    if (!raw) return
+    const val = Array.isArray(raw) ? raw[0] : raw
+    try {
+      const decoded = decodeURIComponent(val).replace(/\+/g, ' ')
+      // try to find best match among derived specialties
+      const lower = decoded.toLowerCase()
+      const exact = specialties.find((s) => s.toLowerCase() === lower)
+      const include = specialties.find((s) => s.toLowerCase().includes(lower))
+      const includedBy = specialties.find((s) => lower.includes(s.toLowerCase()))
+      const match = exact || include || includedBy
+      if (match) setActiveSpecialty(match)
+      else setActiveSpecialty(decoded)
+    } catch (e) {
+      setActiveSpecialty(String(val))
+    }
+  // run when specialties list or query changes
+  }, [router.query.specialty, specialties])
 
   return (
     <section className={styles.doctorsSection}>

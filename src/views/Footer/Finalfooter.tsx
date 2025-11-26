@@ -42,7 +42,7 @@ export default function Finalfooter() {
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
             </a> */}
-             <a href="https://www.tiktok.com/@eshaaficares" className={styles.footer__socialLink} aria-label="TikTok">
+             <a href="https://www.tiktok.com/@eshaaficares/" className={styles.footer__socialLink} aria-label="TikTok">
   <svg width="24" height="24" viewBox="0 0 256 256" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <path d="M168,106a95.9,95.9,0,0,0,56,18V84a56,56,0,0,1-56-56H128V156a28,28,0,1,1-40-25.3V89.1A68,68,0,1,0,168,156Z"/>
   </svg>
@@ -67,11 +67,11 @@ export default function Finalfooter() {
           <h3 className={styles.footer__columnTitle}>Individual Care</h3>
           <ul className={styles.footer__links}>
             <li><Link href="/find-doctors">Doctors</Link></li>
-            <li><Link href="/mind-wellness">Mental Health</Link></li>
+            <li><Link href="mind-wellness#therapists-section">Mental Health</Link></li>
             <li><Link href="/labs">Labs</Link></li>
             <li><Link href="/medicines">Medicines</Link></li>
-            <li><Link href="#">Health Webinars</Link></li>
-            <li><Link href="/partnerwithus">Care Plans</Link></li>
+            <li><Link href="/healthwebinars">Health Webinars</Link></li>
+            <li><Link href="/find-doctors#subscription-plans">Care Plans</Link></li>
             <li><Link href="/blog">Blogs</Link></li>
           </ul>
         </div>
@@ -80,9 +80,9 @@ export default function Finalfooter() {
         <div className={styles.footer__column}>
           <h3 className={styles.footer__columnTitle}>Corporate Care</h3>
           <ul className={styles.footer__links}>
-            <li><Link href="/joinUs">Our Services</Link></li>
-            <li><Link href="/partnerwithus">Wellness Sessions</Link></li>
-            <li><Link href="/media-gallery">Testimonials</Link></li>
+            <li><Link href="/partnerwithus#services">Our Services</Link></li>
+            <li><Link href="partnerwithus#wellness-section">Wellness Sessions</Link></li>
+            <li><Link href="/partnerwithus#testimonials">Testimonials</Link></li>
           </ul>
         </div>
 
@@ -91,9 +91,9 @@ export default function Finalfooter() {
           <h3 className={styles.footer__columnTitle}>Impact</h3>
            <ul className={styles.footer__links}>
              <li><Link href="/aboutus#our-journey">Our Story</Link></li>
-            <li><Link href="/aboutus#value-section">Careers</Link></li>
-            <li><Link href="/aboutus#our-team">Media Gallery</Link></li>
-            <li><Link href="/blog">Telehealth Units</Link></li>
+            <li><Link href="/joinUs">Careers</Link></li>
+            <li><Link href="/media-gallery">Media Gallery</Link></li>
+            <li><Link href="/thus">Telehealth Units</Link></li>
             
             {/* <li><a href="/aboutus#our-journey">Our journey</a></li>
             <li><a href="/aboutus#value-section">Values</a></li>

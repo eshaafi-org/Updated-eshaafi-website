@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from "framer-motion";
+import Link from "next/link";
 import styles from "../../styles/homepage.module.scss";
 
 const PsychologistsSection: React.FC = () => {
@@ -21,8 +22,19 @@ const PsychologistsSection: React.FC = () => {
           </p>
 
           <div className={styles.psychologists__buttons}>
-            <button className={`${styles.psyBtn} ${styles["psyBtn--primary"]}`}>Explore</button>
-            <button className={`${styles.psyBtn} ${styles["psyBtn--secondary"]}`}>Book now</button>
+            
+            <Link href="/mind-wellness#therapists-section">
+              <button className={`${styles.psyBtn} ${styles["psyBtn--primary"]}`}>
+                Explore
+              </button>
+            </Link>
+
+            <Link href="/mind-wellness#therapists-section">
+              <button className={`${styles.psyBtn} ${styles["psyBtn--secondary"]}`}>
+                Book now
+              </button>
+            </Link>
+
           </div>
         </motion.div>
 
