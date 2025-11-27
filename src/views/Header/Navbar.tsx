@@ -677,6 +677,7 @@ interface NavbarItem {
 const navbarItems: NavbarItem[] = [
   {
     title: "Doctors",
+    href: "/find-doctors",
     dropdown: [
       { name: "General Practitioners", href: "/find-doctors?specialty=General%20Physician", icon: "/images/doctor1.svg" },
       { name: "Specialists", href: "/find-doctors?specialty=Specialist", icon: "/images/doctor2.svg" },
@@ -687,6 +688,7 @@ const navbarItems: NavbarItem[] = [
 
   {
     title: "Mental Health",
+    href: "/mind-wellness",
     dropdown: [
       { name: "Counselors", href: "/mind-wellness?specialty=Counselor#therapists-section", icon: "/images/doctor4.svg" },
       { name: "Psychologists", href: "/mind-wellness?specialty=Clinical%20Psychologist#therapists-section", icon: "/images/doctor5.svg" },
@@ -706,6 +708,7 @@ const navbarItems: NavbarItem[] = [
 
   {
     title: "Care Plans",
+    href: "/find-doctors#subscription-plans",
     dropdown: [
       { name: "Essential Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/essential.svg" },
       { name: "Family Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/familyplan.svg" },
@@ -715,6 +718,7 @@ const navbarItems: NavbarItem[] = [
 
   {
     title: "Wellness Sessions",
+    href: "/partnerwithus#wellness-section",
     dropdown: [
       { name: "Mind Wellness", href: "/partnerwithus#wellness-section", icon: "/images/mindwellness.svg" },
       { name: "Nutritional Wellness", href: "/partnerwithus#wellness-section", icon: "/images/nutritionalwellness.svg" },
@@ -725,16 +729,18 @@ const navbarItems: NavbarItem[] = [
 
   {
     title: "Corporate Care",
+    href: "/partnerwithus",
     dropdown: [
       { name: "Schedule a Meeting", href: "/partnerwithus#schedule", icon: "/images/schedule.svg" },
       { name: "Our Services", href: "/partnerwithus#services", icon: "/images/services.svg" },
-      { name: "Wellness Sessions", href: "partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
+      { name: "Wellness Sessions", href: "/partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
       { name: "Testimonials", href: "/partnerwithus#testimonials", icon: "/images/testimonials.svg" },
     ],
   },
 
   {
     title: "THUs",
+    href: "/thus",
     dropdown: [
       { name: "What are THUs", href: "/thus#what-are-thus", icon: "/images/thus.svg" },
       { name: "Journey", href: "/thus#journey", icon: "/images/journey.svg" },
@@ -744,6 +750,7 @@ const navbarItems: NavbarItem[] = [
 
   {
     title: "Blogs",
+    href: "/blog",
     dropdown: [
       { name: "Mind Wellness", href: "/blog#recent", icon: "/images/mindwellness.svg" },
       { name: "Preventive Care", href: "/blog#recent", icon: "/images/preventivecare.svg" },
@@ -754,6 +761,7 @@ const navbarItems: NavbarItem[] = [
 
   {
     title: "Impact",
+    href: "/aboutus",
     dropdown: [
       { name: "Our Story", href: "/aboutus", icon: "/images/ourstory.svg" },
       { name: "Careers", href: "/joinUs", icon: "/images/career.svg" },

@@ -109,6 +109,14 @@
   }
 
   &.active {
+    background-color: #06345a; /* darker blue for selected state */
+    color: #fff;
+    border-color: #06345a;
+  }
+
+  /* Support component code that applies a separate `filterActive` class */
+  /* This makes `styles.filterActive` (from the JS/TSX) render the same dark blue */
+  &.filterActive {
     background-color: #0e5487;
     color: #fff;
     border-color: #0e5487;

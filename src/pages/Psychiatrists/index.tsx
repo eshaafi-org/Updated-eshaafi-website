@@ -7,7 +7,7 @@ export default function MedicinePage() {
     <section className={styles.medicinePage}>
       <div className={styles.glassBox}>
         <h1>Coming Soon</h1>
-        <p>Something amazing is on the way...</p>
+        {/* <p>Something amazing is on the way...</p> */}
         <div className="loadingBar"></div>
       </div>
     </section>
