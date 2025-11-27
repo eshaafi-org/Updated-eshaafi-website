@@ -1,6 +1,7 @@
 // @import "../../styles/mixin";
 @import "../../styles/variables";
 @import "../../styles/mixin";
+
 .header {
   background-color: rgba(237, 246, 254, 1);
   position: fixed;
@@ -14,11 +15,13 @@
   align-items: center;
   transition: all ease-in 0.2s;
 }
+
 .onScroll {
   background-color: #fff;
   background-image: unset;
   box-shadow: 0px 4px 8px 0px rgba(138, 138, 138, 0.04);
 }
+
 .navbar {
   font-family: "Inter", sans-serif;
   display: flex;
@@ -29,25 +32,31 @@
   padding: 0 1rem;
   align-items: center;
 }
+
 .mobilenavbar {
   display: flex;
   column-gap: 1rem;
   padding: 0 1rem;
   flex-direction: column;
 }
+
 .mobileNavbarContainer {
   display: flex;
   column-gap: 1rem;
   margin-bottom: 1rem;
+
   @include mobile-landscape-and-below {
     flex-direction: column;
   }
+
   row-gap: 1rem;
 }
+
 .logo {
   display: flex !important;
   align-items: center;
 }
+
 .navLinks {
   list-style-type: none;
   display: flex;
@@ -56,14 +65,17 @@
   column-gap: 3rem;
   margin-left: 1rem;
   margin-bottom: 0px;
+
   @include above-tablet {
     align-items: flex-start;
   }
 }
+
 .navbar a {
   color: $primary-clr;
   font-weight: 500;
 }
+
 .burgerMenu {
   background-color: transparent;
   outline: none;
@@ -71,9 +83,11 @@
   color: $black;
   cursor: pointer;
 }
+
 .drawer {
   display: none;
 }
+
 .openDrawer {
   display: block;
   position: absolute;
@@ -93,20 +107,24 @@
     height: 90px;
   }
 }
+
 @media screen and (max-width: 1050px) {
   .navbar {
     height: 60px;
   }
 }
+
 @media screen and (max-width: 768px) {
   .navbar {
     height: 50px;
   }
 }
+
 // login container
 .loginCont {
   width: 100%;
 }
+
 // signin sign up modal styling
 .modalCont {
   display: flex;
@@ -119,17 +137,24 @@
   height: 100vh;
   background-color: rgba($color: #000000, $alpha: 0.7);
   z-index: 99999999;
+
   .modaldiv {
     background-color: $white;
-    border-radius: 7px;
-    width: 500px;
+    border-radius: 10px; // slightly bigger for better look
+    width: 650px; // ⬅️ increased from 500px
+    max-height: 90vh; // ⬅️ prevent overflow on large content
+    overflow-y: auto; // ⬅️ scroll if content grows
+    padding: 25px; // ⬅️ slightly increased padding
+
     @include mini-laptop-and-below {
-      width: 100%;
-      height: 100%;
-      border-radius: 0;
+      width: 90%; // instead of full width (looks cleaner)
+      height: auto;
+      max-height: 95vh;
+      border-radius: 8px;
     }
   }
 }
+
 .otpField {
   width: 16%;
   max-width: 50px;
@@ -142,17 +167,21 @@
   font-size: 1.5rem;
   color: $primary-clr;
 }
+
 .otpField::-webkit-inner-spin-button,
 .otpField::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 .otpField[type="number"] {
   -moz-appearance: textfield;
 }
+
 .otpError {
   border: 2px solid #b00020 !important;
 }
+
 .phoneNum {
   display: flex;
   border: 1px solid #79747e;
@@ -163,10 +192,12 @@
     padding: 1rem;
     font-size: 1rem;
     background: none !important;
+
     &:focus-visible {
       outline: none;
     }
   }
+
   input {
     width: 100%;
     border: none;
@@ -176,17 +207,21 @@
     -webkit-appearance: none;
     margin: 0;
   }
+
   &:hover {
     border: 1px solid $primary-clr;
   }
+
   &:focus-visible {
     outline: 1px solid $primary-clr;
   }
 }
+
 .phoneInput {
   padding: 1rem;
   font-size: 1rem;
 }
+
 .phoneInput::-webkit-inner-spin-button,
 .phoneInput::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -196,19 +231,23 @@
 .phoneInput[type="number"] {
   -moz-appearance: textfield;
 }
+
 .selectOpt {
   border: 1px solid #79747e;
   padding: 1rem;
   border-radius: 4px;
   font-size: 1rem;
   background: none;
+
   &:hover {
     border: 1px solid $primary-clr;
   }
+
   &:focus-visible {
     border: 1px solid $primary-clr;
     outline: 1px solid $primary-clr;
   }
+
   option {
     border: 1px solid #79747e;
     padding: 1rem;
@@ -216,6 +255,7 @@
     font-size: 1rem;
   }
 }
+
 /// profile modal
 .profileModal {
   position: fixed;
@@ -224,6 +264,7 @@
   width: 100%;
   height: 100%;
   z-index: 99999999;
+
   .profileLinks {
     background-color: #fff;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
@@ -233,11 +274,13 @@
     top: 8%;
     z-index: 999999;
     border-radius: 8px;
+
     li {
       color: $black;
     }
   }
 }
+
 //// sub links styling
 .subLinkContainer {
   position: absolute;
@@ -246,6 +289,7 @@
   width: 180px;
   height: 300px;
   padding-top: 60px;
+
   @include mobile-landscape-and-below {
     top: 0;
     left: 0;
@@ -256,9 +300,11 @@
     align-items: self-start;
   }
 }
+
 .dobField {
   min-width: 95%;
 }
+
 .corporateBtn {
   display: flex;
   justify-content: space-between;
@@ -272,6 +318,7 @@
   text-align: left;
   // background-color: ;
 }
+
 ///////////////// Cart styling
 .cartContainer {
   width: 100%;
@@ -284,6 +331,7 @@
   backdrop-filter: blur(5px);
   display: grid;
 }
+
 .cartSection {
   background-color: #fff;
   width: 380px;
@@ -294,32 +342,39 @@
   display: grid;
   grid-template-rows: auto 2fr auto;
   padding-bottom: 2rem;
+
   @include large-mobile-and-below {
     width: 100%;
   }
 }
+
 .cartAction {
   padding: 0.5rem 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .cartItems {
   border: 1px solid #ededed;
   padding: 1rem;
   overflow-y: auto;
+
   :link {
     &:hover {
       text-decoration: none;
     }
   }
 }
+
 .cartDetails {
   padding: 2rem 1rem;
 }
+
 .cartBtn {
   position: relative;
 }
+
 .cartNumber {
   position: absolute;
   top: 0;
@@ -331,6 +386,7 @@
   font-size: 9px;
   font-weight: 600;
 }
+
 .cartItem {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -338,12 +394,14 @@
   column-gap: 0.5rem;
   padding-bottom: 0.7rem;
 }
+
 .cartControls {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   border: 1px solid #d7ddea;
   border-radius: 4px;
   align-items: center;
+
   p {
     text-align: center;
     border-left: 1px solid #d7ddea;
@@ -354,16 +412,17 @@
     align-items: center;
   }
 }
+
 // Cart Button
 .blueColor {
   color: #1b76b8 !important;
   font-size: 16px;
   font-weight: 700;
 }
+
 .fadeColor {
   color: #77777777 !important;
   text-decoration: line-through;
   font-size: 16px;
   font-weight: 700;
 }
-

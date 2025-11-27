@@ -19,50 +19,31 @@ const FindDoctorsPage: React.FC<{ doctors: any[] }> = ({ doctors }) => {
 export default FindDoctorsPage
 
 export async function getStaticProps() {
-  try {
-    let response = await fetch(BASE_URL + "/patients/doctors/filter", {
-      cache: "no-cache",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        type: "categroy",
+  let response = await fetch(BASE_URL + "/patients/doctors/filter", {
+    cache: "no-cache",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      type: "categroy",
+      
+    }),
+  });
+
+  const docData = await response.json();
+  return {
+    props: {
+      doctors: docData.response.Items.sort((a: any, b: any) => {
+        if (a.isOnline && !b.isOnline) {
+          return -1;
+        } else if (!a.isOnline && b.isOnline) {
+          return 1;
+        } else {
+          return 0;
+        }
       }),
-    });
-
-    if (!response.ok) {
-      console.error(`API responded with status ${response.status}`);
-      throw new Error(`API error: ${response.status}`);
-    }
-
-    const docData = await response.json();
-    const items = docData?.response?.Items || [];
-
-    const sortedDoctors = items.sort((a: any, b: any) => {
-      if (a.isOnline && !b.isOnline) {
-        return -1;
-      } else if (!a.isOnline && b.isOnline) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-
-    return {
-      props: {
-        doctors: sortedDoctors,
-      },
-      revalidate: 60, // increased from 1 to reduce API calls on first deploy
-    };
-  } catch (error) {
-    console.error("Error fetching doctors in getStaticProps:", error);
-    // return empty doctors array so page renders without 500 error
-    return {
-      props: {
-        doctors: [],
-      },
-      revalidate: 5, // short revalidate so it retries soon
-    };
-  }
+    },
+    revalidate: 1,
+  };
 }

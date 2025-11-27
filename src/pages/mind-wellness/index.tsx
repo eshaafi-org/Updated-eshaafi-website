@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/mind-wellness.module.scss";
@@ -20,8 +20,19 @@ export default function MindWellnessPage({
 }: {
   doctors?: Doctor[];
 }) {
+  const [isLoading, setIsLoading] = useState(true);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const toolRefs = useRef<(HTMLElement | null)[]>([]);
+
+  // Simulate loading for doctors data
+  useEffect(() => {
+    if (doctors && doctors.length > 0) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1500); // Show skeleton for 1.5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [doctors]);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -135,7 +146,7 @@ export default function MindWellnessPage({
 
         {/* Doctor Grid */}
         <section id="therapists-section" style={{ marginTop: -80 }}>
-          <DoctorGrid doctors={doctors} />
+          <DoctorGrid doctors={doctors} onlyMentalHealth={true} isLoading={isLoading} />
         </section>
 
         {/* Conditions Section */}
@@ -239,13 +250,14 @@ export default function MindWellnessPage({
 }
 
 export async function getStaticProps() {
+  // Fetch all doctors first
   const response = await fetch(BASE_URL + "/patients/doctors/filter", {
     cache: "no-cache",
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      type: "specialization",
-      search: "General Physician",
+      type: "categroy",
+      // Get all doctors to filter client-side
     }),
   });
 

@@ -1,7 +1,7 @@
 // Variables
 $primary-color: #00568A;
 $secondary-color: #00B8AF;
-$accent-color: #EEF6FF;
+$accent-color: #dcf0fc;
 $light-blue: #E0EFFF;
 $text-dark: #595A5A;
 $text-gray: #555555;
@@ -266,7 +266,7 @@ $font-inter: 'Inter', sans-serif;
       flex-wrap: wrap;
 
       .tool-card {
-        background: #E5F4FF;
+        background: #dcf0fc;
         border-radius: 20px;
         width: 300px;
         min-height: 260px;
@@ -324,7 +324,7 @@ $font-inter: 'Inter', sans-serif;
     margin: 40px auto;
 
     .video-container {
-      background: $light-blue;
+      background: #dcf0fc;
       border-radius: 30px;
       padding: 20px;
       display: flex;

@@ -115,13 +115,11 @@ export default function PaymentMethod({
                   }
                 />
                 <label
-                  className={`${
-                    style.labelrdioclassProfile
-                  } d-flex flex-column justify-content-center align-items-center text-center ${
-                    patient.patientId === itm.profileId
+                  className={`${style.labelrdioclassProfile
+                    } d-flex flex-column justify-content-center align-items-center text-center ${patient.patientId === itm.profileId
                       ? style.labelActiveProfile
                       : ""
-                  }`}
+                    }`}
                   htmlFor={itm.profileId}
                 >
                   {itm.url ? (
@@ -200,11 +198,9 @@ export default function PaymentMethod({
                   disabled={wallet}
                 />
                 <label
-                  className={`${
-                    style.labelrdioclass
-                  } d-flex  align-items-center p-3 row-gap-1 ${
-                    wallet ? style.paymentDisabled : ""
-                  }`}
+                  className={`${style.labelrdioclass
+                    } d-flex  align-items-center p-3 row-gap-1 ${wallet ? style.paymentDisabled : ""
+                    }`}
                   htmlFor={itm.paymentId}
                 >
                   <span
@@ -230,28 +226,28 @@ export default function PaymentMethod({
             >
               <input
                 type="radio"
-                id="payFast"
+                id="payPro"
                 name="paymentId"
-              // style={{ width: "24px", height: "24px" }}
-                checked={selectedPaymentMethod === "payFast"}
+                // style={{ width: "24px", height: "24px" }}
+                checked={selectedPaymentMethod === "payPro"}
                 onChange={() => {
                   if (wallet) {
                     setStates({ type: "WALLET" });
-                    setPaymentId("payFast");
-                    setSelectedPaymentMethod("payFast");
-                    setMethod("payFast");
+                    setPaymentId("payPro");
+                    setSelectedPaymentMethod("payPro");
+                    setMethod("payPro");
                   } else {
-                    setSelectedPaymentMethod("payFast");
-                    setPaymentId("payFast");
-                    setMethod("payFast");
+                    setSelectedPaymentMethod("payPro");
+                    setPaymentId("payPro");
+                    setMethod("payPro");
                   }
                 }}
               />
               <label
-                htmlFor="payFast"
+                htmlFor="payPro"
                 className={styles.paymentMethodLabel}
               >
-                JazzCash / EasyPaisa / Debit Card
+                JazzCash / EasyPaisa / Debit Card / PayPro
               </label>
             </li>
           </ul>

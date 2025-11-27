@@ -6,14 +6,33 @@
   padding: 9.5rem 2rem 4rem 2rem;
   background-color: #fff;
 
-  @include tablet-large-and-below {
-    padding: 4rem 1.5rem 3rem 1.5rem;
-  }
+  // @include tablet-large-and-below {
+  //   padding: 4rem 1.5rem 3rem 1.5rem;
+  // }
 
-  @include mobile-landscape-and-below {
-    padding: 3rem 1rem 2rem 1rem;
+  // @include mobile-landscape-and-below {
+  //   padding: 3rem 1rem 2rem 1rem;
+  // }
+}
+
+@media(max-width: 1024px){
+  .doctorsSection {
+    padding-top: 8rem !important; 
   }
 }
+
+@media(max-width: 940px){
+  .mainContent {
+    padding-top: 5.2rem !important; 
+  }
+}
+
+@media(max-width: 480px){
+  .doctorsSection {
+    padding-top: 9rem !important; 
+  }
+}
+
 
 .doctorsWrapper {
   max-width: 1440px;
@@ -135,9 +154,11 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 0.8rem;
-  width: 95%;
-  max-width: 570px;
+   width: 100%;
+  max-width: 500px;
   margin: 0 auto;
+  width: calc(100% - 1rem); 
+  max-width: unset;
 
   &:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
@@ -182,7 +203,7 @@
   position: relative;
   flex-shrink: 0;
 
-    .doctorImage {
+  .doctorImage {
     width: 85px;
     height: 85px;
     border-radius: 50%;
@@ -196,26 +217,22 @@
     }
   }
 
-    /* show small online dot on doctor image (bottom-right) */
-    .onlineIndicator {
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      background-color: #32D24A;
-      border-radius: 50%;
-      border: 3px solid #fff;
-      bottom: 4px;
-      right: 4px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-      z-index: 2;
-    }
-}
+  /* hide small online dot on doctor image (we keep any textual 'Online' label elsewhere) */
+  .onlineIndicator {
+    display: none !important;
+  }
 
-/* extra utility class for module-safe active filter state */
-.filterActive {
-  background-color: #0e5487;
-  color: #fff;
-  border-color: #0e5487;
+  .onlineIndicator {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background-color: #32D24A;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    bottom: 2px;
+    right: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .doctorInfo {

@@ -5,8 +5,6 @@ import logo from "../../public/eshaafiLogo.svg";
 import { Model } from "../views/Header/LoginSignupModel";
 export default function Login() {
 
-  const [showmodel, setShowModal] = useState(false);
-
   return (
     <>
       <Head>
@@ -24,7 +22,7 @@ export default function Login() {
             <Image src={logo} alt="eshaafi-logo" />
           </span>
           <span className="w-1-2 lg-w-full">
-            {/* <Model page={"login"} setShowModal={false} userAuth={false} /> */}
+            <Model page={"login"} />
             <h3>Please Sign in to proceed</h3>
           </span>
         </div>

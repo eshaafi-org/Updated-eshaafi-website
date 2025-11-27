@@ -1,5 +1,6 @@
 @import "../styles/mixin";
 @import "../styles//variables";
+
 // online animation styling
 .onlineindicator {
   display: inline-flex;
@@ -89,18 +90,23 @@
   0% {
     transform: scale(1);
   }
+
   40% {
     transform: scale(1.08);
   }
+
   50% {
     transform: scale(0.98);
   }
+
   55% {
     transform: scale(1.02);
   }
+
   60% {
     transform: scale(0.98);
   }
+
   100% {
     transform: scale(1);
   }
@@ -112,9 +118,11 @@
     box-shadow: 0 0 2px rgba(0, 170, 40, 0.15),
       inset 0 0 1px rgba(3, 203, 0, 0.15);
   }
+
   95% {
     box-shadow: 0 0 50px rgba(51, 169, 0, 0), inset 0 0 30px rgba(9, 179, 0, 0);
   }
+
   100% {
     transform: scale(2.25);
   }
@@ -127,21 +135,25 @@
   // grid-template-rows: 1fr 1fr;
   row-gap: 2rem;
   column-gap: 3rem;
+
   @include tablet-and-below {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(3, auto);
     row-gap: 1rem;
   }
+
   @include large-mobile-and-below {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     row-gap: 0.5rem;
   }
+
   li {
     .benefitItemCont {
       display: grid;
       grid-template-columns: repeat(2, auto);
       column-gap: 0.5rem;
+
       svg {
         font-size: 20px;
         color: #0e5487;
@@ -149,93 +161,117 @@
     }
   }
 }
+
 // doctors page styling
 .docList {
   width: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+
   @include above-tablet-large {
     width: 60%;
   }
 }
+
 .docCard {
   border-radius: 8px;
   box-shadow: 0px 20px 40px 0px rgba(88, 88, 88, 0.08);
   border: 1px solid #d7ddea;
   padding: 1rem 0.5rem;
+
   @include above-medium-mobile {
     padding: 1rem 1rem;
   }
 }
+
 .docImg {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   margin-right: 0.5rem;
 }
+
 .docTitle {
   font-size: 1rem;
   text-transform: capitalize;
+
   @include for-large-mobile-only {
     font-size: 1.1rem;
   }
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 1.2rem;
   }
+
   @include for-large-tablet-only {
     font-size: 1.3rem;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     font-size: 1.4rem;
   }
+
   @include for-laptop-and-above {
     font-size: 1.5rem;
   }
 }
+
 .docSpecialization {
   font-size: 14px;
+
   @include above-large-mobile {
     font-size: 1rem;
   }
 }
+
 .docFee {
   font-size: 14px;
   font-weight: 600;
   color: #0e5487;
   text-wrap: nowrap;
+
   @include for-large-mobile-only {
     font-size: 1rem;
   }
+
   @include above-large-mobile {
     font-size: 1.2rem;
   }
 }
+
 .experienceHeading {
   font-size: 0.9rem;
   font-weight: 500;
+
   @include above-large-mobile {
     font-size: 1rem;
   }
 }
+
 .experienceText {
   font-size: 11px;
   font-weight: 500;
   text-align: center;
+
   @include above-large-mobile {
     font-size: 0.9rem;
   }
 }
+
 .docExperience {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+
   span {
     row-gap: 0.5rem;
+
     @include above-large-mobile {
       row-gap: 1rem;
     }
   }
 }
+
 // Doctor profile styling
 .horizantalline {
   color: #dbdbdb;
@@ -302,6 +338,7 @@
   width: 15px;
   height: 15px;
 }
+
 .reviewItem {
   width: 50%;
   margin-left: auto;
@@ -318,14 +355,17 @@
   padding: 0.35rem 1rem;
   margin-right: 0.75rem;
   margin-bottom: 1rem;
-  border: 1px solid #0b5b8a; /* blue outline */
+  border: 1px solid #0b5b8a;
+  /* dark blue outline */
   border-radius: 999px;
-  background-color: #ffffff; /* white background */
+  background-color: #e6f3ff;
+  /* light blue background */
   color: #0b5b8a;
   text-align: center;
   text-decoration: none;
   font-size: 14px;
-  box-shadow: 0 2px 6px rgba(11,91,138,0.06);
+  box-shadow: 0 2px 6px rgba(11, 91, 138, 0.06);
+
   @include above-mobile-landscape {
     padding: 0.5rem 1.25rem;
     margin-right: 1rem;
@@ -334,17 +374,21 @@
 
 /* Section list and alignment for education / experience */
 .sectionList {
-  li + li {
+  li+li {
     margin-top: 0.5rem;
   }
+
   border-bottom: 1px solid #e9ecef;
   padding-bottom: 1.25rem;
 }
+
 .eduItem {
   width: 100%;
+
   .left {
     flex: 1 1 auto;
   }
+
   .right {
     width: 80px;
     text-align: right;
@@ -356,6 +400,7 @@
 .patientReviewSection {
   padding: 1rem 0 1.5rem 0;
 }
+
 .patientReviewSummary {
   display: grid;
   grid-template-columns: 200px 1fr;
@@ -365,22 +410,26 @@
   padding: 18px;
   border-radius: 12px;
 }
+
 .summaryLeft {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
 .reviewAvg {
   font-size: 36px;
   font-weight: 700;
   color: #192a3e;
 }
+
 .reviewStars {
   margin-top: 6px;
-  display:flex;
-  gap:6px;
+  display: flex;
+  gap: 6px;
 }
+
 .summaryRight {
   display: flex;
   flex-direction: column;
@@ -392,10 +441,12 @@
   padding: 1rem 0;
   border-bottom: 1px solid #f1f3f5;
 }
+
 .reviewDate {
   color: #6b7780;
   font-size: 13px;
 }
+
 .reviewAvatar {
   width: 40px;
   height: 40px;
@@ -407,19 +458,23 @@
   justify-content: center;
   font-weight: 700;
 }
+
 .reviewStarsInline {
   display: flex;
   gap: 6px;
 }
+
 .reviewAuthor {
   font-weight: 700;
   color: #22303a;
 }
+
 .reviewTextItem {
   color: #535a60;
   margin-top: 0.75rem;
   line-height: 1.6;
 }
+
 // doctor profile styling
 
 // doctors listing page card styling
@@ -454,18 +509,22 @@
     width: 65px;
     height: 65px;
   }
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     width: 70px;
     height: 70px;
   }
+
   @include for-large-tablet-only {
     width: 72px;
     height: 72px;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     width: 80px;
     height: 80px;
   }
+
   @include for-laptop-and-above {
     width: 100px;
     height: 100px;
@@ -495,7 +554,7 @@
   border-radius: 20px;
   padding: 6px 12px;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .expPill {
@@ -510,15 +569,17 @@
 .bookBtn {
   display: inline-block;
   width: 100%;
-  max-width: none; /* fill available width */
+  max-width: none;
+  /* fill available width */
   margin-top: 1rem;
   padding: 16px 22px;
-  background: #0b5b8a; /* darker teal/blue closer to design */
+  background: #0b5b8a;
+  /* darker teal/blue closer to design */
   color: #fff !important;
   border-radius: 12px;
   text-align: center;
   font-weight: 600;
-  box-shadow: 0 8px 28px rgba(13,110,253,0.12);
+  box-shadow: 0 8px 28px rgba(13, 110, 253, 0.12);
 }
 
 /* Make avatar bigger in hero */
@@ -538,7 +599,7 @@
   background: #fff;
   padding: 8px 12px;
   border-radius: 999px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -551,6 +612,7 @@
   margin-top: 8px;
   margin-bottom: 6px;
 }
+
 .docSpecialization {
   color: #55656a;
   margin-bottom: 12px;
@@ -629,10 +691,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   @include above-large-mobile {
     width: 120px;
     height: 120px;
   }
+
   @include above-tablet {
     width: 200px;
     height: 200px;
@@ -662,6 +726,7 @@
   height: 100%;
   background-color: #b3e1df;
 }
+
 .reviewItem {
   width: 50%;
   margin-left: auto;
@@ -675,6 +740,7 @@
 
 .progress {
   position: relative;
+
   .progressBar {
     height: 5px;
     background-color: #009b94;
@@ -684,6 +750,7 @@
     z-index: 1;
     bottom: 0;
   }
+
   .progressBarLight {
     width: 100%;
     height: 5px;
@@ -698,10 +765,12 @@
 
 .display {
   display: none !important;
+
   @include tablet-and-below {
     display: flex !important;
   }
 }
+
 .docOnline {
   /* show a small green online dot at bottom-right of the avatar in profile hero */
   border: none !important;
@@ -714,104 +783,133 @@
     position: absolute;
     width: 14px;
     height: 14px;
-    background-color: #32D24A; /* green */
+    background-color: #32D24A;
+    /* green */
     border-radius: 50%;
-    border: 2px solid #fff; /* thinner white ring so it sits inside */
+    border: 2px solid #fff;
+    /* thinner white ring so it sits inside */
     /* move slightly more inside the avatar */
     bottom: 12px;
     right: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
     z-index: 5;
   }
 }
+
 .docPageHeading {
   font-size: 16px;
   // margin-bottom: 0.3rem !important;
   text-transform: capitalize;
   padding-top: 3rem;
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 1.5rem !important;
     // margin-bottom: 0.5rem !important;
   }
+
   @include above-tablet-large {
     font-size: 2rem !important;
     // margin-bottom: 1rem !important;
   }
 }
+
 /// doctor profile page
 .docSecHeading {
   font-size: 1.05rem;
   margin-bottom: 0.9rem !important;
-  font-weight: 700; /* make section headings bold */
+  font-weight: 700;
+
+  /* make section headings bold */
   @include for-medium-mobile-only {
     font-size: 1rem;
   }
+
   @include for-large-mobile-only {
     font-size: 1.3rem;
   }
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 1.4rem;
   }
+
   @include for-large-tablet-only {
     font-size: 1.5rem;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     font-size: 1.6rem;
   }
+
   @include for-laptop-and-above {
     font-size: 1.7rem;
   }
 }
+
 .docSecSubHeading {
   font-size: 0.8rem;
   font-weight: 400 !important;
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 1rem;
     font-weight: 400 !important;
   }
+
   @include for-large-tablet-only {
     font-size: 1rem;
     font-weight: 700;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     font-size: 1rem;
     font-weight: 700;
   }
+
   @include for-laptop-and-above {
     font-size: 1.1rem;
     font-weight: 700;
   }
 }
+
 .docSecDes {
   font-size: 11px;
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 1rem;
   }
+
   @include for-large-tablet-only {
     font-size: 1rem;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     font-size: 1rem;
   }
+
   @include for-laptop-and-above {
     font-size: 1rem;
   }
 }
+
 .docText {
   font-size: 14px;
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 1rem;
   }
+
   @include for-large-tablet-only {
     font-size: 1rem;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     font-size: 1rem;
   }
+
   @include for-laptop-and-above {
     font-size: 1rem;
   }
 }
+
 //
 .docProfileContainer {
   width: 100%;
@@ -821,122 +919,153 @@
   column-gap: 0;
   align-items: start;
 }
+
 .profiling {
   width: 100%;
   /* add horizontal padding so text sections don't touch the edges */
   padding-left: 1rem;
   padding-right: 1rem;
+
   @include above-large-mobile {
     padding-left: 2rem;
     padding-right: 2rem;
   }
 }
+
 .summary {
   display: block;
-  background-color: #e6f6fb; /* light blue card */
+  background-color: #e6f6fb;
+  /* light blue card */
   border-radius: 12px;
   padding: 28px 22px;
   row-gap: 1.5rem;
   width: 100%;
-  box-shadow: 0 6px 18px rgba(13,110,253,0.06);
+  box-shadow: 0 6px 18px rgba(13, 110, 253, 0.06);
+
   table {
     display: table;
     border-spacing: 0 0.8rem;
     width: 100%;
     border-collapse: separate;
+
     tr {
       margin: 0.6rem 0;
     }
+
     th {
       text-align: start;
       font-weight: 500;
       color: #22303a;
       font-size: 15px;
     }
+
     td {
       text-align: end;
       color: #22303a;
       font-weight: 600;
     }
   }
+
   @include above-tablet {
     position: sticky;
     top: 120px;
   }
+
   @include tablet-and-below {
     margin-top: 1.5rem;
   }
 }
+
 //
 .profileExperienceHeading {
   font-size: 14px;
+
   @include for-large-mobile-only {
     font-size: 1rem;
   }
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 1.1rem;
   }
+
   @include for-large-tablet-only {
     font-size: 1.2rem;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     font-size: 1.3rem;
   }
+
   @include for-laptop-and-above {
     font-size: 1.5rem;
   }
 }
+
 .reviewText {
   font-size: 11px;
+
   // display: none;
   // margin-bottom: 0.5rem;
   @include for-large-mobile-only {
     font-size: 12px;
   }
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 15px;
     display: block;
   }
+
   @include for-large-tablet-only {
     font-size: 16px;
     display: block;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     display: block;
     font-size: 17px;
   }
+
   @include for-laptop-and-above {
     font-size: 18px;
     display: block;
   }
 }
+
 .profileExperienceText {
   font-size: 11px;
+
   @include for-large-mobile-only {
     font-size: 12px;
   }
+
   @include for-mobile-landscap-to-tablet-portrait-only {
     font-size: 15px;
   }
+
   @include for-large-tablet-only {
     font-size: 16px;
   }
+
   @include for-tablet-landscape-to-mini-laptop-only {
     font-size: 16px;
   }
+
   @include for-laptop-and-above {
     font-size: 16px;
   }
 }
+
 // filters
 .filters {
   div {
     padding: 1rem !important;
   }
+
   @include tablet-and-below {
     display: none;
   }
 }
+
 .selectFilter {
   padding: 0.6rem;
   width: 100%;
@@ -945,12 +1074,15 @@
   border-radius: 4px;
   margin-top: 0.5rem;
 }
+
 //
 .loadmoreReviews {
   align-self: start;
 }
+
 .chips {
   display: block !important;
+
   @include above-tablet {
     display: none !important;
   }
@@ -1062,6 +1194,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

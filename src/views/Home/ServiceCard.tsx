@@ -56,7 +56,7 @@ const ServicesGridSection: React.FC = () => {
     },
     { 
       id: 6,
-      title: 'THLs',
+      title: 'THUs',
       description: 'Accessible and quality healthcare. Reaching rural areas.',
       imageSrc: '/images/thls.png',
       exploreLink: '/thus',

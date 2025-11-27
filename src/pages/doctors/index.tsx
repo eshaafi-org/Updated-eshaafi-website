@@ -17,7 +17,7 @@ export default function Doctors({ doctors }: any) {
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
       <main>
-        <DoctorGrid doctors={doctors} />
+        <DoctorGrid doctors={doctors} excludeMentalHealth={true} />
         <BenefitsOfVideoConsultation />
         <FQuest quests={doctbenifits} heading={"Frequently Asked Questions"} />
         <GetApp color="#DFEAF2" />
