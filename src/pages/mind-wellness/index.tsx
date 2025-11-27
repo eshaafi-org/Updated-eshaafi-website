@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/mind-wellness.module.scss";
@@ -15,9 +15,24 @@ interface Doctor {
   [key: string]: any;
 }
 
-export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] }) {
+export default function MindWellnessPage({
+  doctors = [],
+}: {
+  doctors?: Doctor[];
+}) {
+  const [isLoading, setIsLoading] = useState(true);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const toolRefs = useRef<(HTMLElement | null)[]>([]);
+
+  // Simulate loading for doctors data
+  useEffect(() => {
+    if (doctors && doctors.length > 0) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1500); // Show skeleton for 1.5 seconds
+      return () => clearTimeout(timer);
+    }
+  }, [doctors]);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -41,56 +56,97 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
   }, []);
 
   const conditionCards = [
-    { icon: "/images/mind-icon1.svg", title: "Relationship Management", desc: "Marital Counseling, Family Therapy, Attachment Issues" },
-    { icon: "/images/mind-icon2.svg", title: "Psychosis", desc: "Schizophrenia, Delusional Disorders, Hallucinations" },
-    { icon: "/images/mind-icon3.svg", title: "Depression & Depressive", desc: "Major Depression, Dysthymia, Seasonal Affective Disorder" },
-    { icon: "/images/mind-icon4.svg", title: "Bipolar Affective Conditions", desc: "Mood Swings, Mania, Depression Cycles" },
-    { icon: "/images/mind-icon5.svg", title: "Anger & Anxiety Conditions", desc: "GAD, Panic Disorder, Social Anxiety, Phobias" },
-    { icon: "/images/mind-icon6.svg", title: "Obsessive-Compulsive (OCD)", desc: "Compulsions, Intrusive Thoughts, ERP Therapy" },
-    { icon: "/images/mind-icon7.svg", title: "Post-Traumatic Stress (PTSD)", desc: "Trauma Recovery, EMDR, Healing" },
-    { icon: "/images/mind-icon8.svg", title: "Substance Use Conditions", desc: "Addiction Recovery, Harm Reduction, Support" },
+    {
+      icon: "/images/mind-icon1.svg",
+      title: "Relationship Management",
+      desc: "Marital Counseling, Family Therapy, Attachment Issues",
+    },
+    {
+      icon: "/images/mind-icon2.svg",
+      title: "Psychosis",
+      desc: "Schizophrenia, Delusional Disorders, Hallucinations",
+    },
+    {
+      icon: "/images/mind-icon3.svg",
+      title: "Depression & Depressive",
+      desc: "Major Depression, Dysthymia, Seasonal Affective Disorder",
+    },
+    {
+      icon: "/images/mind-icon4.svg",
+      title: "Bipolar Affective Conditions",
+      desc: "Mood Swings, Mania, Depression Cycles",
+    },
+    {
+      icon: "/images/mind-icon5.svg",
+      title: "Anger & Anxiety Conditions",
+      desc: "GAD, Panic Disorder, Social Anxiety, Phobias",
+    },
+    {
+      icon: "/images/mind-icon6.svg",
+      title: "Obsessive-Compulsive (OCD)",
+      desc: "Compulsions, Intrusive Thoughts, ERP Therapy",
+    },
+    {
+      icon: "/images/mind-icon7.svg",
+      title: "Post-Traumatic Stress (PTSD)",
+      desc: "Trauma Recovery, EMDR, Healing",
+    },
+    {
+      icon: "/images/mind-icon8.svg",
+      title: "Substance Use Conditions",
+      desc: "Addiction Recovery, Harm Reduction, Support",
+    },
   ];
 
   const tools = [
-    { icon: "/images/tool-icon1.svg", title: "Mindful Anchor", desc: "Guided breathwork and presence practices." },
-    { icon: "/images/tool-icon2.svg", title: "Ink Your Insight", desc: "Prompts for emotional decoding and clarity." },
-    { icon: "/images/tool-icon3.svg", title: "Relaxation Tools", desc: "Access meditation, breathing, and mindfulness exercises anytime." },
+    {
+      icon: "/images/tool-icon1.svg",
+      title: "Mindful Anchor",
+      desc: "Guided breathwork and presence practices.",
+    },
+    {
+      icon: "/images/tool-icon2.svg",
+      title: "Ink Your Insight",
+      desc: "Prompts for emotional decoding and clarity.",
+    },
+    {
+      icon: "/images/tool-icon3.svg",
+      title: "Relaxation Tools",
+      desc: "Access meditation, breathing, and mindfulness exercises anytime.",
+    },
   ];
 
   return (
     <>
       <Head>
         <title>Mind Wellness — eShaafi</title>
-        <meta name="description" content="Mind Wellness — mental health programs and tools from eShaafi" />
+        <meta
+          name="description"
+          content="Mind Wellness — mental health programs and tools from eShaafi"
+        />
       </Head>
 
       <main className={styles["mind-wellness-page"]}>
         {/* Hero Section */}
         <section className={styles["hero-section"]}>
-  <div className={styles["hero-overlay"]} />
-  <div className={styles["hero-content"]}>
-    <h1 className={styles["hero-title"]}>
-      Your Trusted Companion for <br /> Mind Wellness
-    </h1>
-    <Link 
-  href="https://eshaafi.sng.link/D5hwf/jn0r" 
-  target="_blank"
->
-  <button className={styles["cta-button"]}>Book an appointment</button>
-</Link>
+          <div className={styles["hero-overlay"]} />
+          <div className={styles["hero-content"]}>
+            <h1 className={styles["hero-title"]}>
+              Your Trusted Companion for <br /> Mind Wellness
+            </h1>
+            <Link href="https://eshaafi.sng.link/D5hwf/jn0r" target="_blank">
+              <button className={styles["cta-button"]}>
+                Book an appointment
+              </button>
+            </Link>
 
-    {/* <button className={styles["cta-button"]}>Book an appointment</button> */}
-  </div>
-</section>
-
+            {/* <button className={styles["cta-button"]}>Book an appointment</button> */}
+          </div>
+        </section>
 
         {/* Doctor Grid */}
-        <section id="therapists-section" style={{ marginTop: -80, paddingTop: "3rem" }}>
-          {/* Filtered Doctor Grid with built-in specialization filters */}
-          <DoctorGrid 
-            showAllSpecialties={true}
-            doctors={doctors}
-          />
+        <section id="therapists-section" style={{ marginTop: -80 }}>
+          <DoctorGrid doctors={doctors} onlyMentalHealth={true} isLoading={isLoading} />
         </section>
 
         {/* Conditions Section */}
@@ -121,16 +177,14 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
             </article>
           ))}
         </section>
-        
-        <div className={styles["view-all-wrapper"]}>
-  <a href="#therapists-section">
-    <button className={styles["view-all-button"]}>View All Therapists & Specialists</button>
-  </a>
-</div>
 
-        {/* <div className={styles["view-all-wrapper"]}>
-          <button className={styles["view-all-button"]}>View All Therapists & Specialists</button>
-        </div> */}
+        <div className={styles["view-all-wrapper"]}>
+          <a href="#therapists-section">
+            <button className={styles["view-all-button"]}>
+              View All Therapists & Specialists
+            </button>
+          </a>
+        </div>
 
         {/* Tools & Questionnaires */}
         <section className={styles["tools-section"]}>
@@ -145,7 +199,11 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
                 ref={(el) => (toolRefs.current[i] = el)}
                 className={styles["tool-card"]}
               >
-                <img src={t.icon} alt={t.title} className={styles["tool-icon"]} />
+                <img
+                  src={t.icon}
+                  alt={t.title}
+                  className={styles["tool-icon"]}
+                />
                 <h4 className={styles["tool-title"]}>{t.title}</h4>
                 <p className={styles["tool-description"]}>{t.desc}</p>
               </div>
@@ -162,26 +220,29 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
                   Why Mind Wellness Matters: <br /> Hear From Our Expert
                 </span>
               </h3>
-              <p className={styles["video-subtitle"]}>We&apos;re Here For You, Whatever Life Brings.</p>
+              <p className={styles["video-subtitle"]}>
+                We&apos;re Here For You, Whatever Life Brings.
+              </p>
             </div>
             <div className={styles["video-thumbnail"]}>
-              
-             <iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/QhEGVe9Jhmk?si=fgeOB9vFCkbi6Si-"
-  title="YouTube video player"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerPolicy="strict-origin-when-cross-origin"
-  allowFullScreen
-></iframe>
-          </div>
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/QhEGVe9Jhmk?si=fgeOB9vFCkbi6Si-"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
         </section>
 
         <section className={styles["bottom-cta"]} id="contact">
-          <div className={styles["cta-text"]}>We&apos;re Here For You, Whatever Life Brings</div>
+          <div className={styles["cta-text"]}>
+            We&apos;re Here For You, Whatever Life Brings
+          </div>
         </section>
       </main>
     </>
@@ -189,13 +250,16 @@ export default function MindWellnessPage({ doctors = [] }: { doctors?: Doctor[] 
 }
 
 export async function getStaticProps() {
-  /**
-   * Fetch all doctors and filter for mental-health specialists client-side
-   * This ensures we capture all psychiatrists, psychologists, counselors, therapists
-   */
-  const allDoctors = await fetchAndSortDoctors(
-    DoctorQueryPresets.allDoctors()
-  );
+  // Fetch all doctors first
+  const response = await fetch(BASE_URL + "/patients/doctors/filter", {
+    cache: "no-cache",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      type: "categroy",
+      // Get all doctors to filter client-side
+    }),
+  });
 
   // Filter to only mental-health specialists
   const mentalHealthDoctors = filterMentalHealthSpecialists(allDoctors);

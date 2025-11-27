@@ -15,7 +15,7 @@ const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
   const mainBlog = blogs[0];
   const smallBlogs = blogs.slice(1, 5);
   return (
-    <section className={styles.recentBlogs}>
+    <section id="recent" className={styles.recentBlogs}>
       <div className={styles.headerRow}>
         <h2 className={styles.title}>Recent Blogs</h2>
         {/* <button className={styles.contributeBtn}>Contribute your Blog</button> */}

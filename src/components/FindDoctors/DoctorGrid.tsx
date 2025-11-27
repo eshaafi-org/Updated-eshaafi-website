@@ -1,6 +1,8 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import styles from '@/styles/findDoctors.module.scss'
 import DoctorCard from './DoctorCard'
+import { DoctorCardSkeleton } from '@/components/SkeletonLoader'
+import { useRouter } from 'next/router'
 
 interface Doctor {
   id: string
@@ -15,11 +17,34 @@ interface Doctor {
 
 interface DoctorGridProps {
   doctors: any[]
-  showAllSpecialties?: boolean // If true, don't exclude any specialties (for Mind-Wellness)
+  excludeMentalHealth?: boolean
+  onlyMentalHealth?: boolean
+  isLoading?: boolean
 }
 
-const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, showAllSpecialties = false }) => {
+const mentalHealthSpecialties = [
+  'clinical psychologist',
+  'counselor',
+  
+]
+
+const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = false, onlyMentalHealth = false, isLoading = false }) => {
   const [activeSpecialty, setActiveSpecialty] = useState('All Doctor')
+  const router = useRouter()
+ 
+
+  // set initial active specialty from query param (if provided)
+  useEffect(() => {
+    const q = router.query?.specialty as string | undefined
+    if (q) {
+      try {
+        const decoded = decodeURIComponent(q).replace(/\+/g, ' ')
+        setActiveSpecialty(decoded)
+      } catch (e) {
+        setActiveSpecialty(q)
+      }
+    }
+  }, [router.query?.specialty])
 
   const mappedDoctors: Doctor[] = doctors.map((doc: any) => ({
     id: doc.Id,
@@ -35,21 +60,23 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, showAllSpecialties = f
   // derive specialties from backend doctors list so filters reflect actual data
   const specialties = useMemo(() => {
     const set = new Set<string>()
-    const exclude = showAllSpecialties ? [] : [
-      'clinical psychologist',
-      'counselor',
-      'counsellor',
-    ]
     mappedDoctors.forEach((d) => {
       const s = String(d.specialty || '').trim()
       if (!s) return
       const sLower = s.toLowerCase()
-      // skip any specialty that matches any excluded keyword (case-insensitive, partial match)
-      if (exclude.some((ex) => sLower.includes(ex))) return
+      const isMentalHealth = mentalHealthSpecialties.some((specialty) => sLower.includes(specialty.toLowerCase()))
+
+      // If onlyMentalHealth is true, only include mental health specialties
+      if (onlyMentalHealth && !isMentalHealth) return
+
+      // If excludeMentalHealth is true, exclude mental health specialties
+      if (excludeMentalHealth && isMentalHealth) return
+
       set.add(s)
     })
     return ['All Doctor', ...Array.from(set).sort((a, b) => a.localeCompare(b))]
-  }, [mappedDoctors, showAllSpecialties])
+  }, [mappedDoctors, excludeMentalHealth, onlyMentalHealth])
+
   return (
     <section className={styles.doctorsSection}>
       <div className={styles.doctorsWrapper}>
@@ -73,19 +100,31 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, showAllSpecialties = f
         </div>
 
         <div className={styles.doctorsGrid}>
-          {mappedDoctors
-            .filter((doc) => {
-              // show all when 'All Doctor' selected, otherwise match specialty (case-insensitive, partial match)
-              if (activeSpecialty === 'All Doctor') return true
-              return (
-                String(doc.specialty || '')
-                  .toLowerCase()
-                  .includes(activeSpecialty.toLowerCase())
-              )
-            })
-            .map((doctor) => (
-              <DoctorCard key={doctor.id} {...doctor} />
-            ))}
+          {isLoading ? (
+            Array.from({ length: 6 }, (_, index) => (
+              <DoctorCardSkeleton key={index} />
+            ))
+          ) : (
+            mappedDoctors
+              .filter((doc) => {
+                const docSpec = String(doc.specialty || '').toLowerCase()
+
+                // If 'All Doctor' is selected, respect onlyMentalHealth / excludeMentalHealth
+                if (activeSpecialty === 'All Doctor') {
+                  if (onlyMentalHealth) {
+                    return mentalHealthSpecialties.some((s) => docSpec.includes(s))
+                  }
+                  if (excludeMentalHealth) {
+                    return !mentalHealthSpecialties.some((s) => docSpec.includes(s))
+                  }
+                  return true
+                }
+
+                // otherwise match specialty (case-insensitive, partial match)
+                return docSpec.includes(activeSpecialty.toLowerCase())
+              })
+              .map((doctor) => <DoctorCard key={doctor.id} {...doctor} />)
+          )}
         </div>
       </div>
     </section>

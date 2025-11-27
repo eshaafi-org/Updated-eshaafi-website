@@ -22,7 +22,7 @@ const SectionTHUsInfo = () => {
   }, []);
 
   return (
-    <section className={styles.thusSection}>
+    <section id="what-are-thus" className={styles.thusSection}>
       <div className={styles.container}>
         <h2 className={styles.title}>
           What Are <span>THUs?</span>

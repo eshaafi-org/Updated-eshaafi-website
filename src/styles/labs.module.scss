@@ -320,7 +320,7 @@
   border-radius: 16px;
   display: flex;
   flex-direction: row;
-  background: #EEF6FF; /* requested pale-blue */
+  background: #dcf0fc; /* requested pale-blue */
   padding: 1.5rem;
   gap: 1.25rem;
   align-items: stretch; /* let children fill height so we can align contents to bottom */
@@ -556,7 +556,7 @@
 // HelpLine Component
 .helplineCom {
   border-radius: 12px;
-  background: #e6f2f9;
+  background: #dcf0fc;
   display: flex;
   align-items: center;
   justify-content: space-between;

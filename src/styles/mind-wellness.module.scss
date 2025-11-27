@@ -1,7 +1,7 @@
 // Variables
 $primary-color: #00568A;
 $secondary-color: #00B8AF;
-$accent-color: #EEF6FF;
+$accent-color: #dcf0fc;
 $light-blue: #E0EFFF;
 $text-dark: #595A5A;
 $text-gray: #555555;
@@ -55,6 +55,8 @@ $font-inter: 'Inter', sans-serif;
     position: relative;
     width: 100%;
     height: 100vh; // kept 100vh as requested
+    //  padding-top: 50px;
+     margin-top: 50px;
     background: url('/images/mindwellnesshero.png');
     background-size: cover;
     background-position: center;
@@ -264,7 +266,7 @@ $font-inter: 'Inter', sans-serif;
       flex-wrap: wrap;
 
       .tool-card {
-        background: #E5F4FF;
+        background: #dcf0fc;
         border-radius: 20px;
         width: 300px;
         min-height: 260px;
@@ -322,7 +324,7 @@ $font-inter: 'Inter', sans-serif;
     margin: 40px auto;
 
     .video-container {
-      background: $light-blue;
+      background: #dcf0fc;
       border-radius: 30px;
       padding: 20px;
       display: flex;
@@ -394,7 +396,8 @@ $font-inter: 'Inter', sans-serif;
     padding: 120px 24px;
     gap: 10px;
     width: 100%;
-    background: $primary-color;
+    // background: $primary-color;
+    background: linear-gradient(180deg, #001624 0%, #00568A 100%);
 
     .cta-text {
       font-family: $font-inter;
@@ -548,20 +551,19 @@ $font-inter: 'Inter', sans-serif;
 
     .video-section {
       .video-container {
-        flex-direction: column;
+        // flex-direction: column;
         align-items: center;
+        gap:32px;
         padding: 12px;
         .video-content { padding-right: 0; text-align: center; }
         .video-thumbnail { width: 100%; max-width: 520px; height: 220px; flex: 0 0 auto; }
       }
+      
     }
+
 
     .bottom-cta { padding: 80px 16px; .cta-text { font-size: 24px; } }
   }
 }
 
-/* ==========================================================================
-   Cleanup: removed absolute-positioned icons block (was requested to remove)
-   ========================================================================== */
 
-/* End of file */

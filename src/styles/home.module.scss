@@ -328,27 +328,49 @@
   // }
 }
 .sliderItm {
-  min-width: 450px;
+  min-width: 280px; // Smaller base width for mobile
+  width: 90vw; // Responsive width
+  max-width: 450px; // Maximum width for larger screens
+  
+  @include above-mobile-landscape {
+    min-width: 320px;
+  }
+  
+  @include above-tablet {
+    min-width: 450px;
+  }
+
   .doctorHomeCard {
     border-radius: 16px;
     position: relative;
+    width: 100%;
   }
+
   &:first-child {
-    margin-left: 25rem;
-    @include large-mobile-and-below {
+    margin-left: 1rem; // Smaller margin for mobile
+    
+    @include above-mobile-landscape {
       margin-left: 5rem;
     }
-  }
-  .docHeading {
-    font-size: 1rem;
-    @include large-mobile-and-below {
-      font-size: 0.9rem;
+    
+    @include above-tablet {
+      margin-left: 25rem;
     }
   }
+
+  .docHeading {
+    font-size: 0.9rem;
+    
+    @include above-mobile-landscape {
+      font-size: 1rem;
+    }
+  }
+
   .docSpec {
-    font-size: 1rem;
-    @include large-mobile-and-below {
-      font-size: 0.8rem;
+    font-size: 0.8rem;
+    
+    @include above-mobile-landscape {
+      font-size: 1rem;
     }
   }
 }
@@ -367,24 +389,44 @@
   background: transparent;
   border-radius: 12px;
   padding: 8px;
-  min-width: 240px;
+  width: 100%;
+  min-width: 260px;
   max-width: 360px;
   box-shadow: none;
   transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease;
   position: relative;
-  overflow: visible; /* allow footer to overflow */
-  padding-bottom: 96px; /* room for the overlapping footer */
+  overflow: visible;
+  padding-bottom: 76px; // Reduced for mobile
+
+  @include above-mobile-landscape {
+    padding-bottom: 96px;
+    min-width: 280px;
+  }
 }
+
 .cardSide {
-  transform: scale(0.95);
+  transform: scale(0.98); // Less scale difference on mobile
   background: #fff;
+
+  @include above-mobile-landscape {
+    transform: scale(0.95);
+  }
 }
+
 .cardCenter {
   transform: scale(1);
-  background: #f1fbff; /* light-blue framed background */
+  background: #f1fbff;
   border-radius: 14px;
   box-shadow: 0 10px 30px rgba(3,77,117,0.08);
-  min-width: 360px;
+  min-width: 280px; // Smaller min-width for mobile
+
+  @include above-mobile-landscape {
+    min-width: 320px;
+  }
+
+  @include above-tablet {
+    min-width: 360px;
+  }
 }
 
 /* full-image containers for cards */
@@ -520,28 +562,44 @@
 .cardFooterCenter {
   display: block;
 }
+
 .cardFooterInner {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: -34px; /* overlap */
-  width: calc(100% - 40px);
+  bottom: -24px; // Less overlap on mobile
+  width: calc(100% - 24px); // Less side padding on mobile
   max-width: 460px;
   background: #ffffff;
   border-radius: 12px;
-  padding: 14px 18px;
+  padding: 10px 12px; // Smaller padding for mobile
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   box-shadow: 0 14px 40px rgba(3,77,117,0.07);
+  
+  @include above-mobile-landscape {
+    bottom: -34px;
+    width: calc(100% - 40px);
+    padding: 14px 18px;
+  }
 }
+
 .cardFooterCenter .cardFooterInner {
   max-width: 520px;
-  padding: 18px 22px;
+  
+  @include above-mobile-landscape {
+    padding: 18px 22px;
+  }
 }
+
 .cardFooterSide .cardFooterInner {
   max-width: 280px;
-  padding: 12px 14px;
+  
+  @include above-mobile-landscape {
+    padding: 12px 14px;
+  }
 }
 .feeText {
   font-weight: 700;
@@ -627,34 +685,5 @@
 .partnerItem {
   @include large-mobile-and-below {
     width: fit-content;
-  }
-}
-
-.storecontainer {
-  display: flex;
-  gap: 9px;
-  flex-wrap: wrap; // Allows items to wrap on smaller screens
-
-  /* Responsive design for smaller screens */
-  @media (max-width: 768px) {
-    justify-content: center; // Center items on smaller screens
-  }
-
-  /* Adjusting the images to be responsive */
-  .downloadlink {
-    display: inline-block;
-  }
-
-  /* For the image sizes, ensuring flexibility */
-  .appstore {
-    min-width: 100px;
-    width: 190px;
-    height: 55px;
-
-    /* Adjust for smaller screens */
-    @media (max-width: 768px) {
-      width: 150px;
-      height: 45px;
-    }
   }
 }

@@ -1,38 +1,38 @@
 // "use client";
 import { MdOutlineDoneAll } from "react-icons/md";
 import style from "../../styles/doctors.module.scss";
-
-type Props = {
-  videoCharges?: number;
-};
-
-export default function BenefitsOfVideoConsultation({ videoCharges = 499 }: Props) {
-  const benifits = [
-    {
-      heading: "Connect With Doctors 24/7",
-      text: "Our in house doctors are available 24/7. You can book appointment with any online doctor anytime.",
-    },
-    {
-      heading: "Quality Healthcare",
-      text: "Now receive quality healthcare from comfort of your home and connect with the best doctors.",
-    },
-    {
-      heading: "Complete Family Healthcare",
-      text: "Add in your family members profiles to book their appointment in a one stop solution to your healthcare problems with eShaafi.",
-    },
-    {
-      heading: "Hassel Free Online Payment",
-      text: `Avoid payment hassles and use online payment methods like Jazzcash for video consultations in only Rs.${videoCharges}.`,
-    },
-    {
-      heading: "Free Follow Up appointment",
-      text: "Our doctors can book you a free follow up on multiple appointments.",
-    },
-    {
-      heading: "Receive Medical Advise ",
-      text: "Embrace the future and receive medical advice after every appointment. No more struggling to understand your prescription.",
-    },
-  ];
+// import { useRef, useEffect } from "react";
+const benifits = [
+  {
+    heading: "Connect With Doctors 24/7",
+    text: "Our in house doctors are available 24/7. You can book appointment with any online doctor anytime.",
+  },
+  {
+    heading: "Quality Healthcare",
+    text: "Now receive quality healthcare from comfort of your home and connect with the best doctors.",
+  },
+  {
+    heading: "Complete Family Healthcare",
+    text: "Add in your family members profiles to book their appointment in a one stop solution ato your healthcare problems with eShaafi.",
+  },
+  {
+    heading: "Hassel Free Online Payment",
+    text: "Avoid payment hassles and use online payment methods like Jazzcash for video consultations in only Rs.300.",
+  },
+  {
+    heading: "Free Follow Up appointment",
+    text: "Our doctors can book you a free follow up on multiple appointments.",
+  },
+  {
+    heading: "Receive e-Prescription ",
+    text: "Embace the future and receive e-prescription after every appointment. No more having a hard time understanding your prescription",
+  },
+];
+export default function BenefitsOfVideoConsultation() {
+  // const svgRef = useRef(null);
+  // useEffect(() => {
+  //   console.log(svgRef.current);
+  // }, []);
 
   return (
     <section className="container">

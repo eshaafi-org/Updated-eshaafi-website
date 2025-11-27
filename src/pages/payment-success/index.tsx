@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-
 import { useRouter } from "next/router";
 import successGif from "../../../public/images/success.gif";
 import eShaafiApp from "../../../public/images/download-badge-google-play-badge.png";
@@ -20,11 +19,11 @@ export default function PaymentSuccess() {
     const encryptionKey = 'WThxTGd6M1FURmNLRnNYNGJZWWZtSXR4eGFMX3ZZWlVwT0dBMzlaNloyZz0=';
 
     // Decode the base64url-encoded key and ensure it's exactly 32 bytes
-    const key:any = base64url.toBuffer(encryptionKey).slice(0, 32);
+    const key: any = base64url.toBuffer(encryptionKey).slice(0, 32);
 
     // Function to encrypt data using AES-256-GCM with Node's crypto module
     const encryptData = (data: any) => {
-        const iv:any = crypto.randomBytes(12); // AES-GCM requires a 12-byte IV
+        const iv: any = crypto.randomBytes(12); // AES-GCM requires a 12-byte IV
         const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
 
         let encrypted = cipher.update(JSON.stringify(data), 'utf8', 'base64');
@@ -70,9 +69,9 @@ export default function PaymentSuccess() {
         try {
             const decoded = base64url.toBuffer(encryptedData);
 
-            const iv:any = decoded.slice(0, 12);  // First 12 bytes are IV
-            const authTag:any = decoded.slice(-16); // Last 16 bytes are authTag
-            const encryptedText:any = decoded.slice(12, -16); // Encrypted content
+            const iv: any = decoded.slice(0, 12);  // First 12 bytes are IV
+            const authTag: any = decoded.slice(-16); // Last 16 bytes are authTag
+            const encryptedText: any = decoded.slice(12, -16); // Encrypted content
 
             const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
             decipher.setAuthTag(authTag);
@@ -95,7 +94,7 @@ export default function PaymentSuccess() {
         const encryptedQuery = encryptQuery(router.query);
         const data = { data: encryptedQuery };
 
-        axios.post(`${BASE_URL}/new/patients/payfast/payments`, data, {
+        axios.post(`${BASE_URL}/new/patients/paypro/payments`, data, {
             headers: headers(),
         })
             .then((response) => {
@@ -137,7 +136,6 @@ export default function PaymentSuccess() {
                 <meta name="description" content="Meet one on one with your doctor" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="icon" href="/favicon.ico" />
-                <link rel="icon" href="/favicon.ico" />
             </Head>
             <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
                 <Image
@@ -163,6 +161,4 @@ export default function PaymentSuccess() {
             <ToastContainer />
         </>
     );
-
-
 }

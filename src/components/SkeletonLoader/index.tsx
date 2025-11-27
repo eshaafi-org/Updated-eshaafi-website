@@ -1,4 +1,5 @@
 import style from '@/styles/subscription.module.scss'
+import styles from '@/styles/findDoctors.module.scss'
 import { IoCheckmark } from "react-icons/io5";
 export function SkeletonLoader() {
   return (
@@ -173,3 +174,49 @@ export function PlanSkeletonLoader() {
     </div>
   );
 };
+export function DoctorCardSkeleton() {
+  return (
+    <div className={styles.doctorCard}>
+      <div className={styles.cardHeader}>
+        <div className={styles.imageContainer}>
+          <div
+            className="placeholder-glow"
+            style={{
+              width: '60px',
+              height: '60px',
+              borderRadius: '50%',
+              backgroundColor: '#e0e0e0'
+            }}
+          ></div>
+        </div>
+        <div className={styles.doctorInfo}>
+          <div className="placeholder-glow" style={{ width: '50px', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '8px' }}></div>
+          <div className="placeholder-glow" style={{ width: '150px', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '8px' }}></div>
+          <div className={styles.specialtyRow}>
+            <div className="placeholder-glow" style={{ width: '100px', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+            <div className="placeholder-glow" style={{ width: '60px', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.cardMiddle}>
+        <div className={styles.leftSection}>
+          <div className="placeholder-glow" style={{ width: '100px', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '8px' }}></div>
+          <div className={styles.consultationType}>
+            <div style={{ width: '20px', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+            <div className="placeholder-glow" style={{ width: '120px', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+          </div>
+        </div>
+        <div className={styles.rightSection}>
+          <div className="placeholder-glow" style={{ width: '80px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '4px' }}></div>
+          <div className="placeholder-glow" style={{ width: '90px', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+        </div>
+      </div>
+
+      <div className={styles.actionButtons}>
+        <div className="placeholder-glow" style={{ width: '100px', height: '36px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+        <div className="placeholder-glow" style={{ width: '140px', height: '36px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+      </div>
+    </div>
+  );
+}

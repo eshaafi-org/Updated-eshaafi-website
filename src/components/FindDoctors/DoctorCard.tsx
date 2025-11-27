@@ -66,7 +66,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
         <Link href={`/doctors/${id}`}>
           <button className={styles.viewProfileBtn} style={{ fontFamily: "'Inter', sans-serif" }}>View Profile</button>
         </Link>
-        <Link href={`/doctors/${id}/book`}>
+        <Link href={`/doctors/${id}/booked`}>
           <button className={styles.bookAppointmentBtn} style={{ fontFamily: "'Inter', sans-serif" }}>
             Book Appointment
             <svg

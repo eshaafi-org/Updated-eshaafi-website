@@ -67,7 +67,7 @@ const WellnessAreas: React.FC = () => {
       </div>
 
       {/* Banner Section */}
-     <div className={styles.bannerSection}>
+     <div id="schedule" className={styles.bannerSection}>
   <div className={styles.bannerText}>
     <h4>
       Let&apos;s collaborate to make your organization healthier, more

@@ -7,72 +7,58 @@ import { FaStar } from "react-icons/fa6";
 import Image from "next/image";
 import { BASE_URL } from "@/helper/CONST";
 import axios from "axios";
-
+// listing
 export default function DoctorList({ list }: any) {
   const [docListing, setDocListing] = useState(list);
   const [filters, setFilters] = useState({
-    search: "All", // Search query
+    search: "",
   });
-
-  const [docType, setDocType] = useState("General Physician"); // Default to General Physician
-
+  const [docType, setDocType] = useState("General Physician");
+  // // const [list, setListing] = useState([]);
+  // const [loading, setLoading] = useState({});
+  // getDoctors
   const getDoctors = () => {
-    // Determine filter type based on the selected search category
-    const filterType =
-      filters.search === "" || filters.search === "All"
-        ? "category"
-        : "specialization";
-
     axios
       .post(BASE_URL + "/patients/doctors/filter", {
-        type: filterType, // Use category if "All", otherwise specialization
+        type: "specialization",
         search: filters.search,
       })
       .then((res) => {
+        // console.log(res);
         setDocListing(res.data.response.Items);
       })
       .catch((error) => console.log(error));
   };
-
   useEffect(() => {
-    setDocListing(list); // Initialize with the provided list
+    setDocListing(list);
   }, []);
-
   useEffect(() => {
-    if (filters.search !== "") {
-      getDoctors(); // Fetch doctors whenever the search filter changes
-    } else {
-      setDocListing(list); // When no filter is set, fallback to the initial list
+    if (filters.search) {
+      getDoctors();
     }
   }, [filters.search]);
-
   return (
     <section className="container border-bottom ">
       <h2 className={"mb-2"}>Book video consultation with the best doctors</h2>
       <div className={style.chips}>
         <div className="chip-group" role="radiogroup">
-          {/* Chip for "All" category */}
-          <div
+          {/* <div
             className="chip chip-checkbox"
-            aria-labelledby="radioAllLabel"
+            aria-labelledby="radioTwoLabel"
             tabIndex={0}
             role="radio"
-            aria-checked={filters.search === "All" ? "true" : "false"}
+            aria-checked="false"
             onClick={() => setFilters({ search: "All" })}
           >
             <input type="radio" name="radioEx" />
-            <span id="radioAllLabel">All</span>
-          </div>
-
-          {/* Chip for "General Physician" category */}
+            <span id="radioTwoLabel">All</span>
+          </div> */}
           <div
             className="chip chip-checkbox"
             aria-labelledby="radioOneLabel"
             tabIndex={0}
             role="radio"
-            aria-checked={
-              filters.search === "General Physician" ? "true" : "false"
-            }
+            aria-checked="false"
             onClick={() => setFilters({ search: "General Physician" })}
           >
             <input type="radio" name="radioEx" />
@@ -106,7 +92,6 @@ export default function DoctorList({ list }: any) {
           </div> */}
         </div>
       </div>
-
       <div className="d-flex col-gap-1 align-items-star mt-5 sm-mt-1">
         <ul className={style.docList}>
           {docListing?.map((itm: any, indx: string) => (
@@ -114,7 +99,7 @@ export default function DoctorList({ list }: any) {
               key={indx}
               className={`${style.docCard} d-flex flex-column row-gap-1`}
             >
-              {/* Doctor card content */}
+              {/* introduction card */}
               <div className="d-flex justify-content-between">
                 <div className="d-flex align-items-center col-gap-1">
                   <div className={`${style.imageContainer}`}>
@@ -128,6 +113,7 @@ export default function DoctorList({ list }: any) {
                   </div>
                   <span>
                     <h5 className={style.docTitle}>
+                      {" "}
                       {itm.personal_info.title +
                         ". " +
                         itm.personal_info.firstName +
@@ -149,7 +135,7 @@ export default function DoctorList({ list }: any) {
                 </div>
                 <p className={style.docFee}>Fee Rs.{itm.videoCallCharges}</p>
               </div>
-
+              {/* experience card */}
               <div className={style.docExperience}>
                 <span className="d-flex flex-column align-items-center ">
                   <h5 className={style.experienceHeading}>
@@ -179,7 +165,7 @@ export default function DoctorList({ list }: any) {
                   <p className={style.experienceText}>Positive feedback</p>
                 </span>
               </div>
-
+              {/* action button  */}
               <div className="d-flex justify-content-between col-gap-1">
                 <Link
                   href={"/doctors/" + itm.Id}
@@ -198,7 +184,6 @@ export default function DoctorList({ list }: any) {
             </li>
           ))}
         </ul>
-
         <div className={style.filters + " w-30 "}>
           <div className="bg-main rounded border w-full p-1">
             <p style={{ color: "#222" }}>Specialization</p>
@@ -207,18 +192,17 @@ export default function DoctorList({ list }: any) {
               id=""
               className={style.selectFilter}
               onChange={(e) => setFilters({ search: e.target.value })}
-              value={filters.search}
             >
               <option value="" disabled>
-                Select Specialization
+                Specialization
               </option>
-              <option value="All" selected>
-                All Doctors
+              {/* <option value="all">All</option> */}
+              <option value="General Physician" selected>
+                General Physician
               </option>
-              <option value="General Physician">General Physician</option>
-              <option value="Child Specialist">Child Specialist</option>
-              <option value="Skin Specialist">Skin Specialist</option>
-              {/* Add more specializations as needed */}
+              <option value="Child Specialist">
+                Child Specialist
+              </option>
             </select>
           </div>
         </div>

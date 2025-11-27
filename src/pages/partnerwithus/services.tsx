@@ -72,7 +72,7 @@ const OurServices: React.FC = () => {
   }, []);
 
   return (
-    <section className={styles.servicesSection}>
+    <section id="services"className={styles.servicesSection}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>

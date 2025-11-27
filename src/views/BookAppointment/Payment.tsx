@@ -115,13 +115,11 @@ export default function PaymentMethod({
                   }
                 />
                 <label
-                  className={`${
-                    style.labelrdioclassProfile
-                  } d-flex flex-column justify-content-center align-items-center text-center ${
-                    patient.patientId === itm.profileId
+                  className={`${style.labelrdioclassProfile
+                    } d-flex flex-column justify-content-center align-items-center text-center ${patient.patientId === itm.profileId
                       ? style.labelActiveProfile
                       : ""
-                  }`}
+                    }`}
                   htmlFor={itm.profileId}
                 >
                   {itm.url ? (
@@ -148,13 +146,13 @@ export default function PaymentMethod({
         <span className="d-flex justify-content-between  row-gap-1">
           <h3 className="text-dark">Payment Method </h3>
           <span className="d-flex align-items-center justify-content-end col-gap-1">
-            <p>Use Wallet Point</p>
+            <p>Use Wallet Balance</p>
             <div
               className={
                 style.checkboxWrapper + " d-flex align-items-center col-gap-1"
               }
             >
-              <span>you have {response.wallet} point </span>
+              <span>Rs.{response.wallet} </span>
               <input
                 type="checkbox"
                 className={style.scGJwTLC + " " + style.ikxBAC}
@@ -175,7 +173,7 @@ export default function PaymentMethod({
                     setSelectedPaymentMethod("wallet");
                   } else {
                     setPaymentId("");
-                    setSelectedPaymentMethod("");
+                    setSelectedPaymentMethod('');
                   }
                 }}
                 disabled={response.wallet === 0}
@@ -200,11 +198,9 @@ export default function PaymentMethod({
                   disabled={wallet}
                 />
                 <label
-                  className={`${
-                    style.labelrdioclass
-                  } d-flex  align-items-center p-3 row-gap-1 ${
-                    wallet ? style.paymentDisabled : ""
-                  }`}
+                  className={`${style.labelrdioclass
+                    } d-flex  align-items-center p-3 row-gap-1 ${wallet ? style.paymentDisabled : ""
+                    }`}
                   htmlFor={itm.paymentId}
                 >
                   <span
@@ -233,7 +229,7 @@ export default function PaymentMethod({
                 id="payPro"
                 name="paymentId"
                 // style={{ width: "24px", height: "24px" }}
-                checked={selectedPaymentMethod === "payFast"}
+                checked={selectedPaymentMethod === "payPro"}
                 onChange={() => {
                   if (wallet) {
                     setStates({ type: "WALLET" });
@@ -241,14 +237,17 @@ export default function PaymentMethod({
                     setSelectedPaymentMethod("payPro");
                     setMethod("payPro");
                   } else {
-                    setSelectedPaymentMethod("payFast");
+                    setSelectedPaymentMethod("payPro");
                     setPaymentId("payPro");
                     setMethod("payPro");
                   }
                 }}
               />
-              <label htmlFor="payPro" className={styles.paymentMethodLabel}>
-                JazzCash / EasyPaisa / Debit Card
+              <label
+                htmlFor="payPro"
+                className={styles.paymentMethodLabel}
+              >
+                JazzCash / EasyPaisa / Debit Card / PayPro
               </label>
             </li>
           </ul>

@@ -5,7 +5,6 @@ import styles from "./Footer.module.scss";
 import Image from "next/image";
 import downloadButton from "../../../public/images/download-badge-google-play-badge.svg";
 import { Text14 } from "@/components/Typography";
-import Stores from "../Home/Stores";
 // links
 
 // Define the props type for the Footer component
@@ -23,7 +22,7 @@ const Footer: React.FC<FooterProps> = () => {
             <h2 className={"text-primary"}>eShaafi</h2>
             <p className="line-height-1" style={{ fontSize: 14 }}>
               Book video appointment with our in house doctors anytime and
-              receive medical advice with every consultation.
+              receive e-prescription every consultation.
             </p>
             <p className="line-height-1  text-dark">
               7th Floor, Business Hub Broadway Commercial,DHA Phase 8, Lahore,
@@ -67,9 +66,13 @@ const Footer: React.FC<FooterProps> = () => {
           ))}
           <div className={`d-flex flex-column row-gap-1 ${styles.downloads}`}>
             <h4>Download App</h4>
-            <div>
-              <Stores />
-            </div>
+            <Link href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation&pcampaignid=web_share">
+              <Image
+                src={downloadButton}
+                className={styles.downloadImage}
+                alt="eshaafi-app-download"
+              />
+            </Link>
           </div>
         </div>
         <ul

@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 50px;
 
   &::before {
     content: "";
@@ -376,7 +377,7 @@
 }
 
 .statItem {
-  background: #f5fbff;
+  background: #dcf0fc;
   border-radius: 12px;
   text-align: center;
   padding: 4rem 1rem;
@@ -538,10 +539,12 @@
 /* ============================================================= */
 /* FOUNDER STORY SECTION                                        */
 /* ============================================================= */
+
 .founderStorySection {
   width: 100%;
   padding: 4rem 2rem;
   background-color: #fff;
+  overflow-x: hidden; // prevent right side gap
 
   @include tablet-large-and-below {
     padding: 3rem 1.5rem;
@@ -555,6 +558,12 @@
 .founderStoryWrapper {
   max-width: 1200px;
   margin: 0 auto;
+  opacity: 0;
+  transition: all 0.8s ease;
+}
+
+.show {
+  opacity: 1;
 }
 
 .founderHeader {
@@ -590,16 +599,16 @@
   }
 }
 
-/* Image + Story Layout */
 .founderStoryContainer {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: 3rem;
+  gap: 1.5rem; // reduce
   align-items: flex-start;
+  overflow-x: hidden;
 
   @include tablet-large-and-below {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.7rem;
   }
 }
 
@@ -632,47 +641,29 @@
   row-gap: 1.7rem;
 }
 
-// .storyHeading {
-//   font-size: 1.4rem;
-//   font-weight: 400;
-//   color: #0e5487;
-//   margin: 0;
-//  text-decoration: underline;
-// }
-
 .highlightBlue {
   color: #1c6ba4;
   font-style: italic;
-  font-weight: 400; // slightly bold, not full
+  font-weight: 400;
 }
 .highlightboldBlue{
   color: #1c6ba4;
-  font-weight: 600; // slightly bold, not full
+  font-weight: 600;
 }
+
 .storyText {
   font-size: 1.123rem;
   color: #555555;
   line-height: 1.8;
   margin: 0;
+  text-align: justify; // restore alignment everywhere
 
   @include mobile-landscape-and-below {
     font-size: 0.9rem;
   }
 }
 
-.accentBlue {
-  color: #1c6ba4;
-}
-// reduce spacing
-.founderStoryContainer {
-  gap: 1.5rem !important;
-}
-
-.founderImage {
-  margin-left: -10px; // reduce left spacing
-}
-
-// signature text bottom right
+// signature bottom right
 .signature {
   text-align: right;
   font-size: 1.024rem;
@@ -681,16 +672,6 @@
 }
 
 /* animation */
-.founderStoryWrapper {
-  opacity: 0;
-  transition: all 0.8s ease;
-}
-
-.show {
-  opacity: 1;
-}
-
-/* scale pop on image */
 .popIn {
   transform: scale(0.95);
   opacity: 0;
@@ -701,7 +682,6 @@
   opacity: 1;
 }
 
-/* text slide from right */
 .slideRight {
   transform: translateX(50px);
   opacity: 0;
@@ -711,6 +691,8 @@
   transform: translateX(0);
   opacity: 1;
 }
+
+
 /* ============================================================= */
 /* LEADERSHIP TEAM SECTION                                      */
 /* ============================================================= */

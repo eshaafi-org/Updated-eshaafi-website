@@ -5,7 +5,8 @@ $text-gray: #666666;
 $text-light: #999999;
 $border-color: #e5e5e5;
 $white: #ffffff;
-$footer-bg: #fafafa;
+// $footer-bg: #fafafa;
+$footer-bg: #ffffff;
 
 // Breakpoints
 $breakpoint-desktop: 1200px;
@@ -51,7 +52,7 @@ $breakpoint-mobile: 480px;
   &__logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     margin-bottom: 8px;
   }
 
@@ -111,8 +112,8 @@ $breakpoint-mobile: 480px;
   &__tagline {
     font-size: 14px;
     line-height: 1.6;
-    color: $text-dark; // black text
-    font-weight: 600; // bold tagline
+    color: $text-dark; 
+    font-weight: 600; 
     margin: 8px 0 0;
     font-family: "Inter", sans-serif !important;
   }
@@ -127,7 +128,7 @@ $breakpoint-mobile: 480px;
     font-size: 16px;
     font-weight: 700;
       color: $primary-color; 
-    margin: 0 0 8px;
+    margin: 0 0 4px;
   }
 
   &__links {
@@ -137,7 +138,7 @@ $breakpoint-mobile: 480px;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px;
 
     li {
       margin: 0;
@@ -191,7 +192,49 @@ $breakpoint-mobile: 480px;
         color: $primary-color; 
     }
   }
+.footer__pmdcRow {
+  display: flex;
+  justify-content: center; 
+  gap: 60px; 
+  padding: 20px 20px;
+  background-color: #ffffff;
+  flex-wrap: wrap;
+}
 
+.footer__pmdcItem {
+  display: flex;
+  align-items: flex-start; 
+  gap: 12px; 
+  font-weight: 500;
+  color: $text-dark;
+
+  .footer__pmdcText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px; 
+    text-align: left;
+
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    p {
+      font-size: 12px;
+      font-weight: 400;
+      color: $text-dark;
+      margin: 0;
+    }
+  }
+}
+
+.footer__divider {
+  border: 1px solid #8F8F8F;
+  margin-bottom: 24px;
+  margin-left: 24px;
+  margin-right: 24px;
+}
   &__bottom {
     // border-top: 1px solid $border-color;
     padding: 24px 0;
@@ -214,7 +257,7 @@ $breakpoint-mobile: 480px;
 
   &__copyright {
     font-size: 14px;
-      color: #1a1a1a;
+      color: $text-dark;
     margin: 0;
     font-family: "Inter", sans-serif !important;
   }

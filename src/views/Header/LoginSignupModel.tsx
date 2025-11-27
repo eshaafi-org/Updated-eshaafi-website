@@ -15,6 +15,8 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { IoIosArrowForward, IoIosArrowRoundBack } from "react-icons/io";
+import Image from "next/image";
+import logo from "../../../public/eshaafiLogo.svg";
 
 // reducer
 const reducer = (state: any, action: any) => {
@@ -207,7 +209,10 @@ export const Model = ({ page = "login" }: { page: string }) => {
                 <span
                   className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
                 >
-                  <h1 className="heading1">Welcome to eShaafi</h1>
+                  <span className="w-1-2 lg-w-full mb-3">
+                    <Image src={logo} alt="eshaafi-logo" width={234} height={56} />
+                  </span>
+                  <h1 className="heading1 mb-4" style={{ color: "#00568A", paddingTop: "1rem" }}>Welcome to eShaafi</h1>
                   <p className={`subText text-center text-capitalize `}>
                     Please enter your phone number, we will send you one time
                     password (OTP) for verification.
@@ -267,6 +272,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
                       className="px-3 d-flex flex-column"
                     >
                       <div>
+                        <h4 className="mb-2" style={{ color: "#00568A", textAlign: "left" }}>Signup</h4>
                         <span className={style.phoneNum}>
                           <select name="country" id="">
                             <option value="+92">+92</option>
@@ -274,7 +280,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
                           <input
                             id="phone"
                             type="tel"
-                            placeholder="3000000000"
+                            placeholder="Phone Number"
                             className={style.phoneInput}
                             {...formik.getFieldProps("phone_no")}
                             onChange={formik.handleChange}
@@ -289,7 +295,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
                           </div>
                         ) : null}
                       </div>
-                      {!corporateLogin ? (
+                      {/* {!corporateLogin ? (
                         <button
                           type="button"
                           className={style.corporateBtn}
@@ -315,7 +321,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
                         >
                           <IoIosArrowRoundBack /> Login With personal account
                         </p>
-                      )}
+                      )} */}
                       <div className="d-flex flex-column my-4">
                         <Button
                           type="submit"
@@ -451,9 +457,9 @@ export const Model = ({ page = "login" }: { page: string }) => {
                 type="submit"
                 disabled={
                   modelStates?.name?.match(/^[a-zA-Z -]{3,}$/) &&
-                  modelStates.dob &&
-                  modelStates.gender &&
-                  modelStates.location
+                    modelStates.dob &&
+                    modelStates.gender &&
+                    modelStates.location
                     ? false
                     : true
                 }

@@ -27,6 +27,7 @@ export default function Working() {
     <div className="container">
       <div className={style.workingContainer}>
         <div className={style.workingText}>
+          <h3>Our Team</h3>
           <h2>{`How it Works?`}</h2>
         </div>
         <ul className={style.workingSteps}>

@@ -60,7 +60,7 @@ const ClientTestimonials: React.FC = () => {
   }, [testimonials.length]);
 
   return (
-    <section className={styles.testimonialsSection}>
+    <section id="testimonials" className={styles.testimonialsSection}>
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>
