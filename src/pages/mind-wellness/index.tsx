@@ -5,7 +5,7 @@ import Image from "next/image";
 import styles from "@/styles/mind-wellness.module.scss";
 import Link from "next/link";
 import DoctorGrid from "@/components/FindDoctors/DoctorGrid";
-import { fetchAndSortDoctors, DoctorQueryPresets, filterMentalHealthSpecialists } from "@/helper/doctorApi";
+import { BASE_URL } from "@/helper/CONST";
 
 interface Doctor {
   id: string;
@@ -261,12 +261,15 @@ export async function getStaticProps() {
     }),
   });
 
-  // Filter to only mental-health specialists
-  const mentalHealthDoctors = filterMentalHealthSpecialists(allDoctors);
+  const docData = await response.json();
 
   return {
     props: {
-      doctors: mentalHealthDoctors,
+      doctors: docData.response.Items.sort((a: any, b: any) => {
+        if (a.isOnline && !b.isOnline) return -1;
+        if (!a.isOnline && b.isOnline) return 1;
+        return 0;
+      }),
     },
     revalidate: 1,
   };
