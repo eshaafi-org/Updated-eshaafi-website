@@ -9,7 +9,7 @@ interface ServiceCard {
   description: string;
   imageSrc: string;
   exploreLink: string;
-  bookLink: string;
+  bookLink?: string;
 }
 
 const ServicesGridSection: React.FC = () => {
@@ -44,7 +44,7 @@ const ServicesGridSection: React.FC = () => {
       description: 'Work energized. Health support for your team.',
       imageSrc: '/images/coporate.png',
       exploreLink: '/partnerwithus',
-      bookLink: '/partnerwithus#schedule'
+       bookLink: '/partnerwithus#schedule'
     },
     { 
       id: 5,
@@ -52,7 +52,7 @@ const ServicesGridSection: React.FC = () => {
       description: 'For your mind and body. For yourself and your team.',
       imageSrc: '/images/wellness.png',
       exploreLink: '/mind-wellness',
-      bookLink: '/mind-wellness'
+       bookLink: '/mind-wellness'
     },
     { 
       id: 6,
@@ -60,7 +60,7 @@ const ServicesGridSection: React.FC = () => {
       description: 'Accessible and quality healthcare. Reaching rural areas.',
       imageSrc: '/images/thls.png',
       exploreLink: '/thus',
-      bookLink: '/thus'
+      
     }
   ];
 
@@ -92,13 +92,15 @@ const ServicesGridSection: React.FC = () => {
                   </button>
                 </Link>
 
-                <Link href={service.bookLink}>
-                  <button
-                    className={`${styles.serviceBtn} ${styles["serviceBtn--secondary"]}`}
-                  >
-                    Book now
-                  </button>
-                </Link>
+                {service.bookLink && (
+                  <Link href={service.bookLink}>
+                    <button
+                      className={`${styles.serviceBtn} ${styles["serviceBtn--secondary"]}`}
+                    >
+                      Book now
+                    </button>
+                  </Link>
+                )}
 
               </div>
             </div>
