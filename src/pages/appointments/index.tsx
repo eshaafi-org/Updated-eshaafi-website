@@ -21,67 +21,33 @@ export default function Appointments() {
         <section className="container">
           <div className="d-flex flex-column row-gap-1">
             <span>
-              <h2>My Appointments</h2>
               <AddressBar links={links} />
             </span>
-            <section className={style.listingContainer + " position-relative"}>
-              <div className={style.chips}>
-                <div className="chip-group" role="radiogroup">
-                  <div
-                    className="chip chip-checkbox"
-                    aria-labelledby="radioTwoLabel"
-                    tabIndex={0}
-                    role="radio"
-                    aria-checked="false"
-                    onClick={() => setAppointType("Upcoming")}
+
+            {/* Page Header */}
+            <div className="text-center py-4">
+              <h1 className="h2 fw-bold mb-2">Appointment Overview</h1>
+              <p className="text-muted">Manage and track all your medical appointments in one place</p>
+            </div>
+
+            {/* Filter Chips */}
+            <div className={style.chips}>
+              <div className="d-flex justify-content-center gap-3">
+                {["Upcoming", "Completed", "Cancelled"].map((t) => (
+                  <button
+                    key={t}
+                    className={`${style.tabChip} ${appointType === t ? style.activeChip : ""}`}
+                    onClick={() => setAppointType(t)}
                   >
-                    <input type="radio" name="radioEx" />
-                    <span id="radioTwoLabel">Upcoming</span>
-                  </div>
-                  <div
-                    className="chip chip-checkbox"
-                    aria-labelledby="radioOneLabel"
-                    tabIndex={0}
-                    role="radio"
-                    aria-checked="false"
-                    onClick={() => setAppointType("Past")}
-                  >
-                    <input type="radio" name="radioEx" />
-                    <span id="radioOneLabel">Past</span>
-                  </div>
-                </div>
+                    {t}
+                  </button>
+                ))}
               </div>
-              {/* appointment list */}
+            </div>
+
+            <section className={style.listingContainer}>
+
               <AppointmentsList type={appointType} />
-              {/*consultation filters*/}
-              <section className={style.fitlers}>
-                <div className="border bg-main w-100 rounded p-3">
-                  <h4 className={style.fiterHeading}>View Appointments</h4>
-                  <form action="" className="d-flex flex-column row-gap-0-5">
-                    <label htmlFor="Past" className="">
-                      <input
-                        className="me-2"
-                        id="Past"
-                        onChange={() => setAppointType("Past")}
-                        type="radio"
-                        name="type"
-                      />
-                      Past
-                    </label>
-                    <label htmlFor="Upcoming" className="text text-main ">
-                      <input
-                        className="me-2"
-                        id="Upcoming"
-                        onChange={() => setAppointType("Upcoming")}
-                        type="radio"
-                        name="type"
-                        defaultChecked={true}
-                      />
-                      Upcoming
-                    </label>
-                  </form>
-                </div>
-              </section>
             </section>
           </div>
         </section>

@@ -22,16 +22,9 @@ interface DoctorGridProps {
   isLoading?: boolean
 }
 
-const mentalHealthSpecialties = [
-  'clinical psychologist',
-  'counselor',
-  
-]
-
 const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = false, onlyMentalHealth = false, isLoading = false }) => {
   const [activeSpecialty, setActiveSpecialty] = useState('All Doctor')
   const router = useRouter()
- 
 
   // set initial active specialty from query param (if provided)
   useEffect(() => {
@@ -60,6 +53,11 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
   // derive specialties from backend doctors list so filters reflect actual data
   const specialties = useMemo(() => {
     const set = new Set<string>()
+    const mentalHealthSpecialties = [
+      'clinical psychologist',
+      'counselor',
+      'FamilyPhysician'
+    ]
     mappedDoctors.forEach((d) => {
       const s = String(d.specialty || '').trim()
       if (!s) return
@@ -100,31 +98,23 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
         </div>
 
         <div className={styles.doctorsGrid}>
-          {isLoading ? (
-            Array.from({ length: 6 }, (_, index) => (
+          {isLoading
+            ? Array.from({ length: 6 }, (_, index) => (
               <DoctorCardSkeleton key={index} />
             ))
-          ) : (
-            mappedDoctors
+            : mappedDoctors
               .filter((doc) => {
-                const docSpec = String(doc.specialty || '').toLowerCase()
-
-                // If 'All Doctor' is selected, respect onlyMentalHealth / excludeMentalHealth
-                if (activeSpecialty === 'All Doctor') {
-                  if (onlyMentalHealth) {
-                    return mentalHealthSpecialties.some((s) => docSpec.includes(s))
-                  }
-                  if (excludeMentalHealth) {
-                    return !mentalHealthSpecialties.some((s) => docSpec.includes(s))
-                  }
-                  return true
-                }
-
-                // otherwise match specialty (case-insensitive, partial match)
-                return docSpec.includes(activeSpecialty.toLowerCase())
+                // show all when 'All Doctor' selected, otherwise match specialty (case-insensitive, partial match)
+                if (activeSpecialty === 'All Doctor') return true
+                return (
+                  String(doc.specialty || '')
+                    .toLowerCase()
+                    .includes(activeSpecialty.toLowerCase())
+                )
               })
-              .map((doctor) => <DoctorCard key={doctor.id} {...doctor} />)
-          )}
+              .map((doctor) => (
+                <DoctorCard key={doctor.id} {...doctor} />
+              ))}
         </div>
       </div>
     </section>

@@ -15,7 +15,7 @@ export default function LabsHero({ heading, text }: any) {
       <div className={styles.labsHeroOverlay}>
         <div className={styles.labsHeroContent}>
           <h1 className={styles.labsHeroHeading}>
-            Get Upto <span className={styles.highlightRed}>30%</span> Discounts
+            Get Upto <span className={styles.highlightRed}>25%</span> Discounts
           </h1>
           <p className={styles.labsHeroText}>{text}</p>
         </div>

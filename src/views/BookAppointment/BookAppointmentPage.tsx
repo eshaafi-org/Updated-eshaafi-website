@@ -287,6 +287,7 @@ export default function BookAppointmentPage({
               dispatch({ type: "loginModalSlice/signIn" });
             }
           });
+        console.log("Slot check initiated , appointmentSlotId:", proifileData.appointmentSlotId, "doctorId:", proifileData.doctorId, "appoint_date:", proifileData.appoint_date);
       }
     } else {
       toast("Kindly login first to book an appointment", {
@@ -306,11 +307,13 @@ export default function BookAppointmentPage({
 
   //handle PayPro Integration
   const handlePayPro = async () => {
-    const handshakeId = response.appointmentId;
-    const url = `https://paypro.eshaafi.com/?handshake=${handshakeId}&slot_id=51aec218-feb0-467f-9691-9a584507db57&paymentFee=${data?.doctorInfo?.videoCallCharges}`;
+    const appointmentId = response.appointmentId; // From /patients/doctors/checkAppointment
+    const slotId = activeSlot.id; // From /patients/doctor/appointmentSlots (activeSlot.id)
+    const baseURL = "https://beta-pay.eshaafi.com";
+    const url = `${baseURL}/?appointment_id=${appointmentId}&slot_id=${slotId}`;
     setPaymentUrl(url);
     const appointmentData = {
-      appointmentId: response.appointmentId,
+      appointmentId: appointmentId,
       patientName: patient.patientName,
       patientId: patient.patientId,
       paymentId: paymentId,

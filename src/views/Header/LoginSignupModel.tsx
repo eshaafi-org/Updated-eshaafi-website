@@ -135,21 +135,34 @@ export const Model = ({ page = "login" }: { page: string }) => {
       .then((res) => {
         setStates({ type: "VERI_LOADING" });
         localStorage.setItem("user", JSON.stringify(res.data.response));
-        return res.data.response;
-        // userAuth(res.data.response.uuid);
-      })
-      .then((res) => {
-        if (res.profileCreated) {
-          dispatch({ type: "loginModalSlice/setAuth", payload: res });
-          close();
-        } else setProfile(true);
+
+        console.log("OTP verification response:", res.data.response);
+        console.log("Profile created status:", res.data.response.profileCreated);
+        console.log("Profile created type:", typeof res.data.response.profileCreated);
+
+        // TEMPORARY: Force show Complete Profile dialog for testing
+        console.log("FORCING Complete Profile dialog to appear for testing");
+        setOtp(false); // Hide OTP form
+        setProfile(true); // Show profile form
+        console.log("Set profile to true - should show Complete Profile dialog");
+
+        // Original logic (commented out for testing):
+        // if (res.data.response.profileCreated === true || res.data.response.profileCreated === "true") {
+        //   console.log("Profile exists - closing modal and logging in user");
+        //   dispatch({ type: "loginModalSlice/setAuth", payload: res.data.response });
+        //   close();
+        // } else {
+        //   console.log("Profile not created - showing profile creation dialog");
+        //   setOtp(false);
+        //   setProfile(true);
+        // }
       })
       .catch((err) => {
         setStates({ type: "VERI_ERROR" });
-        console.error(err);
+        console.error("OTP verification error:", err);
       });
-    // console.log(modelStates);
-    // setProfile(true);
+
+    console.log("verifying otp with phone no:", "+92" + processedPhoneNo, "and code:", code);
   };
   // updating the profile
   const updateProfile = (e: FormEvent<HTMLFormElement>) => {
@@ -188,6 +201,8 @@ export const Model = ({ page = "login" }: { page: string }) => {
       inputRef.type = "date";
     }
   };
+
+  console.log("Rendering LoginSignupModel - profile state:", profile, "otp state:", otp);
 
   return (
     <div className={style.modalCont}>
@@ -338,18 +353,18 @@ export const Model = ({ page = "login" }: { page: string }) => {
               </>
             ) : (
               <>
-                <span className="d-flex align-items-center border-bottom py-1">
-                  <Button onClick={() => setOtp(false)}>
-                    <FaChevronLeft />
-                  </Button>
-                  <p className="w-100 fw-bold text-center">
-                    Verify Phone Number
-                  </p>
-                </span>
                 <span
                   className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
                 >
-                  <h1 className="heading1">Enter OTP</h1>
+                  <Image
+                    src="/eshaafiLogo.svg"
+                    alt="eShaafi"
+                    width={120}
+                    height={40}
+                    className="mb-3"
+                  />
+                  <h1 className="heading1 mb-3" style={{ color: "#00568A", fontSize: "18px", fontWeight: "600" }}>Verify Phone Number</h1>
+                  <h2 className="heading2" style={{ color: "#000", fontSize: "24px", fontWeight: "400", marginBottom: "1rem" }}>Welcome to eShaafi</h2>
                   <p className={`subText text-center text-capitalize`}>
                     Please Check your phone for 6-digit otp sent to
                     <br />
@@ -373,13 +388,19 @@ export const Model = ({ page = "login" }: { page: string }) => {
           </>
         ) : (
           <>
-            <span className="d-flex border-bottom py-1 ">
-              <p className="w-100 fw-bold text-center py-2">Complete Profile</p>
-            </span>
+            {console.log("RENDERING COMPLETE PROFILE DIALOG - profile state is true")}
             <span
               className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
             >
-              <h1 className="heading1">Welcome to eShaafi</h1>
+              <Image
+                src="/eshaafiLogo.svg"
+                alt="eShaafi"
+                width={120}
+                height={40}
+                className="mb-3"
+              />
+              <h1 className="heading1 mb-3" style={{ color: "#00568A", fontSize: "18px", fontWeight: "600" }}>Complete Profile</h1>
+              <h2 className="heading3" style={{ color: "#000", fontSize: "20px", fontWeight: "100", marginBottom: "2rem" }}>Welcome to eShaafi</h2>
               <p
                 className={`text-center text-capitalize`}
                 style={{ fontSize: 14 }}
@@ -422,6 +443,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
                   onChange={setStates}
                   onMouseEnter={onFocusHandler}
                   onFocus={onFocusHandler}
+                  style={{ borderRadius: "8px" }}
                 />
                 <select
                   name="gender"
@@ -429,6 +451,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
                   className={style.selectOpt}
                   onChange={setStates}
                   placeholder="Gender"
+                  style={{ borderRadius: "8px" }}
                 >
                   <option value="">Select Gender</option>
                   <option value="Male">Male</option>
@@ -439,6 +462,15 @@ export const Model = ({ page = "login" }: { page: string }) => {
                   type="text"
                   name="location"
                   onChange={setStates}
+                  className="w-100"
+                />
+                <InputField
+                  placeHolder="Phone Number"
+                  type="tel"
+                  name="phoneNo"
+                  value={`+92${phoneNum}`}
+                  disabled
+                  className="w-100"
                 />
               </span>
               <Button

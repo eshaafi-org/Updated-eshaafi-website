@@ -48,7 +48,7 @@ const OurServices: React.FC = () => {
       title: "24/7 GP Access",
       description:
         "Get round-the-clock access to general practitioners for immediate medical concerns.",
-      icon: "/images/support.svg",
+      icon: "/images/callsupport.svg",
       className: styles.gpAccess,
     },
   ];
