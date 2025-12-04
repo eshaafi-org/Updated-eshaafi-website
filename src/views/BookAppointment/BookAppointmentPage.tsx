@@ -52,7 +52,7 @@ export default function BookAppointmentPage({
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => {
     console.log('Modal close button clicked - assuming payment success');
-    //setShowModal(false); //COMMENT IT FOR PRODUCTION DEV
+    setShowModal(false); //COMMENT IT FOR PRODUCTION DEV
 
     // Complete the booking process
     const appointmentData = localStorage.getItem('appointmentData');
@@ -371,7 +371,7 @@ export default function BookAppointmentPage({
     const baseURL = "https://beta-pay.eshaafi.com";
     const url = `${baseURL}/?appointment_id=${appointmentId}&slot_id=${slotId}`;
     setPaymentUrl(url);
-    //setShowModal(true); //COMMENT IT FOR PRODUCTION DEV
+    setShowModal(true); //COMMENT IT FOR PRODUCTION DEV
     const appointmentData = {
       appointmentId: appointmentId,
       patientName: patient.patientName,
@@ -387,11 +387,11 @@ export default function BookAppointmentPage({
   //---UNCOMMENT THIS IN PRODUCTION---//
 
   // Redirect to payment URL once it's set
-  useEffect(() => {
-    if (paymentUrl) {
-      window.location.href = paymentUrl;
-    }
-  }, [paymentUrl]);
+  // useEffect(() => {
+  //   if (paymentUrl) {
+  //     window.location.href = paymentUrl;
+  //   }
+  // }, [paymentUrl]);
 
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
