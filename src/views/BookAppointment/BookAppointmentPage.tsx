@@ -50,7 +50,66 @@ export default function BookAppointmentPage({
   const [loading, setLoading] = useState<boolean>(false);
   const [paymentUrl, setPaymentUrl] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const handleModalClose = () => setShowModal(false);
+  const handleModalClose = () => {
+    console.log('Modal close button clicked - assuming payment success');
+    setShowModal(false); //COMMENT IT FOR PRODUCTION DEV
+
+    // Complete the booking process
+    const appointmentData = localStorage.getItem('appointmentData');
+    if (appointmentData) {
+      const parsedData = JSON.parse(appointmentData);
+      console.log('Completing booking with data:', parsedData);
+
+      // Call the actual booking API
+      setLoading(true);
+      axios
+        .post(
+          BASE_URL + "/patients/doctors/bookAppointment",
+          {
+            appointmentId: parsedData.appointmentId,
+            patientName: parsedData.patientName,
+            patientId: parsedData.patientId,
+            paymentType: "payPro", // Since payment was completed via PayPro
+            isSave: "false",
+            slot_id: parsedData.slot_id
+          },
+          {
+            headers: headers(),
+          }
+        )
+        .then((res) => {
+          console.log('Booking confirmed successfully:', res.data);
+          setSuccess(true);
+          setLoading(false);
+          setPaymentScreen(false);
+          // Clear the temporary appointment data
+          localStorage.removeItem('appointmentData');
+          // Don't redirect to /payment-success, show the built-in success screen
+        })
+        .catch((err) => {
+          console.error('Booking confirmation failed:', err);
+          setLoading(false);
+          if (err.response) {
+            toast(`Booking failed: ${err.response.data.response?.message || 'Please try again'}`, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              type: "error",
+            });
+          }
+          // Still redirect to payment success in case of API issues
+          router.push('/payment-success');
+        });
+    } else {
+      // No appointment data found, just redirect
+      router.push('/payment-success');
+    }
+  };
   const handleModalOpen = () => setShowModal(true);
   const [activeSlot, setSlot] = useState({
     time: "",
@@ -312,21 +371,27 @@ export default function BookAppointmentPage({
     const baseURL = "https://beta-pay.eshaafi.com";
     const url = `${baseURL}/?appointment_id=${appointmentId}&slot_id=${slotId}`;
     setPaymentUrl(url);
+    setShowModal(true); //COMMENT IT FOR PRODUCTION DEV
     const appointmentData = {
       appointmentId: appointmentId,
       patientName: patient.patientName,
       patientId: patient.patientId,
-      paymentId: paymentId,
+      paymentType: paymentId,
+      slot_id: slotId,
     };
+
     localStorage.setItem('appointmentData', JSON.stringify(appointmentData));
+    console.log("Appointment data stored for PayPro:", appointmentData);
   };
 
+  //---UNCOMMENT THIS IN PRODUCTION---//
+
   // Redirect to payment URL once it's set
-  useEffect(() => {
-    if (paymentUrl) {
-      window.location.href = paymentUrl;
-    }
-  }, [paymentUrl]);
+  // useEffect(() => {
+  //   if (paymentUrl) {
+  //     window.location.href = paymentUrl;
+  //   }
+  // }, [paymentUrl]);
 
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
@@ -409,6 +474,7 @@ export default function BookAppointmentPage({
       setAppointDate(data.Items[0].slot_date);
     }
   }, [data]);
+
 
   return (
     <section className="container">
@@ -511,10 +577,12 @@ export default function BookAppointmentPage({
           <Modal.Title>Payment Gateway</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+
           <iframe
             src={paymentUrl}
             style={{ width: '100%', height: '500px' }}
             frameBorder="0"
+            title="Payment Gateway"
           />
         </Modal.Body>
       </Modal>

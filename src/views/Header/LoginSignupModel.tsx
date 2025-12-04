@@ -85,6 +85,9 @@ export const Model = ({ page = "login" }: { page: string }) => {
   const [otp, setOtp] = useState<boolean>(false);
   const [corporateLogin, setCorporateLogin] = useState<boolean>(false);
   const [profile, setProfile] = useState<boolean>(false);
+  const [profileSelection, setProfileSelection] = useState<boolean>(false);
+  const [existingProfiles, setExistingProfiles] = useState<any[]>([]);
+  const [selectedProfile, setSelectedProfile] = useState<any>(null);
   const dispatch = useDispatch();
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   // function for handling static window, so user can't move
@@ -92,7 +95,39 @@ export const Model = ({ page = "login" }: { page: string }) => {
     document.body.style.overflow = "auto";
     dispatch({ type: "loginModalSlice/close" });
   };
-  // get otp
+  // fetch user profiles
+  const fetchUserProfiles = async () => {
+    try {
+      // Wait a bit to ensure localStorage is updated
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      const response = await axios.get(`${BASE_URL}/patients/profile?device=web`, {
+        headers: headers(),
+      });
+
+      console.log("Profiles API response:", response.data);
+
+      const profilesData = response.data.response.data;
+      const allProfiles = [profilesData.self, ...profilesData.profiles].filter(Boolean);
+
+      // Filter profiles to show only those belonging to current phone number
+      const currentPhoneNumber = `+92${phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum}`;
+      const filteredProfiles = allProfiles.filter((profile: any) => {
+        // Check if profile phone matches current phone number
+        const profilePhone = profile.phone_no || profile.phoneNo || profile.phone;
+        return profilePhone === currentPhoneNumber || profilePhone === phoneNum ||
+          profilePhone === `92${phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum}`;
+      });
+
+      console.log("Current phone number:", currentPhoneNumber);
+      console.log("All profiles:", allProfiles);
+      console.log("Filtered profiles for current phone:", filteredProfiles);
+      return filteredProfiles;
+    } catch (error) {
+      console.error("Error fetching profiles:", error);
+      return [];
+    }
+  };  // get otp
   const getOtp = (e: any) => {
     // e.preventDefault();
     if (e) {
@@ -132,30 +167,25 @@ export const Model = ({ page = "login" }: { page: string }) => {
         code: code,
         type: 1,
       })
-      .then((res) => {
+      .then(async (res) => {
         setStates({ type: "VERI_LOADING" });
         localStorage.setItem("user", JSON.stringify(res.data.response));
 
         console.log("OTP verification response:", res.data.response);
-        console.log("Profile created status:", res.data.response.profileCreated);
-        console.log("Profile created type:", typeof res.data.response.profileCreated);
 
-        // TEMPORARY: Force show Complete Profile dialog for testing
-        console.log("FORCING Complete Profile dialog to appear for testing");
-        setOtp(false); // Hide OTP form
-        setProfile(true); // Show profile form
-        console.log("Set profile to true - should show Complete Profile dialog");
+        // Check for existing profiles
+        const profiles = await fetchUserProfiles();
 
-        // Original logic (commented out for testing):
-        // if (res.data.response.profileCreated === true || res.data.response.profileCreated === "true") {
-        //   console.log("Profile exists - closing modal and logging in user");
-        //   dispatch({ type: "loginModalSlice/setAuth", payload: res.data.response });
-        //   close();
-        // } else {
-        //   console.log("Profile not created - showing profile creation dialog");
-        //   setOtp(false);
-        //   setProfile(true);
-        // }
+        if (profiles.length > 0) {
+          console.log("Profiles found:", profiles);
+          setExistingProfiles(profiles);
+          setOtp(false);
+          setProfileSelection(true);
+        } else {
+          console.log("No profiles found - showing profile creation dialog");
+          setOtp(false);
+          setProfile(true);
+        }
       })
       .catch((err) => {
         setStates({ type: "VERI_ERROR" });
@@ -164,6 +194,18 @@ export const Model = ({ page = "login" }: { page: string }) => {
 
     console.log("verifying otp with phone no:", "+92" + processedPhoneNo, "and code:", code);
   };
+  // handle profile selection and login
+  const handleProfileSelection = () => {
+    if (selectedProfile) {
+      const storedValue: any | null = localStorage.getItem("user");
+      const userAuth: any | null = storedValue ? JSON.parse(storedValue) : null;
+
+      // Set the selected profile and complete login
+      dispatch({ type: "loginModalSlice/setAuth", payload: { ...userAuth, selectedProfile } });
+      close();
+    }
+  };
+
   // updating the profile
   const updateProfile = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -202,12 +244,12 @@ export const Model = ({ page = "login" }: { page: string }) => {
     }
   };
 
-  console.log("Rendering LoginSignupModel - profile state:", profile, "otp state:", otp);
+  console.log("Rendering LoginSignupModel - profile state:", profile, "otp state:", otp, "profileSelection state:", profileSelection);
 
   return (
     <div className={style.modalCont}>
       <div className={style.modaldiv}>
-        {!profile ? (
+        {!profile && !profileSelection ? (
           <>
             {!otp ? (
               <>
@@ -386,9 +428,118 @@ export const Model = ({ page = "login" }: { page: string }) => {
               </>
             )}
           </>
+        ) : profileSelection ? (
+          <>
+            <span className="d-flex align-items-center py-2 border-bottom px-4">
+              <Button onClick={() => setProfileSelection(false)}>
+                <FaChevronLeft />
+              </Button>
+              <p className="text-center fw-bold mx-auto">Select Profile</p>
+              <Button onClick={close}>
+                <FaX />
+              </Button>
+            </span>
+            <span className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}>
+              <Image
+                src="/eshaafiLogo.svg"
+                alt="eShaafi"
+                width={120}
+                height={40}
+                className="mb-3"
+              />
+              <h1 className="heading1 mb-3" style={{ color: "#00568A", fontSize: "18px", fontWeight: "600" }}>
+                Select Your Profile
+              </h1>
+              <p className={`text-center text-capitalize`} style={{ fontSize: 14 }}>
+                Choose from your existing profiles to continue
+              </p>
+            </span>
+            <div className="px-3 pb-4">
+              <div className="d-flex flex-column row-gap-3 mb-4">
+                {existingProfiles.map((profileItem: any, index: number) => (
+                  <div
+                    key={index}
+                    className={`d-flex align-items-center p-3 border rounded cursor-pointer ${selectedProfile?.profileId === profileItem.profileId ? 'border-primary bg-light' : 'border-secondary'
+                      }`}
+                    onClick={() => setSelectedProfile(profileItem)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {profileItem.url ? (
+                      <Image
+                        src={profileItem.url}
+                        width={50}
+                        height={50}
+                        alt={profileItem.name}
+                        style={{ borderRadius: '50%' }}
+                        className="me-3"
+                      />
+                    ) : (
+                      <div
+                        className="me-3 d-flex align-items-center justify-content-center"
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: '50%',
+                          backgroundColor: '#f0f0f0',
+                          color: '#666'
+                        }}
+                      >
+                        {profileItem.name?.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                    <div className="flex-grow-1">
+                      <h6 className="mb-1 text-capitalize">{profileItem.name}</h6>
+                      <small className="text-muted">{profileItem.relation}</small>
+                    </div>
+                    {selectedProfile?.profileId === profileItem.profileId && (
+                      <div className="text-primary">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div className="d-flex flex-column row-gap-2">
+                <Button
+                  variant="contained"
+                  onClick={handleProfileSelection}
+                  disabled={!selectedProfile}
+                  className="w-100"
+                >
+                  Continue with Selected Profile
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setProfileSelection(false);
+                    setProfile(true);
+                  }}
+                  className="w-100"
+                >
+                  Create New Profile
+                </Button>
+              </div>
+            </div>
+          </>
         ) : (
           <>
             {console.log("RENDERING COMPLETE PROFILE DIALOG - profile state is true")}
+            {existingProfiles.length > 0 && (
+              <span className="d-flex align-items-center py-2 border-bottom px-4">
+                <Button onClick={() => {
+                  setProfile(false);
+                  setProfileSelection(true);
+                }}>
+                  <FaChevronLeft />
+                </Button>
+                <p className="text-center fw-bold mx-auto">Create New Profile</p>
+                <Button onClick={close}>
+                  <FaX />
+                </Button>
+              </span>
+            )}
             <span
               className={`d-flex flex-column align-items-center my-4 pt-2 px-2`}
             >

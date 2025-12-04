@@ -986,7 +986,7 @@ const Navbar: React.FC = () => {
 
               {!userAuth?.uuid ? (
                 <>
-                  <Button variant="outlined" onClick={handleModal}>
+                  <Button onClick={handleModal}>
                     Login/Sign Up
                   </Button>
                 </>
@@ -1052,11 +1052,15 @@ const Navbar: React.FC = () => {
                               Doctors
                             </Link>
                           </li>
-                          {/* <li>
+                          <li>
                             <Link href={"/profile"}>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M12 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+                                <path d="M12 14c-4.42 0-8 2.69-8 6v2h16v-2c0-3.31-3.58-6-8-6z" />
+                              </svg>
                               Profile
                             </Link>
-                          </li> */}
+                          </li>
                           <li>
                             <Link href={"/appointments"}>
                               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

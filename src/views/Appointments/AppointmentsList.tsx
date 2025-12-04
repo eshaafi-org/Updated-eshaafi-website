@@ -27,7 +27,7 @@ function Card({ appointment }: { appointment: any }) {
   const statusLabel =
     status === "completed"
       ? "Completed"
-      : status === "cancelled"
+      : status === "missed"
         ? "Cancelled"
         : status === "inprogress"
           ? "In Progress"
@@ -145,10 +145,9 @@ export default function AppointmentsList({ type }: { type: string }) {
       if (type === "Completed") {
         apiType = "Past";
       } else if (type === "Cancelled") {
-        apiType = "Booked";
+        apiType = "Past"; // Get all past appointments to filter cancelled ones
       } else if (type === "Upcoming") {
-        // Include both Upcoming and Booked appointments
-        apiType = "Upcoming,Booked";
+        apiType = "Upcoming";
       }
 
       axios
@@ -166,22 +165,28 @@ export default function AppointmentsList({ type }: { type: string }) {
           const newLastEvaluatedKey = response.data.response.LastEvaluatedKey;
           setLastEvaluatedKey(newLastEvaluatedKey);
 
-          // // Filter appointments based on the current tab
-          // let filteredAppointments = response.data.response.Items;
-          // if (type === "Upcoming") {
-          //   filteredAppointments = response.data.response.Items.filter((appointment: any) =>
-          //     appointment.appointment_status === "missed" || appointment.appoint_type === "booked"
-          //   );
-          //   console.log('LoadMore Filtered Upcoming appointments:', filteredAppointments);
-          // } else if (type === "Completed") {
-          //   // Only show Completed appointments in Completed tab
-          //   filteredAppointments = response.data.response.Items.filter((appointment: any) =>
-          //     appointment.appointment_status === "completed"
-          //   );
-          //   console.log('LoadMore Filtered Completed appointments:', filteredAppointments);
-          // }
-          const appointmentListNextPPage = response.data.response.Items;
-          setAppoint((prev) => [...prev, ...appointmentListNextPPage]);
+          // Filter appointments based on the current tab
+          let filteredAppointments = response.data.response.Items;
+
+          if (type === "Upcoming") {
+            // Show booked and inprogress appointments in Upcoming tab
+            filteredAppointments = response.data.response.Items.filter((appointment: any) =>
+              appointment.appointment_status === "booked" ||
+              appointment.appointment_status === "inprogress"
+            );
+          } else if (type === "Completed") {
+            // Only show completed appointments in Completed tab
+            filteredAppointments = response.data.response.Items.filter((appointment: any) =>
+              appointment.appointment_status === "completed"
+            );
+          } else if (type === "Cancelled") {
+            // Only show missed appointments in Cancelled tab
+            filteredAppointments = response.data.response.Items.filter((appointment: any) =>
+              appointment.appointment_status === "missed"
+            );
+          }
+
+          setAppoint((prev) => [...prev, ...filteredAppointments]);
           document.body.style.overflow = "auto";
           setLoading(false);
           setReachedEnd(true);
@@ -204,9 +209,8 @@ export default function AppointmentsList({ type }: { type: string }) {
       if (type === "Completed") {
         apiType = "Past";
       } else if (type === "Cancelled") {
-        apiType = "Cancelled";
+        apiType = "Past"; // Get all past appointments to filter cancelled ones
       } else if (type === "Upcoming") {
-        // Include both Upcoming and Booked appointments
         apiType = "Upcoming";
       }
 
@@ -225,28 +229,35 @@ export default function AppointmentsList({ type }: { type: string }) {
           setLastEvaluatedKey(response.data.response.LastEvaluatedKey);
 
           // Debug logging
-          //   console.log(`API Response for ${type} tab:`, response.data.response.Items);
-          //   console.log('All appointment statuses:', response.data.response.Items.map((apt: any) => apt.appointment_status));
+          console.log(`API Response for ${type} tab:`, response.data.response.Items);
+          console.log('All appointment statuses:', response.data.response.Items.map((apt: any) => apt.appointment_status));
 
-          //   // Filter appointments based on the current tab
-          //   let filteredAppointments = response.data.response.appointment_status;
-          //   if (type === "Upcoming") {
-          //     // Show missed, booked, upcoming, inprogress appointments in Upcoming tab
-          //     filteredAppointments = response.data.response.Items.filter((appointment: any) =>
-          //       appointment.appointment_status === "missed"
-          //     );
-          //     console.log('Filtered Upcoming appointments:', filteredAppointments);
-          //   } else if (type === "Completed") {
-          //     // Only show Completed appointments in Completed tab
-          //     filteredAppointments = response.data.response.Items.filter((appointment: any) =>
-          //       appointment.appointment_status === "completed"
-          //     );
-          //     console.log('Filtered Completed appointments:', filteredAppointments);
-          //   }
+          // Filter appointments based on the current tab
+          let filteredAppointments = response.data.response.Items;
 
-          //   setAppoint(filteredAppointments);
-          // })
-          setAppoint(response.data.response.Items);
+          if (type === "Upcoming") {
+            // Show booked and inprogress appointments in Upcoming tab
+            filteredAppointments = response.data.response.Items.filter((appointment: any) =>
+              appointment.appointment_status === "booked" ||
+              appointment.appointment_status === "inprogress"
+            );
+            console.log('Filtered Upcoming appointments:', filteredAppointments);
+          } else if (type === "Completed") {
+            // Only show completed appointments in Completed tab
+            filteredAppointments = response.data.response.Items.filter((appointment: any) =>
+              appointment.appointment_status === "completed"
+            );
+            console.log('Filtered Completed appointments:', filteredAppointments);
+          } else if (type === "Cancelled") {
+            // Only show missed appointments in Cancelled tab
+            filteredAppointments = response.data.response.Items.filter((appointment: any) =>
+              appointment.appointment_status === "missed"
+            );
+            console.log('Filtered Cancelled appointments:', filteredAppointments);
+          }
+
+          setAppoint(filteredAppointments);
+          console.log('Final filtered appointment list:', filteredAppointments);
           setReachedEnd(response.data.response.LastEvaluatedKey ? true : false);
         })
         .catch((error) => {

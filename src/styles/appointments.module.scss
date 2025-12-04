@@ -263,9 +263,14 @@
 }
 
 .activeChip {
-  background: #13407b;
+  background: #003a75;
   color: white;
-  border-color: #13407b;
+  border-color: #003a75;
+
+  &:hover {
+    background: #3660ba;
+    border-color: #3660ba;
+  }
 }
 
 // Doctor info styles - cleaned up
