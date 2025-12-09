@@ -1,7 +1,5 @@
 // import
-import labLogo1 from "../../../public/images/lablogo1.png";
-import labLogo2 from "../../../public/images/lablogo2.png";
-import labLogo3 from "../../../public/images/lablogo3.png";
+import { useEffect } from "react";
 import Image from "next/image";
 import { Text16, Text14, Text11, Text28 } from "@/components/Typography";
 import style from "@/styles/labs.module.scss";
@@ -10,17 +8,20 @@ import Button from "@/components/Button";
 import { useSelector } from "react-redux";
 import { CardsSkeletonLoader } from "@/components/SkeletonLoader";
 
-const labLogos: { [key: string]: any } = {
-  "Excel Lab": labLogo3,
-  "IDC Lab": labLogo1,
-  "Chughtai Lab": labLogo2,
-};
-
 export default function LabsList() {
   const {
     loading,
     value: { Labs },
   } = useSelector((state: any) => state.getLabHomeReducer);
+  
+  // Log backend labs data
+  useEffect(() => {
+    //console.log('📋 Labs from Backend:', Labs);
+    Labs.forEach((lab: any) => {
+     // console.log(`🏥 Lab Name: ${lab.name}, Logo URL: ${lab.url}`);
+    });
+  }, [Labs]);
+  
   return (
     <>
       {loading ? (
@@ -36,7 +37,7 @@ export default function LabsList() {
             {Labs.map((item: any, indx: number) => (
               <li className={style.labCard} key={indx}>
                 <Image 
-                  src={labLogos[item.name] || labLogo1} 
+                  src={item.url} 
                   alt={`${item.name}-logo`}
                   width={80}
                   height={80}

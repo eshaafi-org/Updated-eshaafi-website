@@ -953,3 +953,267 @@
 .listingContainer {
   padding-top: 2rem;
 }
+
+/* Video Call Integration Styles */
+.videoCallWrapper {
+  margin: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  @include mobile-landscape-and-below {
+    margin: 15px 0;
+    border-radius: 8px;
+  }
+}
+
+.callReadyContainer {
+  padding: 20px;
+  text-align: center;
+}
+
+.callActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.callButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @include mobile-landscape-and-below {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+.joinVideoCallBtn {
+  background: linear-gradient(135deg, #009B94 0%, #007A73 100%);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 155, 148, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @include mobile-landscape-and-below {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}
+
+.audioCallBtn {
+  background: linear-gradient(135deg, #007A73 0%, #005A54 100%);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 122, 115, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @include mobile-landscape-and-below {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}
+
+/* Timer enhancements when call is ready */
+.consultationTimer {
+  .callReadyContainer {
+    animation: pulse 2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(0, 155, 148, 0.1);
+  }
+  50% {
+    background-color: rgba(0, 155, 148, 0.2);
+  }
+  100% {
+    background-color: rgba(0, 155, 148, 0.1);
+  }
+}
+
+/* Incoming Call Modal Styles */
+.incomingCallModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(4px);
+}
+
+.incomingCallContent {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+  animation: slideUp 0.3s ease-out;
+}
+
+.callInfo {
+  margin-bottom: 30px;
+
+  .callIcon {
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+  }
+
+  h3 {
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .appointmentInfo {
+    color: #009B94;
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+.callActions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.callButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.acceptCall {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+
+  &:hover {
+    background: linear-gradient(135deg, #45a049, #3e8e41);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  }
+}
+
+.rejectCall {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  color: white;
+
+  &:hover {
+    background: linear-gradient(135deg, #d32f2f, #b71c1c);
+    box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments for video call */
+@include mobile-landscape-and-below {
+  .videoCallWrapper {
+    margin: 10px -15px; // Full width on mobile
+    border-radius: 0;
+  }
+  
+  .callReadyContainer {
+    padding: 16px;
+  }
+  
+  .callActions p:first-child {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .incomingCallContent {
+    padding: 30px 20px;
+    margin: 20px;
+  }
+
+  .callActions {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .callButton {
+    width: 100%;
+    min-width: auto;
+  }
+}
