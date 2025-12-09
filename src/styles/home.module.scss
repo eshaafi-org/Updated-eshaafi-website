@@ -687,3 +687,120 @@
     width: fit-content;
   }
 }
+
+
+/* ---------- LARGE TABLET FIXES (<=1200px) ---------- */
+@media (max-width: 1200px) {
+  .carouselCard {
+    width: 80%;
+    max-width: 380px;
+  }
+
+  .cardImageCenter,
+  .cardImageSide {
+    height: 220px !important;
+  }
+
+  .cardFooterInner {
+    max-width: 420px;
+  }
+}
+
+/* ---------- TABLET FIXES (<=900px) ---------- */
+@media (max-width: 900px) {
+  .carouselRow {
+    width: 100%;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .carouselCard {
+    width: 90%;
+    max-width: 340px;
+    min-width: 340px;
+  }
+
+  .cardImageCenter {
+    height: 230px !important;
+  }
+
+  .cardImageSide {
+    height: 200px !important;
+  }
+
+  .arrowBtn {
+    transform: scale(0.9);
+  }
+}
+
+/* ---------- MOBILE FIXES (<=600px) ---------- */
+@media (max-width: 600px) {
+  .docCarousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .carouselRow {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden !important;
+    min-height: 340px;
+  }
+
+  .carouselCard {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 320px !important;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto !important;
+    padding-bottom: 80px;
+    position: relative !important;
+  }
+
+  .cardSide {
+    position: absolute !important;
+    left: -9999px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .cardCenter {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    z-index: 2 !important;
+    background: #f1fbff !important;
+    border-radius: 12px !important;
+  }
+
+  .cardImageCenter {
+    height: 200px !important;
+    border-radius: 12px 12px 0 0 !important;
+  }
+
+  .cardImageSide {
+    height: 180px !important;
+  }
+
+  .cardFooterInner {
+    bottom: -22px !important;
+    width: calc(100% - 24px) !important;
+    max-width: 460px !important;
+    padding: 10px 12px !important;
+  }
+
+  .arrowBtn {
+    transform: scale(0.95) !important;
+  }
+
+  .carouselDots {
+    margin-top: 16px !important;
+  }
+}
+/* ---------- end mobile fixes ---------- */

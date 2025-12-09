@@ -32,9 +32,9 @@ const PartnerWithUs: React.FC = () => {
           {/* Center Content - Text and Button */}
           <div className={`${styles.textContent} ${showForm ? styles.textContentSlide : ''}`}>
             <h1>Unlock a healthier, <br /> happier workforce with <br /> our corporate wellness plans</h1> 
-            <button onClick={() => setShowForm(true)}>
+            {/* <button onClick={() => setShowForm(true)}>
               Schedule a Demo
-            </button>
+            </button> */}
           </div>
 
           {/* Right Side - Form */}

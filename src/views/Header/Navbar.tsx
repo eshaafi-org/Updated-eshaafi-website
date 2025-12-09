@@ -691,8 +691,8 @@ const navbarItems: NavbarItem[] = [
     dropdown: [
       { name: "General Practitioners", href: "/find-doctors?specialty=General%20Physician", icon: "/images/doctor1.svg" },
       { name: "Specialists", href: "/find-doctors?specialty=Specialist", icon: "/images/doctor2.svg" },
-      { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor3.svg" },
-      { name: "Care Plans", href: "/find-doctors#subscription-plans", icon: "/images/careplans.svg" },
+      // { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor3.svg" },
+      // { name: "Care Plans", href: "/find-doctors#subscription-plans", icon: "/images/careplans.svg" },
     ],
   },
 
@@ -702,7 +702,7 @@ const navbarItems: NavbarItem[] = [
     dropdown: [
       { name: "Counselors", href: "/mind-wellness?specialty=Counselor#therapists-section", icon: "/images/doctor4.svg" },
       { name: "Psychologists", href: "/mind-wellness?specialty=Clinical%20Psychologist#therapists-section", icon: "/images/doctor5.svg" },
-      { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor6.svg" },
+      // { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor6.svg" },
     ],
   },
 
@@ -719,22 +719,22 @@ const navbarItems: NavbarItem[] = [
   {
     title: "Care Plans",
     href: "/find-doctors#subscription-plans",
-    dropdown: [
-      { name: "Essential Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/essential.svg" },
-      { name: "Family Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/familyplan.svg" },
-      { name: "Total Health Protection", href: "/find-doctors#subscription-plans", icon: "/images/total.svg" },
-    ],
+    // dropdown: [
+    //   { name: "Essential Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/essential.svg" },
+    //   { name: "Family Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/familyplan.svg" },
+    //   { name: "Total Health Protection", href: "/find-doctors#subscription-plans", icon: "/images/total.svg" },
+    // ],
   },
 
   {
     title: "Wellness Sessions",
     href: "/partnerwithus#wellness-section",
-    dropdown: [
-      { name: "Mind Wellness", href: "/partnerwithus#wellness-section", icon: "/images/mindwellness.svg" },
-      { name: "Nutritional Wellness", href: "/partnerwithus#wellness-section", icon: "/images/nutritionalwellness.svg" },
-      { name: "Physical Wellness", href: "/partnerwithus#wellness-section", icon: "/images/physicalwellness.svg" },
-      { name: "Preventive Care", href: "/partnerwithus#wellness-section", icon: "/images/preventivecare.svg" },
-    ],
+    // dropdown: [
+    //   { name: "Mind Wellness", href: "/partnerwithus#wellness-section", icon: "/images/mindwellness.svg" },
+    //   { name: "Nutritional Wellness", href: "/partnerwithus#wellness-section", icon: "/images/nutritionalwellness.svg" },
+    //   { name: "Physical Wellness", href: "/partnerwithus#wellness-section", icon: "/images/physicalwellness.svg" },
+    //   { name: "Preventive Care", href: "/partnerwithus#wellness-section", icon: "/images/preventivecare.svg" },
+    // ],
   },
 
   {
@@ -743,7 +743,7 @@ const navbarItems: NavbarItem[] = [
     dropdown: [
       { name: "Schedule a Meeting", href: "/partnerwithus#schedule", icon: "/images/schedule.svg" },
       { name: "Our Services", href: "/partnerwithus#services", icon: "/images/services.svg" },
-      { name: "Wellness Sessions", href: "/partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
+      // { name: "Wellness Sessions", href: "/partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
       { name: "Testimonials", href: "/partnerwithus#testimonials", icon: "/images/testimonials.svg" },
     ],
   },
@@ -761,12 +761,12 @@ const navbarItems: NavbarItem[] = [
   {
     title: "Blogs",
     href: "/blog",
-    dropdown: [
-      { name: "Mind Wellness", href: "/blog#recent", icon: "/images/mindwellness.svg" },
-      { name: "Preventive Care", href: "/blog#recent", icon: "/images/preventivecare.svg" },
-      { name: "Everyday Health", href: "/blog#recent", icon: "/images/everyday.svg" },
-      { name: "About Telehealth", href: "/blog#recent", icon: "/images/about.svg" },
-    ],
+    // dropdown: [
+    //   { name: "Mind Wellness", href: "/blog#recent", icon: "/images/mindwellness.svg" },
+    //   { name: "Preventive Care", href: "/blog#recent", icon: "/images/preventivecare.svg" },
+    //   { name: "Everyday Health", href: "/blog#recent", icon: "/images/everyday.svg" },
+    //   { name: "About Telehealth", href: "/blog#recent", icon: "/images/about.svg" },
+    // ],
   },
 
   {
