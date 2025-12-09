@@ -656,10 +656,20 @@
 
 
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './Navbar.module.scss';
 import Image from "next/image";
 import Link from 'next/link';
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { createPortal } from "react-dom";
+import { Model } from "./LoginSignupModel";
+import Button from "@/components/Button";
+import axios from "axios";
+import { BASE_URL } from "@/helper/CONST";
+import { FaUser, FaCartShopping } from "react-icons/fa6";
+import { FiLogOut } from "react-icons/fi";
+import Cart from "./Cart";
 
 
 interface DropdownItem {
@@ -681,8 +691,8 @@ const navbarItems: NavbarItem[] = [
     dropdown: [
       { name: "General Practitioners", href: "/find-doctors?specialty=General%20Physician", icon: "/images/doctor1.svg" },
       { name: "Specialists", href: "/find-doctors?specialty=Specialist", icon: "/images/doctor2.svg" },
-      { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor3.svg" },
-      { name: "Care Plans", href: "/find-doctors#subscription-plans", icon: "/images/careplans.svg" },
+      // { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor3.svg" },
+      // { name: "Care Plans", href: "/find-doctors#subscription-plans", icon: "/images/careplans.svg" },
     ],
   },
 
@@ -692,7 +702,7 @@ const navbarItems: NavbarItem[] = [
     dropdown: [
       { name: "Counselors", href: "/mind-wellness?specialty=Counselor#therapists-section", icon: "/images/doctor4.svg" },
       { name: "Psychologists", href: "/mind-wellness?specialty=Clinical%20Psychologist#therapists-section", icon: "/images/doctor5.svg" },
-      { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor6.svg" },
+      // { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor6.svg" },
     ],
   },
 
@@ -709,22 +719,22 @@ const navbarItems: NavbarItem[] = [
   {
     title: "Care Plans",
     href: "/find-doctors#subscription-plans",
-    dropdown: [
-      { name: "Essential Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/essential.svg" },
-      { name: "Family Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/familyplan.svg" },
-      { name: "Total Health Protection", href: "/find-doctors#subscription-plans", icon: "/images/total.svg" },
-    ],
+    // dropdown: [
+    //   { name: "Essential Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/essential.svg" },
+    //   { name: "Family Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/familyplan.svg" },
+    //   { name: "Total Health Protection", href: "/find-doctors#subscription-plans", icon: "/images/total.svg" },
+    // ],
   },
 
   {
     title: "Wellness Sessions",
     href: "/partnerwithus#wellness-section",
-    dropdown: [
-      { name: "Mind Wellness", href: "/partnerwithus#wellness-section", icon: "/images/mindwellness.svg" },
-      { name: "Nutritional Wellness", href: "/partnerwithus#wellness-section", icon: "/images/nutritionalwellness.svg" },
-      { name: "Physical Wellness", href: "/partnerwithus#wellness-section", icon: "/images/physicalwellness.svg" },
-      { name: "Preventive Care", href: "/partnerwithus#wellness-section", icon: "/images/preventivecare.svg" },
-    ],
+    // dropdown: [
+    //   { name: "Mind Wellness", href: "/partnerwithus#wellness-section", icon: "/images/mindwellness.svg" },
+    //   { name: "Nutritional Wellness", href: "/partnerwithus#wellness-section", icon: "/images/nutritionalwellness.svg" },
+    //   { name: "Physical Wellness", href: "/partnerwithus#wellness-section", icon: "/images/physicalwellness.svg" },
+    //   { name: "Preventive Care", href: "/partnerwithus#wellness-section", icon: "/images/preventivecare.svg" },
+    // ],
   },
 
   {
@@ -733,7 +743,7 @@ const navbarItems: NavbarItem[] = [
     dropdown: [
       { name: "Schedule a Meeting", href: "/partnerwithus#schedule", icon: "/images/schedule.svg" },
       { name: "Our Services", href: "/partnerwithus#services", icon: "/images/services.svg" },
-      { name: "Wellness Sessions", href: "/partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
+      // { name: "Wellness Sessions", href: "/partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
       { name: "Testimonials", href: "/partnerwithus#testimonials", icon: "/images/testimonials.svg" },
     ],
   },
@@ -751,12 +761,12 @@ const navbarItems: NavbarItem[] = [
   {
     title: "Blogs",
     href: "/blog",
-    dropdown: [
-      { name: "Mind Wellness", href: "/blog#recent", icon: "/images/mindwellness.svg" },
-      { name: "Preventive Care", href: "/blog#recent", icon: "/images/preventivecare.svg" },
-      { name: "Everyday Health", href: "/blog#recent", icon: "/images/everyday.svg" },
-      { name: "About Telehealth", href: "/blog#recent", icon: "/images/about.svg" },
-    ],
+    // dropdown: [
+    //   { name: "Mind Wellness", href: "/blog#recent", icon: "/images/mindwellness.svg" },
+    //   { name: "Preventive Care", href: "/blog#recent", icon: "/images/preventivecare.svg" },
+    //   { name: "Everyday Health", href: "/blog#recent", icon: "/images/everyday.svg" },
+    //   { name: "About Telehealth", href: "/blog#recent", icon: "/images/about.svg" },
+    // ],
   },
 
   {
@@ -790,6 +800,18 @@ const Navbar: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [showProfile, setShowProfile] = useState<boolean>(false);
+  const [showCart, setShowCart] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { modalValue, userAuth, drawer } = useSelector(
+    (state: any) => state.loginModalReducer
+  );
+  const { cart, packages } = useSelector((state: any) => state.labCartReducer);
+
+  // Plus Both Value 
+  const totalItemCount = cart.length + packages.length;
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase();
@@ -808,6 +830,35 @@ const Navbar: React.FC = () => {
     setSearchOpen(false);
     window.location.href = href;
   };
+
+  const handleModal = () => {
+    document.body.style.overflow = "hidden";
+    dispatch({ type: "loginModalSlice/open" });
+  };
+
+  const logout = () => {
+    axios
+      .post(BASE_URL + `/auth/signOut`, {
+        access_token: userAuth.AccessToken,
+        type: 1,
+        uuid: userAuth.uuid,
+      })
+      .then((res) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+        router.push("/");
+      })
+      .catch((err) => {
+        dispatch({ type: "loginModalSlice/clearAuth" });
+        localStorage.removeItem("user");
+      });
+  };
+
+  useEffect(() => {
+    const storedValue: any | null = localStorage.getItem("user");
+    const uuid: any | null = storedValue ? JSON.parse(storedValue) : null;
+    dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
+  }, [dispatch]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -932,13 +983,130 @@ const Navbar: React.FC = () => {
                   <path d="M14 14L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </button>
-              <Link href="/login" className={styles.loginLink}>
-                Login
-              </Link>
-              <span className={styles.divider}>/</span>
-              <Link href="/login" className={styles.signupLink}>
-                Signup
-              </Link>
+
+              {!userAuth?.uuid ? (
+                <>
+                  <Button onClick={handleModal}>
+                    Login/Sign Up
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {/* {userAuth.uuid && (
+                    <Button
+                      onClick={() => setShowCart(!showCart)}
+                      className={styles.cartBtn}
+                    >
+                      <FaCartShopping style={{ fontSize: 22 }} />
+                      {totalItemCount >= 1 && (
+                        <span className={styles.cartNumber}>{totalItemCount}</span>
+                      )}
+                    </Button>
+                  )}
+                  {showCart &&
+                    createPortal(<Cart setShowCart={setShowCart} />, document.body)} */}
+
+                  <Button onClick={() => setShowProfile(true)} className={styles.profileBtn}>
+                    {!userAuth.url ? (
+                      <FaUser
+                        style={{
+                          fontSize: 22,
+                          borderRadius: "50px",
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        src={userAuth.url}
+                        alt="user-image"
+                        width={35}
+                        height={35}
+                        style={{ borderRadius: 50, objectFit: 'cover' }}
+                      />
+                    )}
+                  </Button>
+                  {showProfile &&
+                    createPortal(
+                      <div
+                        className={styles.profileModal}
+                        onClick={() => setShowProfile(false)}
+                      >
+                        <ul
+                          className={styles.profileLinks}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {/* <li className="border-bottom">
+                            <div className="d-flex flex-column">
+                              <h4 className="text-capitalize">
+                                {userAuth?.name || 'User'}
+                              </h4>
+                              <p>{userAuth?.phoneNo}</p>
+                            </div>
+                          </li> */}
+                          <li>
+                            <Link href={"/find-doctors"}>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="8.5" cy="7" r="4" />
+                                <path d="m15 11 2 2 4-4" />
+                              </svg>
+                              Doctors
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={"/profile"}>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M12 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+                                <path d="M12 14c-4.42 0-8 2.69-8 6v2h16v-2c0-3.31-3.58-6-8-6z" />
+                              </svg>
+                              Profile
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={"/appointments"}>
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                              </svg>
+                              Appointments
+                            </Link>
+                          </li>
+                          {/* <li>
+                            <Link href={"/orders"}>
+                              Orders
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={"/medicalrecords"}>
+                              Medical Records
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={"/eprescription"}>
+                              Eprescription
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={"/privacy-policy"}>
+                              Privacy Policy
+                            </Link>
+                          </li> */}
+                          <li className="border-top">
+                            <Button
+                              onClick={logout}
+                              className="w-100 text-start"
+                            >
+                              <FiLogOut style={{ fontSize: 16, marginRight: 8 }} />
+                              Logout
+                            </Button>
+                          </li>
+                        </ul>
+                      </div>,
+                      document.body
+                    )}
+                </>
+              )}
 
             </>
           )}
@@ -995,8 +1163,40 @@ const Navbar: React.FC = () => {
               )}
             </li>
           ))}
+
+          {/* Mobile Authentication */}
+          {!userAuth?.uuid ? (
+            <li className="p-2">
+              <Button variant="outlined" onClick={handleModal} className="w-100">
+                Login/Sign Up
+              </Button>
+            </li>
+          ) : (
+            <>
+              <li className="p-2">
+                <Link href={"/profile"} className="w-100 d-flex">
+                  <FaUser style={{ fontSize: 20, marginRight: 8 }} />
+                  Profile
+                </Link>
+              </li>
+              <li className="p-2">
+                <Link href={"/appointments"} className="w-100 d-flex">
+                  Appointments
+                </Link>
+              </li>
+              <li className="p-2">
+                <Button onClick={logout} className="w-100 text-start">
+                  <FiLogOut style={{ fontSize: 20, marginRight: 8 }} />
+                  Logout
+                </Button>
+              </li>
+            </>
+          )}
         </ul>
       )}
+
+      {/* Login Modal */}
+      {modalValue && <Model page="header" />}
     </nav>
   );
 };

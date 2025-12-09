@@ -2,7 +2,7 @@
 "use client";
 import AddressBar from "@/components/AddressBar";
 import Image from "next/image";
-import labIcon from "../../../public/images/labIcon.png"
+import labIcon from "../../../public/images/labIcon.png";
 import { Text14, Text16, Text22, Text24 } from "@/components/Typography";
 import Button from "@/components/Button";
 import { FaFilePrescription } from "react-icons/fa6";
@@ -24,16 +24,29 @@ import Link from "next/link";
 export default function Test() {
     const router = useRouter();
     const { id } = router.query;
+    const [labLogoUrl, setLabLogoUrl] = useState<string>("");
+    const { value: { Labs } } = useSelector((state: any) => state.getLabHomeReducer);
+    
     const getLabName = () => {
-        if (id === 'IDC-Lab') {
-            return 'IDC Lab';
-        } else if (id === 'Chughtai-Lab') {
-            return 'Chughtai Lab';
-        } else {
-            // Handle other cases or return a default value
-            return 'Unknown Lab';
-        }
+        if (!id) return 'Unknown Lab';
+        // Convert URL format (e.g., 'IDC-Lab') to proper name (e.g., 'IDC Lab')
+        const labName = typeof id === "string" ? id.replace(/-/g, ' ') : Array.isArray(id) ? id.join(' ').replace(/-/g, ' ') : 'Unknown Lab';
+        //console.log(` URL ID: "${id}" → Lab Name: "${labName}"`);
+        return labName;
     };
+    
+    // Get lab logo URL from backend data
+    useEffect(() => {
+        const labName = getLabName();
+        const lab = Labs.find((l: any) => l.name === labName);
+        if (lab && lab.url) {
+            //console.log(` Lab: "${labName}", Logo URL from backend: ${lab.url}`);
+            setLabLogoUrl(lab.url);
+        } else {
+            //console.log(` Lab: "${labName}", No logo URL found, using default`);
+            setLabLogoUrl(labIcon.src);
+        }
+    }, [id, Labs]);
     let links = [
         { name: "Home", link: "/" },
         { name: "Lab Tests", link: "/labs" },
@@ -49,7 +62,7 @@ export default function Test() {
 
     const handleSearch = () => {
         setIsLoading(true)
-        const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC Lab' : '');
+        const labSlug = getLabName();
         axios
             .get(BASE_URL + `/lab/patients/labs/test`, {
                 headers: headers(),
@@ -71,7 +84,8 @@ export default function Test() {
         // Check if id is valid and not an empty string
         if (id && id !== '') {
             setLoading(true)
-            const labSlug = id === 'Chughtai-Lab' ? 'Chughtai Lab' : (id === 'IDC-Lab' ? 'IDC Lab' : '');
+            const labSlug = getLabName();
+            //console.log(` Fetching tests for vendor: "${labSlug}"`);
 
             axios
                 .get(BASE_URL + `/lab/patients/labs/test`, {
@@ -81,11 +95,12 @@ export default function Test() {
                     },
                 })
                 .then((res) => {
+                    //console.log(` Tests received from backend for ${labSlug}:`, res.data.response.Items);
                     setTest(res.data.response.Items);
                     setLoading(false)
                 })
                 .catch((error) => {
-                    console.log(error);
+                    //console.error(` Error fetching tests for ${labSlug}:`, error);
                     setLoading(false)
                 });
         }
@@ -173,12 +188,14 @@ export default function Test() {
                     </span>
                     <div className={`${style.labDetail} mt-4 d-flex justify-content-between align-items-start`}>
                         <div className="d-flex col-gap-1 align-items-center">
-                            <Image
-                                src={labIcon}
-                                alt="labIcon"
-                                height={100}
-                                width={100}
-                            />
+                            {labLogoUrl && (
+                                <Image
+                                    src={labLogoUrl}
+                                    alt="labIcon"
+                                    height={100}
+                                    width={100}
+                                />
+                            )}
                             <span>
                                 <Text24>{getLabName()}</Text24>
                                 <Text16>1200+ Tests</Text16>
