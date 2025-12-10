@@ -9,7 +9,7 @@ import TestimonialSection from "./testimonial";
 import FAQSection from "./faq";
 
 const PartnerWithUs: React.FC = () => {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

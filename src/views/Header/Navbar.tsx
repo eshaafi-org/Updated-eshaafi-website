@@ -741,7 +741,7 @@ const navbarItems: NavbarItem[] = [
     title: "Corporate Care",
     href: "/partnerwithus",
     dropdown: [
-      { name: "Schedule a Meeting", href: "/partnerwithus#schedule", icon: "/images/schedule.svg" },
+      { name: "Schedule a Meeting", href: "/partnerwithus", icon: "/images/schedule.svg" },
       { name: "Our Services", href: "/partnerwithus#services", icon: "/images/services.svg" },
       // { name: "Wellness Sessions", href: "/partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
       { name: "Testimonials", href: "/partnerwithus#testimonials", icon: "/images/testimonials.svg" },

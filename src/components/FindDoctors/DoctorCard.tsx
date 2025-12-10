@@ -10,6 +10,7 @@ interface DoctorCardProps {
   rating: number;
   consultationFee: number;
   available: boolean;
+  availableTime?: string;
   image: string;
 }
 
@@ -21,6 +22,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   rating,
   consultationFee,
   available,
+  availableTime,
   image,
 }) => {
   return (
@@ -44,16 +46,18 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
 
       <div className={styles.cardMiddle}>
         <div className={styles.leftSection}>
-          <div className={styles.availabilityStatus}>
-            <span className={styles.availabilityText} style={{ fontFamily: "'Inter', sans-serif" }}>Available Now</span>
-          </div>
-          <div className={styles.consultationType}>
-            <img
-              src="/images/video-icon.svg"
-              // alt="Video Consult"
-              className={styles.consultationIcon}
-            />
-            <span className={styles.consultationLabel} style={{ fontFamily: "'Inter', sans-serif" }}>Video Consultation</span>
+          <div className={`${styles.availabilityStatus} ${!available ? styles.offline : styles.online}`}>
+            {available ? (
+              <span className={styles.availabilityText} style={{ fontFamily: "'Inter', sans-serif" }}>
+                {availableTime?.includes(',') ? availableTime : `Available till ${availableTime}`}
+              </span>
+            ) : (
+              availableTime && (
+                <span className={styles.availabilityText} style={{ fontFamily: "'Inter', sans-serif" }}>
+                  Available at {availableTime}
+                </span>
+              )
+            )}
           </div>
         </div>
         <div className={styles.rightSection}>
