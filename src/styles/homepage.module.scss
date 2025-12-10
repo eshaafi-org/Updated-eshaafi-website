@@ -15,8 +15,9 @@
 /* Hero Section Styles */
 .hero {
   background: linear-gradient(180deg, #001624 10%, #00568A 100%);
-  min-height: 669px;
-  padding: 120px 0 60px;
+  //min-height: 669px;
+    min-height: 90vh;
+  padding: 100px 0 40px;
   position: relative;
   overflow: hidden;
 
@@ -55,7 +56,7 @@
   }
 
   &__title {
-    font-size: 46px;
+    font-size: 44px;
     font-weight: 600;
     color: white;
     margin: 0 0 16px 0;
@@ -63,28 +64,28 @@
     letter-spacing: -1px;
 
     @media (max-width: 1200px) {
-      font-size: 52px;
-    }
-    @media (max-width: 992px) {
       font-size: 48px;
     }
+    @media (max-width: 992px) {
+      font-size: 41px;
+    }
     @media (max-width: 768px) {
-      font-size: 40px;
+      font-size: 38px;
     }
   }
 
   &__subtitle {
-    font-size: 28px;
+    font-size: 24px;
     color: rgba(255, 255, 255, 0.9);
     margin: 0 0 30px 0;
     line-height: 1.5;
     font-weight: 300;
 
     @media (max-width: 1200px) {
-      font-size: 18px;
+      font-size: 15px;
     }
     @media (max-width: 768px) {
-      font-size: 16px;
+      font-size: 14px;
       margin-bottom: 30px;
     }
   }
@@ -119,18 +120,18 @@
 /* Hero Image */
 .heroImage {
   width: 100%;
-  max-width: 500px;
+  max-width: 450px;
   border-radius: 20px;
   object-fit: cover;
 
   @media (max-width: 1200px) {
-    max-width: 420px;
+    max-width: 378px;
   }
   @media (max-width: 992px) {
-    max-width: 360px;
+    max-width: 324px;
   }
   @media (max-width: 768px) {
-    max-width: 300px;
+    max-width: 270px;
   }
 }
 

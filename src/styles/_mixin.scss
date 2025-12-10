@@ -138,3 +138,17 @@
     @content;
   }
 }
+
+// Full viewport height section with proper padding
+@mixin full-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  
+  @include tablet-and-below {
+    min-height: auto;
+    padding: 3rem 1.5rem;
+  }
+}

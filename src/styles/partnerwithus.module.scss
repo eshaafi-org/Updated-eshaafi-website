@@ -10,7 +10,8 @@
   .mainContent {
     position: relative;
     width: 100%;
-    min-height: 110vh;
+    min-height: 100vh;
+    height: 100vh;
     padding-top: 0;
 
     .imageContainer {
@@ -74,15 +75,15 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      margin-top: 30%;
+      margin-top: 0;
       transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 
       h1 {
         color: white;
         font-weight: 700;
         font-size: 3.5rem;
-        line-height: 1;
-        margin-bottom: 1rem;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
         text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.7);
         font-family: "Inter", sans-serif !important;
       }
