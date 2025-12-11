@@ -205,12 +205,35 @@
             margin-top: 0.5rem;
             transition: background 0.3s;
             height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
 
-            &:hover {
+            &:hover:not(:disabled) {
               background: #004570;
               transform: translateY(-1px);
               box-shadow: 0 4px 12px rgba(0, 86, 138, 0.3);
             }
+
+            &:disabled {
+              cursor: not-allowed;
+              opacity: 0.7;
+            }
+
+            .loader {
+              width: 16px;
+              height: 16px;
+              border: 2px solid #ffffff;
+              border-top: 2px solid transparent;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+            }
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
           }
         }
       }

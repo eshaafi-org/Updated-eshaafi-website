@@ -19,16 +19,11 @@ const PartnerWithUs: React.FC = () => {
   const [interestedIn, setInterestedIn] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<'success' | 'error'>('success');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const storedValue: any | null = localStorage.getItem("user");
-    const user = storedValue ? JSON.parse(storedValue) : null;
-    if (!user || !user.IdToken) {
-      setModalType('error');
-      setShowModal(true);
-      return;
-    }
+    setIsLoading(true);
     const data = {
       type: 'growth',
       name,
@@ -48,7 +43,6 @@ const PartnerWithUs: React.FC = () => {
         },
         body: JSON.stringify(data)
       });
-      console.log('Response status:', response.status);
       if (response.ok) {
         setModalType('success');
         setShowModal(true);
@@ -68,6 +62,8 @@ const PartnerWithUs: React.FC = () => {
       console.error('Fetch error:', error);
       setModalType('error');
       setShowModal(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -143,8 +139,19 @@ const PartnerWithUs: React.FC = () => {
                   <option value="all">All Services</option>
                 </select>
                 
-                <button onClick={handleSubmit} className={styles.submitBtn}>
-                  Schedule a Demo
+                <button 
+                  onClick={handleSubmit} 
+                  className={styles.submitBtn}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <span className={styles.loader}></span>
+                      Sending...
+                    </>
+                  ) : (
+                    'Schedule a Demo'
+                  )}
                 </button>
               </div>
             </div>
