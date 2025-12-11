@@ -1,11 +1,14 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from "../../styles/contact.module.scss";
 import Button from "../../components/Button/index";
 
 export default function Contact() {
+    const [showModal, setShowModal] = useState(false);
+    const [modalType, setModalType] = useState('success');
+
     const validationSchema = Yup.object({
         name: Yup.string()
             .min(2, 'Name must be at least 2 characters long')
@@ -20,12 +23,15 @@ export default function Contact() {
 
     const handleSubmit = (values, { setSubmitting, resetForm }) => {
         console.log('Form data:', values);
-        // Simulatte forrm submiission (e.g., send too backend or process here)
-
-        setSubmitting(false);
-
-        // Reset the form after submission
-        resetForm();
+        // Simulate form submission (e.g., send to backend or process here)
+        
+        // Simulate success (you can replace this with actual API call)
+        setTimeout(() => {
+            setModalType('success');
+            setShowModal(true);
+            setSubmitting(false);
+            resetForm();
+        }, 1000);
     };
 
     return (
@@ -69,6 +75,31 @@ export default function Contact() {
                     )}
                 </Formik>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <div className={styles.modalOverlay} onClick={() => setShowModal(false)}>
+                    <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                        <div className={styles.modalIcon}>
+                            {modalType === 'success' ? '✅' : '❌'}
+                        </div>
+                        <h3 className={styles.modalTitle}>
+                            {modalType === 'success' ? 'Thank You!' : 'Oops!'}
+                        </h3>
+                        <p className={styles.modalMessage}>
+                            {modalType === 'success' 
+                                ? 'We have received your message. Our team will get back to you soon!' 
+                                : 'Something went wrong. Please try again later.'}
+                        </p>
+                        <button 
+                            className={styles.modalButton} 
+                            onClick={() => setShowModal(false)}
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

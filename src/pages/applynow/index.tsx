@@ -29,6 +29,8 @@ const ApplyNow: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState<'success' | 'error'>('success');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -114,7 +116,8 @@ const ApplyNow: React.FC = () => {
 
     // If there are validation errors, don't submit
     if (Object.keys(newErrors).length > 0) {
-      setError("Please fix the errors above");
+      setModalType('error');
+      setShowModal(true);
       return;
     }
 
@@ -148,7 +151,8 @@ const ApplyNow: React.FC = () => {
         throw new Error(data.message || "Failed to submit application");
       }
 
-      alert("Application submitted successfully!");
+      setModalType('success');
+      setShowModal(true);
       // Reset form
       setFormData({
         name: "",
@@ -161,7 +165,8 @@ const ApplyNow: React.FC = () => {
       setValidationErrors({});
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An error occurred";
-      setError(errorMessage);
+      setModalType('error');
+      setShowModal(true);
       console.error("Submission error:", err);
     } finally {
       setLoading(false);
@@ -210,6 +215,31 @@ const ApplyNow: React.FC = () => {
           </form>
         </div>
       </section>
+
+      {/* Modal */}
+      {showModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowModal(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalIcon}>
+              {modalType === 'success' ? '✅' : '❌'}
+            </div>
+            <h3 className={styles.modalTitle}>
+              {modalType === 'success' ? 'Thank You!' : 'Oops!'}
+            </h3>
+            <p className={styles.modalMessage}>
+              {modalType === 'success' 
+                ? 'We have received your application. Our team will get back to you soon!' 
+                : 'Something went wrong. Please try again later.'}
+            </p>
+            <button 
+              className={styles.modalButton} 
+              onClick={() => setShowModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

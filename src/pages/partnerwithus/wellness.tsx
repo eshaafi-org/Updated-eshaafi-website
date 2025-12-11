@@ -2,10 +2,80 @@
 import React, { useEffect, useRef, useState } from "react"; // <-- useState yahan import karo
 
 import styles from "../../styles/partnerwithus.module.scss";
+import { headers } from "../../helper/CONST";
 
 const WellnessAreas: React.FC = () => {
   const cardsRef = useRef<HTMLDivElement[]>([]);
   const [showModal, setShowModal] = useState(false); // <-- yahan
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [modalType, setModalType] = useState<'success' | 'error'>('success');
+  const [formData, setFormData] = useState({
+    name: '',
+    organizationName: '',
+    contactNumber: '',
+    email: '',
+    organizationSize: '',
+    interestedIn: ''
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const storedValue: any | null = localStorage.getItem("user");
+    const user = storedValue ? JSON.parse(storedValue) : null;
+    if (!user || !user.IdToken) {
+      setModalType('error');
+      setShowSuccessModal(true);
+      return;
+    }
+
+    const data = {
+      type: 'business',
+      name: formData.name,
+      organization_name: formData.organizationName,
+      contact_number: formData.contactNumber,
+      email: formData.email,
+      organization_size: formData.organizationSize,
+      interested_in: formData.interestedIn,
+      subject: 'New Business Inquiry - Wellness Meeting'
+    };
+
+    try {
+      const response = await fetch('https://f6l7k20y31.execute-api.us-east-1.amazonaws.com/stage/new/patient/emailWebsite/notification', {
+        method: 'POST',
+        headers: {
+          ...headers()
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        setModalType('success');
+        setShowSuccessModal(true);
+        setShowModal(false);
+        setFormData({
+          name: '',
+          organizationName: '',
+          contactNumber: '',
+          email: '',
+          organizationSize: '',
+          interestedIn: ''
+        });
+      } else {
+        setModalType('error');
+        setShowSuccessModal(true);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+      setModalType('error');
+      setShowSuccessModal(true);
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -98,34 +168,98 @@ const WellnessAreas: React.FC = () => {
         >
           <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
             <h3>Schedule a Meeting</h3>
+            <form onSubmit={handleSubmit}>
+              <input 
+                type="text" 
+                name="name"
+                placeholder="Name" 
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+              />
+              <input 
+                type="text" 
+                name="organizationName"
+                placeholder="Organization Name" 
+                value={formData.organizationName}
+                onChange={handleInputChange}
+                required
+              />
+              <input 
+                type="text" 
+                name="contactNumber"
+                placeholder="Contact Number" 
+                value={formData.contactNumber}
+                onChange={handleInputChange}
+                required
+              />
+              <input 
+                type="email" 
+                name="email"
+                placeholder="Official Email ID" 
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+              />
+              <div className={styles.formGroup}>
+                <select 
+                  name="organizationSize"
+                  value={formData.organizationSize}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Organization Size</option>
+                  <option value="1-20">1 - 20 Employees</option>
+                  <option value="21-50">21 - 50 Employees</option>
+                  <option value="51-100">51 - 100 Employees</option>
+                  <option value="100+">100+ Employees</option>
+                </select>
+              </div>
 
-            <input type="text" placeholder="Name" />
-            <input type="text" placeholder="Organization Name" />
-            <input type="text" placeholder="Contact Number" />
-            <input type="email" placeholder="Official Email ID" />
-            <div className={styles.formGroup}>
-              <select>
-                <option value="">Organization Size</option>
-                <option value="1-20">1 - 20 Employees</option>
-                <option value="21-50">21 - 50 Employees</option>
-                <option value="51-100">51 - 100 Employees</option>
-                <option value="100+">100+ Employees</option>
-              </select>
+              <div className={styles.formGroup}>
+                <select 
+                  name="interestedIn"
+                  value={formData.interestedIn}
+                  onChange={handleInputChange}
+                  required
+                >
+                  <option value="">Interested In</option>
+                  <option value="corporate wellness">Corporate Wellness</option>
+                  <option value="mental wellbeing">Mental Wellbeing</option>
+                  <option value="medical support">Medical Support</option>
+                  <option value="complete health program">
+                    Complete Health Program
+                  </option>
+                </select>
+              </div>
+
+              <button type="submit" className={styles.submitBtn}>Schedule a meeting</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Success/Error Modal */}
+      {showSuccessModal && (
+        <div className={styles.modalOverlay} onClick={() => setShowSuccessModal(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalIcon}>
+              {modalType === 'success' ? '✅' : '❌'}
             </div>
-
-            <div className={styles.formGroup}>
-              <select>
-                <option value="">Interested In</option>
-                <option value="corporate wellness">Corporate Wellness</option>
-                <option value="mental wellbeing">Mental Wellbeing</option>
-                <option value="medical support">Medical Support</option>
-                <option value="complete health program">
-                  Complete Health Program
-                </option>
-              </select>
-            </div>
-
-            <button className={styles.submitBtn}>Schedule a meeting</button>
+            <h3 className={styles.modalTitle}>
+              {modalType === 'success' ? 'Thank You!' : 'Oops!'}
+            </h3>
+            <p className={styles.modalMessage}>
+              {modalType === 'success' 
+                ? 'We have received your meeting request. Our team will get back to you soon!' 
+                : 'Something went wrong. Please try again later.'}
+            </p>
+            <button 
+              className={styles.modalButton} 
+              onClick={() => setShowSuccessModal(false)}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
