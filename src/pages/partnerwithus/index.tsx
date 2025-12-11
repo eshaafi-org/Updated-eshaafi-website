@@ -30,7 +30,7 @@ const PartnerWithUs: React.FC = () => {
       return;
     }
     const data = {
-      type: 'growth',
+      type: 'career',
       name,
       organization_name: orgName,
       contact_number: contact,
@@ -44,7 +44,7 @@ const PartnerWithUs: React.FC = () => {
       const response = await fetch('https://f6l7k20y31.execute-api.us-east-1.amazonaws.com/stage/new/patient/emailWebsite/notification', {
         method: 'POST',
         headers: {
-          ...headers()
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
       });
