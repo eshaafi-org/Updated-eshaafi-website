@@ -30,7 +30,7 @@ const PartnerWithUs: React.FC = () => {
       return;
     }
     const data = {
-      type: 'career',
+      type: 'growth',
       name,
       organization_name: orgName,
       contact_number: contact,
