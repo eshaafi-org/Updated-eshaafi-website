@@ -32,7 +32,7 @@ const ServicesGridSection: React.FC = () => {
     },
     { 
       id: 3,
-      title: 'Care Plans',
+      title: 'Subscription Plans',
       description: 'Personalized for you and your family’s complete health.',
       imageSrc: '/images/careplans.png',
       exploreLink: '/find-doctors#subscription-plans',
