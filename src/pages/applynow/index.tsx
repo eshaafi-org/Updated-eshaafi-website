@@ -127,47 +127,100 @@ const ApplyNow: React.FC = () => {
     try {
       console.log("Submitting form data:", formData);
       
-      const response = await fetch("/api/submit-application", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          position: formData.position,
-          email: formData.email,
-          phone: formData.phone,
-          type: APPLICATION_TYPE,
-          fileName: formData.file?.name || "No file chosen",
-        }),
+      // OLD API ENDPOINT - Commented out instead of removed
+      // const response = await fetch("/api/submit-application", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     name: formData.name,
+      //     position: formData.position,
+      //     email: formData.email,
+      //     phone: formData.phone,
+      //     type: APPLICATION_TYPE,
+      //     fileName: formData.file?.name || "No file chosen",
+      //   }),
+      // });
+
+      // Create FormData for multipart/form-data submission
+      const formDataToSend = new FormData();
+      formDataToSend.append('type', APPLICATION_TYPE);
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('position', formData.position);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phone', formData.phone);
+      formDataToSend.append('subject', 'Career Application Submission');
+      
+      // Add file if it exists
+      if (formData.file) {
+        console.log('File to upload:', formData.file.name, 'Size:', formData.file.size, 'Type:', formData.file.type);
+        
+        // Check if file has content
+        if (formData.file.size === 0) {
+          console.error('File is empty!');
+          setModalType('error');
+          setShowModal(true);
+          return;
+        }
+        
+        // Read file as ArrayBuffer to ensure content is preserved
+        const fileBuffer = await formData.file.arrayBuffer();
+        const fileBlob = new Blob([fileBuffer], { type: formData.file.type });
+        formDataToSend.append('resume', fileBlob, formData.file.name);
+        
+        //console.log('File content read and appended to FormData, size:', fileBuffer.byteLength);
+      } else {
+        //console.log('No file selected');
+      }
+
+      const response = await fetch('https://f6l7k20y31.execute-api.us-east-1.amazonaws.com/stage/new/patient/emailWebsite/notification', {
+        method: 'POST',
+        body: formDataToSend,
+        // Remove Content-Type header to let browser set it for multipart/form-data
       });
 
       console.log("Response status:", response.status);
       
+      if (response.ok) {
+        setModalType('success');
+        setShowModal(true);
+        // Reset form
+        setFormData({
+          name: "",
+          position: "",
+          email: "",
+          phone: "",
+          file: null,
+        });
+        setFileName("No file chosen");
+        setValidationErrors({});
+      } else {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        setModalType('error');
+        setShowModal(true);
+      }
+
+      /*
+      // OLD CODE 
       const data = await response.json();
       console.log("Response data:", data);
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to submit application");
       }
+      */
 
-      setModalType('success');
-      setShowModal(true);
-      // Reset form
-      setFormData({
-        name: "",
-        position: "",
-        email: "",
-        phone: "",
-        file: null,
-      });
-      setFileName("No file chosen");
-      setValidationErrors({});
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "An error occurred";
+      // OLD ERROR HANDLING 
+      // const errorMessage = err instanceof Error ? err.message : "An error occurred";
+      // setModalType('error');
+      // setShowModal(true);
+      // console.error("Submission error:", err);
+      console.error("Submission error:", err);
       setModalType('error');
       setShowModal(true);
-      console.error("Submission error:", err);
     } finally {
       setLoading(false);
     }
