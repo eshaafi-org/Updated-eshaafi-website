@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react"; // <-- useState yahan import karo
 
 import styles from "../../styles/partnerwithus.module.scss";
-import { headers } from "../../helper/CONST";
+// import { headers } from "../../helper/CONST";
 
 const WellnessAreas: React.FC = () => {
   const cardsRef = useRef<HTMLDivElement[]>([]);
@@ -26,16 +26,16 @@ const WellnessAreas: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const storedValue: any | null = localStorage.getItem("user");
-    const user = storedValue ? JSON.parse(storedValue) : null;
-    if (!user || !user.IdToken) {
-      setModalType('error');
-      setShowSuccessModal(true);
-      return;
-    }
+    // const storedValue: any | null = localStorage.getItem("user");
+    // const user = storedValue ? JSON.parse(storedValue) : null;
+    // if (!user || !user.IdToken) {
+    //   setModalType('error');
+    //   setShowSuccessModal(true);
+    //   return;
+    // }
 
     const data = {
-      type: 'business',
+      type: 'growth',
       name: formData.name,
       organization_name: formData.organizationName,
       contact_number: formData.contactNumber,
@@ -48,9 +48,9 @@ const WellnessAreas: React.FC = () => {
     try {
       const response = await fetch('https://f6l7k20y31.execute-api.us-east-1.amazonaws.com/stage/new/patient/emailWebsite/notification', {
         method: 'POST',
-        headers: {
-          ...headers()
-        },
+        // headers: {
+        //   ...headers()
+        // },
         body: JSON.stringify(data)
       });
 
@@ -239,20 +239,25 @@ const WellnessAreas: React.FC = () => {
         </div>
       )}
 
-      {/* Success/Error Modal */}
+     
       {showSuccessModal && (
         <div className={styles.modalOverlay} onClick={() => setShowSuccessModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <div className={styles.modalIcon}>
+            {/* <div className={styles.modalIcon}>
               {modalType === 'success' ? '✅' : '❌'}
-            </div>
+            </div> */}
             <h3 className={styles.modalTitle}>
-              {modalType === 'success' ? 'Thank You!' : 'Oops!'}
+                {modalType === 'success' ? (
+                                    <img src="/images/success.png" alt="Success" className={styles.successImage} />
+                                  ) : (
+                                    <img src="/images/failure.png" alt="Failure" className={styles.successImage} />
+                                    
+                                  )}
             </h3>
             <p className={styles.modalMessage}>
               {modalType === 'success' 
-                ? 'We have received your meeting request. Our team will get back to you soon!' 
-                : 'Something went wrong. Please try again later.'}
+               ? 'Your submission has been received. Our team will connect with you soon.' 
+               : 'Unable to submit your request. Please try again or contact support if the issue persists.'}
             </p>
             <button 
               className={styles.modalButton} 

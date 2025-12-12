@@ -7,7 +7,7 @@ import WellnessAreas from "./wellness";
 import WhyPartnerSection from "./partnersection";
 import TestimonialSection from "./testimonial";
 import FAQSection from "./faq";
-import { headers } from "../../helper/CONST";
+// import { headers } from "../../helper/CONST";
 
 const PartnerWithUs: React.FC = () => {
   const [showForm, setShowForm] = useState(true);
@@ -211,7 +211,7 @@ const PartnerWithUs: React.FC = () => {
                   <button 
                     onClick={handleSubmit} 
                     className={styles.submitBtn}
-                    disabled={isLoading}
+                    disabled={isLoading || isFlipping}
                   >
                     {isLoading ? (
                       <>

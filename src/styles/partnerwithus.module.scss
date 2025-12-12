@@ -2045,6 +2045,41 @@
   animation: slideUp 0.3s ease-out;
   font-family: "Inter", sans-serif;
 
+  /* Ensure flip-card inside modal behaves same as page formCard */
+  .formCard {
+    background: white;
+    border-radius: 1.25rem;
+    width: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+    min-height: 360px;
+    overflow: hidden;
+
+    &.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .cardSide {
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+
+      &.cardBack {
+        transform: rotateY(180deg);
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+    }
+  }
+
   h3 {
     font-size: 1.5rem;
     font-weight: 700;
@@ -2099,6 +2134,27 @@
       background: #004570;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 86, 138, 0.3);
+    }
+  }
+
+  /* Mobile / small screens: make modal occupy full viewport so full form is visible */
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0.75rem 0.75rem 0 0;
+    padding: 1rem 0.75rem;
+    overflow-y: auto;
+
+    .formCard {
+      min-height: auto;
+      border-radius: 0.5rem;
+      padding: 0;
+
+      .cardSide {
+        padding: 0.75rem 1rem;
+      }
     }
   }
 }
