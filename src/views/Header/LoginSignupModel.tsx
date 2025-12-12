@@ -279,12 +279,23 @@ export const Model = ({ page = "login" }: { page: string }) => {
                   initialValues={{ phone_no: phoneNum }}
                   validationSchema={Yup.object({
                     phone_no: Yup.string()
-                      .max(10, "Phone number must be 10 digits")
-                      .matches(
-                        /^(3|[3][0-5])[0-9]*$/,
-                        "Invalid phone number format"
+                      .required("Phone number is required*")
+                      .test(
+                        "valid-phone",
+                        "Phone number must be valid",
+                        value => {
+                          if (!value) return false; // Required field, not checking for empty values.
+                          const firstChar = value.charAt(0);
+                          if (firstChar === '0') {
+                            // If it starts with '0', should be 11 digits.
+                            return value.length === 11 && /^(0[0-9]*)$/.test(value);
+                          } else if (firstChar === '3') {
+                            // If it starts with '3', should be 10 digits.
+                            return value.length === 10 && /^(3[0-5][0-9]*)$/.test(value);
+                          }
+                          return false; // If neither, fail the validation.
+                        }
                       )
-                      .required("Phone number is required*"),
                   })}
                   onSubmit={getOtp}
                 > */}

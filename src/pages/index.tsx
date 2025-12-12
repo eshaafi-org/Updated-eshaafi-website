@@ -15,9 +15,9 @@ import Imagesection from "@/views/Home/Imagesection";
 import Medicalcare from "@/views/Home/Medicalcare";
 import GetApp from "@/views/Home/GetApp";
 import { BASE_URL } from "@/helper/CONST";
-import heroImage from "../../public/heroImage.svg";
-import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import heroImage from "../../public/heroImage.png";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 
 
@@ -70,7 +70,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Eshaafi | Care That Never Quits</title>
+        <title>eShaafi | Care That Never Quits</title>
         <meta name="description" content="Meet one on one with your doctor" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="icon" href={"/favicon.ico"} />

@@ -5,13 +5,13 @@ import aboutWorking3 from "../../../public/images/aboutWorking3.png";
 import Image from "next/image";
 const steps = [
   {
-    icon: aboutWorking1,
+    icon: aboutWorking2,
     heading: "Create an account",
     text: `Sign up for free & access
 all features on our app`,
   },
   {
-    icon: aboutWorking2,
+    icon: aboutWorking1,
     heading: "Book Appointment",
     text: `Search doctors and book appointment instantly`,
   },

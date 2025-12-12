@@ -64,6 +64,32 @@ export default function DoctorList({ list }: any) {
             <input type="radio" name="radioEx" />
             <span id="radioOneLabel" style={{ fontFamily: "Inter, sans-serif", fontWeight: 500 }}>General Physician</span>
           </div>
+          <div
+            className="chip chip-checkbox"
+            aria-labelledby="radioOneLabel"
+            tabIndex={0}
+            role="radio"
+            aria-checked={
+              filters.search === "Skin Specialist" ? "true" : "false"
+            }
+            onClick={() => setFilters({ search: "Skin Specialist" })}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="radioOneLabel">Skin Specialist</span>
+          </div>
+          {/* <div
+            className="chip chip-checkbox"
+            aria-labelledby="radioOneLabel"
+            tabIndex={0}
+            role="radio"
+            aria-checked={
+              filters.search === "Child Specialist" ? "true" : "false"
+            }
+            onClick={() => setFilters({ search: "Child Specialist" })}
+          >
+            <input type="radio" name="radioEx" />
+            <span id="radioOneLabel">Child Specialist</span>
+          </div> */}
         </div>
       </div>
       <div className="d-flex col-gap-1 align-items-star mt-5 sm-mt-1">

@@ -30,8 +30,8 @@ export default function Test() {
     const getLabName = () => {
         if (!id) return 'Unknown Lab';
         // Convert URL format (e.g., 'IDC-Lab') to proper name (e.g., 'IDC Lab')
-        const labName = id.replace(/-/g, ' ');
-        console.log(`🔗 URL ID: "${id}" → Lab Name: "${labName}"`);
+        const labName = typeof id === "string" ? id.replace(/-/g, ' ') : Array.isArray(id) ? id.join(' ').replace(/-/g, ' ') : 'Unknown Lab';
+        //console.log(` URL ID: "${id}" → Lab Name: "${labName}"`);
         return labName;
     };
     
@@ -40,10 +40,10 @@ export default function Test() {
         const labName = getLabName();
         const lab = Labs.find((l: any) => l.name === labName);
         if (lab && lab.url) {
-            console.log(`🖼️ Lab: "${labName}", Logo URL from backend: ${lab.url}`);
+            //console.log(` Lab: "${labName}", Logo URL from backend: ${lab.url}`);
             setLabLogoUrl(lab.url);
         } else {
-            console.log(`⚠️ Lab: "${labName}", No logo URL found, using default`);
+            //console.log(` Lab: "${labName}", No logo URL found, using default`);
             setLabLogoUrl(labIcon.src);
         }
     }, [id, Labs]);
@@ -85,7 +85,7 @@ export default function Test() {
         if (id && id !== '') {
             setLoading(true)
             const labSlug = getLabName();
-            console.log(`📡 Fetching tests for vendor: "${labSlug}"`);
+            //console.log(` Fetching tests for vendor: "${labSlug}"`);
 
             axios
                 .get(BASE_URL + `/lab/patients/labs/test`, {
@@ -95,12 +95,12 @@ export default function Test() {
                     },
                 })
                 .then((res) => {
-                    console.log(`✅ Tests received from backend for ${labSlug}:`, res.data.response.Items);
+                    //console.log(` Tests received from backend for ${labSlug}:`, res.data.response.Items);
                     setTest(res.data.response.Items);
                     setLoading(false)
                 })
                 .catch((error) => {
-                    console.error(`❌ Error fetching tests for ${labSlug}:`, error);
+                    //console.error(` Error fetching tests for ${labSlug}:`, error);
                     setLoading(false)
                 });
         }
