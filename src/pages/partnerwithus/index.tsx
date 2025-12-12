@@ -68,25 +68,31 @@ const PartnerWithUs: React.FC = () => {
         body: JSON.stringify(data)
       });
       if (response.ok) {
-        setFlipType('success');
         setIsFlipped(true);
-        setName('');
-        setOrgName('');
-        setContact('');
-        setEmail('');
-        setOrgSize('');
-        setInterestedIn('');
-        setErrors({});
+        setTimeout(() => {
+          setFlipType('success');
+          setName('');
+          setOrgName('');
+          setContact('');
+          setEmail('');
+          setOrgSize('');
+          setInterestedIn('');
+          setErrors({});
+        }, 650);
       } else {
         const errorText = await response.text();
         console.error('Error response:', errorText);
-        setFlipType('error');
         setIsFlipped(true);
+        setTimeout(() => {
+          setFlipType('error');
+        }, 650);
       }
     } catch (error) {
       console.error('Fetch error:', error);
-      setFlipType('error');
       setIsFlipped(true);
+      setTimeout(() => {
+        setFlipType('error');
+      }, 650);
     } finally {
       setIsLoading(false);
     }
@@ -100,12 +106,12 @@ const PartnerWithUs: React.FC = () => {
     // Prevent multiple clicks during animation
     if (!isFlipped || isFlipping) return;
     
+    setFlipType(null);
     setIsFlipping(true);
     setIsFlipped(false);
     
     // Clear flipType after animation completes to prevent content flicker
     setTimeout(() => {
-      setFlipType(null);
       setIsFlipping(false);
     }, 650);
   };
@@ -231,27 +237,30 @@ const PartnerWithUs: React.FC = () => {
                   <div className={styles.resultIcon}>
                     {flipType === 'success' ? (
                       <img src="/images/success.png" alt="Success" className={styles.successImage} />
-                    ) : (
+                    ) : flipType === 'error' ? (
                       <img src="/images/failure.png" alt="Failure" className={styles.successImage} />
-                      
-                    )}
+                    ) : null}
                   </div>
                   <h3 className={styles.resultTitle}>
-                    {flipType === 'success' ? 'Thank You!' : 'Oops!'}
+                    {flipType === 'success' ? 'Thank You!' : flipType === 'error' ? 'Oops!' : ''}
                   </h3>
                   <p className={styles.resultMessage}>
                     {flipType === 'success' 
                       ? 'Your submission has been received. Our team will connect with you soon.' 
-                      : 'Unable to submit your request. Please try again or contact support if the issue persists.'}
+                      : flipType === 'error'
+                      ? 'Unable to submit your request. Please try again or contact support if the issue persists.'
+                      : ''}
                   </p>
-                  <button 
-                    type="button"
-                    className={styles.backBtn} 
-                    onClick={handleFlipBack}
-                    disabled={!isFlipped || isFlipping}
-                  >
-                    Back to Form
-                  </button>
+                  {flipType && (
+                    <button 
+                      type="button"
+                      className={styles.backBtn} 
+                      onClick={handleFlipBack}
+                      disabled={!isFlipped || isFlipping}
+                    >
+                      Back to Form
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
