@@ -49,7 +49,7 @@ const PartnerWithUs: React.FC = () => {
     setIsLoading(true);
     
     const data = {
-      type: 'growth',
+      type: 'business',
       name,
       organization_name: orgName,
       contact_number: contact,

@@ -35,7 +35,7 @@ const WellnessAreas: React.FC = () => {
     // }
 
     const data = {
-      type: 'growth',
+      type: 'business',
       name: formData.name,
       organization_name: formData.organizationName,
       contact_number: formData.contactNumber,
