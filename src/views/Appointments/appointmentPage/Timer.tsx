@@ -124,7 +124,8 @@ export default function Timer({ appointment }: any) {
       // FALLBACK: Try to get call data from sessionStorage
       const storedCallData = sessionStorage.getItem('incomingCallData');
       console.log('[Timer] SessionStorage incomingCallData:', storedCallData);
-      
+      let foundCallData = false;
+
       if (storedCallData) {
         try {
           const parsedCallData = JSON.parse(storedCallData);
@@ -144,15 +145,44 @@ export default function Timer({ appointment }: any) {
           
           // Clear the stored data
           sessionStorage.removeItem('incomingCallData');
+          foundCallData = true;
         } catch (error) {
           console.error('[Timer] Error parsing stored call data:', error);
         }
       } else {
         console.warn('[Timer] No call data found in sessionStorage!');
       }
-      
-      if (!shouldAutoJoin) {
+
+      // If no call data was found but autoJoin is requested, try to request token from backend
+      if (!foundCallData && shouldAutoJoin) {
+        console.log('[Timer] No call data, but autoJoin requested - attempting to accept call (will request token from backend)');
+        // attempt to accept call which will request token from backend
+        acceptCall();
+      }
+
+      // If no call data and not autoJoining, show the incoming snackbar so user can accept manually
+      if (!foundCallData && !shouldAutoJoin) {
         setIncomingCall(true);
+        // show snackbar with accept/reject so mobile users see it even without callData
+        enqueueSnackbar(
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{appointment?.doctorName || 'Doctor'}</div>
+            </div>
+          </div>,
+          {
+            variant: 'default',
+            persist: true,
+            anchorOrigin: { horizontal: 'right', vertical: 'top' },
+            action: (key) => (
+              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                <button onClick={() => { closeSnackbar(key); acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
+                <button onClick={() => { closeSnackbar(key); rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
+              </div>
+            )
+          }
+        );
       }
       
       // Remove the incoming parameter from URL without reloading

@@ -137,10 +137,11 @@ self.addEventListener('notificationclick', (event) => {
     return; // Don't open window without appointmentId
   }
   
-  // Always use appointments page URL
-  const url = `/appointments/${appointmentId}?incoming=1&autoJoin=1`;
-  
-  console.log('[ServiceWorker]  Will open URL:', url);
+  // Always use appointments page URL (use absolute URL to improve compatibility on mobile)
+  const relativeUrl = `/appointments/${appointmentId}?incoming=1&autoJoin=1`;
+  const absoluteUrl = `${self.location.origin}${relativeUrl}`;
+
+  console.log('[ServiceWorker]  Will open URL (absolute):', absoluteUrl);
   console.log('[ServiceWorker] ===============================================================');
   
   if (event.action === 'accept' || !event.action) {
@@ -182,9 +183,9 @@ self.addEventListener('notificationclick', (event) => {
             // Store in indexedDB-like structure that persists
             // We'll use a hack: encode data in URL fragment that won't cause navigation
             const encodedData = encodeURIComponent(JSON.stringify(callData));
-            const urlWithData = `${url}#calldata=${encodedData}`;
+            const urlWithData = `${absoluteUrl}#calldata=${encodedData}`;
             
-            console.log('[ServiceWorker] Opening URL with embedded data');
+            console.log('[ServiceWorker] Opening absolute URL with embedded data');
             
             return clients.openWindow(urlWithData).then((client) => {
               if (client) {
@@ -253,7 +254,7 @@ self.addEventListener('notificationclick', (event) => {
             };
             
             const encodedData = encodeURIComponent(JSON.stringify(callData));
-            const urlWithData = `${url}#calldata=${encodedData}`;
+            const urlWithData = `${absoluteUrl}#calldata=${encodedData}`;
             
             return clients.openWindow(urlWithData).then((client) => {
               if (client) {
