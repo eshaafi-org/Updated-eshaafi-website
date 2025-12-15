@@ -110,7 +110,7 @@ export default function BookAppointmentPage({
       router.push('/payment-success');
     }
   };
-  const handleModalOpen = () => setShowModal(true);
+  //const handleModalOpen = () => setShowModal(true);
   const [activeSlot, setSlot] = useState({
     time: "",
     id: "",
