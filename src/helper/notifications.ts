@@ -5,7 +5,8 @@
  */
 //@ts-nocheck
 import { BASE_URL, headers } from './CONST';
-import { requestNotificationPermission as getFCMTokenFromFirebase } from '../config/firebase';
+import { requestNotificationPermission as getFCMTokenFromFirebase, onForegroundMessage } from '../config/firebase';
+import { toast } from 'react-toastify';
 
 /**
  * Request notification permission from browser
@@ -133,7 +134,6 @@ export const initializeFirebaseMessaging = async (
 
 
 
-
 export const getFCMToken = (): string | null => {
   return localStorage.getItem('fcm_token');
 };
@@ -207,6 +207,18 @@ export const subscribeToAppointmentNotifications = async (
 
 export const initializeDeviceToken = initializeFirebaseMessaging;
 
+// Listen for foreground FCM messages and show toast (only once)
+let _fcmToastListenerSet = false;
+if (typeof window !== 'undefined' && !_fcmToastListenerSet) {
+  _fcmToastListenerSet = true;
+  onForegroundMessage((payload) => {
+    if (payload?.notification?.body) {
+      toast(payload.notification.body, { type: 'info' });
+    } else {
+      toast('You have a new notification!', { type: 'info' });
+    }
+  });
+}
 
 export default {
   requestNotificationPermission,

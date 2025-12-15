@@ -45,19 +45,14 @@ messaging.onBackgroundMessage((payload) => {
 // Handle notification click
 self.addEventListener('notificationclick', (event) => {
   console.log('[firebase-messaging-sw.js] Notification click received.', event);
-
   event.notification.close();
 
-  // Handle the action
-  if (event.action === 'view') {
-    // Open the app
+  // Only use appointmentId from notification.data, no fallback
+  const appointmentId = event.notification?.data?.appointmentId;
+  if (appointmentId) {
+    const url = `/appointments/${appointmentId}`;
     event.waitUntil(
-      clients.openWindow('/')
-    );
-  } else {
-    // Default action: open the app
-    event.waitUntil(
-      clients.openWindow('/')
+      clients.openWindow(url)
     );
   }
 });

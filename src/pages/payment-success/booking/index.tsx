@@ -9,6 +9,7 @@ import moment from "moment";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft } from "react-icons/fa";
+import LottieLoading from '@/components/paymentLoading/paymentLoading';
 
 const Index = () => {
   const [success, setSuccess] = useState(false);
@@ -55,7 +56,7 @@ const Index = () => {
   }, []);
 
   if (loading) {
-    return <div>Processing payment...</div>;
+    return <LottieLoading />;
   }
 
   if (!success) {
