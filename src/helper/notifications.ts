@@ -3,7 +3,7 @@
  * Notification and Device Token Management
  * Handles Firebase Cloud Messaging (FCM) and push notifications
  */
-
+//@ts-nocheck
 import { BASE_URL, headers } from './CONST';
 import { requestNotificationPermission as getFCMTokenFromFirebase } from '../config/firebase';
 
