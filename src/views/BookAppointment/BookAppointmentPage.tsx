@@ -49,10 +49,10 @@ export default function BookAppointmentPage({
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [paymentUrl, setPaymentUrl] = useState('');
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => {
     console.log('Modal close button clicked - assuming payment success');
-    setShowModal(false); //COMMENT IT FOR PRODUCTION DEV
+    // setShowModal(false); //COMMENT IT FOR PRODUCTION DEV
 
     // Complete the booking process
     const appointmentData = localStorage.getItem('appointmentData');
@@ -369,9 +369,11 @@ export default function BookAppointmentPage({
     const appointmentId = response.appointmentId; // From /patients/doctors/checkAppointment
     const slotId = activeSlot.id; // From /patients/doctor/appointmentSlots (activeSlot.id)
     const baseURL = "https://beta-pay.eshaafi.com";
-    const url = `${baseURL}/?appointment_id=${appointmentId}&slot_id=${slotId}`;
+    const successUrl = `${window.location.origin}/payment-success/booking`; // App's success page
+    const failureUrl = `${window.location.origin}/payment/failure`; // App's failure page
+    const url = `${baseURL}/?appointment_id=${appointmentId}&slot_id=${slotId}&success_url=${encodeURIComponent(successUrl)}&failure_url=${encodeURIComponent(failureUrl)}`;
     setPaymentUrl(url);
-    setShowModal(true); //COMMENT IT FOR PRODUCTION DEV
+    // setShowModal(true); //COMMENT IT FOR PRODUCTION DEV
     const appointmentData = {
       appointmentId: appointmentId,
       patientName: patient.patientName,
@@ -387,11 +389,11 @@ export default function BookAppointmentPage({
   //---UNCOMMENT THIS IN PRODUCTION---//
 
   // Redirect to payment URL once it's set
-  // useEffect(() => {
-  //   if (paymentUrl) {
-  //     window.location.href = paymentUrl;
-  //   }
-  // }, [paymentUrl]);
+  useEffect(() => {
+    if (paymentUrl) {
+      window.location.href = paymentUrl;
+    }
+  }, [paymentUrl]);
 
   // handle reschedule of appointment
   const handleRescheduleAppointment = () => {
@@ -572,7 +574,7 @@ export default function BookAppointmentPage({
         </div>
       )}
       <ToastContainer />
-      <Modal show={showModal} onHide={handleModalClose}>
+      {/* <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>Payment Gateway</Modal.Title>
         </Modal.Header>
@@ -585,7 +587,7 @@ export default function BookAppointmentPage({
             title="Payment Gateway"
           />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
     </section>
   );
 }

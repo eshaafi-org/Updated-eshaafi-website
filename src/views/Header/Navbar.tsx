@@ -670,6 +670,7 @@ import { BASE_URL } from "@/helper/CONST";
 import { FaUser, FaCartShopping } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import Cart from "./Cart";
+import { unregisterDeviceToken } from "@/helper/notifications";
 
 
 interface DropdownItem {
@@ -741,7 +742,7 @@ const navbarItems: NavbarItem[] = [
     title: "Corporate Care",
     href: "/partnerwithus",
     dropdown: [
-      { name: "Schedule a Meeting", href: "/partnerwithus", icon: "/images/schedule.svg" },
+      { name: "Schedule a Meeting", href: "/partnerwithus#schedule", icon: "/images/schedule.svg" },
       { name: "Our Services", href: "/partnerwithus#services", icon: "/images/services.svg" },
       // { name: "Wellness Sessions", href: "/partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
       { name: "Testimonials", href: "/partnerwithus#testimonials", icon: "/images/testimonials.svg" },
@@ -837,6 +838,15 @@ const Navbar: React.FC = () => {
   };
 
   const logout = () => {
+    // Unregister device token before logout
+    const user = localStorage.getItem("user");
+    if (user) {
+      const userData = JSON.parse(user);
+      if (userData.userId) {
+        unregisterDeviceToken(userData.userId).catch(console.error);
+      }
+    }
+
     axios
       .post(BASE_URL + `/auth/signOut`, {
         access_token: userAuth.AccessToken,
