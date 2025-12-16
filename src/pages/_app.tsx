@@ -12,6 +12,7 @@ import { initializeDeviceToken } from "@/helper/notifications";
 import { SnackbarProvider, enqueueSnackbar, closeSnackbar } from 'notistack';
 // import { Urbanist } from 'next/font/google';
 import Finalfooter from "@/views/Footer/Finalfooter";
+import GlobalIncomingHandler from '@/components/Notifications/GlobalIncomingHandler';
 
 
 
@@ -117,11 +118,43 @@ export default function App({ Component, pageProps }: AppProps) {
     window.addEventListener('incoming_call', handleGlobalIncomingCall as EventListener);
 
     // Listen for service worker messages
-    const handleServiceWorkerMessage = (event: MessageEvent) => {
-      if (event.data?.type === 'incoming_call') {
-        console.log('[App] Service worker incoming call message:', event.data);
-        // Dispatch as custom event so handleGlobalIncomingCall catches it
-        window.dispatchEvent(new CustomEvent('incoming_call', { detail: event.data }));
+    const handleServiceWorkerMessage = async (event: MessageEvent) => {
+      const data = event.data;
+      if (!data || !data.type) return;
+
+      // Treat incoming_call, accept_call and reject_call similarly at app-level
+      if (data.type === 'incoming_call' || data.type === 'accept_call' || data.type === 'reject_call') {
+        //console.log('[App] Service worker message received:', data);
+
+        // Ensure appointmentId exists
+        const appointmentId = data.appointmentId || data.channelName;
+        if (!appointmentId) {
+          //console.error('[App] No appointmentId in service worker message, ignoring');
+          return;
+        }
+
+        // Persist call data so the appointment page can pick it up
+        try {
+          sessionStorage.setItem('incomingCallData', JSON.stringify(data));
+        } catch (err) {
+          console.warn('[App] Failed to write incomingCallData to sessionStorage', err);
+        }
+
+        // If we're not already on the appointment page for this appointment, navigate there
+        const isOnAppointmentPage = typeof window !== 'undefined' && window.location.pathname.includes(`/appointments/${appointmentId}`);
+        const autoJoin = data.type === 'accept_call' ? '1' : '0';
+
+        if (!isOnAppointmentPage) {
+          //console.log('[App] Navigating to appointment page for', appointmentId, 'autoJoin=', autoJoin);
+          try {
+            await router.push(`/appointments/${appointmentId}?incoming=1&autoJoin=${autoJoin}`);
+          } catch (err) {
+            //console.error('[App] Router push failed:', err);
+          }
+        }
+
+        // Dispatch a standardized incoming_call event so components (Timer) show UI
+        window.dispatchEvent(new CustomEvent('incoming_call', { detail: data }));
       }
     };
 
@@ -140,6 +173,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <SnackbarProvider maxSnack={5} anchorOrigin={{ horizontal: 'right', vertical: 'top' }}>
       <Providers>
+        <GlobalIncomingHandler />
         <main id="root">
           {router.pathname === "/blog/second/[id]" ||
             router.pathname === "/blog/mobile/[id]" ||

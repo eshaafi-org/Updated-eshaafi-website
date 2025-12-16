@@ -212,6 +212,35 @@ let _fcmToastListenerSet = false;
 if (typeof window !== 'undefined' && !_fcmToastListenerSet) {
   _fcmToastListenerSet = true;
   onForegroundMessage((payload) => {
+    // If payload contains appointment-related data, dispatch an in-app incoming_call event
+    const data = payload?.data || {};
+    const appointmentId = data.appointmentId || data.channelName;
+
+    if (appointmentId) {
+      const callData = {
+        type: 'incoming_call',
+        appointmentId: appointmentId,
+        doctorName: data.doctorName || data.name || payload?.notification?.title || 'Doctor',
+        agoraToken: data.agoraToken || data.token,
+        profileUrl: data.profileUrl,
+        educationTitle: data.educationTitle,
+        // include original notification body for display
+        body: payload?.notification?.body || ''
+      };
+
+      try {
+        // Store as backup
+        sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
+      } catch (e) {
+        console.warn('[notifications] sessionStorage.setItem failed', e);
+      }
+
+      // Dispatch custom event so _app.tsx and Timer can show the full accept/reject UI
+      window.dispatchEvent(new CustomEvent('incoming_call', { detail: callData }));
+      return;
+    }
+
+    // Fallback: show simple toast for non-appointment notifications
     if (payload?.notification?.body) {
       toast(payload.notification.body, { type: 'info' });
     } else {

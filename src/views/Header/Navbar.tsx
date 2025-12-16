@@ -909,7 +909,15 @@ const Navbar: React.FC = () => {
                 {hoverIndex === idx && item.dropdown && (
                   <div className={styles.dropdown}>
                     {item.dropdown.map((sub, i) => (
-                      <a key={i} href={sub.href} className={styles.dropdownItem}>
+                      <a
+                        key={i}
+                        href={sub.href}
+                        className={styles.dropdownItem}
+                        onClick={() => {
+                          setHoverIndex(null);
+                          setMenuOpen(false);
+                        }}
+                      >
                         {sub.icon && <Image src={sub.icon} alt={sub.name} width={30} height={30} />}
                         <span>{sub.name}</span>
                       </a>
@@ -1053,7 +1061,7 @@ const Navbar: React.FC = () => {
                             </div>
                           </li> */}
                           <li>
-                            <Link href={"/find-doctors"}>
+                            <Link href={"/find-doctors"} onClick={() => setShowProfile(false)}>
                               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                                 <circle cx="8.5" cy="7" r="4" />
@@ -1063,7 +1071,7 @@ const Navbar: React.FC = () => {
                             </Link>
                           </li>
                           <li>
-                            <Link href={"/profile"}>
+                            <Link href={"/profile"} onClick={() => setShowProfile(false)}>
                               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path d="M12 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
                                 <path d="M12 14c-4.42 0-8 2.69-8 6v2h16v-2c0-3.31-3.58-6-8-6z" />
@@ -1072,7 +1080,7 @@ const Navbar: React.FC = () => {
                             </Link>
                           </li>
                           <li>
-                            <Link href={"/appointments"}>
+                            <Link href={"/appointments"} onClick={() => setShowProfile(false)}>
                               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                                 <line x1="16" y1="2" x2="16" y2="6" />
@@ -1104,7 +1112,7 @@ const Navbar: React.FC = () => {
                           </li> */}
                           <li className="border-top">
                             <Button
-                              onClick={logout}
+                              onClick={() => { setShowProfile(false); logout(); }}
                               className="w-100 text-start"
                             >
                               <FiLogOut style={{ fontSize: 16, marginRight: 8 }} />
@@ -1161,7 +1169,7 @@ const Navbar: React.FC = () => {
                   </summary>
                   <div className={styles.mobileDropdown}>
                     {item.dropdown.map((sub, i) => (
-                      <a key={i} href={sub.href}>
+                      <a key={i} href={sub.href} onClick={() => setMenuOpen(false)}>
                         {sub.icon && <Image src={sub.icon} alt={sub.name} width={20} height={20} />}
                         {sub.name}
                       </a>
@@ -1169,7 +1177,7 @@ const Navbar: React.FC = () => {
                   </div>
                 </details>
               ) : (
-                <a href={item.href}>{item.title}</a>
+                <a href={item.href} onClick={() => setMenuOpen(false)}>{item.title}</a>
               )}
             </li>
           ))}

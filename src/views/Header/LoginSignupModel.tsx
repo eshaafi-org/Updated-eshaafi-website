@@ -38,10 +38,18 @@ const reducer = (state: any, action: any) => {
         otpError: false,
       };
     }
-    case "VERI_LOADING": {
+    case "VERI_LOADING_TRUE": {
       return {
         ...state,
-        verifyLoading: !state.verifyLoading,
+        verifyLoading: true,
+        otpError: false,
+      };
+    }
+    case "VERI_LOADING_FALSE": {
+      return {
+        ...state,
+        verifyLoading: false,
+        otpError: false,
       };
     }
     case "VERI_ERROR": {
@@ -51,6 +59,7 @@ const reducer = (state: any, action: any) => {
         otpError: true,
       };
     }
+    
     case "PROFILE_LOADING": {
       return {
         ...state,
@@ -158,7 +167,8 @@ export const Model = ({ page = "login" }: { page: string }) => {
   };
   // verified otp
   const getVarified = (values: any) => {
-    setStates({ type: "VERI_LOADING" });
+    // show verify loading explicitly
+    setStates({ type: "VERI_LOADING_TRUE" });
     let { otp1, otp2, otp3, otp4, otp5, otp6 } = values;
     let code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
     let processedPhoneNo = phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum;
@@ -169,12 +179,19 @@ export const Model = ({ page = "login" }: { page: string }) => {
         type: 1,
       })
       .then(async (res) => {
-        setStates({ type: "VERI_LOADING" });
+        // keep verify loading until profiles are resolved and UI updated
         localStorage.setItem("user", JSON.stringify(res.data.response));
+
+        // immediately update redux so navbar/profile reacts
+        try {
+          dispatch({ type: "loginModalSlice/setAuth", payload: res.data.response });
+        } catch (err) {
+          console.warn('[Login] dispatch setAuth failed', err);
+        }
 
         console.log("OTP verification response:", res.data.response);
 
-        // Register device token with backend for call notifications
+        // Register device token with backend for call notifications (don't block UI)
         try {
           const userId = res.data.response.uuid || res.data.response.IdToken;
           const phoneNumber = `+92${processedPhoneNo}`;
@@ -182,7 +199,6 @@ export const Model = ({ page = "login" }: { page: string }) => {
           await initializeDeviceToken(userId, phoneNumber);
         } catch (tokenError) {
           console.error('[Login] Device token registration failed:', tokenError);
-          // Don't block login if token registration fails
         }
 
         // Check for existing profiles
@@ -198,6 +214,9 @@ export const Model = ({ page = "login" }: { page: string }) => {
           setOtp(false);
           setProfile(true);
         }
+
+        // done resolving profiles, hide verify loading
+        setStates({ type: "VERI_LOADING_FALSE" });
       })
       .catch((err) => {
         setStates({ type: "VERI_ERROR" });

@@ -123,19 +123,19 @@ export default function Timer({ appointment }: any) {
       
       // FALLBACK: Try to get call data from sessionStorage
       const storedCallData = sessionStorage.getItem('incomingCallData');
-      console.log('[Timer] SessionStorage incomingCallData:', storedCallData);
+      //console.log('[Timer] SessionStorage incomingCallData:', storedCallData);
       let foundCallData = false;
 
       if (storedCallData) {
         try {
           const parsedCallData = JSON.parse(storedCallData);
-          console.log('[Timer] Loaded call data from sessionStorage:', parsedCallData);
-          console.log('[Timer] Setting callData state with agoraToken:', parsedCallData.agoraToken);
+          //console.log('[Timer] Loaded call data from sessionStorage:', parsedCallData);
+          //console.log('[Timer] Setting callData state with agoraToken:', parsedCallData.agoraToken);
           setCallData(parsedCallData);
           
           // Auto-join if autoJoin flag is set
           if (shouldAutoJoin && parsedCallData.agoraToken) {
-            console.log('[Timer] Auto-joining call from sessionStorage with token:', parsedCallData.agoraToken);
+            //console.log('[Timer] Auto-joining call from sessionStorage with token:', parsedCallData.agoraToken);
             setAgoraToken(parsedCallData.agoraToken);
             setShowVideoCall(true);
             setIncomingCall(false);
@@ -147,15 +147,15 @@ export default function Timer({ appointment }: any) {
           sessionStorage.removeItem('incomingCallData');
           foundCallData = true;
         } catch (error) {
-          console.error('[Timer] Error parsing stored call data:', error);
+          //console.error('[Timer] Error parsing stored call data:', error);
         }
       } else {
-        console.warn('[Timer] No call data found in sessionStorage!');
+        //console.warn('[Timer] No call data found in sessionStorage!');
       }
 
       // If no call data was found but autoJoin is requested, try to request token from backend
       if (!foundCallData && shouldAutoJoin) {
-        console.log('[Timer] No call data, but autoJoin requested - attempting to accept call (will request token from backend)');
+        //console.log('[Timer] No call data, but autoJoin requested - attempting to accept call (will request token from backend)');
         // attempt to accept call which will request token from backend
         acceptCall();
       }
@@ -229,57 +229,58 @@ export default function Timer({ appointment }: any) {
     
     // Handler for messages from service worker (background notifications)
     const handleServiceWorkerMessage = (event: MessageEvent) => {
-      console.log('[Timer] Received FCM message from service worker:', event.data);
-      
-      if (event.data?.type === 'incoming_call') {
-        const data = event.data;
-        console.log('[Timer] Incoming call appointmentId:', data.appointmentId, 'Current appointmentId:', appointmentId);
-        
-        // Check if the call is for this appointment
-        if (data.appointmentId === appointmentId) {
-          console.log('[Timer] Setting callData from service worker:', data);
-          setCallData(data);
-          setIncomingCall(true);
-          
-          // Also store in sessionStorage as backup
-          sessionStorage.setItem('incomingCallData', JSON.stringify(data));
-          
-          // Show simplified toast notification with Accept/Reject buttons
-          enqueueSnackbar(
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #10b981', flexShrink: 0, background: '#f3f4f6' }}>
-                <img src={data.profileUrl || '/images/default-doctor.png'} alt={data.doctorName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = '/images/default-doctor.png'; }} />
+      console.log('[Timer] Received message from service worker:', event.data);
+      const allowedTypes = ['incoming_call', 'accept_call', 'reject_call'];
+
+      if (!event.data || !allowedTypes.includes(event.data.type)) return;
+
+      const data = event.data;
+      console.log('[Timer] Incoming call appointmentId:', data.appointmentId, 'Current appointmentId:', appointmentId);
+
+      // Check if the call is for this appointment
+      if (data.appointmentId === appointmentId) {
+        console.log('[Timer] Setting callData from service worker:', data);
+        setCallData(data);
+        setIncomingCall(true);
+
+        // Also store in sessionStorage as backup
+        try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) { console.warn('[Timer] sessionStorage set failed', e); }
+
+        // Show simplified toast notification with Accept/Reject buttons
+        enqueueSnackbar(
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #10b981', flexShrink: 0, background: '#f3f4f6' }}>
+              <img src={data.profileUrl || '/images/default-doctor.png'} alt={data.doctorName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = '/images/default-doctor.png'; }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{data.doctorName || 'Doctor'}</div>
+              {data.educationTitle && <div style={{ fontSize: '11px', color: '#6b7280' }}>{data.educationTitle}</div>}
+            </div>
+          </div>,
+          {
+            variant: 'default',
+            persist: true,
+            anchorOrigin: { horizontal: 'right', vertical: 'top' },
+            style: {
+              minWidth: '320px',
+              background: '#ffffff',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              border: '1px solid #e5e7eb',
+              borderRadius: '8px',
+              padding: '12px 16px',
+            },
+            action: (key) => (
+              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                <button onClick={() => { closeSnackbar(key); acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
+                <button onClick={() => { closeSnackbar(key); rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
+                <button onClick={() => closeSnackbar(key)} style={{ background: 'transparent', color: '#6b7280', border: 'none', padding: '8px', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
               </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
-                <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{data.doctorName || 'Doctor'}</div>
-                {data.educationTitle && <div style={{ fontSize: '11px', color: '#6b7280' }}>{data.educationTitle}</div>}
-              </div>
-            </div>,
-            {
-              variant: 'default',
-              persist: true,
-              anchorOrigin: { horizontal: 'right', vertical: 'top' },
-              style: {
-                minWidth: '320px',
-                background: '#ffffff',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                padding: '12px 16px',
-              },
-              action: (key) => (
-                <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                  <button onClick={() => { closeSnackbar(key); acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
-                  <button onClick={() => { closeSnackbar(key); rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
-                  <button onClick={() => closeSnackbar(key)} style={{ background: 'transparent', color: '#6b7280', border: 'none', padding: '8px', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
-                </div>
-              )
-            }
-          );
-        } else {
-          console.log('[Timer] Call is for different appointment, ignoring');
-        }
+            )
+          }
+        );
+      } else {
+        console.log('[Timer] Call is for different appointment, ignoring');
       }
     };
 

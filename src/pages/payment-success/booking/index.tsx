@@ -9,6 +9,7 @@ import moment from "moment";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft } from "react-icons/fa";
+import { SkeletonLoader } from '@/components/SkeletonLoader';
 //import LottieLoading from '@/components/paymentLoading/paymentLoading';
 
 const Index = () => {
@@ -17,50 +18,72 @@ const Index = () => {
   const [appointmentData, setAppointmentData] = useState<any>(null);
   const [appointDate, setAppointDate] = useState('');
   const [activeSlot, setActiveSlot] = useState({ time: '', id: '' });
+  const [error, setError] = useState<string | null>(null);
+
+  // Extracted so user can retry on failure
+  const processBooking = async () => {
+    setLoading(true);
+    setError(null);
+
+    const storedData = localStorage.getItem('appointmentData');
+    if (!storedData) {
+      setError('No appointment data found.');
+      setLoading(false);
+      return;
+    }
+
+    const parsedData = JSON.parse(storedData);
+    setAppointmentData(parsedData);
+    setAppointDate(moment().format('YYYY-MM-DD'));
+    setActiveSlot({ time: '10:00:00', id: parsedData.slot_id });
+
+    try {
+      const response = await axios.post(
+        BASE_URL + '/patients/doctors/bookAppointment',
+        {
+          appointmentId: parsedData.appointmentId,
+          patientName: parsedData.patientName,
+          patientId: parsedData.patientId,
+          paymentType: 'payPro',
+          isSave: 'false',
+          slot_id: parsedData.slot_id,
+        },
+        { headers: headers() }
+      );
+
+      // Consider checking response.ok / response.data.responseCode if backend uses that
+      setSuccess(true);
+      localStorage.removeItem('appointmentData');
+    } catch (err: any) {
+      console.error('Booking failed:', err);
+      setError(err?.response?.data?.message || 'Booking failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const processBooking = async () => {
-      const storedData = localStorage.getItem('appointmentData');
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        setAppointmentData(parsedData);
-        // Assume appointDate and activeSlot are stored or can be derived
-        // For now, use current date and a placeholder time
-        setAppointDate(moment().format("YYYY-MM-DD"));
-        setActiveSlot({ time: '10:00:00', id: parsedData.slot_id }); // Placeholder
-
-        try {
-          const response = await axios.post(
-            BASE_URL + "/patients/doctors/bookAppointment",
-            {
-              appointmentId: parsedData.appointmentId,
-              patientName: parsedData.patientName,
-              patientId: parsedData.patientId,
-              paymentType: "payPro",
-              isSave: "false",
-              slot_id: parsedData.slot_id
-            },
-            { headers: headers() }
-          );
-          setSuccess(true);
-          localStorage.removeItem('appointmentData');
-        } catch (error) {
-          console.error('Booking failed:', error);
-          // Handle error, maybe show error message
-        }
-      }
-      setLoading(false);
-    };
-
     processBooking();
   }, []);
 
   if (loading) {
-    return <div>Processing your booking...</div>;
+    return <SkeletonLoader />;
   }
 
   if (!success) {
-    return <div>Payment failed or booking error.</div>;
+    return (
+      <section className="container">
+        <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
+          <p style={{ fontSize: 20, color: '#b00020', fontWeight: 700 }}>Payment failed or booking error.</p>
+          {error && <p style={{ color: '#6b7280' }}>{error}</p>}
+
+          <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
+            <Button variant="outlined" onClick={() => window.history.back()}>Back</Button>
+            <Button variant="contained" onClick={() => processBooking()}>Retry Booking</Button>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
