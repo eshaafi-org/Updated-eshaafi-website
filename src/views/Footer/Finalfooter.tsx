@@ -71,7 +71,7 @@ export default function Finalfooter() {
             <li><Link href="/labs">Labs</Link></li>
             <li><Link href="/medicines">Medicines</Link></li>
             <li><Link href="/healthwebinars">Health Webinars</Link></li>
-            <li><Link href="/find-doctors#subscription-plans">Care Plans</Link></li>
+            <li><Link href="/find-doctors#subscription-plans">Subscription Plans</Link></li>
             <li><Link href="/blog">Blogs</Link></li>
           </ul>
         </div>

@@ -717,7 +717,7 @@ const navbarItems: NavbarItem[] = [
   },
 
   {
-    title: "Care Plans",
+    title: "Subscription Plans",
     href: "/find-doctors#subscription-plans",
     // dropdown: [
     //   { name: "Essential Care Plan", href: "/find-doctors#subscription-plans", icon: "/images/essential.svg" },
@@ -890,9 +890,9 @@ const Navbar: React.FC = () => {
                 onMouseLeave={() => setHoverIndex(null)}
               >
                 {item.href ? (
-                  <a href={item.href}>{item.title}</a>
+                  <a href={item.href} className={item.title === 'Subscription Plans' ? styles.navButtonCompact : undefined}>{item.title}</a>
                 ) : (
-                  <a href="#">{item.title}</a>
+                  <a href="#" className={item.title === 'Subscription Plans' ? styles.navButtonCompact : undefined}>{item.title}</a>
                 )}
 
                 {/* Dropdown */}
