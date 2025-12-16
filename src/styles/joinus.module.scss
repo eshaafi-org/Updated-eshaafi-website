@@ -1,3 +1,15 @@
+/* No open roles message styling */
+.noOpenRoles {
+  color: #00568a;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 18px 0 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0px;
+}
 .heroSection {
   position: relative;
   width: 100%;
