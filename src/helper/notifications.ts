@@ -1,16 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
-/**
- * Notification and Device Token Management
- * Handles Firebase Cloud Messaging (FCM) and push notifications
- */
+
 //@ts-nocheck
 import { BASE_URL, headers } from './CONST';
 import { requestNotificationPermission as getFCMTokenFromFirebase, onForegroundMessage } from '../config/firebase';
 import { toast } from 'react-toastify';
 
-/**
- * Request notification permission from browser
- */
+
 export const requestNotificationPermission = async (): Promise<boolean> => {
   try {
     if (!('Notification' in window)) {
@@ -208,11 +203,14 @@ export const subscribeToAppointmentNotifications = async (
 export const initializeDeviceToken = initializeFirebaseMessaging;
 
 // Listen for foreground FCM messages and show toast (only once)
+// Robust foreground notification: show persistent toast until call is started or dismissed
+
 let _fcmToastListenerSet = false;
+let _activeCallToastId = null;
+let _ringtoneAudio = null;
 if (typeof window !== 'undefined' && !_fcmToastListenerSet) {
   _fcmToastListenerSet = true;
   onForegroundMessage((payload) => {
-    // If payload contains appointment-related data, dispatch an in-app incoming_call event
     const data = payload?.data || {};
     const appointmentId = data.appointmentId || data.channelName;
 
@@ -224,18 +222,65 @@ if (typeof window !== 'undefined' && !_fcmToastListenerSet) {
         agoraToken: data.agoraToken || data.token,
         profileUrl: data.profileUrl,
         educationTitle: data.educationTitle,
-        // include original notification body for display
         body: payload?.notification?.body || ''
       };
-
       try {
-        // Store as backup
         sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
       } catch (e) {
         console.warn('[notifications] sessionStorage.setItem failed', e);
       }
 
-      // Dispatch custom event so _app.tsx and Timer can show the full accept/reject UI
+      // Only show one persistent notification for the current call
+      if (_activeCallToastId) {
+        toast.dismiss(_activeCallToastId);
+        _activeCallToastId = null;
+      }
+      _activeCallToastId = toast(
+        `Incoming video call from ${callData.doctorName}`,
+        {
+          type: 'info',
+          autoClose: false,
+          closeOnClick: false,
+          draggable: false,
+          toastId: `incoming_call_${appointmentId}`,
+          onClose: () => {
+            _activeCallToastId = null;
+          },
+        }
+      );
+
+      // Play ringtone (ensure only one instance)
+      try {
+        if (_ringtoneAudio) {
+          _ringtoneAudio.pause();
+          _ringtoneAudio.currentTime = 0;
+        }
+        _ringtoneAudio = new window.Audio('/ringtone.mp3'); 
+        _ringtoneAudio.loop = true;
+        _ringtoneAudio.volume = 1.0;
+        _ringtoneAudio.play().catch(() => {}); 
+      } catch (e) {
+        console.warn('[notifications] Could not play ringtone', e);
+      }
+
+      // Listen for call started or dismissed events to clear the toast and stop ringtone
+      const clearToastAndRingtone = () => {
+        if (_activeCallToastId) {
+          toast.dismiss(_activeCallToastId);
+          _activeCallToastId = null;
+        }
+        if (_ringtoneAudio) {
+          _ringtoneAudio.pause();
+          _ringtoneAudio.currentTime = 0;
+          _ringtoneAudio = null;
+        }
+        window.removeEventListener('call_started', clearToastAndRingtone);
+        window.removeEventListener('call_dismissed', clearToastAndRingtone);
+      };
+      window.addEventListener('call_started', clearToastAndRingtone);
+      window.addEventListener('call_dismissed', clearToastAndRingtone);
+
+      // Dispatch custom event for in-app UI
       window.dispatchEvent(new CustomEvent('incoming_call', { detail: callData }));
       return;
     }

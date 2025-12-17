@@ -108,167 +108,56 @@ messaging.onBackgroundMessage((payload) => {
 });
 
 // Notification click event - user clicks on notification
-self.addEventListener('notificationclick', (event) => {
-  console.log('[ServiceWorker] ==================== NOTIFICATION CLICK ====================');
-  console.log('[ServiceWorker] Event action:', event.action);
-  console.log('[ServiceWorker] Notification title:', event.notification.title);
-  console.log('[ServiceWorker] Notification body:', event.notification.body);
-  console.log('[ServiceWorker] Notification tag:', event.notification.tag);
-  console.log('[ServiceWorker] Notification data:', event.notification.data);
-  console.log('[ServiceWorker] Notification keys:', event.notification.data ? Object.keys(event.notification.data) : 'NO DATA');
-  
-  event.notification.close();
-  
-  const notificationData = event.notification.data || {};
-  
-  console.log('[ServiceWorker] Extracted notificationData keys:', Object.keys(notificationData));
-  console.log('[ServiceWorker] channelName:', notificationData.channelName);
-  console.log('[ServiceWorker] appointmentId:', notificationData.appointmentId);
-  
-  const appointmentId = notificationData.channelName || notificationData.appointmentId;
-  
-  console.log('[ServiceWorker] Final appointmentId:', appointmentId);
-  
-  // Validate appointmentId exists
-  if (!appointmentId) {
-    console.error('[ServiceWorker]  NO APPOINTMENTID - Cannot proceed!');
-    console.error('[ServiceWorker] Full notification data:', JSON.stringify(notificationData));
-    console.error('[ServiceWorker] This will prevent navigation - notification will be closed');
-    return; // Don't open window without appointmentId
-  }
-  
-  // Always use appointments page URL (use absolute URL to improve compatibility on mobile)
-  const relativeUrl = `/appointments/${appointmentId}?incoming=1&autoJoin=1`;
-  const absoluteUrl = `${self.location.origin}${relativeUrl}`;
 
-  console.log('[ServiceWorker]  Will open URL (absolute):', absoluteUrl);
-  console.log('[ServiceWorker] ===============================================================');
-  
-  if (event.action === 'accept' || !event.action) {
-    // Open or focus the app window with incoming call (both Accept click and default click)
-    event.waitUntil(
-      clients.matchAll({ type: 'window', includeUncontrolled: true })
-        .then((clientList) => {
-          // Check if app is already open
-          for (const client of clientList) {
-            if (client.url.includes(appointmentId) && 'focus' in client) {
-              return client.focus().then((client) => {
-                // Send accept message to the client
-                client.postMessage({
-                  type: 'accept_call',
-                  ...notificationData
-                });
-                return client;
-              });
+self.addEventListener('notificationclick', (event) => {
+  const notificationData = event.notification.data || {};
+  const appointmentId = notificationData.channelName || notificationData.appointmentId;
+  if (!appointmentId) {
+    event.notification.close();
+    return;
+  }
+  const url = `/appointments/${appointmentId}?incoming=1&autoJoin=1`;
+  const absoluteUrl = `${self.location.origin}${url}`;
+  event.notification.close();
+
+  // Helper: focus or open the appointment page
+  function focusOrOpen(urlToOpen, postMsgType) {
+    return clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+      for (const client of clientList) {
+        if (client.url.includes(appointmentId) && 'focus' in client) {
+          return client.focus().then(focusedClient => {
+            if (postMsgType) {
+              focusedClient.postMessage({ type: postMsgType, ...notificationData });
             }
-          }
-          
-          // If not open, open new window
-          if (clients.openWindow) {
-            // Store call data in a way the new window can access it
-            const callDataKey = `call_data_${appointmentId}`;
-            const callData = {
-              type: 'incoming_call',
-              appointmentId: notificationData.channelName || notificationData.appointmentId,
-              doctorName: notificationData.name || notificationData.doctorName,
-              agoraToken: notificationData.token || notificationData.agoraToken,
-              appId: notificationData.appId,
-              channelName: notificationData.channelName,
-              profileUrl: notificationData.profileUrl,
-              educationTitle: notificationData.educationTitle
-            };
-            
-            console.log('[ServiceWorker] Storing call data with key:', callDataKey);
-            
-            // Store in indexedDB-like structure that persists
-            // We'll use a hack: encode data in URL fragment that won't cause navigation
-            const encodedData = encodeURIComponent(JSON.stringify(callData));
-            const urlWithData = `${absoluteUrl}#calldata=${encodedData}`;
-            
-            console.log('[ServiceWorker] Opening absolute URL with embedded data');
-            
-            return clients.openWindow(urlWithData).then((client) => {
-              if (client) {
-                console.log('[ServiceWorker] New window opened');
-                // Also send via postMessage as backup
-                setTimeout(() => client.postMessage(callData), 100);
-                setTimeout(() => client.postMessage(callData), 500);
-                setTimeout(() => client.postMessage(callData), 1000);
-                setTimeout(() => client.postMessage(callData), 2000);
-              }
-              return client;
-            });
-          }
-        })
-    );
-  } else if (event.action === 'reject') {
-    // Send reject message to backend (optional)
-    console.log('[ServiceWorker] Call rejected');
-    
-    event.waitUntil(
-      clients.matchAll({ type: 'window' })
-        .then((clientList) => {
-          clientList.forEach((client) => {
-            client.postMessage({
-              type: 'reject_call',
-              appointmentId: appointmentId
-            });
+            return focusedClient;
           });
-        })
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen).then(newClient => {
+          if (postMsgType && newClient) {
+            setTimeout(() => newClient.postMessage({ type: postMsgType, ...notificationData }), 100);
+            setTimeout(() => newClient.postMessage({ type: postMsgType, ...notificationData }), 500);
+          }
+          return newClient;
+        });
+      }
+    });
+  }
+
+  if (event.action === 'accept') {
+    event.waitUntil(focusOrOpen(absoluteUrl, 'accept_call'));
+  } else if (event.action === 'reject') {
+    event.waitUntil(
+      clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+        clientList.forEach(client => {
+          client.postMessage({ type: 'reject_call', ...notificationData });
+        });
+      })
     );
   } else {
-    // Default click - open the app WITH CALL DATA
-    event.waitUntil(
-      clients.matchAll({ type: 'window', includeUncontrolled: true })
-        .then((clientList) => {
-          for (const client of clientList) {
-            if (client.url.includes(appointmentId) && 'focus' in client) {
-              return client.focus().then((client) => {
-                // Send call data to the focused client
-                client.postMessage({
-                  type: 'incoming_call',
-                  appointmentId: notificationData.channelName || notificationData.appointmentId,
-                  doctorName: notificationData.name || notificationData.doctorName,
-                  agoraToken: notificationData.token || notificationData.agoraToken,
-                  appId: notificationData.appId,
-                  channelName: notificationData.channelName,
-                  profileUrl: notificationData.profileUrl,
-                  educationTitle: notificationData.educationTitle
-                });
-                return client;
-              });
-            }
-          }
-          
-          if (clients.openWindow) {
-            // Encode call data in URL hash (same as accept action)
-            const callData = {
-              type: 'incoming_call',
-              appointmentId: notificationData.channelName || notificationData.appointmentId,
-              doctorName: notificationData.name || notificationData.doctorName,
-              agoraToken: notificationData.token || notificationData.agoraToken,
-              appId: notificationData.appId,
-              channelName: notificationData.channelName,
-              profileUrl: notificationData.profileUrl,
-              educationTitle: notificationData.educationTitle
-            };
-            
-            const encodedData = encodeURIComponent(JSON.stringify(callData));
-            const urlWithData = `${absoluteUrl}#calldata=${encodedData}`;
-            
-            return clients.openWindow(urlWithData).then((client) => {
-              if (client) {
-                // Also send via postMessage as backup
-                setTimeout(() => client.postMessage(callData), 100);
-                setTimeout(() => client.postMessage(callData), 500);
-                setTimeout(() => client.postMessage(callData), 1000);
-                setTimeout(() => client.postMessage(callData), 2000);
-              }
-              return client;
-            });
-          }
-        })
-    );
+    // Default click: open/focus and send incoming_call
+    event.waitUntil(focusOrOpen(absoluteUrl, 'incoming_call'));
   }
 });
 
