@@ -45,10 +45,20 @@ export default function GlobalIncomingHandler() {
             <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
               <button onClick={async () => {
                 closeSnackbar(snackKey);
+                // Dispatch call_started event to stop ringtone
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new Event('call_started'));
+                }
                 try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) {}
                 await router.push(`/appointments/${appointmentId}?incoming=1&autoJoin=1`);
               }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
-              <button onClick={() => { closeSnackbar(snackKey); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
+              <button onClick={() => { 
+                closeSnackbar(snackKey); 
+                // Dispatch call_dismissed event to stop ringtone
+                if (typeof window !== 'undefined') {
+                  window.dispatchEvent(new Event('call_dismissed'));
+                }
+              }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
               <button onClick={() => closeSnackbar(snackKey)} style={{ background: 'transparent', color: '#6b7280', border: 'none', padding: '8px', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
             </div>
           )

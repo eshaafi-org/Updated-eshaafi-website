@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import Timer from "@/views/Appointments/appointmentPage/Timer";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { useRouter } from "next/router";
@@ -23,8 +24,12 @@ const links = [
   { name: "Doctors", link: "/doctors" },
   { name: "Appointments", link: "/appointments" },
 ];
-export default function AppointmentPage() {
+
+function AppointmentPage() {
   const params = useRouter();
+  const [showCallModal, setShowCallModal] = useState(false);
+  // Dynamically import AgoraVideoCall to avoid SSR issues
+  const AgoraVideoCall = dynamic(() => import("@/components/VideoCall/AgoraVideoCall"), { ssr: false });
   const [detail, setDetail] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [cancel, setCancel] = useState<boolean>(false);
@@ -140,6 +145,13 @@ export default function AppointmentPage() {
       consultationDetail();
     }
   }, [params?.query.id]);
+  useEffect(() => {
+    // Show call modal if ?incoming=1 is present
+    if (params?.query?.incoming === "1") {
+      setShowCallModal(true);
+    }
+  }, [params?.query?.incoming]);
+
   return (
     <>
       <Head>
@@ -223,9 +235,23 @@ export default function AppointmentPage() {
             </div>
           </div>
         )}
+        {/* Show video call modal if incoming=1 */}
+        {showCallModal && detail && (
+          <AgoraVideoCall
+            appId={process.env.NEXT_PUBLIC_AGORA_APP_ID || ''}
+            channelName={detail.channel_name || ''}
+            token={detail.agora_token || ''}
+            onCallEnd={() => setShowCallModal(false)}
+            profileId={detail.patient_id?.toString() || ''}
+            appointmentId={detail.id?.toString() || ''}
+          />
+        )}
         <ToastContainer />
       </section>
     </>
   );
 }
+
 // no conflict
+
+export default AppointmentPage;

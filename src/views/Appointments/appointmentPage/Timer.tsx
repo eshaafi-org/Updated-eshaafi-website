@@ -365,6 +365,11 @@ export default function Timer({ appointment }: any) {
       console.log('[Call] callData:', callData);
       console.log('[Call] callData.agoraToken:', callData?.agoraToken);
       
+      // Dispatch call_started event immediately to stop ringtone
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('call_started'));
+      }
+      
       // If callData is null, try to load from sessionStorage
       let activeCallData = callData;
       if (!activeCallData) {
@@ -451,6 +456,11 @@ export default function Timer({ appointment }: any) {
     console.log('[Call] Rejected');
     setIncomingCall(false);
     setCallData(null);
+    
+    // Dispatch call_dismissed event to stop ringtone
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('call_dismissed'));
+    }
     
     enqueueSnackbar('Call rejected', { 
       variant: 'info',

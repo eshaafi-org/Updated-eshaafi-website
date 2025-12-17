@@ -17,6 +17,7 @@ const Index = () => {
   const [loading, setLoading] = useState(true);
   const [appointmentData, setAppointmentData] = useState<any>(null);
   const [appointDate, setAppointDate] = useState('');
+  const [appointTime, setAppointTime] = useState('');
   const [activeSlot, setActiveSlot] = useState({ time: '', id: '' });
   const [error, setError] = useState<string | null>(null);
 
@@ -34,8 +35,10 @@ const Index = () => {
 
     const parsedData = JSON.parse(storedData);
     setAppointmentData(parsedData);
-    setAppointDate(moment().format('YYYY-MM-DD'));
-    setActiveSlot({ time: '10:00:00', id: parsedData.slot_id });
+    // Use appointment date/time from parsedData if available
+    setAppointDate(parsedData.appointmentDate || parsedData.date || moment().format('YYYY-MM-DD'));
+    setAppointTime(parsedData.appointmentTime || parsedData.time || parsedData.slot_time || '10:00:00');
+    setActiveSlot({ time: parsedData.appointmentTime || parsedData.time || parsedData.slot_time || '10:00:00', id: parsedData.slot_id });
 
     try {
       const response = await axios.post(
@@ -108,12 +111,9 @@ const Index = () => {
           Booking Successful!
         </p>
         <h5>
-          {moment(appointDate).format("MMMM Do") + " "}{" "}
-          {moment(activeSlot.time, "HH:mm:ss").format("h:mm A")}
+          {moment(appointDate).format("MMMM Do") + " "}
+          {appointTime ? moment(appointTime, "HH:mm:ss").format("h:mm A") : ''}
         </h5>
-        <p className="text-2 text-center">
-          To Attend Consultation Download the eShaafi App
-        </p>
         <a
           href={
             "https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation"

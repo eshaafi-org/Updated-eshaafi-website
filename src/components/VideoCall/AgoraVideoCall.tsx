@@ -117,7 +117,6 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
   const joinCall = async () => {
     try {
       setIsConnecting(true);
-      
       // Create local tracks
       const [videoTrack, audioTrack] = await Promise.all([
         AgoraRTC.createCameraVideoTrack({
@@ -148,10 +147,16 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
 
       setIsJoined(true);
       setIsConnecting(false);
-      
+      //setRingtoneAudio(null); // Stop ringtone if playing
+
       // Send webpush notification to doctor
       await sendWebPushNotification();
-      
+
+      // Dispatch call_started event to stop ringtone
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('call_started'));
+      }
+
       toast.success("Successfully joined the call! Waiting for doctor to join...", {
         position: "top-right",
         autoClose: 5000,
@@ -269,7 +274,7 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
           <div className={styles.videoLabel}>You</div>
           {!isVideoEnabled && (
             <div className={styles.videoPlaceholder}>
-              <FaVideoSlash size={48} />
+              {/* <FaVideoSlash size={48} /> */}
             </div>
           )}
         </div>
