@@ -13,6 +13,7 @@ import { SnackbarProvider, enqueueSnackbar, closeSnackbar } from 'notistack';
 // import { Urbanist } from 'next/font/google';
 import Finalfooter from "@/views/Footer/Finalfooter";
 import GlobalIncomingHandler from '@/components/Notifications/GlobalIncomingHandler';
+import NotificationPermissionDialog from '@/components/NotificationPermissionDialog';
 
 
 
@@ -174,6 +175,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <SnackbarProvider maxSnack={5} anchorOrigin={{ horizontal: 'right', vertical: 'top' }}>
       <Providers>
         <GlobalIncomingHandler />
+        <NotificationPermissionDialog />
         <main id="root">
           {router.pathname === "/blog/second/[id]" ||
             router.pathname === "/blog/mobile/[id]" ||

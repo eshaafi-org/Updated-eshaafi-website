@@ -123,8 +123,8 @@ function getAppointmentUrl(notificationData) {
     return null;
   }
 
-  // Use stored targetUrl if available, otherwise construct it
-  const path = notificationData.targetUrl || `/appointments/${appointmentId}?incoming=1&autoJoin=1`;
+  // Use stored targetUrl if available and not /call-ui, otherwise construct default
+  const path = (notificationData.targetUrl && notificationData.targetUrl !== '/call-ui') ? notificationData.targetUrl : `/appointments/${appointmentId}?incoming=1&autoJoin=1`;
   const absoluteUrl = new URL(path, self.location.origin).href;
 
   console.log('[ServiceWorker] Constructed URL:', absoluteUrl);

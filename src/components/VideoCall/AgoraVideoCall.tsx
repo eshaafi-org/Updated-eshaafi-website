@@ -30,7 +30,7 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
   profileId,
   appointmentId,
 }) => {
-  const [client] = useState(() => AgoraRTC.createClient({ mode: "rtc", codec: "vp8" }));
+  const [client] = useState(() => AgoraRTC.createClient({ mode: "rtc", codec: "h264" }));
   const [localVideoTrack, setLocalVideoTrack] = useState<ILocalVideoTrack | null>(null);
   const [localAudioTrack, setLocalAudioTrack] = useState<ILocalAudioTrack | null>(null);
   const [remoteUsers, setRemoteUsers] = useState<IAgoraRTCRemoteUser[]>([]);
