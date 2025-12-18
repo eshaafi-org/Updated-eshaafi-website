@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/next-script-for-ga */
 import { Html, Head, Main, NextScript } from "next/document";
 export default function Document() {
   return (
@@ -24,6 +25,19 @@ export default function Document() {
             `,
           }}
         />
+           {/* Google analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9SYMT7PC3"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-B9SYMT7PC3');
+            `,
+          }}
+        />
+    
       </Head>
       <body>
         <Main />
