@@ -780,7 +780,16 @@ const navbarItems: NavbarItem[] = [
 ];
 
 
-const allPages = navbarItems.flatMap(item => {
+// Define a type for search content items that includes optional specialty
+type SearchContentItem = {
+  name: string;
+  href: string;
+  category?: string;
+  keywords?: string[];
+  specialty?: string;
+};
+
+const allPages: SearchContentItem[] = navbarItems.flatMap(item => {
   const mainPage = item.href
     ? [{ name: item.title, href: item.href }]
     : [];
@@ -793,8 +802,8 @@ const allPages = navbarItems.flatMap(item => {
 });
 
 // Extended search data with doctors, specialties, labs, and services
-const getSearchableContent = (doctorsData?: any[]) => {
-  const searchContent = [
+const getSearchableContent = (doctorsData?: any[]): SearchContentItem[] => {
+  const searchContent: SearchContentItem[] = [
     // Navigation pages
     ...allPages,
     
@@ -834,7 +843,7 @@ const getSearchableContent = (doctorsData?: any[]) => {
         searchContent.push({
           name: doctorName,
           // category: 'Doctor', 
-          speciality: specialty,
+          specialty: specialty,
           href: `/find-doctors`,
           keywords: [specialty?.toLowerCase(), 'doctor', 'consultation']
         });
@@ -939,9 +948,9 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
     const user = localStorage.getItem("user");
     if (user) {
       const userData = JSON.parse(user);
-      if (userData.userId) {
-        unregisterDeviceToken(userData.userId).catch(console.error);
-      }
+      // if (userData.userId) {
+      //   unregisterDeviceToken(userData.userId).catch(console.error);
+      // }
     }
 
     axios

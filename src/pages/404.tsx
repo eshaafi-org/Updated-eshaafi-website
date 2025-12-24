@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Custom404() {
   return (
-    <div style={styles.container}>
+    <div style={styles.container as React.CSSProperties}>
       <h1 style={styles.title}>404</h1>
       <h2 style={styles.subtitle}>Oops! Page not found</h2>
       <p style={styles.text}>
