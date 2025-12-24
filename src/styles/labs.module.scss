@@ -4,12 +4,11 @@
 // Labs Hero Section
 .labsHeroContainer {
   width: 100%;
-  min-height: 700px;
+  min-height: 560px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  
   @include large-mobile-and-below {
     min-height: 450px;
   }

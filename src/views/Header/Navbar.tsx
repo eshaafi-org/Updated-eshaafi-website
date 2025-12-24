@@ -725,7 +725,6 @@ const navbarItems: NavbarItem[] = [
     //   { name: "Total Health Protection", href: "/find-doctors#subscription-plans", icon: "/images/total.svg" },
     // ],
   },
-
   {
     title: "Wellness Sessions",
     href: "/partnerwithus#wellness-section",
@@ -741,7 +740,7 @@ const navbarItems: NavbarItem[] = [
     title: "Corporate Care",
     href: "/partnerwithus",
     dropdown: [
-      { name: "Schedule a Meeting", href: "/partnerwithus", icon: "/images/schedule.svg" },
+      { name: "Schedule a Meeting", href: "/partnerwithus#schedule", icon: "/images/schedule.svg" },
       { name: "Our Services", href: "/partnerwithus#services", icon: "/images/services.svg" },
       // { name: "Wellness Sessions", href: "/partnerwithus#wellness-section", icon: "/images/wellnesssessions.svg" },
       { name: "Testimonials", href: "/partnerwithus#testimonials", icon: "/images/testimonials.svg" },
@@ -793,8 +792,61 @@ const allPages = navbarItems.flatMap(item => {
   return [...mainPage, ...dropdownPages];
 });
 
+// Extended search data with doctors, specialties, labs, and services
+const getSearchableContent = (doctorsData?: any[]) => {
+  const searchContent = [
+    // Navigation pages
+    ...allPages,
+    
+    // Specialties/Services
+    { name: 'General Physician', category: 'Specialty', href: '/find-doctors?specialty=General%20Physician', keywords: ['gp', 'general doctor', 'general practitioner'] },
+    { name: 'Dermatologist', category: 'Specialty', href: '/find-doctors?specialty=Dermatologist', keywords: ['skin', 'skin specialist', 'skin doctor'] },
+    { name: 'Cardiologist', category: 'Specialty', href: '/find-doctors?specialty=Cardiologist', keywords: ['heart', 'cardiac', 'heart specialist'] },
+    { name: 'Pediatrician', category: 'Specialty', href: '/find-doctors?specialty=Pediatrician', keywords: ['child', 'children', 'kids'] },
+    { name: 'Orthopedic', category: 'Specialty', href: '/find-doctors?specialty=Orthopedic', keywords: ['bones', 'joints', 'orthopedist'] },
+    { name: 'Psychiatrist', category: 'Specialty', href: '/mind-wellness', keywords: ['mental health', 'psychology', 'therapist'] },
+    { name: 'Clinical Psychologist', category: 'Specialty', href: '/mind-wellness', keywords: ['psychology', 'counseling', 'psychologist'] },
+    { name: 'Counselor', category: 'Specialty', href: '/mind-wellness', keywords: ['counseling', 'therapy'] },
+    
+    // Lab Tests
+    { name: 'Blood Test', category: 'Lab Test', href: '/labs', keywords: ['blood', 'hematology', 'cbc'] },
+    { name: 'COVID-19 Test', category: 'Lab Test', href: '/labs', keywords: ['covid', 'coronavirus', 'pcr'] },
+    { name: 'Diabetes Test', category: 'Lab Test', href: '/labs', keywords: ['diabetes', 'glucose', 'hba1c'] },
+    { name: 'Thyroid Test', category: 'Lab Test', href: '/labs', keywords: ['thyroid', 'tsh', 'endocrine'] },
+    { name: 'Liver Test', category: 'Lab Test', href: '/labs', keywords: ['liver', 'hepatic', 'bilirubin'] },
+    { name: 'Kidney Test', category: 'Lab Test', href: '/labs', keywords: ['kidney', 'renal', 'creatinine'] },
+    
+    // Services
+    { name: 'Video Consultation', category: 'Service', href: '/find-doctors', keywords: ['online doctor', 'video call', 'telemedicine'] },
+    { name: 'Health Tracker', category: 'Service', href: '/healthtracker', keywords: ['fitness', 'health', 'tracking'] },
+    { name: 'Medical Records', category: 'Service', href: '/medicalrecords', keywords: ['records', 'documents', 'prescriptions'] },
+    { name: 'Medicines', category: 'Service', href: '/medicines', keywords: ['drugs', 'medication', 'pharmacy'] },
+    { name: 'Appointment Booking', category: 'Service', href: '/appointments', keywords: ['book', 'schedule', 'appointment'] },
+  ];
 
-const Navbar: React.FC = () => {
+  // Add dynamic doctor data if available
+  if (doctorsData && Array.isArray(doctorsData)) {
+    doctorsData.forEach((doctor: any) => {
+      const doctorName = `${doctor.personal_info?.title || ''} ${doctor.personal_info?.firstName || ''} ${doctor.personal_info?.lastName || ''}`.trim();
+      const specialty = doctor.specialization || '';
+      
+      if (doctorName) {
+        searchContent.push({
+          name: doctorName,
+          // category: 'Doctor', 
+          speciality: specialty,
+          href: `/find-doctors`,
+          keywords: [specialty?.toLowerCase(), 'doctor', 'consultation']
+        });
+      }
+    });
+  }
+
+  return searchContent;
+};
+
+
+const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -802,6 +854,10 @@ const Navbar: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [showCart, setShowCart] = useState<boolean>(false);
+  const [doctorsData, setDoctorsData] = useState<any[]>(doctors);
+
+  // Get searchable content (includes doctors if passed)
+  const searchableContent = getSearchableContent(doctorsData);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -813,14 +869,56 @@ const Navbar: React.FC = () => {
   // Plus Both Value 
   const totalItemCount = cart.length + packages.length;
 
+  // Fetch doctors data on component mount if not already provided
+  useEffect(() => {
+    if (doctors && doctors.length > 0) {
+      setDoctorsData(doctors);
+      return;
+    }
+
+    const fetchDoctors = async () => {
+      try {
+        const response = await axios.post(BASE_URL + "/patients/doctors/filter", {
+          type: "categroy",
+        });
+        
+        if (response.data?.response?.Items) {
+          setDoctorsData(response.data.response.Items);
+        }
+      } catch (error) {
+        console.error('Failed to fetch doctors for search:', error);
+        // Silently fail - search will work with limited data
+      }
+    };
+
+    fetchDoctors();
+  }, [doctors]);
+
+  // Enhanced search that includes content like doctors, specialties, labs
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value.toLowerCase();
+    const query = e.target.value.toLowerCase().trim();
     setSearchQuery(query);
-    if (!query.trim()) {
+    
+    if (!query) {
       setSearchResults([]);
     } else {
-      const filtered = allPages.filter(page => page.name.toLowerCase().includes(query));
-      setSearchResults(filtered);
+      // Filter searchable content with keyword matching
+      const filtered = searchableContent.filter((item: any) => {
+        const nameMatch = item.name.toLowerCase().includes(query);
+        const categoryMatch = item.category?.toLowerCase().includes(query);
+        const keywordMatch = item.keywords?.some((kw: string) => kw.includes(query));
+        
+        return nameMatch || categoryMatch || keywordMatch;
+      });
+      
+      // Sort results: prioritize exact matches and category matches
+      const sorted = filtered.sort((a: any, b: any) => {
+        const aExact = a.name.toLowerCase().startsWith(query) ? 1 : 0;
+        const bExact = b.name.toLowerCase().startsWith(query) ? 1 : 0;
+        return bExact - aExact;
+      });
+      
+      setSearchResults(sorted.slice(0, 12)); // Limit to 12 results
     }
   };
 
@@ -837,6 +935,15 @@ const Navbar: React.FC = () => {
   };
 
   const logout = () => {
+    // Unregister device token before logout
+    const user = localStorage.getItem("user");
+    if (user) {
+      const userData = JSON.parse(user);
+      if (userData.userId) {
+        unregisterDeviceToken(userData.userId).catch(console.error);
+      }
+    }
+
     axios
       .post(BASE_URL + `/auth/signOut`, {
         access_token: userAuth.AccessToken,
@@ -890,9 +997,9 @@ const Navbar: React.FC = () => {
                 onMouseLeave={() => setHoverIndex(null)}
               >
                 {item.href ? (
-                  <a href={item.href} className={item.title === 'Subscription Plans' ? styles.navButtonCompact : undefined}>{item.title}</a>
+                  <a href={item.href}>{item.title}</a>
                 ) : (
-                  <a href="#" className={item.title === 'Subscription Plans' ? styles.navButtonCompact : undefined}>{item.title}</a>
+                  <a href="#">{item.title}</a>
                 )}
 
                 {/* Dropdown */}
@@ -947,6 +1054,7 @@ const Navbar: React.FC = () => {
                       e.preventDefault();
                       handleSearchResultClick(result.href);
                     }}
+                    title={result.specialty ? `${result.name} - ${result.specialty}` : result.name}
                   >
                     <svg
                       className={styles.searchResultIcon}
@@ -961,7 +1069,15 @@ const Navbar: React.FC = () => {
                         d="M13 10V3L4 14h7v7l9-11h-7z"
                       />
                     </svg>
-                    <span>{result.name}</span>
+                    <div className={styles.searchResultContent}>
+                      <span className={styles.searchResultName}>{result.name}</span>
+                      {result.category && (
+                        <span className={styles.searchResultCategory}>{result.category}</span>
+                      )}
+                      {result.specialty && (
+                        <span className={styles.searchResultSpecialty}>{result.specialty}</span>
+                      )}
+                    </div>
                   </a>
                 ))}
               </div>
