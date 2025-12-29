@@ -9,6 +9,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { SkeletonLoader } from '@/components/SkeletonLoader';
 //import LottieLoading from '@/components/paymentLoading/paymentLoading';
+import moment from "moment";
 
 const Index = () => {
   const [success, setSuccess] = useState(false);

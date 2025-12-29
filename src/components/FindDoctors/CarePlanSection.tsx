@@ -248,4 +248,3 @@ const CarePlanSection: React.FC = () => {
 };
 
 export default CarePlanSection;
-//new design
