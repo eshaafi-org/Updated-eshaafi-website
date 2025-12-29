@@ -5,10 +5,8 @@ import { BASE_URL, headers } from '@/helper/CONST';
 import successGif from "../../../../public/images/success.gif";
 import Image from "next/image";
 import eShaafiApp from "../../../../public/images/download-badge-google-play-badge.png";
-import moment from "moment";
 import Link from "next/link";
 import Button from "@/components/Button";
-import { FaArrowLeft } from "react-icons/fa";
 import { SkeletonLoader } from '@/components/SkeletonLoader';
 //import LottieLoading from '@/components/paymentLoading/paymentLoading';
 
@@ -90,17 +88,8 @@ const Index = () => {
   }
 
   return (
-    <section className="container">
+    <section className="container" style={{ marginTop: '50px' }}>
       <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
-        <Button
-          variant="outlined"
-          onClick={() => window.history.back()}
-          className="cardDescription"
-          style={{ alignSelf: "self-start" }}
-        >
-          <FaArrowLeft /> Back
-        </Button>
-
         <Image
           src={successGif.src}
           alt="successGif"
@@ -111,8 +100,7 @@ const Index = () => {
           Booking Successful!
         </p>
         <h5>
-          {moment(appointDate).format("MMMM Do") + " "}
-          {appointTime ? moment(appointTime, "HH:mm:ss").format("h:mm A") : ''}
+          {appointDate} {appointTime ? appointTime : ''}
         </h5>
         <a
           href={
