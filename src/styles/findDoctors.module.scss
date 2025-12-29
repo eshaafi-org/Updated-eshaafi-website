@@ -651,8 +651,8 @@
   }
 
   &.popularPlan {
-    border-color: #e0e8ee;
-    border-width: 3px;
+    border-color: #00568A; // Match the blue border of other cards
+    border-width: 2px;
     box-shadow: 0 8px 24px rgba(14, 84, 135, 0.2), inset 0 -30px 30px -20px rgba(14, 84, 135, 0.15);
     background: linear-gradient(135deg, #f8fcff 0%, #fff 100%);
     border-radius: 16px;
@@ -663,8 +663,6 @@
     .planTitle {
       color: #0e5487;
     }
-
-   
   }
 }
 
