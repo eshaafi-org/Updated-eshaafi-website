@@ -31,11 +31,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    
-    &::before {
-      content: '🎥';
-      font-size: 24px;
-    }
   }
   
   @media (max-width: 768px) {
@@ -43,10 +38,6 @@
     
     h3 {
       font-size: 16px;
-      
-      &::before {
-        font-size: 20px;
-      }
     }
   }
 }

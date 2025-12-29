@@ -17,8 +17,6 @@ import Head from "next/head";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-
-// links
 const links = [
   { name: "Home", link: "/" },
   { name: "Doctors", link: "/doctors" },
@@ -27,9 +25,6 @@ const links = [
 
 function AppointmentPage() {
   const params = useRouter();
-  const [showCallModal, setShowCallModal] = useState(false);
-  // Dynamically import AgoraVideoCall to avoid SSR issues
-  const AgoraVideoCall = dynamic(() => import("@/components/VideoCall/AgoraVideoCall"), { ssr: false });
   const [detail, setDetail] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [cancel, setCancel] = useState<boolean>(false);
@@ -145,12 +140,6 @@ function AppointmentPage() {
       consultationDetail();
     }
   }, [params?.query.id]);
-  useEffect(() => {
-    // Show call modal if ?incoming=1 is present
-    if (params?.query?.incoming === "1") {
-      setShowCallModal(true);
-    }
-  }, [params?.query?.incoming]);
 
   return (
     <>
@@ -234,17 +223,6 @@ function AppointmentPage() {
               </p>
             </div>
           </div>
-        )}
-        {/* Show video call modal if incoming=1 */}
-        {showCallModal && detail && (
-          <AgoraVideoCall
-            appId={process.env.NEXT_PUBLIC_AGORA_APP_ID || ''}
-            channelName={detail.channel_name || ''}
-            token={detail.agora_token || ''}
-            onCallEnd={() => setShowCallModal(false)}
-            profileId={detail.patient_id?.toString() || ''}
-            appointmentId={detail.id?.toString() || ''}
-          />
         )}
         <ToastContainer />
       </section>

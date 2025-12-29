@@ -14,6 +14,7 @@ import { SnackbarProvider, enqueueSnackbar, closeSnackbar } from 'notistack';
 import Finalfooter from "@/views/Footer/Finalfooter";
 import GlobalIncomingHandler from '@/components/Notifications/GlobalIncomingHandler';
 import NotificationPermissionDialog from '@/components/NotificationPermissionDialog';
+import { onForegroundMessage } from '@/config/firebase';
 
 
 
@@ -54,6 +55,55 @@ export default function App({ Component, pageProps }: AppProps) {
     };
 
     initializeDeviceTokenOnLoad();
+  }, []);
+
+  // Listen for foreground FCM messages
+  useEffect(() => {
+    const handleForegroundMessage = (payload: any) => {
+      console.log('[App] Foreground FCM message received:', payload);
+      
+      // Extract data from payload
+      const notificationData = payload.data || {};
+      const notification = payload.notification || {};
+
+      // Extract appointmentId
+      let appointmentId = notificationData.appointmentId;
+      if (!appointmentId && notificationData.channelName) {
+        const parts = notificationData.channelName.split('-');
+        if (parts.length >= 3 && parts[0] === 'eshaafi' && parts[1] === 'consultation') {
+          appointmentId = parts.slice(2, -1).join('-');
+        } else {
+          appointmentId = notificationData.channelName;
+        }
+      }
+
+      if (!appointmentId) {
+        console.error('[App] No appointmentId in foreground FCM message');
+        return;
+      }
+
+      // Create call data object
+      const callData = {
+        type: 'incoming_call',
+        appointmentId,
+        doctorName: notificationData.name || notificationData.doctorName || notification.title || 'Doctor',
+        agoraToken: notificationData.token || notificationData.agoraToken,
+        appId: notificationData.appId,
+        channelName: notificationData.channelName,
+        profileUrl: notificationData.profileUrl,
+        educationTitle: notificationData.educationTitle
+      };
+
+      console.log('[App] Foreground call data:', callData);
+
+      // Store in sessionStorage
+      sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
+
+      // Dispatch incoming_call event
+      window.dispatchEvent(new CustomEvent('incoming_call', { detail: callData }));
+    };
+
+    onForegroundMessage(handleForegroundMessage);
   }, []);
 
   // Global incoming call notification listener
@@ -100,8 +150,9 @@ export default function App({ Component, pageProps }: AppProps) {
                   console.log('[App] Accept button clicked, storing callData:', callData);
                   closeSnackbar(key);
                   sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
-                  console.log('[App] Navigating to:', `/appointments/${callData.appointmentId}?incoming=1&autoJoin=1`);
-                  await router.push(`/appointments/${callData.appointmentId}?incoming=1&autoJoin=1`);
+                  const encodedData = encodeURIComponent(JSON.stringify(callData));
+                  console.log('[App] Navigating to:', `/appointments/${callData.appointmentId}?incoming=1&autoJoin=1#calldata=${encodedData}`);
+                  await router.push(`/appointments/${callData.appointmentId}?incoming=1&autoJoin=1#calldata=${encodedData}`);
                 }}
                 style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}
               >

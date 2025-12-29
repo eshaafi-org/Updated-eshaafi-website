@@ -29,6 +29,7 @@ export default function Timer({ appointment }: any) {
   const [agoraToken, setAgoraToken] = useState<string | null>(null);
   const [callData, setCallData] = useState<any>(null);
   const [isRequestingToken, setIsRequestingToken] = useState(false);
+  const [pendingAutoJoin, setPendingAutoJoin] = useState(false);
 
   // Get profile data from Redux
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
@@ -40,33 +41,43 @@ export default function Timer({ appointment }: any) {
   // Listen for service worker messages IMMEDIATELY on mount (before appointment loads)
   useEffect(() => {
     const handleServiceWorkerMessage = (event: MessageEvent) => {
-      //console.log('[Timer] Early service worker message received:', event.data);
-      //console.log('[Timer] Message type:', event.data?.type);
-      //console.log('[Timer] Has agoraToken?:', !!event.data?.agoraToken);
+      console.log('[Timer] Early service worker message received:', event.data);
+      console.log('[Timer] Message type:', event.data?.type);
+      console.log('[Timer] Has agoraToken?:', !!event.data?.agoraToken);
+      
+      const allowedTypes = ['incoming_call', 'accept_call', 'reject_call'];
+      if (!event.data || !allowedTypes.includes(event.data.type)) {
+        console.log('[Timer] Early message type not allowed:', event.data?.type);
+        return;
+      }
       
       if (event.data?.type === 'incoming_call') {
         const data = event.data;
-        //console.log('[Timer] ✅ Valid incoming_call message, storing data');
-        //console.log('[Timer] Data to store:', data);
+        console.log('[Timer] Early incoming_call received, storing data');
+        console.log('[Timer] Data:', data);
         sessionStorage.setItem('incomingCallData', JSON.stringify(data));
-        //console.log('[Timer] Data stored in sessionStorage');
         setCallData(data);
-        //console.log('[Timer] callData state updated');
         setIncomingCall(true);
-        //console.log('[Timer] incomingCall modal set to true');
-      } else {
-        //console.log('[Timer] ❌ Not an incoming_call message, ignoring');
+      } else if (event.data?.type === 'accept_call') {
+        const data = event.data;
+        console.log('[Timer] Early accept_call received, setting callData and calling acceptCall');
+        sessionStorage.setItem('incomingCallData', JSON.stringify(data));
+        setCallData(data);
+        acceptCall();
+      } else if (event.data?.type === 'reject_call') {
+        console.log('[Timer] Early reject_call received, calling rejectCall');
+        rejectCall();
       }
     };
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage);
+      window.addEventListener('message', handleServiceWorkerMessage);
       //console.log('[Timer] Early service worker listener registered');
     }
 
     return () => {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.removeEventListener('message', handleServiceWorkerMessage);
+        window.removeEventListener('message', handleServiceWorkerMessage);
       }
     };
   }, []); // Empty deps - run once on mount
@@ -78,18 +89,23 @@ export default function Timer({ appointment }: any) {
       const shouldAutoJoin = router.query.autoJoin === '1';
       
       // FIRST: Check URL hash for embedded call data (from service worker)
+      console.log('[Timer] Checking URL hash for call data, hash:', window.location.hash);
       if (typeof window !== 'undefined' && window.location.hash) {
         const hash = window.location.hash;
-        //console.log('[Timer] URL hash found:', hash);
+        console.log('[Timer] Found hash, looking for calldata...');
         
         const calldataMatch = hash.match(/#calldata=([^&]+)/);
         if (calldataMatch) {
+          console.log('[Timer] Found calldata in hash');
           try {
             const encodedData = calldataMatch[1];
+            console.log('[Timer] Encoded data length:', encodedData.length);
             const decodedData = decodeURIComponent(encodedData);
+            console.log('[Timer] Decoded data preview:', decodedData.substring(0, 100) + '...');
             const parsedCallData = JSON.parse(decodedData);
             console.log('[Timer] ✅ Extracted call data from URL hash:', parsedCallData);
-            console.log('[Timer] agoraToken:', parsedCallData.agoraToken);
+            console.log('[Timer] agoraToken present:', !!parsedCallData.agoraToken);
+            console.log('[Timer] shouldAutoJoin:', shouldAutoJoin);
             
             setCallData(parsedCallData);
             sessionStorage.setItem('incomingCallData', JSON.stringify(parsedCallData));
@@ -153,11 +169,10 @@ export default function Timer({ appointment }: any) {
         //console.warn('[Timer] No call data found in sessionStorage!');
       }
 
-      // If no call data was found but autoJoin is requested, try to request token from backend
+      // If no call data was found but autoJoin is requested, set pending auto join
       if (!foundCallData && shouldAutoJoin) {
-        //console.log('[Timer] No call data, but autoJoin requested - attempting to accept call (will request token from backend)');
-        // attempt to accept call which will request token from backend
-        acceptCall();
+        console.log('[Timer] No call data, but autoJoin requested - waiting for call data from service worker');
+        setPendingAutoJoin(true);
       }
 
       // If no call data and not autoJoining, show the incoming snackbar so user can accept manually
@@ -193,6 +208,15 @@ export default function Timer({ appointment }: any) {
       }, undefined, { shallow: true });
     }
   }, [router.query.incoming]);
+
+  // Handle pending auto join when callData becomes available
+  useEffect(() => {
+    if (pendingAutoJoin && callData) {
+      console.log('[Timer] Call data received, processing pending auto join');
+      setPendingAutoJoin(false);
+      acceptCall();
+    }
+  }, [pendingAutoJoin, callData]);
 
   const getTime = useCallback(() => {
     if (moment(deadline).valueOf() > Date.now()) {
@@ -241,6 +265,24 @@ export default function Timer({ appointment }: any) {
       if (data.appointmentId === appointmentId) {
         console.log('[Timer] Setting callData from service worker:', data);
         setCallData(data);
+        
+        // Handle different message types
+        if (event.data.type === 'accept_call') {
+          console.log('[Timer] Received accept_call, calling acceptCall');
+          acceptCall();
+          return;
+        } else if (event.data.type === 'reject_call') {
+          console.log('[Timer] Received reject_call, calling rejectCall');
+          rejectCall();
+          return;
+        }
+        
+        // For incoming_call, check if pending auto join
+        if (pendingAutoJoin) {
+          console.log('[Timer] Pending auto join detected for incoming_call, skipping incoming call UI');
+          return;
+        }
+
         setIncomingCall(true);
 
         // Also store in sessionStorage as backup
@@ -340,7 +382,7 @@ export default function Timer({ appointment }: any) {
 
     // Listen for messages from service worker (FCM notifications clicked while app closed)
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage);
+      window.addEventListener('message', handleServiceWorkerMessage);
     }
     
     // Listen for custom window events (FCM notifications while app is open)
@@ -348,7 +390,7 @@ export default function Timer({ appointment }: any) {
     
     return () => {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.removeEventListener('message', handleServiceWorkerMessage);
+        window.removeEventListener('message', handleServiceWorkerMessage);
       }
       window.removeEventListener('incoming_call', handleWindowIncomingCall);
     };
@@ -418,7 +460,7 @@ export default function Timer({ appointment }: any) {
       console.log('[Call] No token in callData, requesting from backend');
       
       // Fallback: Request token from backend if not in notification
-      const appointmentId = appointment?.appointmentId || appointment?.id;
+      const appointmentId = activeCallData?.appointmentId || appointment?.appointmentId || appointment?.id;
       console.log('[Call] Appointment ID:', appointmentId);
       
       const response = await axios.get(

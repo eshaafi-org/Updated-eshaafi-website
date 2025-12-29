@@ -24,7 +24,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 // Service Worker Version - increment this to force update
-const SW_VERSION = 'v2.0.4';
+const SW_VERSION = 'v2.0.7';
 console.log('[ServiceWorker] Version:', SW_VERSION);
 
 // Install event
@@ -62,6 +62,22 @@ messaging.onBackgroundMessage((payload) => {
 
   console.log('[ServiceWorker] Notification data:', notificationData);
 
+  // Validate that we have an appointmentId before showing notification
+  let appointmentIdForValidation = notificationData.appointmentId;
+  if (!appointmentIdForValidation && notificationData.channelName) {
+    // Extract appointmentId from channelName format: eshaafi-consultation-{appointmentId}-{profileId}
+    const parts = notificationData.channelName.split('-');
+    if (parts.length >= 3 && parts[0] === 'eshaafi' && parts[1] === 'consultation') {
+      appointmentIdForValidation = parts.slice(2, -1).join('-');
+    } else {
+      appointmentIdForValidation = notificationData.channelName;
+    }
+  }
+  if (!appointmentIdForValidation) {
+    console.error('[ServiceWorker] Cannot show notification - no appointmentId in data:', notificationData);
+    return;
+  }
+
   // Send message to all clients immediately (for foreground app)
   self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
     console.log('[ServiceWorker] Found', clients.length, 'open windows');
@@ -69,7 +85,7 @@ messaging.onBackgroundMessage((payload) => {
       console.log('[ServiceWorker] Posting message to client:', client.url);
       client.postMessage({
         type: 'incoming_call',
-        appointmentId: notificationData.channelName || notificationData.appointmentId,
+        appointmentId: appointmentIdForValidation,
         doctorName: notificationData.name || notificationData.doctorName || notification.title || 'Doctor',
         agoraToken: notificationData.token || notificationData.agoraToken,
         appId: notificationData.appId,
@@ -79,13 +95,6 @@ messaging.onBackgroundMessage((payload) => {
       });
     });
   });
-
-  // Validate that we have an appointmentId before showing notification
-  const appointmentIdForValidation = notificationData.channelName || notificationData.appointmentId;
-  if (!appointmentIdForValidation) {
-    console.error('[ServiceWorker] Cannot show notification - no appointmentId in data:', notificationData);
-    return;
-  }
 
   const notificationTitle = notification.title || 'Incoming Video Call';
   const notificationOptions = {
@@ -156,9 +165,7 @@ self.addEventListener('notificationclick', (event) => {
   console.log('[ServiceWorker] Notification data:', event.notification.data);
 
   const notificationData = event.notification.data || {};
-  const appointmentId = notificationData.appointmentId ||
-                        notificationData.channelName ||
-                        notificationData.appointmentId;
+  const appointmentId = notificationData.appointmentId;
 
   console.log('[ServiceWorker] Extracted appointmentId:', appointmentId);
 
@@ -178,6 +185,23 @@ self.addEventListener('notificationclick', (event) => {
   }
 
   console.log('[ServiceWorker] Target URL for navigation:', targetUrl);
+
+  // Create callData object
+  const callData = {
+    appointmentId,
+    doctorName: notificationData.name || notificationData.doctorName || notification.title || 'Doctor',
+    agoraToken: notificationData.token || notificationData.agoraToken,
+    appId: notificationData.appId,
+    channelName: notificationData.channelName,
+    profileUrl: notificationData.profileUrl,
+    educationTitle: notificationData.educationTitle
+  };
+
+  // Encode callData and add to URL hash
+  const encodedData = encodeURIComponent(JSON.stringify(callData));
+  const urlWithData = `${targetUrl}#calldata=${encodedData}`;
+
+  console.log('[ServiceWorker] URL with callData:', urlWithData);
 
   // Close the notification
   event.notification.close();
@@ -223,22 +247,36 @@ self.addEventListener('notificationclick', (event) => {
       if (clients.openWindow) {
         const newClient = await clients.openWindow(url);
 
-        if (newClient && messageType) {
-          // Send message multiple times to ensure it's received
-          console.log('[ServiceWorker] Sending messages to new window');
+        // Send messages to the new client and also to any existing clients with the appointment URL
+        const allClients = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+        const targetClients = allClients.filter(client => 
+          client.url.includes(`/appointments/${appointmentId}`)
+        );
 
+        if (newClient) {
+          targetClients.push(newClient);
+        }
+
+        console.log('[ServiceWorker] Sending messages to', targetClients.length, 'clients');
+
+        targetClients.forEach(client => {
+          // Send message multiple times to ensure it's received
           setTimeout(() => {
-            newClient.postMessage({ type: messageType, ...notificationData });
+            client.postMessage({ type: messageType, ...notificationData });
           }, 100);
 
           setTimeout(() => {
-            newClient.postMessage({ type: messageType, ...notificationData });
+            client.postMessage({ type: messageType, ...notificationData });
           }, 500);
 
           setTimeout(() => {
-            newClient.postMessage({ type: messageType, ...notificationData });
+            client.postMessage({ type: messageType, ...notificationData });
           }, 1000);
-        }
+
+          setTimeout(() => {
+            client.postMessage({ type: messageType, ...notificationData });
+          }, 2000);
+        });
 
         return newClient;
       }
@@ -250,7 +288,7 @@ self.addEventListener('notificationclick', (event) => {
   // Handle different actions
   if (event.action === 'accept') {
     console.log('[ServiceWorker] Accept action - opening call page');
-    event.waitUntil(focusOrOpenWindow(targetUrl, 'accept_call'));
+    event.waitUntil(focusOrOpenWindow(urlWithData, 'accept_call'));
   }
   else if (event.action === 'reject') {
     console.log('[ServiceWorker] Reject action - sending reject message');
@@ -266,7 +304,7 @@ self.addEventListener('notificationclick', (event) => {
   else {
     // Default click: open/focus the appointment page
     console.log('[ServiceWorker] Default click - opening call page');
-    event.waitUntil(focusOrOpenWindow(targetUrl, 'incoming_call'));
+    event.waitUntil(focusOrOpenWindow(urlWithData, 'incoming_call'));
   }
 });
 
