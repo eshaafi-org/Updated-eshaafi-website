@@ -5,6 +5,7 @@ export interface MediaItem {
   excerpt?: string;
   cover: string;
   images: string[];
+  imageCaptions?: string[];
   coverStyle?: React.CSSProperties; // Add optional style override for cover images
   imagesStyle?: React.CSSProperties; // Add optional style override for image lists
 }
@@ -163,6 +164,35 @@ export const mediaItems: MediaItem[] = [
       '/images/p21.png','/images/p22.png',
     ],
   },
+  // {
+  //   id: 'partnership-highlights-4',
+  //   title: 'Partnership Highlights',
+  //   category: 'Partnership',
+  //   excerpt: 'Zindigi & eShaafi Partners to Make Healthcare More Accessible',
+  //   cover: '/images/pz1.png',
+  //   images: [
+  //     '/images/pz2.png','/images/pz1.png',
+  //   ],
+  // },
+  {
+  id: 'partnership-highlights-4',
+  title: 'Partnership Highlights',
+  category: 'Partnership',
+  excerpt: 'Zindigi & eShaafi Partners to Make Healthcare More Accessible',
+  cover: '/images/pz1.png',
+  images: [
+    '/images/pz1.png',
+    '/images/pz2.png',
+    '/images/pz3.png',
+  ],
+  imageCaptions: [
+    'In a significant step forward for Pakistan’s digital health and financial ecosystem, Zindigi and eShaafi have entered into a strategic partnership to jointly drive innovation and to advance digital healthcare access for masses, especially those in remote and underserved communities.This collaboration brings together eShaafi’s end-to-end telehealth ecosystem and Zindigi’s advanced digital payment ecosystem, enabling users to access round-the-clock healthcare services and complete secure, instant digital payments , all within one seamless experience.',
+    'The MoU was formalized by Noman Azhar, Chief Officer of Zindigi, and Shafique Anwar, Founder & CEO of eShaafi, with senior leadership from both organizations in attendance. Noman Azhar, Chief Officer Zindigi, stated, ‘Through this partnership, we are bringing together Zindigi’s digital financial ecosystem and eShaafi’s innovative healthcare services to drive meaningful change. It reflects our commitment to reaching underserved communities and improving access where it’s needed most”',
+    'Commenting on the partnership, Shafique Anwar, Founder & CEO eShaafi said: “This collaboration is more than a partnership , it is a national commitment. Together with Zindigi, we are shaping a future where digital health and digital payments work hand in hand, breaking barriers that have kept communities from accessing quality and affordable healthcare.”',
+    'The partnership offers value to all stakeholders, enabling patients to access timely and affordable healthcare, empowering providers with efficient digital tools, and create lasting social impact. Together, Zindigi and eShaafi are reshaping the future of healthcare and financial inclusion in Pakistan, making seamless, technology-driven access a reality for everyone, everywhere.',
+  ],
+},
+
   {
     id: 'achievements-1',
     title: 'Achievements',

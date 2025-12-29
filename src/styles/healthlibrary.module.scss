@@ -1,14 +1,14 @@
 .wellbeingSection {
   position: relative;
   width: 100%;
-  height: 650px;
+  height: 550px;
   background: url("/images/healthhero-bg.png") center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: flex-end; // content moves to bottom
   padding-bottom: 80px; // spacing from bottom
 
-  // ✅ Overlay only at the bottom part of image
+  // Overlay only at the bottom part of image
   .overlay {
     position: absolute;
     bottom: 0;

@@ -25,17 +25,17 @@ const SectionTHUsInfo = () => {
     <section id="what-are-thus" className={styles.thusSection}>
       <div className={styles.container}>
         <h2 className={styles.title}>
-          What Are <span>THUs?</span>
+          What Are <span>Telehealth Units?</span>
         </h2>
         <p className={styles.desc}>
-          eShaafi THUs are digital clinics powered by our provided tablets that link our panel of doctors with patients in rural areas across Pakistan, where access to basic healthcare is not available.
+          eShaafi Telehealth Units are digital clinics powered by our provided tablets that link our panel of doctors with patients in rural areas across Pakistan, where access to basic healthcare is not available.
         </p>
         <div className={styles.bigSpace}></div>
         <h3 className={styles.subTitle}>
-          What Our <span>THUs</span> Offer?
+          What Our <span>Telehealth Units</span> Offer?
         </h3>
         <p className={styles.smallText}>
-          Comprehensive Care at Your Local THU
+          Comprehensive Care at Your Local Telehealth Units
         </p>
       </div>
 

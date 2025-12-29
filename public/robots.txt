@@ -1,0 +1,77 @@
+User-agent: *
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /signup
+Disallow: /register
+Disallow: /checkout
+Disallow: /cart
+Disallow: /payment
+Disallow: /order
+Disallow: /profile
+Disallow: /user/
+Disallow: /account/
+Disallow: /appointments
+Disallow: /thank-you
+Disallow: /success
+Disallow: /error
+Disallow: /tmp/
+Disallow: /test/
+Disallow: /search?
+Disallow: /*?*
+Disallow: /*&*
+
+Allow: /
+
+Allow: /assets/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# --- AI Crawlers ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Gemini
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Grok
+Allow: /
+
+User-agent: xAI
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# --- Search Engines ---
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Sitemap
+Sitemap: https://www.eshaafi.com/sitemap.xml

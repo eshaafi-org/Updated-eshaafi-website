@@ -102,11 +102,11 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
         
         // Skip slots with no available times
         if (!hasAvailableSlots(appointmentSlots)) {
-          console.log(`Skipping ${slot.slot_date} - no available slots`);
+          // console.log(`Skipping ${slot.slot_date} - no available slots`);
           continue;
         }
         
-        console.log(`Checking ${slot.slot_date}:`, appointmentSlots);
+        // console.log(`Checking ${slot.slot_date}:`, appointmentSlots);
         
         if (doc.isOnline === true) {
           // For online doctors, first try to find today's slots
@@ -120,7 +120,7 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
               selectedSlot = slot;
               selectedTime = convertTo12Hour(lastTime);
               showBookedTill = false;
-              console.log(`Selected for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
+              // console.log(`Selected for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
               break;
             }
           } else if (!selectedSlot) {
@@ -134,7 +134,7 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
               selectedSlot = slot;
               selectedTime = convertTo12Hour(firstTime);
               showBookedTill = true;
-              console.log(`Booked till for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
+              // console.log(`Booked till for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
               // Don't break - keep looking for today's slots
             }
           }
@@ -148,7 +148,7 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
           if (firstTime) {
             selectedSlot = slot;
             selectedTime = convertTo12Hour(firstTime);
-            console.log(`Selected for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
+            // console.log(`Selected for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
             break;
           }
         }
@@ -172,7 +172,7 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
       }
     }
     
-    // No fallback - if no time is set, the doctor won't show availability info
+   
 
     return {
       id: doc.Id,

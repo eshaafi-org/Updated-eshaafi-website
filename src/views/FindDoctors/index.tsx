@@ -6,14 +6,32 @@ import BenefitsSection from '@/components/FindDoctors/BenefitsSection'
 import FAQSection from '@/components/FindDoctors/FAQSection'
 import { BASE_URL } from '@/helper/CONST'
 import axios from 'axios'
+import { fetchAndSortDoctors, DoctorQueryPresets } from '@/helper/doctorApi'
 
 interface FindDoctorsViewProps {
-  doctors: any[]
+  doctors?: any[]
 }
 
-const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors }) => {
+const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors: initialDoctors = [] }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [doctorsWithSlots, setDoctorsWithSlots] = useState<any[]>([])
+  const [doctors, setDoctors] = useState<any[]>(initialDoctors)
+
+  // Fetch doctors if not provided
+  useEffect(() => {
+    if (doctors.length === 0) {
+      const fetchDoctors = async () => {
+        try {
+          const fetchedDoctors = await fetchAndSortDoctors(DoctorQueryPresets.allDoctors());
+          setDoctors(fetchedDoctors);
+        } catch (error) {
+          console.error("Error fetching doctors:", error);
+          setDoctors([]);
+        }
+      };
+      fetchDoctors();
+    }
+  }, [doctors.length]);
 
   // Fetch availability slots for all doctors
   useEffect(() => {
@@ -43,6 +61,8 @@ const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors }) => {
           })
         )
         setDoctorsWithSlots(doctorsWithAvailability)
+        setIsLoading(false)
+      } else {
         setIsLoading(false)
       }
     }

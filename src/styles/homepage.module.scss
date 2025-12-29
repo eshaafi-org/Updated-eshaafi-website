@@ -15,18 +15,22 @@
 /* Hero Section Styles */
 .hero {
   background: linear-gradient(180deg, #001624 10%, #00568A 100%);
-  //min-height: 669px;
-    min-height: 90vh;
-  padding: 100px 0 40px;
+  // min-height: 669px;
+  min-height: 520px;          // height kam
+  // padding: 10px 0 60px;
   position: relative;
   overflow: hidden;
+  padding: 20px 0 40px;
+  // padding: 40px 0 0px;            // navbar se gap
+  align-items: center;        //  vertical center
 
   &__container {
     max-width: 1440px;
     margin: 0 auto;
     padding: 0 40px;
     display: flex;
-    align-items: flex-start;
+    // align-items: flex-start;
+    align-items: center;        // 🔥 text + image center vertically
     justify-content: space-between;
     gap: 60px;
 
@@ -45,18 +49,24 @@
     z-index: 2;
     text-align: center; 
     margin-top: 100px;
-    padding-left: 20px;
-    padding-right: 20px;
+    // padding-left: 20px;
+    // padding-right: 20px;
+    // padding-top: 40px;
 
     /* Mobile adjustment */
     @media (max-width: 768px) {
-      margin-top: -20px;
+      margin-top: 40px;
       padding: 0 20px;
     }
+    @media (max-width: 992px) {
+  .hero__content {
+    text-align: center;
+  }
+}
   }
 
   &__title {
-    font-size: 44px;
+    font-size: 46px;
     font-weight: 600;
     color: white;
     margin: 0 0 16px 0;
@@ -64,28 +74,28 @@
     letter-spacing: -1px;
 
     @media (max-width: 1200px) {
-      font-size: 48px;
+      font-size: 52px;
     }
     @media (max-width: 992px) {
-      font-size: 41px;
+      font-size: 48px;
     }
     @media (max-width: 768px) {
-      font-size: 38px;
+      font-size: 40px;
     }
   }
 
   &__subtitle {
-    font-size: 24px;
+    font-size: 28px;
     color: rgba(255, 255, 255, 0.9);
     margin: 0 0 30px 0;
     line-height: 1.5;
     font-weight: 300;
 
     @media (max-width: 1200px) {
-      font-size: 15px;
+      font-size: 18px;
     }
     @media (max-width: 768px) {
-      font-size: 14px;
+      font-size: 16px;
       margin-bottom: 30px;
     }
   }
@@ -113,6 +123,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    // padding-top: 40px;
     text-align: center; /* ensures image centered */
   }
 }
@@ -120,18 +131,20 @@
 /* Hero Image */
 .heroImage {
   width: 100%;
-  max-width: 450px;
+  max-width: 340px;
+  display: flex;
+  padding-top: 40px;
   border-radius: 20px;
   object-fit: cover;
 
   @media (max-width: 1200px) {
-    max-width: 378px;
+    max-width: 420px;
   }
   @media (max-width: 992px) {
-    max-width: 324px;
+    max-width: 360px;
   }
   @media (max-width: 768px) {
-    max-width: 270px;
+    max-width: 300px;
   }
 }
 
@@ -240,7 +253,7 @@
 /* Psychologists Section */
 .psychologists {
   background: #f5f5f5;
-  padding: 80px 0;
+  padding: 50px 0;
 
   &__container {
     max-width: 1440px;

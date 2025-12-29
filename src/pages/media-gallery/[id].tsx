@@ -28,11 +28,43 @@ const MediaDetailPage: NextPage<Props> = ({ item }) => {
 
       <div className={styles.mainContent}>
         <div className={styles.verticalImageLayout}>
-          {item.images.map((src, i) => (
-            <div key={i} className={styles.imageWrapper}>
-              <img src={src} alt={`${item.title} ${i + 1}`} className={styles.gridImage} />
-            </div>
-          ))}
+          {item.id === 'partnership-highlights-4' ? (
+            <>
+              {item.images[0] && (
+                <div className={styles.imageWrapper}>
+                  <img src={item.images[0]} alt={`${item.title} 1`} className={styles.gridImage} />
+                  {item.imageCaptions && item.imageCaptions[0] && (
+                    <p className={styles.imageCaption}>{item.imageCaptions[0]}</p>
+                  )}
+                </div>
+              )}
+              {item.images[1] && (
+                <div className={styles.imageWrapper}>
+                  <img src={item.images[1]} alt={`${item.title} 2`} className={styles.gridImage} />
+                  {item.imageCaptions && item.imageCaptions[1] && (
+                    <p className={styles.imageCaption}>{item.imageCaptions[1]}</p>
+                  )}
+                </div>
+              )}
+              {item.images[2] && (
+                <div className={styles.imageWrapper}>
+                  <img src={item.images[2]} alt={`${item.title} 3`} className={styles.zindigiTallImage} />
+                  {item.imageCaptions && item.imageCaptions[2] && (
+                    <p className={styles.imageCaption}>{item.imageCaptions[2]}</p>
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            item.images.map((src, i) => (
+              <div key={i} className={styles.imageWrapper}>
+                <img src={src} alt={`${item.title} ${i + 1}`} className={styles.gridImage} />
+                {item.imageCaptions && item.imageCaptions[i] && (
+                  <p className={styles.imageCaption}>{item.imageCaptions[i]}</p>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
 {/* 
