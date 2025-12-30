@@ -11,6 +11,7 @@ import { SkeletonLoader } from '@/components/SkeletonLoader';
 import moment from 'moment';
 //import LottieLoading from '@/components/paymentLoading/paymentLoading';
 
+
 const Index = () => {
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);

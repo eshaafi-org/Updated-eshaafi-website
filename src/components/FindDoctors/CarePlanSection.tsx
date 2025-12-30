@@ -87,13 +87,13 @@ const CarePlanSection: React.FC = () => {
           'Access to Health Related to Webinars'
         ],
         isPopular: false,
-        note: '*Free Call after buying, Reimbursement if you changed your mind.'
+        //note: '*Free Call after buying, Reimbursement if you changed your mind.'
       }
     ],
     'Monthly Plans': [
       {
-        title: 'Essential Care',
-        price: 499,
+        title: 'Essential Care Plan',
+        price: 399,
         period: 'month',
         features: [
           'All Immediate Family Members',
@@ -106,10 +106,27 @@ const CarePlanSection: React.FC = () => {
           'Access to Health Related to Webinars'
         ],
         isPopular: false,
-        note: '*Free Call after buying, Reimbursement if you changed your mind.'
       },
       {
         title: 'Smart Family Care',
+        price: 899,
+        period: 'month',
+        features: [
+          'All Immediate Family Members',
+          'Unlimited GPs Calls',
+          '24/7 Availability of doctors',
+          'Upto 25% Discount on Labs',
+          'Discounted Medicines',
+          '2 Counselor Calls',
+          'Medical Health Record',
+          '10% Discount on Specialists',
+          '(Derma, ENT, Gynae, Dentists)',
+          'Access to Health Related to Webinars'
+        ],
+        isPopular: true,
+      },
+      {
+        title: 'Total Health Protection',
         price: 999,
         period: 'month',
         features: [
@@ -118,37 +135,18 @@ const CarePlanSection: React.FC = () => {
           '24/7 Availability of doctors',
           'Upto 25% Discount on Labs',
           'Discounted Medicines',
-          '2 Counselor Calls',
-          'Medical Health Record',
-          '10% Discount on Specialists (Derma, ENT, Gynae, Dentists)',
-          'Access to Health Related to Webinars'
-        ],
-        isPopular: true,
-        note: '*Free Call after buying, Reimbursement if you changed your mind.'
-      },
-      {
-        title: 'Total Health Protection',
-        price: 1199,
-        period: 'month',
-        features: [
-          'All Immediate Family Members',
-          'Unlimited GPs Calls',
-          '24/7 Availability of doctors',
-          'Upto 25% Discount on Labs',
-          'Discounted Medicines',
           '3 Counselor Calls',
           'Medical Health Record',
           '15% Discount on All Specialists',
           'Access to Health Related to Webinars'
         ],
         isPopular: false,
-        note: '*Free Call after buying, Reimbursement if you changed your mind.'
       }
     ],
     'Yearly Plans': [
       {
-        title: 'Essential Care',
-        price: 4999,
+        title: 'Essential Care Plan',
+        price: 3999,
         period: 'year',
         features: [
           'All Immediate Family Members',
@@ -161,11 +159,10 @@ const CarePlanSection: React.FC = () => {
           'Access to Health Related to Webinars'
         ],
         isPopular: false,
-        note: '*Free Call after buying, Reimbursement if you changed your mind.'
       },
       {
         title: 'Smart Family Care',
-        price: 9999,
+        price: 6999,
         period: 'year',
         features: [
           'All Immediate Family Members',
@@ -175,15 +172,15 @@ const CarePlanSection: React.FC = () => {
           'Discounted Medicines',
           '2 Counselor Calls',
           'Medical Health Record',
-          '10% Discount on Specialists (Derma, ENT, Gynae, Dentists)',
+          '10% Discount on Specialists',
+          '(Derma, ENT, Gynae, Dentists)',
           'Access to Health Related to Webinars'
         ],
         isPopular: false,
-        note: '*Free Call after buying, Reimbursement if you changed your mind.'
       },
       {
         title: 'Total Health Protection',
-        price: 11999,
+        price: 8999,
         period: 'year',
         features: [
           'All Immediate Family Members',
@@ -197,7 +194,6 @@ const CarePlanSection: React.FC = () => {
           'Access to Health Related to Webinars'
         ],
         isPopular: false,
-        note: '*Free Call after buying, Reimbursement if you changed your mind.'
       }
     ]
   };
@@ -238,7 +234,7 @@ const CarePlanSection: React.FC = () => {
               period={plan.period}
               features={plan.features}
               isPopular={plan.isPopular}
-              note={plan.note}
+              // note={plan.note}
             />
           ))}
         </div>
