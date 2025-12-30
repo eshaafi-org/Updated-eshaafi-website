@@ -61,7 +61,7 @@ const LeadershipTeamSection = () => {
       id: 6,
       name: "Pasha Ahtesham",
       position: "Head of Partnerships & Growth",
-      image: "/images/profile6.png",
+      image: "/images/PashaAhtesham.webp",
       linkedin: "http://linkedin.com/in/pasha-ahtesham-✪-5010aa307 ",
       description:
         "Pasha is an enthusiastic young blood and works heftily on networking and making connections for eShaafi by explaining realistic facts that people truly care about.",
