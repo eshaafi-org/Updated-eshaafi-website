@@ -1,8 +1,8 @@
 .wellbeingSection {
   position: relative;
   width: 100%;
-  height: 550px;
-  background: url("/images/healthhero-bg.png") center/cover no-repeat;
+  height: 520px;
+  background: url("/images/healthhero-bg.webp") center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: flex-end; // content moves to bottom
@@ -99,7 +99,7 @@
 
 /*recent blog*/
 .recentBlogs {
-  padding: 60px 40px;
+  padding: 40px 40px;
   background-color: #f9f9f9;
 
   .headerRow {
@@ -1274,4 +1274,3 @@
     }
   }
 }
-

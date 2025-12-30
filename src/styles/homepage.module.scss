@@ -16,12 +16,12 @@
 .hero {
   background: linear-gradient(180deg, #001624 10%, #00568A 100%);
   // min-height: 669px;
-  min-height: 520px;          // height kam
+  min-height: 520px;          // height 
   // padding: 10px 0 60px;
   position: relative;
   overflow: hidden;
   padding: 20px 0 40px;
-  // padding: 40px 0 0px;            // navbar se gap
+  // padding: 40px 0 0px;           
   align-items: center;        //  vertical center
 
   &__container {
@@ -30,7 +30,7 @@
     padding: 0 40px;
     display: flex;
     // align-items: flex-start;
-    align-items: center;        // 🔥 text + image center vertically
+    align-items: center;        // text + image center vertically
     justify-content: space-between;
     gap: 60px;
 

@@ -57,13 +57,16 @@ $font-inter: 'Inter', sans-serif;
     height: 90vh; // kept 100vh as requested
     //  padding-top: 50px;
      margin-top: 40px;
-    background: url('/images/mindwellnesshero.png');
+
+    background: url('/images/mindwellnesshero.webp');
+
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: flex-end;
     justify-content: center;
     overflow: hidden;
+    // border-radius: 20px;
 
     .hero-overlay {
       position: absolute;

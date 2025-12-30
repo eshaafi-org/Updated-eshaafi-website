@@ -8,6 +8,7 @@ interface PlanCardProps {
   period: string;
   features: string[];
   isPopular?: boolean;
+  note?: string;
 }
 
 const PlanCard: React.FC<PlanCardProps> = ({
@@ -16,7 +17,8 @@ const PlanCard: React.FC<PlanCardProps> = ({
   price,
   period,
   features,
-  isPopular = false
+  isPopular = false,
+  note
 }) => {
   return (
     <div className={`${styles.planCard} ${isPopular ? styles.popularPlan : ''}`}>
@@ -45,6 +47,20 @@ const PlanCard: React.FC<PlanCardProps> = ({
         ))}
       </ul>
 
+      {note && (
+        <div className={styles.planNote} style={{ 
+          marginTop: '12px', 
+          marginBottom: '12px',
+          fontSize: '12px', 
+          color: '#6b7280', 
+          fontStyle: 'italic',
+          lineHeight: '1.4',
+          textAlign: 'center'
+        }}>
+          {note}
+        </div>
+      )}
+
       <button className={styles.subscribeBtn}>Subscribe Plan</button>
     </div>
   );
@@ -55,61 +71,141 @@ const CarePlanSection: React.FC = () => {
 
   const planTabs = ['Weekly Plans', 'Monthly Plans', 'Yearly Plans'];
 
-  const plans = [
-    {
-      title: 'Essential Care',
-      savingBadge: 'Save 25%',
-      price: 499,
-      period: 'month',
-      features: [
-        'Immediate Family Coverage',
-        'Unlimited GP Support',
-        '24/7 Doctor Access',
-        'Up to 25% Lab Discounts',
-        '2 Counseling Sessions',
-        'Digital Health Records',
-        'Expert Wellness Webinars'
-      ],
-      isPopular: false
-    },
-    {
-      title: 'Smart Family Care',
-      savingBadge: 'Save 25%',
-      price: 999,
-      period: 'month',
-      features: [
-        'Immediate Family Coverage',
-        'Unlimited GP Support',
-        '24/7 Doctor Access',
-        'Up to 25% Lab Discounts',
-        '2 Counseling Sessions',
-        'Digital Health Records',
-        '15% Off At Specialties',
-        'Expert Wellness Webinars'
-      ],
-      isPopular: true
-    },
-    {
-      title: 'Total Health Protection',
-      savingBadge: 'Save 25%',
-      price: 1199,
-      period: 'month',
-      features: [
-        'Immediate Family Coverage',
-        'Unlimited GP Support',
-        '24/7 Doctor Access',
-        'Up to 25% Lab Discounts',
-        '3 Counseling Sessions',
-        'Digital Health Records',
-        '15% Off At Specialties',
-        'Access to Health & Wellness Webinars'
-      ],
-      isPopular: false
-    }
-  ];
+  const plansData = {
+    'Weekly Plans': [
+      {
+        title: 'Basic Family',
+        price: 200,
+        period: 'week',
+        features: [
+          'All Immediate Family Members',
+          '2 GP Calls',
+          '24/7 Availability of doctors',
+          'Upto 25% Lab Discounts',
+          'Discounted Medicines',
+          'Medical Health Record',
+          'Access to Health Related to Webinars'
+        ],
+        isPopular: false,
+        note: '*Free Call after buying, Reimbursement if you changed your mind.'
+      }
+    ],
+    'Monthly Plans': [
+      {
+        title: 'Essential Care',
+        price: 499,
+        period: 'month',
+        features: [
+          'All Immediate Family Members',
+          'Unlimited GPs Calls',
+          '24/7 Availability of doctors',
+          'Upto 25% Discount on Labs',
+          'Discounted Medicines',
+          '2 Counselor Calls',
+          'Medical Health Record',
+          'Access to Health Related to Webinars'
+        ],
+        isPopular: false,
+        note: '*Free Call after buying, Reimbursement if you changed your mind.'
+      },
+      {
+        title: 'Smart Family Care',
+        price: 999,
+        period: 'month',
+        features: [
+          'All Immediate Family Members',
+          'Unlimited GPs Calls',
+          '24/7 Availability of doctors',
+          'Upto 25% Discount on Labs',
+          'Discounted Medicines',
+          '2 Counselor Calls',
+          'Medical Health Record',
+          '10% Discount on Specialists (Derma, ENT, Gynae, Dentists)',
+          'Access to Health Related to Webinars'
+        ],
+        isPopular: true,
+        note: '*Free Call after buying, Reimbursement if you changed your mind.'
+      },
+      {
+        title: 'Total Health Protection',
+        price: 1199,
+        period: 'month',
+        features: [
+          'All Immediate Family Members',
+          'Unlimited GPs Calls',
+          '24/7 Availability of doctors',
+          'Upto 25% Discount on Labs',
+          'Discounted Medicines',
+          '3 Counselor Calls',
+          'Medical Health Record',
+          '15% Discount on All Specialists',
+          'Access to Health Related to Webinars'
+        ],
+        isPopular: false,
+        note: '*Free Call after buying, Reimbursement if you changed your mind.'
+      }
+    ],
+    'Yearly Plans': [
+      {
+        title: 'Essential Care',
+        price: 4999,
+        period: 'year',
+        features: [
+          'All Immediate Family Members',
+          'Unlimited GPs Calls',
+          '24/7 Availability of doctors',
+          'Upto 25% Discount on Labs',
+          'Discounted Medicines',
+          '2 Counselor Calls',
+          'Medical Health Record',
+          'Access to Health Related to Webinars'
+        ],
+        isPopular: false,
+        note: '*Free Call after buying, Reimbursement if you changed your mind.'
+      },
+      {
+        title: 'Smart Family Care',
+        price: 9999,
+        period: 'year',
+        features: [
+          'All Immediate Family Members',
+          'Unlimited GPs Calls',
+          '24/7 Availability of doctors',
+          'Upto 25% Discount on Labs',
+          'Discounted Medicines',
+          '2 Counselor Calls',
+          'Medical Health Record',
+          '10% Discount on Specialists (Derma, ENT, Gynae, Dentists)',
+          'Access to Health Related to Webinars'
+        ],
+        isPopular: false,
+        note: '*Free Call after buying, Reimbursement if you changed your mind.'
+      },
+      {
+        title: 'Total Health Protection',
+        price: 11999,
+        period: 'year',
+        features: [
+          'All Immediate Family Members',
+          'Unlimited GPs Calls',
+          '24/7 Availability of doctors',
+          'Upto 25% Discount on Labs',
+          'Discounted Medicines',
+          '3 Counselor Calls',
+          'Medical Health Record',
+          '15% Discount on All Specialists',
+          'Access to Health Related to Webinars'
+        ],
+        isPopular: false,
+        note: '*Free Call after buying, Reimbursement if you changed your mind.'
+      }
+    ]
+  };
+
+  const currentPlans = plansData[activeTab as keyof typeof plansData];
 
   return (
-    <section id="subscription-plans"  className={styles.carePlanSection}>
+    <section id="subscription-plans" className={styles.carePlanSection}>
       <div className={styles.carePlanWrapper}>
         <div className={styles.carePlanHeader}>
           <h2 className={styles.carePlanTitle}>
@@ -134,15 +230,15 @@ const CarePlanSection: React.FC = () => {
         </div>
 
         <div className={styles.plansContainer}>
-          {plans.map((plan, index) => (
+          {currentPlans.map((plan, index) => (
             <PlanCard
               key={index}
               title={plan.title}
-              savingBadge={plan.savingBadge}
               price={plan.price}
               period={plan.period}
               features={plan.features}
               isPopular={plan.isPopular}
+              note={plan.note}
             />
           ))}
         </div>

@@ -417,7 +417,7 @@
   position: relative;
   width: 100%;
   padding: 6rem 2rem;
-  background: url("/images/corevalues-bg.png") center/cover no-repeat;
+  background: url("/images/corevalues-bg.webp") center/cover no-repeat;
   color: white;
 
   @include tablet-large-and-below {
@@ -945,7 +945,7 @@
   justify-content: center;
   align-items: center;
   padding-bottom: 70px;
-  background: url('/images/CTA-bg.png') center center/cover no-repeat; 
+  background: url('/images/about-us-CTA-bg.webp') center center/cover no-repeat; 
 
   &::after {
     content: "";

@@ -106,7 +106,7 @@ const OurServices: React.FC = () => {
 
           {/* Center Doctor Image */}
           <div className={styles.doctorImage}>
-            <img src="/images/service-doctor.png" alt="Doctor" />
+            <img src="/images/service-doctor.webp" alt="Doctor" />
           </div>
 
           {/* Right Services */}

@@ -672,7 +672,6 @@ import { FiLogOut } from "react-icons/fi";
 import Cart from "./Cart";
 import { unregisterDeviceToken } from "@/helper/notifications";
 
-
 interface DropdownItem {
   name: string;
   href: string;
@@ -803,8 +802,10 @@ const allPages: SearchContentItem[] = navbarItems.flatMap(item => {
 });
 
 // Extended search data with doctors, specialties, labs, and services
+
 const getSearchableContent = (doctorsData?: any[]): SearchContentItem[] => {
   const searchContent: SearchContentItem[] = [
+
     // Navigation pages
     ...allPages,
     

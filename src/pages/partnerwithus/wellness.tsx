@@ -147,7 +147,7 @@ const WellnessAreas: React.FC = () => {
 
   <div className={styles.imageWrapper}>
     <img
-      src="/images/schedule-img.png"
+      src="/images/schedule-a-meeting.webp"
       alt="Doctor Meeting"
       className={styles.bannerImage}
     />

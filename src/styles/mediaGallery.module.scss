@@ -1,8 +1,9 @@
 /* Hero remains the same */
 
 .hero {
-  background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('/images/media-gallery-bg.png') center/cover no-repeat;
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('/images/media-gallery-bg.webp') center/cover no-repeat;
   padding: 200px 20px;
+  height: 80vh;
   color: #fff;
   text-align: center;
   display:flex;

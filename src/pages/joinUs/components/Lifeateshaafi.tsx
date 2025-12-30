@@ -31,27 +31,27 @@ const LifeAtEShaafi: React.FC = () => {
 
       <div className={styles.grid}>
         <figure className={`${styles.card} ${styles.cardA}`}>
-          <img src="/images/life1.png" alt="Ethics First" />
+          <img src="/images/ethics-first.webp" alt="Ethics First" />
           <figcaption>Ethics First</figcaption>
         </figure>
 
         <figure className={`${styles.card} ${styles.cardB}`}>
-          <img src="/images/life2.png" alt="Building trust everyday" />
+          <img src="/images/building-trust.webp" alt="Building trust everyday" />
           <figcaption>Building trust everyday</figcaption>
         </figure>
 
         <figure className={`${styles.card} ${styles.cardC}`}>
           <figcaption>Privacy respected</figcaption>
-          <img src="/images/life3.png" alt="Privacy respected" />
+          <img src="/images/privacy-respected.webp" alt="Privacy respected" />
         </figure>
 
         <figure className={`${styles.card} ${styles.cardD}`}>
-          <img src="/images/life4.png" alt="Professionalism preserved" />
+          <img src="/images/professionalism-preserved.webp" alt="Professionalism preserved" />
           <figcaption>Professionalism preserved</figcaption>
         </figure>
 
         <figure className={`${styles.card} ${styles.cardE}`}>
-          <img src="/images/life5.png" alt="Working with heart" />
+          <img src="/images/working-with-heart.webp" alt="Working with heart" />
           <figcaption>Working with heart</figcaption>
         </figure>
       </div>

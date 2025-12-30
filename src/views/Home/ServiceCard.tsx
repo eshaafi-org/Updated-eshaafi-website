@@ -18,15 +18,15 @@ const ServicesGridSection: React.FC = () => {
       id: 1,
       title: 'Labs',
       description: 'Book online. Get tested at home. With discounts.',
-      imageSrc: '/images/lab.png',
+      imageSrc: '/images/lab.webp',
       exploreLink: '/labs',
       bookLink: '/labs'
     },
-    { 
+    {
       id: 2,
       title: 'Medicines',
       description: 'Order online. Delivered with discounts.',
-      imageSrc: '/images/medicines.png',
+      imageSrc: '/images/medicines.webp',
       exploreLink: '/medicines',
       bookLink: '/medicines'
     },
@@ -34,7 +34,7 @@ const ServicesGridSection: React.FC = () => {
       id: 3,
       title: 'Subscription Plans',
       description: 'Personalized for you and your family’s complete health.',
-      imageSrc: '/images/careplans.png',
+      imageSrc: '/images/careplans.webp',
       exploreLink: '/find-doctors#subscription-plans',
       bookLink: '/find-doctors#subscription-plans'
     },
@@ -42,7 +42,7 @@ const ServicesGridSection: React.FC = () => {
       id: 4,
       title: 'Corporate Care',
       description: 'Work energized. Health support for your team.',
-      imageSrc: '/images/coporate.png',
+      imageSrc: '/images/corporate-care.webp',
       exploreLink: '/partnerwithus',
       bookLink: '/partnerwithus#schedule'
     },
@@ -50,7 +50,7 @@ const ServicesGridSection: React.FC = () => {
       id: 5,
       title: 'Wellness Sessions',
       description: 'For your mind and body. For yourself and your team.',
-      imageSrc: '/images/wellness.png',
+      imageSrc: '/images/wellness-session.webp',
       exploreLink: '/mind-wellness',
       bookLink: '/mind-wellness'
     },
@@ -58,7 +58,7 @@ const ServicesGridSection: React.FC = () => {
       id: 6,
       title: 'THUs',
       description: 'Accessible and quality healthcare. Reaching rural areas.',
-      imageSrc: '/images/thls.png',
+      imageSrc: '/images/THUS.webp',
       exploreLink: '/thus',
       bookLink: '/thus'
     }

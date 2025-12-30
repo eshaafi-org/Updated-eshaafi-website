@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import styles from "@/styles/aboutPage.module.scss";
 
 const FounderStorySection = ({
-  founderImage = "/images/founder.png",
+  founderImage = "/images/founder.webp",
   founderName = "Shafique Anwar",
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);

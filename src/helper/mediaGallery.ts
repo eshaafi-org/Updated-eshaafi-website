@@ -17,9 +17,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'eShaafi Conducts Breast Cancer Awareness Session at Imagation & Hazal',
-    cover: '/images/4.png',
+    cover: '/images/hazel-mainimage.webp',
     images: [
-      '/images/impact_1_1.png','/images/impact_1_2.png','/images/impact_1_3.png'
+      '/images/session1-hazel.webp','/images/session2-hazel.webp','/images/session3-hazel.webp'
       
     ],
   },
@@ -28,10 +28,10 @@ export const mediaItems: MediaItem[] = [
     title: 'Partnership Highlights',
     category: 'Partnership',
     excerpt: 'eShaafi Partners with Excel Lab to Expand Affordable, Accessible Diagnostics forCommunities Across Pakistan',
-    cover: '/images/Excel-Lab-X.png',
+    cover: '/images/Excel-Lab-X.webp',
     images: [
-      '/images/p11.png',
-      '/images/p12.png',
+      '/images/session1-excel.webp',
+      '/images/session2-excel.webp',
     ],
   },
   {
@@ -49,9 +49,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'Breast Cancer Awareness Session Organized by eShaafi at Tetra Pak',
-    cover: '/images/2.png',
+    cover: '/images/main-image-tetrapak.webp',
     images: [
-      '/images/i_2_3.png','/images/i_2_1.png','/images/i_2_2.png'
+      '/images/session-image1-tetrapak.webp','/images/session-image2-tetrapak.webp','/images/session-image3-tetrapak.webp'
     ],
   },
   {
@@ -59,9 +59,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'eShaafi Leads Breast Cancer Awareness Initiative at Fiverivers Technologies',
-    cover: '/images/impactm3.png',
+    cover: '/images/main-image-Fiverivers.webp',
     images: [
-      '/images/i31.png','/images/i32.png','/images/i33.png'
+      '/images/session1-Fiverivers.webp','/images/session2-Fiverivers.webp','/images/session3-Fiverivers.webp'
     ],
   },
   {
@@ -69,9 +69,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'Corporate Breast Cancer Awareness Program by eShaafi at Folium AI', 
-    cover: '/images/i4.png',
+    cover: '/images/main-image-folium.webp',
     images: [
-      '/images/i41.png','/images/i42.png','/images/i43.png'
+      '/images/session1-folium.webp','/images/session2-folium.webp','/images/session3-folium.webp'
     ],
   },
   {
@@ -79,9 +79,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'Breast Cancer Awareness Session Delivered by eShaafi at My Brand Genius',
-    cover: '/images/i5.png',
+    cover: '/images/main-image-brand.webp',
     images: [
-      '/images/i51.png','/images/i52.png','/images/i53.png'
+      '/images/session1-brand.webp','/images/session2-brand.webp','/images/session3-brand.webp'
     ],
   },
   {
@@ -89,9 +89,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'Women health initiative and preventive care workshop...',
-    cover: '/images/i6.png',
+    cover: '/images/main-image-septem.webp',
     images: [
-      '/images/i61.png','/images/i62.png','/images/i63.png'
+      '/images/session1-septem.webp','/images/session2-septem.webp','/images/session3-septem.webp'
     ],
   },
   {
@@ -99,9 +99,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'Breast Cancer Awareness Drive by eShaafi at SUKUK',
-    cover: '/images/i7.png',
+    cover: '/images/main-image-sukuk.webp',
     images: [
-      '/images/i71.png','/images/i72.png','/images/i73.png'
+      '/images/session1-sukuk.webp','/images/session2-sukuk.webp','/images/session3-sukuk.webp'
     ],
   },
   {
@@ -109,9 +109,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'eShaafi Conducts Workplace Mental Health Session at Prime System Solutions Islamabad',
-    cover: '/images/i8.png',
+    cover: '/images/main-image-prime.webp',
     images: [
-      '/images/i81.png','/images/i82.png','/images/i83.png'
+      '/images/session1-prime.webp','/images/session2-prime.webp','/images/session3-prime.webp'
     ],
   },
   {
@@ -119,19 +119,19 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'eShaafi Conducts Workplace Mental Health Session at Prime System Solutions Lahore',
-    cover: '/images/i9.png',
+    cover: '/images/main-image-prme.webp',
     images: [
-      '/images/i91.png','/images/i92.png',    ],
+      '/images/session1-prme.webp','/images/session2-prme.webp',    ],
   },
   {
     id: 'impact-moment-10',
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'Workplace Mental Wellness Session Delivered by eShaafi at 9D Technologies',
-    cover: '/images/i10.png',
+    cover: '/images/main-image-9d.webp',
     coverStyle: { transform: 'scale(1.45)', objectPosition: 'center' }, // Extra zoom for this image
     images: [
-      '/images/i10_1.png','/images/i10_2.png','/images/i10_3.png','/images/i10_4.png'
+      '/images/session1-9d.webp','/images/session2-9d.webp','/images/session3-9d.webp','/images/session4-9d.webp'
     ],
   },
   {
@@ -139,9 +139,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Impact Moment',
     category: 'Impact',
     excerpt: 'Mind Wellness & Employee Well-Being Session by eShaafi at Mindstorm Studios',
-    cover: '/images/i11.png',
+    cover: '/images/main-screen-mind.webp',
     images: [
-      '/images/i11_1.png','/images/i11_2.png','/images/i11_3.png','/images/i11_4.png'
+      '/images/session1-mind.webp','/images/session2-mind.webp','/images/session3-mind.webp','/images/session4-mind.webp'
     ],
   },
   {
@@ -149,9 +149,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Partnership Highlights',
     category: 'Partnership',
     excerpt: 'eShaafi Partners with Green Pharmacy to Enhance Community Access to Medicines and Care',
-    cover: '/images/part2.jpg',
+    cover: '/images/main-image-greenpharmacy.webp',
     images: [
-      '/images/part31.png',
+      '/images/Medicine-greenpharmacy.webp',
     ],
   },
   {
@@ -159,9 +159,9 @@ export const mediaItems: MediaItem[] = [
     title: 'Partnership Highlights',
     category: 'Partnership',
     excerpt: 'eShaafi x Essa Lab — Expanding Reliable Diagnostic Services for Our Users',
-    cover: '/images/part3.png',
+    cover: '/images/main-image-Essa.webp',
     images: [
-      '/images/p21.png','/images/p22.png',
+      '/images/session1-Essa.webp','/images/session2-Essa.webp',
     ],
   },
   // {

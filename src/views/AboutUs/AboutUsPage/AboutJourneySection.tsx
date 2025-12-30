@@ -14,10 +14,10 @@ const AboutJourneySection = () => {
   ];
 
   const journeyImages = [
-    { src: "/images/journey1.png", shape: styles.topLeft },
-    { src: "/images/journey2.png", shape: styles.topRight },
-    { src: "/images/journey3.png", shape: styles.bottomLeft },
-    { src: "/images/journey4.png", shape: styles.bottomRight },
+    { src: "/images/square1.webp", shape: styles.topLeft },
+    { src: "/images/square2.webp", shape: styles.topRight },
+    { src: "/images/square3.webp", shape: styles.bottomLeft },
+    { src: "/images/square4.webp", shape: styles.bottomRight },
   ];
 
   return (

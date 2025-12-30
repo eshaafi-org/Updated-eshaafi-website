@@ -1,5 +1,6 @@
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
+import { useState } from "react";
 import RecentBlogs from "../healthlibrary/recentblog";
 import HealthTopics from "../healthlibrary/healthtopic";
 import styles from "../../styles/healthlibrary.module.scss";
@@ -21,6 +22,25 @@ const links = [
   { name: "Blog", link: "/blog" },
 ];
 export default function Blogs({ recentBlogs, categories }: any) {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Filter blogs based on search query
+  const filteredBlogs = recentBlogs.filter((blog: any) => {
+    if (!searchQuery.trim()) return true;
+    return (
+      blog.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      blog.name?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
+  // Filter categories based on search query
+  const filteredCategories = categories.filter((category: any) => {
+    if (!searchQuery.trim()) return true;
+    return (
+      category.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      category.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
   return (
     <>
       <Head>
@@ -39,13 +59,15 @@ export default function Blogs({ recentBlogs, categories }: any) {
                 type="text"
                 placeholder="Search blogs..."
                 className={styles.input}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
         </section>
 
-        <RecentBlogs recentBlogs={recentBlogs} />
-        <HealthTopics categories={categories} />
+        <RecentBlogs recentBlogs={filteredBlogs} />
+        <HealthTopics categories={filteredCategories} />
       </main>
     </>
   );

@@ -6,7 +6,7 @@ export default function LabsHero({ heading, text }: any) {
     <section
       className={styles.labsHeroContainer}
       style={{
-        backgroundImage: "url(/images/labhero.png)",
+        backgroundImage: "url(/images/labhero.webp)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

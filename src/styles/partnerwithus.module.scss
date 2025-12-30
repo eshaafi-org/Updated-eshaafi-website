@@ -1,8 +1,9 @@
+$navbar-height: 0px;
 .partnerPage {
   position: relative;
   width: 100%;
-  margin-top: 50px;
-  min-height: 100vh;
+  margin-top: 40px;
+  // min-height: 60vh;
   background: white;
   overflow-x: hidden;
 
@@ -10,16 +11,17 @@
   .mainContent {
     position: relative;
     width: 100%;
-    min-height: 90vh;
-    height: 90vh;
-    padding-top: 0;
+     .imageContainer {
+  position: absolute;
+  top: $navbar-height;  
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-    .imageContainer {
-      position: absolute;
-      inset: 0;
-      background: url("/images/partner-bg.png") center/cover no-repeat;
-      background-size: 110%;
-      background-position: center;
+  background-image: url("/images/partner-bg.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top; // no top cut
 
       // Left Gradient - Halka Black
       .gradientLeft {
@@ -61,7 +63,7 @@
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 2rem;
-      height: 100vh;
+      height: 90vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -134,7 +136,7 @@
       pointer-events: none;
       position: absolute;
       right: 2rem;
-      top: 48%;
+      top: 50%;
       transform: translateY(-50%) translateX(3rem);
 
       &.formVisible {
@@ -147,12 +149,12 @@
         background: white;
         border-radius: 1.25rem;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        width: 360px;
+        width: 340px;
         max-width: 100vw;
         transition: transform 0.6s;
         transform-style: preserve-3d;
         position: relative;
-        min-height: 500px;
+        min-height: 450px;
 
         &.flipped {
           transform: rotateY(180deg);
@@ -164,7 +166,7 @@
           top: 0;
           left: 0;
           width: 100%;
-          height: 100%;
+          height: 90%;
           padding: 2rem 1.75rem;
           display: flex;
           flex-direction: column;
@@ -241,7 +243,7 @@
         .formFields {
           display: flex;
           flex-direction: column;
-          gap: 0.9rem;
+          gap: 0.7rem;
 
           .inputGroup {
             display: flex;
@@ -260,7 +262,7 @@
             font-family: "Inter", sans-serif;
             outline: none;
             transition: all 0.3s;
-            height: 45px;
+            height: 40px;
 
             &::placeholder {
               color: #878787;
@@ -308,7 +310,7 @@
             cursor: pointer;
             margin-top: 0.5rem;
             transition: background 0.3s;
-            height: 50px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2159,6 +2161,3 @@
     }
   }
 }
-
-
-

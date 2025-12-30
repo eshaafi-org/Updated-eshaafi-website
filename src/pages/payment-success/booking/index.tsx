@@ -8,6 +8,7 @@ import eShaafiApp from "../../../../public/images/download-badge-google-play-bad
 import Link from "next/link";
 import Button from "@/components/Button";
 import { SkeletonLoader } from '@/components/SkeletonLoader';
+import moment from 'moment';
 //import LottieLoading from '@/components/paymentLoading/paymentLoading';
 
 const Index = () => {

@@ -47,7 +47,7 @@ const PsychologistsSection: React.FC = () => {
           transition={{ duration: 0.9, ease: "easeOut" }}
         >
           <img 
-            src="/images/laptop.png"
+            src="/images/Psychologist-laptop.webp"
             alt="Psychologists"
             className={styles.psychologistsImage}
           />

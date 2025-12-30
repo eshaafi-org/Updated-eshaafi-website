@@ -12,7 +12,7 @@ const LeadershipTeamSection = () => {
       id: 1,
       name: "Shafique Anwar",
       position: "Founder & CEO",
-      image: "/images/profile1.png",
+      image: "/images/shafique-anwar.webp",
       linkedin: "https://www.linkedin.com/in/shafique-anwar/ ",
       description:
         "An exemplary & visionary CEO who has built several startups, with each venture imparting valuable lessons for many. Mr. Shafique believes that the business focus yields a deep sense of fulfillment.",
@@ -25,7 +25,7 @@ const LeadershipTeamSection = () => {
           Co-Founder & Chief <br /> Strategy Officer
         </>
       ),
-      image: "/images/Vector (2).svg",
+      image: "/images/hajra-malik.webp",
       linkedin: "https://www.linkedin.com/in/hajra-malik-083871229/ ",
       description:
         "Ms. Hajra Malik leads eShaafi with a dream she’s carried from a young age to make healthcare not just accessible, but an experience of empathy and trust.",
@@ -34,7 +34,7 @@ const LeadershipTeamSection = () => {
       id: 3,
       name: "Ijaz Ahmed",
       position: "Chief Operating Officer (COO)",
-      image: "/images/profile3.png",
+      image: "/images/ijaz-ahmed.webp",
       linkedin: "https://www.linkedin.com/in/ijaz-ahmad-862707222/",
       description:
         "Visionary COO dedicated to making eShaafi a global telemedicine leader. Brings 30+ years of distinguished leadership experience in operations, strategic planning, and senior management.",
@@ -43,7 +43,7 @@ const LeadershipTeamSection = () => {
       id: 4,
       name: "Muhammad Faisal",
       position: "Head of Growth",
-      image: "/images/profile4.png",
+      image: "/images/muhammad-faisal.webp",
       linkedin: "https://www.linkedin.com/in/muhammad-faisal-vp/",
       description:
         "Driven by a vision for a healthier Pakistan, Faisal is passionate about polishing digital healthcare to revolutionize patient-centric treatment. He is highly experienced in the healthcare sector of Pakistan.",
@@ -52,7 +52,7 @@ const LeadershipTeamSection = () => {
       id: 5,
       name: "Ali Nadeem",
       position: "Head of Business Development",
-      image: "/images/profile5.png",
+      image: "/images/ali-nadeem.webp",
       linkedin: "https://www.linkedin.com/in/ali-nadeem-11296534/",
       description:
         "Seasoned business development leader with 13+ years of experience driving growth & partnerships in healthcare & corporate sectors.",
@@ -61,7 +61,7 @@ const LeadershipTeamSection = () => {
       id: 6,
       name: "Pasha Ahtesham",
       position: "Head of Partnerships & Growth",
-      image: "/images/profile6.png",
+      image: "/images/pasha-ahtesham.webp",
       linkedin: "http://linkedin.com/in/pasha-ahtesham-✪-5010aa307 ",
       description:
         "Pasha is an enthusiastic young blood and works heftily on networking and making connections for eShaafi by explaining realistic facts that people truly care about.",
@@ -70,7 +70,7 @@ const LeadershipTeamSection = () => {
       id: 7,
       name: "Dr. Ali Nasim",
       position: "Clinical Lead",
-      image: "/images/profile7.png",
+      image: "/images/ali-nasim.webp",
       linkedin: "https://www.linkedin.com/in/dr-ali-nasim-chattha-108a4473/",
       description:
         "An ENT Surgeon and General Physician committed to providing comprehensive, patient-centered care. Specialized in diagnosing and treating ear, nose, throat, head, and neck disorders, combining medical expertise with surgical precision",
@@ -79,7 +79,7 @@ const LeadershipTeamSection = () => {
       id: 8,
       name: "Ayesha Rafaqat",
       position: "Product Owner & CSR Lead",
-      image: "/images/profile8.png",
+      image: "/images/ayesha-rafaqat.webp",
       linkedin: "https://www.linkedin.com/in/ayesha-rafaqat",
       description:
         "Building human-first digital products that create real-world impact, Ayesha currently looking after product planning & development at eShaafi. She is passionate about experiences that serve, scale, and solve.",

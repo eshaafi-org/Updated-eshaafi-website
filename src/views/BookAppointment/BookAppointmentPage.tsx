@@ -368,7 +368,7 @@ export default function BookAppointmentPage({
   const handlePayPro = async () => {
     const appointmentId = response.appointmentId; // From /patients/doctors/checkAppointment
     const slotId = activeSlot.id; // From /patients/doctor/appointmentSlots (activeSlot.id)
-    const baseURL = "https://beta-pay.eshaafi.com";
+    const baseURL = "https://pay.eshaafi.com";
     const successUrl = `${window.location.origin}/payment-success/booking`; // App's success page
     const failureUrl = `${window.location.origin}/payment/failure`; // App's failure page
     const url = `${baseURL}/?appointment_id=${appointmentId}&slot_id=${slotId}&success_url=${encodeURIComponent(successUrl)}&failure_url=${encodeURIComponent(failureUrl)}`;
