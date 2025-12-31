@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 import Script from "next/script";
 import Providers from "../redux/provider";
 import { useEffect } from "react";
-import { initializeDeviceToken } from "@/helper/notifications";
+import SafariPushPrompt from '@/components/Notifications/SafariPushPrompt';
 import { SnackbarProvider, enqueueSnackbar, closeSnackbar } from 'notistack';
 // import { Urbanist } from 'next/font/google';
 import Finalfooter from "@/views/Footer/Finalfooter";
@@ -227,6 +227,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Providers>
         <GlobalIncomingHandler />
         <NotificationPermissionDialog />
+        <SafariPushPrompt />
         <main id="root">
           {router.pathname === "/blog/second/[id]" ||
             router.pathname === "/blog/mobile/[id]" ||

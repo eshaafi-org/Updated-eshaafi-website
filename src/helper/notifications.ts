@@ -103,40 +103,21 @@ export const initializeFirebaseMessaging = async (
   providedToken?: string // use backend-provided web push/FCM token when available
 ): Promise<string | null> => {
   try {
-    if (!('serviceWorker' in navigator) && !isSafari()) {
+    const browserIsSafari = isSafari();
+    console.log('[notifications] Browser detection:', browserIsSafari ? 'Safari' : 'Web (FCM)');
+
+    if (!('serviceWorker' in navigator) && !browserIsSafari) {
       console.warn('Service workers are not supported in this browser');
       return null;
     }
 
-    if (isSafari()) {
-      // Handle Safari push notifications
-      console.log('[notifications] Detected Safari, initializing Safari push');
-      
-      // Request Safari push permission and register token
-      (window as any).safari.pushNotification.requestPermission(
-        'https://beta.eshaafi.com', // Replace with your actual domain/push endpoint
-        websitePushID,
-        { userId: phoneNumber || '' },
-        async (permissionData: any) => {
-          if (permissionData.permission === 'granted') {
-            const token = permissionData.deviceToken;
-            console.log('[notifications] Safari token obtained:', token?.slice(0, 12));
-            
-            const registered = await registerDeviceToken(token, userId, phoneNumber, 'safari');
-            console.log('[notifications] Safari token registered?', registered);
-            
-            if (registered) {
-              localStorage.setItem('safari_token', token);
-              return token;
-            }
-          } else {
-            console.warn('Safari push permission denied');
-          }
-        }
-      );
-      return null; // Safari is async, so return null for now
-    } else {
-      // Handle FCM for other browsers
+    // For Safari, skip automatic push initialization - requires user gesture
+    if (browserIsSafari) {
+      console.log('[notifications] Safari detected - push permission requires user gesture, skipping auto-init');
+      return null;
+    }
+
+    // Handle FCM for other browsers (automatic initialization allowed)
       const hasPermission = await requestNotificationPermission();
       if (!hasPermission) {
         console.warn('Notification permission denied');
@@ -168,7 +149,57 @@ export const initializeFirebaseMessaging = async (
   }
 };
 
+// Separate function for Safari push - must be called from user gesture
+export const initializeSafariPush = async (
+  userId: string,
+  phoneNumber?: string
+): Promise<string | null> => {
+  try {
+    if (!isSafari()) {
+      console.warn('initializeSafariPush called on non-Safari browser');
+      return null;
+    }
 
+    console.log('[notifications] Initializing Safari push from user gesture');
+
+    // Request Safari push permission and register token
+    (window as any).safari.pushNotification.requestPermission(
+      'https://beta.eshaafi.com', // Replace with your actual domain/push endpoint
+      websitePushID,
+      { userId: phoneNumber || '' },
+      async (permissionData: any) => {
+        if (permissionData.permission === 'granted') {
+          const token = permissionData.deviceToken;
+          console.log('[notifications] Safari token obtained:', token?.slice(0, 12));
+
+          const registered = await registerDeviceToken(token, userId, phoneNumber, 'safari');
+          console.log('[notifications] Safari token registered?', registered);
+
+          if (registered) {
+            localStorage.setItem('safari_token', token);
+            return token;
+          }
+        } else {
+          console.warn('Safari push permission denied');
+        }
+      }
+    );
+    return null; // Safari is async, so return null for now
+  } catch (error) {
+    console.error('Error initializing Safari push:', error);
+    return null;
+  }
+};
+
+export const getSafariToken = (): string | null => {
+  return localStorage.getItem('safari_token');
+};
+
+// Check if Safari push notifications are supported and available
+export const isSafariPushAvailable = (): boolean => {
+  return isSafari() && typeof (window as any).safari !== 'undefined' && 
+         typeof (window as any).safari.pushNotification !== 'undefined';
+};
 
 export const getFCMToken = (): string | null => {
   return localStorage.getItem('fcm_token');
@@ -339,8 +370,11 @@ export default {
   requestNotificationPermission,
   registerDeviceToken,
   initializeFirebaseMessaging,
+  initializeSafariPush,
   initializeDeviceToken,
   getFCMToken,
+  getSafariToken,
+  isSafariPushAvailable,
   unregisterDeviceToken,
   subscribeToAppointmentNotifications,
   getDeviceId,
