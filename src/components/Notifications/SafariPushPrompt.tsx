@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { initializeSafariPush, isSafariPushAvailable, getSafariToken } from '@/helper/notifications';

@@ -142,8 +142,8 @@ export const initializeFirebaseMessaging = async (
       }
     }
 
-    return null;
-  } catch (error) {
+  
+catch (error) {
     console.error('Error initializing messaging:', error);
     return null;
   }
@@ -373,8 +373,6 @@ export default {
   initializeSafariPush,
   initializeDeviceToken,
   getFCMToken,
-  getSafariToken,
-  isSafariPushAvailable,
   unregisterDeviceToken,
   subscribeToAppointmentNotifications,
   getDeviceId,
