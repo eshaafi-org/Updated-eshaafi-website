@@ -274,8 +274,6 @@ export const subscribeToAppointmentNotifications = async (
   }
 };
 
-export const initializeDeviceToken = initializeFirebaseMessaging;
-
 // Listen for foreground FCM messages and show toast (only once)
 // Robust foreground notification: show persistent toast until call is started or dismissed
 
