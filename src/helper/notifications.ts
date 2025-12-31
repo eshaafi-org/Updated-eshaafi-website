@@ -162,31 +162,59 @@ export const initializeSafariPush = async (
 
     console.log('[notifications] Initializing Safari push from user gesture');
 
+    // Check current permission status
+    const currentPermission = getSafariPushPermissionStatus();
+    console.log('[notifications] Current Safari push permission:', currentPermission);
+
+    if (currentPermission === 'granted') {
+      console.log('[notifications] Safari push already granted, checking for existing token');
+      const existingToken = getSafariToken();
+      if (existingToken) {
+        return existingToken;
+      }
+    }
+
+    if (currentPermission === 'denied') {
+      console.warn('[notifications] Safari push permission previously denied');
+      return null;
+    }
+
     // Request Safari push permission and register token
     (window as any).safari.pushNotification.requestPermission(
-      'https://beta.eshaafi.com', // Replace with your actual domain/push endpoint
+      'https://beta.eshaafi.com/push', // Push package endpoint
       websitePushID,
       { userId: phoneNumber || '' },
       async (permissionData: any) => {
+        console.log('[notifications] Safari permission callback received:', {
+          permission: permissionData.permission,
+          deviceToken: permissionData.deviceToken?.slice(0, 12)
+        });
+
         if (permissionData.permission === 'granted') {
           const token = permissionData.deviceToken;
           console.log('[notifications] Safari token obtained:', token?.slice(0, 12));
 
-          const registered = await registerDeviceToken(token, userId, phoneNumber, 'safari');
-          console.log('[notifications] Safari token registered?', registered);
+          if (token) {
+            const registered = await registerDeviceToken(token, userId, phoneNumber, 'safari');
+            console.log('[notifications] Safari token registered?', registered);
 
-          if (registered) {
-            localStorage.setItem('safari_token', token);
-            return token;
+            if (registered) {
+              localStorage.setItem('safari_token', token);
+              console.log('[notifications] Safari token stored successfully');
+            } else {
+              console.error('[notifications] Failed to register Safari token with backend');
+            }
+          } else {
+            console.error('[notifications] No device token received from Safari');
           }
         } else {
-          console.warn('Safari push permission denied');
+          console.warn('[notifications] Safari push permission denied or failed');
         }
       }
     );
     return null; // Safari is async, so return null for now
   } catch (error) {
-    console.error('Error initializing Safari push:', error);
+    console.error('[notifications] Error initializing Safari push:', error);
     return null;
   }
 };
@@ -197,8 +225,21 @@ export const getSafariToken = (): string | null => {
 
 // Check if Safari push notifications are supported and available
 export const isSafariPushAvailable = (): boolean => {
-  return isSafari() && typeof (window as any).safari !== 'undefined' && 
+  return isSafari() && typeof (window as any).safari !== 'undefined' &&
          typeof (window as any).safari.pushNotification !== 'undefined';
+};
+
+// Check current Safari push permission status
+export const getSafariPushPermissionStatus = (): string => {
+  if (!isSafariPushAvailable()) return 'unsupported';
+
+  try {
+    const permissionData = (window as any).safari.pushNotification.permission(websitePushID);
+    return permissionData.permission || 'default';
+  } catch (error) {
+    console.error('Error checking Safari push permission:', error);
+    return 'error';
+  }
 };
 
 export const initializeDeviceToken = initializeFirebaseMessaging;

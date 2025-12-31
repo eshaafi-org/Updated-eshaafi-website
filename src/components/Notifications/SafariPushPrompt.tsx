@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { initializeSafariPush, isSafariPushAvailable, getSafariToken } from '@/helper/notifications';
+import { initializeSafariPush, isSafariPushAvailable, getSafariToken, getSafariPushPermissionStatus } from '@/helper/notifications';
 
 interface SafariPushPromptProps {
   className?: string;
@@ -15,14 +15,23 @@ export default function SafariPushPrompt({ className = '' }: SafariPushPromptPro
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
 
   useEffect(() => {
-    // Only show prompt if Safari push is available and no token exists
-    if (isSafariPushAvailable() && !getSafariToken() && userAuth?.uuid) {
-      // Show immediately when user logs in (no delay needed since it's user-initiated)
-      setShowPrompt(true);
-    } else {
-      // Hide if conditions no longer met
-      setShowPrompt(false);
-    }
+    // Only show prompt if Safari push is available, no token exists, and permission not denied
+    const permissionStatus = getSafariPushPermissionStatus();
+    const shouldShow = isSafariPushAvailable() &&
+                      !getSafariToken() &&
+                      userAuth?.uuid &&
+                      permissionStatus !== 'denied' &&
+                      permissionStatus !== 'granted';
+
+    console.log('[SafariPushPrompt] Permission check:', {
+      available: isSafariPushAvailable(),
+      hasToken: !!getSafariToken(),
+      hasUser: !!userAuth?.uuid,
+      permissionStatus,
+      shouldShow
+    });
+
+    setShowPrompt(shouldShow);
   }, [userAuth]);
 
   const handleEnablePush = async () => {
