@@ -61,7 +61,7 @@ export default function SafariPushPrompt({ className = '' }: SafariPushPromptPro
               Enable Push Notifications
             </h3>
             <p className="text-sm text-blue-700 mt-1">
-              Get notified about incoming video calls and important updates. Click "Enable" to allow notifications.
+              Get notified about incoming video calls and important updates. Click Enable to allow notifications.
             </p>
             <div className="mt-3 flex space-x-2">
               <button
