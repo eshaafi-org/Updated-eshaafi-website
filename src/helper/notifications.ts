@@ -5,6 +5,12 @@ import { BASE_URL, headers } from './CONST';
 import { requestNotificationPermission as getFCMTokenFromFirebase, onForegroundMessage } from '../config/firebase';
 import { toast } from 'react-toastify';
 
+const websitePushID = 'web.eshaafi.patientApp';
+
+function isSafari() {
+  return typeof window !== 'undefined' && /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+}
+
 
 export const requestNotificationPermission = async (): Promise<boolean> => {
   try {
@@ -34,23 +40,21 @@ export const requestNotificationPermission = async (): Promise<boolean> => {
 export const registerDeviceToken = async (
   token: string,
   userId: string,
-  phoneNumber?: string
+  phoneNumber?: string,
+  osName: 'web' | 'safari' = 'web'
 ): Promise<boolean> => {
   try {
-    console.log('[notifications] registerDeviceToken start', { userId, phoneNumber, tokenSnippet: token?.slice(0, 12) });
+    console.log('[notifications] registerDeviceToken start', { userId, phoneNumber, osName, tokenSnippet: token?.slice(0, 12) });
     const response = await fetch(`${BASE_URL}/auth/deviceToken`, {
       method: 'POST',
       headers: {
         ...headers(),
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        // 'app-version': '2.2.3-web',
-        // 'device-type': 'We',
-        // 'device-id': getDeviceId(),
       },
       body: JSON.stringify({
         phone_no: phoneNumber || '',
-        os_name: 'web',
+        os_name: osName,
         token: token,
         Id: userId,
       }),
@@ -99,39 +103,67 @@ export const initializeFirebaseMessaging = async (
   providedToken?: string // use backend-provided web push/FCM token when available
 ): Promise<string | null> => {
   try {
-   
-    if (!('serviceWorker' in navigator)) {
+    if (!('serviceWorker' in navigator) && !isSafari()) {
       console.warn('Service workers are not supported in this browser');
       return null;
     }
 
-    
-    const hasPermission = await requestNotificationPermission();
-    if (!hasPermission) {
-      console.warn('Notification permission denied');
-      return null;
-    }
-
-    let tokenToUse = providedToken;
-    if (!tokenToUse) {
-      tokenToUse = await getFCMTokenFromFirebase();
-    }
-
-    console.log('[notifications] initializeFirebaseMessaging token selected', { provided: !!providedToken, tokenSnippet: tokenToUse?.slice(0, 12) });
-
-    if (tokenToUse) {
-      const registered = await registerDeviceToken(tokenToUse, userId, phoneNumber);
-      console.log('[notifications] initializeFirebaseMessaging registered?', registered);
+    if (isSafari()) {
+      // Handle Safari push notifications
+      console.log('[notifications] Detected Safari, initializing Safari push');
       
-      if (registered) {
-        localStorage.setItem('fcm_token', tokenToUse);
-        return tokenToUse;
+      // Request Safari push permission and register token
+      (window as any).safari.pushNotification.requestPermission(
+        'https://beta.eshaafi.com', // Replace with your actual domain/push endpoint
+        websitePushID,
+        { userId: phoneNumber || '' },
+        async (permissionData: any) => {
+          if (permissionData.permission === 'granted') {
+            const token = permissionData.deviceToken;
+            console.log('[notifications] Safari token obtained:', token?.slice(0, 12));
+            
+            const registered = await registerDeviceToken(token, userId, phoneNumber, 'safari');
+            console.log('[notifications] Safari token registered?', registered);
+            
+            if (registered) {
+              localStorage.setItem('safari_token', token);
+              return token;
+            }
+          } else {
+            console.warn('Safari push permission denied');
+          }
+        }
+      );
+      return null; // Safari is async, so return null for now
+    } else {
+      // Handle FCM for other browsers
+      const hasPermission = await requestNotificationPermission();
+      if (!hasPermission) {
+        console.warn('Notification permission denied');
+        return null;
+      }
+
+      let tokenToUse = providedToken;
+      if (!tokenToUse) {
+        tokenToUse = await getFCMTokenFromFirebase();
+      }
+
+      console.log('[notifications] FCM token selected', { provided: !!providedToken, tokenSnippet: tokenToUse?.slice(0, 12) });
+
+      if (tokenToUse) {
+        const registered = await registerDeviceToken(tokenToUse, userId, phoneNumber, 'web');
+        console.log('[notifications] FCM token registered?', registered);
+        
+        if (registered) {
+          localStorage.setItem('fcm_token', tokenToUse);
+          return tokenToUse;
+        }
       }
     }
 
     return null;
   } catch (error) {
-    console.error('Error initializing Firebase Messaging:', error);
+    console.error('Error initializing messaging:', error);
     return null;
   }
 };
