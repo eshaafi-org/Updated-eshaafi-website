@@ -253,7 +253,7 @@
 /* Psychologists Section */
 .psychologists {
   background: #f5f5f5;
-  padding: 50px 0;
+  padding: 30px 0;
 
   &__container {
     max-width: 1440px;
@@ -317,8 +317,9 @@
 
     img.psychologistsImage {
       width: 100%;
-      max-width: 760px;
+      max-width: 600px;
       border-radius: 20px;
+
 
       @media (max-width: 992px) { max-width: 400px; }
       @media (max-width: 768px) { max-width: 300px; }
@@ -374,9 +375,9 @@
   padding: 30px 0;
 
   &__container {
-    max-width: 1440px;
+    max-width: 1240px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 30px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
@@ -401,12 +402,12 @@ background: linear-gradient(
 );
 
 
-  padding: 35px 30px 0;
+  padding: 25px 30px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 500px;
+  min-height: 200px;
   text-align: center;
   transition: all 0.3s ease;
   position: relative;
@@ -473,7 +474,7 @@ background: linear-gradient(
     .service-card__image {
       /* make image occupy right side and flush to card's right edge */
       .service-img {
-        max-width: 100%;
+        max-width: 80%;
         width: 100%;
         display: block;
         margin-left: auto;
@@ -487,7 +488,7 @@ background: linear-gradient(
   &:nth-child(2) { // Medicines
     .service-card__image {
       .service-img {
-        max-width: 85%;
+        max-width: 80%;
         margin-left: auto;
         margin-right: auto;
       }
@@ -497,7 +498,7 @@ background: linear-gradient(
   &:nth-child(3) { // Care Plans
     .service-card__image {
       .service-img {
-        max-width: 95%;
+        max-width: 80%;
         margin-left: auto;
         margin-right: auto;
       }
@@ -541,7 +542,7 @@ background: linear-gradient(
   &:nth-child(6) { // THLs
     .service-card__image {
       .service-img {
-        max-width: 85%;
+        max-width: 80%;
         margin-left: auto;
         margin-right: auto;
       }

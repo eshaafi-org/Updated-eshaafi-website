@@ -4,7 +4,7 @@
 .heroSection {
   position: relative;
   width: 100%;
-  height: 90vh;
+  height: 85vh;
   background-image: url('/images/thushero-bg.webp'); 
   background-size: cover;
   background-position: center;
@@ -70,7 +70,7 @@
 /*****************Thus Info section***********************/
 .thusSection {
   width: 100%;
-  padding: 5rem 0;
+  padding: 3rem 0;
   background: #ffffff;
 
   .container {
@@ -125,7 +125,7 @@
     width: 100%;
     background: #dcf0fc;
     /* keep comfortable top padding and add extra bottom padding */
-    padding: 4rem 2rem 6rem 2rem;
+    padding: 4rem 2rem 3rem 2rem;
     border-radius: 0px; // remove radius so it looks full strip
     margin-top: 2rem;
   }
@@ -218,7 +218,7 @@
 //////*************our impact***************//////
 .impactSection {
   width: 100%;
-  padding: 5rem 2rem;
+  padding: 1rem 2rem;
   background-color: #f8f9fa;
 }
 

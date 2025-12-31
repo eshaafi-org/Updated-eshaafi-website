@@ -29,7 +29,7 @@ export default function LabsList() {
           <CardsSkeletonLoader />
         </div>
       ) : (
-        <section className="container pt-3">
+        <section className="container pt-0">
           <div className={style.labsHeadingContainer}>
             <Text28 className={`fw-bold text-dark ${style.interFont}`}>Lab Partners </Text28>
           </div>
