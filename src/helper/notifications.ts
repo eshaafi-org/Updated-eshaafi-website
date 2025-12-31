@@ -201,6 +201,8 @@ export const isSafariPushAvailable = (): boolean => {
          typeof (window as any).safari.pushNotification !== 'undefined';
 };
 
+export const initializeDeviceToken = initializeFirebaseMessaging;
+
 export const getFCMToken = (): string | null => {
   return localStorage.getItem('fcm_token');
 };

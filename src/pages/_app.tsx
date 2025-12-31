@@ -10,7 +10,7 @@ import Providers from "../redux/provider";
 import { useEffect } from "react";
 import SafariPushPrompt from '@/components/Notifications/SafariPushPrompt';
 import { SnackbarProvider, enqueueSnackbar, closeSnackbar } from 'notistack';
-// import { Urbanist } from 'next/font/google';
+import { initializeDeviceToken } from "@/helper/notifications";
 import Finalfooter from "@/views/Footer/Finalfooter";
 import GlobalIncomingHandler from '@/components/Notifications/GlobalIncomingHandler';
 import NotificationPermissionDialog from '@/components/NotificationPermissionDialog';
