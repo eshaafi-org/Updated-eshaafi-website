@@ -14,6 +14,12 @@ export default function SafariPushPrompt({ className = '' }: SafariPushPromptPro
   // Get user data from Redux
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
 
+  console.log('[SafariPushPrompt] Component mounted/updated', { userAuth: !!userAuth?.uuid });
+
+  useEffect(() => {
+    console.log('[SafariPushPrompt] showPrompt state changed to:', showPrompt);
+  }, [showPrompt]);
+
   useEffect(() => {
     // Only show prompt if Safari push is available, no token exists, and permission not denied
     const permissionStatus = getSafariPushPermissionStatus();
@@ -31,6 +37,7 @@ export default function SafariPushPrompt({ className = '' }: SafariPushPromptPro
       shouldShow
     });
 
+    console.log('[SafariPushPrompt] Setting showPrompt to:', shouldShow);
     setShowPrompt(shouldShow);
   }, [userAuth]);
 
@@ -53,15 +60,35 @@ export default function SafariPushPrompt({ className = '' }: SafariPushPromptPro
     setShowPrompt(false);
     // Remember dismissal for this session
     sessionStorage.setItem('safari_push_dismissed', 'true');
+    console.log('[SafariPushPrompt] Prompt dismissed for this session');
+  };
+
+  // Debug: Clear dismissal (for testing)
+  const clearDismissal = () => {
+    sessionStorage.removeItem('safari_push_dismissed');
+    console.log('[SafariPushPrompt] Dismissal cleared');
+    // Re-check conditions
+    const permissionStatus = getSafariPushPermissionStatus();
+    const shouldShow = isSafariPushAvailable() &&
+                      !getSafariToken() &&
+                      userAuth?.uuid &&
+                      permissionStatus !== 'denied' &&
+                      permissionStatus !== 'granted';
+    setShowPrompt(shouldShow);
   };
 
   // Don't show if dismissed this session
-  if (!showPrompt || sessionStorage.getItem('safari_push_dismissed')) {
+  const dismissed = sessionStorage.getItem('safari_push_dismissed');
+  console.log('[SafariPushPrompt] Render check:', { showPrompt, dismissed, willShow: showPrompt && !dismissed });
+  
+  if (!showPrompt || dismissed) {
+    console.log('[SafariPushPrompt] Not showing prompt:', { showPrompt, dismissed: dismissed });
     return null;
   }
 
+  console.log('[SafariPushPrompt] Rendering prompt');
   return (
-    <div className={`fixed top-4 right-4 z-50 max-w-sm animate-in slide-in-from-top-2 duration-300 ${className}`}>
+    <div className={`fixed top-4 right-4 z-[9999] max-w-sm animate-in slide-in-from-top-2 duration-300 ${className}`}>
       <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 shadow-xl">
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-3">
@@ -93,6 +120,15 @@ export default function SafariPushPrompt({ className = '' }: SafariPushPromptPro
                 >
                   Later
                 </button>
+                {process.env.NODE_ENV === 'development' && (
+                  <button
+                    onClick={clearDismissal}
+                    className="text-xs text-gray-500 px-2 py-1 border border-gray-300 rounded hover:bg-gray-50"
+                    title="Debug: Clear dismissal"
+                  >
+                    Reset
+                  </button>
+                )}
               </div>
             </div>
           </div>

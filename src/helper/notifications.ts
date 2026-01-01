@@ -187,7 +187,8 @@ export const initializeSafariPush = async (
       async (permissionData: any) => {
         console.log('[notifications] Safari permission callback received:', {
           permission: permissionData.permission,
-          deviceToken: permissionData.deviceToken?.slice(0, 12)
+          deviceToken: permissionData.deviceToken?.slice(0, 12),
+          fullPermissionData: permissionData
         });
 
         if (permissionData.permission === 'granted') {
@@ -208,7 +209,20 @@ export const initializeSafariPush = async (
             console.error('[notifications] No device token received from Safari');
           }
         } else {
-          console.warn('[notifications] Safari push permission denied or failed');
+          console.error('[notifications] Safari push permission denied or failed:', {
+            permission: permissionData.permission,
+            deviceToken: permissionData.deviceToken,
+            fullData: permissionData
+          });
+          
+          // Try to understand why it was denied
+          if (permissionData.permission === 'denied') {
+            console.error('[notifications] User explicitly denied Safari push permission');
+          } else if (permissionData.permission === 'default') {
+            console.error('[notifications] Safari push permission request failed - check push package at https://beta.eshaafi.com/push');
+          } else {
+            console.error('[notifications] Unknown Safari push permission result:', permissionData.permission);
+          }
         }
       }
     );
