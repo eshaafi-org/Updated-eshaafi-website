@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { initializeSafariPush, isSafariPushAvailable, getSafariToken, getSafariPushPermissionStatus } from '@/helper/notifications';
@@ -10,15 +9,37 @@ interface SafariPushPromptProps {
 export default function SafariPushPrompt({ className = '' }: SafariPushPromptProps) {
   const [showPrompt, setShowPrompt] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   // Get user data from Redux
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
 
   console.log('[SafariPushPrompt] Component mounted/updated', { userAuth: !!userAuth?.uuid });
 
+
   useEffect(() => {
-    console.log('[SafariPushPrompt] showPrompt state changed to:', showPrompt);
-  }, [showPrompt]);
+    // Only run on client
+    if (typeof window === 'undefined') return;
+
+    // Check if dismissed this session
+    const dismissedSession = !!sessionStorage.getItem('safari_push_dismissed');
+    setDismissed(dismissedSession);
+
+    // Default: show prompt unless dismissed
+    let shouldShow = !dismissedSession;
+
+    // If you want to keep the original Safari push checks, uncomment below and comment the line above
+    // const permissionStatus = getSafariPushPermissionStatus();
+    // shouldShow = isSafariPushAvailable() &&
+    //              !getSafariToken() &&
+    //              userAuth?.uuid &&
+    //              permissionStatus !== 'denied' &&
+    //              permissionStatus !== 'granted' &&
+    //              !dismissedSession;
+
+    console.log('[SafariPushPrompt] useEffect: dismissedSession', dismissedSession, 'shouldShow', shouldShow);
+    setShowPrompt(shouldShow);
+  }, [userAuth]);
 
   useEffect(() => {
     // Only show prompt if Safari push is available, no token exists, and permission not denied
@@ -56,36 +77,36 @@ export default function SafariPushPrompt({ className = '' }: SafariPushPromptPro
     }
   };
 
+
   const handleDismiss = () => {
     setShowPrompt(false);
-    // Remember dismissal for this session
-    sessionStorage.setItem('safari_push_dismissed', 'true');
-    console.log('[SafariPushPrompt] Prompt dismissed for this session');
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('safari_push_dismissed', 'true');
+      setDismissed(true);
+    }
   };
 
   // Debug: Clear dismissal (for testing)
   const clearDismissal = () => {
-    sessionStorage.removeItem('safari_push_dismissed');
-    console.log('[SafariPushPrompt] Dismissal cleared');
-    // Re-check conditions
-    const permissionStatus = getSafariPushPermissionStatus();
-    const shouldShow = isSafariPushAvailable() &&
-                      !getSafariToken() &&
-                      userAuth?.uuid &&
-                      permissionStatus !== 'denied' &&
-                      permissionStatus !== 'granted';
-    setShowPrompt(shouldShow);
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('safari_push_dismissed');
+      setDismissed(false);
+      // Re-check conditions
+      const permissionStatus = getSafariPushPermissionStatus();
+      const shouldShow = isSafariPushAvailable() &&
+                        !getSafariToken() &&
+                        userAuth?.uuid &&
+                        permissionStatus !== 'denied' &&
+                        permissionStatus !== 'granted';
+      setShowPrompt(shouldShow);
+    }
   };
 
   // Don't show if dismissed this session
-  const dismissed = sessionStorage.getItem('safari_push_dismissed');
-  console.log('[SafariPushPrompt] Render check:', { showPrompt, dismissed, willShow: showPrompt && !dismissed });
-  
   if (!showPrompt || dismissed) {
-    console.log('[SafariPushPrompt] Not showing prompt:', { showPrompt, dismissed: dismissed });
+    console.log('[SafariPushPrompt] Not showing prompt:', { showPrompt, dismissed });
     return null;
   }
-
   console.log('[SafariPushPrompt] Rendering prompt');
   return (
     <div className={`fixed top-4 right-4 z-[9999] max-w-sm animate-in slide-in-from-top-2 duration-300 ${className}`}>
