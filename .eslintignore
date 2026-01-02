@@ -1,0 +1,2 @@
+# Service worker should not be transpiled
+public/firebase-messaging-sw.js

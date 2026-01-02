@@ -671,6 +671,7 @@ import { FaUser, FaCartShopping } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import Cart from "./Cart";
 import { unregisterDeviceToken } from "@/helper/notifications";
+import { trackEvent } from '@/lib/ga';
 
 interface DropdownItem {
   name: string;
@@ -1008,7 +1009,40 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                 onMouseLeave={() => setHoverIndex(null)}
               >
                 {item.href ? (
-                  <a href={item.href}>{item.title}</a>
+                  // <a href={item.href}>{item.title}</a>
+                  <a href={item.href} onClick={() => {
+   switch(item.title) {
+      case 'Doctors':
+        trackEvent('Nav-Doctors-Link', { section: 'nav', action: 'navigate', label: 'Doctors', content_type: 'service' });
+        break;
+      case 'Mental Health':
+        trackEvent('Nav-MentalHealth-Link', { section: 'nav', action: 'navigate', label: 'Mental Health', content_type: 'service' });
+        break;
+      case 'Labs':
+        trackEvent('Nav-Labs-Link', { section: 'nav', action: 'navigate', label: 'Labs', content_type: 'service' });
+        break;
+      case 'Subscription Plans':
+        trackEvent('Nav-Subscription-Plans-Link', { section: 'nav', action: 'navigate', label: 'Subscription Plans', content_type: 'product' });
+        break;
+      case 'Wellness Sessions':
+        trackEvent('Nav-Wellness-Sessions-Link', { section: 'nav', action: 'navigate', label: 'Wellness Sessions', content_type: 'service' });
+        break;
+      case 'Corporate Care':
+        trackEvent('Nav-Corporate-Link', { section: 'nav', action: 'navigate', label: 'Corporate', content_type: 'business' });
+        break;
+      // case 'THUs':
+      //   trackEvent('select_content', { section: 'nav', action: 'navigate', label: 'Trials', content_type: 'promo' });
+      //   break;
+      case 'Blogs':
+        trackEvent('Nav-Blog-Link', { section: 'nav', action: 'navigate', label: 'Blog', content_type: 'content' });
+        break;
+      default:
+        break;
+    }
+  }}
+>
+  {item.title}
+</a>
                 ) : (
                   <a href="#">{item.title}</a>
                 )}
@@ -1121,13 +1155,22 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
 
               {!userAuth?.uuid ? (
                 <>
-                  <Button onClick={handleModal}>
+                  {/* <Button onClick={handleModal}>
+                    Login/Sign Up
+                  </Button> */}
+                  <Button
+                     onClick={() => {
+                     trackEvent('login', { section: 'nav', method: 'button_click', label: 'Login/Sign Up' });
+                     handleModal();
+                     }}
+                  >
                     Login/Sign Up
                   </Button>
+
                 </>
               ) : (
                 <>
-                  {/* {userAuth.uuid && (
+                   {userAuth.uuid && (
                     <Button
                       onClick={() => setShowCart(!showCart)}
                       className={styles.cartBtn}
@@ -1139,7 +1182,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                     </Button>
                   )}
                   {showCart &&
-                    createPortal(<Cart setShowCart={setShowCart} />, document.body)} */}
+                    createPortal(<Cart setShowCart={setShowCart} />, document.body)} 
 
                   <Button onClick={() => setShowProfile(true)} className={styles.profileBtn}>
                     {!userAuth.url ? (
@@ -1294,7 +1337,45 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                   </div>
                 </details>
               ) : (
-                <a href={item.href} onClick={() => setMenuOpen(false)}>{item.title}</a>
+                // <a href={item.href} onClick={() => setMenuOpen(false)}>{item.title}</a>
+                <a
+  href={item.href}
+  onClick={() => {
+    setMenuOpen(false);
+    switch(item.title) {
+      case 'Doctors':
+        trackEvent('Nav-Doctors-Link', { section: 'nav', action: 'navigate', label: 'Doctors', content_type: 'service' });
+        break;
+      case 'Mental Health':
+        trackEvent('Nav-MentalHealth-Link', { section: 'nav', action: 'navigate', label: 'Mental Health', content_type: 'service' });
+        break;
+      case 'Labs':
+        trackEvent('Nav-Labs-Link', { section: 'nav', action: 'navigate', label: 'Labs', content_type: 'service' });
+        break;
+      case 'Subscription Plans':
+        trackEvent('Nav-Subscription-Plans-Link', { section: 'nav', action: 'navigate', label: 'Subscription Plans', content_type: 'product' });
+        break;
+      case 'Wellness Sessions':
+        trackEvent('Nav-Wellness-Sessions-Link', { section: 'nav', action: 'navigate', label: 'Wellness Sessions', content_type: 'service' });
+        break;
+      case 'Corporate Care':
+        trackEvent('Nav-Corporate-Link', { section: 'nav', action: 'navigate', label: 'Corporate', content_type: 'business' });
+        break;
+      // case 'THUs':
+      //   trackEvent('select_content', { section: 'nav', action: 'navigate', label: 'Trials', content_type: 'promo' });
+      //   break;
+      case 'Blogs':
+        trackEvent('Nav-Blog-Link', { section: 'nav', action: 'navigate', label: 'Blog', content_type: 'content' });
+        break;
+      default:
+        break;
+    }
+  }}
+>
+  {item.title}
+</a>
+
+                
               )}
             </li>
           ))}

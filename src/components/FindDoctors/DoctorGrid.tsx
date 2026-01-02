@@ -3,6 +3,7 @@ import styles from '@/styles/findDoctors.module.scss'
 import DoctorCard from './DoctorCard'
 import { DoctorCardSkeleton } from '@/components/SkeletonLoader'
 import { useRouter } from 'next/router'
+import { trackEvent } from '@/lib/ga'
 
 interface Doctor {
   id: string
@@ -225,7 +226,15 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
             <button
               key={specialty}
               className={`${styles.filterButton} ${activeSpecialty === specialty ? styles.filterActive : ''}`}
-              onClick={() => setActiveSpecialty(specialty)}
+              onClick={() => {
+                setActiveSpecialty(specialty);
+                trackEvent('select_content', {
+                  section: 'filters',
+                  action: 'specialty_filter',
+                  label: specialty,
+                  content_type: 'doctor_specialty'
+                });
+              }}
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {specialty}

@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../../styles/homepage.module.scss";
+import { trackEvent } from '@/lib/ga';
+
 
 const HeroSection: React.FC = () => {
   return (
@@ -19,22 +21,48 @@ const HeroSection: React.FC = () => {
               href="/find-doctors"
               rel="noopener noreferrer"
             >
-              <button
+              {/* <button
                 className={`${styles.heroBtn} ${styles["heroBtn--primary"]}`}
               >
                 Explore
-              </button>
+              </button> */}
+              <button
+      className={`${styles.heroBtn} ${styles["heroBtn--primary"]}`}
+      onClick={() => {
+        trackEvent('hero-explore-button-click', {
+          section: 'hero',
+          action: 'explore',
+          label: 'Explore',
+          value: 5,
+        });
+      }}
+    >
+      Explore
+    </button>
             </Link>
 
             <Link
               href="/find-doctors"
               rel="noopener noreferrer"
             >
-              <button
+              {/* <button
                 className={`${styles.heroBtn} ${styles["heroBtn--secondary"]}`}
               >
                 Book now
-              </button>
+              </button> */}
+                <button
+      className={`${styles.heroBtn} ${styles["heroBtn--secondary"]}`}
+      onClick={() => {
+        trackEvent('hero-booknow-button-click', {
+          section: 'hero',
+          action: 'book',
+          label: 'Book Now',
+          content_type: 'appointment',
+        });
+      }}
+    >
+      Book now
+    </button>
             </Link>
           </div>
         </div>

@@ -7,6 +7,7 @@ import Link from "next/link";
 import DoctorGrid from "@/components/FindDoctors/DoctorGrid";
 import { BASE_URL } from "@/helper/CONST";
 import axios from "axios";
+import { trackEvent } from "@/lib/ga";
 
 interface Doctor {
   id: string;
@@ -166,12 +167,17 @@ export default function MindWellnessPage({
               Your Trusted Companion for <br /> Mind Wellness
             </h1>
             <Link href="https://eshaafi.sng.link/D5hwf/jn0r" target="_blank">
-              <button className={styles["cta-button"]}>
+              <button 
+                className={styles["cta-button"]}
+                onClick={() => trackEvent('generate_lead', {
+                  section: 'hero',
+                  action: 'book_appointment',
+                  content_type: 'mental_health'
+                })}
+              >
                 Book an appointment
               </button>
             </Link>
-
-            {/* <button className={styles["cta-button"]}>Book an appointment</button> */}
           </div>
         </section>
 
@@ -197,6 +203,13 @@ export default function MindWellnessPage({
               key={i}
               ref={(el) => (cardRefs.current[i] = el)}
               className={styles["condition-card"]}
+              onClick={() => trackEvent('select_content', {
+                section: 'conditions',
+                action: 'view_condition',
+                label: c.title
+              })}
+              role="button"
+              tabIndex={0}
             >
               <div className={styles["condition-icon"]}>
                 <img src={c.icon} alt={c.title} />
@@ -211,7 +224,14 @@ export default function MindWellnessPage({
 
         <div className={styles["view-all-wrapper"]}>
           <a href="#therapists-section">
-            <button className={styles["view-all-button"]}>
+            <button 
+              className={styles["view-all-button"]}
+              onClick={() => trackEvent('click', {
+                section: 'conditions',
+                action: 'view_all_specialists',
+                label: 'View All Therapists & Specialists'
+              })}
+            >
               View All Therapists & Specialists
             </button>
           </a>
@@ -229,6 +249,13 @@ export default function MindWellnessPage({
                 key={i}
                 ref={(el) => (toolRefs.current[i] = el)}
                 className={styles["tool-card"]}
+                onClick={() => trackEvent('select_content', {
+                  section: 'tools',
+                  action: 'access_tool',
+                  label: t.title
+                })}
+                role="button"
+                tabIndex={0}
               >
                 <img
                   src={t.icon}
@@ -265,6 +292,10 @@ export default function MindWellnessPage({
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
+                onPlay={() => trackEvent('video_start', {
+                  section: 'mind_wellness',
+                  video_title: 'Why Mind Wellness Matters: Hear From Our Expert'
+                })}
               ></iframe>
             </div>
           </div>

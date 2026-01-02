@@ -4,6 +4,7 @@ import styles from "../../styles/thus.module.scss";
 import SectionTHUsInfo from "./infothus";
 import OurImpact from "./ourimpact";
 import Link from "next/link";
+import { trackEvent } from "@/lib/ga";
 const THUs = () => {
   return (
     <div>
@@ -19,7 +20,14 @@ const THUs = () => {
           Get in Touch
         </button> */}
          <Link href="/getintouch">
-           <button className={styles.ctaBtn}>
+           <button 
+             className={styles.ctaBtn}
+             onClick={() => trackEvent('generate_lead', {
+               section: 'hero',
+               action: 'get_in_touch',
+               content_type: 'impact_partnership'
+             })}
+           >
           Get in Touch
         </button>
           </Link>

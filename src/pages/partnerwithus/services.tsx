@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 
 import styles from "../../styles/partnerwithus.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 const OurServices: React.FC = () => {
   const leftServices = [
@@ -92,6 +93,13 @@ const OurServices: React.FC = () => {
               <div
                 key={index}
                 className={`${styles.serviceCard} ${service.className}`}
+                onClick={() => trackEvent('select_content', {
+                  section: 'services',
+                  action: 'view_service',
+                  label: service.title
+                })}
+                role="button"
+                tabIndex={0}
               >
                 <div className={styles.iconBox}>
                   <img src={service.icon} alt={service.title} />
@@ -115,6 +123,13 @@ const OurServices: React.FC = () => {
               <div
                 key={index}
                 className={`${styles.serviceCard} ${service.className}`}
+                onClick={() => trackEvent('select_content', {
+                  section: 'services',
+                  action: 'view_service',
+                  label: service.title
+                })}
+                role="button"
+                tabIndex={0}
               >
                 <div className={styles.iconBox}>
                   <img src={service.icon} alt={service.title} />

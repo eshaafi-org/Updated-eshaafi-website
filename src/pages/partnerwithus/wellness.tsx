@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react"; // <-- useState yahan import karo
 
 import styles from "../../styles/partnerwithus.module.scss";
-// import { headers } from "../../helper/CONST";
+import { trackEvent } from "@/lib/ga";
 
 const WellnessAreas: React.FC = () => {
   const cardsRef = useRef<HTMLDivElement[]>([]);
@@ -126,6 +126,13 @@ const WellnessAreas: React.FC = () => {
             key={i}
             ref={(el) => (cardsRef.current[i] = el!)}
             className={`${styles.card} ${item.className}`}
+            onClick={() => trackEvent('select_content', {
+              section: 'wellness_areas',
+              action: 'view_area',
+              label: item.title
+            })}
+            role="button"
+            tabIndex={0}
           >
             <div className={styles.icon}>
               <img src={item.img} alt={item.title} />
@@ -153,7 +160,14 @@ const WellnessAreas: React.FC = () => {
     />
     <button
       className={styles.meetingButton}
-      onClick={() => setShowModal(true)}
+      onClick={() => {
+        setShowModal(true);
+        trackEvent('generate_lead', {
+          section: 'mid_page',
+          action: 'schedule_meeting',
+          content_type: 'corporate'
+        });
+      }}
     >
       Schedule a meeting
     </button>

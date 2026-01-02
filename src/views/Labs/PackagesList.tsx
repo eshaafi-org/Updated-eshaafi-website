@@ -5,6 +5,7 @@ import { Text16, Text20, Text24, Text28 } from "@/components/Typography";
 import style from "@/styles/labs.module.scss";
 import Link from "next/link";
 import { useSelector } from "react-redux";
+import { trackEvent } from "@/lib/ga";
 export default function PackagesList() {
   const {
     loading,
@@ -27,6 +28,13 @@ export default function PackagesList() {
                 <Link
                   href={"/labs/packages/" + item.pId}
                   className={style.packageCard}
+                  onClick={() => trackEvent('view_item', {
+                    section: 'packages',
+                    action: 'view_package',
+                    label: item.subscriptionName,
+                    item_id: `package_${item.pId}`,
+                    content_type: 'lab_package'
+                  })}
                 >
                   <div className={style.packageContent}>
                     <span className={style.packageText}>

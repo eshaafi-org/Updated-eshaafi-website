@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import styles from "../../styles/thus.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 const SectionTHUsInfo = () => {
   useEffect(() => {
@@ -42,7 +43,17 @@ const SectionTHUsInfo = () => {
      <div className={styles.cardsArea}>
   <div className={styles.cardsInnerContainer}>
     <div className={styles.cardsGrid}>
-      <div className={`${styles.card} ${styles.animate}`} key="1">
+      <div 
+        className={`${styles.card} ${styles.animate}`} 
+        key="1"
+        onClick={() => trackEvent('select_content', {
+          section: 'offerings',
+          action: 'view_offering',
+          label: 'Doctor Consultations'
+        })}
+        role="button"
+        tabIndex={0}
+      >
         <div className={styles.cardIcon}>
           <img src="/images/heart-beat 1.svg" alt="Doctor Consultations" />
         </div>
@@ -50,7 +61,17 @@ const SectionTHUsInfo = () => {
         <p>GP & Specialists. Expert medical guidance accessible right in their village.</p>
       </div>
 
-      <div className={`${styles.card} ${styles.animate}`} key="2">
+      <div 
+        className={`${styles.card} ${styles.animate}`} 
+        key="2"
+        onClick={() => trackEvent('select_content', {
+          section: 'offerings',
+          action: 'view_offering',
+          label: 'Vital Health Checks'
+        })}
+        role="button"
+        tabIndex={0}
+      >
         <div className={styles.cardIcon}>
           <img src="/images/online-consult 1.svg" alt="Vital Health Checks" />
         </div>
@@ -58,7 +79,17 @@ const SectionTHUsInfo = () => {
         <p>On-site assessments for immediate care and long-term wellbeing.</p>
       </div>
 
-      <div className={`${styles.card} ${styles.animate}`} key="3">
+      <div 
+        className={`${styles.card} ${styles.animate}`} 
+        key="3"
+        onClick={() => trackEvent('select_content', {
+          section: 'offerings',
+          action: 'view_offering',
+          label: 'Timely Provision of Medicines'
+        })}
+        role="button"
+        tabIndex={0}
+      >
         <div className={styles.cardIcon}>
           <img src="/images/medicine-thus.svg" alt="Provision of Medicines" />
         </div>
@@ -66,7 +97,17 @@ const SectionTHUsInfo = () => {
         <p>Treatment begins immediately. Necessary, quality medicines provided on-site</p>
       </div>
 
-      <div className={`${styles.card} ${styles.animate}`} key="4">
+      <div 
+        className={`${styles.card} ${styles.animate}`} 
+        key="4"
+        onClick={() => trackEvent('select_content', {
+          section: 'offerings',
+          action: 'view_offering',
+          label: 'Focus on Non-communicable Diseases'
+        })}
+        role="button"
+        tabIndex={0}
+      >
         <div className={styles.cardIcon}>
           <img src="/images/prevention.svg" alt="Focus on Non-communicable Diseases" />
         </div>

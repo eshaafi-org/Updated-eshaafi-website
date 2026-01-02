@@ -7,7 +7,7 @@ export default function Custom404() {
       <h1 style={styles.title}>404</h1>
       <h2 style={styles.subtitle}>Oops! Page not found</h2>
       <p style={styles.text}>
-        The page you are looking for doesn&apos;t exist or was moved.
+        The page you are looking for does not exist or was moved.
       </p>
 
       <Link href="/">
