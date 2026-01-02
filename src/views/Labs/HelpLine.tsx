@@ -6,6 +6,7 @@ import Button from '@/components/Button'
 import Link from 'next/link'
 import { MdCall } from "react-icons/md";
 import style from "@/styles/labs.module.scss"
+import { trackEvent } from "@/lib/ga"
 
 export default function HelpLine() {
     return (
@@ -20,7 +21,16 @@ export default function HelpLine() {
                         </div>
                     </div>
                     <a href={"tel:+923111151161"}>
-                        <Button variant="contained" className={style.helplineButton}>
+                        <Button 
+                          variant="contained" 
+                          className={style.helplineButton}
+                          onClick={() => trackEvent('generate_lead', {
+                            section: 'support',
+                            action: 'call_support',
+                            method: 'click_to_call',
+                            content_type: 'lab_booking'
+                          })}
+                        >
                             <MdCall style={{ height: '20px', width: "20px" }} /> Call Now
                         </Button>
                     </a>

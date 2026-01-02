@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,7 +18,9 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
@@ -27,7 +33,11 @@
     "src/components/Typography/index.jsx",
     "src/pages/labs/upload.jsx",
     "src/views/Labs/labsSlicer.jsx",
-    "src/components/Profiles/index.tsx"
-, "src/views/Subscription/planListSlicer.jsx", "src/pages/contributeBlog"  ],
-  "exclude": ["node_modules"]
+    "src/components/Profiles/index.tsx",
+    "src/views/Subscription/planListSlicer.jsx",
+    "src/pages/contributeBlog"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

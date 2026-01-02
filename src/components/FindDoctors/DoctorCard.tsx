@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "@/styles/findDoctors.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 interface DoctorCardProps {
   id: string;
@@ -33,7 +34,19 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
           {available && <div className={styles.onlineIndicator}></div>}
         </div>
         <div className={styles.doctorInfo}>
-          <div className={styles.ratingBadge} style={{ fontFamily: "'Inter', sans-serif" }}>★ {rating.toFixed(1)}</div>
+          <div 
+            className={styles.ratingBadge} 
+            style={{ fontFamily: "'Inter', sans-serif" }}
+            onClick={() => trackEvent('select_content', {
+              section: 'doctor_card',
+              action: 'view_reviews',
+              label: `Dr. ${name}`
+            })}
+            role="button"
+            tabIndex={0}
+          >
+            ★ {rating.toFixed(1)}
+          </div>
           <h3 className={styles.doctorName} style={{ fontFamily: "'Inter', sans-serif" }}>{name}</h3>
           <div className={styles.specialtyRow}>
             <p className={styles.specialty} style={{ fontFamily: "'Inter', sans-serif" }}>{specialty}</p>
@@ -46,7 +59,16 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
 
       <div className={styles.cardMiddle}>
         <div className={styles.leftSection}>
-          <div className={`${styles.availabilityStatus} ${!available ? styles.offline : styles.online}`}>
+          <div 
+            className={`${styles.availabilityStatus} ${!available ? styles.offline : styles.online}`}
+            onClick={() => trackEvent('select_content', {
+              section: 'doctor_card',
+              action: 'view_availability',
+              label: `Dr. ${name}`
+            })}
+            role="button"
+            tabIndex={0}
+          >
             {available ? (
               <span className={styles.availabilityText} style={{ fontFamily: "'Inter', sans-serif" }}>
                 {availableTime?.includes(',') ? availableTime : `Available till ${availableTime}`}
@@ -68,10 +90,33 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
 
       <div className={styles.actionButtons}>
         <Link href={`/doctors/${id}`}>
-          <button className={styles.viewProfileBtn} style={{ fontFamily: "'Inter', sans-serif" }}>View Profile</button>
+          <button 
+            className={styles.viewProfileBtn} 
+            style={{ fontFamily: "'Inter', sans-serif" }}
+            onClick={() => trackEvent('view_item', {
+              section: 'doctor_list',
+              action: 'view_profile',
+              label: `Dr. ${name}`,
+              item_id: `doctor_${id}`,
+              value: consultationFee
+            })}
+          >
+            View Profile
+          </button>
         </Link>
         <Link href={`/doctors/${id}/booked`}>
-          <button className={styles.bookAppointmentBtn} style={{ fontFamily: "'Inter', sans-serif" }}>
+          <button 
+            className={styles.bookAppointmentBtn} 
+            style={{ fontFamily: "'Inter', sans-serif" }}
+            onClick={() => trackEvent('generate_lead', {
+              section: 'doctor_list',
+              action: 'book_appointment',
+              label: `Dr. ${name}`,
+              item_id: `doctor_${id}`,
+              value: consultationFee,
+              currency: 'PKR'
+            })}
+          >
             Book Appointment
             <svg
               width="20"

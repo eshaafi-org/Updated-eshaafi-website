@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from "../../styles/thus.module.scss";
 import Link from 'next/link';
+import { trackEvent } from "@/lib/ga";
 interface ImpactCardProps {
   imageSrc: string;
   imageAlt: string;
@@ -32,7 +33,16 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ imageSrc, imageAlt, caption, de
     <div id={`impact-card-${caption}`} className={`${styles.impactCard} ${styles[position]}`}>
       {position === 'left' && (
         <>
-          <div className={styles.imageWrapper}>
+          <div 
+            className={styles.imageWrapper}
+            onClick={() => trackEvent('select_content', {
+              section: 'impact_gallery',
+              action: 'view_photo',
+              label: caption
+            })}
+            role="button"
+            tabIndex={0}
+          >
             <img src={imageSrc} alt={imageAlt} className={styles.impactImage} />
             <p className={styles.imageCaption}>{caption}</p>
           </div>
@@ -46,7 +56,16 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ imageSrc, imageAlt, caption, de
           <div className={styles.textContent}>
             <p className={styles.description}>{description}</p>
           </div>
-          <div className={styles.imageWrapper}>
+          <div 
+            className={styles.imageWrapper}
+            onClick={() => trackEvent('select_content', {
+              section: 'impact_gallery',
+              action: 'view_photo',
+              label: caption
+            })}
+            role="button"
+            tabIndex={0}
+          >
             <img src={imageSrc} alt={imageAlt} className={styles.impactImage} />
             <p className={styles.imageCaption}>{caption}</p>
           </div>
@@ -89,7 +108,14 @@ const OurImpact: React.FC = () => {
           <h3 className={styles.ctaTitle}>Join us in making healthcare accessible for everyone.</h3>
           {/* <button className={styles.ctaButton}>Get in touch</button> */}
           <Link href="/getintouch">
-  <button className={styles.ctaButton}>Get in touch</button>
+  <button 
+    className={styles.ctaButton}
+    onClick={() => trackEvent('generate_lead', {
+      section: 'bottom_cta',
+      action: 'get_in_touch',
+      content_type: 'impact_partnership'
+    })}
+  >Get in touch</button>
 </Link>
 
         </div>

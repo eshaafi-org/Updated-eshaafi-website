@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import styles from "../../styles/partnerwithus.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 const WhyPartnerSection: React.FC = () => {
   return (
@@ -10,7 +11,16 @@ const WhyPartnerSection: React.FC = () => {
       </h2>
 
       <div className={styles.cards}>
-        <div className={styles.card}>
+        <div 
+          className={styles.card}
+          onClick={() => trackEvent('select_content', {
+            section: 'why_partner',
+            action: 'view_reason',
+            label: 'Putting People First'
+          })}
+          role="button"
+          tabIndex={0}
+        >
         
           <h3>Putting People First:</h3>
           <p>
@@ -20,7 +30,16 @@ const WhyPartnerSection: React.FC = () => {
           </p>
         </div>
 
-        <div className={styles.card}>
+        <div 
+          className={styles.card}
+          onClick={() => trackEvent('select_content', {
+            section: 'why_partner',
+            action: 'view_reason',
+            label: 'Proven Impact & Reach'
+          })}
+          role="button"
+          tabIndex={0}
+        >
 
           <h3>Proven Impact & Reach:</h3>
           <p>
@@ -31,7 +50,16 @@ const WhyPartnerSection: React.FC = () => {
           </p>
         </div>
 
-        <div className={styles.card}>
+        <div 
+          className={styles.card}
+          onClick={() => trackEvent('select_content', {
+            section: 'why_partner',
+            action: 'view_reason',
+            label: 'Comprehensive Service Offering'
+          })}
+          role="button"
+          tabIndex={0}
+        >
           <h3>Comprehensive Service Offering:</h3>
           <p>
             Our ecosystem offers a complete health solution, from discounted

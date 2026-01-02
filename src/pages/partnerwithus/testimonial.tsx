@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/partnerwithus.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 const ClientTestimonials: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
@@ -76,7 +77,17 @@ const ClientTestimonials: React.FC = () => {
         <div className={styles.clientLogos}>
           <div className={styles.marqueeTrack}>
             {clients.concat(clients).map((client, index) => (
-              <div key={index} className={styles.logoBox}>
+              <div 
+                key={index} 
+                className={styles.logoBox}
+                onClick={() => trackEvent('select_content', {
+                  section: 'testimonials',
+                  action: 'view_client',
+                  label: client.alt
+                })}
+                role="button"
+                tabIndex={0}
+              >
                 <img src={client.logo} alt={client.alt} />
               </div>
             ))}
@@ -111,7 +122,14 @@ const ClientTestimonials: React.FC = () => {
                 className={`${styles.dot} ${
                   activeSlide === index ? styles.activeDot : ""
                 }`}
-                onClick={() => setActiveSlide(index)}
+                onClick={() => {
+                  setActiveSlide(index);
+                  trackEvent('select_content', {
+                    section: 'testimonials',
+                    action: 'view_testimonial',
+                    label: testimonials[index].author
+                  });
+                }}
               />
             ))}
           </div>

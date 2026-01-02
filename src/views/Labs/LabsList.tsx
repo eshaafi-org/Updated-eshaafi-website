@@ -7,6 +7,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { useSelector } from "react-redux";
 import { CardsSkeletonLoader } from "@/components/SkeletonLoader";
+import { trackEvent } from "@/lib/ga";
 
 export default function LabsList() {
   const {
@@ -29,7 +30,7 @@ export default function LabsList() {
           <CardsSkeletonLoader />
         </div>
       ) : (
-        <section className="container pt-0">
+        <section className="container pt-3">
           <div className={style.labsHeadingContainer}>
             <Text28 className={`fw-bold text-dark ${style.interFont}`}>Lab Partners </Text28>
           </div>
@@ -52,6 +53,12 @@ export default function LabsList() {
                 <Link
                   href={`/labs/${item.name.replace(/ /g, "-")}`}
                   className={style.labSelectBtn}
+                  onClick={() => trackEvent('select_item', {
+                    section: 'lab_partners',
+                    action: 'select_lab',
+                    label: item.name,
+                    content_type: 'lab_partner'
+                  })}
                 >
                   <Button variant="contained">Select Test</Button>
                 </Link>

@@ -3,8 +3,17 @@ import Image from "next/image";
 import { Phone, Mail, MapPin } from "lucide-react";
 import styles from "./finalfooter.module.scss";
 import Link from "next/link";
+import { trackEvent } from "@/lib/ga";
 
 export default function Finalfooter() {
+  // GA4 tracking helper
+  const handleLinkClick = (section: string, action: string, label: string) => {
+    trackEvent('click', {
+      section,
+      action,
+      label
+    });
+  };
   return (
     <footer className={styles.footer}>
       <div className={styles.footer__container}>
@@ -48,7 +57,6 @@ export default function Finalfooter() {
               </svg>
             </a>
 
-
             <a href=" https://www.youtube.com/@eshaaficares " className={styles.footer__socialLink} aria-label="YouTube">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
@@ -66,13 +74,13 @@ export default function Finalfooter() {
         <div className={styles.footer__column}>
           <h3 className={styles.footer__columnTitle}>Individual Care</h3>
           <ul className={styles.footer__links}>
-            <li><Link href="/find-doctors">Doctors</Link></li>
-            <li><Link href="mind-wellness#therapists-section">Mental Health</Link></li>
-            <li><Link href="/labs">Labs</Link></li>
-            <li><Link href="/medicines">Medicines</Link></li>
-            <li><Link href="/healthwebinars">Health Webinars</Link></li>
-            <li><Link href="/find-doctors#subscription-plans">Subscription Plans</Link></li>
-            <li><Link href="/blog">Blogs</Link></li>
+            <li><Link href="/find-doctors" onClick={() => handleLinkClick('footer_individual', 'navigate', 'Doctors')}>Doctors</Link></li>
+            <li><Link href="mind-wellness#therapists-section" onClick={() => handleLinkClick('footer_individual', 'navigate', 'Mental Health')}>Mental Health</Link></li>
+            <li><Link href="/labs" onClick={() => handleLinkClick('footer_individual', 'navigate', 'Labs')}>Labs</Link></li>
+            <li><Link href="/medicines" onClick={() => handleLinkClick('footer_individual', 'navigate', 'Medicines')}>Medicines</Link></li>
+            <li><Link href="/healthwebinars" onClick={() => handleLinkClick('footer_individual', 'navigate', 'Webinars')}>Health Webinars</Link></li>
+            <li><Link href="/find-doctors#subscription-plans" onClick={() => handleLinkClick('footer_individual', 'navigate', 'Subscription Plans')}>Subscription Plans</Link></li>
+            <li><Link href="/blog" onClick={() => handleLinkClick('footer_individual', 'navigate', 'Blogs')}>Blogs</Link></li>
           </ul>
         </div>
 
@@ -80,9 +88,9 @@ export default function Finalfooter() {
         <div className={styles.footer__column}>
           <h3 className={styles.footer__columnTitle}>Corporate Care</h3>
           <ul className={styles.footer__links}>
-            <li><Link href="/partnerwithus#services">Our Services</Link></li>
-            <li><Link href="partnerwithus#wellness-section">Wellness Sessions</Link></li>
-            <li><Link href="/partnerwithus#testimonials">Testimonials</Link></li>
+            <li><Link href="/partnerwithus#services" onClick={() => handleLinkClick('footer_corporate', 'navigate', 'Our Services')}>Our Services</Link></li>
+            <li><Link href="partnerwithus#wellness-section" onClick={() => handleLinkClick('footer_corporate', 'navigate', 'Wellness Sessions')}>Wellness Sessions</Link></li>
+            <li><Link href="/partnerwithus#testimonials" onClick={() => handleLinkClick('footer_corporate', 'navigate', 'Testimonials')}>Testimonials</Link></li>
           </ul>
         </div>
 
@@ -90,17 +98,11 @@ export default function Finalfooter() {
         <div className={styles.footer__column}>
           <h3 className={styles.footer__columnTitle}>Impact</h3>
           <ul className={styles.footer__links}>
-            <li><Link href="/aboutus#our-journey">Our Story</Link></li>
-            <li><Link href="/joinUs">Careers</Link></li>
-            <li><Link href="/media-gallery">Media Gallery</Link></li>
-            <li><Link href="/thus">Telehealth Units</Link></li>
-
-            {/* <li><a href="/aboutus#our-journey">Our journey</a></li>
-            <li><a href="/aboutus#value-section">Values</a></li>
-             <li><a href="/aboutus#our-team">Our team</a></li>
-              <li><a href="/blog">Health Library</a></li> */}
+            <li><Link href="/aboutus#our-journey" onClick={() => handleLinkClick('footer_story', 'navigate', 'Our Story')}>Our Story</Link></li>
+            <li><Link href="/joinUs" onClick={() => handleLinkClick('footer_story', 'navigate', 'Careers')}>Careers</Link></li>
+            <li><Link href="/media-gallery" onClick={() => handleLinkClick('footer_story', 'navigate', 'Media Gallery')}>Media Gallery</Link></li>
+            <li><Link href="/thus" onClick={() => handleLinkClick('footer_story', 'navigate', 'Telehealth Unit')}>Telehealth Units</Link></li>
           </ul>
-
         </div>
 
         {/* Contact Info Column */}
@@ -109,16 +111,12 @@ export default function Finalfooter() {
           <ul className={styles.footer__contact}>
             <li>
               <Phone size={16} />
-              <a href="tel:+92 311 115 1161">+92 311 115 1161</a>
+              <a href="tel:+92 311 115 1161" onClick={() => handleLinkClick('footer_contact', 'call', '+92 311 115 1161')}>+92 311 115 1161</a>
             </li>
             <li>
               <Mail size={16} />
-              <a href="mailto:careers@eshaafi.com">careers@eshaafi.com</a>
+              <a href="mailto:careers@eshaafi.com" onClick={() => handleLinkClick('footer_contact', 'email', 'careers@eshaafi.com')}>careers@eshaafi.com</a>
             </li>
-            {/* <li>
-              <MapPin size={16} />
-              <span>Pakistan , Lahore</span>
-            </li> */}
           </ul>
         </div>
 
@@ -126,8 +124,8 @@ export default function Finalfooter() {
         <div className={styles.footer__column}>
           <h3 className={styles.footer__columnTitle}>Legal</h3>
           <ul className={styles.footer__links}>
-            <li><Link href="/privacy-policy">Privacy Policy</Link></li>
-            <li><Link href="/terms-and-conditions">Term & Condition</Link></li>
+            <li><Link href="/privacy-policy" onClick={() => handleLinkClick('footer_legal', 'navigate', 'Privacy Policy')}>Privacy Policy</Link></li>
+            <li><Link href="/terms-and-conditions" onClick={() => handleLinkClick('footer_legal', 'navigate', 'Terms & Conditions')}>Term & Condition</Link></li>
           </ul>
         </div>
       </div>
@@ -158,7 +156,6 @@ export default function Finalfooter() {
         </div>
       </div>
 
-
       {/* Divider line */}
       <hr className={styles.footer__divider} />
 
@@ -169,10 +166,20 @@ export default function Finalfooter() {
             © 2025 eShaafi. All rights reserved.
           </p>
           <div className={styles.footer__apps}>
-            <a href="https://apps.apple.com/pk/app/eshaafi-health-telemedicine/id6739331112" target="_blank" rel="noopener noreferrer">
+            <a 
+              href="https://apps.apple.com/pk/app/eshaafi-health-telemedicine/id6739331112" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => handleLinkClick('footer', 'download_app', 'App Store')}
+            >
               <Image src="/images/appstore.png" alt="Download on the App Store" width={135} height={40} />
             </a>
-            <a href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation" target="_blank" rel="noopener noreferrer">
+            <a 
+              href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => handleLinkClick('footer', 'download_app', 'Google Play')}
+            >
               <Image src="/images/playstore.png" alt="Get it on Google Play" width={135} height={40} />
             </a>
           </div>
@@ -181,3 +188,4 @@ export default function Finalfooter() {
     </footer>
   );
 }
+

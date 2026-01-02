@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "@/styles/findDoctors.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 interface BenefitItem {
   title: string;
@@ -63,12 +64,17 @@ const BenefitsSection: React.FC = () => {
 
         <div className={styles.benefitsGrid}>
           {benefits.map((benefit, index) => (
-            // <div key={index} className={styles.benefitCard}>
-            //   <h3 className={styles.benefitTitle}>{benefit.title}</h3>
-            //   <div className={styles.benefitIcon}></div>
-            //   <p className={styles.benefitDescription}>{benefit.description}</p>
-            // </div>
-            <div key={index} className={styles.benefitCard}>
+            <div 
+              key={index} 
+              className={styles.benefitCard}
+              onClick={() => trackEvent('select_content', {
+                section: 'benefits',
+                action: 'view_benefit',
+                label: benefit.title
+              })}
+              role="button"
+              tabIndex={0}
+            >
               <h3 className={styles.benefitTitle} style={{ fontFamily: "'Inter', sans-serif" }}>{benefit.title}</h3>
               <div className={styles.benefitIcon}>
                 {benefit.icon && <img src={benefit.icon} alt={benefit.title} />}

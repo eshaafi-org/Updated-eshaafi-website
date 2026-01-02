@@ -2,8 +2,8 @@ $navbar-height: 0px;
 .partnerPage {
   position: relative;
   width: 100%;
-  margin-top: 12px;
-  // min-height: 50vh;
+  margin-top: 20px;
+  // min-height: 60vh;
   background: white;
   overflow-x: hidden;
 
@@ -136,7 +136,7 @@ $navbar-height: 0px;
       pointer-events: none;
       position: absolute;
       right: 2rem;
-      top: 53%;
+      top: 50%;
       transform: translateY(-50%) translateX(3rem);
 
       &.formVisible {
@@ -540,7 +540,7 @@ $navbar-height: 0px;
 .servicesSection {
   position: relative;
   width: 100%;
-  padding: 2rem 0;
+  padding: 5rem 0;
   background: #fff;
 
   .container {
@@ -921,7 +921,7 @@ $navbar-height: 0px;
 /*************wellness section*************/
 .wellnessSection {
   width: 100%;
-  padding: 2rem 2rem;
+  padding: 4rem 2rem;
   background: #fff;
   display: flex;
   flex-direction: column;
@@ -1044,7 +1044,7 @@ $navbar-height: 0px;
   align-items: center;
   position: relative;
   overflow: hidden;
-  margin: 2rem auto 0rem;
+  margin: 2rem auto 5rem;
   max-width: 1100px;
 
   &::before {
@@ -1267,7 +1267,7 @@ $navbar-height: 0px;
 /*************partner section************/
 .whyPartner {
   text-align: center;
-  padding: 20px 20px; // container left-right space
+  padding: 80px 20px; // container left-right space
   background: #ffffff;
 
   .heading {
@@ -1391,7 +1391,7 @@ $navbar-height: 0px;
   overflow: hidden;
   padding: 2rem 0;
   white-space: nowrap;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 
   .marqueeTrack {
     display: inline-flex;

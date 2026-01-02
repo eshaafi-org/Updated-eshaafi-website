@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from "framer-motion";
 import Link from "next/link";
 import styles from "../../styles/homepage.module.scss";
+import { trackEvent } from '@/lib/ga';
 
 interface ServiceCard {
   id: number;
@@ -64,6 +65,37 @@ const ServicesGridSection: React.FC = () => {
     }
   ];
 
+  // GA4 event mapping for services
+  const getEventConfig = (service: string, actionType: 'explore' | 'book') => {
+    const eventMap: Record<string, any> = {
+      'Labs': {
+        explore: { event: 'click', params: { section: 'labs', action: 'explore', label: 'Explore', value: 2 } },
+        book: { event: 'generate_lead', params: { section: 'labs', action: 'book', label: 'Book Now', content_type: 'lab_test' } }
+      },
+      'Medicines': {
+        explore: { event: 'click', params: { section: 'medicines', action: 'explore', label: 'Explore', value: 2 } },
+        book: { event: 'begin_checkout', params: { section: 'medicines', action: 'order', label: 'Book Now', content_type: 'medicine' } }
+      },
+      'Subscription Plans': {
+        explore: { event: 'click', params: { section: 'subscriptions', action: 'explore', label: 'Explore', value: 4 } },
+        book: { event: 'add_to_cart', params: { section: 'subscriptions', action: 'subscribe', label: 'Book Now', content_type: 'plan' } }
+      },
+      'Corporate Care': {
+        explore: { event: 'click', params: { section: 'corporate', action: 'explore', label: 'Explore', value: 3 } },
+        book: { event: 'generate_lead', params: { section: 'corporate', action: 'book', label: 'Book Now', content_type: 'business' } }
+      },
+      // 'Wellness Sessions': {
+      //   explore: { event: 'click', params: { section: 'wellness', action: 'explore', label: 'Explore', value: 3 } },
+      //   book: { event: 'generate_lead', params: { section: 'wellness', action: 'book', label: 'Book Now', content_type: 'wellness' } }
+      // },
+      // 'THUs': {
+      //   explore: { event: 'click', params: { section: 'thus', action: 'explore', label: 'Explore', value: 2 } },
+      //   book: { event: 'generate_lead', params: { section: 'thus', action: 'book', label: 'Book Now', content_type: 'telehealth' } }
+      // }
+    };
+    return eventMap[service]?.[actionType] || { event: 'click', params: {} };
+  };
+
   return (
     <section className={styles["services-grid"]}>
       <div className={styles["services-grid__container"]}>
@@ -87,6 +119,10 @@ const ServicesGridSection: React.FC = () => {
                 <Link href={service.exploreLink}>
                   <button
                     className={`${styles.serviceBtn} ${styles["serviceBtn--primary"]}`}
+                    onClick={() => {
+                      const config = getEventConfig(service.title, 'explore');
+                      trackEvent(config.event, config.params);
+                    }}
                   >
                     Explore
                   </button>
@@ -95,6 +131,10 @@ const ServicesGridSection: React.FC = () => {
                 <Link href={service.bookLink}>
                   <button
                     className={`${styles.serviceBtn} ${styles["serviceBtn--secondary"]}`}
+                    onClick={() => {
+                      const config = getEventConfig(service.title, 'book');
+                      trackEvent(config.event, config.params);
+                    }}
                   >
                     Book now
                   </button>

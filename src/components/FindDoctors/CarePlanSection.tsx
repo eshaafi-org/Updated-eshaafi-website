@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '@/styles/findDoctors.module.scss'
+import { trackEvent } from '@/lib/ga'
 
 interface PlanCardProps {
   title: string;
@@ -34,7 +35,12 @@ const PlanCard: React.FC<PlanCardProps> = ({
       </div>
 
       <div className={styles.planPrice}>
-        <h4 className={styles.price}>Rs. {price}</h4>
+        <h4 className={styles.price} onClick={() => trackEvent('view_item', {
+          section: 'care_plans',
+          action: 'view_plan',
+          label: title,
+          value: price
+        })}>Rs. {price}</h4>
         <p className={styles.priceDescription}>/{period}</p>
       </div>
 
@@ -61,7 +67,22 @@ const PlanCard: React.FC<PlanCardProps> = ({
         </div>
       )}
 
-      <button className={styles.subscribeBtn}>Subscribe Plan</button>
+      <button 
+        className={styles.subscribeBtn}
+        onClick={() => trackEvent('add_to_cart', {
+          section: 'care_plans',
+          action: 'subscribe',
+          label: title,
+          value: price,
+          currency: 'PKR',
+          items: [{
+            name: title,
+            price: price
+          }]
+        })}
+      >
+        Subscribe Plan
+      </button>
     </div>
   );
 };
@@ -87,7 +108,7 @@ const CarePlanSection: React.FC = () => {
           'Access to Health Related to Webinars'
         ],
         isPopular: false,
-        //note: '*Free Call after buying, Reimbursement if you changed your mind.'
+        note: '*Free Call after buying, Reimbursement if you changed your mind.'
       }
     ],
     'Monthly Plans': [

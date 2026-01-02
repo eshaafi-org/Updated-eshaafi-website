@@ -7,7 +7,7 @@ import WellnessAreas from "./wellness";
 import WhyPartnerSection from "./partnersection";
 import TestimonialSection from "./testimonial";
 import FAQSection from "./faq";
-// import { headers } from "../../helper/CONST";
+import { trackEvent } from "@/lib/ga";
 
 const PartnerWithUs: React.FC = () => {
   const [showForm, setShowForm] = useState(true);
@@ -45,6 +45,13 @@ const PartnerWithUs: React.FC = () => {
     e.preventDefault();
     
     if (!validateForm()) return;
+
+    // Track form submission
+    trackEvent('form_submit', {
+      section: 'hero',
+      action: 'schedule_demo',
+      form_type: 'corporate_lead'
+    });
 
     setIsLoading(true);
     
@@ -218,6 +225,13 @@ const PartnerWithUs: React.FC = () => {
                     onClick={handleSubmit} 
                     className={styles.submitBtn}
                     disabled={isLoading || isFlipping}
+                    onFocus={() => {
+                      trackEvent('form_start', {
+                        section: 'hero',
+                        action: 'schedule_demo',
+                        form_type: 'corporate_lead'
+                      });
+                    }}
                   >
                     {isLoading ? (
                       <>

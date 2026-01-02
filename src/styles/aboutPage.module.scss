@@ -7,7 +7,7 @@
 
 .heroSection {
   width: 100%;
-  min-height: 480px;
+  min-height: 500px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -189,7 +189,7 @@
 .journeySection {
   width: 100%;
   background: #fff;
-  padding: 2.5rem 2rem;
+  padding: 5rem 2rem;
 
   @media (max-width: 992px) {
     padding: 3rem 1.5rem;
@@ -542,7 +542,7 @@
 
 .founderStorySection {
   width: 100%;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   background-color: #fff;
   overflow-x: hidden; // prevent right side gap
 
@@ -568,7 +568,7 @@
 
 .founderHeader {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .founderTitle {
@@ -698,7 +698,7 @@
 /* ============================================================= */
 .leadershipSection {
   width: 100%;
-  padding: 2rem 2rem;
+  padding: 4rem 2rem;
   background-color: #f9fafb;
 
   @include tablet-large-and-below {

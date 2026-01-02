@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from "framer-motion";
 import Link from "next/link";
 import styles from "../../styles/homepage.module.scss";
+import { trackEvent } from '@/lib/ga';
 
 const PsychologistsSection: React.FC = () => {
   return (
@@ -24,13 +25,35 @@ const PsychologistsSection: React.FC = () => {
           <div className={styles.psychologists__buttons}>
             
             <Link href="/mind-wellness#therapists-section">
-              <button className={`${styles.psyBtn} ${styles["psyBtn--primary"]}`}>
+              {/* <button className={`${styles.psyBtn} ${styles["psyBtn--primary"]}`}> */}
+                 <button 
+                className={`${styles.psyBtn} ${styles["psyBtn--primary"]}`}
+                onClick={() => {
+                  trackEvent('click', {
+                    section: 'mental_health',
+                    action: 'explore',
+                    label: 'Explore',
+                    value: 3
+                  });
+                }}
+              >
                 Explore
               </button>
             </Link>
 
             <Link href="/mind-wellness#therapists-section">
               <button className={`${styles.psyBtn} ${styles["psyBtn--secondary"]}`}>
+                 <button 
+                className={`${styles.psyBtn} ${styles["psyBtn--secondary"]}`}
+                onClick={() => {
+                  trackEvent('generate_lead', {
+                    section: 'mental_health',
+                    action: 'book',
+                    label: 'Book Now',
+                    content_type: 'mental_health',
+                  });
+                }}
+              ></button>
                 Book now
               </button>
             </Link>
