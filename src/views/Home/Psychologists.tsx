@@ -42,8 +42,7 @@ const PsychologistsSection: React.FC = () => {
             </Link>
 
             <Link href="/mind-wellness#therapists-section">
-              <button className={`${styles.psyBtn} ${styles["psyBtn--secondary"]}`}>
-                 <button 
+              <button 
                 className={`${styles.psyBtn} ${styles["psyBtn--secondary"]}`}
                 onClick={() => {
                   trackEvent('generate_lead', {
@@ -53,7 +52,7 @@ const PsychologistsSection: React.FC = () => {
                     content_type: 'mental_health',
                   });
                 }}
-              ></button>
+              >
                 Book now
               </button>
             </Link>
