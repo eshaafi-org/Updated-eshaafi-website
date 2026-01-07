@@ -64,6 +64,18 @@
         }
       }
 
+      // Active state - color only
+      &.navItemActive {
+        a {
+          color: #00d4ff;
+          font-weight: 400;
+          
+          &:hover {
+            color: #00d4ff;
+          }
+        }
+      }
+
       /* Desktop dropdown */
       .dropdown {
         position: absolute;

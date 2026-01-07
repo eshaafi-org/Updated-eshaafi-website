@@ -690,10 +690,8 @@ const navbarItems: NavbarItem[] = [
     title: "Doctors",
     href: "/find-doctors",
     dropdown: [
-      { name: "General Practitioners", href: "/find-doctors?specialty=General%20Physician", icon: "/images/doctor1.svg" },
-      { name: "Specialists", href: "/find-doctors?specialty=Specialist", icon: "/images/doctor2.svg" },
-      // { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor3.svg" },
-      // { name: "Care Plans", href: "/find-doctors#subscription-plans", icon: "/images/careplans.svg" },
+      { name: "General Practitioners", href: "/find-doctors", icon: "/images/doctor1.svg" },
+      { name: "Specialists", href: "/find-doctors", icon: "/images/doctor2.svg" },
     ],
   },
 
@@ -701,9 +699,10 @@ const navbarItems: NavbarItem[] = [
     title: "Mental Health",
     href: "/mind-wellness",
     dropdown: [
-      { name: "Counselors", href: "/mind-wellness?specialty=Counselor#therapists-section", icon: "/images/doctor4.svg" },
-      { name: "Psychologists", href: "/mind-wellness?specialty=Clinical%20Psychologist#therapists-section", icon: "/images/doctor5.svg" },
-      // { name: "Psychiatrists", href: "/Psychiatrists", icon: "/images/doctor6.svg" },
+      //{ name: "Psychiatrists", href: "/mind-wellness/psychiatrist#therapists-section", icon: "/images/doctor4.svg" },
+      { name: "Counselors", href: "/mind-wellness/counselor#therapists-section", icon: "/images/doctor6.svg" },
+      { name: "Psychologists", href: "/mind-wellness/psychologist#therapists-section", icon: "/images/doctor5.svg" },
+      
     ],
   },
 
@@ -881,6 +880,29 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
   // Plus Both Value 
   const totalItemCount = cart.length + packages.length;
 
+  // Handle hash scroll navigation
+  useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const elementId = hash.substring(1);
+        const element = document.getElementById(elementId);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
+      }
+    };
+
+    // Scroll on mount if hash exists
+    handleHashScroll();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashScroll);
+    return () => window.removeEventListener('hashchange', handleHashScroll);
+  }, []);
+
   // Fetch doctors data on component mount if not already provided
   useEffect(() => {
     if (doctors && doctors.length > 0) {
@@ -939,6 +961,20 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
     setSearchResults([]);
     setSearchOpen(false);
     window.location.href = href;
+  };
+
+  // Check if a navbar item is active based on current route
+  const isNavItemActive = (itemHref: string | undefined): boolean => {
+    if (!itemHref) return false;
+    const currentPath = router.pathname;
+    const itemPath = itemHref.split('#')[0]; // Remove hash for comparison
+    
+    // Don't highlight items with hash anchors (like #subscription-plans)
+    // Only highlight exact path matches or main category routes
+    if (itemHref.includes('#')) return false;
+    
+    // Highlight if exact match or starts with the path (includes sublinks)
+    return currentPath === itemPath || currentPath.startsWith(itemPath + '/');
   };
 
   const handleModal = () => {
@@ -1004,7 +1040,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
             {navbarItems.map((item, idx) => (
               <li
                 key={idx}
-                className={styles.navItem}
+                className={`${styles.navItem} ${isNavItemActive(item.href) ? styles.navItemActive : ''}`}
                 onMouseEnter={() => setHoverIndex(idx)}
                 onMouseLeave={() => setHoverIndex(null)}
               >

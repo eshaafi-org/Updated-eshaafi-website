@@ -165,8 +165,10 @@ $font-inter: 'Inter', sans-serif;
       display: flex;
       align-items: center;
       gap: 16px;
-      transition: transform 0.32s ease, box-shadow 0.32s ease;
+      transition: transform 0.32s ease, box-shadow 0.32s ease, background-color 0.3s ease, border 0.3s ease;
       will-change: transform, opacity;
+      cursor: pointer;
+      border: 2px solid transparent;
 
       // Hidden baseline for animation (option A: opacity 0 + translateY)
       opacity: 0;
@@ -175,6 +177,12 @@ $font-inter: 'Inter', sans-serif;
       &:hover {
         transform: translateY(-6px);
         box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      }
+
+      &.condition-card-active {
+        background: #e3f2fd;
+        border: 2px solid #1976d2;
+        box-shadow: 0 4px 12px rgba(25, 118, 210, 0.15);
       }
 
       .condition-icon {

@@ -10,9 +10,10 @@ import { fetchAndSortDoctors, DoctorQueryPresets } from '@/helper/doctorApi'
 
 interface FindDoctorsViewProps {
   doctors?: any[]
+  category?: string
 }
 
-const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors: initialDoctors = [] }) => {
+const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors: initialDoctors = [], category }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [doctorsWithSlots, setDoctorsWithSlots] = useState<any[]>([])
   const [doctors, setDoctors] = useState<any[]>(initialDoctors)
@@ -76,7 +77,7 @@ const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors: initialDocto
 
   return (
     <div>
-      <DoctorGrid doctors={doctorsWithSlots} excludeMentalHealth={true} isLoading={isLoading} />
+      <DoctorGrid doctors={doctorsWithSlots} excludeMentalHealth={true} isLoading={isLoading} activeCategory={category} />
       <CarePlanSection />
       <BenefitsSection />
       <FAQSection />

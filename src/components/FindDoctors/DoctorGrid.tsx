@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react'
+import Link from 'next/link'
 import styles from '@/styles/findDoctors.module.scss'
 import DoctorCard from './DoctorCard'
 import { DoctorCardSkeleton } from '@/components/SkeletonLoader'
@@ -22,24 +23,75 @@ interface DoctorGridProps {
   excludeMentalHealth?: boolean
   onlyMentalHealth?: boolean
   isLoading?: boolean
+  activeCategory?: string
+  disableNavigation?: boolean
+  baseRoute?: string
+  onCategoryChange?: (category: string | null) => void
 }
 
-const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = false, onlyMentalHealth = false, isLoading = false }) => {
+const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = false, onlyMentalHealth = false, isLoading = false, activeCategory, disableNavigation = false, baseRoute = '/find-doctors', onCategoryChange }) => {
   const [activeSpecialty, setActiveSpecialty] = useState('All Doctor')
+  const [lastClickedSpecialty, setLastClickedSpecialty] = useState<string | null>(null)
   const router = useRouter()
 
-  // set initial active specialty from query param (if provided)
+  // set initial active specialty from query param or activeCategory prop
   useEffect(() => {
-    const q = router.query?.specialty as string | undefined
-    if (q) {
-      try {
-        const decoded = decodeURIComponent(q).replace(/\+/g, ' ')
-        setActiveSpecialty(decoded)
-      } catch (e) {
-        setActiveSpecialty(q)
+    // First check if activeCategory prop is provided (from dynamic route)
+    if (activeCategory) {
+      // Map URL slug back to display name
+      const slugToSpecialty: { [key: string]: string } = {
+        'cardiologist': 'Cardiologist',
+        'pediatrician': 'Child Specialist',
+        'dermatologist': 'Dermatologist',
+        'general-physician': 'General Physician',
+        'general-physician-mo-peads': 'General Physician (MO PEADS)',
+        'gynaecologist': 'Gynaecologist',
+        'psychiatrist': 'Psychiatrist',
+        'psychologist': 'Psychologist',
+        'clinical-psychologist': 'Clinical Psychologist',
+        'mental-health': 'Counselor',
+        'counselor': 'Counselor',
+        'therapist': 'Counselor',
+        'dentist': 'Dentist',
+        'physiotherapist': 'Physiotherapist',
+        'cons-physiotherapist': 'Cons. Physiotherapist',
+        'consultant-physician': 'Consultant Physician',
+        'family-physician': 'Family Physician',
+        'gastroenterologist': 'Gastroenterologist',
+        'medical-specialist': 'Medical Specialist',
+        'nephrologist': 'Nephrologist (R)',
+        'pulmonologist': 'Pulmonologist',
+        'speech-therapist': 'Speech Therapist',
       }
+      const displayName = slugToSpecialty[activeCategory] || activeCategory
+      
+      // Handle multiple active categories (e.g., psychologist includes clinical psychologist)
+      if (activeCategory === 'psychologist') {
+        // Highlight Clinical Psychologist button for psychologist category
+        setActiveSpecialty('Psychologist');
+        setLastClickedSpecialty('Clinical Psychologist');
+      } else if (activeCategory === 'counselor') {
+        // Highlight Counselor button for counselor category
+        setActiveSpecialty('Counselor');
+        setLastClickedSpecialty('Counselor');
+      } else {
+        setActiveSpecialty(displayName);
+        setLastClickedSpecialty(displayName);
+      }
+    } else {
+      // Fallback to query param
+      const q = router.query?.specialty as string | undefined
+      if (q) {
+        try {
+          const decoded = decodeURIComponent(q).replace(/\+/g, ' ')
+          setActiveSpecialty(decoded)
+        } catch (e) {
+          setActiveSpecialty(q)
+        }
+      }
+      setLastClickedSpecialty(null);
     }
-  }, [router.query?.specialty])
+  }, [router.query?.specialty, activeCategory])
 
   const mappedDoctors: Doctor[] = doctors.map((doc: any) => {
     // Extract real availability time from backend slots
@@ -222,24 +274,117 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
         </div>
 
         <div className={styles.specialtyFilters}>
-          {specialties.map((specialty) => (
-            <button
-              key={specialty}
-              className={`${styles.filterButton} ${activeSpecialty === specialty ? styles.filterActive : ''}`}
-              onClick={() => {
-                setActiveSpecialty(specialty);
-                trackEvent('select_content', {
-                  section: 'filters',
-                  action: 'specialty_filter',
-                  label: specialty,
-                  content_type: 'doctor_specialty'
-                });
-              }}
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              {specialty}
-            </button>
-          ))}
+          {specialties.map((specialty) => {
+            // Map specialty names to URL-friendly slugs
+            const specialtyToSlug: { [key: string]: string } = {
+              'All Doctor': baseRoute,
+              'Cardiologist': `${baseRoute}/cardiologist`,
+              'Child Specialist': `${baseRoute}/pediatrician`,
+              'Cons. Physiotherapist': `${baseRoute}/cons-physiotherapist`,
+              'Consultant Physician': `${baseRoute}/consultant-physician`,
+              'Dentist': `${baseRoute}/dentist`,
+              'Dermatologist': `${baseRoute}/dermatologist`,
+              'Family Physician': `${baseRoute}/family-physician`,
+              'Gastroenterologist': `${baseRoute}/gastroenterologist`,
+              'General Physician': `${baseRoute}/general-physician`,
+              'General Physician (MO PEADS)': `${baseRoute}/general-physician-mo-peads`,
+              'Gynaecologist': `${baseRoute}/gynecologist`,
+              'Medical Specialist': `${baseRoute}/medical-specialist`,
+              'Nephrologist (R)': `${baseRoute}/nephrologist`,
+              'Physiotherapist': `${baseRoute}/physiotherapist`,
+              'Pulmonologist': `${baseRoute}/pulmonologist`,
+              'Speech Therapist': `${baseRoute}/speech-therapist`,
+              'Psychiatrist': `${baseRoute}/psychiatrist`,
+              'Psychologist': `${baseRoute}/psychologist`,
+              'Clinical Psychologist': `${baseRoute}/psychologist`,
+              'Counselor': `${baseRoute}/counselor`,
+            }
+            
+            const href = specialtyToSlug[specialty] || `${baseRoute}/${specialty.toLowerCase().replace(/\s+/g, '-')}`
+            
+            // Determine if this button should be highlighted
+            // Only highlight the exact clicked specialty, unless it's a special mapping
+            let isActive = false
+            
+            if (lastClickedSpecialty) {
+              // Exact match with last clicked
+              isActive = lastClickedSpecialty === specialty
+              
+              // Special cases for multiple specialties mapping to same category
+              // Physiotherapist and Cons. Physiotherapist - only highlight exact one clicked
+              // General Physician and General Physician (MO PEADS) - only highlight exact one clicked
+              // Psychologist and Clinical Psychologist - highlight both when in psychologist category
+              if (activeCategory === 'psychologist' && (lastClickedSpecialty === 'Clinical Psychologist' || lastClickedSpecialty === 'Psychologist')) {
+                isActive = specialty === 'Clinical Psychologist' || specialty === 'Psychologist'
+              }
+            } else {
+              // Fallback: use activeSpecialty only for exact match
+              isActive = activeSpecialty === specialty
+            }
+            
+            // If navigation is disabled (mind-wellness page), use button with onClick
+            if (disableNavigation) {
+              return (
+                <button
+                  key={specialty}
+                  className={`${styles.filterButton} ${isActive ? styles.filterActive : ''}`}
+                  onClick={() => {
+                    setActiveSpecialty(specialty);
+                    setLastClickedSpecialty(specialty);
+                    if (onCategoryChange) {
+                      // For "All Doctor", pass null to navigate to /mind-wellness
+                      if (specialty === 'All Doctor') {
+                        onCategoryChange(null);
+                      } else {
+                        // Extract category slug from specialty name
+                        const specialtyToSlug: { [key: string]: string } = {
+                          'Psychiatrist': 'psychiatrist',
+                          'Psychologist': 'psychologist',
+                          'Clinical Psychologist': 'psychologist',
+                          'Counselor': 'counselor',
+                        }
+                        const slug = specialtyToSlug[specialty] || specialty.toLowerCase().replace(/\s+/g, '-');
+                        onCategoryChange(slug);
+                      }
+                    }
+                    trackEvent('select_content', {
+                      section: 'filters',
+                      action: 'specialty_filter',
+                      label: specialty,
+                      content_type: 'doctor_specialty'
+                    });
+                  }}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {specialty}
+                </button>
+              )
+            }
+            
+            // Otherwise use Link for navigation
+            return (
+              <Link 
+                key={specialty} 
+                href={href}
+                style={{ textDecoration: 'none' }}
+              >
+                <button
+                  className={`${styles.filterButton} ${isActive ? styles.filterActive : ''}`}
+                  onClick={() => {
+                    trackEvent('select_content', {
+                      section: 'filters',
+                      action: 'specialty_filter',
+                      label: specialty,
+                      content_type: 'doctor_specialty'
+                    });
+                  }}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {specialty}
+                </button>
+              </Link>
+            )
+          })}
         </div>
 
         <div className={styles.doctorsGrid}>
@@ -249,10 +394,13 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
             ))
             : mappedDoctors
               .filter((doc) => {
-                const mentalHealthSpecialties = ['clinical psychologist', 'counselor']
-                const docSpecialtyLower = String(doc.specialty || '').toLowerCase()
+                // Normalize specialty strings
+                const mentalHealthSpecialties = ['psychiatrist', 'psychologist', 'clinical psychologist', 'counselor', 'counsellor', 'therapist', 'mentor', 'mental health']
+                const docSpecialtyLower = String(doc.specialty || '').toLowerCase().trim()
+                
+                // Check if doctor has any mental health specialty
                 const isMentalHealth = mentalHealthSpecialties.some((specialty) => 
-                  docSpecialtyLower.includes(specialty.toLowerCase())
+                  docSpecialtyLower.includes(specialty)
                 )
 
                 // If onlyMentalHealth is true and 'All Doctor' is selected, show all mental health doctors
@@ -267,7 +415,11 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
 
                 // show all when 'All Doctor' selected, otherwise match specialty (case-insensitive, partial match)
                 if (activeSpecialty === 'All Doctor') return true
-                return docSpecialtyLower.includes(activeSpecialty.toLowerCase())
+                
+                // For specific specialties, do an exact match (case-insensitive)
+                // This ensures only doctors in the selected category are shown
+                const activeSpecialtyLower = activeSpecialty.toLowerCase().trim()
+                return docSpecialtyLower.includes(activeSpecialtyLower)
               })
               .sort((a, b) => {
                 // Priority 1: Online doctors with "Available till" (today's slots) - no date in time string

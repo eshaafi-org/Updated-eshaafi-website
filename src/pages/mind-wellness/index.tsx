@@ -4,6 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/mind-wellness.module.scss";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import DoctorGrid from "@/components/FindDoctors/DoctorGrid";
 import { BASE_URL } from "@/helper/CONST";
 import axios from "axios";
@@ -22,10 +23,15 @@ export default function MindWellnessPage({
 }: {
   doctors?: Doctor[];
 }) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [doctorsWithSlots, setDoctorsWithSlots] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
   const toolRefs = useRef<(HTMLElement | null)[]>([]);
+
+  // Note: selectedCategory is managed by local state and URL navigation
+  // The URL is now path-based (/mind-wellness/category) not query-based
 
   // Fetch availability slots for all doctors
   useEffect(() => {
@@ -92,41 +98,49 @@ export default function MindWellnessPage({
       icon: "/images/mind-icon1.svg",
       title: "Relationship Management",
       desc: "Marital Counseling, Family Therapy, Attachment Issues",
+      category: "psychologist"
     },
     {
       icon: "/images/mind-icon2.svg",
       title: "Psychosis",
       desc: "Schizophrenia, Delusional Disorders, Hallucinations",
+      category: "psychiatrist"
     },
     {
       icon: "/images/mind-icon3.svg",
       title: "Depression & Depressive",
       desc: "Major Depression, Dysthymia, Seasonal Affective Disorder",
+      category: "psychiatrist"
     },
     {
       icon: "/images/mind-icon4.svg",
       title: "Bipolar Affective Conditions",
       desc: "Mood Swings, Mania, Depression Cycles",
+      category: "psychiatrist"
     },
     {
       icon: "/images/mind-icon5.svg",
       title: "Anger & Anxiety Conditions",
       desc: "GAD, Panic Disorder, Social Anxiety, Phobias",
+      category: "mental-health"
     },
     {
       icon: "/images/mind-icon6.svg",
       title: "Obsessive-Compulsive (OCD)",
       desc: "Compulsions, Intrusive Thoughts, ERP Therapy",
+      category: "psychiatrist"
     },
     {
       icon: "/images/mind-icon7.svg",
       title: "Post-Traumatic Stress (PTSD)",
       desc: "Trauma Recovery, EMDR, Healing",
+      category: "psychologist"
     },
     {
       icon: "/images/mind-icon8.svg",
       title: "Substance Use Conditions",
       desc: "Addiction Recovery, Harm Reduction, Support",
+      category: "psychiatrist"
     },
   ];
 
@@ -183,7 +197,56 @@ export default function MindWellnessPage({
 
         {/* Doctor Grid */}
         <section id="therapists-section" style={{ marginTop: -80 }}>
-          <DoctorGrid doctors={doctorsWithSlots} onlyMentalHealth={true} isLoading={isLoading} />
+          {selectedCategory && (
+            <div style={{ 
+              padding: '16px 20px', 
+              backgroundColor: '#e3f2fd', 
+              borderRadius: '8px', 
+              marginBottom: '20px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              maxWidth: '1200px',
+              margin: '0 auto 20px'
+            }}>
+              <span style={{ fontSize: '16px', color: '#1976d2', fontWeight: 500 }}>
+                Showing {conditionCards.find(c => c.category === selectedCategory)?.title} Specialists
+              </span>
+              <button
+                onClick={() => {
+                  setSelectedCategory(null);
+                  router.push('/mind-wellness', undefined, { shallow: true });
+                }}
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: '#1976d2',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: 500
+                }}
+              >
+                Clear Filter
+              </button>
+            </div>
+          )}
+          <DoctorGrid 
+            doctors={doctorsWithSlots} 
+            onlyMentalHealth={true} 
+            isLoading={isLoading}
+            disableNavigation={true}
+            activeCategory={selectedCategory || undefined}
+            onCategoryChange={(category) => {
+              setSelectedCategory(category);
+              if (category) {
+                router.push(`/mind-wellness/${category}`, undefined, { shallow: true, scroll: false });
+              } else {
+                router.push('/mind-wellness', undefined, { shallow: true, scroll: false });
+              }
+            }}
+          />
         </section>
 
         {/* Conditions Section */}
@@ -202,12 +265,30 @@ export default function MindWellnessPage({
             <article
               key={i}
               ref={(el) => (cardRefs.current[i] = el)}
-              className={styles["condition-card"]}
-              onClick={() => trackEvent('select_content', {
-                section: 'conditions',
-                action: 'view_condition',
-                label: c.title
-              })}
+              className={`${styles["condition-card"]} ${selectedCategory === c.category ? styles["condition-card-active"] : ''}`}
+              onClick={() => {
+                const newCategory = selectedCategory === c.category ? null : c.category;
+                setSelectedCategory(newCategory);
+                
+                // Navigate to category page
+                if (newCategory) {
+                  router.push(`/mind-wellness/${newCategory}`, undefined, { scroll: false });
+                } else {
+                  router.push('/mind-wellness', undefined, { scroll: false });
+                }
+                
+                trackEvent('select_content', {
+                  section: 'conditions',
+                  action: 'filter_by_condition',
+                  label: c.title,
+                  category: c.category
+                });
+                
+                // Scroll to therapists section
+                setTimeout(() => {
+                  document.getElementById('therapists-section')?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+              }}
               role="button"
               tabIndex={0}
             >
