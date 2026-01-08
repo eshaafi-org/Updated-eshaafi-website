@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { IoIosArrowForward, IoIosArrowRoundBack } from "react-icons/io";
 import Image from "next/image";
 import logo from "../../../public/eshaafiLogo.svg";
+import { trackEvent } from "@/lib/ga";
 
 // reducer
 const reducer = (state: any, action: any) => {
@@ -142,6 +143,12 @@ export const Model = ({ page = "login" }: { page: string }) => {
     // e.preventDefault();
     if (e) {
       setStates({ type: "OTP_LOADING_TRUE" });
+      // Track login/signup initiation
+      trackEvent('auth_otp_request_clk', {
+        section: 'authentication',
+        auth_type: page === 'login' ? 'login' : 'signup',
+        method: 'phone_otp'
+      });
     }
     let processedPhoneNo = e ? (e.phone_no.startsWith('0') ? e.phone_no.substring(1) : e.phone_no) : (phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum);
     axios
@@ -157,10 +164,21 @@ export const Model = ({ page = "login" }: { page: string }) => {
         });
         if (e) {
           setOtp(true);
+          // Track OTP sent successfully
+          trackEvent('auth_otp_sent_success', {
+            section: 'authentication',
+            auth_type: page === 'login' ? 'login' : 'signup'
+          });
         }
       })
       .catch((err) => {
         setStates({ type: "OTP_LOADING_FALSE" });
+        // Track OTP send failure
+        trackEvent('auth_otp_sent_error', {
+          section: 'authentication',
+          auth_type: page === 'login' ? 'login' : 'signup',
+          error_message: err.response?.data?.response?.message || 'OTP send failed'
+        });
         console.error(err.response.data.response.message);
         toast(err.response.data.response.message);
       });
@@ -179,6 +197,12 @@ export const Model = ({ page = "login" }: { page: string }) => {
         type: 1,
       })
       .then(async (res) => {
+        // Track OTP verification success
+        trackEvent('auth_otp_verify_success', {
+          section: 'authentication',
+          auth_type: page === 'login' ? 'login' : 'signup'
+        });
+
         // keep verify loading until profiles are resolved and UI updated
         localStorage.setItem("user", JSON.stringify(res.data.response));
 
@@ -220,6 +244,12 @@ export const Model = ({ page = "login" }: { page: string }) => {
       })
       .catch((err) => {
         setStates({ type: "VERI_ERROR" });
+        // Track OTP verification failure
+        trackEvent('auth_otp_verify_error', {
+          section: 'authentication',
+          auth_type: page === 'login' ? 'login' : 'signup',
+          error_message: err.response?.data?.response?.message || 'OTP verification failed'
+        });
         console.error("OTP verification error:", err);
       });
 
@@ -232,6 +262,13 @@ export const Model = ({ page = "login" }: { page: string }) => {
       const userAuth: any | null = storedValue ? JSON.parse(storedValue) : null;
 
       // Set the selected profile and complete login
+      trackEvent('auth_profile_selected', {
+        section: 'authentication',
+        auth_type: page === 'login' ? 'login' : 'signup',
+        profile_name: selectedProfile?.name,
+        profile_relation: selectedProfile?.relation
+      });
+
       dispatch({ type: "loginModalSlice/setAuth", payload: { ...userAuth, selectedProfile } });
       close();
     }
@@ -242,6 +279,15 @@ export const Model = ({ page = "login" }: { page: string }) => {
     e.preventDefault();
     console.log(modelStates);
     setStates({ type: "PROFILE_LOADING" });
+    
+    // Track profile creation initiation
+    trackEvent('auth_profile_create_start', {
+      section: 'authentication',
+      auth_type: page === 'login' ? 'login' : 'signup',
+      profile_name: modelStates.name,
+      gender: modelStates.gender
+    });
+
     const storedValue: any | null = localStorage.getItem("user");
     const uuid: any | null = storedValue ? JSON.parse(storedValue) : null;
     axios
@@ -260,11 +306,27 @@ export const Model = ({ page = "login" }: { page: string }) => {
       )
       .then((res) => {
         setStates({ type: "PROFILE_LOADING" });
+        
+        // Track profile creation success
+        trackEvent('auth_profile_create_success', {
+          section: 'authentication',
+          auth_type: page === 'login' ? 'login' : 'signup',
+          profile_name: modelStates.name,
+          gender: modelStates.gender
+        });
+
         dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
         close();
       })
       .catch((err) => {
         setStates({ type: "PROFILE_LOADING" });
+        
+        // Track profile creation failure
+        trackEvent('auth_profile_create_error', {
+          section: 'authentication',
+          auth_type: page === 'login' ? 'login' : 'signup',
+          error_message: err.response?.data?.response?.message || 'Profile creation failed'
+        });
       });
   };
   // on focus changing the input field

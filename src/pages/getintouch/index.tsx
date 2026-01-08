@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import styles from "../../styles/applynow.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 const GetInTouch = () => {
   const [name, setName] = useState('');
@@ -29,7 +30,17 @@ const GetInTouch = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      trackEvent('getintouch_form_error_clk', {
+        section: 'form',
+        error_type: 'validation'
+      });
+      return;
+    }
+    
+    trackEvent('getintouch_form_submit_clk', {
+      section: 'form'
+    });
     
     setIsLoading(true);
     const data = {
@@ -50,6 +61,9 @@ const GetInTouch = () => {
         body: JSON.stringify(data)
       });
       if (response.ok) {
+        trackEvent('getintouch_form_success_clk', {
+          section: 'form'
+        });
         setModalType('success');
         setShowModal(true);
         setName('');
@@ -58,12 +72,20 @@ const GetInTouch = () => {
         setMessage('');
         setErrors({});
       } else {
+        trackEvent('getintouch_form_error_clk', {
+          section: 'form',
+          error_type: 'submission_failed'
+        });
         const errorText = await response.text();
         console.error('Error response:', errorText);
         setModalType('error');
         setShowModal(true);
       }
     } catch (error) {
+      trackEvent('getintouch_form_error_clk', {
+        section: 'form',
+        error_type: 'fetch_error'
+      });
       console.error('Fetch error:', error);
       setModalType('error');
       setShowModal(true);

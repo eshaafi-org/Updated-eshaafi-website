@@ -690,8 +690,8 @@ const navbarItems: NavbarItem[] = [
     title: "Doctors",
     href: "/find-doctors",
     dropdown: [
-      { name: "General Practitioners", href: "/find-doctors", icon: "/images/doctor1.svg" },
-      { name: "Specialists", href: "/find-doctors", icon: "/images/doctor2.svg" },
+      { name: "General Practitioners", href: "/find-doctors/general-physician", icon: "/images/doctor1.svg" },
+      { name: "Specialists", href: "/find-doctors/medical-specialist", icon: "/images/doctor2.svg" },
     ],
   },
 
@@ -1049,28 +1049,28 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                   <a href={item.href} onClick={() => {
    switch(item.title) {
       case 'Doctors':
-        trackEvent('Nav-Doctors-Link', { section: 'nav', action: 'navigate', label: 'Doctors', content_type: 'service' });
+        trackEvent('homepage_nav_doctors_clk', { section: 'nav' });
         break;
       case 'Mental Health':
-        trackEvent('Nav-MentalHealth-Link', { section: 'nav', action: 'navigate', label: 'Mental Health', content_type: 'service' });
+        trackEvent('homepage_nav_mental_health_clk', { section: 'nav' });
         break;
       case 'Labs':
-        trackEvent('Nav-Labs-Link', { section: 'nav', action: 'navigate', label: 'Labs', content_type: 'service' });
+        trackEvent('homepage_nav_labs_clk', { section: 'nav' });
         break;
       case 'Subscription Plans':
-        trackEvent('Nav-Subscription-Plans-Link', { section: 'nav', action: 'navigate', label: 'Subscription Plans', content_type: 'product' });
+        trackEvent('homepage_nav_subscription_plans_clk', { section: 'nav' });
         break;
       case 'Wellness Sessions':
-        trackEvent('Nav-Wellness-Sessions-Link', { section: 'nav', action: 'navigate', label: 'Wellness Sessions', content_type: 'service' });
+        trackEvent('homepage_nav_wellness_sessions_clk', { section: 'nav' });
         break;
       case 'Corporate Care':
-        trackEvent('Nav-Corporate-Link', { section: 'nav', action: 'navigate', label: 'Corporate', content_type: 'business' });
+        trackEvent('homepage_nav_corporate_clk', { section: 'nav' });
         break;
       // case 'THUs':
-      //   trackEvent('select_content', { section: 'nav', action: 'navigate', label: 'Trials', content_type: 'promo' });
+      //   trackEvent('homepage_nav_thus_clk', { section: 'nav', action: 'navigate' });
       //   break;
       case 'Blogs':
-        trackEvent('Nav-Blog-Link', { section: 'nav', action: 'navigate', label: 'Blog', content_type: 'content' });
+        trackEvent('homepage_nav_blog_clk', { section: 'nav' });
         break;
       default:
         break;
@@ -1196,7 +1196,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                   </Button> */}
                   <Button
                      onClick={() => {
-                     trackEvent('login', { section: 'nav', method: 'button_click', label: 'Login/Sign Up' });
+                     trackEvent('homepage_nav_login_clk', { section: 'nav' });
                      handleModal();
                      }}
                   >
@@ -1380,28 +1380,28 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
     setMenuOpen(false);
     switch(item.title) {
       case 'Doctors':
-        trackEvent('Nav-Doctors-Link', { section: 'nav', action: 'navigate', label: 'Doctors', content_type: 'service' });
+        trackEvent('homepage_nav_doctors_clk', { section: 'nav' });
         break;
       case 'Mental Health':
-        trackEvent('Nav-MentalHealth-Link', { section: 'nav', action: 'navigate', label: 'Mental Health', content_type: 'service' });
+        trackEvent('homepage_nav_mental_health_clk', { section: 'nav' });
         break;
       case 'Labs':
-        trackEvent('Nav-Labs-Link', { section: 'nav', action: 'navigate', label: 'Labs', content_type: 'service' });
+        trackEvent('homepage_nav_labs_clk', { section: 'nav' });
         break;
       case 'Subscription Plans':
-        trackEvent('Nav-Subscription-Plans-Link', { section: 'nav', action: 'navigate', label: 'Subscription Plans', content_type: 'product' });
+        trackEvent('homepage_nav_subscription_plans_clk', { section: 'nav' });
         break;
       case 'Wellness Sessions':
-        trackEvent('Nav-Wellness-Sessions-Link', { section: 'nav', action: 'navigate', label: 'Wellness Sessions', content_type: 'service' });
+        trackEvent('homepage_nav_wellness_sessions_clk', { section: 'nav' });
         break;
       case 'Corporate Care':
-        trackEvent('Nav-Corporate-Link', { section: 'nav', action: 'navigate', label: 'Corporate', content_type: 'business' });
+        trackEvent('homepage_nav_corporate_clk', { section: 'nav' });
         break;
       // case 'THUs':
-      //   trackEvent('select_content', { section: 'nav', action: 'navigate', label: 'Trials', content_type: 'promo' });
+      //   trackEvent('homepage_nav_thus_clk', { section: 'nav', action: 'navigate' });
       //   break;
       case 'Blogs':
-        trackEvent('Nav-Blog-Link', { section: 'nav', action: 'navigate', label: 'Blog', content_type: 'content' });
+        trackEvent('homepage_nav_blog_clk', { section: 'nav' });
         break;
       default:
         break;

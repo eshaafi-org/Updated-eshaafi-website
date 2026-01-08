@@ -9,7 +9,15 @@ import useDispatch from "react-redux";
 import Hero from "@/views/Home/Hero";
 import subscriptionImg from "../../../public/images/subscriptionPlans.png";
 import FQuest from "@/views/Doctor/FQuest";
+import { trackEvent } from "@/lib/ga";
+import { useEffect } from "react";
 export default function Subscriptions() {
+  useEffect(() => {
+    trackEvent('subscriptions_page_view_clk', {
+      section: 'subscriptions'
+    });
+  }, []);
+
   return (
     <>
       <Head>

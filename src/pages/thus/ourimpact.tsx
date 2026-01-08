@@ -35,10 +35,8 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ imageSrc, imageAlt, caption, de
         <>
           <div 
             className={styles.imageWrapper}
-            onClick={() => trackEvent('select_content', {
-              section: 'impact_gallery',
-              action: 'view_photo',
-              label: caption
+            onClick={() => trackEvent('thus_impact_view_clk', {
+              section: 'impact_gallery'
             })}
             role="button"
             tabIndex={0}
@@ -58,10 +56,8 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ imageSrc, imageAlt, caption, de
           </div>
           <div 
             className={styles.imageWrapper}
-            onClick={() => trackEvent('select_content', {
-              section: 'impact_gallery',
-              action: 'view_photo',
-              label: caption
+            onClick={() => trackEvent('thus_impact_view_clk', {
+              section: 'impact_gallery'
             })}
             role="button"
             tabIndex={0}
@@ -110,10 +106,8 @@ const OurImpact: React.FC = () => {
           <Link href="/getintouch">
   <button 
     className={styles.ctaButton}
-    onClick={() => trackEvent('generate_lead', {
-      section: 'bottom_cta',
-      action: 'get_in_touch',
-      content_type: 'impact_partnership'
+    onClick={() => trackEvent('thus_impact_cta_clk', {
+      section: 'bottom_cta'
     })}
   >Get in touch</button>
 </Link>

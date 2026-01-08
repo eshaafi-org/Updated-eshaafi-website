@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AppointmentsList from "@/views/Appointments/AppointmentsList";
 import Head from "next/head";
 import style from "../../styles/appointments.module.scss";
 import AddressBar from "@/components/AddressBar";
 import GetApp from "@/views/Home/GetApp";
+import { trackEvent } from "@/lib/ga";
 
 const links = [
   { name: "Home", link: "/" },
@@ -12,6 +13,13 @@ const links = [
 ];
 export default function Appointments() {
   const [appointType, setAppointType] = useState("Upcoming");
+
+  useEffect(() => {
+    trackEvent('appointments_page_view_clk', {
+      section: 'appointments'
+    });
+  }, []);
+
   return (
     <>
       <Head>
@@ -37,7 +45,13 @@ export default function Appointments() {
                   <button
                     key={t}
                     className={`${style.tabChip} ${appointType === t ? style.activeChip : ""}`}
-                    onClick={() => setAppointType(t)}
+                    onClick={() => {
+                      trackEvent('appointments_tab_filter_clk', {
+                        section: 'tabs',
+                        tab_name: t
+                      });
+                      setAppointType(t);
+                    }}
                   >
                     {t}
                   </button>

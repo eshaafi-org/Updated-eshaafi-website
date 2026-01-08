@@ -14,10 +14,9 @@ export default function Works() {
       <div className={style.workingStepsStyling}>
         <div 
           className={style.workingStep}
-          onClick={() => trackEvent('select_content', {
+          onClick={() => trackEvent('labs_how_works_search_clk', {
             section: 'how_it_works',
-            action: 'view_step',
-            label: 'Search and Book'
+            action: 'view_step'
           })}
           role="button"
           tabIndex={0}
@@ -29,10 +28,9 @@ export default function Works() {
         </div>
         <div 
           className={style.workingStep}
-          onClick={() => trackEvent('select_content', {
+          onClick={() => trackEvent('labs_how_works_sampling_clk', {
             section: 'how_it_works',
-            action: 'view_step',
-            label: 'Home Sampling'
+            action: 'view_step'
           })}
           role="button"
           tabIndex={0}
@@ -44,10 +42,9 @@ export default function Works() {
         </div>
         <div 
           className={style.workingStep}
-          onClick={() => trackEvent('select_content', {
+          onClick={() => trackEvent('labs_how_works_report_clk', {
             section: 'how_it_works',
-            action: 'view_step',
-            label: 'Report Download'
+            action: 'view_step'
           })}
           role="button"
           tabIndex={0}

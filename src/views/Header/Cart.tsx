@@ -34,12 +34,12 @@ export default function Cart({ setShowCart }: { setShowCart: any }) {
         }
       });
       // Listen for custom events (same-tab updates)
-      window.addEventListener('localStorageUpdate', updateStateFromLocalStorage);
+      window.addEventListener('local_storage_update', updateStateFromLocalStorage);
       // Initial load
       updateStateFromLocalStorage();
       return () => {
         window.removeEventListener('storage', updateStateFromLocalStorage);
-        window.removeEventListener('localStorageUpdate', updateStateFromLocalStorage);
+        window.removeEventListener('local_storage_update', updateStateFromLocalStorage);
       };
     }, []);
     return initialState;

@@ -22,10 +22,8 @@ const THUs = () => {
          <Link href="/getintouch">
            <button 
              className={styles.ctaBtn}
-             onClick={() => trackEvent('generate_lead', {
-               section: 'hero',
-               action: 'get_in_touch',
-               content_type: 'impact_partnership'
+             onClick={() => trackEvent('thus_hero_cta_clk', {
+               section: 'hero'
              })}
            >
           Get in Touch

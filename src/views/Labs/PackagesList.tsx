@@ -28,13 +28,16 @@ export default function PackagesList() {
                 <Link
                   href={"/labs/packages/" + item.pId}
                   className={style.packageCard}
-                  onClick={() => trackEvent('view_item', {
-                    section: 'packages',
-                    action: 'view_package',
-                    label: item.subscriptionName,
-                    item_id: `package_${item.pId}`,
-                    content_type: 'lab_package'
-                  })}
+                  onClick={() => {
+                    trackEvent('labs_package_details_clk', {
+                      section: 'packages',
+                      package_name: item.subscriptionName
+                    });
+                    trackEvent('labs_view_package_clk', {
+                      section: 'packages',
+                      label: item.subscriptionName
+                    });
+                  }}
                 >
                   <div className={style.packageContent}>
                     <span className={style.packageText}>

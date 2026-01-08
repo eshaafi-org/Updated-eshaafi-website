@@ -1,6 +1,8 @@
 import style from "@/styles/corporate.module.scss";
 import Head from "next/head";
 import Hero from "@/views/Home/Hero";
+import { trackEvent } from "@/lib/ga";
+import { useEffect } from "react";
 import coporateHero from "../../../public/images/coporateHero.png";
 import { Text24, Text16 } from "@/components/Typography";
 import Mission from "@/views/Home/Mission";
@@ -51,6 +53,12 @@ const benifits = [
   },
 ];
 export default function Coorporate() {
+  useEffect(() => {
+    trackEvent('corporate_page_view_clk', {
+      section: 'corporate'
+    });
+  }, []);
+
   return (
     <>
       <Head>

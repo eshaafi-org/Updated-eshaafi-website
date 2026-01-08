@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../../styles/healthlibrary.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 const HealthTopics: React.FC<{ categories?: any[] }> = ({ categories }) => {
   const [activeCategory, setActiveCategory] = useState("All Topics");
@@ -60,7 +61,12 @@ const HealthTopics: React.FC<{ categories?: any[] }> = ({ categories }) => {
                   <p>{item.description}</p>
                 </div>
               </div>
-              <Link href={`/blog/category/${item.name.replace(/\s/g, "")}`} className={styles.viewAllBtn}>
+              <Link href={`/blog/category/${item.name.replace(/\s/g, "")}`} className={styles.viewAllBtn}
+                onClick={() => trackEvent('blog_category_view_clk', {
+                  section: 'health_topics',
+                  category: item.name
+                })}
+              >
                 View all <span>›</span>
               </Link>
             </div>
@@ -68,7 +74,17 @@ const HealthTopics: React.FC<{ categories?: any[] }> = ({ categories }) => {
             {/* Articles Grid */}
             <div className={styles.articlesGrid}>
               {item.blogs.slice(0, 3).map((blog: any, index: number) => (
-                <Link key={index} href={`/blog/${blog.name}`} className={styles.articleCard}>
+                <Link 
+                  key={index} 
+                  href={`/blog/${blog.name}`} 
+                  className={styles.articleCard}
+                  onClick={() => trackEvent('blog_view_clk', {
+                    section: 'health_topics',
+                    blog_title: blog.title,
+                    category: item.name,
+                    position: `category_card_${index + 1}`
+                  })}
+                >
                   <div className={styles.articleImage}>
                     <img src={blog.url} alt={blog.title} />
                   </div>

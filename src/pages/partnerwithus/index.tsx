@@ -47,10 +47,8 @@ const PartnerWithUs: React.FC = () => {
     if (!validateForm()) return;
 
     // Track form submission
-    trackEvent('form_submit', {
-      section: 'hero',
-      action: 'schedule_demo',
-      form_type: 'corporate_lead'
+    trackEvent('partnerwithus_form_submit_clk', {
+      section: 'hero'
     });
 
     setIsLoading(true);
@@ -226,10 +224,8 @@ const PartnerWithUs: React.FC = () => {
                     className={styles.submitBtn}
                     disabled={isLoading || isFlipping}
                     onFocus={() => {
-                      trackEvent('form_start', {
-                        section: 'hero',
-                        action: 'schedule_demo',
-                        form_type: 'corporate_lead'
+                      trackEvent('partnerwithus_form_start_clk', {
+                        section: 'hero'
                       });
                     }}
                   >

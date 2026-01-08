@@ -24,11 +24,8 @@ export default function HelpLine() {
                         <Button 
                           variant="contained" 
                           className={style.helplineButton}
-                          onClick={() => trackEvent('generate_lead', {
-                            section: 'support',
-                            action: 'call_support',
-                            method: 'click_to_call',
-                            content_type: 'lab_booking'
+                          onClick={() => trackEvent('labs_support_call_clk', {
+                            section: 'support'
                           })}
                         >
                             <MdCall style={{ height: '20px', width: "20px" }} /> Call Now

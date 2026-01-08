@@ -69,20 +69,20 @@ const ServicesGridSection: React.FC = () => {
   const getEventConfig = (service: string, actionType: 'explore' | 'book') => {
     const eventMap: Record<string, any> = {
       'Labs': {
-        explore: { event: 'click', params: { section: 'labs', action: 'explore', label: 'Explore', value: 2 } },
-        book: { event: 'generate_lead', params: { section: 'labs', action: 'book', label: 'Book Now', content_type: 'lab_test' } }
+        explore: { event: 'homepage_services_labs_explore_clk', params: { section: 'services' } },
+        book: { event: 'homepage_services_labs_book_clk', params: { section: 'services' } }
       },
       'Medicines': {
-        explore: { event: 'click', params: { section: 'medicines', action: 'explore', label: 'Explore', value: 2 } },
-        book: { event: 'begin_checkout', params: { section: 'medicines', action: 'order', label: 'Book Now', content_type: 'medicine' } }
+        explore: { event: 'homepage_services_medicines_explore_clk', params: { section: 'services' } },
+        book: { event: 'homepage_services_medicines_book_clk', params: { section: 'services' } }
       },
       'Subscription Plans': {
-        explore: { event: 'click', params: { section: 'subscriptions', action: 'explore', label: 'Explore', value: 4 } },
-        book: { event: 'add_to_cart', params: { section: 'subscriptions', action: 'subscribe', label: 'Book Now', content_type: 'plan' } }
+        explore: { event: 'homepage_services_subscriptions_explore_clk', params: { section: 'services' } },
+        book: { event: 'homepage_services_subscriptions_book_clk', params: { section: 'services' } }
       },
       'Corporate Care': {
-        explore: { event: 'click', params: { section: 'corporate', action: 'explore', label: 'Explore', value: 3 } },
-        book: { event: 'generate_lead', params: { section: 'corporate', action: 'book', label: 'Book Now', content_type: 'business' } }
+        explore: { event: 'homepage_services_corporate_explore_clk', params: { section: 'services' } },
+        book: { event: 'homepage_services_corporate_book_clk', params: { section: 'services' } }
       },
       // 'Wellness Sessions': {
       //   explore: { event: 'click', params: { section: 'wellness', action: 'explore', label: 'Explore', value: 3 } },
@@ -93,7 +93,7 @@ const ServicesGridSection: React.FC = () => {
       //   book: { event: 'generate_lead', params: { section: 'thus', action: 'book', label: 'Book Now', content_type: 'telehealth' } }
       // }
     };
-    return eventMap[service]?.[actionType] || { event: 'click', params: {} };
+    return eventMap[service]?.[actionType] || { event: 'homepage_services_clk', params: { section: 'services' } };
   };
 
   return (

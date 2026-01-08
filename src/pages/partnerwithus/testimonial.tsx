@@ -80,10 +80,8 @@ const ClientTestimonials: React.FC = () => {
               <div 
                 key={index} 
                 className={styles.logoBox}
-                onClick={() => trackEvent('select_content', {
-                  section: 'testimonials',
-                  action: 'view_client',
-                  label: client.alt
+                onClick={() => trackEvent('partnerwithus_testimonial_client_clk', {
+                  section: 'testimonials'
                 })}
                 role="button"
                 tabIndex={0}
@@ -124,10 +122,8 @@ const ClientTestimonials: React.FC = () => {
                 }`}
                 onClick={() => {
                   setActiveSlide(index);
-                  trackEvent('select_content', {
-                    section: 'testimonials',
-                    action: 'view_testimonial',
-                    label: testimonials[index].author
+                  trackEvent('partnerwithus_testimonial_slide_clk', {
+                    section: 'testimonials'
                   });
                 }}
               />

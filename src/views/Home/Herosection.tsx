@@ -29,11 +29,10 @@ const HeroSection: React.FC = () => {
               <button
       className={`${styles.heroBtn} ${styles["heroBtn--primary"]}`}
       onClick={() => {
-        trackEvent('hero-explore-button-click', {
+        trackEvent('homepage_hero_explore_clk', {
           section: 'hero',
           action: 'explore',
           label: 'Explore',
-          value: 5,
         });
       }}
     >
@@ -53,11 +52,10 @@ const HeroSection: React.FC = () => {
                 <button
       className={`${styles.heroBtn} ${styles["heroBtn--secondary"]}`}
       onClick={() => {
-        trackEvent('hero-booknow-button-click', {
+        trackEvent('homepage_hero_book_now_clk', {
           section: 'hero',
-          action: 'book',
+          action: 'book_now',
           label: 'Book Now',
-          content_type: 'appointment',
         });
       }}
     >

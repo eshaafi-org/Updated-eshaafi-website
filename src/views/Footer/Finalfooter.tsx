@@ -8,7 +8,7 @@ import { trackEvent } from "@/lib/ga";
 export default function Finalfooter() {
   // GA4 tracking helper
   const handleLinkClick = (section: string, action: string, label: string) => {
-    trackEvent('click', {
+    trackEvent('footer_link_clk', {
       section,
       action,
       label

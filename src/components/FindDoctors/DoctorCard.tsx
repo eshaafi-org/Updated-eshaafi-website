@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "@/styles/findDoctors.module.scss";
 import { trackEvent } from "@/lib/ga";
+import { useEffect, useRef } from "react";
 
 interface DoctorCardProps {
   id: string;
@@ -13,6 +14,7 @@ interface DoctorCardProps {
   available: boolean;
   availableTime?: string;
   image: string;
+  eventPrefix?: string; // Optional: defaults to 'fd_', use 'mw_' for mind-wellness
 }
 
 const DoctorCard: React.FC<DoctorCardProps> = ({
@@ -25,9 +27,49 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   available,
   availableTime,
   image,
+  eventPrefix = 'fd_', // Default to find-doctors prefix
 }) => {
+  // Check if this is a psychiatrist
+  const isPsychiatrist = specialty?.toLowerCase().includes('psychiatrist');
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // Helper function to sanitize doctor name for event (max 40 char limit)
+  const getSanitizedDoctorName = (doctorName: string): string => {
+    return doctorName
+      .toLowerCase()
+      .replace(/\s+/g, '_') // Replace spaces with underscores
+      .replace(/[^a-z0-9_]/g, ''); // Remove special characters
+  };
+  
+  const sanitizedName = getSanitizedDoctorName(name);
+
+  // Track psychiatrist card impressions
+  useEffect(() => {
+    if (!isPsychiatrist || !cardRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            trackEvent('psychiatrist_view_clk', {
+              section: 'psychiatrists',
+              doctor_id: id,
+              doctor_name: name,
+              specialty: specialty
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [isPsychiatrist, id, name, specialty]);
+  
   return (
-    <div className={styles.doctorCard}>
+    <div className={styles.doctorCard} ref={cardRef}>
       <div className={styles.cardHeader}>
         <div className={styles.imageContainer}>
           <img src={image} alt={name} className={styles.doctorImage} />
@@ -37,10 +79,11 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
           <div 
             className={styles.ratingBadge} 
             style={{ fontFamily: "'Inter', sans-serif" }}
-            onClick={() => trackEvent('select_content', {
+            onClick={() => trackEvent(`${eventPrefix}${sanitizedName}_rating_clk`, {
               section: 'doctor_card',
-              action: 'view_reviews',
-              label: `Dr. ${name}`
+              doctor_name: name,
+              specialty: specialty,
+              rating: rating.toFixed(1)
             })}
             role="button"
             tabIndex={0}
@@ -61,10 +104,11 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
         <div className={styles.leftSection}>
           <div 
             className={`${styles.availabilityStatus} ${!available ? styles.offline : styles.online}`}
-            onClick={() => trackEvent('select_content', {
+            onClick={() => trackEvent(`${eventPrefix}${sanitizedName}_availability_clk`, {
               section: 'doctor_card',
-              action: 'view_availability',
-              label: `Dr. ${name}`
+              doctor_name: name,
+              availability_status: available ? 'available' : 'booked',
+              specialty: specialty
             })}
             role="button"
             tabIndex={0}
@@ -93,13 +137,23 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
           <button 
             className={styles.viewProfileBtn} 
             style={{ fontFamily: "'Inter', sans-serif" }}
-            onClick={() => trackEvent('view_item', {
-              section: 'doctor_list',
-              action: 'view_profile',
-              label: `Dr. ${name}`,
-              item_id: `doctor_${id}`,
-              value: consultationFee
-            })}
+            onClick={() => {
+              if (isPsychiatrist) {
+                trackEvent('psychiatrist_profile_clk', {
+                  section: 'psychiatrists',
+                  doctor_id: id,
+                  doctor_name: name,
+                  specialty: specialty
+                });
+              }
+              trackEvent(`${eventPrefix}${sanitizedName}_profile_clk`, {
+                section: 'doctor_list',
+                doctor_id: id,
+                doctor_name: name,
+                specialty: specialty,
+                consultation_fee: consultationFee
+              });
+            }}
           >
             View Profile
           </button>
@@ -108,14 +162,23 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
           <button 
             className={styles.bookAppointmentBtn} 
             style={{ fontFamily: "'Inter', sans-serif" }}
-            onClick={() => trackEvent('generate_lead', {
-              section: 'doctor_list',
-              action: 'book_appointment',
-              label: `Dr. ${name}`,
-              item_id: `doctor_${id}`,
-              value: consultationFee,
-              currency: 'PKR'
-            })}
+            onClick={() => {
+              if (isPsychiatrist) {
+                trackEvent('psychiatrist_profile_clk', {
+                  section: 'psychiatrists',
+                  doctor_id: id,
+                  doctor_name: name,
+                  specialty: specialty
+                });
+              }
+              trackEvent(`${eventPrefix}${sanitizedName}_book_clk`, {
+                section: 'doctor_list',
+                doctor_id: id,
+                doctor_name: name,
+                specialty: specialty,
+                consultation_fee: consultationFee
+              });
+            }}
           >
             Book Appointment
             <svg

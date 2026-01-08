@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../../styles/healthlibrary.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
   const defaultBlogs = [
@@ -26,7 +27,15 @@ const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
 
       <div className={styles.blogGrid}>
         {/* Left Large Image */}
-        <Link href={`/blog/${mainBlog?.name}`} className={styles.mainBlog}>
+        <Link 
+          href={`/blog/${mainBlog?.name}`} 
+          className={styles.mainBlog}
+          onClick={() => trackEvent('blog_view_clk', {
+            section: 'recent_blogs',
+            blog_title: mainBlog?.title,
+            position: 'main_featured'
+          })}
+        >
           <img src={mainBlog?.url} alt={mainBlog?.title} />
           <div className={styles.overlayText}>{mainBlog?.title}</div>
         </Link>
@@ -34,7 +43,16 @@ const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
         {/* Right Side 4 Small Images */}
         <div className={styles.smallBlogs}>
           {smallBlogs.map((blog, index) => (
-            <Link key={index} href={`/blog/${blog?.name}`} className={styles.blogItem}>
+            <Link 
+              key={index} 
+              href={`/blog/${blog?.name}`} 
+              className={styles.blogItem}
+              onClick={() => trackEvent('blog_view_clk', {
+                section: 'recent_blogs',
+                blog_title: blog?.title,
+                position: `small_card_${index + 1}`
+              })}
+            >
               <img src={blog?.url} alt={blog?.title} />
               <div className={styles.overlayText}>{blog?.title}</div>
             </Link>

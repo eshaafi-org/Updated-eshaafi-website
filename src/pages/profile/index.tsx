@@ -23,6 +23,7 @@ import Otpinput from "@/components/Profiles/OtpFields";
 import toArrayBuffer from "to-array-buffer";
 import { FaCamera } from "react-icons/fa6";
 import { logout } from "@/components/Profiles";
+import { trackEvent } from "@/lib/ga";
 // Type assertion
 
 // links

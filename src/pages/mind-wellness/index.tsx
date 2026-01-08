@@ -183,10 +183,10 @@ export default function MindWellnessPage({
             <Link href="https://eshaafi.sng.link/D5hwf/jn0r" target="_blank">
               <button 
                 className={styles["cta-button"]}
-                onClick={() => trackEvent('generate_lead', {
+                onClick={() => trackEvent('mw_hero_cta_clk', {
                   section: 'hero',
                   action: 'book_appointment',
-                  content_type: 'mental_health'
+                  category: 'mental_wellness'
                 })}
               >
                 Book an appointment
@@ -238,6 +238,7 @@ export default function MindWellnessPage({
             isLoading={isLoading}
             disableNavigation={true}
             activeCategory={selectedCategory || undefined}
+            eventPrefix="mw_"
             onCategoryChange={(category) => {
               setSelectedCategory(category);
               if (category) {
@@ -277,11 +278,10 @@ export default function MindWellnessPage({
                   router.push('/mind-wellness', undefined, { scroll: false });
                 }
                 
-                trackEvent('select_content', {
+                trackEvent('mw_condition_clk', {
                   section: 'conditions',
-                  action: 'filter_by_condition',
-                  label: c.title,
-                  category: c.category
+                  condition_category: c.category,
+                  condition_title: c.title
                 });
                 
                 // Scroll to therapists section
@@ -307,10 +307,9 @@ export default function MindWellnessPage({
           <a href="#therapists-section">
             <button 
               className={styles["view-all-button"]}
-              onClick={() => trackEvent('click', {
+              onClick={() => trackEvent('mw_view_all_clk', {
                 section: 'conditions',
-                action: 'view_all_specialists',
-                label: 'View All Therapists & Specialists'
+                action: 'view_all_therapists'
               })}
             >
               View All Therapists & Specialists
@@ -330,10 +329,10 @@ export default function MindWellnessPage({
                 key={i}
                 ref={(el) => (toolRefs.current[i] = el)}
                 className={styles["tool-card"]}
-                onClick={() => trackEvent('select_content', {
+                onClick={() => trackEvent('mw_tool_clk', {
                   section: 'tools',
-                  action: 'access_tool',
-                  label: t.title
+                  tool_name: t.title,
+                  tool_type: 'questionnaire'
                 })}
                 role="button"
                 tabIndex={0}
@@ -373,9 +372,9 @@ export default function MindWellnessPage({
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
-                onPlay={() => trackEvent('video_start', {
+                onPlay={() => trackEvent('mw_video_play_clk', {
                   section: 'mind_wellness',
-                  video_title: 'Why Mind Wellness Matters: Hear From Our Expert'
+                  video_title: 'Mind Wellness Introduction'
                 })}
               ></iframe>
             </div>

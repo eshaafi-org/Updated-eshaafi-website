@@ -93,10 +93,8 @@ const OurServices: React.FC = () => {
               <div
                 key={index}
                 className={`${styles.serviceCard} ${service.className}`}
-                onClick={() => trackEvent('select_content', {
-                  section: 'services',
-                  action: 'view_service',
-                  label: service.title
+                onClick={() => trackEvent('partnerwithus_services_left_clk', {
+                  section: 'services'
                 })}
                 role="button"
                 tabIndex={0}
@@ -123,10 +121,8 @@ const OurServices: React.FC = () => {
               <div
                 key={index}
                 className={`${styles.serviceCard} ${service.className}`}
-                onClick={() => trackEvent('select_content', {
-                  section: 'services',
-                  action: 'view_service',
-                  label: service.title
+                onClick={() => trackEvent('partnerwithus_services_right_clk', {
+                  section: 'services'
                 })}
                 role="button"
                 tabIndex={0}

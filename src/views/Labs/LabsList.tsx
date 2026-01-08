@@ -53,12 +53,16 @@ export default function LabsList() {
                 <Link
                   href={`/labs/${item.name.replace(/ /g, "-")}`}
                   className={style.labSelectBtn}
-                  onClick={() => trackEvent('select_item', {
-                    section: 'lab_partners',
-                    action: 'select_lab',
-                    label: item.name,
-                    content_type: 'lab_partner'
-                  })}
+                  onClick={() => {
+                    trackEvent('labs_partner_view_clk', {
+                      section: 'partners',
+                      partner_name: item.name
+                    });
+                    trackEvent('labs_select_test_clk', {
+                      section: 'lab_partners',
+                      label: item.name
+                    });
+                  }}
                 >
                   <Button variant="contained">Select Test</Button>
                 </Link>

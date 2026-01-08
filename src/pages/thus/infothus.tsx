@@ -4,6 +4,33 @@ import styles from "../../styles/thus.module.scss";
 import { trackEvent } from "@/lib/ga";
 
 const SectionTHUsInfo = () => {
+  const offerings = [
+    {
+      icon: "/images/heart-beat 1.svg",
+      title: "Doctor Consultations",
+      desc: "GP & Specialists. Expert medical guidance accessible right in their village.",
+      key: "doctor_consultations"
+    },
+    {
+      icon: "/images/online-consult 1.svg",
+      title: "Vital Health Checks",
+      desc: "On-site assessments for immediate care and long-term wellbeing.",
+      key: "vital_health_checks"
+    },
+    {
+      icon: "/images/medicine-thus.svg",
+      title: "Timely Provision of Medicines",
+      desc: "Treatment begins immediately. Necessary, quality medicines provided on-site",
+      key: "provision_medicines"
+    },
+    {
+      icon: "/images/prevention.svg",
+      title: "Focus on Non-communicable Diseases",
+      desc: "Proactive attention to manage chronic conditions like diabetes and hypertension.",
+      key: "ncds_focus"
+    }
+  ];
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -43,77 +70,30 @@ const SectionTHUsInfo = () => {
      <div className={styles.cardsArea}>
   <div className={styles.cardsInnerContainer}>
     <div className={styles.cardsGrid}>
-      <div 
-        className={`${styles.card} ${styles.animate}`} 
-        key="1"
-        onClick={() => trackEvent('select_content', {
-          section: 'offerings',
-          action: 'view_offering',
-          label: 'Doctor Consultations'
-        })}
-        role="button"
-        tabIndex={0}
-      >
-        <div className={styles.cardIcon}>
-          <img src="/images/heart-beat 1.svg" alt="Doctor Consultations" />
+      {offerings.map((offering, index) => (
+        <div 
+          className={`${styles.card} ${styles.animate}`} 
+          key={offering.key}
+          onClick={() => {
+            trackEvent('thus_hero_offering_clk', {
+              section: 'hero',
+              offering_type: offering.key
+            });
+            trackEvent('thus_offerings_clk', {
+              section: 'offerings',
+              offering_type: offering.key
+            });
+          }}
+          role="button"
+          tabIndex={0}
+        >
+          <div className={styles.cardIcon}>
+            <img src={offering.icon} alt={offering.title} />
+          </div>
+          <h4>{offering.title}</h4>
+          <p>{offering.desc}</p>
         </div>
-        <h4>Doctor Consultations</h4>
-        <p>GP & Specialists. Expert medical guidance accessible right in their village.</p>
-      </div>
-
-      <div 
-        className={`${styles.card} ${styles.animate}`} 
-        key="2"
-        onClick={() => trackEvent('select_content', {
-          section: 'offerings',
-          action: 'view_offering',
-          label: 'Vital Health Checks'
-        })}
-        role="button"
-        tabIndex={0}
-      >
-        <div className={styles.cardIcon}>
-          <img src="/images/online-consult 1.svg" alt="Vital Health Checks" />
-        </div>
-        <h4>Vital Health Checks</h4>
-        <p>On-site assessments for immediate care and long-term wellbeing.</p>
-      </div>
-
-      <div 
-        className={`${styles.card} ${styles.animate}`} 
-        key="3"
-        onClick={() => trackEvent('select_content', {
-          section: 'offerings',
-          action: 'view_offering',
-          label: 'Timely Provision of Medicines'
-        })}
-        role="button"
-        tabIndex={0}
-      >
-        <div className={styles.cardIcon}>
-          <img src="/images/medicine-thus.svg" alt="Provision of Medicines" />
-        </div>
-        <h4>Timely Provision of Medicines</h4>
-        <p>Treatment begins immediately. Necessary, quality medicines provided on-site</p>
-      </div>
-
-      <div 
-        className={`${styles.card} ${styles.animate}`} 
-        key="4"
-        onClick={() => trackEvent('select_content', {
-          section: 'offerings',
-          action: 'view_offering',
-          label: 'Focus on Non-communicable Diseases'
-        })}
-        role="button"
-        tabIndex={0}
-      >
-        <div className={styles.cardIcon}>
-          <img src="/images/prevention.svg" alt="Focus on Non-communicable Diseases" />
-        </div>
-        <h4>Focus on Non-communicable Diseases</h4>
-        <p>Proactive attention to manage chronic conditions like diabetes and hypertension.</p>
-      </div>
+      ))}
     </div>
   </div>
 </div>

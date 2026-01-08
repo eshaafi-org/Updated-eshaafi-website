@@ -35,11 +35,11 @@ const PlanCard: React.FC<PlanCardProps> = ({
       </div>
 
       <div className={styles.planPrice}>
-        <h4 className={styles.price} onClick={() => trackEvent('view_item', {
+        <h4 className={styles.price} onClick={() => trackEvent('fd_plan_view_clk', {
           section: 'care_plans',
-          action: 'view_plan',
-          label: title,
-          value: price
+          plan_name: title,
+          plan_price: price,
+          plan_period: period
         })}>Rs. {price}</h4>
         <p className={styles.priceDescription}>/{period}</p>
       </div>
@@ -69,16 +69,12 @@ const PlanCard: React.FC<PlanCardProps> = ({
 
       <button 
         className={styles.subscribeBtn}
-        onClick={() => trackEvent('add_to_cart', {
+        onClick={() => trackEvent('fd_plan_subscribe_clk', {
           section: 'care_plans',
-          action: 'subscribe',
-          label: title,
-          value: price,
-          currency: 'PKR',
-          items: [{
-            name: title,
-            price: price
-          }]
+          plan_name: title,
+          plan_price: price,
+          plan_period: period,
+          is_popular: isPopular
         })}
       >
         Subscribe Plan

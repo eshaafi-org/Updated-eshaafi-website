@@ -226,6 +226,7 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
             isLoading={isLoading}
             activeCategory={selectedCategory || undefined}
             disableNavigation={true}
+            eventPrefix="mw_"
             onCategoryChange={(newCategory) => {
               if (newCategory) {
                 router.push(`/mind-wellness/${newCategory}`, undefined, { shallow: true, scroll: false })
@@ -263,11 +264,11 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
                   router.push('/mind-wellness', undefined, { shallow: true, scroll: false });
                 }
                 
-                trackEvent('select_content', {
+                trackEvent('mw_category_condition_clk', {
                   section: 'conditions',
-                  action: 'filter_by_condition',
-                  label: c.title,
-                  category: c.category
+                  condition_category: c.category,
+                  condition_title: c.title,
+                  page_category: category
                 });
                 
                 setTimeout(() => {
@@ -292,10 +293,10 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
           <a href="#therapists-section">
             <button 
               className={styles["view-all-button"]}
-              onClick={() => trackEvent('click', {
+              onClick={() => trackEvent('mw_category_view_all_clk', {
                 section: 'conditions',
-                action: 'view_all_specialists',
-                label: 'View All Therapists & Specialists'
+                action: 'view_all_therapists',
+                category: category
               })}
             >
               View All Therapists & Specialists
@@ -315,10 +316,11 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
                 key={i}
                 ref={(el) => (toolRefs.current[i] = el)}
                 className={styles["tool-card"]}
-                onClick={() => trackEvent('select_content', {
+                onClick={() => trackEvent('mw_category_tool_clk', {
                   section: 'tools',
-                  action: 'access_tool',
-                  label: t.title
+                  tool_name: t.title,
+                  tool_type: 'questionnaire',
+                  page_category: category
                 })}
                 role="button"
                 tabIndex={0}
@@ -358,9 +360,10 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
-                onPlay={() => trackEvent('video_start', {
+                onPlay={() => trackEvent('mw_category_video_play_clk', {
                   section: 'mind_wellness',
-                  video_title: 'Why Mind Wellness Matters: Hear From Our Expert'
+                  video_title: 'Mind Wellness Introduction',
+                  category: category
                 })}
               ></iframe>
             </div>

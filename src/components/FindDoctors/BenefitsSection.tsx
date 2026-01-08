@@ -67,10 +67,9 @@ const BenefitsSection: React.FC = () => {
             <div 
               key={index} 
               className={styles.benefitCard}
-              onClick={() => trackEvent('select_content', {
+              onClick={() => trackEvent('fd_benefit_clk', {
                 section: 'benefits',
-                action: 'view_benefit',
-                label: benefit.title
+                benefit_title: benefit.title
               })}
               role="button"
               tabIndex={0}

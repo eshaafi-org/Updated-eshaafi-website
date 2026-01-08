@@ -27,9 +27,10 @@ interface DoctorGridProps {
   disableNavigation?: boolean
   baseRoute?: string
   onCategoryChange?: (category: string | null) => void
+  eventPrefix?: string; // Optional: defaults to 'fd_', use 'mw_' for mind-wellness
 }
 
-const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = false, onlyMentalHealth = false, isLoading = false, activeCategory, disableNavigation = false, baseRoute = '/find-doctors', onCategoryChange }) => {
+const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = false, onlyMentalHealth = false, isLoading = false, activeCategory, disableNavigation = false, baseRoute = '/find-doctors', onCategoryChange, eventPrefix = 'fd_' }) => {
   const [activeSpecialty, setActiveSpecialty] = useState('All Doctor')
   const [lastClickedSpecialty, setLastClickedSpecialty] = useState<string | null>(null)
   const router = useRouter()
@@ -347,11 +348,9 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
                         onCategoryChange(slug);
                       }
                     }
-                    trackEvent('select_content', {
+                    trackEvent('fd_specialty_clk', {
                       section: 'filters',
-                      action: 'specialty_filter',
-                      label: specialty,
-                      content_type: 'doctor_specialty'
+                      specialty_selected: specialty
                     });
                   }}
                   style={{ fontFamily: "'Inter', sans-serif" }}
@@ -371,11 +370,9 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
                 <button
                   className={`${styles.filterButton} ${isActive ? styles.filterActive : ''}`}
                   onClick={() => {
-                    trackEvent('select_content', {
+                    trackEvent('fd_specialty_clk', {
                       section: 'filters',
-                      action: 'specialty_filter',
-                      label: specialty,
-                      content_type: 'doctor_specialty'
+                      specialty_selected: specialty
                     });
                   }}
                   style={{ fontFamily: "'Inter', sans-serif" }}
@@ -446,7 +443,7 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
                 return 0
               })
               .map((doctor) => (
-                <DoctorCard key={doctor.id} {...doctor} />
+                <DoctorCard key={doctor.id} {...doctor} eventPrefix={eventPrefix} />
               ))}
         </div>
       </div>

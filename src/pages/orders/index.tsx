@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import empty from "../../../public/images/empty.svg";
 import Image from "next/image";
 import moment from 'moment';
+import { trackEvent } from "@/lib/ga";
 import checkMark from "../../../public/images/checkmark.png";
 let links = [
   { name: "Home", link: "/" },
@@ -28,6 +29,9 @@ export default function Orders() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
+    trackEvent('orders_page_view_clk', {
+      section: 'orders'
+    });
     axios
       .post(
         BASE_URL + "/lab/patients/labs/appointments",

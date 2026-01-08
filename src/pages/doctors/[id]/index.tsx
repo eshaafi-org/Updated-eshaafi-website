@@ -14,6 +14,7 @@ import Doctors from "@/views/Home/Doctors";
 import { CardsSkeletonLoader, SkeletonLoader } from "@/components/SkeletonLoader";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { trackEvent } from "@/lib/ga";
 //
 let links = [
   { name: "Home", link: "/" },
@@ -26,6 +27,20 @@ export default function Profile({ doctor, doctors }: any) {
   const [isLoadingDoctors, setIsLoadingDoctors] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
+  // Helper function to sanitize doctor name for event
+  const getSanitizedDoctorName = (firstName: string, lastName: string): string => {
+    const fullName = `${firstName} ${lastName}`;
+    return fullName
+      .toLowerCase()
+      .replace(/\s+/g, '_') // Replace spaces with underscores
+      .replace(/[^a-z0-9_]/g, ''); // Remove special characters
+  };
+
+  const sanitizedDoctorName = doctor?.personal_info?.firstName && doctor?.personal_info?.lastName 
+    ? getSanitizedDoctorName(doctor.personal_info.firstName, doctor.personal_info.lastName)
+    : 'doctor';
+
   const loadmoreReviews = () => {
     setLoading(true);
     axios
@@ -55,10 +70,18 @@ export default function Profile({ doctor, doctors }: any) {
     if (mounted && doctor) {
       const timer = setTimeout(() => {
         setIsLoadingProfile(false);
+        // Track doctor profile view
+        trackEvent(`fd_${sanitizedDoctorName}_profile_view_clk`, {
+          section: 'doctor_profile',
+          doctor_id: doctor?.Id,
+          doctor_name: `${doctor?.personal_info?.firstName} ${doctor?.personal_info?.lastName}`,
+          specialty: doctor?.specialization,
+          rating: doctor?.rating?.averageRating
+        });
       }, 1000); // Show skeleton for 1 second for profile
       return () => clearTimeout(timer);
     }
-  }, [mounted, doctor]);
+  }, [mounted, doctor, sanitizedDoctorName]);
 
   // Simulate loading for doctors data
   useEffect(() => {
@@ -148,6 +171,13 @@ export default function Profile({ doctor, doctors }: any) {
                       <Link
                         href={`/doctors/${doctor?.Id}/booked`}
                         className={`linkBtn ${style.bookBtn}`}
+                        onClick={() => trackEvent(`fd_${sanitizedDoctorName}_book_start_clk`, {
+                          section: 'doctor_profile',
+                          doctor_id: doctor?.Id,
+                          doctor_name: `${doctor?.personal_info?.firstName} ${doctor?.personal_info?.lastName}`,
+                          specialty: doctor?.specialization,
+                          consultation_fee: doctor?.videoCallCharges
+                        })}
                       >
                         Book Appointment
                       </Link>

@@ -13,10 +13,8 @@ const WhyPartnerSection: React.FC = () => {
       <div className={styles.cards}>
         <div 
           className={styles.card}
-          onClick={() => trackEvent('select_content', {
-            section: 'why_partner',
-            action: 'view_reason',
-            label: 'Putting People First'
+          onClick={() => trackEvent('partnerwithus_why_partner_clk', {
+            section: 'why_partner'
           })}
           role="button"
           tabIndex={0}
@@ -32,10 +30,8 @@ const WhyPartnerSection: React.FC = () => {
 
         <div 
           className={styles.card}
-          onClick={() => trackEvent('select_content', {
-            section: 'why_partner',
-            action: 'view_reason',
-            label: 'Proven Impact & Reach'
+          onClick={() => trackEvent('partnerwithus_why_partner_clk', {
+            section: 'why_partner'
           })}
           role="button"
           tabIndex={0}
@@ -52,10 +48,8 @@ const WhyPartnerSection: React.FC = () => {
 
         <div 
           className={styles.card}
-          onClick={() => trackEvent('select_content', {
-            section: 'why_partner',
-            action: 'view_reason',
-            label: 'Comprehensive Service Offering'
+          onClick={() => trackEvent('partnerwithus_why_partner_clk', {
+            section: 'why_partner'
           })}
           role="button"
           tabIndex={0}

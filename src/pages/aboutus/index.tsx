@@ -58,8 +58,16 @@
 // }
 import React from 'react'
 import AboutUsPage from '@/views/AboutUs/AboutUsPage/AboutUsPage'
+import { trackEvent } from "@/lib/ga";
+import { useEffect } from 'react'
 
 const AboutUs = () => {
+  useEffect(() => {
+    trackEvent('aboutus_page_view_clk', {
+      section: 'about_page'
+    });
+  }, []);
+
   return <AboutUsPage />
 }
 

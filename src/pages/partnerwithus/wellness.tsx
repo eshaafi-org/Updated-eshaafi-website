@@ -126,10 +126,8 @@ const WellnessAreas: React.FC = () => {
             key={i}
             ref={(el) => (cardsRef.current[i] = el!)}
             className={`${styles.card} ${item.className}`}
-            onClick={() => trackEvent('select_content', {
-              section: 'wellness_areas',
-              action: 'view_area',
-              label: item.title
+            onClick={() => trackEvent('partnerwithus_wellness_area_clk', {
+              section: 'wellness_areas'
             })}
             role="button"
             tabIndex={0}
@@ -162,10 +160,8 @@ const WellnessAreas: React.FC = () => {
       className={styles.meetingButton}
       onClick={() => {
         setShowModal(true);
-        trackEvent('generate_lead', {
-          section: 'mid_page',
-          action: 'schedule_meeting',
-          content_type: 'corporate'
+        trackEvent('partnerwithus_wellness_schedule_clk', {
+          section: 'mid_page'
         });
       }}
     >

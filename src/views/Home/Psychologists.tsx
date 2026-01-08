@@ -29,11 +29,8 @@ const PsychologistsSection: React.FC = () => {
                  <button 
                 className={`${styles.psyBtn} ${styles["psyBtn--primary"]}`}
                 onClick={() => {
-                  trackEvent('click', {
-                    section: 'mental_health',
-                    action: 'explore',
-                    label: 'Explore',
-                    value: 3
+                  trackEvent('homepage_mental_health_explore_clk', {
+                    section: 'mental_health'
                   });
                 }}
               >
@@ -45,11 +42,8 @@ const PsychologistsSection: React.FC = () => {
               <button 
                 className={`${styles.psyBtn} ${styles["psyBtn--secondary"]}`}
                 onClick={() => {
-                  trackEvent('generate_lead', {
-                    section: 'mental_health',
-                    action: 'book',
-                    label: 'Book Now',
-                    content_type: 'mental_health',
+                  trackEvent('homepage_mental_health_book_clk', {
+                    section: 'mental_health'
                   });
                 }}
               >
