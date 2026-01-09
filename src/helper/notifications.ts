@@ -37,7 +37,7 @@ export const registerDeviceToken = async (
   phoneNumber?: string
 ): Promise<boolean> => {
   try {
-    console.log('[notifications] registerDeviceToken start', { userId, phoneNumber, tokenSnippet: token?.slice(0, 12) });
+    //console.log('[notifications] registerDeviceToken start', { userId, phoneNumber, tokenSnippet: token?.slice(0, 12) });
     const response = await fetch(`${BASE_URL}/auth/deviceToken`, {
       method: 'POST',
       headers: {
@@ -56,16 +56,16 @@ export const registerDeviceToken = async (
       }),
     });
 
-    console.log('[notifications] registerDeviceToken response status', response.status);
+    //console.log('[notifications] registerDeviceToken response status', response.status);
     if (!response.ok) {
       throw new Error(`Failed to register device token: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('[notifications] device token registered successfully', data);
+   // console.log('[notifications] device token registered successfully', data);
     return data.responseCode === 200;
   } catch (error) {
-    console.error('Error registering device token:', error);
+    //console.error('Error registering device token:', error);
     return false;
   }
 };
@@ -96,7 +96,7 @@ const generateDeviceId = (): string => {
 export const initializeFirebaseMessaging = async (
   userId: string,
   phoneNumber?: string,
-  providedToken?: string // use backend-provided web push/FCM token when available
+  providedToken?: string 
 ): Promise<string | null> => {
   try {
    
@@ -117,11 +117,11 @@ export const initializeFirebaseMessaging = async (
       tokenToUse = await getFCMTokenFromFirebase();
     }
 
-    console.log('[notifications] initializeFirebaseMessaging token selected', { provided: !!providedToken, tokenSnippet: tokenToUse?.slice(0, 12) });
+    //console.log('[notifications] initializeFirebaseMessaging token selected', { provided: !!providedToken, tokenSnippet: tokenToUse?.slice(0, 12) });
 
     if (tokenToUse) {
       const registered = await registerDeviceToken(tokenToUse, userId, phoneNumber);
-      console.log('[notifications] initializeFirebaseMessaging registered?', registered);
+      //console.log('[notifications] initializeFirebaseMessaging registered?', registered);
       
       if (registered) {
         localStorage.setItem('fcm_token', tokenToUse);
@@ -236,7 +236,7 @@ if (typeof window !== 'undefined' && !_fcmToastListenerSet) {
       try {
         sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
       } catch (e) {
-        console.warn('[notifications] sessionStorage.setItem failed', e);
+        //console.warn('[notifications] sessionStorage.setItem failed', e);
       }
 
       // Only show one persistent notification for the current call

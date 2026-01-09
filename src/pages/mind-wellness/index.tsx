@@ -104,31 +104,31 @@ export default function MindWellnessPage({
       icon: "/images/mind-icon2.svg",
       title: "Psychosis",
       desc: "Schizophrenia, Delusional Disorders, Hallucinations",
-      category: "psychiatrist"
+      category: "psychologist"
     },
     {
       icon: "/images/mind-icon3.svg",
       title: "Depression & Depressive",
       desc: "Major Depression, Dysthymia, Seasonal Affective Disorder",
-      category: "psychiatrist"
+      category: "counselor"
     },
     {
       icon: "/images/mind-icon4.svg",
       title: "Bipolar Affective Conditions",
       desc: "Mood Swings, Mania, Depression Cycles",
-      category: "psychiatrist"
+      category: "psychologist"
     },
     {
       icon: "/images/mind-icon5.svg",
       title: "Anger & Anxiety Conditions",
       desc: "GAD, Panic Disorder, Social Anxiety, Phobias",
-      category: "mental-health"
+      category: "counselor"
     },
     {
       icon: "/images/mind-icon6.svg",
       title: "Obsessive-Compulsive (OCD)",
       desc: "Compulsions, Intrusive Thoughts, ERP Therapy",
-      category: "psychiatrist"
+      category: "psychologist"
     },
     {
       icon: "/images/mind-icon7.svg",
@@ -140,7 +140,7 @@ export default function MindWellnessPage({
       icon: "/images/mind-icon8.svg",
       title: "Substance Use Conditions",
       desc: "Addiction Recovery, Harm Reduction, Support",
-      category: "psychiatrist"
+      category: "counselor"
     },
   ];
 
@@ -399,15 +399,31 @@ export async function getStaticProps() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       type: "categroy",
-      // Get all doctors to filter client-side
     }),
   });
 
   const docData = await response.json();
+  const allDoctors = docData.response?.Items || [];
+
+  // Filter for psychologists and counselors only (exclude other therapists)
+  const filteredDoctors = allDoctors.filter((doc: any) => {
+    const specialty = doc.specialization?.toLowerCase().trim() || '';
+    
+    // Exclude non-mental health therapists
+    const excludeKeywords = ['physio', 'speech', 'occupational', 'physical'];
+    if (excludeKeywords.some(keyword => specialty.includes(keyword))) {
+      return false;
+    }
+    
+    // Only include psychologists and counselors
+    return specialty.includes('psychologist') || 
+           specialty.includes('counselor') || 
+           specialty.includes('counsellor');
+  });
 
   return {
     props: {
-      doctors: docData.response.Items.sort((a: any, b: any) => {
+      doctors: filteredDoctors.sort((a: any, b: any) => {
         if (a.isOnline && !b.isOnline) return -1;
         if (!a.isOnline && b.isOnline) return 1;
         return 0;
