@@ -6,6 +6,10 @@ import { trackEvent } from "@/lib/ga";
 const ClientTestimonials: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
 
+  const sanitizeClientName = (name: string) => {
+    return name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+  };
+
   const clients = [
     { logo: "/images/logo.png", alt: "Daklit" },
     { logo: "/images/logo22.png", alt: "Logic Racks" },
@@ -80,8 +84,9 @@ const ClientTestimonials: React.FC = () => {
               <div 
                 key={index} 
                 className={styles.logoBox}
-                onClick={() => trackEvent('partnerwithus_testimonial_client_clk', {
-                  section: 'testimonials'
+                onClick={() => trackEvent(`partnerwithus_testimonial_${sanitizeClientName(client.alt)}_clk`, {
+                  section: 'testimonials',
+                  client_name: client.alt
                 })}
                 role="button"
                 tabIndex={0}

@@ -46,7 +46,7 @@ export default function Appointments() {
                     key={t}
                     className={`${style.tabChip} ${appointType === t ? style.activeChip : ""}`}
                     onClick={() => {
-                      trackEvent('appointments_tab_filter_clk', {
+                      trackEvent(`appointments_${t.toLowerCase()}_tab_clk`, {
                         section: 'tabs',
                         tab_name: t
                       });

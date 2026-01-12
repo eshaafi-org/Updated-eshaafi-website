@@ -43,16 +43,26 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   
   const sanitizedName = getSanitizedDoctorName(name);
 
-  // Track psychiatrist card impressions
+  // Track card impressions (psychiatrist and regular doctors)
   useEffect(() => {
-    if (!isPsychiatrist || !cardRef.current) return;
+    if (!cardRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            trackEvent('psychiatrist_view_clk', {
-              section: 'psychiatrists',
+            // Track psychiatrist impressions
+            if (isPsychiatrist) {
+              trackEvent('psychiatrist_view_clk', {
+                section: 'psychiatrists',
+                doctor_id: id,
+                doctor_name: name,
+                specialty: specialty
+              });
+            }
+            // Track regular doctor impressions with doctor name in event
+            trackEvent(`find_doctors_${sanitizedName}_view_clk`, {
+              section: 'doctor_list',
               doctor_id: id,
               doctor_name: name,
               specialty: specialty
@@ -66,7 +76,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
 
     observer.observe(cardRef.current);
     return () => observer.disconnect();
-  }, [isPsychiatrist, id, name, specialty]);
+  }, [isPsychiatrist, id, name, specialty, sanitizedName]);
   
   return (
     <div className={styles.doctorCard} ref={cardRef}>

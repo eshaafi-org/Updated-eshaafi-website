@@ -1,9 +1,15 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/applynow.module.scss";
 import { trackEvent } from "@/lib/ga";
 
 const GetInTouch = () => {
+  useEffect(() => {
+    trackEvent('getintouch_page_view_clk', {
+      section: 'page_load'
+    })
+  }, [])
+
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
   const [email, setEmail] = useState('');

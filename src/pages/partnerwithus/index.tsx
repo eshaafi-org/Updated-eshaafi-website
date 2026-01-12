@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/partnerwithus.module.scss";
 import MedicalServices from "./services";
 import WellnessAreas from "./wellness";
@@ -10,6 +10,12 @@ import FAQSection from "./faq";
 import { trackEvent } from "@/lib/ga";
 
 const PartnerWithUs: React.FC = () => {
+  useEffect(() => {
+    trackEvent('partnerwithus_page_view_clk', {
+      section: 'page_load'
+    })
+  }, [])
+
   const [showForm, setShowForm] = useState(true);
   const [name, setName] = useState('');
   const [orgName, setOrgName] = useState('');

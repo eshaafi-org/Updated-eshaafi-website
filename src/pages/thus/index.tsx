@@ -1,11 +1,17 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/thus.module.scss";
 import SectionTHUsInfo from "./infothus";
 import OurImpact from "./ourimpact";
 import Link from "next/link";
 import { trackEvent } from "@/lib/ga";
 const THUs = () => {
+  useEffect(() => {
+    trackEvent('thus_page_view_clk', {
+      section: 'page_load'
+    })
+  }, [])
+
   return (
     <div>
     <section className={styles.heroSection}>

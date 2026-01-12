@@ -1,13 +1,20 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/healthlibrary.module.scss";
 import RecentBlogs from "./recentblog";
 import HealthTopics from "./healthtopic";
 import Preventivecare from "./preventivecare";
 import EverydayHealth from "./everyday";
 import AboutTelehealth from "./abouttelehealth";
+import { trackEvent } from "@/lib/ga";
 
 const HeroSection: React.FC = () => {
+  useEffect(() => {
+    trackEvent('healthlibrary_page_view_clk', {
+      section: 'page_load'
+    })
+  }, [])
+
   return (
     <div>
       <section className={styles.wellbeingSection}>

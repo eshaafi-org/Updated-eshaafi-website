@@ -182,6 +182,9 @@ export default function Profile() {
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   // logout main profile
   const handleMainLogout = async () => {
+    trackEvent('profile_logout_clk', {
+      section: 'profile_actions'
+    });
     setStates({ type: "LOG_LOADING" });
     await logout(dispatch, router, userAuth);
     setStates({ type: "LOG_LOADING_FALSE" });
@@ -208,7 +211,10 @@ export default function Profile() {
         })
         .then((res) => {
           setEditLoading(false);
-          // setOtpShow(true);
+          trackEvent('profile_edit_success_clk', {
+            section: 'profile_actions',
+            profile_type: relation
+          });
           toast("Profile updated successfully!", {
             type: "success",
           });
@@ -221,6 +227,11 @@ export default function Profile() {
         })
         .catch((error: any) => {
           setEditLoading(false);
+          trackEvent('profile_edit_error_clk', {
+            section: 'profile_actions',
+            error_message: error?.response?.data?.response?.message,
+            error_code: error?.response?.status
+          });
           if (error?.response?.status === 401) {
           }
           toast(error.response.data.response.message, {
@@ -436,6 +447,12 @@ export default function Profile() {
     // preview img
   };
   useEffect(() => {
+    trackEvent('profile_page_view_clk', {
+      section: 'page_load'
+    });
+  }, []);
+
+  useEffect(() => {
     if (patient.name) {
       setStates({ type: "SET_PROFILE", payload: patient });
     }
@@ -537,7 +554,12 @@ export default function Profile() {
                       <Button
                         variant="outlined"
                         className={style.editBtn}
-                        onClick={() => setEdit(true)}
+                        onClick={() => {
+                          trackEvent('profile_edit_start_clk', {
+                            section: 'profile_actions'
+                          });
+                          setEdit(true);
+                        }}
                       >
                         Edit Profile
                       </Button>

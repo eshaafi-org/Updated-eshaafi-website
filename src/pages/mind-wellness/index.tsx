@@ -28,6 +28,12 @@ export default function MindWellnessPage({
   const [doctorsWithSlots, setDoctorsWithSlots] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    trackEvent('mw_page_view_clk', {
+      section: 'page_load'
+    })
+  }, [])
   const toolRefs = useRef<(HTMLElement | null)[]>([]);
 
   // Note: selectedCategory is managed by local state and URL navigation
@@ -278,7 +284,7 @@ export default function MindWellnessPage({
                   router.push('/mind-wellness', undefined, { scroll: false });
                 }
                 
-                trackEvent('mw_condition_clk', {
+                trackEvent(`mw_${c.category.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')}_clk`, {
                   section: 'conditions',
                   condition_category: c.category,
                   condition_title: c.title
@@ -329,7 +335,7 @@ export default function MindWellnessPage({
                 key={i}
                 ref={(el) => (toolRefs.current[i] = el)}
                 className={styles["tool-card"]}
-                onClick={() => trackEvent('mw_tool_clk', {
+                onClick={() => trackEvent(`mw_${t.title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')}_clk`, {
                   section: 'tools',
                   tool_name: t.title,
                   tool_type: 'questionnaire'
@@ -372,7 +378,7 @@ export default function MindWellnessPage({
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
-                onPlay={() => trackEvent('mw_video_play_clk', {
+                onPlay={() => trackEvent('mw_mind_wellness_introduction_play_clk', {
                   section: 'mind_wellness',
                   video_title: 'Mind Wellness Introduction'
                 })}

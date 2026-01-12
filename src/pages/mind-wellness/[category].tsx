@@ -24,6 +24,13 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
   const cardRefs = useRef<(HTMLElement | null)[]>([])
   const toolRefs = useRef<(HTMLElement | null)[]>([])
 
+  useEffect(() => {
+    trackEvent('mw_category_page_view_clk', {
+      section: 'page_load',
+      category: category as string
+    })
+  }, [category])
+
   const conditionCards = [
     {
       icon: "/images/mind-icon1.svg",
@@ -263,7 +270,7 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
                   router.push('/mind-wellness', undefined, { shallow: true, scroll: false });
                 }
                 
-                trackEvent('mw_category_condition_clk', {
+                trackEvent(`mw_category_${c.category.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')}_clk`, {
                   section: 'conditions',
                   condition_category: c.category,
                   condition_title: c.title,
@@ -315,7 +322,7 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
                 key={i}
                 ref={(el) => (toolRefs.current[i] = el)}
                 className={styles["tool-card"]}
-                onClick={() => trackEvent('mw_category_tool_clk', {
+                onClick={() => trackEvent(`mw_category_${t.title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')}_clk`, {
                   section: 'tools',
                   tool_name: t.title,
                   tool_type: 'questionnaire',
@@ -359,7 +366,7 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
-                onPlay={() => trackEvent('mw_category_video_play_clk', {
+                onPlay={() => trackEvent('mw_category_mind_wellness_introduction_play_clk', {
                   section: 'mind_wellness',
                   video_title: 'Mind Wellness Introduction',
                   category: category

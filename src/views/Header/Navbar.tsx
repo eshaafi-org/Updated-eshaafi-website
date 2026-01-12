@@ -691,7 +691,7 @@ const navbarItems: NavbarItem[] = [
     href: "/find-doctors",
     dropdown: [
       { name: "General Practitioners", href: "/find-doctors/general-physician", icon: "/images/doctor1.svg" },
-      { name: "Specialists", href: "/find-doctors/medical-specialist", icon: "/images/doctor2.svg" },
+      { name: "Specialists", href: "/find-doctors", icon: "/images/doctor2.svg" },
     ],
   },
 

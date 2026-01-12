@@ -8,6 +8,10 @@ import { trackEvent } from "@/lib/ga";
 const HealthTopics: React.FC<{ categories?: any[] }> = ({ categories }) => {
   const [activeCategory, setActiveCategory] = useState("All Topics");
 
+  const sanitizeBlogTitle = (title: string) => {
+    return title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+  };
+
   const defaultCategories = [
     "All Topics",
     "Mind Wellness",
@@ -78,7 +82,7 @@ const HealthTopics: React.FC<{ categories?: any[] }> = ({ categories }) => {
                   key={index} 
                   href={`/blog/${blog.name}`} 
                   className={styles.articleCard}
-                  onClick={() => trackEvent('blog_view_clk', {
+                  onClick={() => trackEvent(`blog_${sanitizeBlogTitle(blog.title)}_view_clk`, {
                     section: 'health_topics',
                     blog_title: blog.title,
                     category: item.name,

@@ -1,8 +1,15 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/medicine.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 export default function MedicinePage() {
+  useEffect(() => {
+    trackEvent('psychiatrist_list_view_clk', {
+      section: 'page_load'
+    })
+  }, [])
+
   return (
     <section className={styles.medicinePage}>
       <div className={styles.glassBox}>

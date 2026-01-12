@@ -22,6 +22,18 @@ export default function LabsList() {
      // console.log(`🏥 Lab Name: ${lab.name}, Logo URL: ${lab.url}`);
     });
   }, [Labs]);
+
+  const handleLabSelect = (labName: string) => {
+    const sanitizedLabName = labName.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+    trackEvent(`labs_${sanitizedLabName}_select_clk`, {
+      section: 'filters',
+      partner_name: labName
+    });
+    trackEvent(`labs_${sanitizedLabName}_book_now_clk`, {
+      section: 'booking',
+      partner_name: labName
+    });
+  };
   
   return (
     <>
@@ -54,11 +66,13 @@ export default function LabsList() {
                   href={`/labs/${item.name.replace(/ /g, "-")}`}
                   className={style.labSelectBtn}
                   onClick={() => {
-                    trackEvent('labs_partner_view_clk', {
+                    const sanitizedLabName = item.name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+                    handleLabSelect(item.name);
+                    trackEvent(`labs_${sanitizedLabName}_view_clk`, {
                       section: 'partners',
                       partner_name: item.name
                     });
-                    trackEvent('labs_select_test_clk', {
+                    trackEvent(`labs_${sanitizedLabName}_test_clk`, {
                       section: 'lab_partners',
                       label: item.name
                     });

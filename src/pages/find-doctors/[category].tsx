@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import FindDoctorsView from '@/views/FindDoctors'
 import { BASE_URL } from '@/helper/CONST'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { SkeletonLoader } from '@/components/SkeletonLoader'
+import { trackEvent } from '@/lib/ga'
 
 interface CategoryPageProps {
   doctors: any[]
@@ -14,6 +15,13 @@ interface CategoryPageProps {
 
 const FindDoctorsByCategoryPage: React.FC<CategoryPageProps> = ({ doctors, category, categoryTitle }) => {
   const router = useRouter()
+
+  useEffect(() => {
+    trackEvent('find_doctors_page_view_clk', {
+      section: 'page_load',
+      category: category
+    })
+  }, [category])
 
   // Show loading state while page is being generated
   if (router.isFallback) {

@@ -12,11 +12,15 @@ import UploadPrescription from "@/views/Labs/UploadPrescription";
 import { useDispatch } from "react-redux";
 import { getLabsHome } from "@/views/Labs/labsSlice";
 import HelpLine from "@/views/Labs/HelpLine";
+import { trackEvent } from "@/lib/ga";
 
 export default function Labs() {
   const dispatch: any = useDispatch();
   useEffect(() => {
     dispatch(getLabsHome());
+    trackEvent('labs_page_view_clk', {
+      section: 'page_load'
+    })
   }, []);
   return (
     <>

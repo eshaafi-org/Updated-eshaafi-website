@@ -12,6 +12,10 @@ const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
     { url: "/images/blog5.png", title: "Stress-Free Living" },
   ];
 
+  const sanitizeBlogTitle = (title: string) => {
+    return title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+  };
+
   const blogs = recentBlogs || defaultBlogs;
   const mainBlog = blogs[0];
   const smallBlogs = blogs.slice(1, 5);
@@ -30,7 +34,7 @@ const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
         <Link 
           href={`/blog/${mainBlog?.name}`} 
           className={styles.mainBlog}
-          onClick={() => trackEvent('blog_view_clk', {
+          onClick={() => trackEvent(`blog_${sanitizeBlogTitle(mainBlog?.title)}_view_clk`, {
             section: 'recent_blogs',
             blog_title: mainBlog?.title,
             position: 'main_featured'
@@ -47,7 +51,7 @@ const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
               key={index} 
               href={`/blog/${blog?.name}`} 
               className={styles.blogItem}
-              onClick={() => trackEvent('blog_view_clk', {
+              onClick={() => trackEvent(`blog_${sanitizeBlogTitle(blog?.title)}_view_clk`, {
                 section: 'recent_blogs',
                 blog_title: blog?.title,
                 position: `small_card_${index + 1}`
