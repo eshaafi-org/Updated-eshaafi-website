@@ -78,6 +78,18 @@ const Index = () => {
     processBooking();
   }, []);
 
+  // Track when success screen is displayed
+  useEffect(() => {
+    if (success && appointmentData) {
+      trackEvent('fd_booking_success_screen_viewed', {
+        section: 'booking_flow',
+        appointment_id: appointmentData.appointmentId,
+        payment_method: 'payPro',
+        booking_type: 'payment_success_page'
+      });
+    }
+  }, [success, appointmentData]);
+
   if (loading) {
     return <SkeletonLoader />;
   }
@@ -118,11 +130,22 @@ const Index = () => {
             "https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation"
           }
           target="_blank"
+          onClick={() => trackEvent('fd_success_app_download_click', {
+            section: 'booking_success',
+            appointment_id: appointmentData?.appointmentId,
+            app_store: 'google_play',
+            booking_type: 'payment_success_page'
+          })}
         >
           <Image src={eShaafiApp} alt="download-eshaafi-app" />
         </a>
         <Link
           href={`/appointments/${appointmentData?.appointmentId}`}
+          onClick={() => trackEvent('fd_success_view_details_click', {
+            section: 'booking_success',
+            appointment_id: appointmentData?.appointmentId,
+            booking_type: 'payment_success_page'
+          })}
         >
           <Button variant="outlined">view details</Button>
         </Link>

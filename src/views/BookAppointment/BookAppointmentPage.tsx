@@ -515,6 +515,21 @@ export default function BookAppointmentPage({
     }
   }, [data]);
 
+  // Track when success screen is displayed
+  useEffect(() => {
+    if (success) {
+      trackEvent('fd_booking_success_screen_viewed', {
+        section: 'booking_flow',
+        doctor_id: router.query.id,
+        doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
+        specialty: data?.doctorInfo?.specialization,
+        appointment_date: appointDate,
+        appointment_time: activeSlot.time,
+        booking_type: reschedule ? 'reschedule' : 'new'
+      });
+    }
+  }, [success]);
+
 
   return (
     <section className="container">
@@ -569,7 +584,14 @@ export default function BookAppointmentPage({
         <div className="d-flex align-items-center row-gap-1 col-gap-1 position-relative flex-column w-100 justify-content-center">
           <Button
             variant="outlined"
-            onClick={() => setSuccess(false)}
+            onClick={() => {
+              trackEvent('fd_success_schedule_another_click', {
+                section: 'booking_success',
+                doctor_id: router.query.id,
+                booking_type: reschedule ? 'reschedule' : 'new'
+              });
+              setSuccess(false);
+            }}
             className="cardDescription"
             style={{ alignSelf: "self-start" }}
           >
@@ -597,6 +619,12 @@ export default function BookAppointmentPage({
               "https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation"
             }
             target="_blank"
+            onClick={() => trackEvent('fd_success_app_download_click', {
+              section: 'booking_success',
+              doctor_id: router.query.id,
+              app_store: 'google_play',
+              booking_type: reschedule ? 'reschedule' : 'new'
+            })}
           >
             <Image src={eShaafiApp} alt="download-eshaafi-app" />
           </a>
@@ -606,6 +634,12 @@ export default function BookAppointmentPage({
                 ? `/appointments/${appointmentPage.appointmentId}`
                 : `/appointments/${response.appointmentId}`
             }
+            onClick={() => trackEvent('fd_success_view_details_click', {
+              section: 'booking_success',
+              doctor_id: router.query.id,
+              appointment_id: reschedule ? appointmentPage.appointmentId : response.appointmentId,
+              booking_type: reschedule ? 'reschedule' : 'new'
+            })}
           >
             <Button variant="outlined">view details</Button>
           </Link>
