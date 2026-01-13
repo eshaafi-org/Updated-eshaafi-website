@@ -20,6 +20,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { FaArrowLeft, FaRegListAlt } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
+import { trackEvent } from "@/lib/ga";
 
 export default function BookAppointmentPage({
   data,
@@ -82,6 +83,19 @@ export default function BookAppointmentPage({
           setSuccess(true);
           setLoading(false);
           setPaymentScreen(false);
+          
+          // Track successful PayPro booking
+          trackEvent('fd_booking_success', {
+            section: 'booking_flow',
+            doctor_id: router.query.id,
+            doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
+            specialty: data?.doctorInfo?.specialization,
+            payment_method: 'payPro',
+            appointment_date: appointDate,
+            appointment_time: activeSlot.time,
+            booking_type: 'paypro'
+          });
+          
           // Clear the temporary appointment data
           localStorage.removeItem('appointmentData');
           // Don't redirect to /payment-success, show the built-in success screen
@@ -206,6 +220,18 @@ export default function BookAppointmentPage({
             setSuccess(true);
             setLoading(false);
             setPaymentScreen(false);
+            
+            // Track successful booking
+            trackEvent('fd_booking_success', {
+              section: 'booking_flow',
+              doctor_id: router.query.id,
+              doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
+              specialty: data?.doctorInfo?.specialization,
+              payment_method: paymentId,
+              appointment_date: appointDate,
+              appointment_time: activeSlot.time,
+              booking_type: 'direct'
+            });
           })
           .catch((err) => {
             setLoading(false);
@@ -413,6 +439,18 @@ export default function BookAppointmentPage({
       .then((res) => {
         setSuccess(true);
         setLoading(false);
+        
+        // Track successful reschedule
+        trackEvent('fd_booking_success', {
+          section: 'booking_flow',
+          doctor_id: router.query.id,
+          doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
+          specialty: data?.doctorInfo?.specialization,
+          payment_method: 'reschedule',
+          appointment_date: appointDate,
+          appointment_time: activeSlot.time,
+          booking_type: 'reschedule'
+        });
       })
       .catch((err) => {
         setLoading(false);

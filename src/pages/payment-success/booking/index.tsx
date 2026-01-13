@@ -10,6 +10,7 @@ import Button from "@/components/Button";
 import { SkeletonLoader } from '@/components/SkeletonLoader';
 import moment from 'moment';
 //import LottieLoading from '@/components/paymentLoading/paymentLoading';
+import { trackEvent } from "@/lib/ga";
 
 const Index = () => {
   const [success, setSuccess] = useState(false);
@@ -55,6 +56,15 @@ const Index = () => {
 
       // Consider checking response.ok / response.data.responseCode if backend uses that
       setSuccess(true);
+      
+      // Track successful payment booking
+      trackEvent('fd_booking_success', {
+        section: 'booking_flow',
+        appointment_id: parsedData.appointmentId,
+        payment_method: 'payPro',
+        booking_type: 'payment_success_page'
+      });
+      
       localStorage.removeItem('appointmentData');
     } catch (err: any) {
       console.error('Booking failed:', err);
