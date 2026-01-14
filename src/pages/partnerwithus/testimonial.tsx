@@ -12,7 +12,7 @@ const ClientTestimonials: React.FC = () => {
 
   const clients = [
     { logo: "/images/logo.png", alt: "Daklit" },
-    { logo: "/images/logo22.png", alt: "Logic Racks" },
+    { logo: "/images/Partner11.png", alt: "Logic Racks" },
     { logo: "/images/logo3.png", alt: "Spartans" },
     { logo: "/images/logo4.png", alt: "Think Collective" },
     { logo: "/images/logo5.png", alt: "Abstron" },

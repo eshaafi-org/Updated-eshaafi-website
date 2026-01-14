@@ -903,30 +903,33 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
     return () => window.removeEventListener('hashchange', handleHashScroll);
   }, []);
 
-  // Fetch doctors data on component mount if not already provided
+  // Prevent repeated fetch: only run on mount
   useEffect(() => {
+    let didFetch = false;
     if (doctors && doctors.length > 0) {
       setDoctorsData(doctors);
       return;
     }
+
+    if (didFetch) return;
+    didFetch = true;
 
     const fetchDoctors = async () => {
       try {
         const response = await axios.post(BASE_URL + "/patients/doctors/filter", {
           type: "categroy",
         });
-        
         if (response.data?.response?.Items) {
           setDoctorsData(response.data.response.Items);
         }
       } catch (error) {
         console.error('Failed to fetch doctors for search:', error);
-        // Silently fail - search will work with limited data
       }
     };
 
     fetchDoctors();
-  }, [doctors]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Enhanced search that includes content like doctors, specialties, labs
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
