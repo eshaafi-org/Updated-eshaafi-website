@@ -702,7 +702,7 @@ const navbarItems: NavbarItem[] = [
       //{ name: "Psychiatrists", href: "/mind-wellness/psychiatrist#therapists-section", icon: "/images/doctor4.svg" },
       { name: "Counselors", href: "/mind-wellness/counselor#therapists-section", icon: "/images/doctor6.svg" },
       { name: "Psychologists", href: "/mind-wellness/psychologist#therapists-section", icon: "/images/doctor5.svg" },
-      
+
     ],
   },
 
@@ -808,7 +808,7 @@ const getSearchableContent = (doctorsData?: any[]): SearchContentItem[] => {
 
     // Navigation pages
     ...allPages,
-    
+
     // Specialties/Services
     { name: 'General Physician', category: 'Specialty', href: '/find-doctors?specialty=General%20Physician', keywords: ['gp', 'general doctor', 'general practitioner'] },
     { name: 'Dermatologist', category: 'Specialty', href: '/find-doctors?specialty=Dermatologist', keywords: ['skin', 'skin specialist', 'skin doctor'] },
@@ -818,7 +818,7 @@ const getSearchableContent = (doctorsData?: any[]): SearchContentItem[] => {
     { name: 'Psychiatrist', category: 'Specialty', href: '/mind-wellness', keywords: ['mental health', 'psychology', 'therapist'] },
     { name: 'Clinical Psychologist', category: 'Specialty', href: '/mind-wellness', keywords: ['psychology', 'counseling', 'psychologist'] },
     { name: 'Counselor', category: 'Specialty', href: '/mind-wellness', keywords: ['counseling', 'therapy'] },
-    
+
     // Lab Tests
     { name: 'Blood Test', category: 'Lab Test', href: '/labs', keywords: ['blood', 'hematology', 'cbc'] },
     { name: 'COVID-19 Test', category: 'Lab Test', href: '/labs', keywords: ['covid', 'coronavirus', 'pcr'] },
@@ -826,7 +826,7 @@ const getSearchableContent = (doctorsData?: any[]): SearchContentItem[] => {
     { name: 'Thyroid Test', category: 'Lab Test', href: '/labs', keywords: ['thyroid', 'tsh', 'endocrine'] },
     { name: 'Liver Test', category: 'Lab Test', href: '/labs', keywords: ['liver', 'hepatic', 'bilirubin'] },
     { name: 'Kidney Test', category: 'Lab Test', href: '/labs', keywords: ['kidney', 'renal', 'creatinine'] },
-    
+
     // Services
     { name: 'Video Consultation', category: 'Service', href: '/find-doctors', keywords: ['online doctor', 'video call', 'telemedicine'] },
     { name: 'Health Tracker', category: 'Service', href: '/healthtracker', keywords: ['fitness', 'health', 'tracking'] },
@@ -840,7 +840,7 @@ const getSearchableContent = (doctorsData?: any[]): SearchContentItem[] => {
     doctorsData.forEach((doctor: any) => {
       const doctorName = `${doctor.personal_info?.title || ''} ${doctor.personal_info?.firstName || ''} ${doctor.personal_info?.lastName || ''}`.trim();
       const specialty = doctor.specialization || '';
-      
+
       if (doctorName) {
         searchContent.push({
           name: doctorName,
@@ -935,7 +935,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase().trim();
     setSearchQuery(query);
-    
+
     if (!query) {
       setSearchResults([]);
     } else {
@@ -944,17 +944,17 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
         const nameMatch = item.name.toLowerCase().includes(query);
         const categoryMatch = item.category?.toLowerCase().includes(query);
         const keywordMatch = item.keywords?.some((kw: string) => kw.includes(query));
-        
+
         return nameMatch || categoryMatch || keywordMatch;
       });
-      
+
       // Sort results: prioritize exact matches and category matches
       const sorted = filtered.sort((a: any, b: any) => {
         const aExact = a.name.toLowerCase().startsWith(query) ? 1 : 0;
         const bExact = b.name.toLowerCase().startsWith(query) ? 1 : 0;
         return bExact - aExact;
       });
-      
+
       setSearchResults(sorted.slice(0, 12)); // Limit to 12 results
     }
   };
@@ -971,11 +971,11 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
     if (!itemHref) return false;
     const currentPath = router.pathname;
     const itemPath = itemHref.split('#')[0]; // Remove hash for comparison
-    
+
     // Don't highlight items with hash anchors (like #subscription-plans)
     // Only highlight exact path matches or main category routes
     if (itemHref.includes('#')) return false;
-    
+
     // Highlight if exact match or starts with the path (includes sublinks)
     return currentPath === itemPath || currentPath.startsWith(itemPath + '/');
   };
@@ -1048,40 +1048,42 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                 onMouseLeave={() => setHoverIndex(null)}
               >
                 {item.href ? (
-                  // <a href={item.href}>{item.title}</a>
-                  <a href={item.href} onClick={() => {
-   switch(item.title) {
-      case 'Doctors':
-        trackEvent('homepage_nav_doctors_clk', { section: 'nav' });
-        break;
-      case 'Mental Health':
-        trackEvent('homepage_nav_mental_health_clk', { section: 'nav' });
-        break;
-      case 'Labs':
-        trackEvent('homepage_nav_labs_clk', { section: 'nav' });
-        break;
-      case 'Subscription Plans':
-        trackEvent('homepage_nav_subscription_plans_clk', { section: 'nav' });
-        break;
-      case 'Wellness Sessions':
-        trackEvent('homepage_nav_wellness_sessions_clk', { section: 'nav' });
-        break;
-      case 'Corporate Care':
-        trackEvent('homepage_nav_corporate_clk', { section: 'nav' });
-        break;
-      // case 'THUs':
-      //   trackEvent('homepage_nav_thus_clk', { section: 'nav', action: 'navigate' });
-      //   break;
-      case 'Blogs':
-        trackEvent('homepage_nav_blog_clk', { section: 'nav' });
-        break;
-      default:
-        break;
-    }
-  }}
->
-  {item.title}
-</a>
+                  <a
+                    href={item.href}
+                    onClick={e => {
+                      e.preventDefault();
+                      // Only fire event if user clicks the main link, not dropdown
+                      // Prevent firing if dropdown is open and user is just hovering
+                      switch (item.title) {
+                        case 'Doctors':
+                          trackEvent('nav_doctors_clk', { section: 'nav' });
+                          break;
+                        case 'Mental Health':
+                          trackEvent('nav_mental_health_clk', { section: 'nav' });
+                          break;
+                        case 'Labs':
+                          trackEvent('nav_labs_clk', { section: 'nav' });
+                          break;
+                        case 'Subscription Plans':
+                          trackEvent('nav_subscription_plans_clk', { section: 'nav' });
+                          break;
+                        case 'Wellness Sessions':
+                          trackEvent('nav_wellness_sessions_clk', { section: 'nav' });
+                          break;
+                        case 'Corporate Care':
+                          trackEvent('nav_corporate_care_clk', { section: 'nav' });
+                          break;
+                        case 'Blogs':
+                          trackEvent('nav_blogs_clk', { section: 'nav' });
+                          break;
+                        default:
+                          break;
+                      }
+                      router.push(item.href!);
+                    }}
+                  >
+                    {item.title}
+                  </a>
                 ) : (
                   <a href="#">{item.title}</a>
                 )}
@@ -1094,9 +1096,13 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                         key={i}
                         href={sub.href}
                         className={styles.dropdownItem}
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.preventDefault();
                           setHoverIndex(null);
                           setMenuOpen(false);
+                          const eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
+                          trackEvent(eventName, { section: 'nav' });
+                          router.push(sub.href);
                         }}
                       >
                         {sub.icon && <Image src={sub.icon} alt={sub.name} width={30} height={30} />}
@@ -1198,10 +1204,10 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                     Login/Sign Up
                   </Button> */}
                   <Button
-                     onClick={() => {
-                     trackEvent('homepage_nav_login_clk', { section: 'nav' });
-                     handleModal();
-                     }}
+                    onClick={() => {
+                      trackEvent('nav_login_clk', { section: 'nav' });
+                      handleModal();
+                    }}
                   >
                     Login/Sign Up
                   </Button>
@@ -1209,7 +1215,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                 </>
               ) : (
                 <>
-                   {userAuth.uuid && (
+                  {userAuth.uuid && (
                     <Button
                       onClick={() => setShowCart(!showCart)}
                       className={styles.cartBtn}
@@ -1221,7 +1227,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                     </Button>
                   )}
                   {showCart &&
-                    createPortal(<Cart setShowCart={setShowCart} />, document.body)} 
+                    createPortal(<Cart setShowCart={setShowCart} />, document.body)}
 
                   <Button onClick={() => setShowProfile(true)} className={styles.profileBtn}>
                     {!userAuth.url ? (
@@ -1368,7 +1374,13 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                   </summary>
                   <div className={styles.mobileDropdown}>
                     {item.dropdown.map((sub, i) => (
-                      <a key={i} href={sub.href} onClick={() => setMenuOpen(false)}>
+                      <a key={i} href={sub.href} onClick={(e) => {
+                        e.preventDefault();
+                        setMenuOpen(false);
+                        const eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
+                        trackEvent(eventName, { section: 'nav' });
+                        router.push(sub.href);
+                      }}>
                         {sub.icon && <Image src={sub.icon} alt={sub.name} width={20} height={20} />}
                         {sub.name}
                       </a>
@@ -1378,43 +1390,45 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
               ) : (
                 // <a href={item.href} onClick={() => setMenuOpen(false)}>{item.title}</a>
                 <a
-  href={item.href}
-  onClick={() => {
-    setMenuOpen(false);
-    switch(item.title) {
-      case 'Doctors':
-        trackEvent('homepage_nav_doctors_clk', { section: 'nav' });
-        break;
-      case 'Mental Health':
-        trackEvent('homepage_nav_mental_health_clk', { section: 'nav' });
-        break;
-      case 'Labs':
-        trackEvent('homepage_nav_labs_clk', { section: 'nav' });
-        break;
-      case 'Subscription Plans':
-        trackEvent('homepage_nav_subscription_plans_clk', { section: 'nav' });
-        break;
-      case 'Wellness Sessions':
-        trackEvent('homepage_nav_wellness_sessions_clk', { section: 'nav' });
-        break;
-      case 'Corporate Care':
-        trackEvent('homepage_nav_corporate_clk', { section: 'nav' });
-        break;
-      // case 'THUs':
-      //   trackEvent('homepage_nav_thus_clk', { section: 'nav', action: 'navigate' });
-      //   break;
-      case 'Blogs':
-        trackEvent('homepage_nav_blog_clk', { section: 'nav' });
-        break;
-      default:
-        break;
-    }
-  }}
->
-  {item.title}
-</a>
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMenuOpen(false);
+                    switch (item.title) {
+                      case 'Doctors':
+                        trackEvent('nav_doctors_clk', { section: 'nav' });
+                        break;
+                      case 'Mental Health':
+                        trackEvent('nav_mental_health_clk', { section: 'nav' });
+                        break;
+                      case 'Labs':
+                        trackEvent('nav_labs_clk', { section: 'nav' });
+                        break;
+                      case 'Subscription Plans':
+                        trackEvent('nav_subscription_plans_clk', { section: 'nav' });
+                        break;
+                      case 'Wellness Sessions':
+                        trackEvent('homep age_nav_wellness_sessions_clk', { section: 'nav' });
+                        break;
+                      case 'Corporate Care':
+                        trackEvent('nav_corporate_clk', { section: 'nav' });
+                        break;
+                      // case 'THUs':
+                      //   trackEvent('homepage_nav_thus_clk', { section: 'nav', action: 'navigate' });
+                      //   break;
+                      case 'Blogs':
+                        trackEvent('nav_blog_clk', { section: 'nav' });
+                        break;
+                      default:
+                        break;
+                    }
+                    router.push(item.href);
+                  }}
+                >
+                  {item.title}
+                </a>
 
-                
+
               )}
             </li>
           ))}
