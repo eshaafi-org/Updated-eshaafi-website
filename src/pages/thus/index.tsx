@@ -7,9 +7,12 @@ import Link from "next/link";
 import { trackEvent } from "@/lib/ga";
 const THUs = () => {
   useEffect(() => {
-    trackEvent('thus_page_view_clk', {
-      section: 'page_load'
-    })
+    if (!sessionStorage.getItem('thus_page_view_tracked')) {
+      trackEvent('thus_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('thus_page_view_tracked', 'true');
+    }
   }, [])
 
   return (

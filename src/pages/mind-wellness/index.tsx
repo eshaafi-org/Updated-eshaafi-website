@@ -30,9 +30,12 @@ export default function MindWellnessPage({
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
-    trackEvent('mw_page_view_clk', {
-      section: 'page_load'
-    })
+    if (!sessionStorage.getItem('mw_page_view_tracked')) {
+      trackEvent('mw_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('mw_page_view_tracked', 'true');
+    }
   }, [])
   const toolRefs = useRef<(HTMLElement | null)[]>([]);
 

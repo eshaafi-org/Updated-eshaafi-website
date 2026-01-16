@@ -63,9 +63,12 @@ import { useEffect } from 'react'
 
 const AboutUs = () => {
   useEffect(() => {
-    trackEvent('aboutus_page_view_clk', {
-      section: 'about_page'
-    });
+    if (!sessionStorage.getItem('aboutus_page_view_tracked')) {
+      trackEvent('aboutus_page_view_clk', {
+        section: 'about_page'
+      });
+      sessionStorage.setItem('aboutus_page_view_tracked', 'true');
+    }
   }, []);
 
   return <AboutUsPage />

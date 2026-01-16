@@ -11,9 +11,12 @@ import { trackEvent } from "@/lib/ga";
 
 const PartnerWithUs: React.FC = () => {
   useEffect(() => {
-    trackEvent('partnerwithus_page_view_clk', {
-      section: 'page_load'
-    })
+    if (!sessionStorage.getItem('partnerwithus_page_view_tracked')) {
+      trackEvent('partnerwithus_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('partnerwithus_page_view_tracked', 'true');
+    }
   }, [])
 
   const [showForm, setShowForm] = useState(true);
