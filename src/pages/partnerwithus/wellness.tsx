@@ -118,7 +118,7 @@ const WellnessAreas: React.FC = () => {
           {
             img: "/images/brain.svg",
             title: "Mental Health",
-            text: "Stress Management, Resilience, Work-Life Balance, Sleep Hygiene, Energy Optimization.",
+            text: "Stress Management, Work-Life Balance, Energy Optimization.",
             className: styles.card3,
           },
         ].map((item, i) => (
@@ -145,8 +145,7 @@ const WellnessAreas: React.FC = () => {
      <div id="schedule" className={styles.bannerSection}>
   <div className={styles.bannerText}>
     <h4>
-      Let&apos;s collaborate to make your organization healthier, more
-      supported, and more hopeful.
+      Let&apos;s make your team more creative, healthier, and productive.
     </h4>
   </div>
 
@@ -160,8 +159,10 @@ const WellnessAreas: React.FC = () => {
       className={styles.meetingButton}
       onClick={() => {
         setShowModal(true);
-        trackEvent('partnerwithus_wellness_schedule_clk', {
-          section: 'mid_page'
+        trackEvent('generate_lead', {
+          section: 'mid_page',
+          action: 'schedule_meeting',
+          content_type: 'corporate'
         });
       }}
     >

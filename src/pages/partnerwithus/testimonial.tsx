@@ -11,12 +11,20 @@ const ClientTestimonials: React.FC = () => {
   };
 
   const clients = [
-    { logo: "/images/logo.png", alt: "Daklit" },
-    { logo: "/images/Partner11.png", alt: "Logic Racks" },
-    { logo: "/images/logo3.png", alt: "Spartans" },
-    { logo: "/images/logo4.png", alt: "Think Collective" },
-    { logo: "/images/logo5.png", alt: "Abstron" },
-    { logo: "/images/logo6.png", alt: "NextTech" },
+    { logo: "/images/Green-Pharmacy.webp", alt: "Green Pharmacy" },
+    { logo: "/images/idclogo.webp", alt: "IDC" },
+    { logo: "/images/chughatailogo .webp", alt: "chughtai Lb" },
+    { logo: "/images/Esa-Lablogo.webp", alt: "Esa Lab" },
+    { logo: "/images/Westpoint .webp", alt: "Westpoint" },
+    { logo: "/images/terafortlogo.webp", alt: "tera fort" },
+    { logo: "/images/excellab .webp", alt: "excel lab" },
+    { logo: "/images/CBL.webp", alt: "CBL Lab" },
+    { logo: "/images/Abstron.webp", alt: "Abstron" },
+    { logo: "/images/larclogo.webp", alt: "larc" },
+    { logo: "/images/Hairclublogo.webp", alt: "Hairclub" },
+    { logo: "/images/mindstormlogo .webp", alt: "mindstorm" },
+    { logo: "/images/spartanslogo.webp", alt: "spartans" },
+    { logo: "/images/wejlogo.webp", alt: "Wej" },
   ];
 
   const testimonials = [

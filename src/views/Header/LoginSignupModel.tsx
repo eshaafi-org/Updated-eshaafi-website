@@ -116,7 +116,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
         headers: headers(),
       });
 
-      console.log("Profiles API response:", response.data);
+      // console.log("Profiles API response:", response.data);
 
       const profilesData = response.data.response.data;
       const allProfiles = [profilesData.self, ...profilesData.profiles].filter(Boolean);
@@ -130,9 +130,9 @@ export const Model = ({ page = "login" }: { page: string }) => {
           profilePhone === `92${phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum}`;
       });
 
-      console.log("Current phone number:", currentPhoneNumber);
-      console.log("All profiles:", allProfiles);
-      console.log("Filtered profiles for current phone:", filteredProfiles);
+      // console.log("Current phone number:", currentPhoneNumber);
+      // console.log("All profiles:", allProfiles);
+      // console.log("Filtered profiles for current phone:", filteredProfiles);
       return filteredProfiles;
     } catch (error) {
       console.error("Error fetching profiles:", error);
@@ -213,7 +213,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
           console.warn('[Login] dispatch setAuth failed', err);
         }
 
-        console.log("OTP verification response:", res.data.response);
+        // console.log("OTP verification response:", res.data.response);
 
         // Register device token with backend for call notifications (don't block UI)
         try {

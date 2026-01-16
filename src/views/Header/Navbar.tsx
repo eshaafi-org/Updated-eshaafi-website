@@ -1422,7 +1422,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                       default:
                         break;
                     }
-                    router.push(item.href);
+                    router.push(item.href!);
                   }}
                 >
                   {item.title}
