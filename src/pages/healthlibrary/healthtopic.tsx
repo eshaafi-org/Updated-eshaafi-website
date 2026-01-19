@@ -95,10 +95,10 @@ const HealthTopics: React.FC<{ categories?: any[] }> = ({ categories }) => {
                   <div className={styles.articleContent}>
                     <h4>{blog.title}</h4>
                     <div className={styles.articleMeta}>
-                      <span className={styles.readTime}>5 min read</span>
+                      <span className={styles.readTime}>{blog.readTime || 5} min read</span>
                       <div className={styles.authorInfo}>
-                        <img src="/images/Ellipse.png" alt="Author" />
-                        <span>Author</span>
+                        {blog.authorProfileUrl && <img src={blog.authorProfileUrl} alt={blog.authorName} />}
+                        <span>{blog.authorName || 'Author'}</span>
                       </div>
                     </div>
                   </div>

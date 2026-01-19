@@ -41,7 +41,9 @@ const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
           })}
         >
           <img src={mainBlog?.url} alt={mainBlog?.title} />
-          <div className={styles.overlayText}>{mainBlog?.title}</div>
+          <div className={styles.overlayText}>
+            <div>{mainBlog?.title}</div>
+          </div>
         </Link>
 
         {/* Right Side 4 Small Images */}
@@ -58,7 +60,9 @@ const RecentBlogs: React.FC<{ recentBlogs?: any[] }> = ({ recentBlogs }) => {
               })}
             >
               <img src={blog?.url} alt={blog?.title} />
-              <div className={styles.overlayText}>{blog?.title}</div>
+              <div className={styles.overlayText}>
+                <div>{blog?.title}</div>
+              </div>
             </Link>
           ))}
         </div>

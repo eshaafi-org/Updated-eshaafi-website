@@ -15,6 +15,7 @@ import Profiles from "@/components/Profiles";
 import successGif from "../../../public/images/success.gif";
 import Image from "next/image";
 import Link from "next/link";
+import { trackEvent } from "@/lib/ga";
 // Defining the Checkout component
 export default function Checkout() {
     // Array of links for the breadcrumb navigation
@@ -108,6 +109,18 @@ export default function Checkout() {
     }
     // Book Lab test 
     const bookLab = () => {
+        // Track place order click
+        trackEvent('cart_place_order_clk', {
+            section: 'checkout',
+            test_type: typeTest,
+            patient_name: patientName,
+            lab_name: labName,
+            cart_items_count: currentCart.length + currentPackages.length,
+            total_amount: currentTotalAmount,
+            booking_date: date,
+            booking_time: time
+        });
+
         // e.preventDefault();
         setUploading(true);
         let testUid: { uuid: any; quantity: string }[] = [];
@@ -141,6 +154,16 @@ export default function Checkout() {
                 }
             )
             .then((res) => {
+                // Track successful booking
+                trackEvent('cart_booking_success_clk', {
+                    section: 'checkout',
+                    test_type: typeTest,
+                    patient_name: patientName,
+                    lab_name: labName,
+                    cart_items_count: currentCart.length + currentPackages.length,
+                    total_amount: currentTotalAmount
+                });
+
                 toast(
                     `Lab Booked successfully our team will contact you shortly`,
                     {
@@ -158,6 +181,17 @@ export default function Checkout() {
                 emptyData()
             })
             .catch((err) => {
+                // Track booking error
+                trackEvent('cart_booking_error_clk', {
+                    section: 'checkout',
+                    test_type: typeTest,
+                    patient_name: patientName,
+                    lab_name: labName,
+                    cart_items_count: currentCart.length + currentPackages.length,
+                    total_amount: currentTotalAmount,
+                    error_message: err?.message || 'Unknown error'
+                });
+
                 setUploading(false);
                 toast(`Some thing went wrong please try again later`, {
                     position: "top-right",
@@ -199,6 +233,38 @@ export default function Checkout() {
             setPatientName(profile?.name);
         }
     }, [profile]);
+
+    // Track page view
+    useEffect(() => {
+        trackEvent('cart_page_view_clk', {
+            section: 'checkout',
+            cart_items_count: currentCart.length + currentPackages.length,
+            total_amount: currentTotalAmount
+        });
+    }, [currentCart.length, currentPackages.length, currentTotalAmount]);
+
+    // Track test type selection
+    useEffect(() => {
+        if (typeTest) {
+            trackEvent('cart_test_type_select_clk', {
+                section: 'checkout',
+                test_type: typeTest,
+                cart_items_count: currentCart.length + currentPackages.length
+            });
+        }
+    }, [typeTest, currentCart.length, currentPackages.length]);
+
+    // Track lab selection
+    useEffect(() => {
+        if (labName) {
+            trackEvent('cart_lab_select_clk', {
+                section: 'checkout',
+                lab_name: labName,
+                test_type: typeTest,
+                cart_items_count: currentCart.length + currentPackages.length
+            });
+        }
+    }, [labName, typeTest, currentCart.length, currentPackages.length]);
     // Rendering the Checkout component
     return (
         <>
@@ -356,6 +422,11 @@ export default function Checkout() {
                         You have successfully booked your test our customer care will
                         contact you shortly {" "}
                         <Link href={`/orders`} onClick={() => {
+                            // Track view details click
+                            trackEvent('cart_view_details_clk', {
+                                section: 'checkout_success',
+                                action: 'navigate_to_orders'
+                            });
                             setSuccess(false);
                         }}>
                             View Details

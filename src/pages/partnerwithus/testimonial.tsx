@@ -16,6 +16,7 @@ const ClientTestimonials: React.FC = () => {
     { logo: "/images/chughatailogo .webp", alt: "chughtai Lb" },
     { logo: "/images/Esa-Lablogo.webp", alt: "Esa Lab" },
     { logo: "/images/Westpoint .webp", alt: "Westpoint" },
+    { logo: "/images/westpointlogo.webp", alt: "Westpoint Logo" },
     { logo: "/images/terafortlogo.webp", alt: "tera fort" },
     { logo: "/images/excellab .webp", alt: "excel lab" },
     { logo: "/images/CBL.webp", alt: "CBL Lab" },

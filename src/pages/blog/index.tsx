@@ -1,6 +1,7 @@
 import { BASE_URL } from "@/helper/CONST";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import Link from "next/link";
 import RecentBlogs from "../healthlibrary/recentblog";
 import HealthTopics from "../healthlibrary/healthtopic";
 import styles from "../../styles/healthlibrary.module.scss";
@@ -23,24 +24,41 @@ const links = [
 ];
 export default function Blogs({ recentBlogs, categories }: any) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
 
-  // Filter blogs based on search query
-  const filteredBlogs = recentBlogs.filter((blog: any) => {
-    if (!searchQuery.trim()) return true;
-    return (
-      blog.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.name?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setIsDropdownOpen(true);
+  }, []);
 
-  // Filter categories based on search query
-  const filteredCategories = categories.filter((category: any) => {
-    if (!searchQuery.trim()) return true;
-    return (
-      category.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      category.description?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
+  const handleSuggestionClick = useCallback((blog: any) => {
+    setSearchQuery("");
+    setIsDropdownOpen(false);
+    // Navigation will be handled by Link
+  }, []);
+
+  const handleInputFocus = useCallback(() => {
+    if (searchQuery.trim()) {
+      setIsDropdownOpen(true);
+    }
+  }, [searchQuery]);
+
+  const handleInputBlur = useCallback(() => {
+    // Delay closing to allow click on suggestions
+    setTimeout(() => setIsDropdownOpen(false), 150);
+  }, []);
+
+  // Filter suggestions based on search query
+  const suggestions = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const query = searchQuery.toLowerCase();
+    return recentBlogs.filter((blog: any) =>
+      blog.title?.toLowerCase().includes(query) ||
+      blog.authorName?.toLowerCase().includes(query) ||
+      blog.description?.toLowerCase().includes(query)
+    ).slice(0, 5); // Limit to 5 suggestions
+  }, [recentBlogs, searchQuery]);
   return (
     <>
       <Head>
@@ -54,20 +72,42 @@ export default function Blogs({ recentBlogs, categories }: any) {
           <div className={styles.overlay}></div>
           <div className={styles.content}>
             <h2>Explore tips to care for your body, mind and everyday wellbeing</h2>
-            <div className={styles.searchBar}>
+            <div className={styles.searchBar} ref={searchRef}>
               <input
                 type="text"
                 placeholder="Search blogs..."
                 className={styles.input}
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
               />
+              {isDropdownOpen && suggestions.length > 0 && (
+                <div className={styles.searchDropdown}>
+                  {suggestions.map((blog: any) => (
+                    <Link
+                      key={blog.name}
+                      href={`/blog/${blog.name}`}
+                      onClick={() => handleSuggestionClick(blog)}
+                      className={styles.searchSuggestion}
+                    >
+                      <div className={styles.suggestionContent}>
+                        <img src={blog.url} alt={blog.title} className={styles.suggestionImage} />
+                        <div className={styles.suggestionText}>
+                          <div className={styles.suggestionTitle}>{blog.title}</div>
+                          <div className={styles.suggestionAuthor}>by {blog.authorName}</div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </section>
 
-        <RecentBlogs recentBlogs={filteredBlogs} />
-        <HealthTopics categories={filteredCategories} />
+        <RecentBlogs recentBlogs={recentBlogs} />
+        <HealthTopics categories={categories} />
       </main>
     </>
   );
