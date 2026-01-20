@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { trackEvent } from "@/lib/ga";
 
 export default function ComingSoon() {
+  useEffect(() => {
+    if (!sessionStorage.getItem('health_webinars_page_view_tracked')) {
+      trackEvent('health_webinars_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('health_webinars_page_view_tracked', 'true');
+    }
+  }, []);
+
   return (
     <div style={{
       height: "80vh",

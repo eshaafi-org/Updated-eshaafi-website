@@ -72,7 +72,7 @@ const PartnerWithUs: React.FC = () => {
       interested_in: interestedIn,
       subject: 'New Business Inquiry'
     };
-    console.log('Sending data:', data);
+    // console.log('Sending data:', data);
     try {
       const response = await fetch('https://f6l7k20y31.execute-api.us-east-1.amazonaws.com/stage/new/patient/emailWebsite/notification', {
         method: 'POST',
@@ -115,7 +115,7 @@ const PartnerWithUs: React.FC = () => {
   const handleFlipBack = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Back to form clicked, current flipType:', flipType);
+    // console.log('Back to form clicked, current flipType:', flipType);
     
     // Prevent multiple clicks during animation
     if (!isFlipped || isFlipping) return;

@@ -1,11 +1,21 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from "../../styles/contact.module.scss";
 import Button from "../../components/Button/index";
+import { trackEvent } from "@/lib/ga";
 
 export default function Contact() {
+    useEffect(() => {
+        if (!sessionStorage.getItem('contact_us_page_view_tracked')) {
+            trackEvent('contact_us_page_view_clk', {
+                section: 'page_load'
+            });
+            sessionStorage.setItem('contact_us_page_view_tracked', 'true');
+        }
+    }, []);
+
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState('success');
 

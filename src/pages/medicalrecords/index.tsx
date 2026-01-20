@@ -9,6 +9,7 @@ import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
 import RecordTable from "@/views/MedicalRecords/MedicalRecords/RecordTable";
 import { ToastContainer, toast } from "react-toastify";
+import { trackEvent } from "@/lib/ga";
 // linkst
 const links = [
   { name: "Home", link: "/" },
@@ -18,6 +19,15 @@ const links = [
   },
 ];
 export default function MedicalRecord() {
+  useEffect(() => {
+    if (!sessionStorage.getItem('medicalrecords_page_view_tracked')) {
+      trackEvent('medicalrecords_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('medicalrecords_page_view_tracked', 'true');
+    }
+  }, []);
+
   const [patient, setPatient] = useState({ patientId: "" });
   const [records, setRecords] = useState<any>([]);
   const [loading, setLoading] = useState(false);

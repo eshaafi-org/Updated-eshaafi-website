@@ -1,7 +1,19 @@
 import { faq } from "@/helper/faqContent";
 import style from "@/styles/content.module.scss";
 import Head from "next/head";
+import { useEffect } from "react";
+import { trackEvent } from "@/lib/ga";
+
 export default function FAQ() {
+  useEffect(() => {
+    if (!sessionStorage.getItem('faq_page_view_tracked')) {
+      trackEvent('faq_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('faq_page_view_tracked', 'true');
+    }
+  }, []);
+
   return (
     <>
       <Head>

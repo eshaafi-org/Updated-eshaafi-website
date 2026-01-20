@@ -1,16 +1,26 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { GetStaticProps, NextPage } from "next";
 import styles from "../styles/mediaGallery.module.scss";
 import { mediaItems, MediaItem } from "../helper/mediaGallery";
 import { Calendar } from "lucide-react";
+import { trackEvent } from "@/lib/ga";
 
 type Props = {
   items: MediaItem[];
 };
 
 const MediaGalleryPage: NextPage<Props> = ({ items }) => {
+  useEffect(() => {
+    if (!sessionStorage.getItem('media_gallery_page_view_tracked')) {
+      trackEvent('media_gallery_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('media_gallery_page_view_tracked', 'true');
+    }
+  }, []);
+
   const sections = ["Impact Moment", "Partnership Highlights", "Achievements"];
 
   // Impact Moment state

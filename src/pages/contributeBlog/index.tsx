@@ -1,8 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/applynow.module.scss";
+import { trackEvent } from "@/lib/ga";
 
 const ContributeBlog: React.FC = () => {
+  useEffect(() => {
+    if (!sessionStorage.getItem('contribute_blog_page_view_tracked')) {
+      trackEvent('contribute_blog_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('contribute_blog_page_view_tracked', 'true');
+    }
+  }, []);
+
   const [category, setCategory] = useState("");
   const [showUploadBox, setShowUploadBox] = useState(false);
   const [showWriteBox, setShowWriteBox] = useState(false);

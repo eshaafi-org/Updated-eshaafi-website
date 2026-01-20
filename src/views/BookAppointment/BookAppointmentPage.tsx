@@ -148,6 +148,21 @@ export default function BookAppointmentPage({
     appoint_date: appointDate,
   };
 
+  // Track page view for doctor booking page
+  useEffect(() => {
+    const pageViewKey = 'fd_doctor_booking_page_viewed';
+    if (!sessionStorage.getItem(pageViewKey)) {
+      trackEvent('fd_doctor_booking_page_clk', {
+        section: 'booking_flow',
+        doctor_id: router.query.id,
+        doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
+        specialty: data?.doctorInfo?.specialization,
+        booking_type: reschedule ? 'reschedule' : 'new'
+      });
+      sessionStorage.setItem(pageViewKey, 'true');
+    }
+  }, [router.query.id, data?.doctorInfo, reschedule]);
+
   // booking appointment
   const bookAppointmentData = () => {
     if (paymentId === "wallet") {
@@ -189,6 +204,18 @@ export default function BookAppointmentPage({
   const handleBookAppoint = (flag: boolean) => {
     if (localStorage.getItem("user")) {
       if (flag) {
+        // Track second/final confirm booking click (after profile/payment selection)
+        trackEvent('fd_confirm_booking_final_click', {
+          section: 'booking_flow',
+          doctor_id: router.query.id,
+          doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
+          specialty: data?.doctorInfo?.specialization,
+          appointment_date: appointDate,
+          appointment_time: activeSlot.time,
+          payment_method: paymentId,
+          booking_type: reschedule ? 'reschedule' : 'new'
+        });
+
         if (patient.patientId === "") {
           toast("Kindly Select a profile", {
             position: "top-right",
@@ -294,6 +321,17 @@ export default function BookAppointmentPage({
             }
           });
       } else {
+        // Track first confirm booking click (after slot selection)
+        trackEvent('fd_confirm_booking_first_click', {
+          section: 'booking_flow',
+          doctor_id: router.query.id,
+          doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
+          specialty: data?.doctorInfo?.specialization,
+          appointment_date: appointDate,
+          appointment_time: activeSlot.time,
+          booking_type: reschedule ? 'reschedule' : 'new'
+        });
+
         setLoading(true);
         axios
           .post(BASE_URL + "/patients/doctors/checkAppointment", proifileData, {
@@ -529,6 +567,21 @@ export default function BookAppointmentPage({
       });
     }
   }, [success]);
+
+  // Track when payment/profile selection page is displayed
+  useEffect(() => {
+    if (paymentScreen) {
+      trackEvent('fd_payment_page_view', {
+        section: 'booking_flow',
+        doctor_id: router.query.id,
+        doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
+        specialty: data?.doctorInfo?.specialization,
+        appointment_date: appointDate,
+        appointment_time: activeSlot.time,
+        booking_type: reschedule ? 'reschedule' : 'new'
+      });
+    }
+  }, [paymentScreen]);
 
 
   return (

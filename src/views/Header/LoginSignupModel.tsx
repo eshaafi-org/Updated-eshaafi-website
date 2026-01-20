@@ -116,8 +116,6 @@ export const Model = ({ page = "login" }: { page: string }) => {
         headers: headers(),
       });
 
-      // console.log("Profiles API response:", response.data);
-
       const profilesData = response.data.response.data;
       const allProfiles = [profilesData.self, ...profilesData.profiles].filter(Boolean);
 
@@ -130,12 +128,8 @@ export const Model = ({ page = "login" }: { page: string }) => {
           profilePhone === `92${phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum}`;
       });
 
-      // console.log("Current phone number:", currentPhoneNumber);
-      // console.log("All profiles:", allProfiles);
-      // console.log("Filtered profiles for current phone:", filteredProfiles);
       return filteredProfiles;
     } catch (error) {
-      console.error("Error fetching profiles:", error);
       return [];
     }
   };  // get otp
@@ -179,7 +173,6 @@ export const Model = ({ page = "login" }: { page: string }) => {
           auth_type: page === 'login' ? 'login' : 'signup',
           error_message: err.response?.data?.response?.message || 'OTP send failed'
         });
-        console.error(err.response.data.response.message);
         toast(err.response.data.response.message);
       });
   };
@@ -210,31 +203,25 @@ export const Model = ({ page = "login" }: { page: string }) => {
         try {
           dispatch({ type: "loginModalSlice/setAuth", payload: res.data.response });
         } catch (err) {
-          console.warn('[Login] dispatch setAuth failed', err);
         }
-
-        // console.log("OTP verification response:", res.data.response);
 
         // Register device token with backend for call notifications (don't block UI)
         try {
           const userId = res.data.response.uuid || res.data.response.IdToken;
           const phoneNumber = `+92${processedPhoneNo}`;
-          console.log('[Login] Registering device token for user:', userId);
           await initializeDeviceToken(userId, phoneNumber);
         } catch (tokenError) {
-          console.error('[Login] Device token registration failed:', tokenError);
         }
 
         // Check for existing profiles
         const profiles = await fetchUserProfiles();
 
         if (profiles.length > 0) {
-          console.log("Profiles found:", profiles);
+          // console.log("Profiles found:", profiles);
           setExistingProfiles(profiles);
           setOtp(false);
           setProfileSelection(true);
         } else {
-          console.log("No profiles found - showing profile creation dialog");
           setOtp(false);
           setProfile(true);
         }
@@ -250,10 +237,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
           auth_type: page === 'login' ? 'login' : 'signup',
           error_message: err.response?.data?.response?.message || 'OTP verification failed'
         });
-        console.error("OTP verification error:", err);
       });
-
-    console.log("verifying otp with phone no:", "+92" + processedPhoneNo, "and code:", code);
   };
   // handle profile selection and login
   const handleProfileSelection = () => {
@@ -277,7 +261,6 @@ export const Model = ({ page = "login" }: { page: string }) => {
   // updating the profile
   const updateProfile = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(modelStates);
     setStates({ type: "PROFILE_LOADING" });
     
     // Track profile creation initiation
@@ -336,8 +319,6 @@ export const Model = ({ page = "login" }: { page: string }) => {
       inputRef.type = "date";
     }
   };
-
-  console.log("Rendering LoginSignupModel - profile state:", profile, "otp state:", otp, "profileSelection state:", profileSelection);
 
   return (
     <div className={style.modalCont}>
@@ -618,7 +599,6 @@ export const Model = ({ page = "login" }: { page: string }) => {
           </>
         ) : (
           <>
-            {console.log("RENDERING COMPLETE PROFILE DIALOG - profile state is true")}
             {existingProfiles.length > 0 && (
               <span className="d-flex align-items-center py-2 border-bottom px-4">
                 <Button onClick={() => {

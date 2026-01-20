@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import empty from "../../../public/images/empty.svg";
+import { trackEvent } from "@/lib/ga";
 // type check
 interface Prescription {
   instructions: string;
@@ -40,6 +41,16 @@ export default function Eprescription() {
   const { userAuth } = useSelector((state: any) => state.loginModalReducer);
   const dispatch = useDispatch();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!sessionStorage.getItem('eprescription_page_view_tracked')) {
+      trackEvent('eprescription_page_view_clk', {
+        section: 'page_load'
+      });
+      sessionStorage.setItem('eprescription_page_view_tracked', 'true');
+    }
+  }, []);
+
   // logout if token expire function
   const logout = () => {
     axios

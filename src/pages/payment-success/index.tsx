@@ -10,6 +10,7 @@ import { BASE_URL, headers } from "@/helper/CONST";
 import { ToastContainer, toast } from "react-toastify";
 import crypto from "crypto";
 import base64url from "base64url";  // Make sure to install this package
+import { trackEvent } from "@/lib/ga";
 
 export default function PaymentSuccess() {
     const router = useRouter();
@@ -124,6 +125,13 @@ export default function PaymentSuccess() {
 
     // On component mount, handle encryption and data submission
     useEffect(() => {
+        if (!sessionStorage.getItem('payment_success_page_view_tracked')) {
+            trackEvent('payment_success_page_view_clk', {
+                section: 'page_load'
+            });
+            sessionStorage.setItem('payment_success_page_view_tracked', 'true');
+        }
+
         if (router.query.basket_id) {
             handleEncryptData();
         }

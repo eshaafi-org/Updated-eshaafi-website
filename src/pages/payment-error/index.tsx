@@ -1,7 +1,17 @@
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { trackEvent } from "@/lib/ga";
 
 export default function PaymentError() {
+    useEffect(() => {
+        if (!sessionStorage.getItem('payment_error_page_view_tracked')) {
+            trackEvent('payment_error_page_view_clk', {
+                section: 'page_load'
+            });
+            sessionStorage.setItem('payment_error_page_view_tracked', 'true');
+        }
+    }, []);
+
     return (
         <div className='container'>
             <Head>
