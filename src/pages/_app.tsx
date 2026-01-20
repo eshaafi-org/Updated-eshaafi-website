@@ -257,6 +257,7 @@ export default function App({ Component, pageProps }: AppProps) {
             gtag('config', 'G-1BXFKZVVFJ');
             `}
           </Script>
+          <Script src="https://www.youtube.com/iframe_api" />
         </main>
       </Providers>
     </SnackbarProvider>

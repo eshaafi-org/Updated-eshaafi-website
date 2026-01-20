@@ -30,7 +30,7 @@ export default function Orders() {
   useEffect(() => {
     setLoading(true);
     trackEvent('orders_page_view_clk', {
-      section: 'orders'
+      section: 'page_load'
     });
     axios
       .post(

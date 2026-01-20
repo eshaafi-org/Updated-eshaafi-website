@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import FindDoctorsView from '@/views/FindDoctors'
+import { trackEvent } from '@/lib/ga'
 
 const FindDoctorsPage: React.FC = () => {
+  useEffect(() => {
+    trackEvent('find_doctors_page_view', {
+      section: 'page_load'
+    })
+  }, [])
+
   return (
     <>
       <Head>
