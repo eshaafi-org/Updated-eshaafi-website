@@ -25,17 +25,17 @@ const messaging = firebase.messaging();
 
 // Service Worker Version - increment this to force update
 const SW_VERSION = 'v2.0.7';
-console.log('[ServiceWorker] Version:', SW_VERSION);
+// console.log('[ServiceWorker] Version:', SW_VERSION);
 
 // Install event
 self.addEventListener('install', (event) => {
-  console.log('[ServiceWorker] Installing version', SW_VERSION);
+  // console.log('[ServiceWorker] Installing version', SW_VERSION);
   self.skipWaiting();
 });
 
 // Activate event
 self.addEventListener('activate', (event) => {
-  console.log('[ServiceWorker] Activating version', SW_VERSION);
+  // console.log('[ServiceWorker] Activating version', SW_VERSION);
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -60,7 +60,7 @@ messaging.onBackgroundMessage((payload) => {
   const notificationData = payload.data || {};
   const notification = payload.notification || {};
 
-  console.log('[ServiceWorker] Notification data:', notificationData);
+  //console.log('[ServiceWorker] Notification data:', notificationData);
 
   // Validate that we have an appointmentId before showing notification
   let appointmentIdForValidation = notificationData.appointmentId;
@@ -74,15 +74,15 @@ messaging.onBackgroundMessage((payload) => {
     }
   }
   if (!appointmentIdForValidation) {
-    console.error('[ServiceWorker] Cannot show notification - no appointmentId in data:', notificationData);
+    //console.error('[ServiceWorker] Cannot show notification - no appointmentId in data:', notificationData);
     return;
   }
 
   // Send message to all clients immediately (for foreground app)
   self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
-    console.log('[ServiceWorker] Found', clients.length, 'open windows');
+    //console.log('[ServiceWorker] Found', clients.length, 'open windows');
     clients.forEach(client => {
-      console.log('[ServiceWorker] Posting message to client:', client.url);
+      //console.log('[ServiceWorker] Posting message to client:', client.url);
       client.postMessage({
         type: 'incoming_call',
         appointmentId: appointmentIdForValidation,
@@ -116,8 +116,8 @@ messaging.onBackgroundMessage((payload) => {
     ]
   };
 
-  console.log('[ServiceWorker] Showing notification for appointment:', appointmentIdForValidation);
-  console.log('[ServiceWorker] Target URL:', notificationOptions.data.targetUrl);
+  // console.log('[ServiceWorker] Showing notification for appointment:', appointmentIdForValidation);
+  // console.log('[ServiceWorker] Target URL:', notificationOptions.data.targetUrl);
   return self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
@@ -128,7 +128,7 @@ function getAppointmentUrl(notificationData) {
                         notificationData.appointmentId;
 
   if (!appointmentId) {
-    console.error('[ServiceWorker] No appointmentId found in notification data:', notificationData);
+    //console.error('[ServiceWorker] No appointmentId found in notification data:', notificationData);
     return null;
   }
 
@@ -136,7 +136,7 @@ function getAppointmentUrl(notificationData) {
   const path = (notificationData.targetUrl && notificationData.targetUrl !== '/call-ui') ? notificationData.targetUrl : `/appointments/${appointmentId}?incoming=1&autoJoin=1`;
   const absoluteUrl = new URL(path, self.location.origin).href;
 
-  console.log('[ServiceWorker] Constructed URL:', absoluteUrl);
+  //console.log('[ServiceWorker] Constructed URL:', absoluteUrl);
   return absoluteUrl;
 }
 
@@ -153,24 +153,21 @@ function isClientOnAppointmentPage(client, appointmentId) {
     });
     return pathMatch;
   } catch (e) {
-    console.error('[ServiceWorker] Error checking client URL:', e);
+    //console.error('[ServiceWorker] Error checking client URL:', e);
     return false;
   }
 }
 
 // Notification click event - user clicks on notification
 self.addEventListener('notificationclick', (event) => {
-  console.log('[ServiceWorker] Notification clicked');
-  console.log('[ServiceWorker] Event action:', event.action);
-  console.log('[ServiceWorker] Notification data:', event.notification.data);
-
+ 
   const notificationData = event.notification.data || {};
   const appointmentId = notificationData.appointmentId;
 
-  console.log('[ServiceWorker] Extracted appointmentId:', appointmentId);
+  //console.log('[ServiceWorker] Extracted appointmentId:', appointmentId);
 
   if (!appointmentId) {
-    console.error('[ServiceWorker] No appointmentId - closing notification');
+   // console.error('[ServiceWorker] No appointmentId - closing notification');
     event.notification.close();
     return;
   }
@@ -179,7 +176,7 @@ self.addEventListener('notificationclick', (event) => {
   const targetUrl = getAppointmentUrl(notificationData);
 
   if (!targetUrl) {
-    console.error('[ServiceWorker] Could not construct target URL');
+    //console.error('[ServiceWorker] Could not construct target URL');
     event.notification.close();
     return;
   }
@@ -201,14 +198,14 @@ self.addEventListener('notificationclick', (event) => {
   const encodedData = encodeURIComponent(JSON.stringify(callData));
   const urlWithData = `${targetUrl}#calldata=${encodedData}`;
 
-  console.log('[ServiceWorker] URL with callData:', urlWithData);
+  //console.log('[ServiceWorker] URL with callData:', urlWithData);
 
   // Close the notification
   event.notification.close();
 
   // Helper: focus existing window or open new one
   async function focusOrOpenWindow(url, messageType) {
-    console.log('[ServiceWorker] focusOrOpenWindow called with:', { url, messageType });
+    //console.log('[ServiceWorker] focusOrOpenWindow called with:', { url, messageType });
 
     try {
       const clientList = await clients.matchAll({
@@ -216,14 +213,14 @@ self.addEventListener('notificationclick', (event) => {
         includeUncontrolled: true
       });
 
-      console.log('[ServiceWorker] Found', clientList.length, 'client windows');
+      //console.log('[ServiceWorker] Found', clientList.length, 'client windows');
 
       // First, try to find an existing window with the appointment page
       for (const client of clientList) {
-        console.log('[ServiceWorker] Checking client:', client.url);
+        //console.log('[ServiceWorker] Checking client:', client.url);
 
         if (isClientOnAppointmentPage(client, appointmentId)) {
-          console.log('[ServiceWorker] Found matching client, focusing...');
+         //console.log('[ServiceWorker] Found matching client, focusing...');
 
           if ('focus' in client) {
             const focusedClient = await client.focus();
@@ -242,7 +239,7 @@ self.addEventListener('notificationclick', (event) => {
       }
 
       // If no matching window found, open a new one
-      console.log('[ServiceWorker] No matching window found, opening new window...');
+      //console.log('[ServiceWorker] No matching window found, opening new window...');
 
       if (clients.openWindow) {
         const newClient = await clients.openWindow(url);
@@ -281,20 +278,20 @@ self.addEventListener('notificationclick', (event) => {
         return newClient;
       }
     } catch (error) {
-      console.error('[ServiceWorker] Error in focusOrOpenWindow:', error);
+      //console.error('[ServiceWorker] Error in focusOrOpenWindow:', error);
     }
   }
 
   // Handle different actions
   if (event.action === 'accept') {
-    console.log('[ServiceWorker] Accept action - opening call page');
+    //console.log('[ServiceWorker] Accept action - opening call page');
     event.waitUntil(focusOrOpenWindow(urlWithData, 'accept_call'));
   }
   else if (event.action === 'reject') {
-    console.log('[ServiceWorker] Reject action - sending reject message');
+    //console.log('[ServiceWorker] Reject action - sending reject message');
     event.waitUntil(
       clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
-        console.log('[ServiceWorker] Sending reject to', clientList.length, 'clients');
+        //console.log('[ServiceWorker] Sending reject to', clientList.length, 'clients');
         clientList.forEach(client => {
           client.postMessage({ type: 'reject_call', ...notificationData });
         });
@@ -303,18 +300,18 @@ self.addEventListener('notificationclick', (event) => {
   }
   else {
     // Default click: open/focus the appointment page
-    console.log('[ServiceWorker] Default click - opening call page');
+    //console.log('[ServiceWorker] Default click - opening call page');
     event.waitUntil(focusOrOpenWindow(urlWithData, 'incoming_call'));
   }
 });
 
 // Message event - handle messages from clients
 self.addEventListener('message', (event) => {
-  console.log('[ServiceWorker] Message received from client:', event.data);
+  //console.log('[ServiceWorker] Message received from client:', event.data);
 
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
 
-console.log('[ServiceWorker] Loaded successfully');
+// console.log('[ServiceWorker] Loaded successfully');

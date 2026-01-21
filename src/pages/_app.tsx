@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
           const userId = user.uuid || user.IdToken;
           const phoneNumber = user.phone_no || user.phoneNumber || user.phone;
           if (userId) {
-            console.log('[App] User logged in, registering device token');
+            // console.log('[App] User logged in, registering device token');
             await initializeDeviceToken(userId, phoneNumber);
           }
         }

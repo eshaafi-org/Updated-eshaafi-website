@@ -1,3 +1,4 @@
+
 import styles from "@/components/Profiles/Profile.module.scss";
 import { useState, useEffect, memo, useReducer } from "react";
 import Head from "next/head";

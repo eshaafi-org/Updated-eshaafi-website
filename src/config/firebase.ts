@@ -48,7 +48,7 @@ export const requestNotificationPermission = async (): Promise<string | null> =>
     const permission = await Notification.requestPermission();
     
     if (permission === 'granted') {
-      console.log('Notification permission granted.');
+      // console.log('Notification permission granted.');
       
       // Register our custom service worker for FCM
       const swRegistration = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
@@ -65,14 +65,14 @@ export const requestNotificationPermission = async (): Promise<string | null> =>
       });
       
       if (currentToken) {
-        console.log('FCM Token:', currentToken);
+        // console.log('FCM Token:', currentToken);
         return currentToken;
       } else {
-        console.log('No registration token available.');
+        // console.log('No registration token available.');
         return null;
       }
     } else {
-      console.log('Notification permission denied.');
+      // console.log('Notification permission denied.');
       return null;
     }
   } catch (error) {
