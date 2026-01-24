@@ -4,6 +4,9 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        {/* Preconnect to important origins */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link rel="preconnect" href="https://app.eshaafi.com" />
         {/* Load Inter font (used across the app) and keep Roboto for backwards compatibility */}
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
@@ -14,7 +17,6 @@ export default function Document() {
           rel="stylesheet"
         />
         {/* Google tag (gtag.js) - Load once for both GA4 and Google Ads */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9SYMT7PC3"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -26,6 +28,7 @@ export default function Document() {
             `,
           }}
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9SYMT7PC3"></script>
     
       </Head>
       <body>

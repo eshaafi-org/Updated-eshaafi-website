@@ -17,6 +17,28 @@ const nextConfig = {
     // Ignore ESLint errors during build to prevent Amplify failure
     ignoreDuringBuilds: true,
   },
+  async headers() {
+    return [
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

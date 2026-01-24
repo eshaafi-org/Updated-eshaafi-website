@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "../../styles/homepage.module.scss";
 import { trackEvent } from '@/lib/ga';
+import Image from "next/image";
 
 
 const HeroSection: React.FC = () => {
@@ -67,7 +68,7 @@ const HeroSection: React.FC = () => {
 
         {/* Simple Image Instead of Phone Mockup */}
         <div className={styles.hero__image}>
-          <img
+          <Image
             src="/images/heroimage.webp"
             alt="Doctor"
             className={styles.heroImage}
