@@ -68,7 +68,7 @@ const HeroSection: React.FC = () => {
 
         {/* Simple Image Instead of Phone Mockup */}
         <div className={styles.hero__image}>
-          <Image
+          <img
             src="/images/heroimage.webp"
             alt="Doctor"
             className={styles.heroImage}
