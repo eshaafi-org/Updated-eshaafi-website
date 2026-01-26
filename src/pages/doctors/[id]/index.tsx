@@ -29,16 +29,16 @@ export default function Profile({ doctor, doctors }: any) {
   const router = useRouter();
 
   // Helper function to sanitize doctor name for event
-  const getSanitizedDoctorName = (firstName: string, lastName: string): string => {
-    const fullName = `${firstName} ${lastName}`;
+  const getSanitizedDoctorName = (title: string, firstName: string, lastName: string): string => {
+    const fullName = `${title}. ${firstName} ${lastName}`;
     return fullName
       .toLowerCase()
       .replace(/\s+/g, '_') // Replace spaces with underscores
       .replace(/[^a-z0-9_]/g, ''); // Remove special characters
   };
 
-  const sanitizedDoctorName = doctor?.personal_info?.firstName && doctor?.personal_info?.lastName 
-    ? getSanitizedDoctorName(doctor.personal_info.firstName, doctor.personal_info.lastName)
+  const sanitizedDoctorName = doctor?.personal_info?.title && doctor?.personal_info?.firstName && doctor?.personal_info?.lastName 
+    ? getSanitizedDoctorName(doctor.personal_info.title, doctor.personal_info.firstName, doctor.personal_info.lastName)
     : 'doctor';
 
   const loadmoreReviews = () => {
@@ -74,7 +74,7 @@ export default function Profile({ doctor, doctors }: any) {
         trackEvent(`fd_${sanitizedDoctorName}_profile_view_clk`, {
           section: 'doctor_profile',
           doctor_id: doctor?.Id,
-          doctor_name: `${doctor?.personal_info?.firstName} ${doctor?.personal_info?.lastName}`,
+          doctor_name: `${doctor?.personal_info?.title}. ${doctor?.personal_info?.firstName} ${doctor?.personal_info?.lastName}`,
           specialty: doctor?.specialization,
           rating: doctor?.rating?.averageRating
         });
@@ -96,7 +96,7 @@ export default function Profile({ doctor, doctors }: any) {
     <>
       <Head>
         <title>
-          {doctor?.personal_info?.firstName} &nbsp;
+          {doctor?.personal_info?.title}. {doctor?.personal_info?.firstName} &nbsp;
           {doctor?.personal_info?.lastName}
         </title>
         <meta name="description" content="Meet one on one with your doctor" />
@@ -158,12 +158,12 @@ export default function Profile({ doctor, doctors }: any) {
                           {(Number(doctor?.rating?.averageRating) || 0).toFixed(1)}
                         </div>
                         <div className={style.expPill}>
-                          {doctor?.yearsOfExperience || "0"}+ year Exp
+                          {doctor?.yearsOfExperience || "0"}+ {doctor?.yearsOfExperience == 1 ? 'year' : 'years'} Exp
                         </div>
                       </div>
 
                       <h5 className={style.docTitle}>
-                        {doctor?.personal_info?.firstName} &nbsp;
+                        {doctor?.personal_info?.title}. {doctor?.personal_info?.firstName} &nbsp;
                         {doctor?.personal_info?.lastName}
                       </h5>
                       <p className={style.docSpecialization}>{doctor?.specialization}</p>
@@ -174,7 +174,7 @@ export default function Profile({ doctor, doctors }: any) {
                         onClick={() => trackEvent(`fd_${sanitizedDoctorName}_book_start_clk`, {
                           section: 'doctor_profile',
                           doctor_id: doctor?.Id,
-                          doctor_name: `${doctor?.personal_info?.firstName} ${doctor?.personal_info?.lastName}`,
+                          doctor_name: `${doctor?.personal_info?.title}. ${doctor?.personal_info?.firstName} ${doctor?.personal_info?.lastName}`,
                           specialty: doctor?.specialization,
                           consultation_fee: doctor?.videoCallCharges
                         })}
@@ -186,7 +186,7 @@ export default function Profile({ doctor, doctors }: any) {
                     <div className="d-flex justify-content-around my-3">
                       <span className="d-flex flex-column align-items-center row-gap-0-5">
                         <h5 className={style.profileExperienceHeading}>
-                          {doctor?.yearsOfExperience} years
+                          {doctor?.yearsOfExperience} {doctor?.yearsOfExperience == 1 ? 'year' : 'years'}
                         </h5>
                         <p className={style.profileExperienceText}>Experience</p>
                       </span>
