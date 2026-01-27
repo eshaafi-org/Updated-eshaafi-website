@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import styles from "../../styles/homepage.module.scss";
 import { trackEvent } from '@/lib/ga';
+import Image from "next/image";
 
 interface ServiceCard {
   id: number;
@@ -88,10 +89,10 @@ const ServicesGridSection: React.FC = () => {
       //   explore: { event: 'click', params: { section: 'wellness', action: 'explore', label: 'Explore', value: 3 } },
       //   book: { event: 'generate_lead', params: { section: 'wellness', action: 'book', label: 'Book Now', content_type: 'wellness' } }
       // },
-      // 'THUs': {
-      //   explore: { event: 'click', params: { section: 'thus', action: 'explore', label: 'Explore', value: 2 } },
-      //   book: { event: 'generate_lead', params: { section: 'thus', action: 'book', label: 'Book Now', content_type: 'telehealth' } }
-      // }
+      'THUs': {
+        explore: { event: 'homepage_thu_book_clk', params: { section: 'services'} },
+        book: { event: 'homepage_thu_explore_clk', params: { section: 'services' } }
+      }
     };
     return eventMap[service]?.[actionType] || { event: 'homepage_services_clk', params: { section: 'services' } };
   };
@@ -151,7 +152,15 @@ const ServicesGridSection: React.FC = () => {
               transition={{ duration: 0.4, delay: index * 0.07 }}
 
             >
-              <img src={service.imageSrc} alt={service.title} className={styles["service-img"]} />
+              {/* <img src={service.imageSrc} alt={service.title} className={styles["service-img"]} /> */}
+               <Image
+    src={service.imageSrc}
+    alt={service.title}
+    width={400}
+    height={300}
+    className={styles["service-img"]}
+    sizes="(max-width: 768px) 80vw, 400px"
+  />
             </motion.div>
 
           </motion.div>

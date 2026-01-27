@@ -54,9 +54,10 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.14"
   },
-  "browserslist": [
-    "last 2 versions",
-    "> 1%",
-    "not dead"
+ "browserslist": [
+    "defaults",
+    "not ie 11", 
+    "> 0.5%",     
+    "last 2 versions"
   ]
 }

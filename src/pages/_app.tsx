@@ -236,10 +236,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
           <Component {...pageProps} />
            
-          <Script
+          {/* <Script
           src="https://kit.fontawesome.com/a076d05399.js"
           crossOrigin="anonymous"
-          />
+          /> */}
           {router.pathname === "/blog/second/[id]" ||
             router.pathname === "/blog/mobile/[id]" ||
             router.pathname === "/privacy-policy/mobile" ||
