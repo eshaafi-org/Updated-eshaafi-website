@@ -163,7 +163,7 @@ export default function Finalfooter() {
       <div className={styles.footer__bottom}>
         <div className={styles.footer__bottomContainer}>
           <p className={styles.footer__copyright}>
-            © 2025 eShaafi. All rights reserved.
+            © 2026 eShaafi. All rights reserved.
           </p>
           <div className={styles.footer__apps}>
             <a 

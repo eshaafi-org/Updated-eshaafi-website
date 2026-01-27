@@ -1033,7 +1033,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
       <div className={styles.navbar__container}>
         {/* Logo */}
         <Link href="/" className={styles.navbar__logo}>
-          <Image src="/images/eShaafilogo.png" alt="eShaafi Logo" width={40} height={40} />
+          <Image src="/images/eShaafilogo.webp" alt="eShaafi Logo" width={40} height={40} />
           <span className={styles.logoText}>eShaafi</span>
         </Link>
 
@@ -1057,6 +1057,9 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                       switch (item.title) {
                         case 'Doctors':
                           trackEvent('nav_doctors_clk', { section: 'nav' });
+                          break;
+                        case 'Medicines':
+                          trackEvent('nav_medicine_clk', { section: 'nav' });
                           break;
                         case 'Mental Health':
                           trackEvent('nav_mental_health_clk', { section: 'nav' });
@@ -1205,7 +1208,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                   </Button> */}
                   <Button
                     onClick={() => {
-                      trackEvent('nav_login_clk', { section: 'nav' });
+                      trackEvent('nav_login_signup_clk', { section: 'nav' });
                       handleModal();
                     }}
                   >
@@ -1398,6 +1401,9 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                       case 'Doctors':
                         trackEvent('nav_doctors_clk', { section: 'nav' });
                         break;
+                      case 'Medicines':
+                        trackEvent('nav_medicine_clk', { section: 'nav' });
+                        break;
                       case 'Mental Health':
                         trackEvent('nav_mental_health_clk', { section: 'nav' });
                         break;
@@ -1418,6 +1424,9 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                       //   break;
                       case 'Blogs':
                         trackEvent('nav_blog_clk', { section: 'nav' });
+                        break;
+                      case 'Medicines':
+                        trackEvent('nav_medicine_clk', { section: 'nav' });
                         break;
                       default:
                         break;

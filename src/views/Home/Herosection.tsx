@@ -1,9 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import styles from "../../styles/homepage.module.scss";
-import { trackEvent } from '@/lib/ga';
+import { trackEvent } from "@/lib/ga";
 import Image from "next/image";
-
 
 const HeroSection: React.FC = () => {
   return (
@@ -16,62 +15,51 @@ const HeroSection: React.FC = () => {
             From GPs to Specialists. On your phone
           </p>
           <div className={styles.hero__buttons}>
-            {/* <button className={`${styles.heroBtn} ${styles["heroBtn--primary"]}`}>Explore</button>
-               <button className={`${styles.heroBtn} ${styles["heroBtn--secondary"]}`}>Book now</button> */}
-            <Link
-              href="/find-doctors"
-              rel="noopener noreferrer"
-            >
-              {/* <button
+            <Link href="/find-doctors" rel="noopener noreferrer">
+              <button
                 className={`${styles.heroBtn} ${styles["heroBtn--primary"]}`}
+                onClick={() => {
+                  trackEvent("homepage_hero_explore_clk", {
+                    section: "hero",
+                    action: "explore",
+                    label: "Explore",
+                  });
+                }}
               >
                 Explore
-              </button> */}
-              <button
-      className={`${styles.heroBtn} ${styles["heroBtn--primary"]}`}
-      onClick={() => {
-        trackEvent('homepage_hero_explore_clk', {
-          section: 'hero',
-          action: 'explore',
-          label: 'Explore',
-        });
-      }}
-    >
-      Explore
-    </button>
+              </button>
             </Link>
 
-            <Link
-              href="/find-doctors"
-              rel="noopener noreferrer"
-            >
-              {/* <button
+            <Link href="/find-doctors" rel="noopener noreferrer">
+              <button
                 className={`${styles.heroBtn} ${styles["heroBtn--secondary"]}`}
+                onClick={() => {
+                  trackEvent("homepage_hero_book_now_clk", {
+                    section: "hero",
+                    action: "book_now",
+                    label: "Book Now",
+                  });
+                }}
               >
                 Book now
-              </button> */}
-                <button
-      className={`${styles.heroBtn} ${styles["heroBtn--secondary"]}`}
-      onClick={() => {
-        trackEvent('homepage_hero_book_now_clk', {
-          section: 'hero',
-          action: 'book_now',
-          label: 'Book Now',
-        });
-      }}
-    >
-      Book now
-    </button>
+              </button>
             </Link>
           </div>
         </div>
 
-        {/* Simple Image Instead of Phone Mockup */}
+        {/* Image */}
         <div className={styles.hero__image}>
-          <img
+          <Image
             src="/images/heroimage.webp"
             alt="Doctor"
+            width={420}
+            height={520}
+            priority
             className={styles.heroImage}
+            sizes="(max-width: 768px) 300px,
+           (max-width: 992px) 360px,
+           (max-width: 1200px) 420px,
+           420px"
           />
         </div>
       </div>

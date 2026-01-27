@@ -118,24 +118,23 @@
     }
   }
 
-  &__image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // padding-top: 40px;
-    text-align: center; /* ensures image centered */
-  }
+  .hero__image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 /* Hero Image */
 .heroImage {
   width: 100%;
   max-width: 340px;
-  display: flex;
+  height: auto;
   padding-top: 40px;
   border-radius: 20px;
   object-fit: cover;
+  display: block; // ✅ important
 
   @media (max-width: 1200px) {
     max-width: 420px;
@@ -147,6 +146,37 @@
     max-width: 300px;
   }
 }
+}
+//   &__image {
+//     flex: 1;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     // padding-top: 40px;
+//     text-align: center; /* ensures image centered */
+//   }
+// }
+
+// /* Hero Image */
+// .heroImage {
+//   width: 100%;
+//   max-width: 340px;
+//   display: flex;
+//   padding-top: 40px;
+//   border-radius: 20px;
+//   object-fit: cover;
+
+//   @media (max-width: 1200px) {
+//     max-width: 420px;
+//   }
+//   @media (max-width: 992px) {
+//     max-width: 360px;
+//   }
+//   @media (max-width: 768px) {
+//     max-width: 300px;
+//   }
+// }
+
 
 /* Hero Button Styles */
 .heroBtn{
@@ -188,60 +218,69 @@
 }
 /* -------------------- HERO SECTION ANIMATIONS -------------------- */
 
-.hero {
-  opacity: 0;
-  transform: translateY(30px);
-  animation: heroFadeUp 0.9s ease-out forwards;
-}
+// .hero {
+//   transform: translateY(30px);
+//   animation: heroFadeUp 0.9s ease-out forwards;
+// }
 
-@keyframes heroFadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+// @keyframes heroFadeUp {
+//   0% {
+//     opacity: 0;
+//     transform: translateY(30px);
+//   }
+//   100% {
+//     opacity: 1;
+//     transform: translateY(0);
+//   }
+// }
 
-/* Text fade + slide */
-.hero__content {
-  opacity: 0;
-  transform: translateX(-25px);
-  animation: heroTextSlide 1s ease-out forwards;
-  animation-delay: 0.2s;
-}
+// /* Text fade + slide */
+// .hero__content {
+//   transform: translateX(-25px);
+//   animation: heroTextSlide 1s ease-out forwards;
+//   animation-delay: 0.2s;
+// }
 
-@keyframes heroTextSlide {
-  0% {
-    opacity: 0;
-    transform: translateX(-25px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+// @keyframes heroTextSlide {
+//   0% {
+//     transform: translateX(-25px);
+//   }
+//   100% {
+//     opacity: 1;
+//     transform: translateX(0);
+//   }
+// }
 
-/* Image fade + slide */
-.hero__image {
-  opacity: 0;
+// /* Image fade + slide */
+// .hero__image {
+//   opacity: 0;
+//   transform: translateX(25px);
+//   animation: heroImgSlide 1s ease-out forwards;
+//   animation-delay: 0.4s;
+// }
+
+// @keyframes heroImgSlide {
+//   0% {
+//     opacity: 0;
+//     transform: translateX(25px);
+//   }
+//   100% {
+//     opacity: 1;
+//     transform: translateX(0);
+//   }
+// }
+
+
+.heroImage {
   transform: translateX(25px);
-  animation: heroImgSlide 1s ease-out forwards;
-  animation-delay: 0.4s;
+  animation: heroImageSlide 0.8s ease-out forwards;
 }
 
-@keyframes heroImgSlide {
-  0% {
-    opacity: 0;
-    transform: translateX(25px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
+@keyframes heroImageSlide {
+  from { transform: translateX(25px); }
+  to   { transform: translateX(0); }
 }
+
 
 /* Button hover smooth */
 .heroBtn {
@@ -250,7 +289,7 @@
 
 
 
-/* Psychologists Section */
+/////////////* Psychologists Section */////////////////////
 .psychologists {
   background: #f5f5f5;
   padding: 30px 0;
@@ -311,21 +350,22 @@
   }
 
   &__image {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
-    img.psychologistsImage {
-      width: 100%;
-      max-width: 600px;
-      border-radius: 20px;
+.psychologistsImage {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border-radius: 20px;
 
+  @media (max-width: 992px) { max-width: 400px; }
+  @media (max-width: 768px) { max-width: 300px; }
+  @media (max-width: 480px) { max-width: 250px; }
+}
 
-      @media (max-width: 992px) { max-width: 400px; }
-      @media (max-width: 768px) { max-width: 300px; }
-      @media (max-width: 480px) { max-width: 250px; }
-    }
-  }
   /* PSYCHOLOGISTS BUTTONS */
 .psyBtn {
   padding: 10px 24px;

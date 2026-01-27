@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import styles from "../../styles/homepage.module.scss";
-import { trackEvent } from '@/lib/ga';
+import { trackEvent } from "@/lib/ga";
+import Image from "next/image";
 
 const PsychologistsSection: React.FC = () => {
   return (
     <section className={styles.psychologists}>
       <div className={styles.psychologists__container}>
-
         {/* Animated Text Content */}
         <motion.div
           className={styles.psychologists__content}
@@ -17,20 +17,21 @@ const PsychologistsSection: React.FC = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h2 className={styles.psychologists__title}>Psychologists & Psychiatrists</h2>
+          <h2 className={styles.psychologists__title}>
+            Psychologists & Psychiatrists
+          </h2>
           <p className={styles.psychologists__subtitle}>
             Mental health support. Talk freely. Feel better.
           </p>
 
           <div className={styles.psychologists__buttons}>
-            
             <Link href="/mind-wellness#therapists-section">
               {/* <button className={`${styles.psyBtn} ${styles["psyBtn--primary"]}`}> */}
-                 <button 
+              <button
                 className={`${styles.psyBtn} ${styles["psyBtn--primary"]}`}
                 onClick={() => {
-                  trackEvent('homepage_mental_health_explore_clk', {
-                    section: 'mental_health'
+                  trackEvent("homepage_mental_health_explore_clk", {
+                    section: "mental_health",
                   });
                 }}
               >
@@ -39,18 +40,17 @@ const PsychologistsSection: React.FC = () => {
             </Link>
 
             <Link href="/mind-wellness#therapists-section">
-              <button 
+              <button
                 className={`${styles.psyBtn} ${styles["psyBtn--secondary"]}`}
                 onClick={() => {
-                  trackEvent('homepage_mental_health_book_clk', {
-                    section: 'mental_health'
+                  trackEvent("homepage_mental_health_book_clk", {
+                    section: "mental_health",
                   });
                 }}
               >
                 Book now
               </button>
             </Link>
-
           </div>
         </motion.div>
 
@@ -62,13 +62,15 @@ const PsychologistsSection: React.FC = () => {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.9, ease: "easeOut" }}
         >
-          <img 
+          <Image
             src="/images/Psychologist-laptop.webp"
             alt="Psychologists"
+            width={500}
+            height={350}
+            priority
             className={styles.psychologistsImage}
           />
         </motion.div>
-
       </div>
     </section>
   );
