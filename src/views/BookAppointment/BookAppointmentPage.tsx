@@ -128,6 +128,7 @@ export default function BookAppointmentPage({
   const [activeSlot, setSlot] = useState({
     time: "",
     id: "",
+    availability_status: "",
   });
   const [patient, setPatient] = useState({
     patientId: "",
