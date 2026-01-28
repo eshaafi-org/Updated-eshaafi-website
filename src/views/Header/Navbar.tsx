@@ -1458,7 +1458,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
             </li>
           ))}
 
-          {/* Mobile Authentication */}
+         
           {!userAuth?.uuid ? (
             <li className="p-2">
               <Button variant="outlined" onClick={handleModal} className="w-100">
@@ -1479,7 +1479,13 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                 </Link>
               </li>
               <li className="p-2">
-                <Button onClick={logout} className="w-100 text-start">
+                <Button
+                  onClick={() => {
+                    trackEvent('nav_logout_clk', { section: 'nav', source: 'mobile' });
+                    logout();
+                  }}
+                  className="w-100 text-start"
+                >
                   <FiLogOut style={{ fontSize: 20, marginRight: 8 }} />
                   Logout
                 </Button>
