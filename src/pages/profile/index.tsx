@@ -261,6 +261,10 @@ export default function Profile() {
         })
         .then((res) => {
           setEditLoading(false);
+          trackEvent('profile_edit_success_clk', {
+            section: 'profile_actions',
+            profile_type: relation
+          });
           toast("Profile updated successfully!", {
             type: "success",
           });
@@ -273,6 +277,11 @@ export default function Profile() {
         })
         .catch((error: any) => {
           setEditLoading(false);
+          trackEvent('profile_edit_error_clk', {
+            section: 'profile_actions',
+            error_message: error?.response?.data?.response?.message,
+            error_code: error?.response?.status
+          });
           if (error?.response?.status === 401) {
           }
           toast(error?.response?.data?.response?.message, {
@@ -296,6 +305,10 @@ export default function Profile() {
         })
         .then((res) => {
           setEditLoading(false);
+          trackEvent('profile_edit_success_clk', {
+            section: 'profile_actions',
+            profile_type: 'Myself'
+          });
           toast("Profile updated successfully!", {
             type: "success",
           });
@@ -308,6 +321,11 @@ export default function Profile() {
         })
         .catch((error: any) => {
           setEditLoading(false);
+          trackEvent('profile_edit_error_clk', {
+            section: 'profile_actions',
+            error_message: error?.response?.data?.response?.message,
+            error_code: error?.response?.status
+          });
           if (error?.response?.status === 401) {
           }
           toast(error.response.data.response.message, {

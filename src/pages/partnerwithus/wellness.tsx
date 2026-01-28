@@ -159,7 +159,7 @@ const WellnessAreas: React.FC = () => {
       className={styles.meetingButton}
       onClick={() => {
         setShowModal(true);
-        trackEvent('generate_lead', {
+        trackEvent('partnerwithus_wellness_schedule_clk', {
           section: 'mid_page',
           action: 'schedule_meeting',
           content_type: 'corporate'
