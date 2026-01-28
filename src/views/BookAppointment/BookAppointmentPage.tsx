@@ -152,7 +152,7 @@ export default function BookAppointmentPage({
   useEffect(() => {
     const pageViewKey = 'fd_doctor_booking_page_viewed';
     if (!sessionStorage.getItem(pageViewKey)) {
-      trackEvent('fd_doctor_booking_page_clk', {
+      trackEvent('fd_doctor_book_appt_clk', {
         section: 'booking_flow',
         doctor_id: router.query.id,
         doctor_name: data?.doctorInfo?.personal_info?.firstName + ' ' + data?.doctorInfo?.personal_info?.lastName,
@@ -162,6 +162,21 @@ export default function BookAppointmentPage({
       sessionStorage.setItem(pageViewKey, 'true');
     }
   }, [router.query.id, data?.doctorInfo, reschedule]);
+
+  // Track when a slot is selected on the doctor card
+  useEffect(() => {
+    if (activeSlot?.id) {
+      trackEvent("find_doctors_time_select_clk", {
+        section: "doctor_card",
+        doctor_name:
+          data?.doctorInfo?.personal_info?.firstName +
+          " " +
+          data?.doctorInfo?.personal_info?.lastName,
+        specialty: data?.doctorInfo?.specialization,
+        availability_status: activeSlot.availability_status || "available",
+      });
+    }
+  }, [activeSlot?.id]);
 
   // booking appointment
   const bookAppointmentData = () => {

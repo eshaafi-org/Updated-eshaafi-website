@@ -656,7 +656,7 @@
 
 
 'use client';
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './Navbar.module.scss';
 import Image from "next/image";
 import Link from 'next/link';
@@ -867,11 +867,8 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
   const [showCart, setShowCart] = useState<boolean>(false);
   const [doctorsData, setDoctorsData] = useState<any[]>(doctors);
 
-  const searchDebounceRef = useRef<NodeJS.Timeout | null>(null);
-  const hasFetchedDoctors = useRef(false);
-
   // Get searchable content (includes doctors if passed)
-  const searchableContent = useMemo(() => getSearchableContent(doctorsData), [doctorsData]);
+  const searchableContent = getSearchableContent(doctorsData);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -908,12 +905,14 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
 
   // Prevent repeated fetch: only run on mount
   useEffect(() => {
+    let didFetch = false;
     if (doctors && doctors.length > 0) {
       setDoctorsData(doctors);
       return;
     }
 
-    if (hasFetchedDoctors.current) return;
+    if (didFetch) return;
+    didFetch = true;
 
     const fetchDoctors = async () => {
       try {
@@ -921,8 +920,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
           type: "categroy",
         });
         if (response.data?.response?.Items) {
-          // Limit to first 50 doctors for performance
-          setDoctorsData(response.data.response.Items.slice(0, 50));
+          setDoctorsData(response.data.response.Items);
         }
       } catch (error) {
         console.error('Failed to fetch doctors for search:', error);
@@ -930,43 +928,36 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
     };
 
     fetchDoctors();
-    hasFetchedDoctors.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Enhanced search that includes content like doctors, specialties, labs
-  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value.toLowerCase().trim();
     setSearchQuery(query);
 
-    if (searchDebounceRef.current) {
-      clearTimeout(searchDebounceRef.current);
+    if (!query) {
+      setSearchResults([]);
+    } else {
+      // Filter searchable content with keyword matching
+      const filtered = searchableContent.filter((item: any) => {
+        const nameMatch = item.name.toLowerCase().includes(query);
+        const categoryMatch = item.category?.toLowerCase().includes(query);
+        const keywordMatch = item.keywords?.some((kw: string) => kw.includes(query));
+
+        return nameMatch || categoryMatch || keywordMatch;
+      });
+
+      // Sort results: prioritize exact matches and category matches
+      const sorted = filtered.sort((a: any, b: any) => {
+        const aExact = a.name.toLowerCase().startsWith(query) ? 1 : 0;
+        const bExact = b.name.toLowerCase().startsWith(query) ? 1 : 0;
+        return bExact - aExact;
+      });
+
+      setSearchResults(sorted.slice(0, 12)); // Limit to 12 results
     }
-
-    searchDebounceRef.current = setTimeout(() => {
-      if (!query) {
-        setSearchResults([]);
-      } else {
-        // Filter searchable content with keyword matching
-        const filtered = searchableContent.filter((item: any) => {
-          const nameMatch = item.name.toLowerCase().includes(query);
-          const categoryMatch = item.category?.toLowerCase().includes(query);
-          const keywordMatch = item.keywords?.some((kw: string) => kw.includes(query));
-
-          return nameMatch || categoryMatch || keywordMatch;
-        });
-
-        // Sort results: prioritize exact matches and category matches
-        const sorted = filtered.sort((a: any, b: any) => {
-          const aExact = a.name.toLowerCase().startsWith(query) ? 1 : 0;
-          const bExact = b.name.toLowerCase().startsWith(query) ? 1 : 0;
-          return bExact - aExact;
-        });
-
-        setSearchResults(sorted.slice(0, 12)); // Limit to 12 results
-      }
-    }, 300); // 300ms debounce
-  }, [searchableContent]);
+  };
 
   const handleSearchResultClick = (href: string) => {
     setSearchQuery("");
@@ -1042,7 +1033,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
       <div className={styles.navbar__container}>
         {/* Logo */}
         <Link href="/" className={styles.navbar__logo}>
-          <Image src="/images/eShaafilogo.webp" alt="eShaafi Logo" width={40} height={40} priority />
+          <Image src="/images/eShaafilogo.webp" alt="eShaafi Logo" width={40} height={40} />
           <span className={styles.logoText}>eShaafi</span>
         </Link>
 
@@ -1112,7 +1103,16 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                           e.preventDefault();
                           setHoverIndex(null);
                           setMenuOpen(false);
-                          const eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
+                          let eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
+                          // Map Doctors -> General (GP/General Physician/General Practitioners) to single analytic event
+                          if (item.title.toLowerCase() === 'doctors') {
+                            if (sub.name.toLowerCase().includes('general') || (sub.href && sub.href.includes('general-physician'))) {
+                              eventName = 'find_doctors_gp_clk';
+                            } else if (sub.name.toLowerCase().includes('special')) {
+                              // Map Specialists -> find_doctors_specialist_clk
+                              eventName = 'find_doctors_specialist_clk';
+                            }
+                          }
                           trackEvent(eventName, { section: 'nav' });
                           router.push(sub.href);
                         }}
@@ -1389,8 +1389,15 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                       <a key={i} href={sub.href} onClick={(e) => {
                         e.preventDefault();
                         setMenuOpen(false);
-                        const eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
-                        trackEvent(eventName, { section: 'nav' });
+                        let eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
+                        if (item.title.toLowerCase() === 'doctors') {
+                          if (sub.name.toLowerCase().includes('general') || (sub.href && sub.href.includes('general-physician'))) {
+                            eventName = 'find_doctors_gp_clk';
+                          } else if (sub.name.toLowerCase().includes('special')) {
+                            eventName = 'find_doctors_specialist_clk';
+                          }
+                        }
+                          trackEvent(eventName, { section: 'nav' });
                         router.push(sub.href);
                       }}>
                         {sub.icon && <Image src={sub.icon} alt={sub.name} width={20} height={20} />}
@@ -1488,4 +1495,4 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
   );
 };
 
-export default React.memo(Navbar);
+export default Navbar;

@@ -143,8 +143,9 @@ function Slots({
     }
   };
   // getting slots value
-  const getSlotValue = (val: any, time: any) => {
-    setSlot({ id: val, time });
+  const getSlotValue = (slot: any) => {
+    const availability_status = slot.booked ? "booked" : slot.locked ? "locked" : "available";
+    setSlot({ id: slot.appointmentSlotId, time: slot.start, availability_status });
   };
   useEffect(() => {
     setTimeSlots({ type: "SHARE_SLOTS", payload: Items[0].appointment_slots });
@@ -273,7 +274,7 @@ function Slots({
                     name="morningSlots"
                     id={slot.appointmentSlotId}
                     value={slot.appointmentSlotId}
-                    onChange={(e) => getSlotValue(e.target.value, slot.start)}
+                    onChange={() => getSlotValue(slot)}
                     disabled={slot.booked || slot.locked}
                     // selected={true}
                   />

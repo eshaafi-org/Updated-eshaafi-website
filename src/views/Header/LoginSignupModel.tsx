@@ -96,6 +96,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
   const [otp, setOtp] = useState<boolean>(false);
   const [corporateLogin, setCorporateLogin] = useState<boolean>(false);
   const [profile, setProfile] = useState<boolean>(false);
+  const [phoneTracked, setPhoneTracked] = useState<boolean>(false);
   const [profileSelection, setProfileSelection] = useState<boolean>(false);
   const [existingProfiles, setExistingProfiles] = useState<any[]>([]);
   const [selectedProfile, setSelectedProfile] = useState<any>(null);
@@ -403,7 +404,16 @@ export const Model = ({ page = "login" }: { page: string }) => {
                             placeholder="Phone Number"
                             className={style.phoneInput}
                             {...formik.getFieldProps("phone_no")}
-                            onChange={formik.handleChange}
+                            onChange={(e) => {
+                              formik.handleChange(e);
+                              if (!phoneTracked && e.target.value && e.target.value.length > 0) {
+                                trackEvent('auth_phone_nmbr_clk', {
+                                  section: 'authentication',
+                                  auth_type: page === 'login' ? 'login' : 'signup'
+                                });
+                                setPhoneTracked(true);
+                              }
+                            }}
                             autoFocus
                           />
                         </span>

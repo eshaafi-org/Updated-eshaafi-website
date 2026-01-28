@@ -130,7 +130,6 @@ export default function Finalfooter() {
         </div>
       </div>
       {/* PMDC Row */}
-      {/* PMDC Row */}
       <div className={styles.footer__pmdcRow}>
         <div className={styles.footer__pmdcItem}>
           <Image src="/images/pmdc.svg" alt="PMDC Verified Doctors" width={32} height={32} />
@@ -170,15 +169,15 @@ export default function Finalfooter() {
               href="https://apps.apple.com/pk/app/eshaafi-health-telemedicine/id6739331112" 
               target="_blank" 
               rel="noopener noreferrer"
-              onClick={() => handleLinkClick('footer', 'download_app', 'App Store')}
+              onClick={() => trackEvent('footer_link_clk', { section: 'app', platform: 'ios' })}
             >
               <Image src="/images/appstore.png" alt="Download on the App Store" width={135} height={40} />
             </a>
             <a 
               href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation" 
               target="_blank" 
-              rel="noopener noreferrer"
-              onClick={() => handleLinkClick('footer', 'download_app', 'Google Play')}
+              rel="noopener noreferrer"l
+              onClick={() => trackEvent('footer_link_clk', { section: 'app', platform: 'android' })}
             >
               <Image src="/images/playstore.png" alt="Get it on Google Play" width={135} height={40} />
             </a>
