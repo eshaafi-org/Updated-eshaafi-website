@@ -65,10 +65,11 @@ const PsychologistsSection: React.FC = () => {
           <Image
             src="/images/Psychologist-laptop.webp"
             alt="Psychologists"
-            width={500}
-            height={350}
+            width={438}
+            height={259}
             priority
             className={styles.psychologistsImage}
+            sizes="(max-width: 768px) 300px, (max-width: 992px) 360px, 438px"
           />
         </motion.div>
       </div>

@@ -176,7 +176,7 @@ export default function Finalfooter() {
             <a 
               href="https://play.google.com/store/apps/details?id=com.eshaafi.patient.consultation" 
               target="_blank" 
-              rel="noopener noreferrer"l
+              rel="noopener noreferrer"
               onClick={() => trackEvent('footer_link_clk', { section: 'app', platform: 'android' })}
             >
               <Image src="/images/playstore.png" alt="Get it on Google Play" width={135} height={40} />

@@ -28,6 +28,27 @@ const nextConfig = {
           },
         ],
       },
+      // Cache optimized images served by Next.js image optimizer
+      {
+        source: '/_next/image',
+        headers: [
+          {
+            key: 'Cache-Control',
+            // Cache optimized image responses for 30 days (adjustable)
+            value: 'public, max-age=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
+      {
+        // Match any path under /_next/image (covers some deployments)
+        source: '/_next/image/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, stale-while-revalidate=86400',
+          },
+        ],
+      },
       {
         source: '/_next/static/:path*',
         headers: [

@@ -248,7 +248,7 @@ export default function App({ Component, pageProps }: AppProps) {
             // <Footer />
             
             }
-          <Script src="https://www.googletagmanager.com/gtag/js?id=G-1BXFKZVVFJ" />
+          {/* <Script src="https://www.googletagmanager.com/gtag/js?id=G-1BXFKZVVFJ" />
           <Script id="google-analytics">
             {`
             window.dataLayer = window.dataLayer || [];
@@ -256,7 +256,7 @@ export default function App({ Component, pageProps }: AppProps) {
             gtag('js', new Date());
             gtag('config', 'G-1BXFKZVVFJ');
             `}
-          </Script>
+          </Script> */}
           <Script src="https://www.youtube.com/iframe_api" />
         </main>
       </Providers>
