@@ -986,6 +986,11 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
   };
 
   const logout = () => {
+    // Track profile logout event (for analytics)
+    trackEvent('profile_logout_clk', {
+      section: 'profile_actions',
+      source: 'navbar'
+    });
     // Unregister device token before logout
     const user = localStorage.getItem("user");
     if (user) {
