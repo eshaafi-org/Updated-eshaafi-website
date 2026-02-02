@@ -2,12 +2,16 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/partnerwithus.module.scss";
 import { trackEvent } from "@/lib/ga";
+import Image from "next/image";
 
 const ClientTestimonials: React.FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
 
   const sanitizeClientName = (name: string) => {
-    return name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+    return name
+      .toLowerCase()
+      .replace(/\s+/g, "_")
+      .replace(/[^a-z0-9_]/g, "");
   };
 
   const clients = [
@@ -50,14 +54,14 @@ const ClientTestimonials: React.FC = () => {
       company: "HR MANAGER, Xpert Prime",
       companyLogo: "/images/logo2.png",
     },
-     {
+    {
       quote:
         "Thanks to eShaafi for taking a wonderful initiative in the corporate sector, leading much-needed awareness on an important topic in our society of breast cancer awareness.",
       author: "Sehar Malik   ",
       company: "Senior Executive HR, Folium AI",
       companyLogo: "/images/logo2.png",
     },
-     {
+    {
       quote:
         "Prime System Solutions had a great experience partnering with eShaafi for a Breast Cancer Awareness session conducted at our workplace. The session was informative, well-organized, and thoughtfully delivered. ",
       author: "Hiba Siddiqui  ",
@@ -90,17 +94,32 @@ const ClientTestimonials: React.FC = () => {
         <div className={styles.clientLogos}>
           <div className={styles.marqueeTrack}>
             {clients.concat(clients).map((client, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className={styles.logoBox}
-                onClick={() => trackEvent(`partnerwithus_testimonial_${sanitizeClientName(client.alt)}_clk`, {
-                  section: 'testimonials',
-                  client_name: client.alt
-                })}
+                onClick={() =>
+                  trackEvent(
+                    `partnerwithus_testimonial_${sanitizeClientName(client.alt)}_clk`,
+                    {
+                      section: "testimonials",
+                      client_name: client.alt,
+                    },
+                  )
+                }
                 role="button"
                 tabIndex={0}
               >
-                <img src={client.logo} alt={client.alt} />
+                {/* <img src={client.logo} alt={client.alt} /> */}
+                <Image
+                  src={client.logo}
+                  alt={client.alt}
+                  width={180} 
+                  height={80} 
+                  loading="lazy" 
+                  quality={75}
+                  sizes="(max-width: 768px) 120px, 160px"
+                  style={{ objectFit: "contain" }}
+                />
               </div>
             ))}
           </div>
@@ -108,16 +127,27 @@ const ClientTestimonials: React.FC = () => {
 
         {/* TESTIMONIAL SLIDER */}
         <div className={styles.testimonialSlider}>
-          <div key={activeSlide} className={`${styles.testimonialCard} ${styles.fade}`}>
+          <div
+            key={activeSlide}
+            className={`${styles.testimonialCard} ${styles.fade}`}
+          >
             <div className={styles.quoteIcon}>
-              <img src="/images/quote.svg" alt="quote icon" />
+              <Image
+                src="/images/quote.svg"
+                alt="quote icon"
+                width={40}
+                height={40}
+                loading="lazy"
+              />
             </div>
             <p className={styles.quote}>{testimonials[activeSlide].quote}</p>
 
             <div className={styles.authorInfo}>
               <div className={styles.authorDetails}>
-                 <h4>{testimonials[activeSlide].author}</h4>
-                <p className={styles.position}>{testimonials[activeSlide].company}</p>
+                <h4>{testimonials[activeSlide].author}</h4>
+                <p className={styles.position}>
+                  {testimonials[activeSlide].company}
+                </p>
                 {/* <img
                   src={testimonials[activeSlide].companyLogo}
                   alt={testimonials[activeSlide].company}
@@ -136,8 +166,8 @@ const ClientTestimonials: React.FC = () => {
                 }`}
                 onClick={() => {
                   setActiveSlide(index);
-                  trackEvent('partnerwithus_testimonial_slide_clk', {
-                    section: 'testimonials'
+                  trackEvent("partnerwithus_testimonial_slide_clk", {
+                    section: "testimonials",
                   });
                 }}
               />

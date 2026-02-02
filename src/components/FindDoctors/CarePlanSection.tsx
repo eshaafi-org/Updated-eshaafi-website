@@ -218,7 +218,7 @@ const CarePlanSection: React.FC = () => {
   const currentPlans = plansData[activeTab as keyof typeof plansData];
 
   return (
-    <section id="subscription-plans" className={styles.carePlanSection}>
+    <section className={styles.carePlanSection} id="subscription-plans">
       <div className={styles.carePlanWrapper}>
         <div className={styles.carePlanHeader}>
           <h2 className={styles.carePlanTitle}>
