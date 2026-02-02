@@ -248,8 +248,6 @@ export default function MindWellnessPage({
             disableNavigation={true}
             activeCategory={selectedCategory || undefined}
             eventPrefix="mw_"
-            headerText="Confidential Mental Health Support/Therapies from your Comfort"
-            headerHighlight="Mental Health"
             onCategoryChange={(category) => {
               setSelectedCategory(category);
               if (category) {
