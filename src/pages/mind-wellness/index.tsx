@@ -248,6 +248,8 @@ export default function MindWellnessPage({
             disableNavigation={true}
             activeCategory={selectedCategory || undefined}
             eventPrefix="mw_"
+            headerText="Confidential Mental Health Support/Therapies from your Comfort"
+            headerHighlight="Mental Health"
             onCategoryChange={(category) => {
               setSelectedCategory(category);
               if (category) {
@@ -402,7 +404,7 @@ export default function MindWellnessPage({
 
 export async function getStaticProps() {
   // Fetch all doctors first
-  const response = await fetch(BASE_URL + "/patients/doctors/filter", {
+  const response = await fetch(BASE_URL + "/patients/homeScreen", {
     cache: "no-cache",
     method: "POST",
     headers: { "Content-Type": "application/json" },

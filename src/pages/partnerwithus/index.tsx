@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import styles from "../../styles/partnerwithus.module.scss";
 import MedicalServices from "./services";
 import WellnessAreas from "./wellness";
@@ -255,9 +256,9 @@ const PartnerWithUs: React.FC = () => {
                 <div className={styles.resultContent}>
                   <div className={styles.resultIcon}>
                     {flipType === 'success' ? (
-                      <img src="/images/success.png" alt="Success" className={styles.successImage} />
+                      <Image src="/images/success.png" alt="Success" className={styles.successImage} width={120} height={120} loading="lazy" />
                     ) : flipType === 'error' ? (
-                      <img src="/images/failure.png" alt="Failure" className={styles.successImage} />
+                      <Image src="/images/failure.png" alt="Failure" className={styles.successImage} width={120} height={120} loading="lazy" />
                     ) : null}
                   </div>
                   <h3 className={styles.resultTitle}>

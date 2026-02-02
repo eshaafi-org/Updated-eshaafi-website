@@ -880,18 +880,18 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
   // Plus Both Value 
   const totalItemCount = cart.length + packages.length;
 
-  // Handle hash scroll navigation
+  // Handle hash scroll navigation (simplified - FindDoctorsView handles detailed scrolling)
   useEffect(() => {
     const handleHashScroll = () => {
       const hash = window.location.hash;
       if (hash) {
         const elementId = hash.substring(1);
-        const element = document.getElementById(elementId);
-        if (element) {
-          setTimeout(() => {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-        }
+        setTimeout(() => {
+          const element = document.getElementById(elementId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 1000);
       }
     };
 
@@ -1108,16 +1108,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                           e.preventDefault();
                           setHoverIndex(null);
                           setMenuOpen(false);
-                          let eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
-                          // Map Doctors -> General (GP/General Physician/General Practitioners) to single analytic event
-                          if (item.title.toLowerCase() === 'doctors') {
-                            if (sub.name.toLowerCase().includes('general') || (sub.href && sub.href.includes('general-physician'))) {
-                              eventName = 'find_doctors_gp_clk';
-                            } else if (sub.name.toLowerCase().includes('special')) {
-                              // Map Specialists -> find_doctors_specialist_clk
-                              eventName = 'find_doctors_specialist_clk';
-                            }
-                          }
+                          const eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
                           trackEvent(eventName, { section: 'nav' });
                           router.push(sub.href);
                         }}
@@ -1394,15 +1385,8 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
                       <a key={i} href={sub.href} onClick={(e) => {
                         e.preventDefault();
                         setMenuOpen(false);
-                        let eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
-                        if (item.title.toLowerCase() === 'doctors') {
-                          if (sub.name.toLowerCase().includes('general') || (sub.href && sub.href.includes('general-physician'))) {
-                            eventName = 'find_doctors_gp_clk';
-                          } else if (sub.name.toLowerCase().includes('special')) {
-                            eventName = 'find_doctors_specialist_clk';
-                          }
-                        }
-                          trackEvent(eventName, { section: 'nav' });
+                        const eventName = `nav_${item.title.toLowerCase().replace(/\s+/g, '_')}_${sub.name.toLowerCase().replace(/\s+/g, '_')}_clk`;
+                        trackEvent(eventName, { section: 'nav' });
                         router.push(sub.href);
                       }}>
                         {sub.icon && <Image src={sub.icon} alt={sub.name} width={20} height={20} />}
@@ -1463,7 +1447,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
             </li>
           ))}
 
-         
+          {/* Mobile Authentication */}
           {!userAuth?.uuid ? (
             <li className="p-2">
               <Button variant="outlined" onClick={handleModal} className="w-100">

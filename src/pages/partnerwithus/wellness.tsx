@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react"; // <-- useState yahan import karo
-
+import React, { useEffect, useRef, useState } from "react"; 
+import Image from "next/image";
 import styles from "../../styles/partnerwithus.module.scss";
 import { trackEvent } from "@/lib/ga";
 
 const WellnessAreas: React.FC = () => {
   const cardsRef = useRef<HTMLDivElement[]>([]);
-  const [showModal, setShowModal] = useState(false); // <-- yahan
+  const [showModal, setShowModal] = useState(false); 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [modalType, setModalType] = useState<'success' | 'error'>('success');
   const [formData, setFormData] = useState({
@@ -133,7 +133,7 @@ const WellnessAreas: React.FC = () => {
             tabIndex={0}
           >
             <div className={styles.icon}>
-              <img src={item.img} alt={item.title} />
+              <Image src={item.img} alt={item.title} width={280} height={200} loading="lazy" />
             </div>
             <h3>{item.title}</h3>
             <p>{item.text}</p>
@@ -150,10 +150,13 @@ const WellnessAreas: React.FC = () => {
   </div>
 
   <div className={styles.imageWrapper}>
-    <img
+    <Image
       src="/images/schedule-a-meeting.webp"
       alt="Doctor Meeting"
       className={styles.bannerImage}
+      width={400}
+      height={300}
+      loading="lazy"
     />
     <button
       className={styles.meetingButton}
@@ -255,13 +258,13 @@ const WellnessAreas: React.FC = () => {
         <div className={styles.modalOverlay} onClick={() => setShowSuccessModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             {/* <div className={styles.modalIcon}>
-              {modalType === 'success' ? '✅' : '❌'}
+              {modalType === 'success' ? 'ok' : 'notok'}
             </div> */}
             <h3 className={styles.modalTitle}>
                 {modalType === 'success' ? (
-                                    <img src="/images/success.png" alt="Success" className={styles.successImage} />
+                                    <Image src="/images/success.png" alt="Success" className={styles.successImage} width={120} height={120} loading="lazy" />
                                   ) : (
-                                    <img src="/images/failure.png" alt="Failure" className={styles.successImage} />
+                                    <Image src="/images/failure.png" alt="Failure" className={styles.successImage} width={120} height={120} loading="lazy" />
                                     
                                   )}
             </h3>

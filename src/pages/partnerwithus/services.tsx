@@ -1,7 +1,7 @@
 "use client";
 // import React from "react";
 import React, { useEffect } from "react";
-
+import Image from "next/image";
 import styles from "../../styles/partnerwithus.module.scss";
 import { trackEvent } from "@/lib/ga";
 
@@ -100,7 +100,7 @@ const OurServices: React.FC = () => {
                 tabIndex={0}
               >
                 <div className={styles.iconBox}>
-                  <img src={service.icon} alt={service.title} />
+                  <Image src={service.icon} alt={service.title} width={48} height={48} loading="lazy" />
                 </div>
                 <div className={styles.serviceInfo}>
                   <h3>{service.title}</h3>
@@ -112,7 +112,7 @@ const OurServices: React.FC = () => {
 
           {/* Center Doctor Image */}
           <div className={styles.doctorImage}>
-            <img src="/images/service-doctor.webp" alt="Doctor" />
+            <Image src="/images/service-doctor.webp" alt="Doctor" width={300} height={400} loading="lazy" />
           </div>
 
           {/* Right Services */}
@@ -128,7 +128,7 @@ const OurServices: React.FC = () => {
                 tabIndex={0}
               >
                 <div className={styles.iconBox}>
-                  <img src={service.icon} alt={service.title} />
+                  <Image src={service.icon} alt={service.title} width={48} height={48} loading="lazy" />
                 </div>
                 <div className={styles.serviceInfo}>
                   <h3>{service.title}</h3>
