@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import Image from "next/image";
 import styles from "../../styles/partnerwithus.module.scss";
-import MedicalServices from "./services";
-import WellnessAreas from "./wellness";
-import WhyPartnerSection from "./partnersection";
-import TestimonialSection from "./testimonial";
-import FAQSection from "./faq";
 import { trackEvent } from "@/lib/ga";
+
+// Lazy load non-critical components to reduce initial bundle
+const MedicalServices = lazy(() => import("./services"));
+const WellnessAreas = lazy(() => import("./wellness"));
+const WhyPartnerSection = lazy(() => import("./partnersection"));
+const TestimonialSection = lazy(() => import("./testimonial"));
+const FAQSection = lazy(() => import("./faq"));
 
 const PartnerWithUs: React.FC = () => {
   useEffect(() => {
@@ -136,12 +138,30 @@ const PartnerWithUs: React.FC = () => {
       {/* Main Content */}
       <div className={styles.mainContent}>
         {/* Background Image Container */}
-        <div className={styles.imageContainer}>
-          {/* Multiple Gradients */}
+        {/* <div className={styles.imageContainer}>
+      
           <div className={styles.gradientLeft}></div>
           <div className={styles.gradientRight}></div>
           <div className={styles.gradientBottom}></div>
-        </div>
+        </div> */}
+        <div className={styles.imageContainer}>
+  <Image
+    src="/images/partner-bg.webp"
+    alt="Partner with us background"
+    fill
+    priority
+    quality={65}
+    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
+    style={{ objectFit: "cover", objectPosition: "top", contentVisibility: "auto" }}
+    placeholder="empty"
+  />
+
+  {/* Gradients */}
+  <div className={styles.gradientLeft}></div>
+  <div className={styles.gradientRight}></div>
+  <div className={styles.gradientBottom}></div>
+</div>
+
 
         <div className={styles.contentWrapper}>
           {/* Center Content - Text and Button */}
@@ -256,9 +276,23 @@ const PartnerWithUs: React.FC = () => {
                 <div className={styles.resultContent}>
                   <div className={styles.resultIcon}>
                     {flipType === 'success' ? (
-                      <Image src="/images/success.png" alt="Success" className={styles.successImage} width={120} height={120} loading="lazy" />
+                      <Image 
+                        src="/images/success.png" 
+                        alt="Success" 
+                        className={styles.successImage} 
+                        width={120} 
+                        height={120} 
+                        loading="lazy"
+                      />
                     ) : flipType === 'error' ? (
-                      <Image src="/images/failure.png" alt="Failure" className={styles.successImage} width={120} height={120} loading="lazy" />
+                      <Image 
+                        src="/images/failure.png" 
+                        alt="Failure" 
+                        className={styles.successImage} 
+                        width={120} 
+                        height={120} 
+                        loading="lazy"
+                      />
                     ) : null}
                   </div>
                   <h3 className={styles.resultTitle}>
@@ -287,11 +321,21 @@ const PartnerWithUs: React.FC = () => {
           </div>
         </div>
       </div>
-       <MedicalServices/>
-       <WellnessAreas/>
-       <WhyPartnerSection/>
-       <TestimonialSection/>
-       <FAQSection/>
+       <Suspense fallback={<div style={{height: '400px'}}></div>}>
+         <MedicalServices/>
+       </Suspense>
+       <Suspense fallback={<div style={{height: '400px'}}></div>}>
+         <WellnessAreas/>
+       </Suspense>
+       <Suspense fallback={<div style={{height: '400px'}}></div>}>
+         <WhyPartnerSection/>
+       </Suspense>
+       <Suspense fallback={<div style={{height: '400px'}}></div>}>
+         <TestimonialSection/>
+       </Suspense>
+       <Suspense fallback={<div style={{height: '400px'}}></div>}>
+         <FAQSection/>
+       </Suspense>
     </div>
   
   );

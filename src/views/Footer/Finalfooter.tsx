@@ -20,7 +20,7 @@ export default function Finalfooter() {
         {/* Left Section - Brand & Info */}
         <div className={styles.footer__brand}>
           <div className={styles.footer__logo}>
-            <Image src="/images/eShaafi logo.png" alt="eShaafi" width={32} height={32} />
+            <Image src="/images/eShaafilogo.svg" alt="eShaafi" width={42} height={48} />
             <span className={styles.footer__logoText}>eShaafi</span>
           </div>
           <p className={styles.footer__address}>

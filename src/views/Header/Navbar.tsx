@@ -1021,6 +1021,16 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
     const storedValue: any | null = localStorage.getItem("user");
     const uuid: any | null = storedValue ? JSON.parse(storedValue) : null;
     dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
+
+    // Listen for storage changes (e.g., login in another tab)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "user") {
+        const newValue = e.newValue ? JSON.parse(e.newValue) : null;
+        dispatch({ type: "loginModalSlice/setAuth", payload: newValue });
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, [dispatch]);
 
   useEffect(() => {
@@ -1038,7 +1048,7 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
       <div className={styles.navbar__container}>
         {/* Logo */}
         <Link href="/" className={styles.navbar__logo}>
-          <Image src="/images/eShaafilogo.webp" alt="eShaafi Logo" width={40} height={40} />
+          <Image src="/images/eShaafilogo.svg" alt="eShaafi Logo" width={40} height={40} />
           <span className={styles.logoText}>eShaafi</span>
         </Link>
 

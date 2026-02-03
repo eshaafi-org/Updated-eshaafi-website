@@ -9,6 +9,7 @@ import Script from "next/script";
 import Providers from "../redux/provider";
 import { useEffect } from "react";
 import { initializeDeviceToken } from "@/helper/notifications";
+import { setupAxiosInterceptor } from "@/helper/axiosInterceptor";
 import { SnackbarProvider, enqueueSnackbar, closeSnackbar } from 'notistack';
 // import { Urbanist } from 'next/font/google';
 import Finalfooter from "@/views/Footer/Finalfooter";
@@ -34,6 +35,11 @@ const NoSSRHeader = dynamic(() => import("../views/Header/index"), {
 // import Context from "@/contextAPI";
 export default function App({ Component, pageProps }: AppProps) {
   let router = useRouter();
+
+  // Setup axios interceptor for handling token expiration globally
+  useEffect(() => {
+    setupAxiosInterceptor();
+  }, []);
 
   // Register device token on app load if user is logged in
   useEffect(() => {

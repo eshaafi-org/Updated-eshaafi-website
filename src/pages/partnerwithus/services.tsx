@@ -55,21 +55,29 @@ const OurServices: React.FC = () => {
   ];
 
   useEffect(() => {
-    const cards = document.querySelectorAll(`.${styles.serviceCard}`);
+    // Defer intersection observer to prevent blocking main thread
+    const timeoutId = requestIdleCallback(() => {
+      const cards = document.querySelectorAll(`.${styles.serviceCard}`);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.show);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add(styles.show);
+              observer.unobserve(entry.target); // Stop observing after animation
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '50px' }
+      );
 
-    cards.forEach((card) => observer.observe(card));
-    return () => observer.disconnect();
+      cards.forEach((card) => observer.observe(card));
+      return () => observer.disconnect();
+    }, { timeout: 2000 });
+
+    return () => {
+      cancelIdleCallback(timeoutId);
+    };
   }, []);
 
   return (

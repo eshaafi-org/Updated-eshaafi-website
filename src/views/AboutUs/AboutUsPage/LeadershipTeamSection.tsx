@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
 import styles from "@/styles/aboutPage.module.scss";
+import Image from "next/image";
 
 const LeadershipTeamSection = () => {
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
@@ -123,7 +124,8 @@ const LeadershipTeamSection = () => {
               onMouseLeave={() => setHoveredMember(null)}
             >
               <div className={styles.memberImage}>
-                <img src={member.image} alt={member.name} />
+                <Image src={member.image} alt={member.name} width={150} height={150} />
+                {/* <img src={member.image} alt={member.name} /> */}
               </div>
               <h4 className={styles.memberName}>{member.name}</h4>
               <p className={styles.memberPosition}>{member.position}</p>
@@ -166,7 +168,8 @@ const LeadershipTeamSection = () => {
               onMouseLeave={() => setHoveredMember(null)}
             >
               <div className={styles.memberImage}>
-                <img src={member.image} alt={member.name} />
+                <Image src={member.image} alt={member.name} width={150} height={150} />
+                 {/* <img src={member.image} alt={member.name} />  */}
               </div>
               <h4 className={styles.memberName}>{member.name}</h4>
               <p className={styles.memberPosition}>{member.position}</p>

@@ -78,20 +78,28 @@ const WellnessAreas: React.FC = () => {
   };
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.show);
-          }
-        });
-      },
-      { threshold: 0.25 }
-    );
+    // Defer intersection observer to prevent blocking main thread
+    const timeoutId = requestIdleCallback(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add(styles.show);
+              observer.unobserve(entry.target); // Stop observing after animation
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: '50px' }
+      );
 
-    cardsRef.current.forEach((card) => {
-      if (card) observer.observe(card);
-    });
+      cardsRef.current.forEach((card) => {
+        if (card) observer.observe(card);
+      });
+    }, { timeout: 2000 });
+
+    return () => {
+      cancelIdleCallback(timeoutId);
+    };
   }, []);
 
   return (
@@ -258,7 +266,7 @@ const WellnessAreas: React.FC = () => {
         <div className={styles.modalOverlay} onClick={() => setShowSuccessModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             {/* <div className={styles.modalIcon}>
-              {modalType === 'success' ? 'ok' : 'notok'}
+              {modalType === 'success' ? '✅' : '❌'}
             </div> */}
             <h3 className={styles.modalTitle}>
                 {modalType === 'success' ? (

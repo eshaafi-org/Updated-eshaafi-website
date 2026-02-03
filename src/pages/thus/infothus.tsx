@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
+import Image from "next/image";
 import styles from "../../styles/thus.module.scss";
 import { trackEvent } from "@/lib/ga";
 
@@ -32,21 +33,32 @@ const SectionTHUsInfo = () => {
   ];
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.animate);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
+    // Defer all animations to idle callback - no timeout!
+    // This prevents main thread blocking during LCP
+    if (typeof requestIdleCallback !== 'undefined') {
+      const idleId = requestIdleCallback(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add(styles.animate);
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '100px' }
+        );
 
-    const cards = document.querySelectorAll(`.${styles.card}`);
-    cards.forEach((card) => observer.observe(card));
+        const cards = document.querySelectorAll(`.${styles.card}`);
+        cards.forEach((card) => observer.observe(card));
 
-    return () => observer.disconnect();
+        return () => observer.disconnect();
+      });
+
+      return () => {
+        cancelIdleCallback(idleId);
+      };
+    }
   }, []);
 
   return (
@@ -88,7 +100,14 @@ const SectionTHUsInfo = () => {
           tabIndex={0}
         >
           <div className={styles.cardIcon}>
-            <img src={offering.icon} alt={offering.title} />
+            <Image 
+              src={offering.icon} 
+              alt={offering.title}
+              width={70}
+              height={70}
+              quality={80}
+              loading="lazy"
+            />
           </div>
           <h4>{offering.title}</h4>
           <p>{offering.desc}</p>

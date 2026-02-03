@@ -202,6 +202,13 @@ export default function AppointmentsList({ type }: { type: string }) {
   }, [lastEvaluatedKey, type, logout]);
   // after first rendering
   const getConsultations = useCallback(async (type: string): Promise<any> => {
+    // Guard: Don't fetch if user is not authenticated
+    if (!userAuth?.uuid) {
+      setLoading(false);
+      dispatch({ type: "loginModalSlice/signIn" });
+      return;
+    }
+
     setLoading(true);
     try {
       // Map the filter type to API expected format
@@ -303,7 +310,7 @@ export default function AppointmentsList({ type }: { type: string }) {
 
       throw error; // Rethrow the error to be handled by the caller or an Error Boundary.
     }
-  }, [dispatch, logout]);
+  }, [dispatch, logout, userAuth?.uuid]);
   useEffect(() => {
     if (type) {
       getConsultations(type);

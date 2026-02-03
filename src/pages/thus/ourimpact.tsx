@@ -73,7 +73,7 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ imageSrc, imageAlt, caption, de
 
 const OurImpact: React.FC = () => {
   const impactStories = [
-    { imageSrc: '/images/impact1.webp', imageAlt: 'Patient Chief Gulistan Sindh', caption: 'Petaro Cadet College, Sindh', description: 'No more travelling miles for basic care.', position: 'left' as const },
+    { imageSrc: '/images/impact1.jpeg', imageAlt: 'Patient Chief Gulistan Sindh', caption: 'Petaro Cadet College, Sindh', description: 'No more travelling miles for basic care.', position: 'left' as const },
     { imageSrc: '/images/impact2.webp', imageAlt: 'Khairpur College For Women', caption: 'Chishtian (Village 125 Murad)', description: 'Providing quality healthcare where it was missing.', position: 'right' as const },
     { imageSrc: '/images/impact3.webp', imageAlt: 'Amma G Hospital, Abbottabad', caption: 'Amma G Hospital, Abbottabad', description: 'Healing lives, restoring hope.', position: 'left' as const },
   ];

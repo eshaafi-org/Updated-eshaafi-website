@@ -218,7 +218,7 @@ export default function BookAppointmentPage({
 
   // handle booking appointment
   const handleBookAppoint = (flag: boolean) => {
-    if (localStorage.getItem("user")) {
+    if (userAuth?.uuid) {
       if (flag) {
         // Track second/final confirm booking click (after profile/payment selection)
         trackEvent('fd_confirm_booking_final_click', {

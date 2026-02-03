@@ -111,7 +111,17 @@ const Header: React.FC<HeaderProps> = ({}) => {
     const storedValue: any | null = localStorage.getItem("user");
     const uuid: any | null = storedValue ? JSON.parse(storedValue) : null;
     dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
-  }, []);
+
+    // Listen for storage changes (e.g., login in another tab)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "user") {
+        const newValue = e.newValue ? JSON.parse(e.newValue) : null;
+        dispatch({ type: "loginModalSlice/setAuth", payload: newValue });
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [dispatch]);
   useEffect(() => {
     const handleScroll = () => {
       // Check if the scroll position is greater than 0
