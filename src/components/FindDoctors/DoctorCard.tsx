@@ -113,7 +113,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
       <div className={styles.cardMiddle}>
         <div className={styles.leftSection}>
           <div 
-            className={`${styles.availabilityStatus} ${!available ? styles.offline : styles.online}`}
+            className={`${styles.availabilityStatus} ${availableTime?.startsWith('Available at') ? styles.offline : styles.online}`}
             onClick={() => trackEvent(`${eventPrefix}${sanitizedName}_availability_clk`, {
               section: 'doctor_card',
               doctor_name: name,
@@ -123,17 +123,9 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
             role="button"
             tabIndex={0}
           >
-            {available ? (
-              <span className={styles.availabilityText} style={{ fontFamily: "'Inter', sans-serif" }}>
-                {availableTime?.includes(',') ? availableTime : `Available till ${availableTime}`}
-              </span>
-            ) : (
-              availableTime && (
-                <span className={styles.availabilityText} style={{ fontFamily: "'Inter', sans-serif" }}>
-                  Available at {availableTime}
-                </span>
-              )
-            )}
+            <span className={styles.availabilityText} style={{ fontFamily: "'Inter', sans-serif" }}>
+              {availableTime}
+            </span>
           </div>
         </div>
         <div className={styles.rightSection}>

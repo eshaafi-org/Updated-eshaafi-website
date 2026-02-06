@@ -17,7 +17,6 @@ interface FindDoctorsViewProps {
 const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors: initialDoctors = [], category }) => {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
-  const [doctorsWithSlots, setDoctorsWithSlots] = useState<any[]>([])
   const [doctors, setDoctors] = useState<any[]>(initialDoctors)
 
   // Fetch doctors if not provided
@@ -27,55 +26,18 @@ const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors: initialDocto
         try {
           const fetchedDoctors = await fetchAndSortDoctors(DoctorQueryPresets.allDoctors());
           setDoctors(fetchedDoctors);
+          setIsLoading(false);
         } catch (error) {
           console.error("Error fetching doctors:", error);
           setDoctors([]);
+          setIsLoading(false);
         }
       };
       fetchDoctors();
+    } else {
+      setIsLoading(false);
     }
   }, [doctors.length]);
-
-  // Fetch availability slots for all doctors
-  useEffect(() => {
-    const fetchAvailabilitySlots = async () => {
-      if (doctors && doctors.length > 0) {
-        const doctorsWithAvailability = await Promise.all(
-          doctors.map(async (doctor) => {
-            try {
-              const response = await axios.post(
-                `${BASE_URL}/patients/doctor/appointmentSlots`,
-                {
-                  doctorId: doctor.Id,
-                  medium: 'Video',
-                }
-              )
-              return {
-                ...doctor,
-                availabilitySlots: response.data.response?.Items || [],
-              }
-            } catch (error) {
-              console.error(`Error fetching slots for doctor ${doctor.Id}:`, error)
-              return {
-                ...doctor,
-                availabilitySlots: [],
-              }
-            }
-          })
-        )
-        setDoctorsWithSlots(doctorsWithAvailability)
-        setIsLoading(false)
-      } else {
-        setIsLoading(false)
-      }
-    }
-
-    const timer = setTimeout(() => {
-      fetchAvailabilitySlots()
-    }, 500)
-    
-    return () => clearTimeout(timer)
-  }, [doctors])
 
   // Handle hash scroll navigation after page loads
   useEffect(() => {
@@ -96,7 +58,7 @@ const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors: initialDocto
 
   return (
     <div>
-      <DoctorGrid doctors={doctorsWithSlots} excludeMentalHealth={true} isLoading={isLoading} activeCategory={category} />
+      <DoctorGrid doctors={doctors} excludeMentalHealth={true} isLoading={isLoading} activeCategory={category} />
       <CarePlanSection />
       <BenefitsSection />
       <FAQSection />

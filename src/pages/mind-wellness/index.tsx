@@ -24,8 +24,7 @@ export default function MindWellnessPage({
   doctors?: Doctor[];
 }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [doctorsWithSlots, setDoctorsWithSlots] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
 
@@ -41,45 +40,6 @@ export default function MindWellnessPage({
 
   // Note: selectedCategory is managed by local state and URL navigation
   // The URL is now path-based (/mind-wellness/category) not query-based
-
-  // Fetch availability slots for all doctors
-  useEffect(() => {
-    const fetchAvailabilitySlots = async () => {
-      if (doctors && doctors.length > 0) {
-        const doctorsWithAvailability = await Promise.all(
-          doctors.map(async (doctor) => {
-            try {
-              const response = await axios.post(
-                `${BASE_URL}/patients/doctor/appointmentSlots`,
-                {
-                  doctorId: doctor.Id,
-                  medium: 'Video',
-                }
-              )
-              return {
-                ...doctor,
-                availabilitySlots: response.data.response?.Items || [],
-              }
-            } catch (error) {
-              console.error(`Error fetching slots for doctor ${doctor.Id}:`, error)
-              return {
-                ...doctor,
-                availabilitySlots: [],
-              }
-            }
-          })
-        )
-        setDoctorsWithSlots(doctorsWithAvailability)
-        setIsLoading(false)
-      }
-    }
-
-    const timer = setTimeout(() => {
-      fetchAvailabilitySlots()
-    }, 500)
-    
-    return () => clearTimeout(timer)
-  }, [doctors])
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -242,7 +202,7 @@ export default function MindWellnessPage({
             </div>
           )}
           <DoctorGrid 
-            doctors={doctorsWithSlots} 
+            doctors={doctors} 
             onlyMentalHealth={true} 
             isLoading={isLoading}
             disableNavigation={true}
@@ -401,8 +361,8 @@ export default function MindWellnessPage({
 }
 
 export async function getStaticProps() {
-  // Fetch all doctors first
-  const response = await fetch(BASE_URL + "/patients/homeScreen", {
+  // Fetch all doctors using the working endpoint
+  const response = await fetch(BASE_URL + "/patients/doctors/filter", {
     cache: "no-cache",
     method: "POST",
     headers: { "Content-Type": "application/json" },

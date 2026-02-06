@@ -41,31 +41,28 @@ export default function Timer({ appointment }: any) {
   // Listen for service worker messages IMMEDIATELY on mount (before appointment loads)
   useEffect(() => {
     const handleServiceWorkerMessage = (event: MessageEvent) => {
-      console.log('[Timer] Early service worker message received:', event.data);
-      console.log('[Timer] Message type:', event.data?.type);
-      console.log('[Timer] Has agoraToken?:', !!event.data?.agoraToken);
+
       
       const allowedTypes = ['incoming_call', 'accept_call', 'reject_call'];
       if (!event.data || !allowedTypes.includes(event.data.type)) {
-        console.log('[Timer] Early message type not allowed:', event.data?.type);
+
         return;
       }
       
       if (event.data?.type === 'incoming_call') {
         const data = event.data;
-        console.log('[Timer] Early incoming_call received, storing data');
-        console.log('[Timer] Data:', data);
+
         sessionStorage.setItem('incomingCallData', JSON.stringify(data));
         setCallData(data);
         setIncomingCall(true);
       } else if (event.data?.type === 'accept_call') {
         const data = event.data;
-        console.log('[Timer] Early accept_call received, setting callData and calling acceptCall');
+
         sessionStorage.setItem('incomingCallData', JSON.stringify(data));
         setCallData(data);
         acceptCall();
       } else if (event.data?.type === 'reject_call') {
-        console.log('[Timer] Early reject_call received, calling rejectCall');
+
         rejectCall();
       }
     };
@@ -85,27 +82,25 @@ export default function Timer({ appointment }: any) {
   // Check URL parameter for incoming call
   useEffect(() => {
     if (router.query.incoming === '1') {
-      console.log('[Timer] Incoming call detected from URL parameter');
+
       const shouldAutoJoin = router.query.autoJoin === '1';
       
       // FIRST: Check URL hash for embedded call data (from service worker)
-      console.log('[Timer] Checking URL hash for call data, hash:', window.location.hash);
+
       if (typeof window !== 'undefined' && window.location.hash) {
         const hash = window.location.hash;
-        console.log('[Timer] Found hash, looking for calldata...');
+
         
         const calldataMatch = hash.match(/#calldata=([^&]+)/);
         if (calldataMatch) {
-          console.log('[Timer] Found calldata in hash');
+
           try {
             const encodedData = calldataMatch[1];
-            console.log('[Timer] Encoded data length:', encodedData.length);
+
             const decodedData = decodeURIComponent(encodedData);
-            console.log('[Timer] Decoded data preview:', decodedData.substring(0, 100) + '...');
+
             const parsedCallData = JSON.parse(decodedData);
-            console.log('[Timer] ✅ Extracted call data from URL hash:', parsedCallData);
-            console.log('[Timer] agoraToken present:', !!parsedCallData.agoraToken);
-            console.log('[Timer] shouldAutoJoin:', shouldAutoJoin);
+
             
             setCallData(parsedCallData);
             sessionStorage.setItem('incomingCallData', JSON.stringify(parsedCallData));
@@ -115,7 +110,7 @@ export default function Timer({ appointment }: any) {
             
             // Auto-join if autoJoin flag is set
             if (shouldAutoJoin && parsedCallData.agoraToken) {
-              console.log('[Timer] Auto-joining call with token:', parsedCallData.agoraToken);
+
               setAgoraToken(parsedCallData.agoraToken);
               setShowVideoCall(true);
               setIncomingCall(false);
@@ -132,7 +127,7 @@ export default function Timer({ appointment }: any) {
             
             return; // Data loaded successfully
           } catch (error) {
-            console.error('[Timer] Error parsing URL hash data:', error);
+
           }
         }
       }
@@ -171,7 +166,6 @@ export default function Timer({ appointment }: any) {
 
       // If no call data was found but autoJoin is requested, set pending auto join
       if (!foundCallData && shouldAutoJoin) {
-        console.log('[Timer] No call data, but autoJoin requested - waiting for call data from service worker');
         setPendingAutoJoin(true);
       }
 
@@ -212,7 +206,6 @@ export default function Timer({ appointment }: any) {
   // Handle pending auto join when callData becomes available
   useEffect(() => {
     if (pendingAutoJoin && callData) {
-      console.log('[Timer] Call data received, processing pending auto join');
       setPendingAutoJoin(false);
       acceptCall();
     }
@@ -249,44 +242,37 @@ export default function Timer({ appointment }: any) {
   // Listen for incoming call notifications from FCM push notifications
   useEffect(() => {
     const appointmentId = appointment?.appointmentId || appointment?.id;
-    console.log('[Timer] FCM listener registered for appointmentId:', appointmentId);
     
     // Handler for messages from service worker (background notifications)
     const handleServiceWorkerMessage = (event: MessageEvent) => {
-      console.log('[Timer] Received message from service worker:', event.data);
       const allowedTypes = ['incoming_call', 'accept_call', 'reject_call'];
 
       if (!event.data || !allowedTypes.includes(event.data.type)) return;
 
       const data = event.data;
-      console.log('[Timer] Incoming call appointmentId:', data.appointmentId, 'Current appointmentId:', appointmentId);
 
       // Check if the call is for this appointment
       if (data.appointmentId === appointmentId) {
-        console.log('[Timer] Setting callData from service worker:', data);
         setCallData(data);
         
         // Handle different message types
         if (event.data.type === 'accept_call') {
-          console.log('[Timer] Received accept_call, calling acceptCall');
           acceptCall();
           return;
         } else if (event.data.type === 'reject_call') {
-          console.log('[Timer] Received reject_call, calling rejectCall');
           rejectCall();
           return;
         }
         
         // For incoming_call, check if pending auto join
         if (pendingAutoJoin) {
-          console.log('[Timer] Pending auto join detected for incoming_call, skipping incoming call UI');
           return;
         }
 
         setIncomingCall(true);
 
         // Also store in sessionStorage as backup
-        try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) { console.warn('[Timer] sessionStorage set failed', e); }
+        try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) { }
 
         // Show simplified toast notification with Accept/Reject buttons
         enqueueSnackbar(

@@ -67,149 +67,67 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
   }, [router.query?.specialty, activeCategory, onlyMentalHealth])
 
   const mappedDoctors: Doctor[] = useMemo(() => doctors.map((doc: any) => {
-    // Extract real availability time from backend slots
+    // Extract availability time from backend response
     let availableTime: string | undefined;
     
-    const slots = doc.availabilitySlots || [];
-    
-    // Helper function to convert 24-hour time to 12-hour format with AM/PM
-    const convertTo12Hour = (time24: string) => {
-      if (!time24) return time24;
+    // Helper function to format availability time with date if not today
+    const formatAvailabilityTime = (isoDateTime: string) => {
+      if (!isoDateTime) return '';
       
-      const [hours, minutes] = time24.split(':');
-      let hour = parseInt(hours);
-      const period = hour >= 12 ? 'PM' : 'AM';
+      // Parse ISO datetime
+      const availabilityDate = new Date(isoDateTime);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      availabilityDate.setHours(0, 0, 0, 0);
       
-      if (hour === 0) {
-        hour = 12;
-      } else if (hour > 12) {
-        hour = hour - 12;
+      // Extract time in 12-hour format
+      const dateObj = new Date(isoDateTime);
+      let hours = dateObj.getHours();
+      let minutes = dateObj.getMinutes();
+      const period = hours >= 12 ? 'PM' : 'AM';
+      
+      if (hours === 0) {
+        hours = 12;
+      } else if (hours > 12) {
+        hours = hours - 12;
       }
       
-      return `${hour}:${minutes} ${period}`;
+      const timeStr = `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
+      
+      // Check if date is not today
+      if (availabilityDate.getTime() > today.getTime()) {
+        // Format date as "Feb 8"
+        const dateFormatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+        const dateStr = dateFormatter.format(new Date(isoDateTime));
+        return `${dateStr}, ${timeStr}`;
+      }
+      
+      return timeStr;
     };
     
-    if (slots.length > 0) {
-      // Helper function to get first time from slot array (using 'start' field)
-      const getFirstTime = (timeSlots: any[]) => {
-        if (timeSlots && timeSlots.length > 0) {
-          return timeSlots[0].start;
-        }
-        return null;
-      };
-      
-      // Helper function to get last time from slot array (using 'start' field)
-      const getLastTime = (timeSlots: any[]) => {
-        if (timeSlots && timeSlots.length > 0) {
-          return timeSlots[timeSlots.length - 1].start;
-        }
-        return null;
-      };
-      
-      // Helper function to check if a slot date has any available times
-      const hasAvailableSlots = (appointmentSlots: any) => {
-        return (
-          (appointmentSlots?.morning_slots?.length > 0) ||
-          (appointmentSlots?.afternoon_slots?.length > 0) ||
-          (appointmentSlots?.evening_slots?.length > 0)
-        );
-      };
-      
-      // Get today's date for comparison
-      const today = new Date().toISOString().split('T')[0];
-      
-      // Find the first slot that has available times
-      let selectedSlot = null;
-      let selectedTime = null;
-      let showBookedTill = false;
-      
-      for (const slot of slots) {
-        const appointmentSlots = slot.appointment_slots;
-        
-        // Skip slots with no available times
-        if (!hasAvailableSlots(appointmentSlots)) {
-          // console.log(`Skipping ${slot.slot_date} - no available slots`);
-          continue;
-        }
-        
-        // console.log(`Checking ${slot.slot_date}:`, appointmentSlots);
-        
-        if (doc.isOnline === true) {
-          // For online doctors, first try to find today's slots
-          if (slot.slot_date === today) {
-            const lastTime = 
-              getLastTime(appointmentSlots?.evening_slots) ||
-              getLastTime(appointmentSlots?.afternoon_slots) ||
-              getLastTime(appointmentSlots?.morning_slots);
-            
-            if (lastTime) {
-              selectedSlot = slot;
-              selectedTime = convertTo12Hour(lastTime);
-              showBookedTill = false;
-              // console.log(`Selected for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
-              break;
-            }
-          } else if (!selectedSlot) {
-            // If no today slots found, get first available future slot for "Booked till"
-            const firstTime = 
-              getFirstTime(appointmentSlots?.morning_slots) ||
-              getFirstTime(appointmentSlots?.afternoon_slots) ||
-              getFirstTime(appointmentSlots?.evening_slots);
-            
-            if (firstTime) {
-              selectedSlot = slot;
-              selectedTime = convertTo12Hour(firstTime);
-              showBookedTill = true;
-              // console.log(`Booked till for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
-              // Don't break - keep looking for today's slots
-            }
-          }
-        } else {
-          // For offline/undefined doctors, find first available slot (any date)
-          const firstTime = 
-            getFirstTime(appointmentSlots?.morning_slots) ||
-            getFirstTime(appointmentSlots?.afternoon_slots) ||
-            getFirstTime(appointmentSlots?.evening_slots);
-          
-          if (firstTime) {
-            selectedSlot = slot;
-            selectedTime = convertTo12Hour(firstTime);
-            // console.log(`Selected for ${doc.personal_info?.firstName}: ${slot.slot_date}, ${selectedTime}`);
-            break;
-          }
-        }
+    if (doc.availability_time && doc.is_slot_available !== undefined) {
+      const formattedTime = formatAvailabilityTime(doc.availability_time);
+      if (doc.is_slot_available) {
+        availableTime = `Available till ${formattedTime}`;
+      } else {
+        availableTime = `Available at ${formattedTime}`;
       }
-      
-      if (selectedSlot && selectedTime) {
-        if (doc.isOnline === true) {
-          if (showBookedTill) {
-            // Show "Available at" with date for online doctors with no today slots
-            const formattedDate = new Date(selectedSlot.slot_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-            availableTime = `Available at ${formattedDate}, ${selectedTime}`;
-          } else {
-            // Show "Available till" time only for today's slots
-            availableTime = selectedTime;
-          }
-        } else {
-          // For offline doctors, show date and time
-          const formattedDate = new Date(selectedSlot.slot_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-          availableTime = `${formattedDate}, ${selectedTime}`;
-        }
-      }
+    } else if (doc.isOnline) {
+      // Fallback: if availability_time not provided, show based on online status
+      availableTime = 'Available Now';
     }
-    
    
 
     return {
       id: doc.Id,
-      name: `${doc.personal_info.title}. ${doc.personal_info.firstName} ${doc.personal_info.lastName}`,
-      specialty: doc.specialization,
-      experience: `${doc.yearsOfExperience} ${doc.yearsOfExperience === 1 ? 'year' : 'years'}`,
+      name: `${doc.personal_info?.title || ''} ${doc.personal_info?.firstName || ''} ${doc.personal_info?.lastName || ''}`.trim(),
+      specialty: doc.specialization || '',
+      experience: `${doc.yearsOfExperience || 0} ${(doc.yearsOfExperience || 0) === 1 ? 'year' : 'years'}`,
       rating: Number(doc.rating?.averageRating) || 0,
-      consultationFee: doc.videoCallCharges,
-      available: doc.isOnline,
+      consultationFee: doc.videoCallCharges || 0,
+      available: doc.isOnline || false,
       availableTime,
-      image: doc.personal_info.profileUrl
+      image: doc.personal_info?.profileUrl || ''
     };
   }), [doctors])
 
@@ -246,26 +164,19 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
         docSpecialtyLower.includes(specialty)
       )
 
-      // If onlyMentalHealth is true and 'All Therapists' is selected, show all mental health doctors
-      if (onlyMentalHealth && (filterSpecialty === 'All Therapists' || filterSpecialty === 'All Doctor')) {
-        return isMentalHealth
-      }
-
       // If excludeMentalHealth is true and 'All Doctor' is selected, exclude mental health doctors
       if (excludeMentalHealth && (filterSpecialty === 'All Doctor' || filterSpecialty === 'All Therapists')) {
         return !isMentalHealth
       }
 
-      // Show all when 'All Doctor' or 'All Therapists' selected
+      // Show all when 'All Doctor' or 'All Therapists' selected (for both mental health and regular doctors)
       if (filterSpecialty === 'All Doctor' || filterSpecialty === 'All Therapists') {
         return true
       }
       
-      // For specific specialties, do exact match (case-insensitive), or includes match for mental health
-      const specialtyMatch = onlyMentalHealth 
-        ? doc.specialty.trim().toLowerCase().includes(filterSpecialty.trim().toLowerCase()) ||
-          filterSpecialty.trim().toLowerCase().includes(doc.specialty.trim().toLowerCase())
-        : doc.specialty.trim() === filterSpecialty.trim();
+      // For specific specialties, do flexible matching
+      const specialtyMatch = doc.specialty.trim().toLowerCase().includes(filterSpecialty.trim().toLowerCase()) ||
+                            filterSpecialty.trim().toLowerCase().includes(doc.specialty.trim().toLowerCase());
       return specialtyMatch;
     })
   }, [mappedDoctors, activeSpecialty, activeCategory, lastClickedSpecialty, onlyMentalHealth, excludeMentalHealth])

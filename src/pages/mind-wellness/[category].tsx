@@ -19,8 +19,7 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
   const router = useRouter()
   const { category } = router.query
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory || null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [doctorsWithSlots, setDoctorsWithSlots] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(false)
   const cardRefs = useRef<(HTMLElement | null)[]>([])
   const toolRefs = useRef<(HTMLElement | null)[]>([])
 
@@ -127,43 +126,7 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
     };
   }, []);
 
-  // Fetch availability slots for all doctors
-  useEffect(() => {
-    const fetchAvailabilitySlots = async () => {
-      if (doctors && doctors.length > 0) {
-        const doctorsWithAvailability = await Promise.all(
-          doctors.map(async (doctor) => {
-            try {
-              const response = await axios.post(
-                `${BASE_URL}/patients/doctor/appointmentSlots`,
-                {
-                  doctorId: doctor.Id,
-                  medium: 'Video',
-                }
-              )
-              return {
-                ...doctor,
-                availabilitySlots: response.data.response?.Items || [],
-              }
-            } catch (error) {
-              return {
-                ...doctor,
-                availabilitySlots: [],
-              }
-            }
-          })
-        )
-        setDoctorsWithSlots(doctorsWithAvailability)
-        setIsLoading(false)
-      }
-    }
-
-    const timer = setTimeout(() => {
-      fetchAvailabilitySlots()
-    }, 500)
-    
-    return () => clearTimeout(timer)
-  }, [doctors])
+  // Fetch availability slots for all doctors removed - backend now provides availability_time and is_slot_available
 
   // Show loading state while page is being generated
   if (!router.isReady) {
@@ -227,7 +190,7 @@ const MindWellnessCategoryPage: React.FC<CategoryPageProps> = ({ doctors, initia
         {/* Doctor Grid */}
         <section id="therapists-section">
           <DoctorGrid 
-            doctors={doctorsWithSlots} 
+            doctors={doctors} 
             onlyMentalHealth={true} 
             isLoading={isLoading}
             activeCategory={selectedCategory || undefined}
