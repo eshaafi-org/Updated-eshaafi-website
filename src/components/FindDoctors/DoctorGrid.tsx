@@ -43,6 +43,9 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
 
   // Handle router query params and activeCategory changes
   useEffect(() => {
+    // Only process router query if router is ready
+    if (!router.isReady) return;
+
     // Handle activeCategory from URL params
     if (activeCategory) {
       // Don't set activeSpecialty when activeCategory is present - let the active state logic handle it
@@ -64,59 +67,53 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
       setActiveSpecialty(onlyMentalHealth ? 'All Therapists' : 'All Doctor')
     }
     setLastClickedSpecialty(null);
-  }, [router.query?.specialty, activeCategory, onlyMentalHealth])
+  }, [router.isReady, router.query?.specialty, activeCategory, onlyMentalHealth])
 
   const mappedDoctors: Doctor[] = useMemo(() => doctors.map((doc: any) => {
-    // Extract availability time from backend response
-    let availableTime: string | undefined;
-    
-    // Helper function to format availability time with date if not today
-    const formatAvailabilityTime = (isoDateTime: string) => {
-      if (!isoDateTime) return '';
-      
-      // Parse ISO datetime
-      const availabilityDate = new Date(isoDateTime);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      availabilityDate.setHours(0, 0, 0, 0);
-      
-      // Extract time in 12-hour format
-      const dateObj = new Date(isoDateTime);
-      let hours = dateObj.getHours();
-      let minutes = dateObj.getMinutes();
-      const period = hours >= 12 ? 'PM' : 'AM';
-      
-      if (hours === 0) {
-        hours = 12;
-      } else if (hours > 12) {
-        hours = hours - 12;
+    // Lightweight time formatter - Safari compatible
+    const formatTimeFromISO = (isoDateTime: string) => {
+      try {
+        if (!isoDateTime || typeof isoDateTime !== 'string') return '';
+        
+        // Parse ISO 8601: "2026-02-09T18:00:00"
+        const parts = isoDateTime.split('T');
+        if (!parts[1]) return '';
+        
+        const timePart = parts[1]; // "18:00:00"
+        const timeSegments = timePart.split(':');
+        if (timeSegments.length < 2) return '';
+        
+        const hours = parseInt(timeSegments[0], 10);
+        const minutes = parseInt(timeSegments[1], 10);
+        
+        if (isNaN(hours) || isNaN(minutes)) return '';
+        
+        const period = hours >= 12 ? 'PM' : 'AM';
+        const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+        const minutesStr = minutes < 10 ? '0' + minutes : String(minutes);
+        
+        return `${displayHours}:${minutesStr} ${period}`;
+      } catch (e) {
+        return '';
       }
-      
-      const timeStr = `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
-      
-      // Check if date is not today
-      if (availabilityDate.getTime() > today.getTime()) {
-        // Format date as "Feb 8"
-        const dateFormatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
-        const dateStr = dateFormatter.format(new Date(isoDateTime));
-        return `${dateStr}, ${timeStr}`;
-      }
-      
-      return timeStr;
     };
     
+    let availableTime: string | undefined;
+    
     if (doc.availability_time && doc.is_slot_available !== undefined) {
-      const formattedTime = formatAvailabilityTime(doc.availability_time);
-      if (doc.is_slot_available) {
-        availableTime = `Available till ${formattedTime}`;
-      } else {
-        availableTime = `Available at ${formattedTime}`;
+      const formattedTime = formatTimeFromISO(doc.availability_time);
+      if (formattedTime) {
+        if (doc.is_slot_available) {
+          availableTime = `Available till ${formattedTime}`;
+        } else {
+          availableTime = `Available at ${formattedTime}`;
+        }
       }
-    } else if (doc.isOnline) {
-      // Fallback: if availability_time not provided, show based on online status
+    }
+    
+    if (!availableTime && doc.isOnline) {
       availableTime = 'Available Now';
     }
-   
 
     return {
       id: doc.Id,
@@ -180,6 +177,37 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
       return specialtyMatch;
     })
   }, [mappedDoctors, activeSpecialty, activeCategory, lastClickedSpecialty, onlyMentalHealth, excludeMentalHealth])
+
+  // Memoize sorted and paginated doctors
+  const paginatedDoctors = useMemo(() => {
+    const shouldLimitDoctors = true
+    const doctorsToShow = shouldLimitDoctors ? filteredDoctors.slice(0, visibleDoctorsCount) : filteredDoctors
+    
+    return doctorsToShow.sort((a, b) => {
+      // Priority 1: Online doctors with "Available till" (today's slots) - no date in time string
+      const aIsAvailableTill = a.available && a.availableTime && !a.availableTime.includes(',')
+      const bIsAvailableTill = b.available && b.availableTime && !b.availableTime.includes(',')
+      
+      if (aIsAvailableTill && !bIsAvailableTill) return -1
+      if (!aIsAvailableTill && bIsAvailableTill) return 1
+      
+      // Priority 2: Online doctors with "Available at" (future dates) - contains "Available at"
+      const aIsOnlineWithDate = a.available && a.availableTime && a.availableTime.includes('Available at')
+      const bIsOnlineWithDate = b.available && b.availableTime && b.availableTime.includes('Available at')
+      
+      if (aIsOnlineWithDate && !bIsOnlineWithDate && !bIsAvailableTill) return -1
+      if (!aIsOnlineWithDate && bIsOnlineWithDate && !aIsAvailableTill) return 1
+      
+      // Priority 3: Offline doctors with "Available at" - has time but not online
+      const aIsOfflineWithDate = !a.available && a.availableTime
+      const bIsOfflineWithDate = !b.available && b.availableTime
+      
+      if (aIsOfflineWithDate && !bIsOfflineWithDate) return -1
+      if (!aIsOfflineWithDate && bIsOfflineWithDate) return 1
+      
+      return 0
+    })
+  }, [filteredDoctors, visibleDoctorsCount])
 
   // derive specialties from backend doctors list so filters reflect actual data
   const specialties = useMemo(() => {
@@ -309,39 +337,9 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
             ? Array.from({ length: 6 }, (_, index) => (
               <DoctorCardSkeleton key={index} />
             ))
-            : (() => {
-                // Apply pagination to all categories
-                const shouldLimitDoctors = true
-                const doctorsToShow = shouldLimitDoctors ? filteredDoctors.slice(0, visibleDoctorsCount) : filteredDoctors
-                
-                return doctorsToShow.sort((a, b) => {
-                // Priority 1: Online doctors with "Available till" (today's slots) - no date in time string
-                const aIsAvailableTill = a.available && a.availableTime && !a.availableTime.includes(',')
-                const bIsAvailableTill = b.available && b.availableTime && !b.availableTime.includes(',')
-                
-                if (aIsAvailableTill && !bIsAvailableTill) return -1
-                if (!aIsAvailableTill && bIsAvailableTill) return 1
-                
-                // Priority 2: Online doctors with "Available at" (future dates) - contains "Available at"
-                const aIsOnlineWithDate = a.available && a.availableTime && a.availableTime.includes('Available at')
-                const bIsOnlineWithDate = b.available && b.availableTime && b.availableTime.includes('Available at')
-                
-                if (aIsOnlineWithDate && !bIsOnlineWithDate && !bIsAvailableTill) return -1
-                if (!aIsOnlineWithDate && bIsOnlineWithDate && !aIsAvailableTill) return 1
-                
-                // Priority 3: Offline doctors with "Available at" - has time but not online
-                const aIsOfflineWithDate = !a.available && a.availableTime
-                const bIsOfflineWithDate = !b.available && b.availableTime
-                
-                if (aIsOfflineWithDate && !bIsOfflineWithDate) return -1
-                if (!aIsOfflineWithDate && bIsOfflineWithDate) return 1
-                
-                return 0
-                })
-                .map((doctor) => (
-                  <DoctorCard key={doctor.id} {...doctor} eventPrefix={eventPrefix} />
-                ))
-              })()}
+            : paginatedDoctors.map((doctor) => (
+                <DoctorCard key={doctor.id} {...doctor} eventPrefix={eventPrefix} />
+              ))}
         </div>
 
         {/* Load More Button - Calculate hasMoreDoctors outside the IIFE */}

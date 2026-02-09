@@ -16,7 +16,7 @@ interface FindDoctorsViewProps {
 
 const FindDoctorsView: React.FC<FindDoctorsViewProps> = ({ doctors: initialDoctors = [], category }) => {
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(initialDoctors.length === 0)
   const [doctors, setDoctors] = useState<any[]>(initialDoctors)
 
   // Fetch doctors if not provided

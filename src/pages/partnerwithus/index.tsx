@@ -149,11 +149,9 @@ const PartnerWithUs: React.FC = () => {
     src="/images/partner-bg.webp"
     alt="Partner with us background"
     fill
-    priority
     quality={65}
     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
-    style={{ objectFit: "cover", objectPosition: "top", contentVisibility: "auto" }}
-    placeholder="empty"
+    priority={true}
   />
 
   {/* Gradients */}

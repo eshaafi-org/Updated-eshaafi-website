@@ -10,12 +10,11 @@ import ExpertCareSection from "@/views/Home/ServiceCard";
 // import Features from "@/views/Home/Features";
 import HealthcareLanding from "@/views/Home/HealthcareLanding";
 import TrustedBySection from "@/views/Home/TrustedBySection";
-// import Working from "@/views/Home/Working";
 import Imagesection from "@/views/Home/Imagesection";
 import Medicalcare from "@/views/Home/Medicalcare";
 import GetApp from "@/views/Home/GetApp";
-import { BASE_URL } from "@/helper/CONST";
-import heroImage from "../../public/heroImage.png";
+// import { BASE_URL } from "@/helper/CONST";
+// import heroImage from "../../public/heroImage.png";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
@@ -34,33 +33,58 @@ export default function Home() {
   const [doctors, setDoctors] = useState([]);
   const [positions, setPositions] = useState([]);
 
+  // NOTE: These API calls were fetching data for commented-out components
+  // Disabled to prevent unnecessary API calls and potential timeout errors on Amplify
+  // Uncomment when Blogs and Doctors components are re-enabled
+  /*
   useEffect(() => {
     const fetchBlogs = async () => {
-      const response = await fetch(BASE_URL + "/new/users/blogs");
-      const data = await response.json();
-      setPositions(data?.response?.Items || []);
+      try {
+        const response = await fetch(BASE_URL + "/new/users/blogs", {
+          signal: AbortSignal.timeout(10000), // 10 second timeout
+        });
+        if (!response.ok) throw new Error("Failed to fetch blogs");
+        const data = await response.json();
+        setPositions(data?.response?.Items || []);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        setPositions([]);
+      }
     };
 
     const fetchDoctors = async () => {
-      const response = await fetch(BASE_URL + "/patients/doctors/filter", {
-        cache: "no-cache",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          type: "specialization",
-          search: "General Physician",
-        }),
-      });
-      const data = await response.json();
-      setDoctors(data.response.Items.sort((a: any, b: any) => {
-        return a.isOnline === b.isOnline ? 0 : a.isOnline ? -1 : 1;
-      }));
+      try {
+        const response = await fetch(BASE_URL + "/patients/doctors/filter", {
+          cache: "no-cache",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: "specialization",
+            search: "General Physician",
+          }),
+          signal: AbortSignal.timeout(10000), // 10 second timeout
+        });
+        if (!response.ok) throw new Error("Failed to fetch doctors");
+        const data = await response.json();
+        const doctors = data?.response?.Items || [];
+        setDoctors(doctors.sort((a: any, b: any) => {
+          return a.isOnline === b.isOnline ? 0 : a.isOnline ? -1 : 1;
+        }));
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+        setDoctors([]);
+      }
     };
 
     fetchBlogs();
     fetchDoctors();
+  }, []);
+  */
+
+  useEffect(() => {
+    // Page tracking or initialization if needed
   }, []);
 
   const Partners = dynamic(() => import('@/views/Home/Partners'), { ssr: false });

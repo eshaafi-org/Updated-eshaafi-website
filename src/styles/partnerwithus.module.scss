@@ -20,9 +20,7 @@ $navbar-height: 0px;
 
 
   .imageContainer {
-  position: absolute;
-  // top: $navbar-height;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 100vh;  
   overflow: hidden;
@@ -30,7 +28,13 @@ $navbar-height: 0px;
   // background-image: url("/images/partner-bg.webp");
   // background-repeat: no-repeat;
   // background-size: cover;
-  // background-position: center top; 
+  // background-position: center top;
+  
+  // Safari compatibility for Image with fill
+  img {
+    object-fit: cover !important;
+    object-position: top center !important;
+  } 
 
       
       .gradientLeft {
@@ -2172,5 +2176,14 @@ $navbar-height: 0px;
         padding: 0.75rem 1rem;
       }
     }
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

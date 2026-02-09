@@ -108,7 +108,7 @@ const OurServices: React.FC = () => {
                 tabIndex={0}
               >
                 <div className={styles.iconBox}>
-                  <Image src={service.icon} alt={service.title} width={48} height={48} loading="lazy" />
+                  <img src={service.icon} alt={service.title} width={48} height={48} loading="lazy" />
                 </div>
                 <div className={styles.serviceInfo}>
                   <h3>{service.title}</h3>
@@ -136,7 +136,7 @@ const OurServices: React.FC = () => {
                 tabIndex={0}
               >
                 <div className={styles.iconBox}>
-                  <Image src={service.icon} alt={service.title} width={48} height={48} loading="lazy" />
+                  <img src={service.icon} alt={service.title} width={48} height={48} loading="lazy" />
                 </div>
                 <div className={styles.serviceInfo}>
                   <h3>{service.title}</h3>

@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  productionBrowserSourceMaps: false,
+  compress: true,
   images: {
     domains: [
       "d3lf92qdmyc9ip.cloudfront.net",
@@ -11,6 +14,8 @@ const nextConfig = {
       "https://eshaafi-image-upload-bucket-us-east-1-stage.s3.us-east-1.amazonaws.com",
       "terafort.s3.ap-southeast-1.amazonaws.com",
     ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 31536000,
   },
   transpilePackages: ['react-use-measure', 'framer-motion'],
   eslint: {
@@ -28,13 +33,11 @@ const nextConfig = {
           },
         ],
       },
-      // Cache optimized images served by Next.js image optimizer
       {
         source: '/_next/image(.*)',
         headers: [
           {
             key: 'Cache-Control',
-            // Cache optimized image responses for one year (adjustable)
             value: 'public, max-age=31536000, immutable',
           },
         ],
@@ -50,7 +53,9 @@ const nextConfig = {
       },
     ];
   },
-  output: 'standalone',   
+  serverRuntimeConfig: {
+    maxDuration: 25,
+  },
 };
 
 module.exports = nextConfig;

@@ -141,7 +141,7 @@ const WellnessAreas: React.FC = () => {
             tabIndex={0}
           >
             <div className={styles.icon}>
-              <Image src={item.img} alt={item.title} width={280} height={200} loading="lazy" />
+              <img src={item.img} alt={item.title} width={280} height={200} loading="lazy" />
             </div>
             <h3>{item.title}</h3>
             <p>{item.text}</p>
