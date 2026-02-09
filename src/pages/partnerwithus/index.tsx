@@ -11,14 +11,14 @@ import { trackEvent } from "@/lib/ga";
 import Image from "next/image";
 
 const PartnerWithUs: React.FC = () => {
-  // useEffect(() => {
-  //   if (!sessionStorage.getItem('partnerwithus_page_view_tracked')) {
-  //     trackEvent('partnerwithus_page_view_clk', {
-  //       section: 'page_load'
-  //     });
-  //     safeSessionStorageSetItem('partnerwithus_page_view_tracked', 'true');
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (!sessionStorage.getItem('partnerwithus_page_view_tracked')) {
+      trackEvent('partnerwithus_page_view_clk', {
+        section: 'page_load'
+      });
+      safeSessionStorageSetItem('partnerwithus_page_view_tracked', 'true');
+    }
+  }, [])
 
   const [showForm, setShowForm] = useState(true);
   const [name, setName] = useState('');
