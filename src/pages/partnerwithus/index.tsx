@@ -1,16 +1,14 @@
 "use client";
 
-import React, { useState, useEffect, Suspense, lazy } from "react";
-import Image from "next/image";
+import React, { useState } from "react";
 import styles from "../../styles/partnerwithus.module.scss";
+import MedicalServices from "./services";
+import WellnessAreas from "./wellness";
+import WhyPartnerSection from "./partnersection";
+import TestimonialSection from "./testimonial";
+import FAQSection from "./faq";
 import { trackEvent } from "@/lib/ga";
-
-// Lazy load non-critical components to reduce initial bundle
-const MedicalServices = lazy(() => import("./services"));
-const WellnessAreas = lazy(() => import("./wellness"));
-const WhyPartnerSection = lazy(() => import("./partnersection"));
-const TestimonialSection = lazy(() => import("./testimonial"));
-const FAQSection = lazy(() => import("./faq"));
+import Image from "next/image";
 
 const PartnerWithUs: React.FC = () => {
   // useEffect(() => {
@@ -320,21 +318,11 @@ const PartnerWithUs: React.FC = () => {
           </div>
         </div>
       </div>
-       <Suspense fallback={<div style={{height: '400px'}}></div>}>
-         <MedicalServices/>
-       </Suspense>
-       <Suspense fallback={<div style={{height: '400px'}}></div>}>
-         <WellnessAreas/>
-       </Suspense>
-       <Suspense fallback={<div style={{height: '400px'}}></div>}>
-         <WhyPartnerSection/>
-       </Suspense>
-       <Suspense fallback={<div style={{height: '400px'}}></div>}>
-         <TestimonialSection/>
-       </Suspense>
-       <Suspense fallback={<div style={{height: '400px'}}></div>}>
-         <FAQSection/>
-       </Suspense>
+       <MedicalServices/>
+       <WellnessAreas/>
+       <WhyPartnerSection/>
+       <TestimonialSection/>
+       <FAQSection/>
     </div>
   
   );
