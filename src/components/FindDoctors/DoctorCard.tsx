@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import styles from "@/styles/findDoctors.module.scss";
 import { trackEvent } from "@/lib/ga";
 import { useEffect, useRef } from "react";
@@ -82,7 +83,23 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
     <div className={styles.doctorCard} ref={cardRef}>
       <div className={styles.cardHeader}>
         <div className={styles.imageContainer}>
-          <img src={image} alt={name} className={styles.doctorImage} />
+          {image ? (
+            <Image 
+              src={image} 
+              alt={name} 
+              width={85} 
+              height={85} 
+              className={styles.doctorImage} 
+              unoptimized={false}
+              onError={(e) => {
+                // Fallback to hiding the image or showing a placeholder if needed
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+          ) : (
+            <div className={styles.doctorImage} />
+          )}
           {available && <div className={styles.onlineIndicator}></div>}
         </div>
         <div className={styles.doctorInfo}>
