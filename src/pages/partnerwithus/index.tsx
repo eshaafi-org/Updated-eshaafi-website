@@ -16,7 +16,7 @@ const PartnerWithUs: React.FC = () => {
       trackEvent('partnerwithus_page_view_clk', {
         section: 'page_load'
       });
-      safeSessionStorageSetItem('partnerwithus_page_view_tracked', 'true');
+      sessionStorage.setItem('partnerwithus_page_view_tracked', 'true');
     }
   }, [])
 
