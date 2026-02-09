@@ -79,7 +79,7 @@ const WellnessAreas: React.FC = () => {
 
   useEffect(() => {
     // Defer intersection observer to prevent blocking main thread
-    const timeoutId = requestIdleCallback(() => {
+    const timeoutId = setTimeout(() => {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -95,10 +95,10 @@ const WellnessAreas: React.FC = () => {
       cardsRef.current.forEach((card) => {
         if (card) observer.observe(card);
       });
-    }, { timeout: 2000 });
+    }, 2000);
 
     return () => {
-      cancelIdleCallback(timeoutId);
+      clearTimeout(timeoutId);
     };
   }, []);
 

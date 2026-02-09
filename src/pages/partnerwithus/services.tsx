@@ -56,7 +56,7 @@ const OurServices: React.FC = () => {
 
   useEffect(() => {
     // Defer intersection observer to prevent blocking main thread
-    const timeoutId = requestIdleCallback(() => {
+    const timeoutId = setTimeout(() => {
       const cards = document.querySelectorAll(`.${styles.serviceCard}`);
 
       const observer = new IntersectionObserver(
@@ -73,10 +73,10 @@ const OurServices: React.FC = () => {
 
       cards.forEach((card) => observer.observe(card));
       return () => observer.disconnect();
-    }, { timeout: 2000 });
+    }, 2000);
 
     return () => {
-      cancelIdleCallback(timeoutId);
+      clearTimeout(timeoutId);
     };
   }, []);
 
