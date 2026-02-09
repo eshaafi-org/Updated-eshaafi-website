@@ -13,14 +13,14 @@ const TestimonialSection = lazy(() => import("./testimonial"));
 const FAQSection = lazy(() => import("./faq"));
 
 const PartnerWithUs: React.FC = () => {
-  useEffect(() => {
-    if (!sessionStorage.getItem('partnerwithus_page_view_tracked')) {
-      trackEvent('partnerwithus_page_view_clk', {
-        section: 'page_load'
-      });
-      sessionStorage.setItem('partnerwithus_page_view_tracked', 'true');
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!sessionStorage.getItem('partnerwithus_page_view_tracked')) {
+  //     trackEvent('partnerwithus_page_view_clk', {
+  //       section: 'page_load'
+  //     });
+  //     safeSessionStorageSetItem('partnerwithus_page_view_tracked', 'true');
+  //   }
+  // }, [])
 
   const [showForm, setShowForm] = useState(true);
   const [name, setName] = useState('');
@@ -151,7 +151,8 @@ const PartnerWithUs: React.FC = () => {
     fill
     quality={65}
     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
-    priority={true}
+    style={{ objectFit: "cover", objectPosition: "top" }}
+    placeholder="empty"
   />
 
   {/* Gradients */}

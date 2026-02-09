@@ -51,7 +51,7 @@ export default async function handler(
       return res.status(405).json({ message: "Method not allowed" });
     }
 
-    console.log("========== APPLICATION SUBMISSION ==========");
+    //console.log("========== APPLICATION SUBMISSION ==========");
     
     const { name, position, email, phone, type, fileName } = req.body;
 
@@ -128,9 +128,9 @@ export default async function handler(
         throw new Error(`Lambda returned ${emailResponse.status}`);
       }
 
-      console.log(`Application email sent successfully for ${type}`);
+      //console.log(`Application email sent successfully for ${type}`);
       clearTimeout(requestTimeout);
-      console.log("========== SUBMISSION COMPLETE ==========");
+      //console.log("========== SUBMISSION COMPLETE ==========");
       return res.status(200).json({
         message: "Application submitted successfully",
         success: true,
@@ -163,7 +163,7 @@ export default async function handler(
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error("Error processing application:", errorMessage);
-    console.error("========== SUBMISSION FAILED ==========");
+    //console.error("========== SUBMISSION FAILED ==========");
     clearTimeout(requestTimeout);
     return res.status(200).json({
       message: "Application received - will be processed by our team",
