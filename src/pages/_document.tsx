@@ -29,7 +29,7 @@ export default function Document() {
           }}
         />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9SYMT7PC3"></script>
-        {/* Meta Pixel Code - placed in head to match install instructions */}
+        {/* Meta Pixel Code */}
         <script
           dangerouslySetInnerHTML={{
             __html: `!function(f,b,e,v,n,t,s)
@@ -40,13 +40,14 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '749453374245045');
+fbq('init', '896901436419978');
 fbq('track', 'PageView');`,
           }}
         />
         <noscript>
-          <img height="1" width="1" style={{ display: 'none' }} src="https://www.facebook.com/tr?id=749453374245045&ev=PageView&noscript=1" />
+          <img height="1" width="1" style={{ display: 'none' }} src="https://www.facebook.com/tr?id=896901436419978&ev=PageView&noscript=1" />
         </noscript>
+
     
       </Head>
       <body>
