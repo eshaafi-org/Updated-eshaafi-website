@@ -210,7 +210,7 @@ export default function MindWellnessPage({
             eventPrefix="mw_"
             customTitle={
               <>
-                Confidential <span style={{color: '#1976d2'}}>Mental Health</span> Support/Therapies from your Comfort
+                Confidential <span style={{color: '#1c6ba4'}}>Mental Health</span> Support/Therapies from your Comfort
               </>
             }
             onCategoryChange={(category) => {
