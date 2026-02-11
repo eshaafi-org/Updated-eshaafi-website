@@ -28,9 +28,10 @@ interface DoctorGridProps {
   baseRoute?: string
   onCategoryChange?: (category: string | null) => void
   eventPrefix?: string; // Optional: defaults to 'fd_', use 'mw_' for mind-wellness
+  customTitle?: React.ReactNode; // Optional: custom title for the section
 }
 
-const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = false, onlyMentalHealth = false, isLoading = false, activeCategory, disableNavigation = false, baseRoute = '/find-doctors', onCategoryChange, eventPrefix = 'fd_' }) => {
+const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = false, onlyMentalHealth = false, isLoading = false, activeCategory, disableNavigation = false, baseRoute = '/find-doctors', onCategoryChange, eventPrefix = 'fd_', customTitle }) => {
   const [activeSpecialty, setActiveSpecialty] = useState(onlyMentalHealth ? 'All Therapists' : 'All Doctor')
   const [lastClickedSpecialty, setLastClickedSpecialty] = useState<string | null>(null)
   const [visibleDoctorsCount, setVisibleDoctorsCount] = useState(6) // Start with 6 doctors for specific categories
@@ -247,9 +248,15 @@ const DoctorGrid: React.FC<DoctorGridProps> = ({ doctors, excludeMentalHealth = 
     <section className={styles.doctorsSection}>
       <div className={styles.doctorsWrapper}>
         <div className={styles.sectionHeader}>
-          <h1 className={styles.sectionTitle} style={{ fontFamily: "'Inter', sans-serif" }}>
-            Book <span className={styles.highlightBlue}>video consultation</span> with the best doctors
-          </h1>
+          {customTitle ? (
+            <h1 className={styles.sectionTitle} style={{ fontFamily: "'Inter', sans-serif" }}>
+              {customTitle}
+            </h1>
+          ) : (
+            <h1 className={styles.sectionTitle} style={{ fontFamily: "'Inter', sans-serif" }}>
+              Book <span className={styles.highlightBlue}>video consultation</span> with the best doctors
+            </h1>
+          )}
         </div>
 
         <div className={styles.specialtyFilters}>

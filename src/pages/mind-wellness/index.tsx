@@ -208,6 +208,11 @@ export default function MindWellnessPage({
             disableNavigation={true}
             activeCategory={selectedCategory || undefined}
             eventPrefix="mw_"
+            customTitle={
+              <>
+                Confidential <span style={{color: '#1976d2'}}>Mental Health</span> Support/Therapies from your Comfort
+              </>
+            }
             onCategoryChange={(category) => {
               setSelectedCategory(category);
               if (category) {
