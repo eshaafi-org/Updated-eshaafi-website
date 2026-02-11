@@ -8,6 +8,7 @@ import axios from "axios";
 import { BASE_URL } from "@/helper/CONST";
 import AddressBar from "@/components/AddressBar";
 import GetApp from "@/views/Home/GetApp";
+import { trackEvent } from "@/lib/ga";
 // links
 export default function CategoryPage() {
   // component variables
@@ -19,6 +20,8 @@ export default function CategoryPage() {
   const [lastEvaluatedKey, setLastEvaluatedKey] = useState<
     string | undefined | null
   >("");
+  const [uniqueBlogIds] = useState<Set<string>>(new Set()); // Track unique blogs by ID/name
+  
   // links to navigate
   const links = [
     { name: "Home", link: "/" },
@@ -35,52 +38,90 @@ export default function CategoryPage() {
       document.body.style.overflow = "hidden";
       setIsLoading(true);
       setReachedEnd(false);
+      const categoryParam = router?.query?.category !== "recent"
+        ? `?category=${router?.query?.category}&last=${lastEvaluatedKey}`
+        : `?last=${lastEvaluatedKey}`;
+      
       axios
-        .get(`${BASE_URL}/new/users/blogs?last=${lastEvaluatedKey}`)
+        .get(`${BASE_URL}/new/users/blogs${categoryParam}`)
         .then((response) => {
           const newLastEvaluatedKey = response.data.response.LastEvaluatedKey;
-          // console.log(newLastEvaluatedKey);
+          const adminListNextPage = response.data.response.Items || [];
+          
+          // Filter out duplicates
+          const uniqueNewBlogs = adminListNextPage.filter((newBlog: any) => {
+            const blogId = newBlog.name || newBlog.id;
+            if (uniqueBlogIds.has(blogId)) {
+              console.log(`⚠️ Duplicate blog skipped: ${newBlog.title}`);
+              return false;
+            }
+            uniqueBlogIds.add(blogId);
+            return true;
+          });
+
+          console.log(`📥 Loaded ${adminListNextPage.length} blogs, ${uniqueNewBlogs.length} are unique`);
+          
           setLastEvaluatedKey(newLastEvaluatedKey);
-          const adminListNextPage = response.data.response.Items;
-          setBlog((prevBlogs) => [...prevBlogs, ...adminListNextPage]);
+          setBlog((prevBlogs) => [...prevBlogs, ...uniqueNewBlogs]);
           document.body.style.overflow = "auto";
           setIsLoading(false);
           setReachedEnd(true);
         })
         .catch((error) => {
           setIsLoading(false);
+          console.error('Error loading more blogs:', error);
         });
     }
   };
+  
   // get initial data function
   const getData = () => {
     document.body.style.overflow = "auto";
     setIsLoading(true);
+    uniqueBlogIds.clear(); // Reset unique tracking
+    
     if (router?.query?.category) {
+      const categoryParam = router?.query?.category !== "recent"
+        ? `?category=${router?.query?.category}`
+        : "";
+      
       axios
-        .get(
-          `${
-            router?.query?.category !== "recent"
-              ? `${BASE_URL}/new/users/blogs?category=${router?.query?.category}`
-              : `${BASE_URL}/new/users/blogs`
-          }`
-        )
+        .get(`${BASE_URL}/new/users/blogs${categoryParam}`)
         .then((response) => {
+          const initialBlogs = response.data.response.Items || [];
+          
+          // Track unique blogs and filter duplicates
+          initialBlogs.forEach((blog: any) => {
+            uniqueBlogIds.add(blog.name || blog.id);
+          });
+          
+          console.log(`📂 Category: ${router?.query?.category}`);
+          console.log(`📥 Loaded ${initialBlogs.length} blogs`);
+          console.log('📋 Blogs:', initialBlogs.map((b: any) => b.title));
+          
+          trackEvent('blog_category_page_view', {
+            section: 'category_page',
+            category: router?.query?.category,
+            blog_count: initialBlogs.length
+          });
+          
           setLastEvaluatedKey(response.data.response.LastEvaluatedKey);
-          setBlog(response.data.response.Items);
+          setBlog(initialBlogs);
           setIsLoading(false);
           setReachedEnd(true);
         })
         .catch((err) => {
           setIsLoading(false);
-          console.error(err);
+          console.error('Error loading category blogs:', err);
         });
     }
   };
+  
   // after first rendering of the component
   useEffect(() => {
     getData();
-  }, [router]);
+  }, [router?.query?.category]);
+  
   // getting know about scroll
   useEffect(() => {
     function handleScroll() {
