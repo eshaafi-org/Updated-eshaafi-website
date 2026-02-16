@@ -14,6 +14,14 @@ export default function GlobalIncomingHandler() {
       const appointmentId = data.appointmentId || data.channelName;
       if (!appointmentId) return;
 
+      // Don't show notification if we're already on the appointment page
+      const currentPath = router.pathname;
+      const currentAppointmentMatch = currentPath.match(/\/appointments\/([^/?]+)/);
+      if (currentAppointmentMatch && currentAppointmentMatch[1] === appointmentId) {
+        console.log('[GlobalIncomingHandler] Already on appointment page, skipping notification');
+        return;
+      }
+
       // Persist backup
       try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) { /* ignore */ }
 

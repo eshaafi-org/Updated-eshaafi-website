@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { initializeDeviceToken, isSafari, isMacOSSafari } from '@/helper/notifications';
 
 const NotificationPermissionDialog = () => {
   const [showDialog, setShowDialog] = useState(false);
+  const { userAuth } = useSelector((state: any) => state.loginModalReducer);
 
   useEffect(() => {
     // Check if notifications are supported and permission is not granted
-    if ('Notification' in window) {
+    // Show dialog for all browsers except macOS Safari (which uses SafariPushPrompt)
+    if ('Notification' in window && !isMacOSSafari()) {
       const permission = Notification.permission;
-      // Show dialog if permission is 'default' (not asked yet)
-      if (permission === 'default') {
+      
+      // Show dialog if permission is 'default' (not asked yet) and user is logged in
+      if (permission === 'default' && userAuth?.uuid) {
         // Check if user has dismissed it before (optional)
         const dismissed = localStorage.getItem('notificationDialogDismissed');
         if (!dismissed) {
@@ -16,14 +21,16 @@ const NotificationPermissionDialog = () => {
         }
       }
     }
-  }, []);
+  }, [userAuth]);
 
   const handleAllow = async () => {
     try {
       const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        // Optionally initialize FCM here
-        console.log('Notification permission granted');
+      if (permission === 'granted' && userAuth?.uuid) {
+        // Initialize FCM token registration
+        const userId = userAuth.uuid || userAuth.IdToken;
+        const phoneNumber = userAuth.phone_no || userAuth.phoneNumber || userAuth.phone;
+        await initializeDeviceToken(userId, phoneNumber);
       }
       setShowDialog(false);
     } catch (error) {

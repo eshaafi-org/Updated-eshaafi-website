@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import Button from "@/components/Button";
 import styles from "./VideoCall.module.scss";
 import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash, FaPhone, FaPhoneSlash } from "react-icons/fa";
+import { isSafari } from "@/helper/notifications";
 
 interface AgoraVideoCallProps {
   appId: string;
@@ -137,7 +138,7 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
       setLocalAudioTrack(audioTrack);
 
       // Join channel
-      await client.join(appId, channelName, token, parseInt(profileId));
+      await client.join(appId, channelName, token, isSafari() ? 0 : parseInt(profileId));
 
       // Publish local tracks
       await client.publish([videoTrack, audioTrack]);
@@ -163,8 +164,12 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
       });
 
     } catch (error) {
-      console.error("Failed to join call:", error);
-      setIsConnecting(false);
+      console.error("Failed to join call:", error);      console.error("Join parameters:");
+      console.error("- AppId:", appId);
+      console.error("- Channel:", channelName);
+      console.error("- Token length:", token?.length);
+      console.error("- Token preview:", token?.substring(0, 50) + "...");
+      console.error("- Uid:", isSafari() ? 0 : parseInt(profileId));      setIsConnecting(false);
       toast.error("Failed to join the call. Please try again.", {
         position: "top-right",
         autoClose: 5000,

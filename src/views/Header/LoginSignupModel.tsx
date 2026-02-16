@@ -1,7 +1,7 @@
 import { useReducer, useState, FormEvent, useRef } from "react";
 import axios from "axios";
 import { BASE_URL, headers } from "@/helper/CONST";
-import { initializeDeviceToken } from "@/helper/notifications";
+import { initializeDeviceToken, isSafari, getSafariPushPermissionStatus, initializeSafariPush, isMacOSSafari, isSafariPushAvailable, isIOS } from "@/helper/notifications";
 import style from "./Header.module.scss";
 import Button from "@/components/Button";
 import { InputField } from "@/components/InputField";
@@ -15,7 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { IoIosArrowForward, IoIosArrowRoundBack } from "react-icons/io";
+//import { IoIosArrowForward, IoIosArrowRoundBack } from "react-icons/io";
 import Image from "next/image";
 import logo from "../../../public/eshaafiLogo.svg";
 import { trackEvent } from "@/lib/ga";
@@ -123,7 +123,6 @@ export const Model = ({ page = "login" }: { page: string }) => {
       // Filter profiles to show only those belonging to current phone number
       const currentPhoneNumber = `+92${phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum}`;
       const filteredProfiles = allProfiles.filter((profile: any) => {
-        // Check if profile phone matches current phone number
         const profilePhone = profile.phone_no || profile.phoneNo || profile.phone;
         return profilePhone === currentPhoneNumber || profilePhone === phoneNum ||
           profilePhone === `92${phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum}`;
@@ -255,6 +254,26 @@ export const Model = ({ page = "login" }: { page: string }) => {
       });
 
       dispatch({ type: "loginModalSlice/setAuth", payload: { ...userAuth, selectedProfile } });
+
+      // Register device token with backend for call notifications (don't block UI)
+      try {
+        const userId = userAuth.uuid || userAuth.IdToken;
+        const phoneNumber = userAuth.phone_no || userAuth.phoneNumber || userAuth.phone;
+        
+        // Handle push notifications based on browser capabilities
+        
+        if (isMacOSSafari() && isSafariPushAvailable()) {
+          // macOS Safari -> Use legacy Safari push API (request permission if needed)
+          // This must be triggered by a user gesture (like this click event)
+          initializeSafariPush(userId, phoneNumber);
+        } else {
+          // All other browsers (including iOS Safari and non-Mac Safari) -> use FCM
+          initializeDeviceToken(userId, phoneNumber);
+        }
+      } catch (tokenError) {
+        // registration failed
+      }
+
       close();
     }
   };
@@ -300,6 +319,26 @@ export const Model = ({ page = "login" }: { page: string }) => {
         });
 
         dispatch({ type: "loginModalSlice/setAuth", payload: uuid });
+
+        // Register device token with backend for call notifications (don't block UI)
+        try {
+          const userId = uuid.uuid || uuid.IdToken;
+          const phoneNumber = uuid.phone_no || uuid.phoneNumber || uuid.phone;
+          
+          // Handle push notifications based on browser capabilities
+          
+          if (isMacOSSafari() && isSafariPushAvailable()) {
+            // macOS Safari -> Use legacy Safari push API (request permission if needed)
+            // This is inside a form submission handler, which is a valid user gesture
+            initializeSafariPush(userId, phoneNumber);
+          } else {
+            // All other browsers (including iOS Safari and non-Mac Safari) -> use FCM
+            initializeDeviceToken(userId, phoneNumber);
+          }
+        } catch (tokenError) {
+          // registration failed
+        }
+
         close();
       })
       .catch((err) => {
