@@ -4,8 +4,13 @@
  */
 
 // Import Firebase scripts for FCM in service worker
-importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js');
+try {
+  importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js');
+  importScripts('https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js');
+  console.log('[ServiceWorker] Firebase scripts imported successfully');
+} catch (error) {
+  console.error('[ServiceWorker] Error importing Firebase scripts:', error);
+}
 
 // Firebase config
 const firebaseConfig = {
@@ -20,12 +25,18 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase in service worker
-firebase.initializeApp(firebaseConfig);
-const messaging = firebase.messaging();
+let messaging = null;
+try {
+  firebase.initializeApp(firebaseConfig);
+  messaging = firebase.messaging();
+  console.log('[ServiceWorker] Firebase initialized successfully');
+} catch (error) {
+  console.error('[ServiceWorker] Error initializing Firebase:', error);
+}
 
 // Service Worker Version - increment this to force update
-const SW_VERSION = 'v2.0.7';
-// console.log('[ServiceWorker] Version:', SW_VERSION);
+const SW_VERSION = 'v2.0.8';
+console.log('[ServiceWorker] Version:', SW_VERSION);
 
 // Install event
 self.addEventListener('install', (event) => {
@@ -78,7 +89,7 @@ messaging.onBackgroundMessage((payload) => {
     return;
   }
 
-  // Send message to all clients immediately (for foreground app)
+  // Send message to ALL clients (show notification on any page - homepage, profile, etc.)
   self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clients => {
     //console.log('[ServiceWorker] Found', clients.length, 'open windows');
     clients.forEach(client => {
