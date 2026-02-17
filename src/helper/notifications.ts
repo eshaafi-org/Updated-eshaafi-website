@@ -381,80 +381,18 @@ export const initializeSafariPush = (
             
           }
         } else if (permissionData.permission === 'denied') {
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          console.error('REASON 2: BACKEND RETURNED HTTP ERROR (Most Common)');
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          console.error('   - Environment:', pushPackageEndpoint.includes('execute-api') ? 'STAGING' : 'PRODUCTION');
-          
-          
-          console.error('   - Timestamp:', new Date().toISOString());
-          
+    
+          // console.error('REASON 2: BACKEND RETURNED HTTP ERROR (Most Common)');
+          // console.error('   - Environment:', pushPackageEndpoint.includes('execute-api') ? 'STAGING' : 'PRODUCTION');
+          // console.error('   - Timestamp:', new Date().toISOString()); 
           resolve(null);
         } else if (permissionData.permission === 'default') {
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          console.error('   - Environment:', pushPackageEndpoint.includes('execute-api') ? 'STAGING' : 'PRODUCTION');
-          
-          
-          
-          
-          
-          
-          
-          
-          console.error('4. Check response status code (should be 200)');
-          console.error('5. Check response headers (Content-Type should be application/zip)');
-          
-          
-          
-          
-          
+          // console.error('   - Environment:', pushPackageEndpoint.includes('execute-api') ? 'STAGING' : 'PRODUCTION');
+          // console.error('4. Check response status code (should be 200)');
+          // console.error('5. Check response headers (Content-Type should be application/zip)');
           resolve(null);
         } else {
-          
-          
-          
-          
-          
           console.error('Full response object:', JSON.stringify(permissionData, null, 2));
-          
           resolve(null);
         }
       }
@@ -507,27 +445,13 @@ export const unregisterDeviceToken = async (userId: string): Promise<boolean> =>
       'Content-Type': 'application/json',
       'device-id': getDeviceId(),
     };
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     const response = await fetch(url, {
       method: 'DELETE',
       headers: requestHeaders,
       body: JSON.stringify(requestBody),
     });
 
-    
-    
-    
-    
-    console.log('Headers:', Object.fromEntries(response.headers.entries()));
+    // console.log('Headers:', Object.fromEntries(response.headers.entries()));
     
     if (response.ok) {
       
@@ -535,89 +459,16 @@ export const unregisterDeviceToken = async (userId: string): Promise<boolean> =>
       localStorage.removeItem('fcm_token');
       return true;
     }
-
     const errorText = await response.text();
-    
-    
     return false;
   } catch (error) {
-    
-    
-    
-    
-    
+
     return false;
   }
 };
 
 
-export const subscribeToAppointmentNotifications = async (
-  appointmentId: string,
-  userId: string
-): Promise<boolean> => {
-  try {
-    const token = getFCMToken();
-    
-    if (!token) {
-      
-      return false;
-    }
 
-    const url = `${BASE_URL}/appointments/${appointmentId}/subscribe`;
-    const requestBody = {
-      userId,
-      deviceToken: token,
-      deviceType: 'web',
-    };
-    const requestHeaders = {
-      ...headers(),
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    };
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: requestHeaders,
-      body: JSON.stringify(requestBody),
-    });
-
-    
-    
-    
-    
-    console.log('Headers:', Object.fromEntries(response.headers.entries()));
-    
-    if (response.ok) {
-      const data = await response.text();
-      console.log('Response Body:', data || '(empty)');
-      
-    } else {
-      const errorText = await response.text();
-      
-      
-    }
-    
-
-    return response.ok;
-  } catch (error) {
-    
-    
-    
-    
-    
-    return false;
-  }
-};
 
 // Listen for foreground FCM messages and show toast (only once)
 // Robust foreground notification: show persistent toast until call is started or dismissed
@@ -813,7 +664,6 @@ export default {
   initializeDeviceToken,
   getFCMToken,
   unregisterDeviceToken,
-  subscribeToAppointmentNotifications,
   getDeviceId,
   setupGlobalNotificationListener,
   isSafariPushAvailable,
