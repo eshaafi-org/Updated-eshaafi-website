@@ -4,14 +4,14 @@
 import { BASE_URL, headers } from './CONST';
 import { requestNotificationPermission as getFCMTokenFromFirebase, onForegroundMessage } from '../config/firebase';
 import { toast } from 'react-toastify';
-
+import { BASE_URL } from './CONST';
 const websitePushID = 'web.com.eshaafi.push';
 
 // Push Package URLs based on environment
 // Safari AUTOMATICALLY appends /v2/pushPackages/{websitePushID}
 // So we must provide only the BASE URL
 const PUSH_PACKAGE_URLS = {
-  production: 'https://f6l7k20y31.execute-api.us-east-1.amazonaws.com/stage',
+  production: `${BASE_URL}/prod`,
   staging: 'https://f6l7k20y31.execute-api.us-east-1.amazonaws.com/stage',
 };
 
