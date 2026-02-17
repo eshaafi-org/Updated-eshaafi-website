@@ -56,7 +56,7 @@ const ClientTestimonials: React.FC = () => {
     },
     {
       quote:
-        "Thanks to eShaafi for taking a wonderful initiative in the corporate sector, leading much-needed awareness on an important topic in our society of breast cancer awareness.",
+        "Thanks to eShaafi for taking a wonderful initiative in the Corporate sector, leading much-needed awareness on an important topic in our society of breast cancer awareness.",
       author: "Sehar Malik   ",
       company: "Senior Executive HR, Folium AI",
       companyLogo: "/images/logo2.png",
