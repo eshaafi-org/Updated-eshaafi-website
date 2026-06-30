@@ -4,7 +4,6 @@
 import { BASE_URL, headers } from './CONST';
 import { requestNotificationPermission as getFCMTokenFromFirebase, onForegroundMessage } from '../config/firebase';
 import { toast } from 'react-toastify';
-import { BASE_URL } from './CONST';
 const websitePushID = 'web.com.eshaafi.push';
 
 // Push Package URLs based on environment
