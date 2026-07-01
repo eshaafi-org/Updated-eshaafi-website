@@ -89,7 +89,8 @@ export async function getStaticPaths() {
   const res = await fetch(BASE_URL + "/new/users/blogs");
   const position = await res.json();
   // console.log(position);
-  const paths = position.response.Items.map((post: any) => ({
+  const items = position?.response?.Items ? position.response.Items : [];
+  const paths = items.map((post: any) => ({
     params: { id: post.name },
   }));
   // console.log(paths);
