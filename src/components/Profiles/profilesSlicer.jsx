@@ -9,7 +9,7 @@ export const getProfilesData = createAsyncThunk("getProfilesData", async () => {
     .get(`${BASE_URL}/patients/profile?device=web`, {
       headers: headers(),
     })
-    .then((res) => res.data.response.data);
+    .then((res) => res.data?.response?.data ?? res.data?.response);
   return response;
 });
 
@@ -31,7 +31,9 @@ export const getProfilesSlice = createSlice({
     },
     [getProfilesData.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.profiles = [payload.self, ...payload.profiles]; // Fix here
+      if (payload) {
+        state.profiles = [payload.self, ...(payload.profiles ?? [])].filter(Boolean);
+      }
     },
     [getProfilesData.rejected]: (state) => {
       state.loading = false;

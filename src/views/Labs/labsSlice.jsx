@@ -1,11 +1,11 @@
 "use client";
 // import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BASE_URL } from "@/helper/CONST.ts";
+import { BASE_URL, headers } from "@/helper/CONST.ts";
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const getLabsHome = createAsyncThunk("getLabsHome", async () => {
   const response = await axios
-    .get(`${BASE_URL}/lab/patients/labs`)
+    .get(`${BASE_URL}/guest/patients/labs`, { headers: headers() })
     .then((res) => res?.data?.response);
   return response;
 });

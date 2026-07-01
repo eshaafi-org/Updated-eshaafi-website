@@ -13,6 +13,7 @@ const nextConfig = {
       "img.icons8.com",
       "https://eshaafi-image-upload-bucket-us-east-1-stage.s3.us-east-1.amazonaws.com",
       "terafort.s3.ap-southeast-1.amazonaws.com",
+      "chughtailab.com",
     ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31536000,
