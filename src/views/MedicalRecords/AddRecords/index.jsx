@@ -32,7 +32,8 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
   };
   // show modal
   const handleShow = () => {
-    if (patient.profileId) {
+    const selectedPatientId = patient?.patientId || patient?.profileId;
+    if (selectedPatientId) {
       setShow(true);
     } else {
       toast("Select any profile to proceed", {
@@ -238,10 +239,27 @@ export default function AddRecords({ patient, getMedicalRecords, toast }) {
   };
   // uploading records
   const uploadingRecords = () => {
+    const selectedPatientId = patient?.patientId || patient?.profileId;
+
+    if (!selectedPatientId) {
+      toast("Select any profile to proceed", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        type: "warning",
+      });
+      return;
+    }
+
     setUploading(true);
     axios
       .post(
-        BASE_URL + `/patients/addMedicalRecord/${patient.patientId}`,
+        BASE_URL + `/patients/addMedicalRecord/${selectedPatientId}`,
         {
           image: fileType === ".pdf" ? [] : images,
           pdf: fileType === ".pdf" ? images : [],

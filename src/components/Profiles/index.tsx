@@ -103,7 +103,13 @@ const Profiles = memo(function ProfilesComponent({
 
   useEffect(() => {
     if (profiles.length > 0) {
-      setPatient(profiles[0]);
+      const initialProfile = profiles[0];
+      const initialProfileId = initialProfile?.profileId || initialProfile?.patientId || "";
+      setPatient({
+        ...initialProfile,
+        profileId: initialProfileId,
+        patientId: initialProfileId,
+      });
     }
   }, [profiles]);
 
@@ -140,9 +146,15 @@ const Profiles = memo(function ProfilesComponent({
                 id={itm.profileId}
                 value={itm.profileId}
                 onClick={(e: any) => {
-                  if (patient.patientId === e.target.value) {
+                  const selectedProfileId = e.target.value;
+                  const isSameProfile =
+                    patient?.patientId === selectedProfileId ||
+                    patient?.profileId === selectedProfileId;
+
+                  if (isSameProfile) {
                     setPatient({
                       profileId: "",
+                      patientId: "",
                       name: "",
                       relation: "",
                       location: "",
@@ -152,7 +164,8 @@ const Profiles = memo(function ProfilesComponent({
                     });
                   } else {
                     setPatient({
-                      profileId: e.target.value,
+                      profileId: selectedProfileId,
+                      patientId: selectedProfileId,
                       name: itm.name,
                       relation: itm.relation,
                       location: itm.location,

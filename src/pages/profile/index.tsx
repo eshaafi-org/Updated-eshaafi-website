@@ -473,7 +473,13 @@ export default function Profile() {
 
   useEffect(() => {
     if (patient.name) {
-      setStates({ type: "SET_PROFILE", payload: patient });
+      const formattedDob = patient.dob
+        ? moment(patient.dob).isValid()
+          ? moment(patient.dob).format("YYYY-MM-DD")
+          : ""
+        : "";
+      const payload = { ...patient, dob: formattedDob };
+      setStates({ type: "SET_PROFILE", payload });
     }
   }, [patient]);
 

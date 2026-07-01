@@ -28,16 +28,17 @@ export default function MedicalRecord() {
     }
   }, []);
 
-  const [patient, setPatient] = useState({ patientId: "" });
+  const [patient, setPatient] = useState({ patientId: "", profileId: "" });
   const [records, setRecords] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const selectedPatientId = patient?.patientId || patient?.profileId;
   // geting records
   const getMedicalRecords = () => {
-    if (patient.patientId) {
+    if (selectedPatientId) {
       axios
         .get(
           BASE_URL +
-            `/patients/medicalHistory?date=All&record_for=${patient.patientId}`,
+            `/patients/medicalHistory?date=All&record_for=${selectedPatientId}`,
           { headers: headers() }
         )
         .then((res) => {
