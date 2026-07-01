@@ -970,14 +970,30 @@ const Navbar: React.FC<{ doctors?: any[] }> = ({ doctors = [] }) => {
   const isNavItemActive = (itemHref: string | undefined): boolean => {
     if (!itemHref) return false;
     const currentPath = router.pathname;
-    const itemPath = itemHref.split('#')[0]; // Remove hash for comparison
+    const currentHash =
+      typeof window !== 'undefined' ? window.location.hash.replace('#', '') : '';
+    const [itemPath, itemHash] = itemHref.split('#');
 
-    // Don't highlight items with hash anchors (like #subscription-plans)
-    // Only highlight exact path matches or main category routes
-    if (itemHref.includes('#')) return false;
+    const pathMatches =
+      currentPath === itemPath || currentPath.startsWith(itemPath + '/');
+    if (!pathMatches) return false;
 
-    // Highlight if exact match or starts with the path (includes sublinks)
-    return currentPath === itemPath || currentPath.startsWith(itemPath + '/');
+    // Items with a hash anchor only count as active when that hash is the current one
+    if (itemHash) return currentHash === itemHash;
+
+    // Plain path items shouldn't be highlighted when a more specific hash-based
+    // item on the same path is the one actually being viewed
+    if (currentHash) {
+      const hasHashSiblingOnSamePath = navbarItems.some(
+        (other) =>
+          other.href?.includes('#') &&
+          other.href.split('#')[0] === itemPath &&
+          other.href.split('#')[1] === currentHash
+      );
+      if (hasHashSiblingOnSamePath) return false;
+    }
+
+    return true;
   };
 
   const handleModal = () => {
