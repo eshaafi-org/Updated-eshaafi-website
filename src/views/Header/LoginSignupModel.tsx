@@ -146,7 +146,7 @@ export const Model = ({ page = "login" }: { page: string }) => {
     }
     let processedPhoneNo = e ? (e.phone_no.startsWith('0') ? e.phone_no.substring(1) : e.phone_no) : (phoneNum.startsWith('0') ? phoneNum.substring(1) : phoneNum);
     axios
-      .post(BASE_URL + "/auth/sendOtp", {
+      .post(BASE_URL + "/auth/login", {
         phone_no: `+92${processedPhoneNo}`,
         type: 1,
         os_name: "web",
