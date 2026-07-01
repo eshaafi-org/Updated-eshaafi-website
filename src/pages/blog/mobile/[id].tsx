@@ -342,7 +342,8 @@ export async function getStaticPaths() {
   // Call an external API endpoint to get posts
   const res = await fetch(BASE_URL + "/new/users/blogs");
   const position = await res.json();
-  const paths = position.response.Items.map((post: any) => ({
+  const items = position?.response?.Items ? position.response.Items : [];
+  const paths = items.map((post: any) => ({
     params: { id: post.name },
   }));
 

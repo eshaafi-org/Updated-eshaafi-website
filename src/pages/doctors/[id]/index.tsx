@@ -381,7 +381,8 @@ export async function getStaticPaths() {
   });
 
   const docData = await response.json();
-  const paths = docData.response.Items.map((doc: any) => ({
+  const items = docData?.response?.Items ? docData.response.Items : [];
+  const paths = items.map((doc: any) => ({
     params: { id: doc.Id },
   }));
   // { fallback: false } means other routes should 404
