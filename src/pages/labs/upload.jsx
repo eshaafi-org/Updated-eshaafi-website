@@ -369,8 +369,8 @@ export default function Prescription() {
                           {item.name}
                         </option>
                       ))} */}
-                    <option value="chugtai">
-                      Chugtai Lab
+                    <option value="chughtai">
+                      Chughtai Lab
                     </option>
                     <option value="idc">
                       IDC

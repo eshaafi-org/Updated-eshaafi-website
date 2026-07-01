@@ -143,7 +143,7 @@ export default function Info({ typeTest,
                                     Select Lab
                                 </option>
                                 {labOptions.includes("Chughtai Lab") && (
-                                    <option value="chugtai">Chughtai Lab</option>
+                                    <option value="chughtai">Chughtai Lab</option>
                                 )}
                                 {labOptions.includes("IDC Lab") && (
                                     <option value="idc">IDC Lab</option>
