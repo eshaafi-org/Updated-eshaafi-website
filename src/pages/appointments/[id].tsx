@@ -166,7 +166,7 @@ function AppointmentPage() {
               <DoctorCard doctor={detail} cancel={cancel} />
               <div className={styles.btnContainer}>
                 <Link
-                  href={`/medicalrecord`}
+                  href={`/medicalrecords`}
                   className={`${styles.consultationBtn} ${
                     detail?.appointment_status === "missed" ||
                     detail?.appointment_status === "cancelled" ||
