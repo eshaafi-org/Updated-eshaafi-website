@@ -490,6 +490,14 @@ export default function Timer({ appointment }: any) {
     const appointmentIdForCheck = appointment?.appointmentId || appointment?.id || router.query.appointmentId || router.query.id;
     if (appointmentIdForCheck && sessionStorage.getItem(`safariCallProcessed_${appointmentIdForCheck}`)) {
       hasProcessedIncoming.current = true;
+      // Already processed in this session (e.g. a reload of the ?incoming=1
+      // URL). Strip the stale params so nothing downstream treats this as a
+      // fresh incoming call, and offer the manual Join button instead.
+      if (router.query.incoming === '1' || router.query.autoJoin === '1') {
+        setCallPending(true);
+        const { incoming, autoJoin, ...restQuery } = router.query;
+        router.replace({ pathname: router.pathname, query: restQuery }, undefined, { shallow: true });
+      }
       return;
     }
 
@@ -746,21 +754,15 @@ export default function Timer({ appointment }: any) {
     }
   }, [incomingCall, showVideoCall, isRequestingToken, callData, appointment?.doctorName, showIncomingSnackbar]);
 
-  // Latch "call pending" whenever state or the incoming-call deep link indicates
-  // an active call, so the "Join Call" button persists after ?incoming=1 is
-  // stripped from the URL. Cleared explicitly on reject / call end.
+  // Latch "call pending" from live call state only (NOT from the URL — the URL
+  // can still carry stale ?incoming=1 after a reload or an ended call, and
+  // latching from it would resurrect the Join button forever). The URL-param
+  // effect sets callPending explicitly for genuine deep links.
   useEffect(() => {
-    if (
-      incomingCall ||
-      callData ||
-      router.query.incoming === '1' ||
-      router.query.callData ||
-      router.query.appointmentId ||
-      router.query.channelName
-    ) {
+    if (incomingCall || callData) {
       setCallPending(true);
     }
-  }, [incomingCall, callData, router.query.incoming, router.query.callData, router.query.appointmentId, router.query.channelName]);
+  }, [incomingCall, callData]);
 
   // Clear Timer's incoming-call popup whenever a call connects or is dismissed
   // (events fired by acceptCall/rejectCall/handleCallEnd and the global handler).
@@ -883,6 +885,7 @@ export default function Timer({ appointment }: any) {
     setIncomingCall(false);
     setCallData(null);
     setCallPending(false);
+    try { sessionStorage.removeItem('incomingCallData'); } catch (e) { /* ignore */ }
 
     // Dispatch call_dismissed event to stop ringtone
     if (typeof window !== 'undefined') {
@@ -903,6 +906,14 @@ export default function Timer({ appointment }: any) {
     setCallPending(false);
     setAgoraToken(null);
     setAgoraAppId(null);
+
+    // Drop any stale incoming/autoJoin params and the stored call payload so a
+    // reload after the call ends doesn't re-enter the incoming-call flow.
+    try { sessionStorage.removeItem('incomingCallData'); } catch (e) { /* ignore */ }
+    if (router.query.incoming || router.query.autoJoin) {
+      const { incoming, autoJoin, ...restQuery } = router.query;
+      router.replace({ pathname: router.pathname, query: restQuery }, undefined, { shallow: true });
+    }
 
     // Ensure the global ringtone/popup are cleared too.
     if (typeof window !== 'undefined') {
@@ -975,23 +986,34 @@ export default function Timer({ appointment }: any) {
         ) : (
           <div className={style.callReadyContainer}>
             {callPending && !showVideoCall ? (
-              <button
-                onClick={() => acceptCall()}
-                disabled={isRequestingToken}
-                style={{
-                  background: '#10b981',
-                  color: '#ffffff',
-                  border: 'none',
-                  padding: '10px 24px',
-                  borderRadius: '8px',
-                  cursor: isRequestingToken ? 'not-allowed' : 'pointer',
-                  fontSize: '15px',
-                  fontWeight: 600,
-                  opacity: isRequestingToken ? 0.7 : 1,
-                }}
-              >
-                {isRequestingToken ? 'Joining…' : 'Join Call'}
-              </button>
+              (() => {
+                // Enabled only while the doctor is actually calling (a live
+                // incoming_call signal set incomingCall/callData). On a stale
+                // reload of ?incoming=1 there's no live signal, so the button
+                // is greyed out until a real call arrives.
+                const doctorCalling = incomingCall || !!callData;
+                const joinDisabled = isRequestingToken || !doctorCalling;
+                return (
+                  <button
+                    onClick={() => acceptCall()}
+                    disabled={joinDisabled}
+                    title={doctorCalling ? 'Join the video call' : 'Waiting for the doctor to start the call'}
+                    style={{
+                      background: doctorCalling ? '#10b981' : '#9ca3af',
+                      color: '#ffffff',
+                      border: 'none',
+                      padding: '10px 24px',
+                      borderRadius: '8px',
+                      cursor: joinDisabled ? 'not-allowed' : 'pointer',
+                      fontSize: '15px',
+                      fontWeight: 600,
+                      opacity: joinDisabled ? 0.7 : 1,
+                    }}
+                  >
+                    {isRequestingToken ? 'Joining…' : 'Join Call'}
+                  </button>
+                );
+              })()
             ) : (
               <p style={{ color: "#009b94" }}>Doctor Will Call You Shortly</p>
             )}
