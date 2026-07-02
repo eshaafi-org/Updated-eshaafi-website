@@ -114,6 +114,13 @@ export default function App({ Component, pageProps }: AppProps) {
       window.dispatchEvent(new Event('call_started'));
       if (!isOnAppointmentPage) {
         try {
+          // One-shot auto-join intent (consumed by Timer) so a reload of the
+          // appointment URL doesn't keep auto-joining.
+          sessionStorage.setItem(`autoJoinIntent_${appointmentId}`, '1');
+        } catch (err) {
+          /* ignore */
+        }
+        try {
           await router.push(`/appointments/${appointmentId}?incoming=1&autoJoin=1`);
         } catch (err) {
           /* ignore */

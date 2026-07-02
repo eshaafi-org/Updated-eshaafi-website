@@ -504,7 +504,18 @@ export default function Timer({ appointment }: any) {
       
       
       
-      const shouldAutoJoin = router.query.autoJoin === '1';
+      // Auto-join only when the URL asks for it AND a one-shot intent flag is
+      // present (set by the Accept handler right before navigating). We consume
+      // the flag immediately, so reloading the ?autoJoin=1 URL will NOT keep
+      // joining when no doctor is actually calling — it falls back to showing
+      // the manual "Join Call" button instead.
+      let shouldAutoJoin = router.query.autoJoin === '1';
+      if (shouldAutoJoin && appointmentIdForCheck) {
+        const intentKey = `autoJoinIntent_${appointmentIdForCheck}`;
+        const hasIntent = sessionStorage.getItem(intentKey) === '1';
+        sessionStorage.removeItem(intentKey);
+        shouldAutoJoin = hasIntent;
+      }
 
       // For Safari with hash data, skip here (handled by useLayoutEffect)
       if (isSafari() && typeof window !== 'undefined' && window.location.hash) {
@@ -698,11 +709,12 @@ export default function Timer({ appointment }: any) {
         acceptCall();
       }
 
-      // If no call data and not autoJoining, show the incoming snackbar so user can accept manually
+      // No call data and not auto-joining (e.g. a reload of the ?incoming=1 URL
+      // when no doctor is actively calling). Don't pop the modal or auto-join —
+      // just surface the manual "Join Call" button so the patient can join if a
+      // call is in progress, without spurious ringing on every reload.
       if (!foundCallData && !shouldAutoJoin) {
-        setIncomingCall(true);
-        // Route through the shared, deduplicated popup so we never stack two.
-        showIncomingSnackbar({ doctorName: appointment?.doctorName });
+        setCallPending(true);
       }
 
       // Remove the incoming parameter from URL without reloading

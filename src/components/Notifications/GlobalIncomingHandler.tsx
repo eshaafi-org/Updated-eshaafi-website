@@ -132,7 +132,12 @@ export default function GlobalIncomingHandler() {
                 clearActivePopup();
                 // Stop any ringtone owned elsewhere too.
                 window.dispatchEvent(new Event('call_started'));
-                try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) {}
+                try {
+                  sessionStorage.setItem('incomingCallData', JSON.stringify(data));
+                  // One-shot auto-join intent: Timer consumes + deletes this, so a
+                  // page reload (where this key is gone) won't re-trigger a join.
+                  sessionStorage.setItem(`autoJoinIntent_${appointmentId}`, '1');
+                } catch (e) {}
                 await router.push(`/appointments/${appointmentId}?incoming=1&autoJoin=1`);
               }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
               <button onClick={() => {
