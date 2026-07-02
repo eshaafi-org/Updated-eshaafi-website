@@ -4,6 +4,7 @@
 import { BASE_URL, headers } from './CONST';
 import { requestNotificationPermission as getFCMTokenFromFirebase, onForegroundMessage } from '../config/firebase';
 import { toast } from 'react-toastify';
+import { normalizeIncomingCallPayload, dispatchIncomingCall } from './incomingCall';
 const websitePushID = 'web.com.eshaafi.push';
 
 // Push Package URLs based on environment
@@ -472,84 +473,28 @@ export const unregisterDeviceToken = async (userId: string): Promise<boolean> =>
 // Listen for foreground FCM messages and show toast (only once)
 // Robust foreground notification: show persistent toast until call is started or dismissed
 
-let _fcmToastListenerSet = false;
-let _activeCallToastId = null;
-let _ringtoneAudio = null;
-if (typeof window !== 'undefined' && !_fcmToastListenerSet) {
-  _fcmToastListenerSet = true;
+// Foreground FCM listener.
+//
+// This handler is intentionally "dumb": it only normalizes the FCM payload into
+// an `incoming_call` window event (with dedup) and lets GlobalIncomingHandler own
+// the entire in-app UI (popup + ringtone). Keeping the popup/ringtone in a single
+// place is what prevents the "too many / stuck" notifications.
+let _fcmForegroundListenerSet = false;
+if (typeof window !== 'undefined' && !_fcmForegroundListenerSet) {
+  _fcmForegroundListenerSet = true;
   try {
     onForegroundMessage((payload) => {
-    const data = payload?.data || {};
-    const appointmentId = data.appointmentId || data.channelName;
+    const callData = normalizeIncomingCallPayload(payload);
 
-    if (appointmentId) {
-      const callData = {
-        type: 'incoming_call',
-        appointmentId: appointmentId,
-        doctorName: data.doctorName || data.name || payload?.notification?.title || 'Doctor',
-        agoraToken: data.agoraToken || data.token,
-        profileUrl: data.profileUrl,
-        educationTitle: data.educationTitle,
-        body: payload?.notification?.body || ''
-      };
+    if (callData) {
       try {
         sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
       } catch (e) {
-        
+        /* ignore */
       }
 
-      // Only show one persistent notification for the current call
-      if (_activeCallToastId) {
-        toast.dismiss(_activeCallToastId);
-        _activeCallToastId = null;
-      }
-      _activeCallToastId = toast(
-        `Incoming video call from ${callData.doctorName}`,
-        {
-          type: 'info',
-          autoClose: false,
-          closeOnClick: false,
-          draggable: false,
-          toastId: `incoming_call_${appointmentId}`,
-          onClose: () => {
-            _activeCallToastId = null;
-          },
-        }
-      );
-
-      // Play ringtone (ensure only one instance)
-      try {
-        if (_ringtoneAudio) {
-          _ringtoneAudio.pause();
-          _ringtoneAudio.currentTime = 0;
-        }
-        _ringtoneAudio = new window.Audio('/ringtone.mp3'); 
-        _ringtoneAudio.loop = true;
-        _ringtoneAudio.volume = 1.0;
-        _ringtoneAudio.play().catch(() => {}); 
-      } catch (e) {
-        
-      }
-
-      // Listen for call started or dismissed events to clear the toast and stop ringtone
-      const clearToastAndRingtone = () => {
-        if (_activeCallToastId) {
-          toast.dismiss(_activeCallToastId);
-          _activeCallToastId = null;
-        }
-        if (_ringtoneAudio) {
-          _ringtoneAudio.pause();
-          _ringtoneAudio.currentTime = 0;
-          _ringtoneAudio = null;
-        }
-        window.removeEventListener('call_started', clearToastAndRingtone);
-        window.removeEventListener('call_dismissed', clearToastAndRingtone);
-      };
-      window.addEventListener('call_started', clearToastAndRingtone);
-      window.addEventListener('call_dismissed', clearToastAndRingtone);
-
-      // Dispatch custom event for in-app UI
-      window.dispatchEvent(new CustomEvent('incoming_call', { detail: callData }));
+      // Single source of truth for the popup + ringtone: GlobalIncomingHandler.
+      dispatchIncomingCall(callData);
       return;
     }
 
@@ -562,95 +507,47 @@ if (typeof window !== 'undefined' && !_fcmToastListenerSet) {
     });
   } catch (error) {
     // Safari or unsupported browsers - FCM not available
-    
+
   }
 }
 
-// Global service worker message handler for ALL pages (homepage, profile, etc.)
-// This shows incoming call notifications everywhere, not just on appointment page
+// Global service worker message handler for ALL pages (homepage, profile, etc.).
+//
+// This now ONLY normalizes service-worker messages into the deduplicated
+// `incoming_call` event. The popup + ringtone are owned exclusively by
+// GlobalIncomingHandler, so there's a single UI regardless of how many raw
+// messages the service worker sends (it intentionally posts several times).
 export const setupGlobalNotificationListener = () => {
   if (typeof window === 'undefined') return;
 
   const handleServiceWorkerMessage = (event: MessageEvent) => {
-    if (!event.data || event.data.type !== 'incoming_call') return;
+    const data: any = event.data;
+    if (!data || (data.type !== 'incoming_call' && data.type !== 'accept_call')) return;
 
-    const callData = event.data;
-    const appointmentId = callData.appointmentId;
+    const callData = normalizeIncomingCallPayload(data);
+    if (!callData) return;
 
-    
+    // Carry through autoJoin intent from an "accept" click.
+    if (data.type === 'accept_call') callData.autoJoin = true;
 
-    // Check current page
-    const currentPath = window.location.pathname;
-    const isOnAppointmentPage = currentPath.includes(`/appointments/${appointmentId}`);
-
-    // If already on appointment page, let Timer component handle it
-    if (isOnAppointmentPage) {
-      
-      return;
-    }
-
-    // Show persistent toast with doctor info on any page
-    
-    
-    // Store call data for potential navigation
     try {
       sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
     } catch (e) {
-      
+      /* ignore */
     }
 
-    // Show toast with doctor profile and accept/reject buttons
-    const toastId = toast(
-      `Incoming call from ${callData.doctorName}${callData.educationTitle ? ' (' + callData.educationTitle + ')' : ''}`,
-      {
-        type: 'default' as any,
-        position: 'top-right',
-        autoClose: false,
-        closeOnClick: false,
-        draggable: false,
-        closeButton: false,
-      }
-    );
-
-    // Listen for call started/dismissed to close toast
-    const clearToast = () => {
-      toast.dismiss(toastId);
-      window.removeEventListener('call_started', clearToast);
-      window.removeEventListener('call_dismissed', clearToast);
-    };
-    window.addEventListener('call_started', clearToast);
-    window.addEventListener('call_dismissed', clearToast);
-
-    // Play ringtone
-    try {
-      const ringtone = new window.Audio('/ringtone.mp3');
-      ringtone.loop = true;
-      ringtone.volume = 1.0;
-      ringtone.play().catch(() => {});
-      
-      const stopRingtone = () => {
-        ringtone.pause();
-        window.removeEventListener('call_started', stopRingtone);
-        window.removeEventListener('call_dismissed', stopRingtone);
-      };
-      window.addEventListener('call_started', stopRingtone);
-      window.addEventListener('call_dismissed', stopRingtone);
-    } catch (e) {
-      
-    }
+    // Dedup guarantees a single popup even across the SW's repeated posts.
+    dispatchIncomingCall(callData);
   };
 
-  // Listen for service worker messages
   if ('serviceWorker' in navigator) {
-    window.addEventListener('message', handleServiceWorkerMessage);
-    
+    navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage);
   }
 
   // Return unsubscribe function
   return () => {
     if ('serviceWorker' in navigator) {
-      window.removeEventListener('message', handleServiceWorkerMessage);
-      
+      navigator.serviceWorker.removeEventListener('message', handleServiceWorkerMessage);
     }
   };
 };

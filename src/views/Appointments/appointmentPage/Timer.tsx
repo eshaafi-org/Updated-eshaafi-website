@@ -33,11 +33,18 @@ export default function Timer({ appointment }: any) {
   const [callData, setCallData] = useState<any>(null);
   const [isRequestingToken, setIsRequestingToken] = useState(false);
   const [pendingAutoJoin, setPendingAutoJoin] = useState(false);
+  // Latches true when a call is pending on this page (from state or an
+  // incoming-call deep link) so the "Join Call" button stays visible even after
+  // we strip ?incoming=1 from the URL. Cleared on reject / call end.
+  const [callPending, setCallPending] = useState(false);
   const [agoraAppId, setAgoraAppId] = useState<string | null>(null);
   const hasClearedUrl = useRef(false);
   const hasProcessedIncoming = useRef(false);
   const hasRetriedJoin = useRef(false);
   const isCurrentlyAccepting = useRef(false);
+  // notistack key of the incoming-call popup currently shown by Timer, so we
+  // never stack more than one popup for the same call on the appointment page.
+  const incomingSnackKeyRef = useRef<string | number | null>(null);
 
   // Helper to fix tokens corrupted by URL decoding (spaces instead of +)
   const fixCorruptedToken = (token?: string | null): string | null => {
@@ -273,6 +280,54 @@ export default function Timer({ appointment }: any) {
     }
   }, [callData, appointment, router, agoraToken, agoraAppId, showVideoCall]);
 
+  // Close any incoming-call popup Timer is currently showing.
+  const closeIncomingSnackbar = useCallback(() => {
+    if (incomingSnackKeyRef.current !== null) {
+      closeSnackbar(incomingSnackKeyRef.current);
+      incomingSnackKeyRef.current = null;
+    }
+  }, []);
+
+  // Single, deduplicated incoming-call popup for the appointment page.
+  const showIncomingSnackbar = useCallback((data: any) => {
+    // Don't stack a second popup for the same active call.
+    if (incomingSnackKeyRef.current !== null) return;
+
+    const key = enqueueSnackbar(
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #10b981', flexShrink: 0, background: '#f3f4f6' }}>
+          <Image src={data?.profileUrl || '/images/default-doctor.png'} alt={data?.doctorName || 'Doctor'} width={50} height={50} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
+          <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{data?.doctorName || appointment?.doctorName || 'Doctor'}</div>
+          {data?.educationTitle && <div style={{ fontSize: '11px', color: '#6b7280' }}>{data.educationTitle}</div>}
+        </div>
+      </div>,
+      {
+        variant: 'default',
+        persist: true,
+        anchorOrigin: { horizontal: 'right', vertical: 'top' },
+        style: {
+          minWidth: '320px',
+          background: '#ffffff',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+          border: '1px solid #e5e7eb',
+          borderRadius: '8px',
+          padding: '12px 16px',
+        },
+        action: (snackKey) => (
+          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+            <button onClick={() => { closeSnackbar(snackKey); incomingSnackKeyRef.current = null; acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
+            <button onClick={() => { closeSnackbar(snackKey); incomingSnackKeyRef.current = null; rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
+            <button onClick={() => { closeSnackbar(snackKey); incomingSnackKeyRef.current = null; }} style={{ background: 'transparent', color: '#6b7280', border: 'none', padding: '8px', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
+          </div>
+        )
+      }
+    );
+    incomingSnackKeyRef.current = key;
+  }, [acceptCall, appointment?.doctorName]);
+
   // Safari: Listen for hash changes and process call data if present (for notification click when already on page)
   useLayoutEffect(() => {
     if (!isSafari()) return;
@@ -427,69 +482,6 @@ export default function Timer({ appointment }: any) {
       window.removeEventListener('hashchange', processHashCallData);
     };
   }, [acceptCall]);
-
-  // Listen for service worker messages IMMEDIATELY on mount (before appointment loads)
-  useEffect(() => {
-    const handleServiceWorkerMessage = (event: MessageEvent) => {
-      
-      
-      
-      
-      const allowedTypes = ['incoming_call', 'accept_call', 'reject_call'];
-      if (!event.data || !allowedTypes.includes(event.data.type)) {
-        
-        return;
-      }
-      
-      if (event.data?.type === 'incoming_call') {
-        const data = event.data;
-        
-        
-        if (isSafari()) {
-          console.log('[Timer] Notification payload received from backend:', JSON.stringify(data, null, 2));
-        }
-        sessionStorage.setItem('incomingCallData', JSON.stringify(data));
-        setCallData(data);
-        // Handle auto join from service worker
-        if (data.autoJoin && data.agoraToken) {
-          
-          setAgoraToken(data.agoraToken);
-          // Derive and set appId for Safari compatibility
-          const derived = getAppIdFromToken(data.agoraToken);
-          let finalAppId = data.appId;
-          if (!finalAppId || (typeof finalAppId === 'string' && finalAppId.trim() === '')) {
-            finalAppId = derived;
-          }
-          setAgoraAppId(sanitizeAppId(finalAppId));
-          setShowVideoCall(true);
-          setIncomingCall(false);
-        } else {
-          
-          setIncomingCall(true);
-        }
-      } else if (event.data?.type === 'accept_call') {
-        const data = event.data;
-        
-        sessionStorage.setItem('incomingCallData', JSON.stringify(data));
-        setCallData(data);
-        acceptCall();
-      } else if (event.data?.type === 'reject_call') {
-        
-        rejectCall();
-      }
-    };
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('message', handleServiceWorkerMessage);
-      //
-    }
-
-    return () => {
-      if ('serviceWorker' in navigator) {
-        window.removeEventListener('message', handleServiceWorkerMessage);
-      }
-    };
-  }, [acceptCall]); // Empty deps - run once on mount
 
   // Check URL parameter for incoming call (Safari push notification handling)
   useEffect(() => {
@@ -672,54 +664,45 @@ export default function Timer({ appointment }: any) {
         try {
           const parsedCallData = JSON.parse(storedCallData);
           setCallData(parsedCallData);
+          foundCallData = true;
 
-          // Auto-join if autoJoin flag is set
-          if (shouldAutoJoin && parsedCallData.agoraToken) {
-            const token = fixCorruptedToken(parsedCallData.agoraToken) as string;
-            setAgoraToken(token);
-            setAgoraAppId(parsedCallData.appId || getAppIdFromToken(token));
-            setShowVideoCall(true);
-            setIncomingCall(false);
+          if (shouldAutoJoin) {
+            if (parsedCallData.agoraToken) {
+              // We have everything we need — join directly.
+              const token = fixCorruptedToken(parsedCallData.agoraToken) as string;
+              setAgoraToken(token);
+              setAgoraAppId(parsedCallData.appId || getAppIdFromToken(token));
+              setShowVideoCall(true);
+              setIncomingCall(false);
+            } else {
+              // autoJoin requested but no token in the payload — fetch it from
+              // the backend via acceptCall(). This is the robust path that makes
+              // "Accept" reliably open the call even when the notification
+              // didn't carry a token.
+              acceptCall();
+            }
           } else {
             setIncomingCall(true);
           }
-          
-          sessionStorage.removeItem('incomingCallData');
-          foundCallData = true;
+
+          // Keep the backup so acceptCall()/retries can still read it.
         } catch (error) {
-          
+
         }
       }
 
-      // If no call data was found but autoJoin is requested, set pending auto join
+      // If no call data was found but autoJoin is requested, fetch the token and
+      // join directly instead of waiting for a callData event that won't arrive
+      // (we're already on the page, past the incoming_call dispatch).
       if (!foundCallData && shouldAutoJoin) {
-        
-        setPendingAutoJoin(true);
+        acceptCall();
       }
 
       // If no call data and not autoJoining, show the incoming snackbar so user can accept manually
       if (!foundCallData && !shouldAutoJoin) {
         setIncomingCall(true);
-        // show snackbar with accept/reject so mobile users see it even without callData
-        enqueueSnackbar(
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{appointment?.doctorName || 'Doctor'}</div>
-            </div>
-          </div>,
-          {
-            variant: 'default',
-            persist: true,
-            anchorOrigin: { horizontal: 'right', vertical: 'top' },
-            action: (key) => (
-              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                <button onClick={() => { closeSnackbar(key); acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
-                <button onClick={() => { closeSnackbar(key); rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
-              </div>
-            )
-          }
-        );
+        // Route through the shared, deduplicated popup so we never stack two.
+        showIncomingSnackbar({ doctorName: appointment?.doctorName });
       }
 
       // Remove the incoming parameter from URL without reloading
@@ -729,56 +712,55 @@ export default function Timer({ appointment }: any) {
         query: restQuery
       }, undefined, { shallow: true });
     }
-  }, [router.query.incoming, router, acceptCall, appointment?.appointmentId, appointment?.doctorName, appointment?.id]);
+  }, [router.query.incoming, router, acceptCall, appointment?.appointmentId, appointment?.doctorName, appointment?.id, showIncomingSnackbar]);
 
   // Handle pending auto join when callData becomes available
   useEffect(() => {
     if (pendingAutoJoin && callData) {
-      
+
       setPendingAutoJoin(false);
       acceptCall();
     }
   }, [pendingAutoJoin, callData, acceptCall]);
 
-  // Show incoming call modal/snackbar when incomingCall is true
+  // Whenever an incoming call is pending (and we're not already in / joining a
+  // call), make sure the accept/reject modal is on screen. This is the single
+  // place that renders the modal for every code path that sets incomingCall
+  // (URL params, sessionStorage, service worker), so sub-page deep links like
+  // /appointments/:id?incoming=1 always show it.
   useEffect(() => {
-    if (incomingCall && callData) {
-      
-      setTimeout(() => {
-        enqueueSnackbar(
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #10b981', flexShrink: 0, background: '#f3f4f6' }}>
-              <Image src={callData.profileUrl || '/images/default-doctor.png'} alt={callData.doctorName} width={50} height={50} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{callData.doctorName || 'Doctor'}</div>
-              {callData.educationTitle && <div style={{ fontSize: '11px', color: '#6b7280' }}>{callData.educationTitle}</div>}
-            </div>
-          </div>,
-          {
-            variant: 'default',
-            persist: true,
-            anchorOrigin: { horizontal: 'right', vertical: 'top' },
-            style: {
-              minWidth: '320px',
-              background: '#ffffff',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '12px 16px',
-            },
-            action: (key) => (
-              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                <button onClick={() => { closeSnackbar(key); acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
-                <button onClick={() => { closeSnackbar(key); rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
-              </div>
-            )
-          }
-        );
-      }, 6000);
+    if (incomingCall && !showVideoCall && !isRequestingToken) {
+      showIncomingSnackbar(callData || { doctorName: appointment?.doctorName });
     }
-  }, [incomingCall, callData, acceptCall]);
+  }, [incomingCall, showVideoCall, isRequestingToken, callData, appointment?.doctorName, showIncomingSnackbar]);
+
+  // Latch "call pending" whenever state or the incoming-call deep link indicates
+  // an active call, so the "Join Call" button persists after ?incoming=1 is
+  // stripped from the URL. Cleared explicitly on reject / call end.
+  useEffect(() => {
+    if (
+      incomingCall ||
+      callData ||
+      router.query.incoming === '1' ||
+      router.query.callData ||
+      router.query.appointmentId ||
+      router.query.channelName
+    ) {
+      setCallPending(true);
+    }
+  }, [incomingCall, callData, router.query.incoming, router.query.callData, router.query.appointmentId, router.query.channelName]);
+
+  // Clear Timer's incoming-call popup whenever a call connects or is dismissed
+  // (events fired by acceptCall/rejectCall/handleCallEnd and the global handler).
+  useEffect(() => {
+    const onResolved = () => closeIncomingSnackbar();
+    window.addEventListener('call_started', onResolved);
+    window.addEventListener('call_dismissed', onResolved);
+    return () => {
+      window.removeEventListener('call_started', onResolved);
+      window.removeEventListener('call_dismissed', onResolved);
+    };
+  }, [closeIncomingSnackbar]);
 
   const getTime = useCallback(() => {
     if (moment(deadline).valueOf() > Date.now()) {
@@ -808,206 +790,116 @@ export default function Timer({ appointment }: any) {
     }
   }, [appointment, getTime]);
 
-  // Listen for incoming call notifications from FCM push notifications
+  // Single incoming-call listener for the appointment page.
+  //
+  // On this page Timer owns the incoming-call UI (GlobalIncomingHandler stays
+  // silent here). We consume:
+  //   - the deduplicated `incoming_call` window event (foreground FCM, deep links)
+  //   - service worker accept/reject messages (arrive on navigator.serviceWorker)
+  // and only act when the call is for THIS appointment.
   useEffect(() => {
     const appointmentId = appointment?.appointmentId || appointment?.id;
-    
-    
-    // Handler for messages from service worker (background notifications)
-    const handleServiceWorkerMessage = (event: MessageEvent) => {
-      
-      
-      console.log('[Timer] Event Data:', JSON.stringify(event.data, null, 2));
-      
-      
-      const allowedTypes = ['incoming_call', 'accept_call', 'reject_call'];
+    if (!appointmentId) return;
 
-      if (!event.data || !allowedTypes.includes(event.data.type)) return;
-
-      const data = event.data;
-      
-
-      // Check if the call is for this appointment
-      if (data.appointmentId === appointmentId) {
-        
-        if (isSafari()) {
-          console.log('[Timer] Notification payload received from backend:', JSON.stringify(data, null, 2));
-        }
-        setCallData(data);
-        
-        // Handle auto join
-        if (data.autoJoin && data.agoraToken) {
-          
-          setAgoraToken(data.agoraToken);
-          // Derive and set appId for Safari compatibility
-          const derived = getAppIdFromToken(data.agoraToken);
-          let finalAppId = data.appId;
-          if (!finalAppId || (typeof finalAppId === 'string' && finalAppId.trim() === '')) {
-            finalAppId = derived;
-          }
-          setAgoraAppId(sanitizeAppId(finalAppId));
-          setShowVideoCall(true);
-          setIncomingCall(false);
-          return;
-        }
-        
-        // Handle different message types
-        if (event.data.type === 'accept_call') {
-          
-          acceptCall();
-          return;
-        } else if (event.data.type === 'reject_call') {
-          
-          rejectCall();
-          return;
-        }
-        
-        // For incoming_call, check if pending auto join
-        if (pendingAutoJoin) {
-          
-          return;
-        }
-
-        setIncomingCall(true);
-
-        // Also store in sessionStorage as backup
-        try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) {  }
-
-        // Show simplified toast notification with Accept/Reject buttons
-        enqueueSnackbar(
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #10b981', flexShrink: 0, background: '#f3f4f6' }}>
-              <Image src={data.profileUrl || '/images/default-doctor.png'} alt={data.doctorName} width={50} height={50} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{data.doctorName || 'Doctor'}</div>
-              {data.educationTitle && <div style={{ fontSize: '11px', color: '#6b7280' }}>{data.educationTitle}</div>}
-            </div>
-          </div>,
-          {
-            variant: 'default',
-            persist: true,
-            anchorOrigin: { horizontal: 'right', vertical: 'top' },
-            style: {
-              minWidth: '320px',
-              background: '#ffffff',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '12px 16px',
-            },
-            action: (key) => (
-              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                <button onClick={() => { closeSnackbar(key); acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
-                <button onClick={() => { closeSnackbar(key); rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
-                <button onClick={() => closeSnackbar(key)} style={{ background: 'transparent', color: '#6b7280', border: 'none', padding: '8px', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
-              </div>
-            )
-          }
-        );
-      } else {
-        
+    const applyAutoJoin = (data: any) => {
+      setAgoraToken(data.agoraToken);
+      const derived = getAppIdFromToken(data.agoraToken);
+      let finalAppId = data.appId;
+      if (!finalAppId || (typeof finalAppId === 'string' && finalAppId.trim() === '')) {
+        finalAppId = derived;
       }
+      setAgoraAppId(sanitizeAppId(finalAppId));
+      setShowVideoCall(true);
+      setIncomingCall(false);
+      closeIncomingSnackbar();
     };
 
-    // Handler for custom window events (foreground notifications)
+    // Foreground / deep-link incoming call (deduplicated upstream).
     const handleWindowIncomingCall = (event: any) => {
-      
-      
       const data = event.detail;
-      
-      
-      // Check if the call is for this appointment
-      if (data.appointmentId === appointmentId) {
-        
+      if (!data || data.appointmentId !== appointmentId) return;
+
+      setCallData(data);
+      try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) { /* ignore */ }
+
+      if (data.autoJoin && data.agoraToken) {
+        applyAutoJoin(data);
+        return;
+      }
+      if (pendingAutoJoin) return;
+
+      setIncomingCall(true);
+      showIncomingSnackbar(data);
+    };
+
+    // Service worker accept/reject for a backgrounded call.
+    const handleServiceWorkerMessage = (event: MessageEvent) => {
+      const data: any = event.data;
+      const allowedTypes = ['accept_call', 'reject_call'];
+      if (!data || !allowedTypes.includes(data.type)) return;
+      if (data.appointmentId !== appointmentId) return;
+
+      if (data.type === 'accept_call') {
         setCallData(data);
-        setIncomingCall(true);
-        
-        // Also store in sessionStorage as backup
-        sessionStorage.setItem('incomingCallData', JSON.stringify(data));
-        
-        // Show simplified toast notification with Accept/Reject buttons
-        enqueueSnackbar(
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #10b981', flexShrink: 0, background: '#f3f4f6' }}>
-              <Image src={data.profileUrl || '/images/default-doctor.png'} alt={data.doctorName} width={50} height={50} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{data.doctorName || 'Doctor'}</div>
-              {data.educationTitle && <div style={{ fontSize: '11px', color: '#6b7280' }}>{data.educationTitle}</div>}
-            </div>
-          </div>,
-          {
-            variant: 'default',
-            persist: true,
-            anchorOrigin: { horizontal: 'right', vertical: 'top' },
-            style: {
-              minWidth: '320px',
-              background: '#ffffff',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: '12px 16px',
-            },
-            action: (key) => (
-              <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                <button onClick={() => { closeSnackbar(key); acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
-                <button onClick={() => { closeSnackbar(key); rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
-                <button onClick={() => closeSnackbar(key)} style={{ background: 'transparent', color: '#6b7280', border: 'none', padding: '8px', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
-              </div>
-            )
-          }
-        );
+        try { sessionStorage.setItem('incomingCallData', JSON.stringify(data)); } catch (e) { /* ignore */ }
+        closeIncomingSnackbar();
+        if (data.autoJoin && data.agoraToken) {
+          applyAutoJoin(data);
+        } else {
+          acceptCall();
+        }
       } else {
-        
+        rejectCall();
       }
     };
 
-    // Listen for messages from service worker (FCM notifications clicked while app closed)
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('message', handleServiceWorkerMessage);
-    }
-    
-    // Listen for custom window events (FCM notifications while app is open)
     window.addEventListener('incoming_call', handleWindowIncomingCall);
-    
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', handleServiceWorkerMessage as EventListener);
+    }
+
     return () => {
-      if ('serviceWorker' in navigator) {
-        window.removeEventListener('message', handleServiceWorkerMessage);
-      }
       window.removeEventListener('incoming_call', handleWindowIncomingCall);
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.removeEventListener('message', handleServiceWorkerMessage as EventListener);
+      }
     };
-  }, [appointment, acceptCall, pendingAutoJoin]);
+  }, [appointment, acceptCall, pendingAutoJoin, showIncomingSnackbar, closeIncomingSnackbar]);
 
   const rejectCall = () => {
-    
+    closeIncomingSnackbar();
     setIncomingCall(false);
     setCallData(null);
-    
+    setCallPending(false);
+
     // Dispatch call_dismissed event to stop ringtone
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new Event('call_dismissed'));
     }
-    
-    enqueueSnackbar('Call rejected', { 
+
+    enqueueSnackbar('Call rejected', {
       variant: 'info',
-      autoHideDuration: 3000 
+      autoHideDuration: 3000
     });
   };
 
   const handleCallEnd = () => {
-    
+    closeIncomingSnackbar();
     setShowVideoCall(false);
     setIncomingCall(false);
     setCallData(null);
+    setCallPending(false);
     setAgoraToken(null);
     setAgoraAppId(null);
-    
-    enqueueSnackbar('Call ended', { 
+
+    // Ensure the global ringtone/popup are cleared too.
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('call_dismissed'));
+    }
+
+    enqueueSnackbar('Call ended', {
       variant: 'info',
-      autoHideDuration: 3000 
+      autoHideDuration: 3000
     });
   };
 
@@ -1070,7 +962,27 @@ export default function Timer({ appointment }: any) {
           </div>
         ) : (
           <div className={style.callReadyContainer}>
-            <p style={{ color: "#009b94" }}>Doctor Will Call You Shortly</p>
+            {callPending && !showVideoCall ? (
+              <button
+                onClick={() => acceptCall()}
+                disabled={isRequestingToken}
+                style={{
+                  background: '#10b981',
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '10px 24px',
+                  borderRadius: '8px',
+                  cursor: isRequestingToken ? 'not-allowed' : 'pointer',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  opacity: isRequestingToken ? 0.7 : 1,
+                }}
+              >
+                {isRequestingToken ? 'Joining…' : 'Join Call'}
+              </button>
+            ) : (
+              <p style={{ color: "#009b94" }}>Doctor Will Call You Shortly</p>
+            )}
           </div>
         )}
       </div>

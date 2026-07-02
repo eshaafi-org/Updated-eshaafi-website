@@ -10,12 +10,13 @@ import Providers from "../redux/provider";
 import { useEffect } from "react";
 import { initializeDeviceToken } from "@/helper/notifications";
 import { setupAxiosInterceptor } from "@/helper/axiosInterceptor";
-import { SnackbarProvider, enqueueSnackbar, closeSnackbar } from 'notistack';
+import { SnackbarProvider } from 'notistack';
 // import { Urbanist } from 'next/font/google';
 import Finalfooter from "@/views/Footer/Finalfooter";
 import GlobalIncomingHandler from '@/components/Notifications/GlobalIncomingHandler';
 import NotificationPermissionDialog from '@/components/NotificationPermissionDialog';
 import { onForegroundMessage } from '@/config/firebase';
+import { normalizeIncomingCallPayload, dispatchIncomingCall } from '@/helper/incomingCall';
 
 
 
@@ -63,156 +64,63 @@ export default function App({ Component, pageProps }: AppProps) {
     initializeDeviceTokenOnLoad();
   }, []);
 
-  // Listen for foreground FCM messages
+  // Foreground FCM messages -> deduplicated `incoming_call` event.
+  // The popup + ringtone are rendered by GlobalIncomingHandler (single owner).
   useEffect(() => {
     const handleForegroundMessage = (payload: any) => {
-      console.log('[App] Foreground FCM message received:', payload);
-      
-      // Extract data from payload
-      const notificationData = payload.data || {};
-      const notification = payload.notification || {};
+      const callData = normalizeIncomingCallPayload(payload);
+      if (!callData) return;
 
-      // Extract appointmentId
-      let appointmentId = notificationData.appointmentId;
-      if (!appointmentId && notificationData.channelName) {
-        const parts = notificationData.channelName.split('-');
-        if (parts.length >= 3 && parts[0] === 'eshaafi' && parts[1] === 'consultation') {
-          appointmentId = parts.slice(2, -1).join('-');
-        } else {
-          appointmentId = notificationData.channelName;
-        }
+      try {
+        sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
+      } catch (err) {
+        /* ignore */
       }
-
-      if (!appointmentId) {
-        console.error('[App] No appointmentId in foreground FCM message');
-        return;
-      }
-
-      // Create call data object
-      const callData = {
-        type: 'incoming_call',
-        appointmentId,
-        doctorName: notificationData.name || notificationData.doctorName || notification.title || 'Doctor',
-        agoraToken: notificationData.token || notificationData.agoraToken,
-        appId: notificationData.appId,
-        channelName: notificationData.channelName,
-        profileUrl: notificationData.profileUrl,
-        educationTitle: notificationData.educationTitle
-      };
-
-      console.log('[App] Foreground call data:', callData);
-
-      // Store in sessionStorage
-      sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
-
-      // Dispatch incoming_call event
-      window.dispatchEvent(new CustomEvent('incoming_call', { detail: callData }));
+      dispatchIncomingCall(callData);
     };
 
     onForegroundMessage(handleForegroundMessage);
   }, []);
 
-  // Global incoming call notification listener
+  // Service worker messages (background FCM / notification clicks).
+  // We only handle navigation here for accept/reject; the popup for a plain
+  // incoming_call while on another page is shown by GlobalIncomingHandler.
   useEffect(() => {
-    const handleGlobalIncomingCall = (event: CustomEvent) => {
-      const callData = event.detail;
-      console.log('[App] Global incoming call received:', callData);
-      console.log('[App] Appointment ID:', callData.appointmentId);
-      
-      // Validate appointmentId exists
-      if (!callData.appointmentId) {
-        console.error('[App] No appointmentId in call data, cannot show notification');
+    const handleServiceWorkerMessage = async (event: MessageEvent) => {
+      const data: any = event.data;
+      if (!data || !data.type) return;
+      if (data.type !== 'accept_call' && data.type !== 'reject_call') return;
+
+      const callData = normalizeIncomingCallPayload(data);
+      if (!callData) return;
+      const { appointmentId } = callData;
+
+      try {
+        sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
+      } catch (err) {
+        /* ignore */
+      }
+
+      if (data.type === 'reject_call') {
+        // Tell the single popup owner to clear its UI + ringtone.
+        window.dispatchEvent(new Event('call_dismissed'));
         return;
       }
-      
-      // Show simple toast notification matching Timer.tsx style
-      const snackbarKey = enqueueSnackbar(
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #10b981', flexShrink: 0, background: '#f3f4f6' }}>
-            <img src={callData.profileUrl || '/images/default-doctor.png'} alt={callData.doctorName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = '/images/default-doctor.png'; }} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
-            <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{callData.doctorName || 'Doctor'}</div>
-            {callData.educationTitle && <div style={{ fontSize: '11px', color: '#6b7280' }}>{callData.educationTitle}</div>}
-          </div>
-        </div>,
-        {
-          variant: 'default',
-          persist: true,
-          anchorOrigin: { horizontal: 'right', vertical: 'top' },
-          style: {
-            minWidth: '320px',
-            background: '#ffffff',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-            border: '1px solid #e5e7eb',
-            borderRadius: '8px',
-            padding: '12px 16px',
-          },
-          action: (key) => (
-            <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-              <button
-                onClick={async () => {
-                  console.log('[App] Accept button clicked, storing callData:', callData);
-                  closeSnackbar(key);
-                  sessionStorage.setItem('incomingCallData', JSON.stringify(callData));
-                  const encodedData = encodeURIComponent(JSON.stringify(callData));
-                  console.log('[App] Navigating to:', `/appointments/${callData.appointmentId}?incoming=1&autoJoin=1#calldata=${encodedData}`);
-                  await router.push(`/appointments/${callData.appointmentId}?incoming=1&autoJoin=1#calldata=${encodedData}`);
-                }}
-                style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}
-              >
-                Accept
-              </button>
-              <button onClick={() => closeSnackbar(key)} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
-              <button onClick={() => closeSnackbar(key)} style={{ background: 'transparent', color: '#6b7280', border: 'none', padding: '8px', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
-            </div>
-          ),
-        }
-      );
-    };
 
-    // Listen for incoming call events
-    window.addEventListener('incoming_call', handleGlobalIncomingCall as EventListener);
-
-    // Listen for service worker messages
-    const handleServiceWorkerMessage = async (event: MessageEvent) => {
-      const data = event.data;
-      if (!data || !data.type) return;
-
-      // Treat incoming_call, accept_call and reject_call similarly at app-level
-      if (data.type === 'incoming_call' || data.type === 'accept_call' || data.type === 'reject_call') {
-        //console.log('[App] Service worker message received:', data);
-
-        // Ensure appointmentId exists
-        const appointmentId = data.appointmentId || data.channelName;
-        if (!appointmentId) {
-          //console.error('[App] No appointmentId in service worker message, ignoring');
-          return;
-        }
-
-        // Persist call data so the appointment page can pick it up
+      // accept_call: navigate to the appointment page and auto-join.
+      const isOnAppointmentPage =
+        typeof window !== 'undefined' &&
+        window.location.pathname.includes(`/appointments/${appointmentId}`);
+      window.dispatchEvent(new Event('call_started'));
+      if (!isOnAppointmentPage) {
         try {
-          sessionStorage.setItem('incomingCallData', JSON.stringify(data));
+          await router.push(`/appointments/${appointmentId}?incoming=1&autoJoin=1`);
         } catch (err) {
-          console.warn('[App] Failed to write incomingCallData to sessionStorage', err);
+          /* ignore */
         }
-
-        // If we're not already on the appointment page for this appointment, navigate there
-        const isOnAppointmentPage = typeof window !== 'undefined' && window.location.pathname.includes(`/appointments/${appointmentId}`);
-        const autoJoin = data.type === 'accept_call' ? '1' : '0';
-
-        if (!isOnAppointmentPage) {
-          //console.log('[App] Navigating to appointment page for', appointmentId, 'autoJoin=', autoJoin);
-          try {
-            await router.push(`/appointments/${appointmentId}?incoming=1&autoJoin=${autoJoin}`);
-          } catch (err) {
-            //console.error('[App] Router push failed:', err);
-          }
-        }
-
-        // Dispatch a standardized incoming_call event so components (Timer) show UI
-        window.dispatchEvent(new CustomEvent('incoming_call', { detail: data }));
+      } else {
+        // Already on the page — let Timer pick up the accept.
+        window.dispatchEvent(new CustomEvent('incoming_call', { detail: { ...callData, autoJoin: true } }));
       }
     };
 
@@ -221,7 +129,6 @@ export default function App({ Component, pageProps }: AppProps) {
     }
 
     return () => {
-      window.removeEventListener('incoming_call', handleGlobalIncomingCall as EventListener);
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.removeEventListener('message', handleServiceWorkerMessage);
       }
