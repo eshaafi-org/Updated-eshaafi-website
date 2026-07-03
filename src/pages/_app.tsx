@@ -107,27 +107,18 @@ export default function App({ Component, pageProps }: AppProps) {
         return;
       }
 
-      // accept_call: navigate to the appointment page and auto-join.
-      const isOnAppointmentPage =
-        typeof window !== 'undefined' &&
-        window.location.pathname.includes(`/appointments/${appointmentId}`);
+      // accept_call: go straight to the dedicated call page, which fetches its
+      // own token from the backend and joins.
       window.dispatchEvent(new Event('call_started'));
-      if (!isOnAppointmentPage) {
+      const alreadyInCall =
+        typeof window !== 'undefined' &&
+        window.location.pathname.includes(`/call/${appointmentId}`);
+      if (!alreadyInCall) {
         try {
-          // One-shot auto-join intent (consumed by Timer) so a reload of the
-          // appointment URL doesn't keep auto-joining.
-          sessionStorage.setItem(`autoJoinIntent_${appointmentId}`, '1');
+          await router.push(`/call/${appointmentId}`);
         } catch (err) {
           /* ignore */
         }
-        try {
-          await router.push(`/appointments/${appointmentId}?incoming=1&autoJoin=1`);
-        } catch (err) {
-          /* ignore */
-        }
-      } else {
-        // Already on the page — let Timer pick up the accept.
-        window.dispatchEvent(new CustomEvent('incoming_call', { detail: { ...callData, autoJoin: true } }));
       }
     };
 

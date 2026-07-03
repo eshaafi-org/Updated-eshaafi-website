@@ -35,7 +35,7 @@ try {
 }
 
 // Service Worker Version - increment this to force update
-const SW_VERSION = 'v2.0.8';
+const SW_VERSION = 'v2.1.0';
 console.log('[ServiceWorker] Version:', SW_VERSION);
 
 // Install event
@@ -117,8 +117,8 @@ messaging.onBackgroundMessage((payload) => {
     vibrate: [200, 100, 200],
     data: {
       ...notificationData,
-      // Store the target URL explicitly in notification data
-      targetUrl: `/appointments/${appointmentIdForValidation}?incoming=1&autoJoin=1`,
+      // Dedicated call page: fetches its own token from the backend and joins.
+      targetUrl: `/call/${appointmentIdForValidation}`,
       appointmentId: appointmentIdForValidation
     },
     actions: [
@@ -144,7 +144,7 @@ function getAppointmentUrl(notificationData) {
   }
 
   // Use stored targetUrl if available and not /call-ui, otherwise construct default
-  const path = (notificationData.targetUrl && notificationData.targetUrl !== '/call-ui') ? notificationData.targetUrl : `/appointments/${appointmentId}?incoming=1&autoJoin=1`;
+  const path = (notificationData.targetUrl && notificationData.targetUrl !== '/call-ui') ? notificationData.targetUrl : `/call/${appointmentId}`;
   const absoluteUrl = new URL(path, self.location.origin).href;
 
   //console.log('[ServiceWorker] Constructed URL:', absoluteUrl);
@@ -155,7 +155,9 @@ function getAppointmentUrl(notificationData) {
 function isClientOnAppointmentPage(client, appointmentId) {
   try {
     const clientUrl = new URL(client.url);
-    const pathMatch = clientUrl.pathname.includes(`/appointments/${appointmentId}`);
+    const pathMatch =
+      clientUrl.pathname.includes(`/call/${appointmentId}`) ||
+      clientUrl.pathname.includes(`/appointments/${appointmentId}`);
     console.log('[ServiceWorker] Client URL check:', {
       clientUrl: client.url,
       pathname: clientUrl.pathname,

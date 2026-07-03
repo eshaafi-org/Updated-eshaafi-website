@@ -12,6 +12,7 @@ import { BASE_URL, headers } from "@/helper/CONST";
 import style from "../../../styles/appointments.module.scss";
 import { isSafari } from "@/helper/notifications";
 import { AGORA_CONFIG } from "@/components/VideoCall/agoraConfig";
+import IncomingCallCard from "@/components/Notifications/IncomingCallCard";
 
 // Dynamically import AgoraVideoCall to avoid SSR issues
 const AgoraVideoCall = dynamic(
@@ -123,10 +124,11 @@ export default function Timer({ appointment }: any) {
 
   const deadline = appointment?.appoint_date;
 
+  // Accepting a call = navigate to the dedicated call page (/call/[id]).
+  // That page fetches its own token from the backend and joins — one join
+  // path for the popup Accept, the Join Call button, and notification clicks.
   const acceptCall = useCallback(async () => {
-    // Prevent multiple simultaneous requests using a ref lock
     if (isCurrentlyAccepting.current || showVideoCall) {
-      
       return;
     }
 
@@ -135,139 +137,27 @@ export default function Timer({ appointment }: any) {
       setIsRequestingToken(true);
       setIncomingCall(false);
 
-      
-      console.log('[Timer] 🚀 acceptCall() INITIATED');
-      
-      console.log('[Timer] Current State:', {
-        hasCallData: !!callData,
-        showVideoCall,
-        agoraTokenPresent: !!agoraToken,
-        agoraTokenLength: agoraToken?.length || 0,
-        agoraAppId,
-        appointmentId: appointment?.appointmentId || appointment?.id
-      });
-
-      if (callData) {
-        console.log('[Timer] Active callData payload:', JSON.stringify(callData, null, 2));
-      }
-
-      // Dispatch call_started event immediately to stop ringtone
+      // Stop ringtone / popups everywhere.
       if (typeof window !== 'undefined') {
         window.dispatchEvent(new Event('call_started'));
       }
 
-      // If callData is null, try to load from sessionStorage
-      let activeCallData = callData;
-      if (!activeCallData) {
-        
-        const storedData = sessionStorage.getItem('incomingCallData');
-        if (storedData) {
-          try {
-            activeCallData = JSON.parse(storedData);
-            
-            setCallData(activeCallData);
-          } catch (error) {
-            
-          }
+      // Prefer the appointmentId from the live call signal (handles the edge
+      // case where the call is for a different appointment than this page).
+      let callAppointmentId = callData?.appointmentId;
+      if (!callAppointmentId) {
+        try {
+          const storedData = sessionStorage.getItem('incomingCallData');
+          if (storedData) callAppointmentId = JSON.parse(storedData)?.appointmentId;
+        } catch (error) {
+          /* ignore */
         }
       }
+      const appointmentId = callAppointmentId || appointment?.appointmentId || appointment?.id;
+      if (!appointmentId) throw new Error('No appointment id for call');
 
-      // Check if we're on the correct appointment page
-      const currentAppointmentId = appointment?.appointmentId || appointment?.id;
-      const callAppointmentId = activeCallData?.appointmentId;
-
-      if (callAppointmentId && currentAppointmentId !== callAppointmentId) {
-        
-        sessionStorage.setItem('incomingCallData', JSON.stringify(activeCallData));
-        router.push(`/appointments/${callAppointmentId}?incoming=1&autoJoin=1`);
-        return;
-      }
-
-      enqueueSnackbar('Connecting to call...', {
-        variant: 'info',
-        autoHideDuration: 2000
-      });
-
-      // Check if we already have the Agora token from FCM notification
-      if (activeCallData?.agoraToken) {
-        // Fix potential token corruption (spaces instead of +)
-        const fixedToken = fixCorruptedToken(activeCallData.agoraToken);
-        if (fixedToken) activeCallData.agoraToken = fixedToken;
-
-        // Validate token to detect truncation/corruption from URL params
-        if (!isTokenValid(activeCallData.agoraToken)) {
-          
-        } else {
-          
-          setAgoraToken(activeCallData.agoraToken);
-          const derived = getAppIdFromToken(activeCallData.agoraToken);
-          // Try appId first, but if it's empty/invalid, prefer derived from token
-          let finalAppId = activeCallData.appId;
-          if (!finalAppId || (typeof finalAppId === 'string' && finalAppId.trim() === '')) {
-            finalAppId = derived;
-            
-          }
-          const sanitized = sanitizeAppId(finalAppId);
-          if (!sanitized) 
-          if (activeCallData.appId && typeof activeCallData.appId === 'string' && activeCallData.appId.trim() !== '' && derived && activeCallData.appId !== derived) {
-            
-          }
-          setAgoraAppId(sanitized);
-          setShowVideoCall(true);
-
-          enqueueSnackbar('Connected!', {
-            variant: 'success',
-            autoHideDuration: 2000
-          });
-          return;
-        }
-      }
-
-      
-
-      // Fallback: Request token from backend if not in notification
-      const appointmentId = activeCallData?.appointmentId || appointment?.appointmentId || appointment?.id;
-      
-
-      const response = await axios.get(
-        `${BASE_URL}/appointment/${appointmentId}/startConsultation`,
-        { headers: headers() }
-      );
-
-      
-      
-      
-      console.log('[Timer] Payload:', JSON.stringify(response.data, null, 2));
-      
-
-      if (response.data?.response?.token) {
-        const token = fixCorruptedToken(response.data.response.token) as string;
-        const backendAppId = response.data.response.appId;
-        const derived = getAppIdFromToken(token);
-        // Try backendAppId first, but if it's empty/invalid, prefer derived from token
-        let finalAppId = backendAppId;
-        if (!finalAppId || (typeof finalAppId === 'string' && finalAppId.trim() === '')) {
-          finalAppId = derived;
-          
-        }
-        const sanitized = sanitizeAppId(finalAppId);
-        if (!sanitized) 
-        if (backendAppId && typeof backendAppId === 'string' && backendAppId.trim() !== '' && derived && backendAppId !== derived) {
-          
-        }
-        setAgoraAppId(sanitized);
-        setAgoraToken(token);
-        setShowVideoCall(true);
-
-        enqueueSnackbar('Connected!', {
-          variant: 'success',
-          autoHideDuration: 2000
-        });
-      } else {
-        throw new Error('No token received from backend');
-      }
+      await router.push(`/call/${appointmentId}`);
     } catch (error: any) {
-      
       setIncomingCall(true); // Show modal again
 
       enqueueSnackbar(
@@ -278,7 +168,7 @@ export default function Timer({ appointment }: any) {
       setIsRequestingToken(false);
       isCurrentlyAccepting.current = false;
     }
-  }, [callData, appointment, router, agoraToken, agoraAppId, showVideoCall]);
+  }, [callData, appointment, router, showVideoCall]);
 
   // Close any incoming-call popup Timer is currently showing.
   const closeIncomingSnackbar = useCallback(() => {
@@ -294,35 +184,32 @@ export default function Timer({ appointment }: any) {
     if (incomingSnackKeyRef.current !== null) return;
 
     const key = enqueueSnackbar(
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <div style={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #10b981', flexShrink: 0, background: '#f3f4f6' }}>
-          <Image src={data?.profileUrl || '/images/default-doctor.png'} alt={data?.doctorName || 'Doctor'} width={50} height={50} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: '14px', fontWeight: '600', color: '#1f2937', marginBottom: '4px' }}>Incoming Video Call</div>
-          <div style={{ fontSize: '13px', fontWeight: '600', color: '#10b981' }}>{data?.doctorName || appointment?.doctorName || 'Doctor'}</div>
-          {data?.educationTitle && <div style={{ fontSize: '11px', color: '#6b7280' }}>{data.educationTitle}</div>}
-        </div>
-      </div>,
+      <IncomingCallCard
+        doctorName={data?.doctorName || appointment?.doctorName}
+        educationTitle={data?.educationTitle}
+        profileUrl={data?.profileUrl}
+        onAccept={() => {
+          closeSnackbar(incomingSnackKeyRef.current as any);
+          incomingSnackKeyRef.current = null;
+          acceptCall();
+        }}
+        onReject={() => {
+          closeSnackbar(incomingSnackKeyRef.current as any);
+          incomingSnackKeyRef.current = null;
+          rejectCall();
+        }}
+      />,
       {
         variant: 'default',
         persist: true,
         anchorOrigin: { horizontal: 'right', vertical: 'top' },
+        // The card styles itself — strip notistack's default chrome.
         style: {
-          minWidth: '320px',
-          background: '#ffffff',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-          border: '1px solid #e5e7eb',
-          borderRadius: '8px',
-          padding: '12px 16px',
+          background: 'transparent',
+          boxShadow: 'none',
+          padding: 0,
+          minWidth: 'unset',
         },
-        action: (snackKey) => (
-          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-            <button onClick={() => { closeSnackbar(snackKey); incomingSnackKeyRef.current = null; acceptCall(); }} style={{ flex: 1, background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Accept</button>
-            <button onClick={() => { closeSnackbar(snackKey); incomingSnackKeyRef.current = null; rejectCall(); }} style={{ flex: 1, background: '#ef4444', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>Reject</button>
-            <button onClick={() => { closeSnackbar(snackKey); incomingSnackKeyRef.current = null; }} style={{ background: 'transparent', color: '#6b7280', border: 'none', padding: '8px', cursor: 'pointer', fontSize: '18px', lineHeight: 1 }}>×</button>
-          </div>
-        )
       }
     );
     incomingSnackKeyRef.current = key;
@@ -488,7 +375,25 @@ export default function Timer({ appointment }: any) {
     if (hasProcessedIncoming.current) return;
 
     const appointmentIdForCheck = appointment?.appointmentId || appointment?.id || router.query.appointmentId || router.query.id;
-    if (appointmentIdForCheck && sessionStorage.getItem(`safariCallProcessed_${appointmentIdForCheck}`)) {
+    // Evidence that this navigation is a FRESH call accept (not a reload):
+    //  - autoJoinIntent flag: set by the in-page Accept handlers right before
+    //    router.push (service workers can't write sessionStorage, hence the OR)
+    //  - #calldata= hash / ?callData= query: only attached by the service
+    //    worker on an actual notification click, and cleared after processing.
+    // Fresh accepts must bypass the "already processed" guard below, otherwise
+    // the second call for the same appointment in a session would never join.
+    const hasHashCallData =
+      typeof window !== 'undefined' && window.location.hash.includes('calldata=');
+    const hasFreshAcceptIntent =
+      (appointmentIdForCheck &&
+        sessionStorage.getItem(`autoJoinIntent_${appointmentIdForCheck}`) === '1') ||
+      hasHashCallData ||
+      !!router.query.callData;
+    if (
+      !hasFreshAcceptIntent &&
+      appointmentIdForCheck &&
+      sessionStorage.getItem(`safariCallProcessed_${appointmentIdForCheck}`)
+    ) {
       hasProcessedIncoming.current = true;
       // Already processed in this session (e.g. a reload of the ?incoming=1
       // URL). Strip the stale params so nothing downstream treats this as a
@@ -512,17 +417,18 @@ export default function Timer({ appointment }: any) {
       
       
       
-      // Auto-join only when the URL asks for it AND a one-shot intent flag is
-      // present (set by the Accept handler right before navigating). We consume
-      // the flag immediately, so reloading the ?autoJoin=1 URL will NOT keep
-      // joining when no doctor is actually calling — it falls back to showing
-      // the manual "Join Call" button instead.
+      // Auto-join only when the URL asks for it AND we have fresh-accept
+      // evidence (one-shot intent flag from in-page Accept, or SW-attached
+      // call data — see hasFreshAcceptIntent above). The intent flag is
+      // consumed immediately, so reloading the bare ?autoJoin=1 URL will NOT
+      // keep joining when no doctor is actually calling — it falls back to the
+      // manual "Join Call" button instead.
       let shouldAutoJoin = router.query.autoJoin === '1';
-      if (shouldAutoJoin && appointmentIdForCheck) {
-        const intentKey = `autoJoinIntent_${appointmentIdForCheck}`;
-        const hasIntent = sessionStorage.getItem(intentKey) === '1';
-        sessionStorage.removeItem(intentKey);
-        shouldAutoJoin = hasIntent;
+      if (shouldAutoJoin) {
+        if (appointmentIdForCheck) {
+          sessionStorage.removeItem(`autoJoinIntent_${appointmentIdForCheck}`);
+        }
+        shouldAutoJoin = hasFreshAcceptIntent;
       }
 
       // For Safari with hash data, skip here (handled by useLayoutEffect)

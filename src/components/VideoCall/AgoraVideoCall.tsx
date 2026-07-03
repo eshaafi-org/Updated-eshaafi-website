@@ -11,7 +11,8 @@ import AgoraRTC, {
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
 import styles from "./VideoCall.module.scss";
-import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash, FaPhone, FaPhoneSlash } from "react-icons/fa";
+import { FaMicrophone, FaMicrophoneSlash, FaVideo, FaVideoSlash, FaPhone, FaPhoneSlash, FaNotesMedical } from "react-icons/fa";
+import { FaFilePrescription } from "react-icons/fa6";
 import { isSafari } from "@/helper/notifications";
 
 interface AgoraVideoCallProps {
@@ -58,6 +59,18 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
+
+  // Play the local preview once the in-call layout (and its #local-video
+  // container) is rendered — the element doesn't exist on the pre-join screen.
+  useEffect(() => {
+    if (isJoined && localVideoTrack) {
+      try {
+        localVideoTrack.play("local-video");
+      } catch (e) {
+        /* ignore */
+      }
+    }
+  }, [isJoined, localVideoTrack]);
 
   const handleUserJoined = useCallback((user: IAgoraRTCRemoteUser) => {
     setRemoteUsers(prev => [...prev, user]);
@@ -142,9 +155,6 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
 
       // Publish local tracks
       await client.publish([videoTrack, audioTrack]);
-
-      // Play local video
-      videoTrack.play("local-video");
 
       setIsJoined(true);
       setIsConnecting(false);
@@ -260,55 +270,48 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
 
   return (
     <div className={styles.videoCallContainer}>
+      {/* Header */}
       <div className={styles.videoCallHeader}>
-        <h3>Video Consultation</h3>
-        {isJoined && (
-          <div className={styles.callDuration}>
+        <h3>
+          <span className={styles.liveDot} />
+          Video Consultation
+        </h3>
+        <div className={styles.headerActions}>
+          {/* Open in a new tab so the ongoing call isn't interrupted */}
+          <a
+            href="/medicalrecords"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.headerLink}
+            title="Open Medical Records in a new tab"
+          >
+            <FaNotesMedical />
+            <span>Medical Records</span>
+          </a>
+          <a
+            href="/eprescription"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.headerLink}
+            title="Open ePrescription in a new tab"
+          >
+            <FaFilePrescription />
+            <span>ePrescription</span>
+          </a>
+          {isJoined && (
             <span className={styles.callTime}>{formatDuration(callDuration)}</span>
-          </div>
-        )}
-      </div>
-
-      <div className={styles.videoContainer}>
-        {/* Local Video */}
-        <div className={styles.localVideo}>
-          <div
-            id="local-video"
-            className={`${styles.videoPlayer} ${!isVideoEnabled ? styles.videoDisabled : ''}`}
-          />
-          <div className={styles.videoLabel}>You</div>
-          {!isVideoEnabled && (
-            <div className={styles.videoPlaceholder}>
-              {/* <FaVideoSlash size={48} /> */}
-            </div>
           )}
         </div>
-
-        {/* Remote Videos */}
-        {remoteUsers.length > 0 ? (
-          <div className={styles.remoteVideos}>
-            {remoteUsers.map(user => (
-              <div key={user.uid} className={styles.remoteVideo}>
-                <div
-                  id={`remote-video-${user.uid}`}
-                  className={styles.videoPlayer}
-                />
-                <div className={styles.videoLabel}>Doctor</div>
-              </div>
-            ))}
-          </div>
-        ) : isJoined ? (
-          <div className={styles.waitingForDoctor}>
-            <div className={styles.waitingMessage}>
-              <div className={styles.loadingSpinner}></div>
-              <p>Waiting for doctor to join...</p>
-            </div>
-          </div>
-        ) : null}
       </div>
 
-      <div className={styles.controlsContainer}>
-        {!isJoined ? (
+      {!isJoined ? (
+        /* ---------- Pre-join screen ---------- */
+        <div className={styles.preJoin}>
+          <div className={styles.preJoinIcon}>
+            <FaVideo />
+          </div>
+          <h4>Ready for your consultation?</h4>
+          <p>Your camera and microphone will turn on when you join</p>
           <Button
             variant="contained"
             onClick={joinCall}
@@ -327,7 +330,39 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
               </>
             )}
           </Button>
-        ) : (
+        </div>
+      ) : (
+        /* ---------- In-call stage ---------- */
+        <div className={styles.stage}>
+          {remoteUsers.length > 0 ? (
+            remoteUsers.map(user => (
+              <div key={user.uid} className={styles.remoteVideo}>
+                <div
+                  id={`remote-video-${user.uid}`}
+                  className={styles.videoPlayer}
+                />
+                <div className={styles.videoLabel}>Doctor</div>
+              </div>
+            ))
+          ) : (
+            <div className={styles.waitingForDoctor}>
+              <div className={styles.loadingSpinner}></div>
+              <p>Waiting for doctor to join…</p>
+            </div>
+          )}
+
+          {/* Local picture-in-picture */}
+          <div className={`${styles.localVideo} ${!isVideoEnabled ? styles.videoDisabled : ''}`}>
+            <div id="local-video" className={styles.videoPlayer} />
+            {!isVideoEnabled && (
+              <div className={styles.videoPlaceholder}>
+                <FaVideoSlash />
+              </div>
+            )}
+            <div className={styles.videoLabel}>You</div>
+          </div>
+
+          {/* Floating control bar */}
           <div className={styles.callControls}>
             <button
               onClick={toggleAudio}
@@ -338,23 +373,23 @@ const AgoraVideoCall: React.FC<AgoraVideoCallProps> = ({
             </button>
 
             <button
-              onClick={toggleVideo}
-              className={`${styles.controlButton} ${!isVideoEnabled ? styles.disabled : ''}`}
-              title={isVideoEnabled ? "Turn off camera" : "Turn on camera"}
-            >
-              {isVideoEnabled ? <FaVideo /> : <FaVideoSlash />}
-            </button>
-
-            <button
               onClick={leaveCall}
               className={`${styles.controlButton} ${styles.endCall}`}
               title="End call"
             >
               <FaPhoneSlash />
             </button>
+
+            <button
+              onClick={toggleVideo}
+              className={`${styles.controlButton} ${!isVideoEnabled ? styles.disabled : ''}`}
+              title={isVideoEnabled ? "Turn off camera" : "Turn on camera"}
+            >
+              {isVideoEnabled ? <FaVideo /> : <FaVideoSlash />}
+            </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
