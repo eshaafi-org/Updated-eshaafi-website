@@ -367,17 +367,22 @@ export default function MindWellnessPage({
 
 export async function getStaticProps() {
   // Fetch all doctors using the working endpoint
-  const response = await fetch(BASE_URL + "/patients/doctors/filter", {
-    cache: "no-cache",
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      type: "categroy",
-    }),
-  });
+  let allDoctors: any[] = [];
+  try {
+    const response = await fetch(BASE_URL + "/patients/doctors/filter", {
+      cache: "no-cache",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "categroy",
+      }),
+    });
 
-  const docData = await response.json();
-  const allDoctors = docData.response?.Items || [];
+    const docData = await response.json();
+    allDoctors = docData.response?.Items || [];
+  } catch (err) {
+    // API unavailable: render an empty list and retry on the next request
+  }
 
   // Filter for psychologists and counselors only (exclude other therapists)
   const filteredDoctors = allDoctors.filter((doc: any) => {

@@ -20,12 +20,16 @@ export default function Blogs({ positions }: any) {
   );
 }
 export async function getStaticProps() {
-  let response = await fetch(BASE_URL + "/new/users/blogs");
-  const data = await response.json();
-  return {
-    props: {
-      positions: data.response.Items ? data.response.Items : [],
-    },
-    revalidate: 1,
-  };
+  try {
+    let response = await fetch(BASE_URL + "/new/users/blogs");
+    const data = await response.json();
+    return {
+      props: {
+        positions: data.response.Items ? data.response.Items : [],
+      },
+      revalidate: 1,
+    };
+  } catch (err) {
+    return { props: { positions: [] }, revalidate: 1 };
+  }
 }

@@ -367,26 +367,31 @@ export default function Profile({ doctor, doctors }: any) {
 }
 // // doctor profile page
 export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
-  let response = await fetch(BASE_URL + "/patients/doctors/filter", {
-    cache: "no-cache",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      type: "specialization",
-      search: "General Physician",
-    }),
-  });
+  try {
+    // Call an external API endpoint to get posts
+    let response = await fetch(BASE_URL + "/patients/doctors/filter", {
+      cache: "no-cache",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: "specialization",
+        search: "General Physician",
+      }),
+    });
 
-  const docData = await response.json();
-  const items = docData?.response?.Items ? docData.response.Items : [];
-  const paths = items.map((doc: any) => ({
-    params: { id: doc.Id },
-  }));
-  // { fallback: false } means other routes should 404
-  return { paths, fallback: true };
+    const docData = await response.json();
+    const items = docData?.response?.Items ? docData.response.Items : [];
+    const paths = items.map((doc: any) => ({
+      params: { id: doc.Id },
+    }));
+    // { fallback: false } means other routes should 404
+    return { paths, fallback: true };
+  } catch (err) {
+    // API unavailable at build time: build profiles on first request instead
+    return { paths: [], fallback: true };
+  }
 }
 export async function getStaticProps({ params: { id } }: any) {
   let response = await fetch(`${BASE_URL}/patients/doctors/${id}`);

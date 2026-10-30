@@ -85,17 +85,22 @@ export default function Post({ post }: any) {
   );
 }
 export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
-  const res = await fetch(BASE_URL + "/new/users/blogs");
-  const position = await res.json();
-  // console.log(position);
-  const items = position?.response?.Items ? position.response.Items : [];
-  const paths = items.map((post: any) => ({
-    params: { id: post.name },
-  }));
-  // console.log(paths);
-  // { fallback: false } means other routes should 404
-  return { paths, fallback: true };
+  try {
+    // Call an external API endpoint to get posts
+    const res = await fetch(BASE_URL + "/new/users/blogs");
+    const position = await res.json();
+    // console.log(position);
+    const items = position?.response?.Items ? position.response.Items : [];
+    const paths = items.map((post: any) => ({
+      params: { id: post.name },
+    }));
+    // console.log(paths);
+    // { fallback: false } means other routes should 404
+    return { paths, fallback: true };
+  } catch (err) {
+    // API unavailable at build time: build posts on first request instead
+    return { paths: [], fallback: true };
+  }
 }
 export async function getStaticProps({ params: { id } }: any) {
   let response = await fetch(`${BASE_URL}/new/users/blogs/${id}`);

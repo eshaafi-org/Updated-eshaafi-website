@@ -31,12 +31,16 @@ export default function Doctors({ doctors }: any) {
   );
 }
 export async function getStaticProps() {
-  const doctors = await fetchAndSortDoctors(DoctorQueryPresets.allDoctors());
+  try {
+    const doctors = await fetchAndSortDoctors(DoctorQueryPresets.allDoctors());
 
-  return {
-    props: {
-      doctors,
-    },
-    revalidate: 1,
-  };
+    return {
+      props: {
+        doctors,
+      },
+      revalidate: 1,
+    };
+  } catch (err) {
+    return { props: { doctors: [] }, revalidate: 1 };
+  }
 }
