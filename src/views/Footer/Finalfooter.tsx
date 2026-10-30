@@ -118,6 +118,10 @@ export default function Finalfooter() {
               <Mail size={16} />
               <a href="mailto:careers@eshaafi.com" onClick={() => handleLinkClick('footer_contact', 'email', 'careers@eshaafi.com')}>careers@eshaafi.com</a>
             </li>
+            <li>
+              <MapPin size={16} />
+              <Link href="/contact-us" onClick={() => handleLinkClick('footer_contact', 'navigate', 'Contact Us')}>Contact Us</Link>
+            </li>
           </ul>
         </div>
 
