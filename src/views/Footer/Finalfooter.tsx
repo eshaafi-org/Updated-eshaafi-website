@@ -102,6 +102,7 @@ export default function Finalfooter() {
             <li><Link href="/joinUs" onClick={() => handleLinkClick('footer_story', 'navigate', 'Careers')}>Careers</Link></li>
             <li><Link href="/media-gallery" onClick={() => handleLinkClick('footer_story', 'navigate', 'Media Gallery')}>Media Gallery</Link></li>
             <li><Link href="/thus" onClick={() => handleLinkClick('footer_story', 'navigate', 'Telehealth Unit')}>Telehealth Units</Link></li>
+            <li><Link href="/games" onClick={() => handleLinkClick('footer_story', 'navigate', 'Games')}>Games</Link></li>
           </ul>
         </div>
 

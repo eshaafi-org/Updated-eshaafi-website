@@ -747,14 +747,19 @@ const navbarItems: NavbarItem[] = [
     ],
   },
 
+  // {
+  //   title: "THUs",
+  //   href: "/thus",
+  //   dropdown: [
+  //     { name: "What are THUs", href: "/thus#what-are-thus", icon: "/images/thus.svg" },
+  //     { name: "Journey", href: "/thus#journey", icon: "/images/journey.svg" },
+  //     { name: "Join the Mission", href: "/thus#join", icon: "/images/joinmeeting.svg" },
+  //   ],
+  // },
+
   {
-    title: "THUs",
-    href: "/thus",
-    dropdown: [
-      { name: "What are THUs", href: "/thus#what-are-thus", icon: "/images/thus.svg" },
-      { name: "Journey", href: "/thus#journey", icon: "/images/journey.svg" },
-      { name: "Join the Mission", href: "/thus#join", icon: "/images/joinmeeting.svg" },
-    ],
+    title: "Games",
+    href: "/games",
   },
 
   {

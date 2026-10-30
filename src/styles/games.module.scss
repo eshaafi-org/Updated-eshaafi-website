@@ -1,0 +1,152 @@
+@import "./mixin";
+@import "./variables";
+
+.gamesPage {
+  padding-bottom: 4rem;
+}
+
+.hero {
+  background: linear-gradient(135deg, $primary-lite-clr 0%, $secondary-clr 100%);
+  padding: 4rem 0 3rem;
+  text-align: center;
+
+  @include tablet-and-below {
+    padding: 2.5rem 0 2rem;
+  }
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $primary-clr;
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-size: 44px;
+  font-weight: 700;
+  color: $heading-clr;
+  margin-bottom: 1rem;
+
+  @include tablet-and-below {
+    font-size: 30px;
+  }
+}
+
+.subtitle {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 28px;
+  color: $text-clr;
+
+  @include tablet-and-below {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.sectionTitle {
+  font-size: 30px;
+  font-weight: 700;
+  color: $heading-clr;
+  margin: 3rem 0 0.5rem;
+
+  @include tablet-and-below {
+    font-size: 24px;
+    margin-top: 2rem;
+  }
+}
+
+.sectionText {
+  font-size: 17px;
+  line-height: 26px;
+  color: $text-clr;
+  margin-bottom: 1.5rem;
+}
+
+.highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+
+  @include laptop-and-below {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include tablet-large-and-below {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include large-mobile-and-below {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: $white;
+  border: 1px solid #e6eef5;
+  border-radius: 16px;
+}
+
+.genre {
+  font-size: 12px;
+  font-weight: 600;
+  color: $primary-clr;
+  background: $primary-lite-clr;
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 26px;
+  color: $heading-clr;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  font-size: 15px;
+  line-height: 22px;
+  color: $text-clr;
+  margin-bottom: 0;
+}
+
+.more {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.moreLink {
+  display: inline-block;
+  padding: 0.75rem 1.75rem;
+  border-radius: 999px;
+  background: $primary-clr;
+  color: $white;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    color: $white;
+    opacity: 0.9;
+  }
+}

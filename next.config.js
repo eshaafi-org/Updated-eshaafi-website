@@ -24,6 +24,9 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   async headers() {
+    // Dev chunk names don't change between edits, so long-lived caching
+    // would keep serving stale code in the browser.
+    if (process.env.NODE_ENV !== 'production') return [];
     return [
       {
         source: '/images/:path*',
