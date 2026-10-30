@@ -23,6 +23,11 @@ const nextConfig = {
     // Ignore ESLint errors during build to prevent Amplify failure
     ignoreDuringBuilds: true,
   },
+  async redirects() {
+    return [
+      { source: '/contact-us', destination: '/contact', permanent: true },
+    ];
+  },
   async headers() {
     // Dev chunk names don't change between edits, so long-lived caching
     // would keep serving stale code in the browser.

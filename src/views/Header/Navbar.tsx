@@ -780,7 +780,7 @@ const navbarItems: NavbarItem[] = [
       { name: "Our Story", href: "/aboutus", icon: "/images/ourstory.svg" },
       { name: "Careers", href: "/joinUs", icon: "/images/career.svg" },
       { name: "Media Gallery", href: "/media-gallery", icon: "/images/mediagallery.svg" },
-      { name: "Contact Us", href: "/contact-us", icon: "/images/joinmeeting.svg" },
+      { name: "Contact Us", href: "/contact", icon: "/images/joinmeeting.svg" },
     ],
   },
 ];

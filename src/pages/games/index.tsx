@@ -53,11 +53,12 @@ export default function Games() {
 
           <div className={styles.more}>
             <p className={styles.sectionText}>
-              Read how our games handle your data, or write to us at{" "}
-              <a href="mailto:contact@eshaafi.com">contact@eshaafi.com</a>.
+              Advertising, partnerships or a question about our games? Get in
+              touch, or read how our games handle your data in the{" "}
+              <Link href="/privacy-policy#gaming-policy">games privacy policy</Link>.
             </p>
-            <Link href="/privacy-policy#gaming-policy" className={styles.moreLink}>
-              Games privacy policy
+            <Link href="/contact" className={styles.moreLink}>
+              Contact eShaafi Games
             </Link>
           </div>
         </section>

@@ -1,24 +1,39 @@
 @import "./mixin";
 @import "./variables";
 
+.page {
+  padding-bottom: 4rem;
+}
+
+// Matches the light hero used on the Games page
 .hero {
-  background: linear-gradient(180deg, #001624 0%, #00568a 100%);
-  padding: 100px 16px 80px;
+  background: linear-gradient(135deg, $primary-lite-clr 0%, $secondary-clr 100%);
+  padding: 4rem 0 3rem;
   text-align: center;
 
   @include tablet-and-below {
-    padding: 60px 16px 48px;
+    padding: 2.5rem 0 2rem;
   }
 }
 
+.eyebrow {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $primary-clr;
+  margin-bottom: 0.75rem;
+}
+
 .title {
-  font-size: 48px;
+  font-size: 44px;
   font-weight: 700;
-  color: $white;
+  color: $heading-clr;
   margin-bottom: 1rem;
 
   @include tablet-and-below {
-    font-size: 32px;
+    font-size: 30px;
   }
 }
 
@@ -27,7 +42,7 @@
   margin: 0 auto;
   font-size: 18px;
   line-height: 28px;
-  color: rgba(255, 255, 255, 0.85);
+  color: $text-clr;
 
   @include tablet-and-below {
     font-size: 16px;
@@ -35,17 +50,83 @@
   }
 }
 
-.content {
+.sectionTitle {
+  font-size: 30px;
+  font-weight: 700;
+  color: $heading-clr;
+  margin: 3rem 0 0.5rem;
+
+  @include tablet-and-below {
+    font-size: 24px;
+    margin-top: 2rem;
+  }
+}
+
+.sectionText {
+  font-size: 17px;
+  line-height: 26px;
+  color: $text-clr;
+  margin-bottom: 1.5rem;
+}
+
+.partners {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
-  gap: 2.5rem;
-  padding-top: 4rem;
-  padding-bottom: 5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
 
   @include tablet-large-and-below {
     grid-template-columns: 1fr;
-    padding-top: 2.5rem;
-    padding-bottom: 3rem;
+  }
+}
+
+.card {
+  padding: 1.5rem;
+  background: $white;
+  border: 1px solid #e6eef5;
+  border-radius: 16px;
+}
+
+.icon,
+.detailIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: $primary-lite-clr;
+  color: $primary-clr;
+  font-size: 18px;
+}
+
+.icon {
+  margin-bottom: 1rem;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: $heading-clr;
+  margin-bottom: 0.5rem;
+}
+
+.cardText {
+  font-size: 15px;
+  line-height: 22px;
+  color: $text-clr;
+  margin: 0;
+}
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 2.5rem;
+  align-items: start;
+
+  @include tablet-large-and-below {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
 }
 
@@ -55,44 +136,39 @@
   gap: 1rem;
 }
 
-.detailCard {
-  padding: 1.5rem;
-  background: $primary-lite-clr;
-  border-radius: 16px;
-}
-
-.detailIcon {
-  display: inline-flex;
+.detail {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: $primary-clr;
-  color: $white;
-  margin-bottom: 0.75rem;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: $white;
+  border: 1px solid #e6eef5;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 8px 20px rgba(14, 84, 135, 0.1);
+  }
 }
 
-.detailTitle {
+.detailLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text-clr;
+}
+
+.detailValue {
+  display: block;
   font-size: 16px;
   font-weight: 600;
   color: $heading-clr;
-  margin-bottom: 0.25rem;
-}
-
-.detailText {
-  font-size: 16px;
-  color: $text-clr;
-  margin: 0;
-  text-decoration: none;
   word-break: break-word;
 }
 
-a.detailText:hover {
-  color: $primary-clr;
-}
-
 .form {
+  margin-top: 3rem;
   padding: 2rem;
   background: $white;
   border: 1px solid #e6eef5;
@@ -100,6 +176,10 @@ a.detailText:hover {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+
+  @include tablet-large-and-below {
+    margin-top: 2rem;
+  }
 
   @include large-mobile-and-below {
     padding: 1.25rem;
@@ -187,6 +267,39 @@ a.detailText:hover {
 
   @include large-mobile-and-below {
     align-self: stretch;
+  }
+}
+
+.faqs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.faq {
+  background: $white;
+  border: 1px solid #e6eef5;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+
+  summary {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: $heading-clr;
+  }
+
+  p {
+    margin: 0.75rem 0 0;
+    font-size: 15px;
+    line-height: 22px;
+    color: $text-clr;
+  }
+
+  a {
+    color: $primary-clr;
+    font-weight: 600;
   }
 }
 

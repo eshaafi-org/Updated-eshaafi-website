@@ -120,7 +120,7 @@ export default function Finalfooter() {
             </li>
             <li>
               <MapPin size={16} />
-              <Link href="/contact-us" onClick={() => handleLinkClick('footer_contact', 'navigate', 'Contact Us')}>Contact Us</Link>
+              <Link href="/contact" onClick={() => handleLinkClick('footer_contact', 'navigate', 'Contact Us')}>Contact Us</Link>
             </li>
           </ul>
         </div>
